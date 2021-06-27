@@ -28,10 +28,6 @@ export const Payment = () => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(order);
-  }, [order]);
-
   return !order ? (
     <div style={style}>
       <p>Hang on while we validate your payment...</p>
@@ -42,35 +38,21 @@ export const Payment = () => {
         <h1>Order Summery</h1>
         <p>Thank you for your order!</p>
       </div>
-      {order.items
-        .sort((a, b) => {
-          const createdAtA = new Date(a.created_at),
-            createdAtB = new Date(b.created_at);
+      <div className={styles.items}>
+        {order.items
+          .sort((a, b) => {
+            const createdAtA = new Date(a.created_at),
+              createdAtB = new Date(b.created_at);
 
-          if (createdAtA < createdAtB) return -1;
-          if (createdAtA > createdAtB) return 1;
-          return 0;
-        })
-        .map((i) => {
-          return (
-            <div key={i.id} className={itemStyles.product}>
-              <figure>
-                <Link
-                  href={{
-                    pathname: `/product/[id]`,
-                    query: { id: i.variant.product.id },
-                  }}
-                  passHref
-                >
-                  <a>
-                    {/* Replace with a product thumbnail/image */}
-                    <div className={itemStyles.placeholder} />
-                  </a>
-                </Link>
-              </figure>
-              <div className={itemStyles.controls}>
-                <div>
-                  <div>
+            if (createdAtA < createdAtB) return -1;
+            if (createdAtA > createdAtB) return 1;
+            return 0;
+          })
+          .map((i) => {
+            return (
+              <div key={i.id} className={styles.item}>
+                <div className={itemStyles.product}>
+                  <figure>
                     <Link
                       href={{
                         pathname: `/product/[id]`,
@@ -78,31 +60,54 @@ export const Payment = () => {
                       }}
                       passHref
                     >
-                      <a>{i.title}</a>
+                      <a>
+                        {/* Replace with a product thumbnail/image */}
+                        <div className={itemStyles.placeholder} />
+                      </a>
                     </Link>
-                    <p className={itemStyles.size}>Size: {i.variant.title}</p>
-                    <p className={itemStyles.size}>
-                      Price: {formatPrice(i.unit_price, order.currency_code)}
-                    </p>
-                    <p className={itemStyles.size}>Quantity: {i.quantity}</p>
+                  </figure>
+                  <div className={itemStyles.controls}>
+                    <div>
+                      <div>
+                        <Link
+                          href={{
+                            pathname: `/product/[id]`,
+                            query: { id: i.variant.product.id },
+                          }}
+                          passHref
+                        >
+                          <a>{i.title}</a>
+                        </Link>
+                        <p className={itemStyles.size}>
+                          Size: {i.variant.title}
+                        </p>
+                        <p className={itemStyles.size}>
+                          Price:{" "}
+                          {formatPrice(i.unit_price, order.currency_code)}
+                        </p>
+                        <p className={itemStyles.size}>
+                          Quantity: {i.quantity}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
-      <div className="my-1">
-        <div className="flex-row justify-between">
+            );
+          })}
+      </div>
+      <div className={styles.breakdown}>
+        <div className={styles.price}>
           <div>Subtotal</div>
           <div>{formatPrice(order.subtotal, order.region.currency_code)}</div>
         </div>
-        <div className="flex-row justify-between p-y1">
+        <div className={styles.price}>
           <div>Shipping</div>
           <div>
             {formatPrice(order.shipping_total, order.region.currency_code)}
           </div>
         </div>
-        <div className="flex-row justify-between total p-y1">
+        <div className={`${styles.price} ${styles.total}`}>
           <div>Total</div>
           <div>{formatPrice(order.total, order.region.currency_code)}</div>
         </div>

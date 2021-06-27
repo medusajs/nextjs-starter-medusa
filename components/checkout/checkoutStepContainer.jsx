@@ -95,7 +95,7 @@ const CheckoutStepContainer = () => {
           className={styles.orderBtn}
           onClick={() => updateOrderSummeryDisplay()}
         >
-          Order Summery
+          View Order Summery
         </button>
       </div>
       <div className={`${styles.summery} ${orderSummery ? styles.active : ""}`}>

@@ -5,23 +5,16 @@ import { BiLeftArrowAlt } from "react-icons/bi";
 import DisplayContext from "../../context/display-context";
 import { isEmpty } from "../../utils/helperFunctions";
 import StoreContext from "../../context/store-context";
+import { MdError } from "react-icons/md";
 
-const ShippingStep = ({
-  handleDeliverySubmit,
-  savedMethods,
-  isProcessing,
-  cart,
-}) => {
+const ShippingStep = ({ handleDeliverySubmit, isProcessing, cart }) => {
   const [shippingOptions, setShippingOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState();
+  const [error, setError] = useState(false);
 
   const { getShippingOptions } = useContext(StoreContext);
   const { updateCheckoutStep } = useContext(DisplayContext);
 
-  /**
-   * On load we want to fetch all the shipping options available for the cart.
-   * Furthermore, we preselect shipping options if only one exists.
-   */
   useEffect(() => {
     // Wait until the customer has entered their address information
     if (!cart.shipping_address?.country_code) {
@@ -40,29 +33,20 @@ const ShippingStep = ({
 
   const handleSelectOption = (o) => {
     setSelectedOption(o);
+
+    if (error) {
+      setError(false);
+    }
   };
 
   const handleSubmit = () => {
-    handleDeliverySubmit(selectedOption);
-    updateCheckoutStep(3);
+    if (!selectedOption) {
+      setError(true);
+    } else {
+      handleDeliverySubmit(selectedOption);
+      updateCheckoutStep(3);
+    }
   };
-
-  // const handleSubmit = () => {
-  //   if (handleDeliverySubmit && !isEmpty(selectedOptions)) {
-  //     for (const k of Object.keys(selectedOptions)) {
-  //       const selectedOption = selectedOptions[k];
-  //     }
-
-  //     handleDeliverySubmit(selectedOptions);
-  //   }
-  // };
-
-  // const handleSelectOption = async (k, o) => {
-  //   setSelectedOptions({
-  //     ...selectedOptions,
-  //     [k]: o,
-  //   });
-  // };
 
   return (
     <div className={styles.container}>
@@ -84,6 +68,10 @@ const ShippingStep = ({
           })}
         </div>
       )}
+      <div className={`${styles.error} ${error ? styles.active : ""} `}>
+        <MdError />
+        <p>Select a shipping method</p>
+      </div>
       <div className={styles.controls}>
         <button
           className={styles.stepBack}

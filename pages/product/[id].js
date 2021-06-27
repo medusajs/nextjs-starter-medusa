@@ -118,10 +118,6 @@ const Product = ({ product }) => {
             </div>
           </div>
         </div>
-        <div className={styles.return}>
-          <HiOutlineTruck />
-          <p>Free returns on all orders</p>
-        </div>
       </div>
     </div>
   );

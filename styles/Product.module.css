@@ -19,7 +19,7 @@
 .info {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   padding: 1rem 3rem;
 }
 
