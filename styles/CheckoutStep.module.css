@@ -30,7 +30,7 @@
   border: 1px solid var(--bg);
 }
 
-.summery {
+.summary {
   width: 40%;
   display: flex;
   flex-direction: column;

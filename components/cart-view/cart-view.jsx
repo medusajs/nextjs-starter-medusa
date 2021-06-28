@@ -4,7 +4,7 @@ import StoreContext from "../../context/store-context";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "../../styles/CartView.module.css";
-import { quantity, sum, formatPrice } from "../../utils/helperFunctions";
+import { quantity, sum, formatPrice } from "../../utils/helper-functions";
 
 const CartView = () => {
   const { cartView, updateCartViewDisplay, updateCheckoutStep } =

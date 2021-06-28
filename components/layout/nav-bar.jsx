@@ -2,7 +2,7 @@ import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
 import DisplayContext from "../../context/display-context";
 import StoreContext from "../../context/store-context";
-import { quantity, sum } from "../../utils/helperFunctions";
+import { quantity, sum } from "../../utils/helper-functions";
 import { BiShoppingBag } from "react-icons/bi";
 import styles from "../../styles/NavBar.module.css";
 import { useRouter } from "next/router";

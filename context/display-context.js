@@ -2,10 +2,10 @@ import React, { useReducer } from "react";
 
 export const defaultDisplayContext = {
   cartView: false,
-  orderSummery: false,
+  orderSummary: false,
   checkoutStep: 1,
   updateCartViewDisplay: () => {},
-  updateOrderSummeryDisplay: () => {},
+  updateOrderSummaryDisplay: () => {},
   updateCheckoutStep: () => {},
   dispatch: () => {},
 };
@@ -17,8 +17,8 @@ const reducer = (state, action) => {
   switch (action.type) {
     case "updateCartViewDisplay":
       return { ...state, cartView: !state.cartView };
-    case "updateOrderSummeryDisplay":
-      return { ...state, orderSummery: !state.orderSummery };
+    case "updateOrderSummaryDisplay":
+      return { ...state, orderSummary: !state.orderSummary };
     case "updateCheckoutStep":
       return { ...state, checkoutStep: action.payload };
     default:
@@ -33,8 +33,8 @@ export const DisplayProvider = ({ children }) => {
     dispatch({ type: "updateCartViewDisplay" });
   };
 
-  const updateOrderSummeryDisplay = () => {
-    dispatch({ type: "updateOrderSummeryDisplay" });
+  const updateOrderSummaryDisplay = () => {
+    dispatch({ type: "updateOrderSummaryDisplay" });
   };
 
   const updateCheckoutStep = (step) => {
@@ -46,7 +46,7 @@ export const DisplayProvider = ({ children }) => {
       value={{
         ...state,
         updateCartViewDisplay,
-        updateOrderSummeryDisplay,
+        updateOrderSummaryDisplay,
         updateCheckoutStep,
         dispatch,
       }}

@@ -3,7 +3,7 @@ import styles from "../../styles/ShippingStep.module.css";
 import ShippingMethod from "./shipping-method";
 import { BiLeftArrowAlt } from "react-icons/bi";
 import DisplayContext from "../../context/display-context";
-import { isEmpty } from "../../utils/helperFunctions";
+import { isEmpty } from "../../utils/helper-functions";
 import StoreContext from "../../context/store-context";
 import { MdError } from "react-icons/md";
 

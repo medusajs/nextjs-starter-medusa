@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../../styles/ShippingMethod.module.css";
-import { formatPrice } from "../../utils/helperFunctions";
+import { formatPrice } from "../../utils/helper-functions";
 
 const ShippingMethod = ({ handleOption, option, chosen }) => {
   return (

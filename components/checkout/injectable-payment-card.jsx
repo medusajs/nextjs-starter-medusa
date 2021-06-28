@@ -6,7 +6,7 @@ import DisplayContext from "../../context/display-context";
 import styles from "../../styles/InjectableCardForm.module.css";
 import { BiLeftArrowAlt } from "react-icons/bi";
 
-const InjectableCard = () => {
+const InjectablePaymentCard = () => {
   const stripe = useStripe();
   const elements = useElements();
   const [succeeded, setSucceeded] = useState(false);
@@ -77,4 +77,4 @@ const InjectableCard = () => {
   );
 };
 
-export default InjectableCard;
+export default InjectablePaymentCard;

@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import DisplayContext from "../../context/display-context";
 import StoreContext from "../../context/store-context";
-import styles from "../../styles/CheckoutStepContainer.module.css";
-import CheckoutSummery from "./checkout-summery";
+import styles from "../../styles/CheckoutStep.module.css";
+import CheckoutSummary from "./checkout-summary";
 import InformationStep from "./information-step";
 import PaymentStep from "./payment-step";
 import ShippingStep from "./shipping-step";
@@ -11,9 +11,9 @@ import StepOverview from "./step-overview";
 const CheckoutStep = () => {
   const {
     checkoutStep,
-    orderSummery,
+    orderSummary,
     updateCheckoutStep,
-    updateOrderSummeryDisplay,
+    updateOrderSummaryDisplay,
   } = useContext(DisplayContext);
   const { cart, updateAddress, setShippingMethod } = useContext(StoreContext);
 
@@ -93,13 +93,13 @@ const CheckoutStep = () => {
         {handleStep()}
         <button
           className={styles.orderBtn}
-          onClick={() => updateOrderSummeryDisplay()}
+          onClick={() => updateOrderSummaryDisplay()}
         >
-          View Order Summery
+          View Order Summary
         </button>
       </div>
-      <div className={`${styles.summery} ${orderSummery ? styles.active : ""}`}>
-        <CheckoutSummery cart={cart} />
+      <div className={styles.summary}>
+        <CheckoutSummary cart={cart} />
       </div>
     </div>
   );
