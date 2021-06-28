@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
-import medusa from "../../services/medusa";
-import { useRouter } from "next/router";
 import { BiShoppingBag } from "react-icons/bi";
-import { HiOutlineTruck } from "react-icons/hi";
 import StoreContext from "../../context/store-context";
 import { resetOptions } from "../../utils/helperFunctions";
 import styles from "../../styles/Product.module.css";
+import { createClient } from "../../utils/client";
 
 const Product = ({ product }) => {
   const { addVariantToCart } = useContext(StoreContext);
@@ -123,12 +121,15 @@ const Product = ({ product }) => {
   );
 };
 
+//create a Medusa client
+const client = createClient();
+
 export async function getStaticPaths() {
-  // Call an external API endpoint to get posts
-  const { data } = await medusa.products.list();
+  // Call an external API endpoint to get products
+  const { data } = await client.products.list();
   const products = data.products;
 
-  // Get the paths we want to pre-render based on posts
+  // Get the paths we want to pre-render based on the products
   const paths = products.map((product) => ({
     params: { id: product.id },
   }));
@@ -140,9 +141,9 @@ export async function getStaticPaths() {
 
 // This also gets called at build time
 export async function getStaticProps({ params }) {
-  // params contains the post `id`.
-  // If the route is like /posts/1, then params.id is 1
-  const { data } = await medusa.products.retrieve(params.id);
+  // params contains the product `id`.
+  // If the route is like /product/prod_1, then params.id is 1
+  const { data } = await client.products.retrieve(params.id);
 
   // Pass post data to the page via props
   return { props: { product: data.product } };

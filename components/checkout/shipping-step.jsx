@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import styles from "../../styles/ShippingStep.module.css";
-import ShippingMethod from "./shippingMethod";
+import ShippingMethod from "./shipping-method";
 import { BiLeftArrowAlt } from "react-icons/bi";
 import DisplayContext from "../../context/display-context";
 import { isEmpty } from "../../utils/helperFunctions";

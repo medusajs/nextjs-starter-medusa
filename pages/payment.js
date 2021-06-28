@@ -26,6 +26,7 @@ export const Payment = () => {
         createCart();
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return !order ? (

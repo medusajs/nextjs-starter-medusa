@@ -1,9 +1,7 @@
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
-import { useContext } from "react";
-import StoreContext from "../context/store-context";
+import { createClient } from "../utils/client";
 import { FaGithub } from "react-icons/fa";
-import medusa from "../services/medusa";
 
 export default function Home({ products }) {
   return (
@@ -127,7 +125,8 @@ export default function Home({ products }) {
 }
 
 export const getStaticProps = async () => {
-  const { data } = await medusa.products.list();
+  const client = createClient();
+  const { data } = await client.products.list();
 
   return {
     props: {
