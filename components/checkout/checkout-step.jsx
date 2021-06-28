@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import DisplayContext from "../../context/display-context";
 import StoreContext from "../../context/store-context";
-import styles from "../../styles/CheckoutStep.module.css";
+import styles from "../../styles/checkout-step.module.css";
 import CheckoutSummary from "./checkout-summary";
 import InformationStep from "./information-step";
 import PaymentStep from "./payment-step";
@@ -9,12 +9,8 @@ import ShippingStep from "./shipping-step";
 import StepOverview from "./step-overview";
 
 const CheckoutStep = () => {
-  const {
-    checkoutStep,
-    orderSummary,
-    updateCheckoutStep,
-    updateOrderSummaryDisplay,
-  } = useContext(DisplayContext);
+  const { checkoutStep, updateCheckoutStep, updateOrderSummaryDisplay } =
+    useContext(DisplayContext);
   const { cart, updateAddress, setShippingMethod } = useContext(StoreContext);
 
   const [isProcessingInfo, setIsProcessingInfo] = useState(false);
@@ -23,11 +19,7 @@ const CheckoutStep = () => {
   const handleShippingSubmit = async (address, email) => {
     setIsProcessingInfo(true);
 
-    const country = cart.region.countries.find(
-      (c) => c.display_name === address.country_code
-    );
-
-    updateAddress({ ...address, country_code: country.iso_2 }, email);
+    updateAddress(address, email);
 
     setIsProcessingInfo(false);
     updateCheckoutStep(2);

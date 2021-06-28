@@ -4,7 +4,7 @@ import DisplayContext from "../../context/display-context";
 import StoreContext from "../../context/store-context";
 import { quantity, sum } from "../../utils/helper-functions";
 import { BiShoppingBag } from "react-icons/bi";
-import styles from "../../styles/NavBar.module.css";
+import styles from "../../styles/nav-bar.module.css";
 import { useRouter } from "next/router";
 
 export const NavBar = () => {

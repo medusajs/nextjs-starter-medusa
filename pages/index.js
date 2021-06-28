@@ -1,4 +1,4 @@
-import styles from "../styles/Home.module.css";
+import styles from "../styles/home.module.css";
 import Link from "next/link";
 import { createClient } from "../utils/client";
 import { FaGithub } from "react-icons/fa";

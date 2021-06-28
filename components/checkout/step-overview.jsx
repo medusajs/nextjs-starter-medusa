@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import DisplayContext from "../../context/display-context";
 import StoreContext from "../../context/store-context";
-import styles from "../../styles/StepOverview.module.css";
+import styles from "../../styles/step-overview.module.css";
 
 const StepOverview = () => {
   const { cart } = useContext(StoreContext);

@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import PuffLoader from "react-spinners/PuffLoader";
-import styles from "../../styles/InformationStep.module.css";
+import styles from "../../styles/information-step.module.css";
 import InputField from "./input-field";
+import SelectField from "./select-field";
+import StoreContext from "../../context/store-context";
 
 const InformationStep = ({ handleSubmit, savedValues, isProcessing }) => {
+  const { cart } = useContext(StoreContext);
   let Schema = Yup.object().shape({
     first_name: Yup.string()
       .min(2, "Too short")
@@ -37,7 +40,7 @@ const InformationStep = ({ handleSubmit, savedValues, isProcessing }) => {
           email: savedValues.email || "",
           address_1: savedValues.address_1 || "",
           address_2: savedValues.address_2 || "",
-          country_code: "Denmark",
+          country_code: savedValues.country_code || "",
           postal_code: savedValues.postal_code || "",
           city: savedValues.city || "",
           phone: savedValues.phone || "",
@@ -94,14 +97,11 @@ const InformationStep = ({ handleSubmit, savedValues, isProcessing }) => {
                   errorMsg={errors.address_2}
                   type="text"
                 />
-                {/* Country is disabled, and Denmark is selected. Change this if you want to allow customers to ship to other countries */}
-                <InputField
+                <SelectField
                   id="country_code"
-                  placeholder="Country"
+                  options={cart.region?.countries}
                   error={errors.country_code && touched.country_code}
                   errorMsg={errors.country_code}
-                  type="text"
-                  disabled={true}
                 />
                 <div className={styles.sharedrow}>
                   <InputField

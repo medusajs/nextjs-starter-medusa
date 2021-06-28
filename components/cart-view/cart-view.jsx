@@ -3,7 +3,7 @@ import DisplayContext from "../../context/display-context";
 import StoreContext from "../../context/store-context";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import styles from "../../styles/CartView.module.css";
+import styles from "../../styles/cart-view.module.css";
 import { quantity, sum, formatPrice } from "../../utils/helper-functions";
 
 const CartView = () => {

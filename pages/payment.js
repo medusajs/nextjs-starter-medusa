@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import StoreContext from "../context/store-context";
-import itemStyles from "../styles/CartView.module.css";
-import styles from "../styles/Payment.module.css";
+import itemStyles from "../styles/cart-view.module.css";
+import styles from "../styles/payment.module.css";
 import Link from "next/link";
 import { formatPrice } from "../utils/helper-functions";
 

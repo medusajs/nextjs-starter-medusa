@@ -3,7 +3,7 @@ import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useRouter } from "next/router";
 import StoreContext from "../../context/store-context";
 import DisplayContext from "../../context/display-context";
-import styles from "../../styles/InjectableCardForm.module.css";
+import styles from "../../styles/injectable-payment-card.module.css";
 import { BiLeftArrowAlt } from "react-icons/bi";
 
 const InjectablePaymentCard = () => {

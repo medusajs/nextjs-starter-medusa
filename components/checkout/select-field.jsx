@@ -1,10 +1,10 @@
 import React from "react";
 import { Field } from "formik";
-import styles from "../../styles/input-field.module.css";
+import * as styles from "../../styles/input-field.module.css";
 import { MdError } from "react-icons/md";
 
-const InputField = ({ id, placeholder, error, errorMsg, type, disabled }) => {
-  return (
+const SelectField = ({ id, error, errorMsg, type, disabled, options }) => {
+  return options ? (
     <div className={styles.container}>
       {error ? (
         <p className={styles.errortext}>{errorMsg}</p>
@@ -19,15 +19,25 @@ const InputField = ({ id, placeholder, error, errorMsg, type, disabled }) => {
         <Field
           id={id}
           name={id}
-          placeholder={placeholder}
-          className={styles.styledfield}
+          className={styles.styledselect}
           type={type}
           disabled={disabled}
-        />
+          as="select"
+        >
+          {options.map((o) => {
+            return (
+              <option key={o.id} value={o.iso_2}>
+                {o.display_name}
+              </option>
+            );
+          })}
+        </Field>
         {error && <MdError className={styles.erroricon} />}
       </div>
     </div>
+  ) : (
+    <div className={styles.fetching} />
   );
 };
 
-export default InputField;
+export default SelectField;

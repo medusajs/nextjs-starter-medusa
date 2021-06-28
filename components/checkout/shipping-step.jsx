@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import styles from "../../styles/ShippingStep.module.css";
+import styles from "../../styles/shipping-step.module.css";
 import ShippingMethod from "./shipping-method";
 import { BiLeftArrowAlt } from "react-icons/bi";
 import DisplayContext from "../../context/display-context";
