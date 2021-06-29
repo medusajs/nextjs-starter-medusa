@@ -14,6 +14,7 @@
 
     Add your Stripe API key to your `.env.local`
 
+
     ```
     NEXT_PUBLIC_STRIPE_KEY=pk_test_something
     ```
