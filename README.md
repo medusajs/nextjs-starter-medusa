@@ -2,6 +2,8 @@
   Medusa + Next.js Starter 🚀
 </h1>
 
+> **Prerequisites**: To use the starter you should have a Medusa server running locally on port 4000. Check out [medusa-starter-default](https://github.com/medusajs/medusa-starter-default) for a quick setup. Note that you need to change `STORE_CORS` in `medusa-config.js` to `http://localhost:3000` when using the Next.js starter.
+
 ## Quick start
 
 1. **Setting up the enviroment variables**
