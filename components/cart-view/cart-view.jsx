@@ -131,7 +131,7 @@ const CartView = () => {
             updateCartViewDisplay();
             router.push("/checkout");
           }}
-          disabled={cart.items.length < 1 ? true : ""}
+          disabled={cart.items.length < 1 ? true : false}
         >
           Checkout
         </button>

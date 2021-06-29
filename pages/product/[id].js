@@ -21,7 +21,11 @@ const Product = ({ product }) => {
 
   const handleQtyChange = (action) => {
     if (action === "inc") {
-      if (options.quantity < 10)
+      if (
+        options.quantity <
+        product.variants.find(({ id }) => id === options.variantId)
+          .inventory_quantity
+      )
         setOptions({
           variantId: options.variantId,
           quantity: options.quantity + 1,
