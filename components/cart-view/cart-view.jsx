@@ -3,8 +3,8 @@ import DisplayContext from "../../context/display-context";
 import StoreContext from "../../context/store-context";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import styles from "../../styles/CartView.module.css";
-import { quantity, sum, formatPrice } from "../../utils/helperFunctions";
+import styles from "../../styles/cart-view.module.css";
+import { quantity, sum, formatPrice } from "../../utils/helper-functions";
 
 const CartView = () => {
   const { cartView, updateCartViewDisplay, updateCheckoutStep } =
@@ -131,7 +131,7 @@ const CartView = () => {
             updateCartViewDisplay();
             router.push("/checkout");
           }}
-          disabled={cart.items.length < 1 ? true : ""}
+          disabled={cart.items.length < 1 ? true : false}
         >
           Checkout
         </button>

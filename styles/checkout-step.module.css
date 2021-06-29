@@ -30,7 +30,7 @@
   border: 1px solid var(--bg);
 }
 
-.summery {
+.summary {
   width: 40%;
   display: flex;
   flex-direction: column;
@@ -38,15 +38,13 @@
 
 .orderBtn {
   width: 100%;
-  font-size: 1.125rem;
+  font-size: 1rem;
   min-height: 3rem;
   padding: 0.5rem 0;
   align-self: center;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--logo-color-900);
-  color: white;
   border-radius: 8px;
   transition: background 0.2s ease-in;
   font-weight: 500;
@@ -54,10 +52,11 @@
   border: none;
   display: none;
   justify-self: flex-end;
+  background: transparent;
 }
 
 .orderBtn:hover {
-  background: var(--logo-color-1000);
+  background: var(--logo-color-100);
 }
 
 .breadcrumbs {

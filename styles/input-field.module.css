@@ -60,3 +60,25 @@
     padding: 10px;
     outline: none;
 }
+
+.styledselect {
+    height: 40px;
+    width: 100%;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+    padding: 10px;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.fetching {
+    height: 40px;
+    width: 100%;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+    padding: 10px;
+    outline: none;
+    background: var(--logo-color-100);
+}

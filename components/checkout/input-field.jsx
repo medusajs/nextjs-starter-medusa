@@ -1,6 +1,6 @@
 import React from "react";
 import { Field } from "formik";
-import styles from "../../styles/InputField.module.css";
+import styles from "../../styles/input-field.module.css";
 import { MdError } from "react-icons/md";
 
 const InputField = ({ id, placeholder, error, errorMsg, type, disabled }) => {

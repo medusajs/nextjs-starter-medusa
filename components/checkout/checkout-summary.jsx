@@ -1,20 +1,20 @@
 import React, { useContext } from "react";
 import { PuffLoader } from "react-spinners";
-import styles from "../../styles/CheckoutSummery.module.css";
-import itemStyles from "../../styles/CartView.module.css";
+import styles from "../../styles/checkout-summary.module.css";
+import itemStyles from "../../styles/cart-view.module.css";
 import Link from "next/link";
-import { formatPrice } from "../../utils/helperFunctions";
-import { sum, quantity } from "../../utils/helperFunctions";
+import { formatPrice } from "../../utils/helper-functions";
+import { sum, quantity } from "../../utils/helper-functions";
 import DisplayContext from "../../context/display-context";
 
-const CheckoutSummery = ({ cart }) => {
-  const { orderSummery, updateOrderSummeryDisplay } =
+const CheckoutSummary = ({ cart }) => {
+  const { orderSummary, updateOrderSummaryDisplay } =
     useContext(DisplayContext);
   return cart ? (
-    <div className={`${styles.container} ${orderSummery ? styles.active : ""}`}>
+    <div className={`${styles.container} ${orderSummary ? styles.active : ""}`}>
       <div className={itemStyles.top}>
         <p>
-          <strong>Order Summery</strong>
+          <strong>Order Summary</strong>
         </p>
         <p>
           {cart.items.length > 0 ? cart.items.map(quantity).reduce(sum) : 0}{" "}
@@ -24,7 +24,7 @@ const CheckoutSummery = ({ cart }) => {
         </p>
         <button
           className={styles.closeBtn}
-          onClick={() => updateOrderSummeryDisplay()}
+          onClick={() => updateOrderSummaryDisplay()}
         >
           X
         </button>
@@ -111,4 +111,4 @@ const CheckoutSummery = ({ cart }) => {
   );
 };
 
-export default CheckoutSummery;
+export default CheckoutSummary;

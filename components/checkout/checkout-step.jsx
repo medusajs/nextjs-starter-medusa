@@ -1,20 +1,16 @@
 import React, { useContext, useState } from "react";
 import DisplayContext from "../../context/display-context";
 import StoreContext from "../../context/store-context";
-import styles from "../../styles/CheckoutStepContainer.module.css";
-import CheckoutSummery from "./checkoutSummery";
-import InformationStep from "./informationStep";
-import PaymentStep from "./paymentStep";
-import ShippingStep from "./shippingStep";
-import StepOverview from "./stepOverview";
+import styles from "../../styles/checkout-step.module.css";
+import CheckoutSummary from "./checkout-summary";
+import InformationStep from "./information-step";
+import PaymentStep from "./payment-step";
+import ShippingStep from "./shipping-step";
+import StepOverview from "./step-overview";
 
-const CheckoutStepContainer = () => {
-  const {
-    checkoutStep,
-    orderSummery,
-    updateCheckoutStep,
-    updateOrderSummeryDisplay,
-  } = useContext(DisplayContext);
+const CheckoutStep = () => {
+  const { checkoutStep, updateCheckoutStep, updateOrderSummaryDisplay } =
+    useContext(DisplayContext);
   const { cart, updateAddress, setShippingMethod } = useContext(StoreContext);
 
   const [isProcessingInfo, setIsProcessingInfo] = useState(false);
@@ -23,11 +19,7 @@ const CheckoutStepContainer = () => {
   const handleShippingSubmit = async (address, email) => {
     setIsProcessingInfo(true);
 
-    const country = cart.region.countries.find(
-      (c) => c.display_name === address.country_code
-    );
-
-    updateAddress({ ...address, country_code: country.iso_2 }, email);
+    updateAddress(address, email);
 
     setIsProcessingInfo(false);
     updateCheckoutStep(2);
@@ -89,20 +81,20 @@ const CheckoutStepContainer = () => {
           <p>/</p>
           <p className={checkoutStep === 3 ? styles.activeStep : ""}>Payment</p>
         </div>
-        {checkoutStep != 1 ? <StepOverview /> : null}
+        {checkoutStep !== 1 ? <StepOverview /> : null}
         {handleStep()}
         <button
           className={styles.orderBtn}
-          onClick={() => updateOrderSummeryDisplay()}
+          onClick={() => updateOrderSummaryDisplay()}
         >
-          Order Summery
+          View Order Summary
         </button>
       </div>
-      <div className={`${styles.summery} ${orderSummery ? styles.active : ""}`}>
-        <CheckoutSummery cart={cart} />
+      <div className={styles.summary}>
+        <CheckoutSummary cart={cart} />
       </div>
     </div>
   );
 };
 
-export default CheckoutStepContainer;
+export default CheckoutStep;
