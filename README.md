@@ -26,9 +26,9 @@ Medusa is an open-source headless commerce engine that enables developers to cre
 
 > **Prerequisites**: To use the starter you should have a Medusa server running locally on port 9000. Check out [medusa-starter-default](https://github.com/medusajs/medusa-starter-default) for a quick setup. **Note** that you need to change `STORE_CORS` in `medusa-config.js` to `http://localhost:3000` when running the Next.js starter on the default port.
 
-## Quick start
+## Quickstart
 
-1. **Setting up the enviroment variables**
+1. **Setting up the environment variables**
 
     Navigate into your projects directory and get your enviroment variables ready:
 
@@ -54,7 +54,7 @@ Medusa is an open-source headless commerce engine that enables developers to cre
 
 3.  **Start developing.**
 
-     You are now ready to start the project up.
+     You are now ready to start up your project.
 
     ```shell
     yarn dev
