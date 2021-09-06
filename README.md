@@ -30,9 +30,10 @@ Medusa is an open-source headless commerce engine that enables developers to cre
 
 1. **Setting up the enviroment variables**
 
-    Get your enviroment variables ready:
+    Navigate into your projects directory and get your enviroment variables ready:
 
     ```shell
+    cd nextjs-starter-medusa/
     mv .env.template .env.local
     ```
 
@@ -53,10 +54,9 @@ Medusa is an open-source headless commerce engine that enables developers to cre
 
 3.  **Start developing.**
 
-    Navigate into your projects directory and start it up.
+     You are now ready to start the project up.
 
     ```shell
-    cd nextjs-starter-medusa/
     yarn dev
     ```
 
