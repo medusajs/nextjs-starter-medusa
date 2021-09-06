@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
+import Image from "next/image"
 import { BiShoppingBag } from "react-icons/bi";
 import StoreContext from "../../context/store-context";
-import { resetOptions } from "../../utils/helper-functions";
+import { formatPrice, resetOptions } from "../../utils/helper-functions";
 import styles from "../../styles/product.module.css";
 import { createClient } from "../../utils/client";
+import { formatPrices } from "../../utils/prices";
 
 const Product = ({ product }) => {
-  const { addVariantToCart } = useContext(StoreContext);
+  const { addVariantToCart, cart } = useContext(StoreContext);
   const [options, setOptions] = useState({
     variantId: "",
     quantity: 0,
@@ -53,7 +55,17 @@ const Product = ({ product }) => {
   return (
     <div className={styles.container}>
       <figure className={styles.image}>
-        <div className={styles.placeholder}></div>
+        <div className={styles.placeholder}>
+          <Image
+            objectFit="cover"
+            height="100%"
+            width="100%"
+            priority={true}
+            loading="eager"
+            src={product.thumbnail}
+            alt={`${product.title}`}
+          />
+        </div>
       </figure>
       <div className={styles.info}>
         <span />
@@ -61,7 +73,7 @@ const Product = ({ product }) => {
           <div className="title">
             <h1>{product.title}</h1>
           </div>
-          <p className="price">19.50 EUR</p>
+          <p className="price">{formatPrices(cart, product.variants[0])}</p>
           <div className={styles.selection}>
             <p>Select Size</p>
             <div className="selectors">

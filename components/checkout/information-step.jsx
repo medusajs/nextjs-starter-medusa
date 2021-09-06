@@ -40,7 +40,9 @@ const InformationStep = ({ handleSubmit, savedValues, isProcessing }) => {
           email: savedValues.email || "",
           address_1: savedValues.address_1 || "",
           address_2: savedValues.address_2 || "",
-          country_code: savedValues.country_code || "",
+          country_code: savedValues.country_code || 
+            cart?.region?.countries?.[0].iso_2 ||
+            "",
           postal_code: savedValues.postal_code || "",
           city: savedValues.city || "",
           phone: savedValues.phone || "",

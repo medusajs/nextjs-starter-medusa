@@ -9,16 +9,17 @@ export const defaultStoreContext = {
   order: {},
   products: [],
   currencyCode: "eur",
-  addVariantToCart: () => {},
-  createCart: () => {},
-  removeLineItem: () => {},
-  updateLineItem: () => {},
-  setShippingMethod: () => {},
-  updateAddress: () => {},
-  createPaymentSession: () => {},
-  completeCart: () => {},
-  retrieveOrder: () => {},
-  dispatch: () => {},
+  addVariantToCart: async () => {},
+  createCart: async () => {},
+  removeLineItem: async () => {},
+  updateLineItem: async () => {},
+  setShippingMethod: async () => {},
+  updateAddress: async () => {},
+  createPaymentSession: async () => {},
+  completeCart: async () => {},
+  retrieveOrder: async () => {},
+  setPaymentSession: async () => {},
+  dispatch: async () => {},
 };
 
 const StoreContext = React.createContext(defaultStoreContext);
@@ -89,6 +90,17 @@ export const StoreProvider = ({ children }) => {
       dispatch({ type: "setCart", payload: data.cart });
     });
   };
+  
+  const setPaymentSession = async (provider) => {
+    return await client.carts
+      .setPaymentSession(state.cart.id, {
+        provider_id: provider,
+      })
+      .then(({ data }) => {
+        dispatch({ type: "setCart", payload: data.cart });
+        return data;
+      });
+  };
 
   const addVariantToCart = async ({ variantId, quantity }) => {
     client.carts.lineItems
@@ -127,8 +139,8 @@ export const StoreProvider = ({ children }) => {
     }
   };
 
-  const setShippingMethod = (id) => {
-    client.carts
+  const setShippingMethod = async (id) => {
+    return await client.carts
       .addShippingMethod(state.cart.id, {
         option_id: id,
       })
@@ -137,10 +149,13 @@ export const StoreProvider = ({ children }) => {
       });
   };
 
-  const createPaymentSession = () => {
-    client.carts.createPaymentSessions(state.cart.id).then(({ data }) => {
-      dispatch({ type: "setCart", payload: data.cart });
-    });
+  const createPaymentSession = async () => {
+    return await client.carts
+      .createPaymentSessions(state.cart.id)
+      .then(({ data }) => {
+        dispatch({ type: "setCart", payload: data.cart });
+        return data;
+      });
   };
 
   const completeCart = async () => {
@@ -188,6 +203,7 @@ export const StoreProvider = ({ children }) => {
         getShippingOptions,
         setShippingMethod,
         createPaymentSession,
+        setPaymentSession,
         updateAddress,
         completeCart,
         retrieveOrder,

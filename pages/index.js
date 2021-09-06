@@ -2,8 +2,13 @@ import styles from "../styles/home.module.css";
 import Link from "next/link";
 import { createClient } from "../utils/client";
 import { FaGithub } from "react-icons/fa";
+import { formatPrices } from "../utils/prices";
+import { useContext } from "react";
+import StoreContext from "../context/store-context";
 
 export default function Home({ products }) {
+  const { cart } = useContext(StoreContext)
+  
   return (
     <div className={styles.container}>
       <main className={styles.main}>
@@ -110,7 +115,7 @@ export default function Home({ products }) {
                       <a>
                         <div>
                           <h2>{p.title}</h2>
-                          <p>19.50 EUR</p>
+                          <p>{formatPrices(cart, p.variants[0])}</p>
                         </div>
                       </a>
                     </Link>

@@ -5,6 +5,7 @@
   padding: 20px 88px;
   position: absolute;
   width: 100%;
+  z-index: 10;
 }
 
 .container h1 {
@@ -27,6 +28,7 @@
 
 .btn span {
   margin-left: 0.75rem;
+  margin-right: 0.75rem;
 }
 
 .btn svg {
