@@ -13,7 +13,7 @@
     "@medusajs/medusa-js": "^1.0.1-canary.1",
     "@stripe/react-stripe-js": "^1.4.1",
     "@stripe/stripe-js": "^1.15.1",
-    "axios": "^0.21.1",
+    "axios": "^0.21.3",
     "formik": "^2.2.9",
     "next": "^11.1.2",
     "react": "17.0.2",
