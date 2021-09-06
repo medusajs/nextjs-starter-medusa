@@ -1,3 +1,8 @@
+<p align="center">
+  <a href="https://www.gatsbyjs.com">
+    <img alt="Next.js" src="https://medusa-public-images.s3.eu-west-1.amazonaws.com/nextjs.png" width="100" />
+  </a>
+</p>
 <h1 align="center">
   Medusa + Next.js Starter 🚀
 </h1>

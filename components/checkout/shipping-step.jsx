@@ -44,7 +44,6 @@ const ShippingStep = ({ handleDeliverySubmit, isProcessing, cart }) => {
       setError(true);
     } else {
       handleDeliverySubmit(selectedOption);
-      updateCheckoutStep(3);
     }
   };
 

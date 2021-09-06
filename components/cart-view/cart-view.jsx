@@ -2,9 +2,11 @@ import React, { useContext } from "react";
 import DisplayContext from "../../context/display-context";
 import StoreContext from "../../context/store-context";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import styles from "../../styles/cart-view.module.css";
 import { quantity, sum, formatPrice } from "../../utils/helper-functions";
+import { formatPrices } from "../../utils/prices";
 
 const CartView = () => {
   const { cartView, updateCartViewDisplay, updateCheckoutStep } =
@@ -52,8 +54,15 @@ const CartView = () => {
                     passHref
                   >
                     <a>
-                      {/* Replace with a product thumbnail/image */}
-                      <div className={styles.placeholder} />
+                      <div className={styles.placeholder}>
+                      <Image
+                        objectFit="cover"
+                        height="100%"
+                        width="100%"
+                        src={i.variant.product.thumbnail}
+                        alt={`${i.title}`}
+                      />
+                      </div>
                     </a>
                   </Link>
                 </figure>
@@ -72,7 +81,7 @@ const CartView = () => {
                       <p className={styles.size}>Size: {i.variant.title}</p>
                       <p className={styles.size}>
                         Price:{" "}
-                        {formatPrice(i.unit_price, cart.region.currency_code)}
+                        {formatPrices(cart, i.variant)}
                       </p>
                     </div>
                     <div>

@@ -3,6 +3,7 @@ import StoreContext from "../context/store-context";
 import itemStyles from "../styles/cart-view.module.css";
 import styles from "../styles/payment.module.css";
 import Link from "next/link";
+import Image from "next/image";
 import { formatPrice } from "../utils/helper-functions";
 
 const style = {
@@ -29,7 +30,7 @@ export const Payment = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return !order ? (
+  return !order || !styles ? (
     <div style={style}>
       <p>Hang on while we validate your payment...</p>
     </div>
@@ -62,8 +63,15 @@ export const Payment = () => {
                       passHref
                     >
                       <a>
-                        {/* Replace with a product thumbnail/image */}
-                        <div className={itemStyles.placeholder} />
+                      <div className={itemStyles.placeholder}>
+                        <Image
+                          objectFit="cover"
+                          height="100%"
+                          width="100%"
+                          src={i.variant.product.thumbnail}
+                          alt={`${i.title}`}
+                        />
+                      </div>
                       </a>
                     </Link>
                   </figure>
