@@ -4,7 +4,7 @@
   "private": true,
   "author": "Kasper Fabricius Kristensen <kasper@medusa-commmerce.com> (https://www.medusa-commerce.com)",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 8000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
