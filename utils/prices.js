@@ -21,11 +21,12 @@ export function getVariantPrice(cart, variant) {
   let taxRate = getTaxRate(cart);
 
   let moneyAmount = variant.prices.find(
-    (p) => p.currency_code.toLowerCase() === cart.currency_code.toLowerCase()
+    (p) =>
+      p.currency_code.toLowerCase() === cart.region.currency_code.toLowerCase()
   );
 
   if (moneyAmount && moneyAmount.amount) {
-    return moneyAmount.amount * (1 + taxRate);
+    return (moneyAmount.amount * (1 + taxRate)) / 100;
   }
 
   return undefined;
