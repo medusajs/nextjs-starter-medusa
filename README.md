@@ -61,7 +61,7 @@ Medusa is an open-source headless commerce engine that enables developers to cre
 
 4. **Open the code and start customizing!**
 
-   Your site is now running at http://localhost:3000!
+   Your site is now running at http://localhost:8000!
 
    Edit `/pages/index.js` to see your site update in real-time!
 
