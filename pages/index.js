@@ -131,11 +131,11 @@ export default function Home({ products }) {
 
 export const getStaticProps = async () => {
   const client = createClient();
-  const { products } = await client.products.list();
+  const { data } = await client.products.list();
 
   return {
     props: {
-      products,
+      products: data.products,
     },
   };
 };
