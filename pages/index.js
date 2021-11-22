@@ -14,7 +14,7 @@ export default function Home({ products }) {
       <main className={styles.main}>
         <div className={styles.hero}>
           <h1 className={styles.title}>
-            Medusa + Next.js Starter{" "}
+            Medusa + Next.js Starter 
             <span role="img" aria-label="Rocket emoji">
               🚀
             </span>
@@ -131,11 +131,11 @@ export default function Home({ products }) {
 
 export const getStaticProps = async () => {
   const client = createClient();
-  const { data } = await client.products.list();
+  const { products } = await client.products.list();
 
   return {
     props: {
-      products: data.products,
+      products,
     },
   };
 };
