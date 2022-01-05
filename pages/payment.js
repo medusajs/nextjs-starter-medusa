@@ -122,7 +122,7 @@ export const Payment = () => {
         </div>
       </div>
       <div>
-        <p>An order confirmation will be sent to you at {order.email}</p>
+        <p>An order comfirmation will be sent to you at {order.email}</p>
       </div>
     </div>
   );
