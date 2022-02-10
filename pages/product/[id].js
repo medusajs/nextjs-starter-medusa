@@ -58,9 +58,7 @@ const Product = ({ product }) => {
         <div className={styles.placeholder}>
           <Image
             objectFit="cover"
-            height="100%"
-            width="100%"
-            priority={true}
+            layout="fill"
             loading="eager"
             src={product.thumbnail}
             alt={`${product.title}`}
