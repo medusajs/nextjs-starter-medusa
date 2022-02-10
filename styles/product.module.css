@@ -43,8 +43,8 @@
   border: none;
   background: lightgrey;
   border-radius: 2px;
-  height: 38px;
-  width: 38px;
+  min-height: 38px;
+  min-width: 38px;
   margin-right: 0.5rem;
   transition: all 0.2s ease-in;
 }
