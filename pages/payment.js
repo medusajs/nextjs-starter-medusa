@@ -18,19 +18,24 @@ const style = {
 
 export const Payment = () => {
   const [order, setOrder] = useState();
-  const { cart, completeCart, createCart } = useContext(StoreContext);
+  const { cart, completeCart, createCart, retrieveOrder } = useContext(StoreContext);
 
   useEffect(() => {
-    if (cart.items.length > 0) {
+    if (cart.payment) {
+      retrieveOrder(cart.payment.order_id).then(order => {
+        setOrder(order)
+      });
+    }
+    if (!cart.payment && cart.items.length > 0) {
       completeCart().then((order) => {
         setOrder(order);
         createCart();
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [cart, cart.items]);
 
-  return !order || !styles ? (
+  return (!order || !styles) ? (
     <div style={style}>
       <p>Hang on while we validate your payment...</p>
     </div>
