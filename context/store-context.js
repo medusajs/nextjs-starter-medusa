@@ -69,7 +69,7 @@ export const StoreProvider = ({ children }) => {
         dispatch({ type: "setCart", payload: data.cart })
       })
     } else {
-      client.carts.create().then((data) => {
+      client.carts.create({}).then((data) => {
         dispatch({ type: "setCart", payload: data.cart })
         if (localStorage) {
           localStorage.setItem("cart_id", data.cart.id)
@@ -86,7 +86,7 @@ export const StoreProvider = ({ children }) => {
     if (localStorage) {
       localStorage.removeItem("cart_id")
     }
-    client.carts.create().then((data) => {
+    client.carts.create({}).then((data) => {
       dispatch({ type: "setCart", payload: data.cart })
     })
   }
