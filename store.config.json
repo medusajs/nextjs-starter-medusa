@@ -1,11 +1,7 @@
 {
     "features": {
         "search": false,
-        "blog": false,
         "returnsAndExchanges": false,
         "customerAuth": true
-    },
-    "options": {
-        "taxesPreCheckout": true
     }
 }

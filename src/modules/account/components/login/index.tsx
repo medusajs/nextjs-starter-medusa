@@ -1,8 +1,5 @@
 import { medusaClient } from "@lib/config"
-import {
-  LOGIN_VIEW,
-  useAccount
-} from "@lib/context/account-context"
+import { LOGIN_VIEW, useAccount } from "@lib/context/account-context"
 import Input from "@modules/common/components/input"
 import { useRouter } from "next/router"
 import React, { useState } from "react"
@@ -14,12 +11,12 @@ interface SignInCredentials extends FieldValues {
 }
 
 const Login = () => {
-  const { loginView } = useAccount()
+  const { loginView, refetchCustomer } = useAccount()
   const [_, setCurrentView] = loginView
   const [authError, setAuthError] = useState<string | undefined>(undefined)
   const router = useRouter()
 
-  const handleError = (e: Error) => {
+  const handleError = (_e: Error) => {
     setAuthError("Invalid email or password")
   }
 
@@ -32,7 +29,10 @@ const Login = () => {
   const onSubmit = handleSubmit(async (credentials) => {
     medusaClient.auth
       .authenticate(credentials)
-      .then(() => router.push("/account"))
+      .then(() => {
+        refetchCustomer()
+        router.push("/account")
+      })
       .catch(handleError)
   })
 
@@ -61,8 +61,8 @@ const Login = () => {
         {authError && (
           <div>
             <span className="text-rose-500 w-full text-small-regular">
-            These credentials do not match our records
-          </span>
+              These credentials do not match our records
+            </span>
           </div>
         )}
         <button className="bg-gray-900 uppercase text-white w-full py-4 mt-8 text-base-semi">

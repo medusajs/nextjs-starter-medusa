@@ -12,12 +12,6 @@ function withStoreConfig(nextConfig = {}) {
     }
   })
 
-  Object.entries(options).forEach(([key, value]) => {
-    if (value) {
-      nextConfig.env[`OPTION_${key.toUpperCase()}_ENABLED`] = true
-    }
-  })
-
   return nextConfig
 }
 
