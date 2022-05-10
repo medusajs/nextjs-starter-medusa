@@ -1,7 +1,22 @@
 {
-    "features": {
-        "search": false,
-        "returnsAndExchanges": false,
-        "customerAuth": true
-    }
+  "features": {
+    "search": false,
+    "returnsAndExchanges": false,
+    "customerAuth": true
+  },
+  "store": {
+    "name": "Acme",
+    "address": {
+      "address_line": "Perseus Avenue 1",
+      "city": "Medusa Town",
+      "postal_code": "1270",
+      "country": "Denmark"
+    },
+    "socials": {
+      "GitHub": "https://github.com/medusajs",
+      "Twitter": "https://twitter.com/medusajs",
+      "LinkedIn": "https://www.linkedin.com/company/medusajs"
+    },
+    "about":  "Medusa aims to lower the bar for when developers and merchants can start building headless. For many years, the headless approach to commerce has been an enterprise exclusivity due to the large number of resources that it required. Not anymore. Create a headless commerce store in minutes and start your growth journey on a fast and flexible foundation."
+  }
 }

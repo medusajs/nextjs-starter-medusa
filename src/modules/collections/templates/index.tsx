@@ -22,7 +22,7 @@ const CollectionTemplate: React.FC<CollectionTemplateProps> = ({
   return (
     <div className="relative">
       <FilterHeader count={count} header={collection.title} />
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:px-8 lg:py-8">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-x-2 lg:gap-x-4 px-8 py-6">
         {inititalProducts.map((p) => (
           <ProductPreview key={p.id} product={p} region={cart?.region} />
         ))}

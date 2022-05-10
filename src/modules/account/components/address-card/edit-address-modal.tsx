@@ -2,9 +2,11 @@ import { medusaClient } from "@lib/config"
 import { useAccount } from "@lib/context/account-context"
 import useToggleState from "@lib/hooks/use-toggle-state"
 import { Address } from "@medusajs/medusa"
+import CountrySelect from "@modules/checkout/components/country-select"
+import Button from "@modules/common/components/button"
 import Input from "@modules/common/components/input"
 import Modal from "@modules/common/components/modal"
-import Select, { SelectOption } from "@modules/common/components/select"
+import { SelectOption } from "@modules/common/components/select"
 import Spinner from "@modules/common/icons/spinner"
 import { useRegions } from "medusa-react"
 import React, { useMemo, useState } from "react"
@@ -58,7 +60,7 @@ const EditAddress: React.FC<EditAddressProps> = ({ address }) => {
   const countyOptions = useMemo(() => {
     const options = regions?.reduce((acc, region) => {
       for (const country of region.countries) {
-        acc.push({ label: country.name, value: country.iso_2 })
+        acc.push({ label: country.display_name, value: country.iso_2 })
       }
       return acc
     }, [] as SelectOption[])
@@ -141,24 +143,7 @@ const EditAddress: React.FC<EditAddressProps> = ({ address }) => {
       <Modal isOpen={state} close={close}>
         <Modal.Title>Edit address</Modal.Title>
         <Modal.Body>
-          <div className="grid grid-cols-2 gap-5">
-            <div className="col-span-full mb-4">
-              <Controller
-                name="country_code"
-                rules={{ required: "Country is required", minLength: 2 }}
-                control={control}
-                render={({ field: { value, onChange } }) => {
-                  return (
-                    <Select
-                      options={countyOptions || []}
-                      onChange={onChange}
-                      value={value}
-                      placeholder="Country"
-                    />
-                  )
-                }}
-              />
-            </div>
+          <div className="grid grid-cols-2 gap-x-4 gap-y-5">
             <Input
               label="First name"
               {...register("first_name", {
@@ -188,6 +173,14 @@ const EditAddress: React.FC<EditAddressProps> = ({ address }) => {
                 autoComplete="address-line1"
               />
             </div>
+            <div className="col-span-full">
+              <Input
+                label="Apartment, suite, etc."
+                {...register("address_2")}
+                errors={errors}
+                autoComplete="address-line2"
+              />
+            </div>
             <Input
               label="Postal code"
               {...register("postal_code", {
@@ -206,14 +199,27 @@ const EditAddress: React.FC<EditAddressProps> = ({ address }) => {
               required
               autoComplete="city"
             />
-            <div className="col-span-full">
-              <Input
-                label="Province"
-                {...register("province")}
-                errors={errors}
-                autoComplete="address-level1"
-              />
-            </div>
+            <Input
+              label="Province"
+              {...register("province")}
+              errors={errors}
+              autoComplete="address-level1"
+            />
+            <Controller
+              name="country_code"
+              rules={{ required: "Country is required", minLength: 2 }}
+              control={control}
+              render={({ field: { value, onChange } }) => {
+                return (
+                  <CountrySelect
+                    onChange={onChange}
+                    value={value}
+                    errors={errors}
+                    required
+                  />
+                )
+              }}
+            />
             <div className="col-span-full">
               <Input label="Phone" {...register("phone")} errors={errors} />
             </div>
@@ -223,20 +229,16 @@ const EditAddress: React.FC<EditAddressProps> = ({ address }) => {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <button
-            className="bg-gray-200 text-gray-900 py-2 px-4 uppercase text-base-semi"
+          <Button
+            className="!bg-gray-200 !text-gray-900 !border-gray-200 min-h-0"
             onClick={close}
           >
             Cancel
-          </button>
-          <button
-            className="bg-gray-900 flex items-center gap-x-2 text-white py-2 px-4 uppercase text-base-semi disabled:bg-gray-400"
-            onClick={submit}
-            disabled={submitting}
-          >
+          </Button>
+          <Button className="min-h-0" onClick={submit} disabled={submitting}>
             Save
             {submitting && <Spinner />}
-          </button>
+          </Button>
         </Modal.Footer>
       </Modal>
     </>

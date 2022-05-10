@@ -10,7 +10,7 @@ type LoginDetailsProps = {
 
 const LoginDetails: React.FC<LoginDetailsProps> = ({ customer }) => {
   return (
-    <Detail title="Login details">
+    <Detail title="Login">
       <div className="flex flex-col gap-y-4">
         <Detail.SubDetail title="Email">
           <span>{customer.email}</span>

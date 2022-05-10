@@ -13,8 +13,8 @@ const Detail: React.FC<DetailProps> & {
 } = ({ title, children }) => {
   return (
     <div>
-      <h2 className="text-xl-semi uppercase mb-2">{title}</h2>
-      <div className="flex flex-col gap-y-4">{children}</div>
+      <h2 className="text-large-semi mb-2">{title}</h2>
+      <div className="flex flex-col gap-y-4 text-small-regular">{children}</div>
     </div>
   )
 }
@@ -22,8 +22,8 @@ const Detail: React.FC<DetailProps> & {
 const SubDetail: React.FC<SubDetailProps> = ({ title, children }) => {
   return (
     <div className="flex flex-col">
-      {title && <span className="text-large-semi">{title}</span>}
-      <div>{children}</div>
+      {title && <span className="text-base-semi">{title}</span>}
+      <div className="text-small-regular">{children}</div>
     </div>
   )
 }

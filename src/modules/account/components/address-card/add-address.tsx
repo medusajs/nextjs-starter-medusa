@@ -1,13 +1,13 @@
 import { medusaClient } from "@lib/config"
 import { useAccount } from "@lib/context/account-context"
 import useToggleState from "@lib/hooks/use-toggle-state"
+import CountrySelect from "@modules/checkout/components/country-select"
+import Button from "@modules/common/components/button"
 import Input from "@modules/common/components/input"
 import Modal from "@modules/common/components/modal"
-import Select, { SelectOption } from "@modules/common/components/select"
 import Plus from "@modules/common/icons/plus"
 import Spinner from "@modules/common/icons/spinner"
-import { useRegions } from "medusa-react"
-import React, { useMemo, useState } from "react"
+import React, { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 
 type FormValues = {
@@ -34,20 +34,13 @@ const AddAddress: React.FC = () => {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormValues>()
 
-  const { regions } = useRegions()
-
-  const countyOptions = useMemo(() => {
-    const options = regions?.reduce((acc, region) => {
-      for (const country of region.countries) {
-        acc.push({ label: country.name, value: country.iso_2 })
-      }
-      return acc
-    }, [] as SelectOption[])
-
-    return options
-  }, [regions])
+  const handleClose = () => {
+    reset()
+    close()
+  }
 
   const submit = handleSubmit(async (data: FormValues) => {
     setSubmitting(true)
@@ -72,7 +65,7 @@ const AddAddress: React.FC = () => {
       .then(() => {
         setSubmitting(false)
         refetchCustomer()
-        close()
+        handleClose()
       })
       .catch(() => {
         setSubmitting(false)
@@ -90,29 +83,10 @@ const AddAddress: React.FC = () => {
         <Plus size={24} />
       </button>
 
-      <Modal isOpen={state} close={close}>
+      <Modal isOpen={state} close={handleClose}>
         <Modal.Title>Add address</Modal.Title>
         <Modal.Body>
-          <div className="grid grid-cols-2 gap-5">
-            <div className="col-span-full mb-4">
-              <Controller
-                name="country_code"
-                rules={{ required: "Country is required", minLength: 2 }}
-                control={control}
-                render={({ field: { value, onChange } }) => {
-                  return (
-                    <Select
-                      options={countyOptions || []}
-                      onChange={onChange}
-                      value={value}
-                      placeholder="Country"
-                      errors={errors}
-                      name="country_code"
-                    />
-                  )
-                }}
-              />
-            </div>
+          <div className="grid grid-cols-2 gap-x-4 gap-y-5">
             <Input
               label="First name"
               {...register("first_name", {
@@ -120,6 +94,7 @@ const AddAddress: React.FC = () => {
               })}
               required
               errors={errors}
+              autoComplete="given-name"
             />
             <Input
               label="Last name"
@@ -128,10 +103,8 @@ const AddAddress: React.FC = () => {
               })}
               required
               errors={errors}
+              autoComplete="family-name"
             />
-            <div className="col-span-full">
-              <Input label="Company" {...register("company")} errors={errors} />
-            </div>
             <div className="col-span-full">
               <Input
                 label="Address"
@@ -140,6 +113,15 @@ const AddAddress: React.FC = () => {
                 })}
                 required
                 errors={errors}
+                autoComplete="address-line1"
+              />
+            </div>
+            <div className="col-span-full">
+              <Input
+                label="Apartment, suite, etc."
+                {...register("address_2")}
+                errors={errors}
+                autoComplete="address-line2"
               />
             </div>
             <Input
@@ -149,6 +131,7 @@ const AddAddress: React.FC = () => {
               })}
               required
               errors={errors}
+              autoComplete="postal-code"
             />
             <Input
               label="City"
@@ -157,14 +140,29 @@ const AddAddress: React.FC = () => {
               })}
               errors={errors}
               required
+              autoComplete="city"
             />
-            <div className="col-span-full">
-              <Input
-                label="Province"
-                {...register("province")}
-                errors={errors}
-              />
-            </div>
+            <Input
+              label="Province"
+              {...register("province")}
+              errors={errors}
+              autoComplete="address-level1"
+            />
+            <Controller
+              name="country_code"
+              rules={{ required: "Country is required", minLength: 2 }}
+              control={control}
+              render={({ field: { value, onChange } }) => {
+                return (
+                  <CountrySelect
+                    onChange={onChange}
+                    value={value}
+                    errors={errors}
+                    required
+                  />
+                )
+              }}
+            />
             <div className="col-span-full">
               <Input label="Phone" {...register("phone")} errors={errors} />
             </div>
@@ -174,20 +172,16 @@ const AddAddress: React.FC = () => {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <button
-            className="bg-gray-200 text-gray-900 py-2 px-4 uppercase text-base-semi"
-            onClick={close}
+          <Button
+            className="!bg-gray-200 !text-gray-900 !border-gray-200 min-h-0"
+            onClick={handleClose}
           >
             Cancel
-          </button>
-          <button
-            className="bg-gray-900 flex items-center gap-x-2 text-white py-2 px-4 uppercase text-base-semi disabled:bg-gray-400"
-            onClick={submit}
-            disabled={submitting}
-          >
+          </Button>
+          <Button className="min-h-0" onClick={submit} disabled={submitting}>
             Save
             {submitting && <Spinner />}
-          </button>
+          </Button>
         </Modal.Footer>
       </Modal>
     </>

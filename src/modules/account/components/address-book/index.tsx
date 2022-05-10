@@ -10,8 +10,8 @@ type AddressBookProps = {
 const AddressBook: React.FC<AddressBookProps> = ({ customer }) => {
   return (
     <div className="w-full p-10 bg-white">
-      <h1 className="uppercase text-2xl-semi">Address book</h1>
-      <span className="text-base-regular text-gray-700">
+      <h1 className="text-xl-semi">Address Book</h1>
+      <span className="text-small-regular text-gray-700">
         Save your addresses to speed up your checkout experience.
       </span>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 flex-1 mt-4">

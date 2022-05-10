@@ -1,6 +1,6 @@
 import { useProductActions } from "@lib/context/product-context"
+import Button from "@modules/common/components/button"
 import QuantitySelector from "@modules/common/components/quantity-selector"
-import Plus from "@modules/common/icons/plus"
 import OptionSelect from "@modules/products/components/option-select"
 import React from "react"
 import { Product } from "types/medusa"
@@ -26,13 +26,15 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
   return (
     <div>
       <BreadCrumbs collection={product.collection} className="mb-3" />
-      <h3 className="text-2xl-semi">{product.title}</h3>
-      <span className="text-base-regular text-gray-700">{formattedPrice}</span>
-      <p className="text-base-regular mt-8">{product.description}</p>
-      <div className="mt-8">
+      <h3 className="text-xl-regular">{product.title}</h3>
+      <span className="text-large-regular">{formattedPrice}</span>
+      <p className="text-small-regular text-gray-700 mt-4">
+        {product.description}
+      </p>
+      <div className="my-8 flex flex-col gap-y-6">
         {product.options.map((option) => {
           return (
-            <div key={option.id} className="mb-2 last:mb-4">
+            <div key={option.id}>
               <OptionSelect
                 option={option}
                 current={options[option.id]}
@@ -44,18 +46,7 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
         })}
       </div>
 
-      <QuantitySelector
-        size="large"
-        quantity={quantity}
-        increase={increaseQuantity}
-        decrease={decreaseQuantity}
-      />
-
-      <button
-        onClick={addToCart}
-        className="bg-gray-900 text-white py-3 flex items-center justify-center text-small-regular disabled:opacity-50 w-full uppercase"
-        disabled={disabled}
-      >
+      <Button onClick={addToCart} disabled={disabled}>
         {!inStock ? (
           "Out of stock"
         ) : disabled ? (
@@ -63,10 +54,16 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
         ) : (
           <div className="flex items-center gap-x-2">
             <span>Add to cart</span>
-            <Plus size={16} />
           </div>
         )}
-      </button>
+      </Button>
+
+      <QuantitySelector
+        size="large"
+        quantity={quantity}
+        increase={increaseQuantity}
+        decrease={decreaseQuantity}
+      />
     </div>
   )
 }

@@ -9,20 +9,8 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
 import { SiteProps } from "types/global"
-import { Region } from "types/medusa"
 
-type NavProps = {
-  regions?: Region[]
-  setRegion: (regionId: string) => void
-  currentRegion?: string
-} & SiteProps
-
-const Nav: React.FC<NavProps> = ({
-  site,
-  regions = [],
-  setRegion,
-  currentRegion,
-}) => {
+const Nav: React.FC<SiteProps> = ({ site }) => {
   const showNav = useScrollListenser()
   const router = useRouter()
   const [fixate, setFixate] = useState(false)
@@ -45,7 +33,7 @@ const Nav: React.FC<NavProps> = ({
       )}
     >
       <header className="relative h-16">
-        <nav className="text-gray-900 flex items-center justify-between w-full h-full px-8 mx-auto border-b border-gray-200 bg-white">
+        <nav className="text-gray-900 flex items-center justify-between w-full h-full px-8 mx-auto bg-white">
           <Hamburger open={open} setOpen={() => setOpen(!open)} />
           <div className="flex items-center h-full">
             <Link href="/">

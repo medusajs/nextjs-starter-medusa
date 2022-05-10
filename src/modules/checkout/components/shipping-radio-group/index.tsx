@@ -1,4 +1,5 @@
 import { RadioGroup } from "@headlessui/react"
+import { useCheckout } from "@lib/context/checkout-context"
 import Radio from "@modules/common/components/radio"
 import Spinner from "@modules/common/icons/spinner"
 import clsx from "clsx"
@@ -21,10 +22,17 @@ const ShippingRadioGroup: React.FC<ShippingRadioGroupProps> = ({
   value,
   onChange,
 }) => {
+  const { addShippingOption } = useCheckout()
+
+  const handleChange = (value: string) => {
+    addShippingOption(value)
+    onChange(value)
+  }
+
   return (
     <RadioGroup
       value={value}
-      onChange={onChange}
+      onChange={handleChange}
       className="border border-gray-200"
     >
       {options && options.length ? (

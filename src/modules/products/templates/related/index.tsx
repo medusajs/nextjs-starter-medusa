@@ -10,7 +10,7 @@ type RelatedProps = {
 const Related: React.FC<RelatedProps> = ({ relatedProducts }) => {
   const { cart } = useCart()
   return (
-    <div className="px-4 lg:px-6">
+    <div>
       <RelatedProducts products={relatedProducts} region={cart?.region} />
     </div>
   )

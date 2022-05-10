@@ -64,7 +64,7 @@ const PaymentElement = ({
     case "stripe":
       return (
         <div className="pt-8 pr-7">
-          <PaymentStripe paymentSession={paymentSession} />
+          <PaymentStripe />
         </div>
       )
     case "manual":

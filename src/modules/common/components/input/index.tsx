@@ -41,7 +41,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             className={clsx(
               "pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 border-gray-200",
               {
-                "border-red-500 focus:border-red-500": errors?.[name],
+                "border-rose-500 focus:border-rose-500": errors?.[name],
               }
             )}
             {...props}
@@ -71,7 +71,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             name={name}
             render={({ message }) => {
               return (
-                <div className="pt-2 text-gray-500 text-small-regular">
+                <div className="pt-2 text-rose-500 text-small-regular">
                   <span>{message}</span>
                 </div>
               )

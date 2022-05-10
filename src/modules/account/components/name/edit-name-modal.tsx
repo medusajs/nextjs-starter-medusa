@@ -2,6 +2,7 @@ import { useAccount } from "@lib/context/account-context"
 import useToggleState from "@lib/hooks/use-toggle-state"
 import { Customer } from "@medusajs/medusa"
 import EditButton from "@modules/account/components/edit-button"
+import Button from "@modules/common/components/button"
 import Input from "@modules/common/components/input"
 import Modal from "@modules/common/components/modal"
 import Spinner from "@modules/common/icons/spinner"
@@ -84,20 +85,16 @@ const EditNameModal: React.FC<EditNameModalProps> = ({ customer }) => {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <button
-            className="bg-gray-200 text-gray-900 py-2 px-4 uppercase text-base-semi"
+          <Button
+            className="!bg-gray-200 !text-gray-900 !border-gray-200 min-h-0"
             onClick={close}
           >
             Cancel
-          </button>
-          <button
-            className="bg-gray-900 flex items-center gap-x-2 text-white py-2 px-4 uppercase text-base-semi disabled:bg-gray-400"
-            onClick={submit}
-            disabled={submitting}
-          >
+          </Button>
+          <Button className="min-h-0" onClick={submit} disabled={submitting}>
             Save
             {submitting && <Spinner />}
-          </button>
+          </Button>
         </Modal.Footer>
       </Modal>
     </div>

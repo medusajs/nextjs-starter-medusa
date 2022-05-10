@@ -17,6 +17,7 @@ type SelectProps = {
   dropdownPosition?: "top" | "bottom"
   errors?: Record<string, unknown>
   name?: string
+  required?: boolean
 } & Pick<React.ButtonHTMLAttributes<HTMLButtonElement>, "className">
 
 const Select: React.FC<SelectProps> = ({
@@ -27,6 +28,7 @@ const Select: React.FC<SelectProps> = ({
   dropdownPosition = "bottom",
   errors,
   name,
+  required,
   className,
 }) => {
   const [current, setCurrent] = useState<string | undefined>(undefined)
@@ -55,6 +57,9 @@ const Select: React.FC<SelectProps> = ({
                 })}
               >
                 {current || placeholder}
+                {!current && required && (
+                  <span className="text-rose-500">*</span>
+                )}
               </span>
               <ChevronDown
                 size={16}

@@ -26,9 +26,13 @@ const NavLink = ({
   return (
     <Link href={href}>
       <a
-        className={clsx("h-full px-2 py-4 text-base-regular text-gray-700 hover:text-gray-900 transition-colors uppercase", {
-          "border-b-2 border-gray-900 text-gray-900 text-base-semi": asPath === href,
-        })}
+        className={clsx(
+          "h-full px-2 py-4 text-small-regular text-gray-700 hover:text-gray-900 transition-colors uppercase",
+          {
+            "border-b-2 border-gray-900 text-gray-900 text-small-semi":
+              asPath === href,
+          }
+        )}
       >
         {text}
       </a>

@@ -2,7 +2,6 @@ function withStoreConfig(nextConfig = {}) {
   const store = nextConfig.store || {}
 
   const features = store.features || {}
-  const options = store.options || {}
 
   nextConfig.env = nextConfig.env || {}
 

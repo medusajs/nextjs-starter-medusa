@@ -5,9 +5,16 @@ import { useEffect, useState } from "react"
 type CountrySelectProps = {
   onChange: (value: unknown) => void
   value: unknown
+  errors: Record<string, unknown>
+  required?: boolean
 }
 
-const CountrySelect: React.FC<CountrySelectProps> = ({ onChange, value }) => {
+const CountrySelect: React.FC<CountrySelectProps> = ({
+  onChange,
+  value,
+  errors,
+  required,
+}) => {
   const [options, setOptions] = useState<SelectOption[]>([])
   const { cart } = useCart()
   const { region } = useRegion(cart?.region_id!, {
@@ -31,6 +38,9 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ onChange, value }) => {
       onChange={onChange}
       value={value}
       placeholder="Country"
+      className="border-x-0 border-t-0 px-0"
+      errors={errors}
+      required={required}
     />
   )
 }

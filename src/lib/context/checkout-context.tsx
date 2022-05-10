@@ -1,12 +1,17 @@
 import { medusaClient } from "@lib/config"
 import { Address, Cart, PaymentSession } from "@medusajs/medusa"
-import { formatAmount, useCart, useCartShippingOptions, useSetPaymentSession } from "medusa-react"
+import {
+  formatAmount,
+  useCart,
+  useCartShippingOptions,
+  useSetPaymentSession,
+} from "medusa-react"
 import React, {
   createContext,
   useContext,
   useEffect,
   useMemo,
-  useState
+  useState,
 } from "react"
 import { FormProvider, useForm, useFormContext } from "react-hook-form"
 
@@ -14,6 +19,7 @@ interface CheckoutContext {
   cart?: Omit<Cart, "refundable_amount" | "refunded_total">
   billingAddressEnabled: boolean
   shippingMethods: { label: string; value: string; price: string }[]
+  addShippingOption: (soId: string) => void
   initializeCheckout: (email: string) => Promise<void>
   setPaymentSession: (providerId: string) => Promise<void>
 }
@@ -81,12 +87,7 @@ const mapCartToFormValues = (
 const IDEMPOTENCY_KEY = "create_payment_session_key"
 
 export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
-  const {
-    cart,
-    setCart,
-    addShippingMethod,
-    updateCart,
-  } = useCart()
+  const { cart, setCart, addShippingMethod, updateCart } = useCart()
   const [billingAddressEnabled, setBillingAddressEnabled] = useState(false)
   const selectedPaymentMethod = useState<PaymentSession | undefined>(undefined)
   const [existingAccount, setExistingAccount] = useState(false)
@@ -134,13 +135,16 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
 
   const setPaymentSession = async (providerId: string) => {
     if (cart) {
-      setPaymentSessionMutation({
-        provider_id: providerId,
-      }, {
-        onSuccess: ({ cart }) => {
-          setCart(cart)
+      setPaymentSessionMutation(
+        {
+          provider_id: providerId,
         },
-      })
+        {
+          onSuccess: ({ cart }) => {
+            setCart(cart)
+          },
+        }
+      )
     }
   }
 
@@ -197,6 +201,17 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     return []
   }, [shipping_options, cart])
 
+  const addShippingOption = (soId: string) => {
+    if (cart) {
+      addShippingMethod.mutate(
+        { option_id: soId },
+        {
+          onSuccess: ({ cart }) => setCart(cart),
+        }
+      )
+    }
+  }
+
   useEffect(() => {
     const initPayment = async () => {
       if (cart?.id && !cart.payment_sessions?.length && cart?.items?.length) {
@@ -221,6 +236,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
           cart,
           billingAddressEnabled,
           shippingMethods,
+          addShippingOption,
           initializeCheckout,
           setPaymentSession,
         }}

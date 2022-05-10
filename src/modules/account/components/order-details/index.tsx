@@ -1,5 +1,5 @@
 import { Order } from "@medusajs/medusa"
-import React from "react"
+import React, { useMemo } from "react"
 
 type OrderDetailsProps = {
   order: Order
@@ -11,7 +11,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
       <h1 className="text-2xl-semi uppercase">Your order</h1>
       <div className="mt-2 flex flex-col gap-y-8">
         <Details order={order} />
-        <Details order={order} />
+        <Address order={order} />
         <Details order={order} />
       </div>
     </div>
@@ -35,9 +35,7 @@ const Details = ({ order }: OrderDetailsProps) => {
           </span>
         </div>
         <div>
-          <span className="text-base-semi">Payment</span>
-          <span>ID #{order.display_id}</span>
-          <span>{new Date(order.created_at).toDateString()}</span>
+          <Payment order={order} />
         </div>
         <div>
           <span className="text-base-semi">Shipping</span>
@@ -45,6 +43,99 @@ const Details = ({ order }: OrderDetailsProps) => {
           <span>{new Date(order.created_at).toDateString()}</span>
         </div>
       </div>
+    </div>
+  )
+}
+
+const Payment = ({ order }: OrderDetailsProps) => {
+  const paymentType = useMemo(() => {
+    const provider = order.payments?.[0]?.provider_id
+
+    switch (provider) {
+      case "stripe":
+        return "Credit Card"
+      case "paypal":
+        return "PayPal"
+      case "adyen":
+        return "Credit Card"
+      case "klarna":
+        return "Klarna"
+      case "manual":
+        return "Medusa Test Payment"
+      default:
+        return "Unknown"
+    }
+  }, [order])
+
+  return (
+    <div className="flex flex-col gap-x-2">
+      <span className="text-base-semi">Payment</span>
+      <span className="text-small-regular">{paymentType}</span>
+    </div>
+  )
+}
+
+const Shipment = ({ order }: OrderDetailsProps) => {
+  const shipmentType = useMemo(() => {
+    const provider = order.fulfillments?.[0]?.provider?.id
+
+    switch (provider) {
+      case "stripe":
+        return "Credit Card"
+      case "paypal":
+        return "PayPal"
+      case "adyen":
+        return "Credit Card"
+      case "klarna":
+        return "Klarna"
+      case "manual":
+        return "Medusa Test Payment"
+      default:
+        return "Unknown"
+    }
+  }, [order])
+
+  return (
+    <div className="flex flex-col gap-x-2">
+      <span className="text-base-semi">Payment</span>
+      <span className="text-small-regular">{shipmentType}</span>
+    </div>
+  )
+}
+
+const Address = ({ order }: OrderDetailsProps) => {
+  const { shipping_address } = order
+  return (
+    <div>
+      <h3 className="text-large-semi uppercase">Address</h3>
+      <div className="text-gray-700 text-small-regular flex flex-col mt-2">
+        <span>
+          {shipping_address.first_name} {shipping_address.last_name}
+        </span>
+        <span>
+          {shipping_address.address_1},
+          {shipping_address.address_2 && (
+            <span> {shipping_address.address_2}</span>
+          )}
+        </span>
+        <span>
+          {shipping_address.postal_code}, {shipping_address.city}
+        </span>
+        <span>
+          {shipping_address.province && (
+            <span>{shipping_address.province}, </span>
+          )}
+          {shipping_address.country_code?.toUpperCase()}
+        </span>
+      </div>
+    </div>
+  )
+}
+
+const OrderTotal = ({ order }: OrderDetailsProps) => {
+  return (
+    <div>
+      <div></div>
     </div>
   )
 }

@@ -22,20 +22,20 @@ const AccountTemplate = () => {
       <div className="bg-white flex flex-col w-full max-w-xs">
         <button
           onClick={() => setView(VIEW.MY_INFORMATION)}
-          className="flex justify-between p-5 hover:bg-gray-900 hover:text-white transition-colors duration-300 text-base-semi uppercase"
+          className="flex justify-between p-5 hover:bg-gray-900 hover:text-white transition-colors duration-300 text-small-regular"
         >
-          <span>Personal information</span>
+          <span>Personal Information</span>
           <ArrowRight />
         </button>
         <button
           onClick={() => setView(VIEW.ADDRESS_BOOK)}
-          className="flex justify-between p-5 hover:bg-gray-900 hover:text-white transition-colors duration-300 text-base-semi uppercase"
+          className="flex justify-between p-5 hover:bg-gray-900 hover:text-white transition-colors duration-300 text-small-regular"
         >
-          <span>Address book</span>
+          <span>Address Book</span>
           <ArrowRight />
         </button>
-        <button className="flex justify-between p-5 hover:bg-gray-900 hover:text-white transition-colors duration-300 text-base-semi uppercase">
-          <span>Log out</span>
+        <button className="flex justify-between p-5 hover:bg-gray-900 hover:text-white transition-colors duration-300 text-small-regular">
+          <span>Logout</span>
           <ArrowRight />
         </button>
       </div>

@@ -26,10 +26,12 @@ const ProductPreview: React.FC<ProductPreviewProps> = ({ product, region }) => {
         <Thumbnail
           images={product.images}
           thumbnail={product.thumbnail}
-          size="medium"
+          size="full"
         />
-        <div>{product.title}</div>
-        <div>{price}</div>
+        <div className="py-4 pr-2 text-small-regular">
+          <div>{product.title}</div>
+          <div className="text-gray-700">{price}</div>
+        </div>
       </a>
     </Link>
   )

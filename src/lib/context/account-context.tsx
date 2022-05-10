@@ -23,18 +23,13 @@ interface AccountProviderProps {
 }
 
 export const AccountProvider = ({ children }: AccountProviderProps) => {
-  const {
-    customer,
-    isLoading: retrievingCustomer,
-    refetch,
-  } = useMeCustomer({
-    queryHash: "me_query",
-  })
+  const { customer, isLoading: retrievingCustomer, refetch } = useMeCustomer()
   const loginView = useState<LOGIN_VIEW>(LOGIN_VIEW.SIGN_IN)
 
   const router = useRouter()
 
   const checkSession = useCallback(() => {
+    console.log("Checking auth", customer, retrievingCustomer)
     if (!customer && !retrievingCustomer) {
       router.push("/account/login")
     }
