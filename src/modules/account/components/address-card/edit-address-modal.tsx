@@ -2,12 +2,13 @@ import { medusaClient } from "@lib/config"
 import { useAccount } from "@lib/context/account-context"
 import useToggleState from "@lib/hooks/use-toggle-state"
 import { Address } from "@medusajs/medusa"
+import CountrySelect from "@modules/checkout/components/country-select"
+import Button from "@modules/common/components/button"
 import Input from "@modules/common/components/input"
 import Modal from "@modules/common/components/modal"
-import Select, { SelectOption } from "@modules/common/components/select"
 import Spinner from "@modules/common/icons/spinner"
-import { useRegions } from "medusa-react"
-import React, { useMemo, useState } from "react"
+import clsx from "clsx"
+import React, { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 
 type FormValues = {
@@ -25,9 +26,13 @@ type FormValues = {
 
 type EditAddressProps = {
   address: Address
+  isActive?: boolean
 }
 
-const EditAddress: React.FC<EditAddressProps> = ({ address }) => {
+const EditAddress: React.FC<EditAddressProps> = ({
+  address,
+  isActive = false,
+}) => {
   const { state, open, close } = useToggleState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | undefined>(undefined)
@@ -53,19 +58,6 @@ const EditAddress: React.FC<EditAddressProps> = ({ address }) => {
     },
   })
 
-  const { regions } = useRegions()
-
-  const countyOptions = useMemo(() => {
-    const options = regions?.reduce((acc, region) => {
-      for (const country of region.countries) {
-        acc.push({ label: country.name, value: country.iso_2 })
-      }
-      return acc
-    }, [] as SelectOption[])
-
-    return options
-  }, [regions])
-
   const submit = handleSubmit(async (data: FormValues) => {
     setSubmitting(true)
     setError(undefined)
@@ -73,14 +65,14 @@ const EditAddress: React.FC<EditAddressProps> = ({ address }) => {
     const payload = {
       first_name: data.first_name,
       last_name: data.last_name,
-      company: data.company || "NULL",
+      company: data.company || "Personal",
       address_1: data.address_1,
       address_2: data.address_2 || "",
       city: data.city,
       country_code: data.country_code,
       province: data.province || "",
       postal_code: data.postal_code,
-      phone: data.phone || "NULL",
+      phone: data.phone || "None",
       metadata: {},
     }
 
@@ -105,14 +97,28 @@ const EditAddress: React.FC<EditAddressProps> = ({ address }) => {
 
   return (
     <>
-      <div className="border border-gray-200 p-5 min-h-[220px] h-full w-full flex flex-col justify-between">
+      <div
+        className={clsx(
+          "border border-gray-200 p-5 min-h-[220px] h-full w-full flex flex-col justify-between transition-colors",
+          {
+            "border-gray-900": isActive,
+          }
+        )}
+      >
         <div className="flex flex-col">
           <span className="text-left text-base-semi">
             {address.first_name} {address.last_name}
           </span>
+          {address.company && (
+            <span className="text-small-regular text-gray-700">
+              {address.company}
+            </span>
+          )}
           <div className="flex flex-col text-left text-base-regular mt-2">
-            <span>{address.address_1}</span>
-            {address.address_2 && <span>{address.address_2}</span>}
+            <span>
+              {address.address_1}
+              {address.address_2 && <span>, {address.address_2}</span>}
+            </span>
             <span>
               {address.postal_code}, {address.city}
             </span>
@@ -141,24 +147,7 @@ const EditAddress: React.FC<EditAddressProps> = ({ address }) => {
       <Modal isOpen={state} close={close}>
         <Modal.Title>Edit address</Modal.Title>
         <Modal.Body>
-          <div className="grid grid-cols-2 gap-5">
-            <div className="col-span-full mb-4">
-              <Controller
-                name="country_code"
-                rules={{ required: "Country is required", minLength: 2 }}
-                control={control}
-                render={({ field: { value, onChange } }) => {
-                  return (
-                    <Select
-                      options={countyOptions || []}
-                      onChange={onChange}
-                      value={value}
-                      placeholder="Country"
-                    />
-                  )
-                }}
-              />
-            </div>
+          <div className="grid grid-cols-2 gap-x-4 gap-y-5">
             <Input
               label="First name"
               {...register("first_name", {
@@ -178,6 +167,9 @@ const EditAddress: React.FC<EditAddressProps> = ({ address }) => {
               autoComplete="family-name"
             />
             <div className="col-span-full">
+              <Input label="Company" {...register("company")} errors={errors} />
+            </div>
+            <div className="col-span-full">
               <Input
                 label="Address"
                 {...register("address_1", {
@@ -186,6 +178,14 @@ const EditAddress: React.FC<EditAddressProps> = ({ address }) => {
                 required
                 errors={errors}
                 autoComplete="address-line1"
+              />
+            </div>
+            <div className="col-span-full">
+              <Input
+                label="Apartment, suite, etc."
+                {...register("address_2")}
+                errors={errors}
+                autoComplete="address-line2"
               />
             </div>
             <Input
@@ -206,14 +206,29 @@ const EditAddress: React.FC<EditAddressProps> = ({ address }) => {
               required
               autoComplete="city"
             />
-            <div className="col-span-full">
-              <Input
-                label="Province"
-                {...register("province")}
-                errors={errors}
-                autoComplete="address-level1"
-              />
-            </div>
+            <Input
+              label="Province"
+              {...register("province")}
+              errors={errors}
+              autoComplete="address-level1"
+            />
+            <Controller
+              name="country_code"
+              rules={{ required: "Country is required", minLength: 2 }}
+              control={control}
+              render={({ field: { value, onChange } }) => {
+                return (
+                  <div className="flex flex-col justify-start">
+                    <CountrySelect
+                      onChange={onChange}
+                      value={value}
+                      errors={errors}
+                      required
+                    />
+                  </div>
+                )
+              }}
+            />
             <div className="col-span-full">
               <Input label="Phone" {...register("phone")} errors={errors} />
             </div>
@@ -223,20 +238,16 @@ const EditAddress: React.FC<EditAddressProps> = ({ address }) => {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <button
-            className="bg-gray-200 text-gray-900 py-2 px-4 uppercase text-base-semi"
+          <Button
+            className="!bg-gray-200 !text-gray-900 !border-gray-200 min-h-0"
             onClick={close}
           >
             Cancel
-          </button>
-          <button
-            className="bg-gray-900 flex items-center gap-x-2 text-white py-2 px-4 uppercase text-base-semi disabled:bg-gray-400"
-            onClick={submit}
-            disabled={submitting}
-          >
+          </Button>
+          <Button className="min-h-0" onClick={submit} disabled={submitting}>
             Save
             {submitting && <Spinner />}
-          </button>
+          </Button>
         </Modal.Footer>
       </Modal>
     </>

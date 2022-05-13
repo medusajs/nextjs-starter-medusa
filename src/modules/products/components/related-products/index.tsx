@@ -77,7 +77,7 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
         </div>
       </div>
       <div
-        className="relative flex gap-x-5 lg:gap-x-8 overflow-hidden scroll-smooth snap-x snap-mandatory touch-pan-x z-0"
+        className="relative w-full flex gap-x-5 lg:gap-x-8 overflow-hidden scroll-smooth snap-x snap-mandatory touch-pan-x z-0"
         ref={slider}
       >
         {products.map((p, i) => {
@@ -96,17 +96,19 @@ const SlideItem = ({
   region?: Region
 }) => {
   return (
-    <Link href={`/products/${product.handle}`} passHref>
-      <div className="snap-start cursor-pointer">
-        <Thumbnail {...product} size="large" />
-        <div className="mt-3 flex flex-col">
-          <span className="text-base-regular">{product.title}</span>
-          <span className="text-small-regular text-gray-700">
-            {region && findCheapestPrice(product.variants, region)}
-          </span>
+    <div className="w-1/4">
+      <Link href={`/products/${product.handle}`} passHref>
+        <div className="snap-start cursor-pointer">
+          <Thumbnail {...product} size="full" />
+          <div className="mt-3 flex flex-col">
+            <span className="text-base-regular">{product.title}</span>
+            <span className="text-small-regular text-gray-700">
+              {region && findCheapestPrice(product.variants, region)}
+            </span>
+          </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   )
 }
 

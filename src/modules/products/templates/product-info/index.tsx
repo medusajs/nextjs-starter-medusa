@@ -9,7 +9,7 @@ type ProductInfoProps = {
 
 const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {
   return (
-    <div className="lg:py-12 md:pl-10 lg:pl-16 p-4" id="product-info">
+    <div className="lg:pr-8" id="product-info">
       <div className="flex flex-col gap-y-12 lg:max-w-[440px] ">
         <div>
           <ProductActions product={product} />

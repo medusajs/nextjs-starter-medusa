@@ -3,7 +3,8 @@ import { handleError } from "@lib/util/handle-error"
 import {
   useCart,
   useCreateLineItem,
-  useDeleteLineItem, useUpdateLineItem
+  useDeleteLineItem,
+  useUpdateLineItem,
 } from "medusa-react"
 import React, { useEffect } from "react"
 
@@ -22,6 +23,7 @@ interface StoreContext {
   addItem: (item: VariantInfoProps) => void
   updateItem: (item: LineInfoProps) => void
   deleteItem: (lineId: string) => void
+  resetCart: () => void
 }
 
 const StoreContext = React.createContext<StoreContext | null>(null)
@@ -60,8 +62,32 @@ export const StoreProvider = ({ children }: StoreProps) => {
     return null
   }
 
+  const deleteFromLocalStorage = () => {
+    if (!IS_SERVER) {
+      localStorage.removeItem(CART_KEY)
+    }
+  }
+
   const createNewCart = async () => {
     await createCart.mutateAsync(
+      {},
+      {
+        onSuccess: ({ cart }) => {
+          setCart(cart)
+          storeInLocalStorage(cart.id)
+        },
+        onError: (error) => {
+          if (process.env.NODE_ENV === "development") {
+            console.error(error)
+          }
+        },
+      }
+    )
+  }
+
+  const resetCart = () => {
+    deleteFromLocalStorage()
+    createCart.mutate(
       {},
       {
         onSuccess: ({ cart }) => {
@@ -82,14 +108,22 @@ export const StoreProvider = ({ children }: StoreProps) => {
       const cartId = getFromLocalStorage()
 
       if (cartId) {
-        medusaClient.carts
+        const cartRes = await medusaClient.carts
           .retrieve(cartId)
           .then(({ cart }) => {
-            setCart(cart)
+            return cart
           })
           .catch(async (_) => {
-            await createNewCart()
+            return null
           })
+
+        if (!cartRes || cartRes.completed_at) {
+          deleteFromLocalStorage()
+          await createNewCart()
+          return
+        }
+
+        setCart(cartRes)
       } else {
         await createNewCart()
       }
@@ -193,6 +227,7 @@ export const StoreProvider = ({ children }: StoreProps) => {
         addItem,
         deleteItem,
         updateItem,
+        resetCart,
       }}
     >
       {children}

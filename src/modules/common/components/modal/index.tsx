@@ -28,7 +28,7 @@ const Modal: React.FC<ModalProps> & {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-700 bg-opacity-75" />
+          <div className="fixed inset-0 bg-gray-700 bg-opacity-75 backdrop-blur-sm" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
@@ -67,10 +67,10 @@ const Title: React.FC = ({ children }) => {
 
   return (
     <Dialog.Title className="flex items-center justify-between">
-      <div className="text-xl-semi uppercase">{children}</div>
+      <div className="text-large-semi">{children}</div>
       <div>
         <button onClick={close}>
-          <X size={24} />
+          <X size={20} />
         </button>
       </div>
     </Dialog.Title>

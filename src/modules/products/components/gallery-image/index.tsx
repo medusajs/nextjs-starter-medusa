@@ -4,11 +4,20 @@ import React from "react"
 
 type GalleryImageProps = {
   image: MedusaImage
+  handleZoom: (id: string) => void
 } & React.HTMLAttributes<HTMLDivElement>
 
-const GalleryImage: React.FC<GalleryImageProps> = ({ image, ...rest }) => {
+const GalleryImage: React.FC<GalleryImageProps> = ({
+  image,
+  handleZoom,
+  ...rest
+}) => {
   return (
-    <div className="h-[calc(100vh-64px)] w-full relative" {...rest}>
+    <div
+      className="w-full aspect-[29/35] relative cursor-pointer pointer-events-none lg:pointer-events-auto"
+      {...rest}
+      onClick={() => handleZoom(image.url)}
+    >
       <Image
         src={image.url}
         alt={`Product image`}

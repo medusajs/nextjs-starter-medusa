@@ -26,7 +26,7 @@ const Large: React.FC<Omit<QuantitySelectorProps, "size">> = ({
   decrease,
 }) => {
   return (
-    <div className="flex items-center text-base-regular text-small-regular border border-gray-200 justify-between px-4 py-[10px] mt-4 mb-3">
+    <div className="flex items-center text-base-regular text-small-regular border border-gray-700 justify-between px-4 py-[10px] mt-4 mb-3">
       <button onClick={decrease}>
         <Minus size={16} />
       </button>
@@ -44,7 +44,7 @@ const Small: React.FC<Omit<QuantitySelectorProps, "size">> = ({
   decrease,
 }) => {
   return (
-    <div className="flex items-center text-base-regular border border-gray-200 justify-between px-2 py-1 max-w-[75px]">
+    <div className="flex items-center text-base-regular border border-gray-700 justify-between px-2 py-1 max-w-[75px]">
       <button onClick={decrease}>
         <Minus size={10} />
       </button>

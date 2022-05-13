@@ -25,7 +25,7 @@ const OrdersTemplate = () => {
   }
 
   return (
-    <div>
+    <div className="p-12">
       <div>You don&apos;t have any orders yet</div>
     </div>
   )

@@ -17,6 +17,8 @@ type SelectProps = {
   dropdownPosition?: "top" | "bottom"
   errors?: Record<string, unknown>
   name?: string
+  required?: boolean
+  disabled?: boolean
 } & Pick<React.ButtonHTMLAttributes<HTMLButtonElement>, "className">
 
 const Select: React.FC<SelectProps> = ({
@@ -27,6 +29,8 @@ const Select: React.FC<SelectProps> = ({
   dropdownPosition = "bottom",
   errors,
   name,
+  required,
+  disabled,
   className,
 }) => {
   const [current, setCurrent] = useState<string | undefined>(undefined)
@@ -39,11 +43,11 @@ const Select: React.FC<SelectProps> = ({
   }, [value, options])
 
   return (
-    <Listbox onChange={onChange} value={value}>
-      <div className="relative mt-1">
+    <Listbox onChange={onChange} value={value} disabled={disabled}>
+      <div className="relative">
         <Listbox.Button
           className={clsx(
-            "relative w-full flex justify-between items-center px-4 py-[10px] text-left bg-white cursor-default focus:outline-none border border-gray-200 focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-gray-300 focus-visible:ring-offset-2 focus-visible:border-gray-300 sm:text-sm",
+            "relative w-full flex justify-between items-center px-4 py-[10px] text-left bg-white cursor-default focus:outline-none border border-gray-200 focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-gray-300 focus-visible:ring-offset-2 focus-visible:border-gray-300 text-base-regular",
             className
           )}
         >
@@ -55,6 +59,9 @@ const Select: React.FC<SelectProps> = ({
                 })}
               >
                 {current || placeholder}
+                {!current && required && (
+                  <span className="text-rose-500">*</span>
+                )}
               </span>
               <ChevronDown
                 size={16}
@@ -70,7 +77,7 @@ const Select: React.FC<SelectProps> = ({
             name={name}
             render={({ message }) => {
               return (
-                <div className="pt-2 text-gray-500 text-small-regular">
+                <div className="pt-2 text-rose-500 text-small-regular">
                   <span>{message}</span>
                 </div>
               )
