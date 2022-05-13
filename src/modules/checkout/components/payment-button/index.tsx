@@ -146,7 +146,11 @@ const StripePaymentButton = ({
       >
         {submitting ? <Spinner /> : "Checkout"}
       </Button>
-      {errorMessage && <div className="text-red-500">{errorMessage}</div>}
+      {errorMessage && (
+        <div className="text-red-500 text-small-regular mt-2">
+          {errorMessage}
+        </div>
+      )}
     </>
   )
 }

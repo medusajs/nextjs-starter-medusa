@@ -15,7 +15,7 @@ const SiteInfo: React.FC = () => {
           </p>
         </InfoContainer>
       </div>
-      <div className="lg:mr-10">
+      <div className="lg:mr-20">
         <InfoContainer label="Address">
           <p className="text-small-regular">
             {StoreConfig.store.address.address_line},<br />

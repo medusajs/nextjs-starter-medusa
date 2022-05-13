@@ -1,5 +1,7 @@
 import { getSiteData } from "@lib/data"
+import LoadingPage from "@modules/common/components/loading-page"
 import Layout from "@modules/layout/templates"
+import OrderCompletedTemplate from "@modules/order/templates/order-completed-template"
 import { useOrder } from "medusa-react"
 import { GetStaticProps, NextPage } from "next"
 import { useRouter } from "next/router"
@@ -15,7 +17,17 @@ const Confirmed: NextPage<SiteProps> = ({ site }) => {
     enabled: !!id,
   })
 
-  return <Layout site={site}>{JSON.stringify(order, null, 2)}</Layout>
+  return (
+    <Layout site={site}>
+      {isLoading ? (
+        <LoadingPage />
+      ) : !order ? (
+        <div>Order not found</div>
+      ) : (
+        <OrderCompletedTemplate order={order} />
+      )}
+    </Layout>
+  )
 }
 
 export const getStaticProps: GetStaticProps<SiteProps> = async () => {

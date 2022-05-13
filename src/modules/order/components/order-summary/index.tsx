@@ -1,70 +1,54 @@
-import { Cart } from "@medusajs/medusa"
+import { Order } from "@medusajs/medusa"
 import { formatAmount } from "medusa-react"
 import React from "react"
 
-type CheckoutTotalsProps = {
-  cart: Omit<Cart, "refundable_amount" | "refunded_total">
+type OrderSummaryProps = {
+  order: Order
 }
 
-const CheckoutTotals: React.FC<CheckoutTotalsProps> = ({ cart }) => {
-  const {
-    subtotal,
-    discount_total,
-    gift_card_total,
-    tax_total,
-    shipping_total,
-    total,
-  } = cart
-
-  const getAmount = (amount: number | null | undefined) => {
-    return formatAmount({
-      amount: amount || 0,
-      region: cart.region,
-      includeTaxes: false,
-    })
+const OrderSummary: React.FC<OrderSummaryProps> = ({ order }) => {
+  const getAmount = (amount: number) => {
+    return formatAmount({ amount, region: order.region, includeTaxes: false })
   }
 
   return (
-    <div className="py-4 border-t border-gray-200">
+    <div>
+      <h2 className="text-base-semi">Order Summary</h2>
       <div className="text-small-regular text-gray-700 my-2">
         <div className="flex items-center justify-between text-base-regular text-gray-900 mb-2">
           <span>Subtotal</span>
-          <span>{getAmount(subtotal)}</span>
+          <span>{getAmount(order.subtotal)}</span>
         </div>
         <div className="flex flex-col gap-y-1">
-          {!!discount_total && (
+          {order.discount_total > 0 && (
             <div className="flex items-center justify-between">
               <span>Discount</span>
-              <span>- {getAmount(discount_total)}</span>
+              <span>- {getAmount(order.discount_total)}</span>
             </div>
           )}
-          {!!gift_card_total && (
+          {order.gift_card_total > 0 && (
             <div className="flex items-center justify-between">
               <span>Discount</span>
-              <span>- {getAmount(gift_card_total)}</span>
+              <span>- {getAmount(order.gift_card_total)}</span>
             </div>
           )}
           <div className="flex items-center justify-between">
             <span>Shipping</span>
-            <span>{getAmount(shipping_total)}</span>
+            <span>{getAmount(order.shipping_total)}</span>
           </div>
           <div className="flex items-center justify-between">
             <span>Taxes</span>
-            <span>{getAmount(tax_total)}</span>
+            <span>{getAmount(order.tax_total)}</span>
           </div>
         </div>
         <div className="h-px w-full border-b border-gray-200 border-dashed my-4" />
         <div className="flex items-center justify-between text-base-regular text-gray-900 mb-2">
           <span>Total</span>
-          <span>{getAmount(total)}</span>
+          <span>{getAmount(order.total)}</span>
         </div>
       </div>
     </div>
   )
 }
 
-const TotalContainer: React.FC = ({ children }) => {
-  return <div className="flex items-start justify-between">{children}</div>
-}
-
-export default CheckoutTotals
+export default OrderSummary

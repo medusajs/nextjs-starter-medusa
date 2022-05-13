@@ -7,7 +7,7 @@ import Input from "@modules/common/components/input"
 import clsx from "clsx"
 import isEqual from "lodash/isEqual"
 import { useCart } from "medusa-react"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import CountrySelect from "../country-select"
 
@@ -34,7 +34,7 @@ type AddressProps = {
 }
 
 const Address: React.FC<AddressProps> = ({ cart }) => {
-  const [disabled] = useState(!cart.email)
+  const [disabled, setDisabled] = useState(true)
   const [differentBilling, setDifferentBilling] = useState(
     checkForDifferentBilling(cart)
   )
@@ -56,6 +56,16 @@ const Address: React.FC<AddressProps> = ({ cart }) => {
       billing_address: mapAddressToValues(cart.billing_address),
     },
   })
+
+  useEffect(() => {
+    setDisabled(true)
+
+    if (!cart.email) {
+      return
+    }
+
+    setDisabled(false)
+  }, [cart])
 
   const submitShipping = handleSubmit((values) => {
     const shippingAddress = { ...values.shipping_address, metadata: {} }
@@ -183,9 +193,12 @@ const Address: React.FC<AddressProps> = ({ cart }) => {
 
   return (
     <div
-      className={clsx("w-full lg:max-w-2xl flex flex-col gap-y-16", {
-        "opacity-75 pointer-events-none ": disabled,
-      })}
+      className={clsx(
+        "w-full lg:max-w-2xl flex flex-col gap-y-16 bg-white p-10",
+        {
+          "opacity-75 pointer-events-none ": disabled,
+        }
+      )}
     >
       <div className="flex flex-col">
         <h3 className="mb-6 text-xl-semi">Delivery address</h3>

@@ -23,6 +23,7 @@ interface StoreContext {
   addItem: (item: VariantInfoProps) => void
   updateItem: (item: LineInfoProps) => void
   deleteItem: (lineId: string) => void
+  resetCart: () => void
 }
 
 const StoreContext = React.createContext<StoreContext | null>(null)
@@ -69,6 +70,24 @@ export const StoreProvider = ({ children }: StoreProps) => {
 
   const createNewCart = async () => {
     await createCart.mutateAsync(
+      {},
+      {
+        onSuccess: ({ cart }) => {
+          setCart(cart)
+          storeInLocalStorage(cart.id)
+        },
+        onError: (error) => {
+          if (process.env.NODE_ENV === "development") {
+            console.error(error)
+          }
+        },
+      }
+    )
+  }
+
+  const resetCart = () => {
+    deleteFromLocalStorage()
+    createCart.mutate(
       {},
       {
         onSuccess: ({ cart }) => {
@@ -208,6 +227,7 @@ export const StoreProvider = ({ children }: StoreProps) => {
         addItem,
         deleteItem,
         updateItem,
+        resetCart,
       }}
     >
       {children}

@@ -1,5 +1,6 @@
 import { medusaClient } from "@lib/config"
 import { Address, Cart } from "@medusajs/medusa"
+import Wrapper from "@modules/checkout/components/payment-wrapper"
 import {
   formatAmount,
   useCart,
@@ -9,6 +10,7 @@ import {
 import { useRouter } from "next/router"
 import React, { createContext, useContext, useEffect, useMemo } from "react"
 import { FormProvider, useForm, useFormContext } from "react-hook-form"
+import { useStore } from "./store-context"
 
 type FormAddress = Omit<
   Address,
@@ -82,6 +84,7 @@ const IDEMPOTENCY_KEY = "create_payment_session_key"
 export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   const { cart, setCart, addShippingMethod, completeCheckout } = useCart()
   const { mutate: setPaymentSessionMutation } = useSetPaymentSession(cart?.id!)
+  const { resetCart } = useStore()
 
   const createPaymentSession = async (cartId: string) => {
     return medusaClient.carts
@@ -191,7 +194,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   const onPaymentCompleted = () => {
     completeCheckout.mutate(undefined, {
       onSuccess: ({ data }) => {
-        setCart({ id: "", items: [] } as unknown as Cart)
+        resetCart()
         router.push(`/order/confirmed?id=${data.id}`)
       },
     })
@@ -208,7 +211,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
           onPaymentCompleted,
         }}
       >
-        {children}
+        <Wrapper paymentSession={cart?.payment_session}>{children}</Wrapper>
       </CheckoutContext.Provider>
     </FormProvider>
   )

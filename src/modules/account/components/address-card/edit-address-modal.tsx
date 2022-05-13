@@ -65,14 +65,14 @@ const EditAddress: React.FC<EditAddressProps> = ({
     const payload = {
       first_name: data.first_name,
       last_name: data.last_name,
-      company: data.company || "NULL",
+      company: data.company || "Personal",
       address_1: data.address_1,
       address_2: data.address_2 || "",
       city: data.city,
       country_code: data.country_code,
       province: data.province || "",
       postal_code: data.postal_code,
-      phone: data.phone || "NULL",
+      phone: data.phone || "None",
       metadata: {},
     }
 
@@ -107,9 +107,13 @@ const EditAddress: React.FC<EditAddressProps> = ({
       >
         <div className="flex flex-col">
           <span className="text-left text-base-semi">
-            {address.first_name} {address.last_name}{" "}
-            {address.company && `(${address.company})`}
+            {address.first_name} {address.last_name}
           </span>
+          {address.company && (
+            <span className="text-small-regular text-gray-700">
+              {address.company}
+            </span>
+          )}
           <div className="flex flex-col text-left text-base-regular mt-2">
             <span>
               {address.address_1}
@@ -162,7 +166,9 @@ const EditAddress: React.FC<EditAddressProps> = ({
               errors={errors}
               autoComplete="family-name"
             />
-            <Input label="Company" {...register("company")} errors={errors} />
+            <div className="col-span-full">
+              <Input label="Company" {...register("company")} errors={errors} />
+            </div>
             <div className="col-span-full">
               <Input
                 label="Address"
@@ -212,12 +218,14 @@ const EditAddress: React.FC<EditAddressProps> = ({
               control={control}
               render={({ field: { value, onChange } }) => {
                 return (
-                  <CountrySelect
-                    onChange={onChange}
-                    value={value}
-                    errors={errors}
-                    required
-                  />
+                  <div className="flex flex-col justify-start">
+                    <CountrySelect
+                      onChange={onChange}
+                      value={value}
+                      errors={errors}
+                      required
+                    />
+                  </div>
                 )
               }}
             />

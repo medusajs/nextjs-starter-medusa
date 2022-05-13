@@ -112,7 +112,7 @@ const Email: React.FC<EmailProps> = ({ cart }) => {
   })
 
   return (
-    <div>
+    <div className="p-10 bg-white">
       <h3 className="mb-6 text-xl-semi">Email</h3>
       <div className="flex items-center gap-x-4">
         <div className="w-full">

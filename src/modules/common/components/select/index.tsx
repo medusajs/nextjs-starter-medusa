@@ -44,10 +44,10 @@ const Select: React.FC<SelectProps> = ({
 
   return (
     <Listbox onChange={onChange} value={value} disabled={disabled}>
-      <div className="relative mt-1">
+      <div className="relative">
         <Listbox.Button
           className={clsx(
-            "relative w-full flex justify-between items-center px-4 py-[10px] text-left bg-white cursor-default focus:outline-none border border-gray-200 focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-gray-300 focus-visible:ring-offset-2 focus-visible:border-gray-300 sm:text-sm",
+            "relative w-full flex justify-between items-center px-4 py-[10px] text-left bg-white cursor-default focus:outline-none border border-gray-200 focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-gray-300 focus-visible:ring-offset-2 focus-visible:border-gray-300 text-base-regular",
             className
           )}
         >

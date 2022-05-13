@@ -33,7 +33,7 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
   disabled = false,
 }) => {
   return (
-    <div className="flex flex-col gap-y-4 border-b border-gray-200 last:border-none px-4 pt-4 pb-8">
+    <div className="flex flex-col gap-y-4 py-8 border-b border-gray-200 last:border-b-0">
       <button
         className="col-span-2 flex items-start gap-x-4"
         onClick={setSelected}

@@ -27,7 +27,6 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
   const { addShippingMethod, setCart } = useCart()
   const {
     control,
-    handleSubmit,
     setError,
     formState: { errors },
   } = useForm<ShippingFormProps>({
@@ -109,9 +108,16 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
     return []
   }, [shipping_options, cart])
 
+  console.log(cart.shipping_methods)
+
   return (
-    <div>
-      <h3 className="mb-6 text-xl-semi">Shipping method</h3>
+    <div className="p-10 bg-white">
+      <h3 className="text-xl-semi mb-2">Shipping method</h3>
+      <div className="mb-4">
+        <span className="text-base-regular text-gray-700">
+          How would you like your package to be delivered?
+        </span>
+      </div>
       <Controller
         name="soId"
         control={control}
@@ -121,22 +127,19 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
               <RadioGroup
                 value={value}
                 onChange={(value) => handleChange(value, onChange)}
-                className={clsx("border border-gray-200", {
+                className={clsx({
                   "opacity-50": disabled,
                 })}
                 disabled={disabled}
               >
                 {shippingMethods && shippingMethods.length ? (
-                  shippingMethods.map((option, i) => {
+                  shippingMethods.map((option) => {
                     return (
                       <RadioGroup.Option
                         key={option.value}
                         value={option.value}
                         className={clsx(
-                          "flex items-center justify-between text-base-regular cursor-pointer px-4 pt-4 pb-8",
-                          {
-                            "border-t border-gray-200": i !== 0,
-                          }
+                          "flex items-center justify-between text-base-regular cursor-pointer py-8 border-b border-gray-200 last:border-b-0"
                         )}
                       >
                         <div className="flex items-center gap-x-4">

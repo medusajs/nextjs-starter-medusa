@@ -13,8 +13,8 @@ const CheckoutForm = () => {
   }
 
   return (
-    <div className="w-full flex justify-center lg:border-r lg:border-gray-200 lg:py-8">
-      <div className="w-full lg:max-w-2xl px-4 py-8 lg:p-0 flex flex-col gap-y-16">
+    <div className="w-full flex justify-end lg:py-8 lg:pl-4">
+      <div className="w-full lg:max-w-2xl px-4 py-8 lg:p-0 flex flex-col gap-y-8">
         <Email cart={cart} />
 
         <Address cart={cart} />

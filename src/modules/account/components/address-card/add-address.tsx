@@ -38,7 +38,18 @@ const AddAddress: React.FC = () => {
   } = useForm<FormValues>()
 
   const handleClose = () => {
-    reset()
+    reset({
+      first_name: "",
+      last_name: "",
+      city: "",
+      country_code: "",
+      postal_code: "",
+      address_1: "",
+      address_2: "",
+      company: "",
+      phone: "",
+      province: "",
+    })
     close()
   }
 
@@ -49,7 +60,7 @@ const AddAddress: React.FC = () => {
     const payload = {
       first_name: data.first_name,
       last_name: data.last_name,
-      company: data.company || "NULL",
+      company: data.company || "Personal",
       address_1: data.address_1,
       address_2: data.address_2 || "",
       city: data.city,
@@ -105,7 +116,9 @@ const AddAddress: React.FC = () => {
               errors={errors}
               autoComplete="family-name"
             />
-            <Input label="Company" {...register("company")} errors={errors} />
+            <div className="col-span-full">
+              <Input label="Company" {...register("company")} errors={errors} />
+            </div>
             <div className="col-span-full">
               <Input
                 label="Address"
