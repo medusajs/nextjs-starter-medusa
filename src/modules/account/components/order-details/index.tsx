@@ -6,6 +6,8 @@ type OrderDetailsProps = {
 }
 
 const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
+  console.log(order)
+
   return (
     <div className="bg-white p-10 max-w-7xl w-full">
       <h1 className="text-2xl-semi uppercase">Your order</h1>

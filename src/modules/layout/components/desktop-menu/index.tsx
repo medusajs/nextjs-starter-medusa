@@ -72,7 +72,9 @@ const DesktopMenu = ({ site }: SiteProps) => {
                             href={`/collections/${collection.id}`}
                             key={collection.id}
                           >
-                            <a>{collection.title}</a>
+                            <a onClick={() => setOpen(false)}>
+                              {collection.title}
+                            </a>
                           </Link>
                         )
                       })}
@@ -86,7 +88,10 @@ const DesktopMenu = ({ site }: SiteProps) => {
                           passHref
                           key={item.id}
                         >
-                          <div className="group text-base sm:text-sm cursor-pointer">
+                          <div
+                            className="group text-base sm:text-sm cursor-pointer"
+                            onClick={() => setOpen(false)}
+                          >
                             <Thumbnail {...item} size="full" />
                             <div className="mt-3 block text-base-regular text-gray-900">
                               {item.title}

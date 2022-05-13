@@ -1,6 +1,6 @@
 import { medusaClient } from "@lib/config"
 import { useAccount } from "@lib/context/account-context"
-import { useCheckout } from "@lib/context/checkout-context"
+import { Cart } from "@medusajs/medusa"
 import Button from "@modules/common/components/button"
 import Input from "@modules/common/components/input"
 import clsx from "clsx"
@@ -8,31 +8,42 @@ import { useCart, useUpdateCart } from "medusa-react"
 import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 
-type FieldValues = {
-  email?: string
+type EmailFormValues = {
+  email: string
 }
 
-const Email = () => {
+type PasswordFormValues = {
+  password: string
+}
+
+type EmailProps = {
+  cart: Omit<Cart, "refundable_amount" | "refunded_total">
+}
+
+const Email: React.FC<EmailProps> = ({ cart }) => {
   const [showLogin, setShowLogin] = useState(false)
   const [optOut, setOptOut] = useState(false)
-  const { cart, setCart } = useCart()
+  const { setCart } = useCart()
   const { customer, retrievingCustomer, refetchCustomer } = useAccount()
   const { mutate: addEmail } = useUpdateCart(cart?.id!)
-  const {
-    register,
-    setError,
-    formState: { errors },
-  } = useCheckout()
 
   const {
     register: registerPw,
     handleSubmit: handleSubmitPw,
     setError: setErrorPw,
     formState: { errors: errorsPw },
-  } = useForm<{ password_checkout: string }>()
+  } = useForm<PasswordFormValues>()
+
+  const {
+    register: registerEm,
+    control: controlEm,
+    handleSubmit: handleSubmitEm,
+    setError: setErrorEm,
+    formState: { errors: errorsEm },
+  } = useForm<EmailFormValues>()
 
   useEffect(() => {
-    if (customer && !cart?.email) {
+    if (customer && !cart.email) {
       addEmail(
         { email: customer.email, customer_id: customer.id },
         {
@@ -50,7 +61,7 @@ const Email = () => {
         .catch(() => false)
     }
 
-    if (!customer && !retrievingCustomer && cart?.email) {
+    if (!customer && !retrievingCustomer && cart.email) {
       checkForUser(cart.email).then((exists) => {
         if (exists) {
           setShowLogin(true)
@@ -61,21 +72,39 @@ const Email = () => {
     }
   }, [cart, customer, retrievingCustomer])
 
+  const submitEmail = handleSubmitEm((values: EmailFormValues) => {
+    addEmail(values, {
+      onSuccess: ({ cart }) => setCart(cart),
+      onError: () => {
+        setErrorEm(
+          "email",
+          {
+            type: "validate",
+            message: "An error occurred while adding email. Please try again.",
+          },
+          {
+            shouldFocus: true,
+          }
+        )
+      },
+    })
+  })
+
   const handleSignIn = handleSubmitPw(async (data) => {
-    const { password_checkout } = data
+    const { password } = data
 
     if (cart?.email) {
       await medusaClient.auth
-        .authenticate({ email: cart.email, password: password_checkout })
+        .authenticate({ email: cart.email, password })
         .then(refetchCustomer)
         .catch(() =>
-          setErrorPw("password_checkout", {
+          setErrorPw("password", {
             type: "validate",
             message: "The password you entered is incorrect",
           })
         )
     } else {
-      setError("email", {
+      setErrorEm("email", {
         type: "required",
         message: "Email is required",
       })
@@ -87,14 +116,18 @@ const Email = () => {
       <h3 className="mb-6 text-xl-semi">Email</h3>
       <div className="flex items-center gap-x-4">
         <div className="w-full">
-          <Input {...register("email")} label="Email" errors={errors} />
+          <Input
+            {...registerEm("email", {
+              required: "Email is required",
+              pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+            })}
+            label="Email"
+            errors={errorsEm}
+          />
         </div>
-        {!showLogin ||
-          (!!customer && (
-            <Button className="min-h-0 max-w-[120px]">
-              {cart?.email ? "Update" : "Add"}
-            </Button>
-          ))}
+        <Button className="!min-h-0 max-w-[120px]" onClick={submitEmail}>
+          {cart?.email ? "Update" : "Add"}
+        </Button>
       </div>
       <div
         className={clsx(
@@ -113,7 +146,7 @@ const Email = () => {
         <div className="flex items-end gap-x-4">
           <div className="w-full">
             <Input
-              {...registerPw("password_checkout", {
+              {...registerPw("password", {
                 required: "Password is required",
               })}
               type="password"
@@ -121,7 +154,7 @@ const Email = () => {
               errors={errorsPw}
             />
           </div>
-          <Button className="min-h-0 max-w-[120px]" onClick={handleSignIn}>
+          <Button className="!min-h-0 max-w-[120px]" onClick={handleSignIn}>
             Login
           </Button>
         </div>

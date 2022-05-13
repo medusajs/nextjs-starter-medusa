@@ -6,10 +6,9 @@ import CountrySelect from "@modules/checkout/components/country-select"
 import Button from "@modules/common/components/button"
 import Input from "@modules/common/components/input"
 import Modal from "@modules/common/components/modal"
-import { SelectOption } from "@modules/common/components/select"
 import Spinner from "@modules/common/icons/spinner"
-import { useRegions } from "medusa-react"
-import React, { useMemo, useState } from "react"
+import clsx from "clsx"
+import React, { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 
 type FormValues = {
@@ -27,9 +26,13 @@ type FormValues = {
 
 type EditAddressProps = {
   address: Address
+  isActive?: boolean
 }
 
-const EditAddress: React.FC<EditAddressProps> = ({ address }) => {
+const EditAddress: React.FC<EditAddressProps> = ({
+  address,
+  isActive = false,
+}) => {
   const { state, open, close } = useToggleState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | undefined>(undefined)
@@ -54,19 +57,6 @@ const EditAddress: React.FC<EditAddressProps> = ({ address }) => {
       province: address.province || undefined,
     },
   })
-
-  const { regions } = useRegions()
-
-  const countyOptions = useMemo(() => {
-    const options = regions?.reduce((acc, region) => {
-      for (const country of region.countries) {
-        acc.push({ label: country.display_name, value: country.iso_2 })
-      }
-      return acc
-    }, [] as SelectOption[])
-
-    return options
-  }, [regions])
 
   const submit = handleSubmit(async (data: FormValues) => {
     setSubmitting(true)
@@ -107,14 +97,24 @@ const EditAddress: React.FC<EditAddressProps> = ({ address }) => {
 
   return (
     <>
-      <div className="border border-gray-200 p-5 min-h-[220px] h-full w-full flex flex-col justify-between">
+      <div
+        className={clsx(
+          "border border-gray-200 p-5 min-h-[220px] h-full w-full flex flex-col justify-between transition-colors",
+          {
+            "border-gray-900": isActive,
+          }
+        )}
+      >
         <div className="flex flex-col">
           <span className="text-left text-base-semi">
-            {address.first_name} {address.last_name}
+            {address.first_name} {address.last_name}{" "}
+            {address.company && `(${address.company})`}
           </span>
           <div className="flex flex-col text-left text-base-regular mt-2">
-            <span>{address.address_1}</span>
-            {address.address_2 && <span>{address.address_2}</span>}
+            <span>
+              {address.address_1}
+              {address.address_2 && <span>, {address.address_2}</span>}
+            </span>
             <span>
               {address.postal_code}, {address.city}
             </span>
@@ -162,6 +162,7 @@ const EditAddress: React.FC<EditAddressProps> = ({ address }) => {
               errors={errors}
               autoComplete="family-name"
             />
+            <Input label="Company" {...register("company")} errors={errors} />
             <div className="col-span-full">
               <Input
                 label="Address"

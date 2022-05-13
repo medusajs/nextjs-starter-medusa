@@ -7,6 +7,8 @@ type CountrySelectProps = {
   value: unknown
   errors: Record<string, unknown>
   required?: boolean
+  disabled?: boolean
+  name?: string
 }
 
 const CountrySelect: React.FC<CountrySelectProps> = ({
@@ -14,6 +16,8 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
   value,
   errors,
   required,
+  name,
+  disabled,
 }) => {
   const [options, setOptions] = useState<SelectOption[]>([])
   const { cart } = useCart()
@@ -41,6 +45,8 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
       className="border-x-0 border-t-0 px-0"
       errors={errors}
       required={required}
+      disabled={disabled}
+      name={name}
     />
   )
 }

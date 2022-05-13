@@ -48,7 +48,7 @@ const InfoContainer: React.FC<{ label: string }> = ({ label, children }) => {
   return (
     <div>
       <div className="hidden lg:flex lg:flex-col lg:gap-y-2">
-        <span className="text-base-semi">{label}</span>
+        <span className="text-small-semi">{label}</span>
         {children}
       </div>
       <div className="lg:hidden mb-3">
@@ -66,7 +66,7 @@ const Collapsible: React.FC<{ label: string }> = ({ label, children }) => {
           return (
             <>
               <Disclosure.Button className="text-gray-900 flex items-center justify-between w-full">
-                <span className="text-base-semi">{label}</span>
+                <span className="text-small-semi">{label}</span>
                 <Plus size={16} />
               </Disclosure.Button>
               <Disclosure.Panel

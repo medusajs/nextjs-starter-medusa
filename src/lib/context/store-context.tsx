@@ -3,7 +3,8 @@ import { handleError } from "@lib/util/handle-error"
 import {
   useCart,
   useCreateLineItem,
-  useDeleteLineItem, useUpdateLineItem
+  useDeleteLineItem,
+  useUpdateLineItem,
 } from "medusa-react"
 import React, { useEffect } from "react"
 
@@ -60,6 +61,12 @@ export const StoreProvider = ({ children }: StoreProps) => {
     return null
   }
 
+  const deleteFromLocalStorage = () => {
+    if (!IS_SERVER) {
+      localStorage.removeItem(CART_KEY)
+    }
+  }
+
   const createNewCart = async () => {
     await createCart.mutateAsync(
       {},
@@ -82,14 +89,22 @@ export const StoreProvider = ({ children }: StoreProps) => {
       const cartId = getFromLocalStorage()
 
       if (cartId) {
-        medusaClient.carts
+        const cartRes = await medusaClient.carts
           .retrieve(cartId)
           .then(({ cart }) => {
-            setCart(cart)
+            return cart
           })
           .catch(async (_) => {
-            await createNewCart()
+            return null
           })
+
+        if (!cartRes || cartRes.completed_at) {
+          deleteFromLocalStorage()
+          await createNewCart()
+          return
+        }
+
+        setCart(cartRes)
       } else {
         await createNewCart()
       }

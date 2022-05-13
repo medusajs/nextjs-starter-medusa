@@ -8,8 +8,11 @@ const AccountNav = () => {
   return (
     <div className="sticky top-0 flex items-center justify-center gap-x-6 border-b border-gray-200 bg-white z-20">
       <NavLink href="/account" asPath={asPath} text="Account" />
+      <NavLink href="/account/addresses" asPath={asPath} text="Addresses" />
       <NavLink href="/account/orders" asPath={asPath} text="Orders" />
-      <NavLink href="/account/wishlist" asPath={asPath} text="Wishlist" />
+      {process.env.FEATURE_WISHLIST_ENABLED && (
+        <NavLink href="/account/wishlist" asPath={asPath} text="Wishlist" />
+      )}
     </div>
   )
 }

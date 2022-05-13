@@ -1,5 +1,4 @@
 import { Image as MedusaImage } from "@medusajs/medusa"
-import Plus from "@modules/common/icons/plus"
 import Image from "next/image"
 import React from "react"
 
@@ -14,7 +13,11 @@ const GalleryImage: React.FC<GalleryImageProps> = ({
   ...rest
 }) => {
   return (
-    <div className="w-full aspect-[29/35] relative" {...rest}>
+    <div
+      className="w-full aspect-[29/35] relative cursor-pointer pointer-events-none lg:pointer-events-auto"
+      {...rest}
+      onClick={() => handleZoom(image.url)}
+    >
       <Image
         src={image.url}
         alt={`Product image`}
@@ -24,14 +27,6 @@ const GalleryImage: React.FC<GalleryImageProps> = ({
         quality={80}
         priority={true}
       />
-      <div className="absolute bottom-4 right-4">
-        <button
-          onClick={() => handleZoom(image.url)}
-          className="w-6 h-6 rounded-full bg-white flex items-center justify-center"
-        >
-          <Plus />
-        </button>
-      </div>
     </div>
   )
 }

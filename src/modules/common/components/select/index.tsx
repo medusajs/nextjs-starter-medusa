@@ -18,6 +18,7 @@ type SelectProps = {
   errors?: Record<string, unknown>
   name?: string
   required?: boolean
+  disabled?: boolean
 } & Pick<React.ButtonHTMLAttributes<HTMLButtonElement>, "className">
 
 const Select: React.FC<SelectProps> = ({
@@ -29,6 +30,7 @@ const Select: React.FC<SelectProps> = ({
   errors,
   name,
   required,
+  disabled,
   className,
 }) => {
   const [current, setCurrent] = useState<string | undefined>(undefined)
@@ -41,7 +43,7 @@ const Select: React.FC<SelectProps> = ({
   }, [value, options])
 
   return (
-    <Listbox onChange={onChange} value={value}>
+    <Listbox onChange={onChange} value={value} disabled={disabled}>
       <div className="relative mt-1">
         <Listbox.Button
           className={clsx(
@@ -75,7 +77,7 @@ const Select: React.FC<SelectProps> = ({
             name={name}
             render={({ message }) => {
               return (
-                <div className="pt-2 text-gray-500 text-small-regular">
+                <div className="pt-2 text-rose-500 text-small-regular">
                   <span>{message}</span>
                 </div>
               )

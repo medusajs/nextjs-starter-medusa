@@ -1,7 +1,5 @@
 function withStoreConfig(nextConfig = {}) {
-  const store = nextConfig.store || {}
-
-  const features = store.features || {}
+  const features = nextConfig.features || {}
 
   nextConfig.env = nextConfig.env || {}
 

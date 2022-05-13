@@ -12,17 +12,21 @@ const Checkbox: React.FC<CheckboxProps> = ({
   label,
 }) => {
   return (
-    <div className="text-base-regular flex items-center gap-x-2">
-      <button
+    <button
+      className="text-base-regular flex items-center gap-x-2"
+      role="checkbox"
+      aria-checked={checked}
+      onClick={onChange}
+    >
+      <div
         role="checkbox"
         aria-checked={checked}
-        onClick={onChange}
         className="border border-gray-900 w-5 h-5 flex items-center justify-center"
       >
         {checked ? "✓" : null}
-      </button>
+      </div>
       <span>{label}</span>
-    </div>
+    </button>
   )
 }
 

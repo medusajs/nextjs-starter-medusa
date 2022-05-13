@@ -1,7 +1,6 @@
 {
   "features": {
-    "search": false,
-    "returnsAndExchanges": false,
+    "wishlist": false,
     "customerAuth": true
   },
   "store": {

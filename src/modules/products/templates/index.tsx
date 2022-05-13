@@ -24,7 +24,6 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
       <div className="flex flex-col lg:flex-row items-start gap-x-4 py-6 px-8">
         <div className="w-full lg:max-w-[calc(100%-350px)] lg:pr-8">
           <Gallery product={product} inView={inView} />
-          <div className="h-96 w-full bg-gray-50 mt-4"></div>
         </div>
         <div className="lg:w-4/12 lg:sticky lg:top-16 pt-6 lg:pt-0" ref={info}>
           <ProductInfo product={product} />

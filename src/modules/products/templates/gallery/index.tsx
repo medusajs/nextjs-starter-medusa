@@ -21,7 +21,7 @@ const Gallery: React.FC<GalleryProps> = ({ product, inView = false }) => {
 
   return (
     <div className="relative w-full">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
         {product.images.map((image) => {
           return (
             <GalleryImage

@@ -1,34 +1,14 @@
 import { medusaClient } from "@lib/config"
-import { Address, Cart, PaymentSession } from "@medusajs/medusa"
+import { Address, Cart } from "@medusajs/medusa"
 import {
   formatAmount,
   useCart,
   useCartShippingOptions,
   useSetPaymentSession,
 } from "medusa-react"
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react"
+import { useRouter } from "next/router"
+import React, { createContext, useContext, useEffect, useMemo } from "react"
 import { FormProvider, useForm, useFormContext } from "react-hook-form"
-
-interface CheckoutContext {
-  cart?: Omit<Cart, "refundable_amount" | "refunded_total">
-  billingAddressEnabled: boolean
-  shippingMethods: { label: string; value: string; price: string }[]
-  addShippingOption: (soId: string) => void
-  initializeCheckout: (email: string) => Promise<void>
-  setPaymentSession: (providerId: string) => Promise<void>
-}
-
-const CheckoutContext = createContext<CheckoutContext | null>(null)
-
-interface CheckoutProviderProps {
-  children?: React.ReactNode
-}
 
 type FormAddress = Omit<
   Address,
@@ -41,7 +21,6 @@ type FormAddress = Omit<
   | "customer"
   | "metadata"
   | "deleted_at"
-  | "country_code"
 >
 
 type FormValues = {
@@ -49,7 +28,20 @@ type FormValues = {
   billing_address: FormAddress
   email: string | null
   shipping_method: string | null
-  country_code: string | null
+}
+
+interface CheckoutContext {
+  cart?: Omit<Cart, "refundable_amount" | "refunded_total">
+  shippingMethods: { label: string; value: string; price: string }[]
+  addShippingOption: (soId: string) => void
+  setPaymentSession: (providerId: string) => Promise<void>
+  onPaymentCompleted: () => void
+}
+
+const CheckoutContext = createContext<CheckoutContext | null>(null)
+
+interface CheckoutProviderProps {
+  children?: React.ReactNode
 }
 
 const mapCartToFormValues = (
@@ -62,6 +54,7 @@ const mapCartToFormValues = (
       address_1: cart?.shipping_address?.address_1 || null,
       address_2: cart?.shipping_address?.address_2 || null,
       city: cart?.shipping_address?.city || null,
+      country_code: cart?.shipping_address?.country_code || null,
       province: cart?.shipping_address?.province || null,
       company: cart?.shipping_address?.company || null,
       postal_code: cart?.shipping_address?.postal_code || null,
@@ -73,12 +66,12 @@ const mapCartToFormValues = (
       address_1: cart?.billing_address?.address_1 || null,
       address_2: cart?.billing_address?.address_2 || null,
       city: cart?.billing_address?.city || null,
+      country_code: cart?.shipping_address?.country_code || null,
       province: cart?.shipping_address?.province || null,
       company: cart?.billing_address?.company || null,
       postal_code: cart?.billing_address?.postal_code || null,
       phone: cart?.billing_address?.phone || null,
     },
-    country_code: cart?.shipping_address?.country_code || null,
     shipping_method: cart?.shipping_methods?.[0]?.shipping_option.id || null,
     email: cart?.email || null,
   }
@@ -87,10 +80,7 @@ const mapCartToFormValues = (
 const IDEMPOTENCY_KEY = "create_payment_session_key"
 
 export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
-  const { cart, setCart, addShippingMethod, updateCart } = useCart()
-  const [billingAddressEnabled, setBillingAddressEnabled] = useState(false)
-  const selectedPaymentMethod = useState<PaymentSession | undefined>(undefined)
-  const [existingAccount, setExistingAccount] = useState(false)
+  const { cart, setCart, addShippingMethod, completeCheckout } = useCart()
   const { mutate: setPaymentSessionMutation } = useSetPaymentSession(cart?.id!)
 
   const createPaymentSession = async (cartId: string) => {
@@ -100,37 +90,6 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
       })
       .then(({ cart }) => cart)
       .catch(() => null)
-  }
-
-  const checkForCustomerAccount = async (
-    email: string
-  ): Promise<Record<string, boolean>> => {
-    return medusaClient.auth
-      .exists(email)
-      .then(({ exists }) => ({ email: exists }))
-      .catch((_) => ({ email: false }))
-  }
-
-  const initializeCheckout = async (email: string) => {
-    const hasAccount = await checkForCustomerAccount(email)
-
-    if (hasAccount) {
-      setExistingAccount(true)
-    }
-
-    await updateCart.mutateAsync(
-      {
-        email,
-      },
-      {
-        onSuccess: ({ cart }) => {
-          setCart(cart)
-        },
-        onError: (err) => {
-          methods.setError("email", { message: err.message, type: "validate" })
-        },
-      }
-    )
   }
 
   const setPaymentSession = async (providerId: string) => {
@@ -148,15 +107,13 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     }
   }
 
-  const { shipping_options, isLoading, refetch } = useCartShippingOptions(
-    cart?.id!,
-    {
-      enabled: !!cart?.id,
-    }
-  )
+  const { shipping_options, refetch } = useCartShippingOptions(cart?.id!, {
+    enabled: !!cart?.id,
+  })
 
   const methods = useForm<FormValues>({
     defaultValues: mapCartToFormValues(cart),
+    reValidateMode: "onChange",
   })
 
   useEffect(() => {
@@ -229,16 +186,26 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     initPayment()
   }, [cart, setCart])
 
+  const router = useRouter()
+
+  const onPaymentCompleted = () => {
+    completeCheckout.mutate(undefined, {
+      onSuccess: ({ data }) => {
+        setCart({ id: "", items: [] } as unknown as Cart)
+        router.push(`/order/confirmed?id=${data.id}`)
+      },
+    })
+  }
+
   return (
     <FormProvider {...methods}>
       <CheckoutContext.Provider
         value={{
           cart,
-          billingAddressEnabled,
           shippingMethods,
           addShippingOption,
-          initializeCheckout,
           setPaymentSession,
+          onPaymentCompleted,
         }}
       >
         {children}
@@ -249,7 +216,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
 
 export const useCheckout = () => {
   const context = useContext(CheckoutContext)
-  const form = useFormContext()
+  const form = useFormContext<FormValues>()
   if (context === null) {
     throw new Error(
       "useProductActionContext must be used within a ProductActionProvider"
