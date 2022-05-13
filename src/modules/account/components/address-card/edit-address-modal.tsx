@@ -207,6 +207,14 @@ const EditAddress: React.FC<EditAddressProps> = ({
                 autoComplete="locality"
               />
             </div>
+            <div className="col-span-full">
+              <Input
+                label="Apartment, suite, etc."
+                {...register("address_2")}
+                errors={errors}
+                autoComplete="address-line2"
+              />
+            </div>
             <Input
               label="Province / State"
               {...register("province")}

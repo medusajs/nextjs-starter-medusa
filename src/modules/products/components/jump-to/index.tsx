@@ -1,5 +1,6 @@
 import { Transition } from "@headlessui/react"
 import { useProductActions } from "@lib/context/product-context"
+import Button from "@modules/common/components/button"
 import clsx from "clsx"
 import React, { Fragment } from "react"
 import { Product } from "types/medusa"
@@ -23,7 +24,11 @@ const JumpTo: React.FC<JumpToProps> = ({ product, show }) => {
   }
 
   return (
-    <div className={clsx("lg:hidden sticky inset-x-0 bottom-0 h-32 -mt-32")}>
+    <div
+      className={clsx("lg:hidden sticky inset-x-0 bottom-0 h-32 -mt-32", {
+        "pointer-events-none": !show,
+      })}
+    >
       <Transition
         as={Fragment}
         show={show}
@@ -34,18 +39,13 @@ const JumpTo: React.FC<JumpToProps> = ({ product, show }) => {
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
       >
-        <div className="bg-white bg-opacity-90 flex flex-col gap-y-3 justify-center items-center text-base-regular py-[10px] h-full w-full border-t border-gray-200 ">
+        <div className="bg-white bg-opacity-90 backdrop-blur-sm flex flex-col gap-y-3 justify-center items-center text-base-regular py-[10px] h-full w-full">
           <div className="flex items-center gap-x-2">
             <span>{product.title}</span>
             <span>—</span>
             <span>{formattedPrice}</span>
           </div>
-          <button
-            onClick={jumpToInfo}
-            className="bg-gray-900 text-small-regular w-full text-white py-[10px] max-w-sm uppercase"
-          >
-            Select Variant
-          </button>
+          <Button onClick={jumpToInfo}>Select Variant</Button>
         </div>
       </Transition>
     </div>

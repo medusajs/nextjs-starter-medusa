@@ -15,7 +15,7 @@ const BreadCrumbs: React.FC<BreadCrumbsProps> = ({
   return (
     <div
       className={clsx(
-        "flex items-center gap-x-2 text-base-regular text-gray-700",
+        "flex items-center gap-x-2 text-small-regular text-gray-700",
         className
       )}
       {...rest}

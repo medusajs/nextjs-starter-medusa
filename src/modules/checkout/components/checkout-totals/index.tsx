@@ -1,69 +1,64 @@
+import { Cart } from "@medusajs/medusa"
 import { formatAmount } from "medusa-react"
 import React from "react"
-import { Region } from "types/medusa"
 
 type CheckoutTotalsProps = {
-  region?: Region
-  subtotal?: number
-  shippingTotal?: number
-  taxTotal?: number | null
-  total?: number
+  cart: Omit<Cart, "refundable_amount" | "refunded_total">
 }
 
-const CheckoutTotals: React.FC<CheckoutTotalsProps> = ({
-  subtotal = 0,
-  shippingTotal = 0,
-  taxTotal = 0,
-  total = 0,
-  region,
-}) => {
+const CheckoutTotals: React.FC<CheckoutTotalsProps> = ({ cart }) => {
+  const {
+    subtotal,
+    discount_total,
+    gift_card_total,
+    tax_total,
+    shipping_total,
+    total,
+  } = cart
+
+  const getAmount = (amount: number | null | undefined) => {
+    return formatAmount({
+      amount: amount || 0,
+      region: cart.region,
+      includeTaxes: false,
+    })
+  }
+
   return (
-    <div className="px-4 py-8">
-      {region && (
-        <div className="flex flex-col gap-y-8 text-base-regular">
-          <div className="flex flex-col gap-y-4">
-            <TotalContainer>
-              <span>Subtotal</span>
-              <span>
-                {formatAmount({
-                  amount: subtotal,
-                  region: region,
-                  includeTaxes: true,
-                })}
-              </span>
-            </TotalContainer>
-            <TotalContainer>
-              <span>Shipping</span>
-              <span>
-                {formatAmount({
-                  amount: shippingTotal,
-                  region: region,
-                  includeTaxes: false,
-                })}
-              </span>
-            </TotalContainer>
-          </div>
-          <TotalContainer>
-            <div className="flex flex-col">
-              <span className="text-large-semi">Total</span>
-              <span className="text-small-regular text-gray-700">
-                {`Including ${formatAmount({
-                  amount: taxTotal || 0,
-                  region: region,
-                  includeTaxes: false,
-                })} in taxes`}
-              </span>
-            </div>
-            <span className="text-large-semi">
-              {formatAmount({
-                amount: total,
-                region: region,
-                includeTaxes: false,
-              })}
-            </span>
-          </TotalContainer>
+    <div className="py-4 border-t border-gray-200">
+      <div className="text-small-regular text-gray-700 my-2">
+        <div className="flex items-center justify-between text-base-regular text-gray-900 mb-2">
+          <span>Subtotal</span>
+          <span>{getAmount(subtotal)}</span>
         </div>
-      )}
+        <div className="flex flex-col gap-y-1">
+          {!!discount_total && (
+            <div className="flex items-center justify-between">
+              <span>Discount</span>
+              <span>- {getAmount(discount_total)}</span>
+            </div>
+          )}
+          {!!gift_card_total && (
+            <div className="flex items-center justify-between">
+              <span>Discount</span>
+              <span>- {getAmount(gift_card_total)}</span>
+            </div>
+          )}
+          <div className="flex items-center justify-between">
+            <span>Shipping</span>
+            <span>{getAmount(shipping_total)}</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span>Taxes</span>
+            <span>{getAmount(tax_total)}</span>
+          </div>
+        </div>
+        <div className="h-px w-full border-b border-gray-200 border-dashed my-4" />
+        <div className="flex items-center justify-between text-base-regular text-gray-900 mb-2">
+          <span>Total</span>
+          <span>{getAmount(total)}</span>
+        </div>
+      </div>
     </div>
   )
 }

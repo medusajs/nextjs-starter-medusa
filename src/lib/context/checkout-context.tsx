@@ -320,6 +320,17 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     })
   }
 
+  const router = useRouter()
+
+  const onPaymentCompleted = () => {
+    completeCheckout.mutate(undefined, {
+      onSuccess: ({ data }) => {
+        resetCart()
+        router.push(`/order/confirmed?id=${data.id}`)
+      },
+    })
+  }
+
   return (
     <FormProvider {...methods}>
       <CheckoutContext.Provider

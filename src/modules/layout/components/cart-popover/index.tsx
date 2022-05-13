@@ -1,4 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react"
+import Button from "@modules/common/components/button"
 import LineItem from "@modules/common/components/line-item"
 import Cart from "@modules/common/icons/cart"
 import X from "@modules/common/icons/x"
@@ -27,7 +28,7 @@ const CartPopover: React.FC = () => {
     <>
       <button className="relative text-gray-700" onClick={() => setOpen(!open)}>
         <span
-          className="absolute top-0 right-0 rounded-full bg-violet-600 text-white w-3 h-3 flex items-center justify-center text-[8px]"
+          className="absolute top-0 right-0 rounded-full bg-gray-900 text-white w-3 h-3 flex items-center justify-center text-[8px]"
           data-cy="cart_quantity"
         >
           {totalItems}
@@ -64,14 +65,14 @@ const CartPopover: React.FC = () => {
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full"
               >
-                <div className="pointer-events-auto w-screen max-w-xl">
+                <div className="pointer-events-auto w-screen max-w-lg">
                   <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                     <div>
                       <CartHeader onClose={() => setOpen(false)} />
 
                       {cart?.items?.length ? (
-                        <div className="my-7">
-                          <div className="px-9">
+                        <div className="my-6">
+                          <div className="px-8">
                             <ul role="list" className="flex flex-col gap-y-4">
                               {cart?.items
                                 ?.sort((a, b) => {
@@ -89,7 +90,7 @@ const CartPopover: React.FC = () => {
                           </div>
                         </div>
                       ) : (
-                        <div className="px-9 py-7">
+                        <div className="px-8 py-6">
                           <span className="text-base-regular text-gray-700">
                             Your shopping cart is empty
                           </span>
@@ -115,7 +116,7 @@ const CartPopover: React.FC = () => {
 
 const CartHeader = ({ onClose }: { onClose: () => void }) => {
   return (
-    <div className="flex items-start justify-between px-9 py-7 border-b border-b-gray-200">
+    <div className="flex items-start justify-between px-8 py-6 border-b border-b-gray-200">
       <Dialog.Title className="text-xl-semi">Cart</Dialog.Title>
       <div className="ml-3 flex h-7 items-center">
         <button type="button" className="-m-2 p-2" onClick={onClose}>
@@ -137,26 +138,18 @@ const CartFooter = ({
   onClose: () => void
 }) => {
   return (
-    <div className="flex flex-col text-base-semi">
+    <div className="flex flex-col px-8">
       {itemCount ? (
         <Link href="/checkout" passHref>
-          <button
-            disabled={!itemCount}
-            className="bg-gray-900 py-5 text-white text-base-semi uppercase"
-          >
-            {itemCount ? "Continue to checkout" : "Continue shopping"}
-          </button>
+          <div>
+            <Button>Continue to checkout</Button>
+          </div>
         </Link>
       ) : (
-        <button
-          className="bg-gray-900 py-5 text-white text-base-semi uppercase"
-          onClick={onClose}
-        >
-          {itemCount ? "Continue to checkout" : "Continue shopping"}
-        </button>
+        <Button onClick={onClose}>Continue shopping</Button>
       )}
       {subtotal && (
-        <div className="flex items-center justify-between px-9 py-6 text-large-semi">
+        <div className="flex items-center justify-between py-6 text-large-semi">
           <span>Subtotal</span>
           <span>{subtotal}</span>
         </div>

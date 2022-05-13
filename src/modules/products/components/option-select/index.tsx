@@ -41,4 +41,11 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
   )
 }
 
+// <Select
+//   value={current}
+//   options={filteredOptions.map((f) => ({ label: f, value: f }))}
+//   onChange={(v) => updateOption({ [option.id]: v as string })}
+//   placeholder={title}
+// />
+
 export default OptionSelect

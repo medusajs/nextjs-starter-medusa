@@ -4,32 +4,42 @@ import Thumbnail from "@modules/products/components/thumbnail"
 import clsx from "clsx"
 import { useCart } from "medusa-react"
 import Link from "next/link"
-import React, { useState } from "react"
+import { useRouter } from "next/router"
+import React, { useMemo, useState } from "react"
 import { SiteProps } from "types/global"
 
 const DesktopMenu = ({ site }: SiteProps) => {
   const [open, setOpen] = useState(false)
   const { navData } = site
   const { cart } = useCart()
+
+  const { asPath, push } = useRouter()
+
+  const active = useMemo(() => {
+    return asPath === "/shop"
+  }, [asPath])
+
   return (
     <div
-      className="mx-8 lg:flex self-stretch items-center justify-center hidden"
+      className="mx-3 lg:flex self-stretch items-center justify-center hidden"
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
     >
-      <div className="flex items-center gap-x-7">
+      <div className="flex items-center h-full">
         <Popover className="h-full flex">
           <>
-            <Link href="/">
-              <a className="relative flex">
+            <Link href="/shop" passHref>
+              <a className="relative flex h-full">
                 <Popover.Button
                   className={clsx(
                     {
-                      "text-gray-900": open,
+                      "text-gray-900 !border-b-gray-900": open || active,
+                      "text-small-semi": active,
                       "text-gray-700 hover:text-gray-900": !open,
                     },
-                    "relative text-base-regular flex items-center transition-all ease-out duration-200"
+                    "relative h-full text-small-regular flex items-center transition-all ease-out duration-200 px-5 pt-[2px] uppercase border-b-2 border-b-transparent"
                   )}
+                  onClick={() => push("/shop")}
                 >
                   Shop
                 </Popover.Button>
@@ -55,29 +65,33 @@ const DesktopMenu = ({ site }: SiteProps) => {
                     <h3 className="text-base-semi text-gray-900 mb-4">
                       Collections
                     </h3>
-                    <div className="grid grid-cols-2">
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-2">
                       {navData.collections.map((collection) => {
                         return (
                           <Link
                             href={`/collections/${collection.id}`}
                             key={collection.id}
                           >
-                            <a>{collection.title}</a>
+                            <a onClick={() => setOpen(false)}>
+                              {collection.title}
+                            </a>
                           </Link>
                         )
                       })}
                     </div>
                   </div>
-                  <Divider />
                   <div className="flex-1">
-                    <div className="grid grid-cols-3 gap-8">
+                    <div className="grid grid-cols-3 gap-4">
                       {navData.featuredProducts.map((item) => (
                         <Link
                           href={`/products/${item.handle}`}
                           passHref
                           key={item.id}
                         >
-                          <div className="group text-base sm:text-sm cursor-pointer">
+                          <div
+                            className="group text-base sm:text-sm cursor-pointer"
+                            onClick={() => setOpen(false)}
+                          >
                             <Thumbnail {...item} size="full" />
                             <div className="mt-3 block text-base-regular text-gray-900">
                               {item.title}
@@ -97,21 +111,6 @@ const DesktopMenu = ({ site }: SiteProps) => {
           </>
         </Popover>
       </div>
-    </div>
-  )
-}
-
-const Divider = () => {
-  return (
-    <div className="h-full flex flex-col justify-center">
-      <div className="border-l border-gray-200 w-px h-full flex-grow" />
-      <span
-        className="text-gray-200 text-xsmall-regular uppercase"
-        style={{ writingMode: "vertical-rl" }}
-      >
-        Featured
-      </span>
-      <div className="border-l border-gray-200 w-px flex-grow" />
     </div>
   )
 }

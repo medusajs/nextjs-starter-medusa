@@ -10,7 +10,7 @@ type CheckoutItemsProps = {
 
 const CheckoutItems: React.FC<CheckoutItemsProps> = ({ items, region }) => {
   return (
-    <div className="flex flex-col px-4 py-8 gap-y-4 border-b border-gray-200 w-full">
+    <div className="flex flex-col p-4 gap-y-4 border-b border-gray-200 w-full">
       {items?.length && region ? (
         items
           .sort((a, b) => {
