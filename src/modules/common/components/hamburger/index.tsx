@@ -1,5 +1,5 @@
 import clsx from "clsx"
-import React, { useEffect } from "react"
+import React from "react"
 
 type HamburgerProps = {
   open: boolean
@@ -7,9 +7,6 @@ type HamburgerProps = {
 }
 
 const Hamburger: React.FC<HamburgerProps> = ({ open, setOpen }) => {
-  useEffect(() => {
-    console.log(open)
-  }, [open])
   return (
     <button
       className="lg:hidden text-gray-700 w-10 h-10 relative focus:outline-none"

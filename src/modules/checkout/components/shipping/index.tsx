@@ -108,8 +108,6 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
     return []
   }, [shipping_options, cart])
 
-  console.log(cart.shipping_methods)
-
   return (
     <div className="p-10 bg-white">
       <h3 className="text-xl-semi mb-2">Shipping method</h3>
