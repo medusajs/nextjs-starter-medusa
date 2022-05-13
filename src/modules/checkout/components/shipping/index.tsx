@@ -23,7 +23,7 @@ type ShippingFormProps = {
 }
 
 const Shipping: React.FC<ShippingProps> = ({ cart }) => {
-  const [disabled] = useState(!cart.email)
+  const [disabled, setDisabled] = useState(true)
   const { addShippingMethod, setCart } = useCart()
   const {
     control,
@@ -35,6 +35,28 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
       soId: cart.shipping_methods?.[0]?.shipping_option_id,
     },
   })
+
+  useEffect(() => {
+    setDisabled(true)
+
+    if (!cart) {
+      return
+    }
+
+    if (!cart.email) {
+      return
+    }
+
+    if (!cart.shipping_address) {
+      return
+    }
+
+    if (!cart.billing_address) {
+      return
+    }
+
+    setDisabled(false)
+  }, [cart])
 
   // Fetch shipping options
   const { shipping_options, refetch } = useCartShippingOptions(cart.id, {

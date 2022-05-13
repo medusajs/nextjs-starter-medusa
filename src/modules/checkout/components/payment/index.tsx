@@ -3,19 +3,51 @@ import { PaymentSession } from "@medusajs/medusa"
 import Spinner from "@modules/common/icons/spinner"
 import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe, StripeElementsOptions } from "@stripe/stripe-js"
-import React from "react"
+import clsx from "clsx"
+import React, { useEffect, useState } from "react"
 import PaymentButton from "../payment-button"
 import PaymentContainer from "../payment-container"
 
 const Payment = () => {
+  const [disabled, setDisabled] = useState(true)
   const { cart, setPaymentSession } = useCheckout()
+
+  useEffect(() => {
+    setDisabled(true)
+
+    if (!cart) {
+      return
+    }
+
+    if (!cart.shipping_address) {
+      return
+    }
+
+    if (!cart.billing_address) {
+      return
+    }
+
+    if (!cart.email) {
+      return
+    }
+
+    if (cart.shipping_methods.length < 1) {
+      return
+    }
+
+    setDisabled(false)
+  }, [cart])
 
   return (
     <Wrapper paymentSession={cart?.payment_session}>
       <div className="flex flex-col gap-y-16">
         <div>
           <h3 className="mb-6 text-xl-semi">Payment</h3>
-          <div className="border border-gray-200">
+          <div
+            className={clsx("border border-gray-200", {
+              "opacity-50 pointer-events-none": disabled,
+            })}
+          >
             {cart?.payment_sessions?.length ? (
               cart.payment_sessions
                 .sort((a, b) => {
@@ -24,6 +56,7 @@ const Payment = () => {
                 .map((paymentSession) => {
                   return (
                     <PaymentContainer
+                      disabled={disabled}
                       paymentSession={paymentSession}
                       key={paymentSession.id}
                       selected={

@@ -1,63 +1,31 @@
-import React, { useState } from "react"
-import { useForm, useWatch } from "react-hook-form"
+import { getSiteData } from "@lib/data"
+import Layout from "@modules/layout/templates"
+import { useOrder } from "medusa-react"
+import { GetStaticProps, NextPage } from "next"
+import { useRouter } from "next/router"
+import React from "react"
+import { SiteProps } from "types/global"
 
-type FormValues = {
-  details: {
-    email?: string
-    name?: string
-    phone?: string
-  }
-}
+const Details: NextPage<SiteProps> = ({ site }) => {
+  const router = useRouter()
 
-const Details = () => {
-  const { register, control, handleSubmit } = useForm<FormValues>()
-  const [errorMessage, setErrorMessage] =
-    useState<string | undefined>(undefined)
+  const { id } = router.query
 
-  const info = useWatch({
-    control,
-    name: "details",
+  const { order, isLoading } = useOrder(id as string, {
+    enabled: !!id,
   })
 
-  const onValid = (data) => console.log(data)
-  const onError = () => setErrorMessage("Please fill in all required fields")
+  return <Layout site={site}>{JSON.stringify(order, null, 2)}</Layout>
+}
 
-  const submit = handleSubmit(onValid, onError)
+export const getStaticProps: GetStaticProps<SiteProps> = async () => {
+  const data = await getSiteData()
 
-  //   const handleBlur = () => {
-  //     const requiredFields = ["email", "name"]
-
-  //     const isAddressValid = Object.entries(info)
-  //       .filter(([key, _]) => requiredFields.includes(key))
-  //       .every(([_, value]) => value)
-
-  //     console.log(isAddressValid)
-
-  //     if (isAddressValid) {
-  //       submit()
-  //     } else {
-  //       console.log("invalid")
-  //     }
-  //   }
-
-  return (
-    <div className="h-screen w-full flex justify-center items-center">
-      <form className="p-10 bg-gray-200 flex flex-col gap-y-4" onBlur={submit}>
-        <input
-          {...register("details.email", {
-            required: "Email is required",
-          })}
-        />
-        <input
-          {...register("details.name", {
-            required: "Name is required",
-          })}
-        />
-        <input {...register("details.phone")} />
-      </form>
-      <span>{errorMessage}</span>
-    </div>
-  )
+  return {
+    props: {
+      ...data,
+    },
+  }
 }
 
 export default Details

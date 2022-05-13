@@ -43,6 +43,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
       value={value}
       placeholder="Country"
       className="border-x-0 border-t-0 px-0"
+      autoComplete="country"
       errors={errors}
       required={required}
       disabled={disabled}

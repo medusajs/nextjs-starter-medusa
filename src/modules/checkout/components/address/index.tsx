@@ -157,9 +157,9 @@ const Address: React.FC<AddressProps> = ({ cart }) => {
     const currentAddress = getValues("shipping_address")
 
     // If the address is the same, we abort the update
-    // if (isEqual(shippingAddress, currentAddress)) {
-    //   return
-    // }
+    if (isEqual(shippingAddress, currentAddress)) {
+      return
+    }
 
     const payload = {
       shipping_address: address.id,

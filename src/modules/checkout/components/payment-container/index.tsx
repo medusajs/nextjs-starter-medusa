@@ -8,6 +8,7 @@ type PaymentContainerProps = {
   paymentSession: PaymentSession
   selected: boolean
   setSelected: () => void
+  disabled?: boolean
 }
 
 const PaymentInfoMap: Record<string, { title: string; description: string }> = {
@@ -29,12 +30,14 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
   paymentSession,
   selected,
   setSelected,
+  disabled = false,
 }) => {
   return (
     <div className="flex flex-col gap-y-4 border-b border-gray-200 last:border-none px-4 pt-4 pb-8">
       <button
         className="col-span-2 flex items-start gap-x-4"
         onClick={setSelected}
+        disabled={disabled}
       >
         <Radio checked={selected} />
         <div className="flex flex-col text-left">

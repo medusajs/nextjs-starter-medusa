@@ -11,7 +11,6 @@ const Home: NextPage<SiteProps> = ({ site }) => {
       <Head
         title="Store"
         description="Shop all available models only at the ACME. Worldwide Shipping. Secure Payment."
-        image="https://cdn.shopify.com/s/files/1/0585/7820/6912/files/desktop1_2048x.jpg?v=1649972368"
       />
       <div className="lg:mb-32 mb-16">
         <Hero
@@ -20,9 +19,9 @@ const Home: NextPage<SiteProps> = ({ site }) => {
             alt: "Credit to @forcemajeure for the image",
           }}
           copy={{
-            headline: "Next.JS + Medusa",
-            subline: "New starter",
-            text: "Get up and running with Next.JS and Medusa in no time.",
+            headline: "Summer is here",
+            subline: "New collection",
+            text: "Get your summer look on. Shop the latest collection from ACME.",
           }}
           callToAction={{
             text: "Shop now",

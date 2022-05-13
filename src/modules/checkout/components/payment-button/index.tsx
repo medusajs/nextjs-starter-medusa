@@ -11,17 +11,54 @@ type PaymentButtonProps = {
 }
 
 const PaymentButton: React.FC<PaymentButtonProps> = ({ paymentSession }) => {
+  const [notReady, setNotReady] = useState(true)
+  const { cart } = useCart()
+
+  useEffect(() => {
+    setNotReady(true)
+
+    if (!cart) {
+      return
+    }
+
+    if (!cart.shipping_address) {
+      return
+    }
+
+    if (!cart.billing_address) {
+      return
+    }
+
+    if (!cart.email) {
+      return
+    }
+
+    if (cart.shipping_methods.length < 1) {
+      return
+    }
+
+    setNotReady(false)
+  }, [cart])
+
   switch (paymentSession?.provider_id) {
     case "stripe":
-      return <StripePaymentButton session={paymentSession} />
+      return (
+        <StripePaymentButton session={paymentSession} notReady={notReady} />
+      )
     case "manual":
-      return <ManualTestPaymentButton />
+      return <ManualTestPaymentButton notReady={notReady} />
     default:
       return <Button disabled>Select a payment method</Button>
   }
 }
 
-const StripePaymentButton = ({ session }: { session: PaymentSession }) => {
+const StripePaymentButton = ({
+  session,
+  notReady,
+}: {
+  session: PaymentSession
+  notReady: boolean
+}) => {
   const [disabled, setDisabled] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] =
@@ -103,19 +140,32 @@ const StripePaymentButton = ({ session }: { session: PaymentSession }) => {
 
   return (
     <>
-      <Button disabled={submitting || disabled} onClick={handlePayment}>
-        {submitting ? <Spinner /> : "Stripe"}
+      <Button
+        disabled={submitting || disabled || notReady}
+        onClick={handlePayment}
+      >
+        {submitting ? <Spinner /> : "Checkout"}
       </Button>
       {errorMessage && <div className="text-red-500">{errorMessage}</div>}
     </>
   )
 }
 
-const ManualTestPaymentButton: React.FC = () => {
+const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
   const [submitting, setSubmitting] = useState(false)
 
+  const { onPaymentCompleted } = useCheckout()
+
+  const handlePayment = () => {
+    setSubmitting(true)
+
+    onPaymentCompleted()
+
+    setSubmitting(false)
+  }
+
   return (
-    <Button disabled={submitting}>
+    <Button disabled={submitting || notReady} onClick={handlePayment}>
       {submitting ? <Spinner /> : "Checkout"}
     </Button>
   )

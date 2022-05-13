@@ -141,7 +141,9 @@ const CartFooter = ({
     <div className="flex flex-col px-8">
       {itemCount ? (
         <Link href="/checkout" passHref>
-          <Button>Continue to checkout</Button>
+          <div>
+            <Button>Continue to checkout</Button>
+          </div>
         </Link>
       ) : (
         <Button onClick={onClose}>Continue shopping</Button>
