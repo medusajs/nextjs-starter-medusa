@@ -1,5 +1,6 @@
 import { PaymentSession } from "@medusajs/medusa"
 import Radio from "@modules/common/components/radio"
+import clsx from "clsx"
 import React from "react"
 import PaymentStripe from "../payment-stripe"
 import PaymentTest from "../payment-test"
@@ -33,9 +34,11 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
   disabled = false,
 }) => {
   return (
-    <div className="flex flex-col gap-y-4 py-8 border-b border-gray-200 last:border-b-0">
+    <div className="flex flex-col gap-y-4 border-t border-gray-200">
       <button
-        className="col-span-2 flex items-start gap-x-4"
+        className={clsx("col-span-2 flex items-start gap-x-4 px-2 py-4", {
+          "bg-gray-50": selected,
+        })}
         onClick={setSelected}
         disabled={disabled}
       >
@@ -50,7 +53,7 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
         </div>
       </button>
       {selected && (
-        <div className="pl-9">
+        <div className="pl-11 pb-8">
           <PaymentElement paymentSession={paymentSession} />
         </div>
       )}

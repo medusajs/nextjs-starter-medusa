@@ -44,7 +44,9 @@ const Payment = () => {
             How would you like to pay?
           </span>
         </div>
-        <GiftCard cart={cart} />
+        <div className="my-4">
+          <GiftCard cart={cart} />
+        </div>
         <div
           className={clsx({
             "opacity-50 pointer-events-none": disabled,

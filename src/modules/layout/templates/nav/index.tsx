@@ -33,7 +33,7 @@ const Nav: React.FC<SiteProps> = ({ site }) => {
       )}
     >
       <header className="relative h-16">
-        <nav className="text-gray-900 flex items-center justify-between w-full h-full px-8 mx-auto bg-white">
+        <nav className="text-gray-900 flex items-center justify-between w-full h-full px-8 mx-auto bg-white border-b border-gray-200">
           <Hamburger open={open} setOpen={() => setOpen(!open)} />
           <div className="flex items-center h-full">
             <Link href="/">
