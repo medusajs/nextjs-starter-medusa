@@ -33,7 +33,6 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
   const router = useRouter()
 
   const checkSession = useCallback(() => {
-    console.log("Checking auth", customer, retrievingCustomer)
     if (!customer && !retrievingCustomer) {
       router.push("/account/login")
     }

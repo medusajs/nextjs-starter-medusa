@@ -29,7 +29,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ open, onClose, site }) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Dialog.Overlay className="absolute inset-0 bg-transparent transition-opacity" />
+            <Dialog.Overlay className="absolute inset-0 bg-gray-700 bg-opacity-75 backdrop-blur-sm transition-opacity" />
           </Transition.Child>
 
           <div className="pointer-events-none fixed inset-y-0 right-left flex max-w-full">
@@ -42,19 +42,16 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ open, onClose, site }) => {
               leaveFrom="translate-x-0 opacity-100"
               leaveTo="-translate-x-full opacity-0"
             >
-              <div className="relative w-screen max-w-lg pointer-events-auto py-6 px-8 bg-gray-900 bg-opacity-80 text-white backdrop-blur-sm flex flex-col overflow-y-auto">
+              <div className="relative w-screen max-w-md pointer-events-auto py-6 px-8 bg-white text-gray-900 flex flex-col overflow-y-auto">
                 <div className="flex items-center justify-end mb-6">
                   <button onClick={onClose}>
                     <X size={24} />
                   </button>
                 </div>
 
-                <div className="space-y-6 uppercase">
+                <div className="space-y-6">
                   <div className="flex flex-col">
-                    <span className="text-base-semi text-white mb-2">
-                      Collections
-                    </span>
-                    <div className="flex flex-col gap-y-1 text-small-regular text-gray-100">
+                    <div className="flex flex-col gap-y-1 text-large-semi text-gray-900 uppercase">
                       {site.navData.collections.map((collection) => {
                         return (
                           <Link
@@ -70,10 +67,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ open, onClose, site }) => {
                   </div>
 
                   <div className="flex flex-col">
-                    <span className="text-base-semi text-white mb-2">
-                      Account
-                    </span>
-                    <div className="flex flex-col gap-y-1 text-small-regular text-gray-100">
+                    <div className="flex flex-col gap-y-1 text-base-regular text-gray-700">
                       {!customer || retrievingCustomer ? (
                         <>
                           <Link href={`/account/login`} passHref>
@@ -86,14 +80,19 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ open, onClose, site }) => {
                       ) : (
                         <>
                           <Link href={`/account`} passHref>
-                            <a>Details</a>
+                            <a>Account</a>
+                          </Link>
+                          <Link href={`/account/addresses`} passHref>
+                            <a>Addresses</a>
                           </Link>
                           <Link href={`/account/orders`} passHref>
                             <a>Orders</a>
                           </Link>
-                          <Link href={`/account/wishlist`} passHref>
-                            <a>Wishlist</a>
-                          </Link>
+                          {process.env.FEATURE_WISHLIST_ENABLED && (
+                            <Link href={`/account/wishlist`} passHref>
+                              <a>Wishlist</a>
+                            </Link>
+                          )}
                         </>
                       )}
                     </div>
