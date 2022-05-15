@@ -53,8 +53,8 @@ const StripeDetails = ({ payment }: { payment: Payment }) => {
 
 const TestDetails = () => {
   return (
-    <div>
-      <span>Test</span>
+    <div className="flex flex-col text-base-regular">
+      <span className="text-small-regular text-gray-700">Test</span>
       <span>Test payment using medusa-payment-manual</span>
     </div>
   )
