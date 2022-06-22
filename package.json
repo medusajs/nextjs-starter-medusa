@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "author": "Kasper Fabricius Kristensen <kasper@medusa-commmerce.com> (https://www.medusa-commerce.com)",
+  "description": "Next.js starter to be used with Medusa server",
+  "keywords": [
+    "medusa-storefront"
+  ],
   "scripts": {
     "dev": "next dev -p 8000",
     "build": "next build",
