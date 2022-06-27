@@ -9,7 +9,7 @@ type HamburgerProps = {
 const Hamburger: React.FC<HamburgerProps> = ({ open, setOpen }) => {
   return (
     <button
-      className="lg:hidden text-gray-700 w-10 h-10 relative focus:outline-none"
+      className="text-gray-700 w-10 h-10 relative focus:outline-none"
       onClick={setOpen}
     >
       <span className="sr-only">Open main menu</span>

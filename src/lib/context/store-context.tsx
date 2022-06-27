@@ -7,6 +7,7 @@ import {
   useUpdateLineItem,
 } from "medusa-react"
 import React, { useEffect } from "react"
+import { useCartDropdown } from "./cart-dropdown-context"
 
 interface VariantInfoProps {
   variantId: string
@@ -45,6 +46,7 @@ const CART_KEY = "medusa_cart_id"
 
 export const StoreProvider = ({ children }: StoreProps) => {
   const { cart, setCart, createCart, updateCart } = useCart()
+  const { timedOpen } = useCartDropdown()
   const addLineItem = useCreateLineItem(cart?.id!)
   const removeLineItem = useDeleteLineItem(cart?.id!)
   const adjustLineItem = useUpdateLineItem(cart?.id!)
@@ -171,6 +173,7 @@ export const StoreProvider = ({ children }: StoreProps) => {
         onSuccess: ({ cart }) => {
           setCart(cart)
           storeInLocalStorage(cart.id)
+          timedOpen()
         },
         onError: (error) => {
           handleError(error)

@@ -9,6 +9,13 @@ module.exports = {
       maxWidth: {
         "8xl": "100rem",
       },
+      screens: {
+        "small": "1024px",
+        "medium": "1280px",
+        "large": "1440px",
+        "xlarge": "1680px",
+        "2xlarge": "1920px",
+      },
       fontFamily: {
         sans: [
           "Inter",

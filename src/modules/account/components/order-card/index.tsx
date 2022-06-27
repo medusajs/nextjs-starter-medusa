@@ -3,13 +3,13 @@ import Button from "@modules/common/components/button"
 import Thumbnail from "@modules/products/components/thumbnail"
 import { formatAmount } from "medusa-react"
 import Link from "next/link"
-import React, { useMemo } from "react"
+import { useMemo } from "react"
 
 type OrderCardProps = {
   order: Omit<Order, "beforeInsert">
 }
 
-const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
+const OrderCard = ({ order }: OrderCardProps) => {
   const numberOfItems = useMemo(() => {
     return order.items.reduce((acc, item) => {
       return acc + item.quantity
@@ -17,10 +17,8 @@ const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
   }, [order])
 
   return (
-    <div className="bg-white p-10 flex flex-col">
-      <div className="uppercase text-large-semi mb-1">
-        Your order #{order.display_id}
-      </div>
+    <div className="bg-white flex flex-col">
+      <div className="uppercase text-large-semi mb-1">#{order.display_id}</div>
       <div className="flex items-center divide-x divide-gray-200 text-small-regular text-gray-700">
         <span className="pr-2">
           {new Date(order.created_at).toDateString()}
@@ -36,29 +34,29 @@ const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
           numberOfItems > 1 ? "items" : "item"
         }`}</span>
       </div>
-      <div className="flex items-end justify-between my-4">
+      <div className="grid grid-cols-4 gap-x-2 my-4">
         {order.items.map((i) => {
           return (
             <div key={i.id} className="flex flex-col gap-y-2">
               <Thumbnail
                 thumbnail={order.items[0].thumbnail}
                 images={[]}
-                size="small"
+                size="full"
               />
               <div className="flex items-center text-small-regular text-gray-700">
+                <span className="text-gray-900 font-semibold">{i.title}</span>
+                <span className="ml-2">x</span>
                 <span>{i.quantity}</span>
-                <span className="mr-4 ml-2">x</span>
-                <span className="text-gray-900">{i.title}</span>
               </div>
             </div>
           )
         })}
       </div>
       <div className="flex justify-end">
-        <Link href={`/account/orders/details?order=${order.id}`} passHref>
-          <div>
-            <Button>See details</Button>
-          </div>
+        <Link href={`/account/orders/details?order=${order.id}`}>
+          <a>
+            <Button variant="secondary">See details</Button>
+          </a>
         </Link>
       </div>
     </div>

@@ -8,7 +8,7 @@ import Modal from "@modules/common/components/modal"
 import Plus from "@modules/common/icons/plus"
 import Spinner from "@modules/common/icons/spinner"
 import React, { useState } from "react"
-import { Controller, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 
 type FormValues = {
   first_name: string
@@ -31,7 +31,6 @@ const AddAddress: React.FC = () => {
   const { refetchCustomer } = useAccount()
   const {
     register,
-    control,
     handleSubmit,
     formState: { errors },
     reset,
@@ -60,7 +59,7 @@ const AddAddress: React.FC = () => {
     const payload = {
       first_name: data.first_name,
       last_name: data.last_name,
-      company: data.company || "Personal",
+      company: data.company || "",
       address_1: data.address_1,
       address_2: data.address_2 || "",
       city: data.city,
@@ -97,89 +96,79 @@ const AddAddress: React.FC = () => {
       <Modal isOpen={state} close={handleClose}>
         <Modal.Title>Add address</Modal.Title>
         <Modal.Body>
-          <div className="grid grid-cols-2 gap-x-4 gap-y-5">
-            <Input
-              label="First name"
-              {...register("first_name", {
-                required: "First name is required",
-              })}
-              required
-              errors={errors}
-              autoComplete="given-name"
-            />
-            <Input
-              label="Last name"
-              {...register("last_name", {
-                required: "Last name is required",
-              })}
-              required
-              errors={errors}
-              autoComplete="family-name"
-            />
-            <div className="col-span-full">
-              <Input label="Company" {...register("company")} errors={errors} />
-            </div>
-            <div className="col-span-full">
+          <div className="grid grid-cols-1 gap-y-2">
+            <div className="grid grid-cols-2 gap-x-2">
               <Input
-                label="Address"
-                {...register("address_1", {
-                  required: "Address is required",
+                label="First name"
+                {...register("first_name", {
+                  required: "First name is required",
                 })}
                 required
                 errors={errors}
-                autoComplete="address-line1"
+                autoComplete="given-name"
               />
-            </div>
-            <div className="col-span-full">
               <Input
-                label="Apartment, suite, etc."
-                {...register("address_2")}
+                label="Last name"
+                {...register("last_name", {
+                  required: "Last name is required",
+                })}
+                required
                 errors={errors}
-                autoComplete="address-line2"
+                autoComplete="family-name"
+              />
+            </div>
+            <Input label="Company" {...register("company")} errors={errors} />
+            <Input
+              label="Address"
+              {...register("address_1", {
+                required: "Address is required",
+              })}
+              required
+              errors={errors}
+              autoComplete="address-line1"
+            />
+            <Input
+              label="Apartment, suite, etc."
+              {...register("address_2")}
+              errors={errors}
+              autoComplete="address-line2"
+            />
+            <div className="grid grid-cols-[144px_1fr] gap-x-2">
+              <Input
+                label="Postal code"
+                {...register("postal_code", {
+                  required: "Postal code is required",
+                })}
+                required
+                errors={errors}
+                autoComplete="postal-code"
+              />
+              <Input
+                label="City"
+                {...register("city", {
+                  required: "City is required",
+                })}
+                errors={errors}
+                required
+                autoComplete="locality"
               />
             </div>
             <Input
-              label="Postal code"
-              {...register("postal_code", {
-                required: "Postal code is required",
-              })}
-              required
-              errors={errors}
-              autoComplete="postal-code"
-            />
-            <Input
-              label="City"
-              {...register("city", {
-                required: "City is required",
-              })}
-              errors={errors}
-              required
-              autoComplete="city"
-            />
-            <Input
-              label="Province"
+              label="Province / State"
               {...register("province")}
               errors={errors}
               autoComplete="address-level1"
             />
-            <Controller
-              name="country_code"
-              rules={{ required: "Country is required", minLength: 2 }}
-              control={control}
-              render={({ field: { value, onChange } }) => {
-                return (
-                  <CountrySelect
-                    onChange={onChange}
-                    value={value}
-                    errors={errors}
-                    required
-                  />
-                )
-              }}
+            <CountrySelect
+              {...register("country_code", { required: true })}
+              autoComplete="country"
             />
-            <div className="col-span-full">
-              <Input label="Phone" {...register("phone")} errors={errors} />
-            </div>
+            <Input
+              label="Phone"
+              {...register("phone")}
+              errors={errors}
+              autoComplete="phone"
+            />
           </div>
           {error && (
             <div className="text-rose-500 text-small-regular py-2">{error}</div>

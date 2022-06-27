@@ -1,5 +1,6 @@
 import { medusaClient } from "@lib/config"
 import { useAccount } from "@lib/context/account-context"
+import useToggleState from "@lib/hooks/use-toggle-state"
 import { Cart } from "@medusajs/medusa"
 import Button from "@modules/common/components/button"
 import Input from "@modules/common/components/input"
@@ -7,6 +8,7 @@ import clsx from "clsx"
 import { useCart, useUpdateCart } from "medusa-react"
 import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
+import StepContainer from "../step-container"
 
 type EmailFormValues = {
   email: string
@@ -21,11 +23,18 @@ type EmailProps = {
 }
 
 const Email: React.FC<EmailProps> = ({ cart }) => {
+  const { state, open, close } = useToggleState(false)
   const [showLogin, setShowLogin] = useState(false)
   const [optOut, setOptOut] = useState(false)
   const { setCart } = useCart()
   const { customer, retrievingCustomer, refetchCustomer } = useAccount()
   const { mutate: addEmail } = useUpdateCart(cart?.id!)
+
+  useEffect(() => {
+    if (!cart.email) {
+      open()
+    }
+  }, [cart, open])
 
   const {
     register: registerPw,
@@ -36,7 +45,6 @@ const Email: React.FC<EmailProps> = ({ cart }) => {
 
   const {
     register: registerEm,
-    control: controlEm,
     handleSubmit: handleSubmitEm,
     setError: setErrorEm,
     formState: { errors: errorsEm },
@@ -112,8 +120,7 @@ const Email: React.FC<EmailProps> = ({ cart }) => {
   })
 
   return (
-    <div className="p-10 bg-white">
-      <h3 className="mb-6 text-xl-semi">Email</h3>
+    <StepContainer title="Email" index={1}>
       <div className="flex items-center gap-x-4">
         <div className="w-full">
           <Input
@@ -159,7 +166,7 @@ const Email: React.FC<EmailProps> = ({ cart }) => {
           </Button>
         </div>
       </div>
-    </div>
+    </StepContainer>
   )
 }
 

@@ -4,12 +4,12 @@ import { ProductCollection } from "@medusajs/medusa/dist"
 import CollectionTemplate from "@modules/collections/templates"
 import Head from "@modules/common/components/head"
 import Layout from "@modules/layout/templates"
-import { GetStaticPaths, GetStaticProps, NextPage } from "next"
+import { GetStaticPaths, GetStaticProps } from "next"
 import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
-import React from "react"
+import { ReactElement } from "react"
 import { Product } from "types/medusa"
-import { StoreProps } from "../../types/global"
+import { NextPageWithLayout, StoreProps } from "../../types/global"
 
 interface Params extends ParsedUrlQuery {
   id: string
@@ -21,10 +21,9 @@ interface AdditionalData {
   hasMore: boolean
 }
 
-const ProductPage: NextPage<StoreProps<ProductCollection, AdditionalData>> = ({
-  page,
-  site,
-}) => {
+const ProductPage: NextPageWithLayout<
+  StoreProps<ProductCollection, AdditionalData>
+> = ({ page }) => {
   const router = useRouter()
 
   if (router.isFallback) {
@@ -32,7 +31,7 @@ const ProductPage: NextPage<StoreProps<ProductCollection, AdditionalData>> = ({
   }
 
   return (
-    <Layout site={site}>
+    <>
       <Head
         title={page.data.title}
         description={`${page.data.title} collection`}
@@ -43,8 +42,12 @@ const ProductPage: NextPage<StoreProps<ProductCollection, AdditionalData>> = ({
         count={page.additionalData.count}
         hasMore={page.additionalData.hasMore}
       />
-    </Layout>
+    </>
   )
+}
+
+ProductPage.getLayout = (page: ReactElement) => {
+  return <Layout>{page}</Layout>
 }
 
 export const getStaticPaths: GetStaticPaths<Params> = async () => {

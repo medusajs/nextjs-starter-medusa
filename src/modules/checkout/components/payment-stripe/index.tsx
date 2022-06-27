@@ -31,7 +31,7 @@ const PaymentStripe: React.FC = () => {
 
   return (
     <div>
-      <div className="flex flex-col relative w-full">
+      <div className="flex flex-col relative w-full pb-6">
         <CardNumber options={useOptions as StripeCardNumberElementOptions} />
         <div className="flex items-center mt-12 relative gap-x-4">
           <CardExpiry options={useOptions as StripeCardExpiryElementOptions} />

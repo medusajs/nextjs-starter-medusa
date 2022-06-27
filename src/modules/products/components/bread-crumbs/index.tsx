@@ -15,22 +15,28 @@ const BreadCrumbs: React.FC<BreadCrumbsProps> = ({
   return (
     <div
       className={clsx(
-        "flex items-center gap-x-2 text-small-regular text-gray-700",
+        "product-page-constraint flex items-center gap-x-4 py-4",
         className
       )}
       {...rest}
     >
-      <Link href="/" passHref>
-        <a>Home</a>
-      </Link>
-      {collection && (
-        <>
-          <span>/</span>
-          <Link href={`/collections/${collection.id}`} passHref>
-            <a>{collection.title}</a>
-          </Link>
-        </>
-      )}
+      <div className="flex items-center gap-x-2 text-small-regular text-gray-700">
+        <Link href="/" passHref>
+          <a>Home</a>
+        </Link>
+        <span>/</span>
+        <Link href="/shop" passHref>
+          <a>Shop</a>
+        </Link>
+        {collection && (
+          <>
+            <span>/</span>
+            <Link href={`/collections/${collection.id}`} passHref>
+              <a>{collection.title}</a>
+            </Link>
+          </>
+        )}
+      </div>
     </div>
   )
 }

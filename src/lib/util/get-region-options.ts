@@ -11,7 +11,7 @@ export const getRegionOptions = (regions: Region[]) => {
       newOptions.push({
         label: `${
           region.name
-        } (${region.currency_code.toUpperCase()} ${nativeSymbol})`,
+        } | ${nativeSymbol}`,
         value: region.id,
       })
     }

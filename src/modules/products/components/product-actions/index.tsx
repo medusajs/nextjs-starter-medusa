@@ -1,10 +1,8 @@
 import { useProductActions } from "@lib/context/product-context"
 import Button from "@modules/common/components/button"
-import QuantitySelector from "@modules/common/components/quantity-selector"
 import OptionSelect from "@modules/products/components/option-select"
 import React from "react"
 import { Product } from "types/medusa"
-import BreadCrumbs from "../bread-crumbs"
 
 type ProductActionsProps = {
   product: Product
@@ -15,55 +13,67 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
     formattedPrice,
     updateOptions,
     addToCart,
-    increaseQuantity,
-    decreaseQuantity,
-    quantity,
     options,
     disabled,
+    maxQuantityMet,
+    quantity,
+    increaseQuantity,
+    decreaseQuantity,
     inStock,
   } = useProductActions()
 
   return (
-    <div>
-      <BreadCrumbs collection={product.collection} className="mb-3" />
+    <div className="flex flex-col gap-y-2">
       <h3 className="text-xl-regular">{product.title}</h3>
-      <span className="text-large-regular">{formattedPrice}</span>
-      <p className="text-small-regular text-gray-700 mt-4">
-        {product.description}
-      </p>
-      <div className="my-8 flex flex-col gap-y-6">
-        {product.options.map((option) => {
-          return (
-            <div key={option.id}>
-              <OptionSelect
-                option={option}
-                current={options[option.id]}
-                updateOption={updateOptions}
-                title={option.title}
-              />
-            </div>
-          )
-        })}
+
+      {product.variants.length > 1 && (
+        <div className="my-8 flex flex-col gap-y-6">
+          {product.options.map((option) => {
+            return (
+              <div key={option.id}>
+                <OptionSelect
+                  option={option}
+                  current={options[option.id]}
+                  updateOption={updateOptions}
+                  title={option.title}
+                />
+              </div>
+            )
+          })}
+        </div>
+      )}
+
+      <div className="mb-4">
+        <span className="text-xl-semi">{formattedPrice}</span>
       </div>
 
-      <Button onClick={addToCart} disabled={disabled}>
-        {!inStock ? (
-          "Out of stock"
-        ) : disabled ? (
-          "Select variant"
-        ) : (
-          <div className="flex items-center gap-x-2">
-            <span>Add to cart</span>
+      <div className="flex flex-col gap-y-4">
+        <div className="flex items-center justify-between text-base-semi">
+          <span>Select Quantity</span>
+          <div className="flex items-center text-base-semi">
+            <button
+              onClick={decreaseQuantity}
+              disabled={quantity === 1}
+              className="disabled:text-gray-400"
+            >
+              –
+            </button>
+            <div className="w-12 flex justify-center">
+              <span>{quantity}</span>
+            </div>
+            <button
+              onClick={increaseQuantity}
+              disabled={maxQuantityMet}
+              className="disabled:text-gray-400"
+            >
+              +
+            </button>
           </div>
-        )}
-      </Button>
-
-      <QuantitySelector
-        size="large"
-        quantity={quantity}
-        increase={increaseQuantity}
-        decrease={decreaseQuantity}
-      />
+        </div>
+        <Button onClick={addToCart}>
+          {!inStock ? "Out of stock" : "Add to cart"}
+        </Button>
+      </div>
     </div>
   )
 }

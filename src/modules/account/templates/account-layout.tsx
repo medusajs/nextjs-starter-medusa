@@ -19,9 +19,13 @@ const AccountLayout: React.FC = ({ children }) => {
   }
 
   return (
-    <div className="relative flex-1 min-h-[calc(100vh-64px)] bg-gray-50">
-      <AccountNav />
-      <div className="flex-1 px-8 py-12 flex justify-center">{children}</div>
+    <div className="flex-1 min-h-[calc(100vh-64px)] py-12">
+      <div className="flex-1 px-8 py-12 max-w-5xl mx-auto grid grid-cols-[140px_1fr]">
+        <div>
+          <AccountNav />
+        </div>
+        <div>{children}</div>
+      </div>
     </div>
   )
 }

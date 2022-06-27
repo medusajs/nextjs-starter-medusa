@@ -18,7 +18,11 @@ const OrderCompletedTemplate: React.FC<OrderCompletedTemplateProps> = ({
     <div className="bg-gray-50 flex justify-center p-10 min-h-[calc(100vh-64px)]">
       <div className="max-w-4xl h-full bg-white w-full">
         <OrderDetails order={order} />
-        <Items items={order.items} region={order.region} />
+        <Items
+          items={order.items}
+          region={order.region}
+          cartId={order.cart_id}
+        />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-10 border-b border-gray-200">
           <PaymentDetails
             payments={order.payments}

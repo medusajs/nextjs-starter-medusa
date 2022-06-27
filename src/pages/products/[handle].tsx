@@ -1,70 +1,81 @@
 import { medusaClient } from "@lib/config"
 import { getProductData } from "@lib/data"
 import { getProductHandles } from "@lib/util/get-product-handles"
+import { Product } from "@medusajs/medusa"
 import Head from "@modules/common/components/head"
 import Layout from "@modules/layout/templates"
 import ProductTemplate from "@modules/products/templates"
-import {} from "medusa-react"
-import { GetStaticPaths, GetStaticProps, NextPage } from "next"
+import { useCart } from "medusa-react"
+import { GetStaticPaths, GetStaticProps } from "next"
 import { ParsedUrlQuery } from "querystring"
-import React, { useEffect, useState } from "react"
+import { ReactElement, useEffect, useState } from "react"
 import { useQuery } from "react-query"
-import { StoreProps } from "types/global"
-import { Product } from "types/medusa"
+import { NextPageWithLayout, StoreProps } from "types/global"
 
 interface Params extends ParsedUrlQuery {
   handle: string
 }
 
-const fetchInventory = async (id: string) =>
-  medusaClient.products.retrieve(id).then((data) => {
-    return data.product.variants.map((v) => ({
-      id: v.id,
-      inventory_quantity: v.inventory_quantity,
-      allow_backorder: v.allow_backorder,
-    }))
+// At runtime we refetch the product data to get the latest inventory data,
+// as well as the price data related to the current cart.
+const fetchRehydrate = async ({
+  productId,
+  cartId,
+}: {
+  productId: string
+  cartId: string
+}) => {
+  const request = await medusaClient.products.list({
+    id: productId,
+    cart_id: cartId,
   })
 
-const ProductPage: NextPage<StoreProps<Product, Product[]>> = ({
+  return request.products[0].variants
+}
+
+const ProductPage: NextPageWithLayout<StoreProps<Product, Product[]>> = ({
   page,
   site,
 }) => {
-  const { data, additionalData } = page
+  const { data } = page
+  const { cart } = useCart()
 
   const [product, setProduct] = useState(data)
 
-  const { data: inventory } = useQuery(
-    ["inventory", product.id],
-    async () => await fetchInventory(product.id)
+  const { data: rehydratedVariants } = useQuery(
+    [`rehydrated_variants_${product.id}`, product.id, cart?.id],
+    async () =>
+      await fetchRehydrate({ productId: product.id, cartId: cart?.id! }),
+    {
+      enabled: !!cart,
+    }
   )
 
   // rehydrate product after inventory is fetched
   useEffect(() => {
-    if (data && inventory) {
+    if (data && rehydratedVariants) {
+      // @ts-ignore - ignore ts as product variant type is erroneously typed
       setProduct({
         ...data,
-        variants: [
-          ...data.variants.map((variant) => {
-            const newInventory = inventory.find(
-              (update) => update.id === variant.id
-            )
-            return newInventory ? { ...variant, ...newInventory } : variant
-          }),
-        ],
+        variants: rehydratedVariants,
       })
     }
-  }, [data, inventory])
+  }, [data, rehydratedVariants])
 
   return (
-    <Layout site={site}>
+    <>
       <Head
         description={product.description}
         title={product.title}
         image={product.thumbnail}
       />
-      <ProductTemplate product={product} relatedProducts={additionalData} />
-    </Layout>
+      <ProductTemplate product={product} />
+    </>
   )
+}
+
+ProductPage.getLayout = (page: ReactElement) => {
+  return <Layout>{page}</Layout>
 }
 
 export const getStaticPaths: GetStaticPaths<Params> = async () => {

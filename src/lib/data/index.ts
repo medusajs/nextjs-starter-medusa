@@ -1,5 +1,5 @@
 import { medusaClient } from "@lib/config"
-import { Product } from "types/medusa"
+import { Product } from "@medusajs/medusa"
 
 const COL_LIMIT = 15
 

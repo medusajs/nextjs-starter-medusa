@@ -24,7 +24,7 @@ const Footer: React.FC<FooterProps> = ({
   }, [regions])
 
   return (
-    <div className="lg:flex lg:items-center lg:justify-between py-4 lg:py-6 grid grid-cols-1 grid-rows-3 gap-y-6">
+    <div className="lg:flex lg:items-center lg:justify-between grid grid-cols-1 grid-rows-3 gap-y-6">
       <div className="lg:max-w-[250px] w-full row-start-2 row-span-1">
         <Select
           options={options}

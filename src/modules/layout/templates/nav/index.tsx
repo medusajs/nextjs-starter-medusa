@@ -1,16 +1,14 @@
 import { useScrollListenser } from "@lib/hooks/use-scroll.listener"
 import Hamburger from "@modules/common/components/hamburger"
-import User from "@modules/common/icons/user"
-import CartPopover from "@modules/layout/components/cart-popover"
-import DesktopMenu from "@modules/layout/components/desktop-menu"
+import CartDropdown from "@modules/layout/components/cart-dropdown"
 import MobileMenu from "@modules/layout/components/mobile-menu"
+import SearchDropdown from "@modules/layout/components/search-dropdown"
 import clsx from "clsx"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
-import { SiteProps } from "types/global"
 
-const Nav: React.FC<SiteProps> = ({ site }) => {
+const Nav: React.FC = () => {
   const showNav = useScrollListenser()
   const router = useRouter()
   const [fixate, setFixate] = useState(false)
@@ -32,28 +30,29 @@ const Nav: React.FC<SiteProps> = ({ site }) => {
         }
       )}
     >
-      <header className="relative h-16">
-        <nav className="text-gray-900 flex items-center justify-between w-full h-full px-8 mx-auto bg-white border-b border-gray-200">
-          <Hamburger open={open} setOpen={() => setOpen(!open)} />
-          <div className="flex items-center h-full">
-            <Link href="/">
-              <a className="text-2xl-semi">ACME</a>
-            </Link>
-            <DesktopMenu site={site} />
+      <header className="relative h-16 px-8 mx-auto bg-white border-b border-gray-200">
+        <nav className="text-gray-900 flex items-center justify-between w-full h-full text-small-regular">
+          <div className="flex-1 basis-0">
+            <Hamburger open={open} setOpen={() => setOpen(!open)} />
           </div>
 
-          <div className="flex items-center gap-x-6 h-full">
+          <div className="flex items-center h-full">
+            <Link href="/">
+              <a className="text-xl-semi uppercase">Acme</a>
+            </Link>
+          </div>
+
+          <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
+            {process.env.FEATURE_SEARCH_ENABLED && <SearchDropdown />}
             {process.env.FEATURE_CUSTOMERAUTH_ENABLED && (
               <Link href="/account">
-                <a>
-                  <User size={20} className="lg:block hidden" />
-                </a>
+                <a>Account</a>
               </Link>
             )}
-            <CartPopover />
+            <CartDropdown />
           </div>
         </nav>
-        <MobileMenu open={open} onClose={() => setOpen(false)} site={site} />
+        <MobileMenu open={open} onClose={() => setOpen(false)} />
       </header>
     </div>
   )

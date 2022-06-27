@@ -1,7 +1,9 @@
 import useToggleState from "@lib/hooks/use-toggle-state"
+import { Image } from "@medusajs/medusa"
 import GalleryImage from "@modules/products/components/gallery-image"
 import ImagesFullscreen from "@modules/products/components/images-fullscreen"
 import JumpTo from "@modules/products/components/jump-to"
+import clsx from "clsx"
 import React, { useState } from "react"
 import { Product } from "types/medusa"
 
@@ -14,6 +16,10 @@ const Gallery: React.FC<GalleryProps> = ({ product, inView = false }) => {
   const { open, close, state } = useToggleState()
   const [openOn, setOpenOn] = useState<string | undefined>(undefined)
 
+  const [currentImages, setCurrentImages] = useState<Image[] | undefined>(
+    product.images.slice(0, 2)
+  )
+
   const handleOpen = (url: string) => {
     setOpenOn(url)
     open()
@@ -21,7 +27,11 @@ const Gallery: React.FC<GalleryProps> = ({ product, inView = false }) => {
 
   return (
     <div className="relative w-full">
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
+      <div
+        className={clsx("grid grid-cols-1 gap-2", {
+          "grid-cols-2": product.images.length > 2,
+        })}
+      >
         {product.images.map((image) => {
           return (
             <GalleryImage
@@ -33,6 +43,7 @@ const Gallery: React.FC<GalleryProps> = ({ product, inView = false }) => {
           )
         })}
       </div>
+
       <ImagesFullscreen
         images={product.images}
         close={close}

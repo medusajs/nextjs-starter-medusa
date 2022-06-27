@@ -1,43 +1,57 @@
 import clsx from "clsx"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import React from "react"
 
 const AccountNav = () => {
-  const { asPath } = useRouter()
+  const { route } = useRouter()
+
   return (
-    <div className="sticky top-0 flex items-center justify-center gap-x-6 border-b border-gray-200 bg-white z-20">
-      <NavLink href="/account" asPath={asPath} text="Account" />
-      <NavLink href="/account/addresses" asPath={asPath} text="Addresses" />
-      <NavLink href="/account/orders" asPath={asPath} text="Orders" />
-      {process.env.FEATURE_WISHLIST_ENABLED && (
-        <NavLink href="/account/wishlist" asPath={asPath} text="Wishlist" />
-      )}
+    <div>
+      <div>
+        <div className="py-4">
+          <h3 className="text-base-semi">Account</h3>
+        </div>
+        <div className="text-small-regular pl-2">
+          <ul className="flex flex-col gap-y-2">
+            <li>
+              <AccountNavLink href="/account/profile" route={route}>
+                Profile
+              </AccountNavLink>
+            </li>
+            <li>
+              <AccountNavLink href="/account/addresses" route={route}>
+                Addresses
+              </AccountNavLink>
+            </li>
+            <li>
+              <AccountNavLink href="/account/orders" route={route}>
+                Orders
+              </AccountNavLink>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div></div>
     </div>
   )
 }
 
-const NavLink = ({
-  href,
-  asPath,
-  text,
-}: {
+type AccountNavLinkProps = {
   href: string
-  asPath: string
-  text: string
-}) => {
+  route: string
+  children: React.ReactNode
+}
+
+const AccountNavLink = ({ href, route, children }: AccountNavLinkProps) => {
+  const active = route === href
   return (
     <Link href={href}>
       <a
-        className={clsx(
-          "h-full px-2 py-4 text-small-regular text-gray-700 hover:text-gray-900 transition-colors uppercase",
-          {
-            "border-b-2 border-gray-900 text-gray-900 text-small-semi":
-              asPath === href,
-          }
-        )}
+        className={clsx("text-gray-700", {
+          "text-gray-900 font-semibold": active,
+        })}
       >
-        {text}
+        {children}
       </a>
     </Link>
   )

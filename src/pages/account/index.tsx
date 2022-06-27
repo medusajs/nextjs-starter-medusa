@@ -1,17 +1,19 @@
 import { getSiteData } from "@lib/data"
 import AccountLayout from "@modules/account/templates/account-layout"
-import AccountTemplate from "@modules/account/templates/account-template"
+import ProfileTemplate from "@modules/account/templates/profile-template"
 import Layout from "@modules/layout/templates"
-import { GetStaticProps, NextPage } from "next"
-import React from "react"
-import { SiteProps } from "types/global"
+import { GetStaticProps } from "next"
+import { ReactElement } from "react"
+import { NextPageWithLayout, SiteProps } from "types/global"
 
-const Account: NextPage<SiteProps> = ({ site }) => {
+const Account: NextPageWithLayout<SiteProps> = ({ site }) => {
+  return <ProfileTemplate />
+}
+
+Account.getLayout = (page: ReactElement) => {
   return (
-    <Layout site={site}>
-      <AccountLayout>
-        <AccountTemplate />
-      </AccountLayout>
+    <Layout>
+      <AccountLayout>{page}</AccountLayout>
     </Layout>
   )
 }

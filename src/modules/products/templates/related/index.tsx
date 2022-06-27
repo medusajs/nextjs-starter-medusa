@@ -1,4 +1,4 @@
-import RelatedProducts from "@modules/products/components/related-products"
+import ProductSlider from "@modules/products/components/product-slider"
 import { useCart } from "medusa-react"
 import React from "react"
 import { Product } from "types/medusa"
@@ -11,7 +11,7 @@ const Related: React.FC<RelatedProps> = ({ relatedProducts }) => {
   const { cart } = useCart()
   return (
     <div>
-      <RelatedProducts products={relatedProducts} region={cart?.region} />
+      <ProductSlider products={relatedProducts} region={cart?.region} />
     </div>
   )
 }

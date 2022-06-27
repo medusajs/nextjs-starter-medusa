@@ -20,7 +20,7 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
 
   return (
     <div className="flex flex-col gap-y-3">
-      <span className="text-small-regular">Select {title}</span>
+      <span className="text-base-semi">Select {title}</span>
       <div className="grid grid-cols-3 lg:grid-cols-6 gap-2">
         {filteredOptions.map((v) => {
           return (
@@ -40,12 +40,5 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
     </div>
   )
 }
-
-// <Select
-//   value={current}
-//   options={filteredOptions.map((f) => ({ label: f, value: f }))}
-//   onChange={(v) => updateOption({ [option.id]: v as string })}
-//   placeholder={title}
-// />
 
 export default OptionSelect
