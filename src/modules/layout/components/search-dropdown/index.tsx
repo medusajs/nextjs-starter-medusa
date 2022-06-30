@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react"
 import useToggleState from "@lib/hooks/use-toggle-state"
-import { searchClient } from "@lib/search-client"
+import { searchClient, SEARCH_INDEX_NAME } from "@lib/search-client"
 import Hit from "@modules/search/components/hit"
 import Hits from "@modules/search/components/hits"
 import SearchBox from "@modules/search/components/search-box"
@@ -47,7 +47,7 @@ const SearchDropdown = () => {
               >
                 <div className="pointer-events-auto w-screen">
                   <InstantSearch
-                    indexName="products"
+                    indexName={SEARCH_INDEX_NAME}
                     searchClient={searchClient}
                   >
                     <div className="py-4 w-full">
