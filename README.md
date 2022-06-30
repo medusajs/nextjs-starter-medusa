@@ -29,8 +29,6 @@ Medusa is an open-source headless commerce engine that enables developers to cre
 
 > **Prerequisites**: To use the starter you should have a Medusa server running locally on port 9000. Your Medusa server have a version of Medu Check out [medusa-starter-default](https://github.com/medusajs/medusa-starter-default) for a quick setup.
 
-<br/>
-
 # Overview
 
 ![article-standard-thumbnail-example](https://user-images.githubusercontent.com/45367945/176660866-82d97db0-a52c-4b45-a6a7-d58a32e3dfe5.png)
@@ -41,8 +39,6 @@ The Medusa Next.js Starter is built with:
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Typescript](https://www.typescriptlang.org/)
 - [Medusa](https://medusajs.com/)
-
-<br/>
 
 # Quickstart
 
@@ -77,8 +73,6 @@ Your site is now running at http://localhost:8000!
 
 Edit `/pages/index.tsx` to see your site update in real-time!
 
-<br/>
-
 # Adding payment integrations
 
 By default the this starter supports the following payment integrations
@@ -94,8 +88,6 @@ MEDUSA_PUBLIC_PAYPAL_CLIENT_ID=<your-paypal-client-id>
 ```
 
 You will also need to setup the integrations in your Medusa server. See the [Medusa documentation](https://docs.medusajs.com) for more information on how to configure [Stripe](https://docs.medusajs.com/add-plugins/stripe) and [PayPal](https://docs.medusajs.com/add-plugins/paypal) in your Medusa project.
-
-<br/>
 
 # Ressources
 
