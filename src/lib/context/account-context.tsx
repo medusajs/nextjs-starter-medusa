@@ -23,7 +23,11 @@ interface AccountProviderProps {
 }
 
 export const AccountProvider = ({ children }: AccountProviderProps) => {
-  const { customer, isLoading: retrievingCustomer, refetch } = useMeCustomer()
+  const {
+    customer,
+    isLoading: retrievingCustomer,
+    refetch,
+  } = useMeCustomer({ onError: () => {} })
   const loginView = useState<LOGIN_VIEW>(LOGIN_VIEW.SIGN_IN)
 
   const router = useRouter()

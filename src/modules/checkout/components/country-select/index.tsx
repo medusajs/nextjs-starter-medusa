@@ -1,54 +1,45 @@
-import Select, { SelectOption } from "@modules/common/components/select"
-import { useCart, useRegion } from "medusa-react"
-import { useEffect, useState } from "react"
+import NativeSelect, {
+  NativeSelectProps,
+} from "@modules/common/components/native-select"
+import { useRegions } from "medusa-react"
+import { forwardRef, useImperativeHandle, useMemo, useRef } from "react"
 
-type CountrySelectProps = {
-  onChange: (value: unknown) => void
-  value: unknown
-  errors: Record<string, unknown>
-  required?: boolean
-  disabled?: boolean
-  name?: string
-}
+const CountrySelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
+  ({ placeholder = "Country", ...props }, ref) => {
+    const innerRef = useRef<HTMLSelectElement>(null)
 
-const CountrySelect: React.FC<CountrySelectProps> = ({
-  onChange,
-  value,
-  errors,
-  required,
-  name,
-  disabled,
-}) => {
-  const [options, setOptions] = useState<SelectOption[]>([])
-  const { cart } = useCart()
-  const { region } = useRegion(cart?.region_id!, {
-    enabled: !!cart?.region_id,
-  })
+    useImperativeHandle<HTMLSelectElement | null, HTMLSelectElement | null>(
+      ref,
+      () => innerRef.current
+    )
 
-  useEffect(() => {
-    if (region) {
-      setOptions(
-        region.countries.map((country) => ({
-          value: country.iso_2,
-          label: country.display_name,
-        }))
+    const { regions } = useRegions()
+
+    const countryOptions = useMemo(() => {
+      return (
+        regions
+          ?.map((region) => {
+            return region.countries.map((country) => ({
+              value: country.iso_2,
+              label: country.display_name,
+            }))
+          })
+          .flat() || []
       )
-    }
-  }, [region])
+    }, [regions])
 
-  return (
-    <Select
-      options={options}
-      onChange={onChange}
-      value={value}
-      placeholder="Country"
-      className="pt-3 pb-2"
-      errors={errors}
-      required={required}
-      disabled={disabled}
-      name={name}
-    />
-  )
-}
+    return (
+      <NativeSelect ref={innerRef} placeholder={placeholder} {...props}>
+        {countryOptions.map(({ value, label }, index) => (
+          <option key={index} value={value}>
+            {label}
+          </option>
+        ))}
+      </NativeSelect>
+    )
+  }
+)
+
+CountrySelect.displayName = "CountrySelect"
 
 export default CountrySelect

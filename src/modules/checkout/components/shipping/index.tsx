@@ -1,12 +1,14 @@
 import { RadioGroup } from "@headlessui/react"
 import { ErrorMessage } from "@hookform/error-message"
+import { useCheckout } from "@lib/context/checkout-context"
 import { Cart } from "@medusajs/medusa"
 import Radio from "@modules/common/components/radio"
 import Spinner from "@modules/common/icons/spinner"
 import clsx from "clsx"
 import { formatAmount, useCart, useCartShippingOptions } from "medusa-react"
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useEffect, useMemo } from "react"
 import { Controller, useForm } from "react-hook-form"
+import StepContainer from "../step-container"
 
 type ShippingOption = {
   value: string
@@ -23,7 +25,6 @@ type ShippingFormProps = {
 }
 
 const Shipping: React.FC<ShippingProps> = ({ cart }) => {
-  const [disabled, setDisabled] = useState(true)
   const { addShippingMethod, setCart } = useCart()
   const {
     control,
@@ -34,28 +35,6 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
       soId: cart.shipping_methods?.[0]?.shipping_option_id,
     },
   })
-
-  useEffect(() => {
-    setDisabled(true)
-
-    if (!cart) {
-      return
-    }
-
-    if (!cart.email) {
-      return
-    }
-
-    if (!cart.shipping_address) {
-      return
-    }
-
-    if (!cart.billing_address) {
-      return
-    }
-
-    setDisabled(false)
-  }, [cart])
 
   // Fetch shipping options
   const { shipping_options, refetch } = useCartShippingOptions(cart.id, {
@@ -108,14 +87,20 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
     return []
   }, [shipping_options, cart])
 
+  const {
+    sameAsBilling: { state: sameBilling },
+  } = useCheckout()
+
   return (
-    <div className="p-10 bg-white">
-      <h3 className="text-xl-semi mb-2">Shipping method</h3>
-      <div className="mb-4">
-        <span className="text-base-regular text-gray-700">
-          How would you like your package to be delivered?
-        </span>
-      </div>
+    <StepContainer
+      index={sameBilling ? 2 : 3}
+      title="Delivery"
+      closedState={
+        <div className="px-8 pb-8 text-small-regular">
+          <p>Enter your address to see available delivery options.</p>
+        </div>
+      }
+    >
       <Controller
         name="soId"
         control={control}
@@ -124,11 +109,7 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
             <div>
               <RadioGroup
                 value={value}
-                onChange={(value) => handleChange(value, onChange)}
-                className={clsx({
-                  "opacity-50": disabled,
-                })}
-                disabled={disabled}
+                onChange={(value: string) => handleChange(value, onChange)}
               >
                 {shippingMethods && shippingMethods.length ? (
                   shippingMethods.map((option) => {
@@ -137,12 +118,17 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
                         key={option.value}
                         value={option.value}
                         className={clsx(
-                          "flex items-center justify-between text-base-regular cursor-pointer py-8 border-b border-gray-200 last:border-b-0"
+                          "flex items-center justify-between text-small-regular cursor-pointer py-4 border-b border-gray-200 last:border-b-0 px-8",
+                          {
+                            "bg-gray-50": option.value === value,
+                          }
                         )}
                       >
                         <div className="flex items-center gap-x-4">
                           <Radio checked={value === option.value} />
-                          <span className="text-base-semi">{option.label}</span>
+                          <span className="text-base-regular">
+                            {option.label}
+                          </span>
                         </div>
                         <span className="justify-self-end text-gray-700">
                           {option.price}
@@ -171,7 +157,7 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
           )
         }}
       />
-    </div>
+    </StepContainer>
   )
 }
 

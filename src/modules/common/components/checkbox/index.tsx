@@ -2,7 +2,7 @@ import React from "react"
 
 type CheckboxProps = {
   checked?: boolean
-  onChange: () => void
+  onChange?: () => void
   label: string
 }
 
@@ -15,6 +15,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
     <button
       className="text-base-regular flex items-center gap-x-2"
       role="checkbox"
+      type="button"
       aria-checked={checked}
       onClick={onChange}
     >

@@ -16,7 +16,7 @@ const SlideButton: React.FC<SlideButtonProps> = ({
       disabled={attributes.disabled}
       {...attributes}
       className={clsx(
-        "w-9 h-9 rounded-full border border-gray-300 text-gray-300 flex items-center justify-center disabled:border-gray-200 disabled:text-gray-200",
+        "w-9 h-9 bg-white rounded-full border border-gray-300 text-gray-900 flex items-center justify-center disabled:border-gray-200 disabled:text-gray-200",
         {
           "transform rotate-180": direction === "prev",
         },

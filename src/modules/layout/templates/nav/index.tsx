@@ -1,59 +1,96 @@
-import { useScrollListenser } from "@lib/hooks/use-scroll.listener"
+import { useMobileMenu } from "@lib/context/mobile-menu-context"
 import Hamburger from "@modules/common/components/hamburger"
-import User from "@modules/common/icons/user"
-import CartPopover from "@modules/layout/components/cart-popover"
-import DesktopMenu from "@modules/layout/components/desktop-menu"
-import MobileMenu from "@modules/layout/components/mobile-menu"
+import CartDropdown from "@modules/layout/components/cart-dropdown"
+import DropdownMenu from "@modules/layout/components/dropdown-menu"
+import SearchDropdown from "@modules/layout/components/search-dropdown"
+import MobileMenu from "@modules/mobile-menu/templates"
 import clsx from "clsx"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import React, { useEffect, useState } from "react"
-import { SiteProps } from "types/global"
+import { useEffect, useState } from "react"
 
-const Nav: React.FC<SiteProps> = ({ site }) => {
-  const showNav = useScrollListenser()
-  const router = useRouter()
-  const [fixate, setFixate] = useState(false)
+const Nav = () => {
+  const { pathname } = useRouter()
+  const [isHome, setIsHome] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  //useEffect that detects if window is scrolled > 5px on the Y axis
+  useEffect(() => {
+    if (isHome) {
+      const detectScrollY = () => {
+        if (window.scrollY > 5) {
+          setIsScrolled(true)
+        } else {
+          setIsScrolled(false)
+        }
+      }
+
+      window.addEventListener("scroll", detectScrollY)
+
+      return () => {
+        window.removeEventListener("scroll", detectScrollY)
+      }
+    }
+  }, [isHome])
 
   useEffect(() => {
-    setFixate(/\/account.*/g.test(router.pathname))
-  }, [router])
+    pathname === "/" ? setIsHome(true) : setIsHome(false)
+  }, [pathname])
 
-  const [open, setOpen] = useState(false)
+  const {
+    control: { toggle },
+  } = useMobileMenu()
+
   return (
     <div
-      className={clsx(
-        {
-          "sticky inset-x-0 z-50 transition-all duration-300": !fixate,
-        },
-        {
-          "top-0": showNav && !fixate,
-          "-top-16": !showNav && !fixate,
-        }
-      )}
+      className={clsx("sticky top-0 inset-x-0 z-50 group", {
+        "!fixed": isHome,
+      })}
     >
-      <header className="relative h-16">
-        <nav className="text-gray-900 flex items-center justify-between w-full h-full px-8 mx-auto bg-white border-b border-gray-200">
-          <Hamburger open={open} setOpen={() => setOpen(!open)} />
-          <div className="flex items-center h-full">
-            <Link href="/">
-              <a className="text-2xl-semi">ACME</a>
-            </Link>
-            <DesktopMenu site={site} />
+      <header
+        className={clsx(
+          "relative h-16 px-8 mx-auto transition-colors bg-transparent border-b border-transparent duration-200 group-hover:bg-white group-hover:border-gray-200",
+          {
+            "!bg-white !border-gray-200": !isHome || isScrolled,
+          }
+        )}
+      >
+        <nav
+          className={clsx(
+            "text-gray-900 flex items-center justify-between w-full h-full text-small-regular transition-colors duration-200",
+            {
+              "text-white group-hover:text-gray-900": isHome && !isScrolled,
+            }
+          )}
+        >
+          <div className="flex-1 basis-0 h-full flex items-center">
+            <div className="block small:hidden">
+              <Hamburger setOpen={toggle} />
+            </div>
+            <div className="hidden small:block h-full">
+              <DropdownMenu />
+            </div>
           </div>
 
-          <div className="flex items-center gap-x-6 h-full">
-            {process.env.FEATURE_CUSTOMERAUTH_ENABLED && (
-              <Link href="/account">
-                <a>
-                  <User size={20} className="lg:block hidden" />
-                </a>
-              </Link>
-            )}
-            <CartPopover />
+          <div className="flex items-center h-full">
+            <Link href="/">
+              <a className="text-xl-semi uppercase">Acme</a>
+            </Link>
+          </div>
+
+          <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
+            <div className="hidden small:flex items-center gap-x-6">
+              {process.env.FEATURE_SEARCH_ENABLED && <SearchDropdown />}
+              {process.env.FEATURE_CUSTOMERAUTH_ENABLED && (
+                <Link href="/account">
+                  <a>Account</a>
+                </Link>
+              )}
+            </div>
+            <CartDropdown />
           </div>
         </nav>
-        <MobileMenu open={open} onClose={() => setOpen(false)} site={site} />
+        <MobileMenu />
       </header>
     </div>
   )

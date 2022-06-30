@@ -35,7 +35,7 @@
 
   input:focus ~ label,
   input:not(:placeholder-shown) ~ label {
-    @apply -translate-y-6 bg-white;
+    @apply -translate-y-2 text-xsmall-regular; 
   }
 
   input:focus ~ label {
@@ -56,9 +56,20 @@
     -webkit-box-shadow: 0 0 0px 1000px #fff inset;
     transition: background-color 5000s ease-in-out 0s;
   }
+
+  input[type="search"]::-webkit-search-decoration,
+  input[type="search"]::-webkit-search-cancel-button,
+  input[type="search"]::-webkit-search-results-button,
+  input[type="search"]::-webkit-search-results-decoration {
+    -webkit-appearance: none;
+  }
 }
 
 @layer components {
+  .content-container {
+    @apply max-w-[1440px] mx-auto px-8
+  }
+
   .contrast-btn {
     @apply px-4 py-2 border border-black rounded-full hover:bg-black hover:text-white transition-colors duration-200 ease-in;
   }
@@ -109,5 +120,9 @@
 
   .text-copy {
     @apply text-small-regular text-gray-700;
+  }
+
+  .product-page-constraint {
+    @apply mx-auto w-full small:max-w-[1008px] medium:max-w-[1164px] large:max-w-[1324px] xlarge:max-w-[1484px] 2xlarge:max-w-[1804px]
   }
 }

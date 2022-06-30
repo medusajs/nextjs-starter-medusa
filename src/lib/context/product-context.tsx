@@ -9,7 +9,7 @@ import React, {
   useMemo,
   useState,
 } from "react"
-import { Product } from "types/medusa"
+import { Product, Variant } from "types/medusa"
 import { useStore } from "./store-context"
 
 interface ProductContext {
@@ -17,6 +17,7 @@ interface ProductContext {
   quantity: number
   disabled: boolean
   inStock: boolean
+  variant?: Variant
   maxQuantityMet: boolean
   options: Record<string, string>
   updateOptions: (options: Record<string, string>) => void
@@ -84,6 +85,13 @@ export const ProductProvider = ({
     return variants.find((v) => v.id === variantId)
   }, [options, variantRecord, variants])
 
+  // if product only has one variant, then select it
+  useEffect(() => {
+    if (variants.length === 1) {
+      setOptions(variantRecord[variants[0].id])
+    }
+  }, [variants, variantRecord])
+
   const disabled = useMemo(() => {
     return !variant
   }, [variant])
@@ -96,7 +104,7 @@ export const ProductProvider = ({
       return findCheapestPrice(variants, cart.region)
     } else {
       // if no variant is selected, or we couldn't find a price for the region/currency
-      return "Not available"
+      return "N/A"
     }
   }, [variant, variants, cart])
 
@@ -147,6 +155,7 @@ export const ProductProvider = ({
         disabled,
         inStock,
         options,
+        variant,
         addToCart,
         updateOptions,
         decreaseQuantity,

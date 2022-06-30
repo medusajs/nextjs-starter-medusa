@@ -1,6 +1,6 @@
-import React from "react"
+import { useState } from "react"
 
-type StateType = [boolean, () => void, () => void, () => void] & {
+export type StateType = [boolean, () => void, () => void, () => void] & {
   state: boolean
   open: () => void
   close: () => void
@@ -21,7 +21,7 @@ type StateType = [boolean, () => void, () => void, () => void] & {
  */
 
 const useToggleState = (initialState = false) => {
-  const [state, setState] = React.useState<boolean>(initialState)
+  const [state, setState] = useState<boolean>(initialState)
 
   const close = () => {
     setState(false)

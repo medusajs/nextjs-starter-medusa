@@ -1,9 +1,7 @@
-import Address from "@modules/checkout/components/address"
-import Email from "@modules/checkout/components/email"
+import Addresses from "@modules/checkout/components/addresses"
 import Payment from "@modules/checkout/components/payment"
 import Shipping from "@modules/checkout/components/shipping"
 import { useCart } from "medusa-react"
-import React from "react"
 
 const CheckoutForm = () => {
   const { cart } = useCart()
@@ -13,15 +11,19 @@ const CheckoutForm = () => {
   }
 
   return (
-    <div className="w-full flex justify-end lg:py-8 lg:pl-4">
-      <div className="w-full lg:max-w-2xl px-4 py-8 lg:p-0 flex flex-col gap-y-8">
-        <Email cart={cart} />
+    <div>
+      <div className="w-full grid grid-cols-1 gap-y-8">
+        <div>
+          <Addresses />
+        </div>
 
-        <Address cart={cart} />
+        <div>
+          <Shipping cart={cart} />
+        </div>
 
-        <Shipping cart={cart} />
-
-        <Payment />
+        <div>
+          <Payment />
+        </div>
       </div>
     </div>
   )

@@ -1,10 +1,12 @@
+import { Image as MedusaImage } from "@medusajs/medusa"
 import PlaceholderImage from "@modules/common/icons/placeholder-image"
 import clsx from "clsx"
 import Image from "next/image"
 import React, { useState } from "react"
-import { Product } from "types/medusa"
 
-type ThumbnailProps = Pick<Product, "thumbnail" | "images"> & {
+type ThumbnailProps = {
+  thumbnail?: string | null
+  images?: MedusaImage[] | null
   size?: "small" | "medium" | "large" | "full"
 }
 
@@ -15,7 +17,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
 }) => {
   const initialImage = thumbnail || images?.[0]?.url
   const alternateImage =
-    images.find((image) => image.url !== initialImage)?.url || initialImage
+    images?.find((image) => image.url !== initialImage)?.url || initialImage
 
   const [image, setImage] = useState(initialImage)
 

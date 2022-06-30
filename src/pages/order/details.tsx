@@ -1,12 +1,12 @@
 import { getSiteData } from "@lib/data"
 import Layout from "@modules/layout/templates"
 import { useOrder } from "medusa-react"
-import { GetStaticProps, NextPage } from "next"
+import { GetStaticProps } from "next"
 import { useRouter } from "next/router"
-import React from "react"
-import { SiteProps } from "types/global"
+import { ReactElement } from "react"
+import { NextPageWithLayout, SiteProps } from "types/global"
 
-const Details: NextPage<SiteProps> = ({ site }) => {
+const Details: NextPageWithLayout = () => {
   const router = useRouter()
 
   const { id } = router.query
@@ -15,7 +15,11 @@ const Details: NextPage<SiteProps> = ({ site }) => {
     enabled: !!id,
   })
 
-  return <Layout site={site}>{JSON.stringify(order, null, 2)}</Layout>
+  return <div>{JSON.stringify(order, null, 2)}</div>
+}
+
+Details.getLayout = (page: ReactElement) => {
+  return <Layout>{page}</Layout>
 }
 
 export const getStaticProps: GetStaticProps<SiteProps> = async () => {

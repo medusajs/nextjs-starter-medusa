@@ -1,11 +1,15 @@
 import { MEDUSA_BACKEND_URL, queryClient } from "@lib/config"
 import { AccountProvider } from "@lib/context/account-context"
+import { CartDropdownProvider } from "@lib/context/cart-dropdown-context"
+import { MobileMenuProvider } from "@lib/context/mobile-menu-context"
 import { StoreProvider } from "@lib/context/store-context"
 import { CartProvider, MedusaProvider } from "medusa-react"
-import type { AppProps } from "next/app"
 import "styles/globals.css"
+import { AppPropsWithLayout } from "types/global"
 
-function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout ?? ((page) => page)
+
   return (
     <MedusaProvider
       baseUrl={MEDUSA_BACKEND_URL}
@@ -13,13 +17,17 @@ function App({ Component, pageProps }: AppProps) {
         client: queryClient,
       }}
     >
-      <CartProvider>
-        <StoreProvider>
-          <AccountProvider>
-            <Component {...pageProps} />
-          </AccountProvider>
-        </StoreProvider>
-      </CartProvider>
+      <CartDropdownProvider>
+        <MobileMenuProvider>
+          <CartProvider>
+            <StoreProvider>
+              <AccountProvider>
+                {getLayout(<Component {...pageProps} />)}
+              </AccountProvider>
+            </StoreProvider>
+          </CartProvider>
+        </MobileMenuProvider>
+      </CartDropdownProvider>
     </MedusaProvider>
   )
 }

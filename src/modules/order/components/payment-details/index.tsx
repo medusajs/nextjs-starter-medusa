@@ -10,6 +10,7 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
   payments,
   paymentStatus,
 }) => {
+  console.log(payments)
   return (
     <div>
       <h2 className="text-base-semi">Payment</h2>
@@ -18,6 +19,8 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
           switch (p.provider_id) {
             case "stripe":
               return <StripeDetails key={p.id} payment={p} />
+            case "paypal":
+              return <PayPalDetails key={p.id} />
             case "manual":
               return <TestDetails key={p.id} />
             default:
@@ -29,13 +32,23 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
   )
 }
 
+const PayPalDetails = () => {
+  return (
+    <div className="flex flex-col text-base-regular">
+      <span className="text-small-regular text-gray-700">PayPal</span>
+      <span>PayPal payment</span>
+    </div>
+  )
+}
+
 const StripeDetails = ({ payment }: { payment: Payment }) => {
   const card: {
     brand: string
     last4: string
     exp_year: number
     exp_month: number
-  } = payment.data.charges.data[0].payment_method_details.card
+  } = (payment.data.charges as any).data[0].payment_method_details.card
+
   return (
     <div className="flex flex-col text-base-regular">
       <span className="text-small-regular text-gray-700">

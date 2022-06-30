@@ -1,115 +1,106 @@
-import { findCheapestPrice } from "@lib/util/prices"
-import Link from "next/link"
-import React, { useEffect, useRef, useState } from "react"
-import { Product, Region } from "types/medusa"
-import SlideButton from "../../../common/components/slide-button"
-import Thumbnail from "../thumbnail"
+import { medusaClient } from "@lib/config"
+import { Product, StoreGetProductsParams } from "@medusajs/medusa"
+import Button from "@modules/common/components/button"
+import Spinner from "@modules/common/icons/spinner"
+import { useMemo } from "react"
+import { useInfiniteQuery } from "react-query"
+import ProductPreview from "../product-preview"
 
 type RelatedProductsProps = {
-  products: Product[]
-  region?: Region
-  heading?: string | React.ReactElement
-}
-
-const RelatedProducts: React.FC<RelatedProductsProps> = ({
-  heading = "You might also like",
-  products,
-  region,
-}) => {
-  const maxScrollWidth = useRef(0)
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const slider = useRef<HTMLDivElement>(null)
-
-  const movePrev = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex((prevState) => prevState - 1)
-    }
-  }
-
-  const moveNext = () => {
-    if (
-      slider.current !== null &&
-      slider.current.offsetWidth * currentIndex <= maxScrollWidth.current
-    ) {
-      setCurrentIndex((prevState) => prevState + 1)
-    }
-  }
-
-  const isDisabled = (direction: string) => {
-    if (direction === "prev") {
-      return currentIndex <= 0
-    }
-
-    if (direction === "next" && slider.current !== null) {
-      return slider.current.offsetWidth * currentIndex >= maxScrollWidth.current
-    }
-
-    return false
-  }
-
-  useEffect(() => {
-    if (slider !== null && slider.current !== null) {
-      slider.current.scrollLeft = slider.current.offsetWidth * currentIndex
-    }
-  }, [currentIndex])
-
-  useEffect(() => {
-    maxScrollWidth.current = slider.current
-      ? slider.current.scrollWidth - slider.current.offsetWidth
-      : 0
-  }, [])
-
-  return (
-    <div className="gap-y-5 flex flex-col">
-      <div className="flex items-center justify-between">
-        <h3 className="text-xl-regular">{heading}</h3>
-        <div className="flex items-center gap-x-3">
-          <SlideButton
-            direction="prev"
-            disabled={isDisabled("prev")}
-            onClick={movePrev}
-          />
-          <SlideButton
-            direction="next"
-            disabled={isDisabled("next")}
-            onClick={moveNext}
-          />
-        </div>
-      </div>
-      <div
-        className="relative w-full flex gap-x-5 lg:gap-x-8 overflow-hidden scroll-smooth snap-x snap-mandatory touch-pan-x z-0"
-        ref={slider}
-      >
-        {products.map((p, i) => {
-          return <SlideItem key={i} product={p} region={region} />
-        })}
-      </div>
-    </div>
-  )
-}
-
-const SlideItem = ({
-  product,
-  region,
-}: {
   product: Product
-  region?: Region
-}) => {
+}
+
+const RelatedProducts = ({ product }: RelatedProductsProps) => {
+  const queryParams: StoreGetProductsParams = useMemo(() => {
+    const params: StoreGetProductsParams = {}
+    if (product.collection_id) {
+      params.collection_id = [product.collection_id]
+    }
+
+    if (product.type) {
+      params.type = product.type.id
+    }
+
+    if (product.tags) {
+      params.tags = product.tags.map((t) => t.value)
+    }
+
+    params.is_giftcard = false
+
+    return params
+  }, [product])
+
+  const { data, hasNextPage, fetchNextPage, isLoading } = useInfiniteQuery(
+    [`infinite-products_${product.id}`, queryParams],
+    ({ pageParam }) => fetchProducts({ pageParam, queryParams }),
+    {
+      getNextPageParam: (lastPage) => lastPage.nextPage,
+    }
+  )
+
   return (
-    <div className="w-1/4">
-      <Link href={`/products/${product.handle}`} passHref>
-        <div className="snap-start cursor-pointer">
-          <Thumbnail {...product} size="full" />
-          <div className="mt-3 flex flex-col">
-            <span className="text-base-regular">{product.title}</span>
-            <span className="text-small-regular text-gray-700">
-              {region && findCheapestPrice(product.variants, region)}
-            </span>
-          </div>
+    <div className="product-page-constraint">
+      <div className="flex flex-col items-center text-center mb-16">
+        <span className="text-base-regular text-gray-600 mb-6">
+          Related products
+        </span>
+        <p className="text-2xl-regular text-gray-900 max-w-lg">
+          You might also want to check out these products.
+        </p>
+      </div>
+      {!data ? (
+        <div className="w-full flex items-center justify-center">
+          <Spinner />
         </div>
-      </Link>
+      ) : (
+        <ul className="grid grid-cols-2 small:grid-cols-3 medium:grid-cols-4 gap-x-4 gap-y-8">
+          {data?.pages.map((page) => {
+            return page.response.products
+              .filter((p) => p.id !== product.id)
+              .map((p) => {
+                return (
+                  <li key={p.id}>
+                    <ProductPreview product={p} />
+                  </li>
+                )
+              })
+          })}
+        </ul>
+      )}
+      {hasNextPage && (
+        <div className="flex items-center justify-center mt-8">
+          <Button
+            isLoading={isLoading}
+            onClick={() => fetchNextPage()}
+            className="w-72"
+          >
+            Load more
+          </Button>
+        </div>
+      )}
     </div>
   )
+}
+
+type FetchProductParams = {
+  pageParam?: number
+  queryParams: StoreGetProductsParams
+}
+
+const fetchProducts = async ({
+  pageParam = 0,
+  queryParams,
+}: FetchProductParams) => {
+  const { products, count, offset } = await medusaClient.products.list({
+    limit: 24,
+    offset: pageParam,
+    ...queryParams,
+  })
+
+  return {
+    response: { products, count },
+    nextPage: count > offset + 24 ? offset + 24 : null,
+  }
 }
 
 export default RelatedProducts

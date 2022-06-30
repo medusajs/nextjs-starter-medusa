@@ -1,3 +1,6 @@
+import { NextPage } from "next"
+import { AppProps } from "next/app"
+import { ReactElement, ReactNode } from "react"
 import { Product } from "./medusa"
 
 export type CollectionData = {
@@ -34,4 +37,13 @@ export type SiteProps = {
   site: {
     navData: StoreNavData
   }
+}
+
+// For pages with nested layouts
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout: (page: ReactElement) => ReactNode
+}
+
+export type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
 }
