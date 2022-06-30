@@ -110,7 +110,7 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({ customer }) => {
       )?.label || customer.billing_address.country_code?.toUpperCase()
 
     return (
-      <div className="flex flex-col text-right">
+      <div className="flex flex-col font-semibold">
         <span>
           {customer.billing_address.first_name}{" "}
           {customer.billing_address.last_name}
@@ -196,7 +196,7 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({ customer }) => {
           </div>
           <Input
             label="Province"
-            {...register("billing_address.province", { required: true })}
+            {...register("billing_address.province")}
             defaultValue={province}
             errors={errors}
           />

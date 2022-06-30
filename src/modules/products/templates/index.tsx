@@ -1,12 +1,11 @@
 import { ProductProvider } from "@lib/context/product-context"
 import { useIntersection } from "@lib/hooks/use-in-view"
 import { Product } from "@medusajs/medusa"
-import Gallery from "@modules/products/templates/gallery"
+import ProductTabs from "@modules/products/components/info-tabs"
+import RelatedProducts from "@modules/products/components/related-products"
 import ProductInfo from "@modules/products/templates/product-info"
 import React, { useRef } from "react"
-import BreadCrumbs from "../components/bread-crumbs"
-import ProductTabs from "../components/info-tabs"
-import RelatedProducts from "../components/related-products"
+import ImageGallery from "../components/image-gallary"
 
 type ProductTemplateProps = {
   product: Product
@@ -17,23 +16,18 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product }) => {
 
   const inView = useIntersection(info, "0px")
 
-  console.log(product)
-
   return (
     <ProductProvider product={product}>
-      <BreadCrumbs collection={product.collection} />
-      <div className="flex product-page-constraint relative">
-        <div className="w-full small:pr-8">
-          <Gallery product={product} inView={inView} />
+      <div className="content-container flex flex-col small:flex-row small:items-start py-6 relative">
+        <div className="flex flex-col gap-y-8 w-full">
+          <ImageGallery images={product.images} />
         </div>
-        <div className="relative w-full max-w-[304px] small:max-w-[344px] medium:max-w-[400px]">
-          <div className="sticky top-0 flex flex-col gap-y-8" ref={info}>
-            <ProductInfo product={product} />
-            <ProductTabs product={product} />
-          </div>
+        <div className="small:sticky small:top-20 w-full py-8 small:py-0 small:max-w-[344px] medium:max-w-[400px] flex flex-col gap-y-12">
+          <ProductInfo product={product} />
+          <ProductTabs product={product} />
         </div>
       </div>
-      <div className="my-16 px-8 xl:my-32">
+      <div className="content-container my-16 px-6 small:px-8 small:my-32">
         <RelatedProducts product={product} />
       </div>
     </ProductProvider>

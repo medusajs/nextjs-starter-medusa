@@ -66,6 +66,10 @@
 }
 
 @layer components {
+  .content-container {
+    @apply max-w-[1440px] mx-auto px-8
+  }
+
   .contrast-btn {
     @apply px-4 py-2 border border-black rounded-full hover:bg-black hover:text-white transition-colors duration-200 ease-in;
   }
@@ -116,10 +120,6 @@
 
   .text-copy {
     @apply text-small-regular text-gray-700;
-  }
-
-  .slick-inner {
-    @apply mx-2;
   }
 
   .product-page-constraint {

@@ -15,7 +15,17 @@ type AddressSelectProps = {
 const AddressSelect = ({ addresses }: AddressSelectProps) => {
   const [selected, setSelected] = useState<string | undefined>(undefined)
 
-  const { control } = useCheckout()
+  const { control, setSavedAddress } = useCheckout()
+
+  const handleSelect = (id: string) => {
+    const savedAddress = addresses.find((a) => a.id === id)
+
+    if (savedAddress) {
+      setSavedAddress(savedAddress)
+    }
+
+    setSelected(id)
+  }
 
   const currentShippingAddress = useWatch({
     control,
@@ -44,7 +54,7 @@ const AddressSelect = ({ addresses }: AddressSelectProps) => {
   }, [currentShippingAddress, addresses])
 
   return (
-    <Listbox onChange={setSelected} value={selected}>
+    <Listbox onChange={handleSelect} value={selected}>
       <div className="relative">
         <Listbox.Button className="relative w-full flex justify-between items-center px-4 py-[10px] text-left bg-white cursor-default focus:outline-none border border-gray-200 focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-gray-300 focus-visible:ring-offset-2 focus-visible:border-gray-300 text-base-regular">
           {({ open }) => (

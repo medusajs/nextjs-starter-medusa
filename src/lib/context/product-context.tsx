@@ -9,7 +9,7 @@ import React, {
   useMemo,
   useState,
 } from "react"
-import { Product } from "types/medusa"
+import { Product, Variant } from "types/medusa"
 import { useStore } from "./store-context"
 
 interface ProductContext {
@@ -17,6 +17,7 @@ interface ProductContext {
   quantity: number
   disabled: boolean
   inStock: boolean
+  variant?: Variant
   maxQuantityMet: boolean
   options: Record<string, string>
   updateOptions: (options: Record<string, string>) => void
@@ -154,6 +155,7 @@ export const ProductProvider = ({
         disabled,
         inStock,
         options,
+        variant,
         addToCart,
         updateOptions,
         decreaseQuantity,

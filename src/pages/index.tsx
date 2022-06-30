@@ -1,23 +1,32 @@
-import { getSiteData } from "@lib/data"
+import { medusaClient } from "@lib/config"
 import Head from "@modules/common/components/head"
+import FeaturedProducts from "@modules/home/components/featured-products"
+import Hero from "@modules/home/components/hero"
 import Layout from "@modules/layout/templates"
-import ProductDisplay from "@modules/products/components/product-display"
-import { useProducts } from "medusa-react"
 import type { GetStaticProps } from "next"
 import { ReactElement } from "react"
-import { NextPageWithLayout, SiteProps } from "types/global"
+import { NextPageWithLayout } from "types/global"
 
-const Home: NextPageWithLayout = () => {
-  const { products } = useProducts({
-    is_giftcard: false,
-  })
+export type FeaturedProduct = {
+  id: string
+  title: string
+  handle: string
+  thumbnail: string
+}
+
+type HomeProps = {
+  products: FeaturedProduct[] | null
+}
+
+const Home: NextPageWithLayout<HomeProps> = ({ products }) => {
   return (
     <>
       <Head
         title="Store"
         description="Shop all available models only at the ACME. Worldwide Shipping. Secure Payment."
       />
-      {products && <ProductDisplay products={products} />}
+      <Hero />
+      {products && <FeaturedProducts products={products} />}
     </>
   )
 }
@@ -26,12 +35,23 @@ Home.getLayout = (page: ReactElement) => {
   return <Layout>{page}</Layout>
 }
 
-export const getStaticProps: GetStaticProps<SiteProps> = async () => {
-  const data = await getSiteData()
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
+  const products = await medusaClient.products
+    .list({ limit: 4, is_giftcard: false })
+    .then(({ products }) => products)
+    .catch(() => null)
+
+  const toReturn: FeaturedProduct[] | null =
+    products?.map((product) => ({
+      id: product.id,
+      title: product.title,
+      handle: product.handle,
+      thumbnail: product.thumbnail || product.images?.[0]?.url || "",
+    })) || null
 
   return {
     props: {
-      ...data,
+      products: toReturn,
     },
   }
 }

@@ -37,7 +37,7 @@ const CountrySelect = () => {
   }
 
   return (
-    <div onMouseEnter={open} onMouseLeave={close} className="w-72">
+    <div onMouseEnter={open} onMouseLeave={close}>
       <Listbox onChange={handleChange} value={options ? options[0] : undefined}>
         <Listbox.Button className="py-1 w-full">
           <div className="text-small-regular flex items-center gap-x-2">

@@ -1,28 +1,18 @@
 import { medusaClient } from "@lib/config"
-import { Product, Region, StoreGetProductsParams } from "@medusajs/medusa"
+import { Product, StoreGetProductsParams } from "@medusajs/medusa"
 import Button from "@modules/common/components/button"
 import Spinner from "@modules/common/icons/spinner"
-import clsx from "clsx"
-import { formatAmount, useCart } from "medusa-react"
 import { useMemo } from "react"
 import { useInfiniteQuery } from "react-query"
-import { CalculatedVariant } from "types/medusa"
-import Thumbnail from "../thumbnail"
+import ProductPreview from "../product-preview"
 
 type RelatedProductsProps = {
   product: Product
 }
 
 const RelatedProducts = ({ product }: RelatedProductsProps) => {
-  const { cart } = useCart()
-
   const queryParams: StoreGetProductsParams = useMemo(() => {
     const params: StoreGetProductsParams = {}
-
-    if (cart) {
-      params.cart_id = cart.id
-    }
-
     if (product.collection_id) {
       params.collection_id = [product.collection_id]
     }
@@ -35,34 +25,42 @@ const RelatedProducts = ({ product }: RelatedProductsProps) => {
       params.tags = product.tags.map((t) => t.value)
     }
 
+    params.is_giftcard = false
+
     return params
-  }, [product, cart])
+  }, [product])
 
   const { data, hasNextPage, fetchNextPage, isLoading } = useInfiniteQuery(
-    [`infinite-products_${product.id}`, queryParams, cart?.region],
+    [`infinite-products_${product.id}`, queryParams],
     ({ pageParam }) => fetchProducts({ pageParam, queryParams }),
     {
       getNextPageParam: (lastPage) => lastPage.nextPage,
-      enabled: !!cart,
     }
   )
 
   return (
     <div className="product-page-constraint">
-      <h3 className="text-large-regular text-lg mb-4">Related products</h3>
-      {!data || !cart?.region ? (
+      <div className="flex flex-col items-center text-center mb-16">
+        <span className="text-base-regular text-gray-600 mb-6">
+          Related products
+        </span>
+        <p className="text-2xl-regular text-gray-900 max-w-lg">
+          You might also want to check out these products.
+        </p>
+      </div>
+      {!data ? (
         <div className="w-full flex items-center justify-center">
           <Spinner />
         </div>
       ) : (
-        <ul className="grid grid-cols-6 gap-x-4 gap-y-8">
+        <ul className="grid grid-cols-2 small:grid-cols-3 medium:grid-cols-4 gap-x-4 gap-y-8">
           {data?.pages.map((page) => {
             return page.response.products
               .filter((p) => p.id !== product.id)
               .map((p) => {
                 return (
                   <li key={p.id}>
-                    <ProductPreview product={p} region={cart.region} />
+                    <ProductPreview product={p} />
                   </li>
                 )
               })
@@ -84,53 +82,6 @@ const RelatedProducts = ({ product }: RelatedProductsProps) => {
   )
 }
 
-const ProductPreview = ({
-  product,
-  region,
-}: {
-  product: Product
-  region: Region
-}) => {
-  const variant = product.variants[0] as CalculatedVariant
-
-  const onSale = variant.calculated_price < variant.original_price
-
-  return (
-    <div>
-      <Thumbnail
-        thumbnail={product.thumbnail}
-        images={product.images}
-        size="full"
-      />
-      <div className="text-base-regular mt-2 w-full flex flex-col">
-        <span>{product.title}</span>
-        <div className="flex items-center gap-x-2">
-          {onSale && (
-            <span className="line-through text-gray-500">
-              {formatAmount({
-                amount: variant.original_price,
-                region: region,
-                includeTaxes: false,
-              })}
-            </span>
-          )}
-          <span
-            className={clsx("font-semibold", {
-              "text-rose-500": onSale,
-            })}
-          >
-            {formatAmount({
-              amount: variant.calculated_price,
-              region: region,
-              includeTaxes: false,
-            })}
-          </span>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 type FetchProductParams = {
   pageParam?: number
   queryParams: StoreGetProductsParams
@@ -141,14 +92,14 @@ const fetchProducts = async ({
   queryParams,
 }: FetchProductParams) => {
   const { products, count, offset } = await medusaClient.products.list({
-    limit: 6,
+    limit: 24,
     offset: pageParam,
     ...queryParams,
   })
 
   return {
     response: { products, count },
-    nextPage: count > offset + 4 ? offset + 4 : null,
+    nextPage: count > offset + 24 ? offset + 24 : null,
   }
 }
 

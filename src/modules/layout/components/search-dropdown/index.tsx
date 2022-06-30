@@ -14,9 +14,7 @@ const SearchDropdown = () => {
 
   return (
     <>
-      <button className="text-gray-700" onClick={open}>
-        Search
-      </button>
+      <button onClick={open}>Search</button>
 
       <Transition.Root show={state} as={Fragment}>
         <Dialog

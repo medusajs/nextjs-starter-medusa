@@ -1,6 +1,11 @@
 import { medusaClient } from "@lib/config"
 import useToggleState, { StateType } from "@lib/hooks/use-toggle-state"
-import { Cart, Customer, StorePostCartsCartReq } from "@medusajs/medusa"
+import {
+  Address,
+  Cart,
+  Customer,
+  StorePostCartsCartReq,
+} from "@medusajs/medusa"
 import Wrapper from "@modules/checkout/components/payment-wrapper"
 import { isEqual } from "lodash"
 import {
@@ -44,6 +49,7 @@ interface CheckoutContext {
   sameAsBilling: StateType
   editAddresses: StateType
   setAddresses: (addresses: CheckoutFormValues) => void
+  setSavedAddress: (address: Address) => void
   setShippingOption: (soId: string) => void
   setPaymentSession: (providerId: string) => void
   onPaymentCompleted: () => void
@@ -247,6 +253,23 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     }
   }
 
+  const setSavedAddress = (address: Address) => {
+    const setValue = methods.setValue
+
+    setValue("shipping_address", {
+      address_1: address.address_1 || "",
+      address_2: address.address_2 || "",
+      city: address.city || "",
+      country_code: address.country_code || "",
+      first_name: address.first_name || "",
+      last_name: address.last_name || "",
+      phone: address.phone || "",
+      postal_code: address.postal_code || "",
+      province: address.province || "",
+      company: address.company || "",
+    })
+  }
+
   /**
    * Method that validates if the cart's region matches the shipping address's region. If not, it will update the cart region.
    */
@@ -314,6 +337,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
           sameAsBilling,
           editAddresses,
           setAddresses,
+          setSavedAddress,
           setShippingOption,
           setPaymentSession,
           onPaymentCompleted,

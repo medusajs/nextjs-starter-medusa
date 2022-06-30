@@ -1,10 +1,10 @@
 import { MEDUSA_BACKEND_URL, queryClient } from "@lib/config"
 import { AccountProvider } from "@lib/context/account-context"
 import { CartDropdownProvider } from "@lib/context/cart-dropdown-context"
+import { MobileMenuProvider } from "@lib/context/mobile-menu-context"
 import { StoreProvider } from "@lib/context/store-context"
 import { CartProvider, MedusaProvider } from "medusa-react"
 import "styles/globals.css"
-import "styles/slick-theme.css"
 import { AppPropsWithLayout } from "types/global"
 
 function App({ Component, pageProps }: AppPropsWithLayout) {
@@ -18,13 +18,15 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
       }}
     >
       <CartDropdownProvider>
-        <CartProvider>
-          <StoreProvider>
-            <AccountProvider>
-              {getLayout(<Component {...pageProps} />)}
-            </AccountProvider>
-          </StoreProvider>
-        </CartProvider>
+        <MobileMenuProvider>
+          <CartProvider>
+            <StoreProvider>
+              <AccountProvider>
+                {getLayout(<Component {...pageProps} />)}
+              </AccountProvider>
+            </StoreProvider>
+          </CartProvider>
+        </MobileMenuProvider>
       </CartDropdownProvider>
     </MedusaProvider>
   )

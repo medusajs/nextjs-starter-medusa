@@ -40,21 +40,26 @@ const AccountInfo = ({
 
   return (
     <div className="text-small-regular">
-      <div className="flex items-center justify-between">
-        <span className="uppercase">{label}</span>
-        <div className="flex items-center flex-1 basis-0 justify-end gap-x-4">
-          {typeof currentInfo === "string" ? (
-            <span className="font-semibold">{currentInfo}</span>
-          ) : (
-            currentInfo
-          )}
-          <button
-            className="uppercase text-small-regular border border-gray-900 py-1 w-[80px] transition-colors duration-150 hover:border-gray-700 "
+      <div className="flex items-end justify-between">
+        <div className="flex flex-col">
+          <span className="uppercase text-gray-700">{label}</span>
+          <div className="flex items-center flex-1 basis-0 justify-end gap-x-4">
+            {typeof currentInfo === "string" ? (
+              <span className="font-semibold">{currentInfo}</span>
+            ) : (
+              currentInfo
+            )}
+          </div>
+        </div>
+        <div>
+          <Button
+            variant="secondary"
+            className="w-[100px] min-h-[25px] py-1"
             onClick={handleToggle}
             type={state ? "reset" : "button"}
           >
             {state ? "Cancel" : "Edit"}
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -110,7 +115,7 @@ const AccountInfo = ({
             <div className="flex items-center justify-end mt-2">
               <Button
                 isLoading={isLoading}
-                className="max-w-[140px]"
+                className="w-full small:max-w-[140px]"
                 type="submit"
               >
                 Save changes

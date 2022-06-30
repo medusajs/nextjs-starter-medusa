@@ -1,4 +1,5 @@
 import { useAccount } from "@lib/context/account-context"
+import UnderlineLink from "@modules/common/components/underline-link"
 import Spinner from "@modules/common/icons/spinner"
 import React, { useEffect } from "react"
 import AccountNav from "../components/account-nav"
@@ -19,12 +20,28 @@ const AccountLayout: React.FC = ({ children }) => {
   }
 
   return (
-    <div className="flex-1 min-h-[calc(100vh-64px)] py-12">
-      <div className="flex-1 px-8 py-12 max-w-5xl mx-auto grid grid-cols-[140px_1fr]">
-        <div>
-          <AccountNav />
+    <div className="flex-1 min-h-[calc(100vh-64px)] small:py-12 small:bg-gray-50">
+      <div className="flex-1 max-w-5xl mx-auto bg-white flex flex-col">
+        <div className="grid grid-cols-1 small:grid-cols-[240px_1fr] small:px-8 py-6 small:py-12">
+          <div>
+            <AccountNav />
+          </div>
+          <div>{children}</div>
         </div>
-        <div>{children}</div>
+        <div className="flex items-end justify-between border-t border-gray-200 px-8 py-12 gap-x-8">
+          <div>
+            <h3 className="text-xl-semi mb-4">Got questions?</h3>
+            <span className="text-small-regular">
+              You can find frequently asked questions and answers on our
+              customer service page.
+            </span>
+          </div>
+          <div>
+            <UnderlineLink href="/customer-service">
+              Customer Service
+            </UnderlineLink>
+          </div>
+        </div>
       </div>
     </div>
   )

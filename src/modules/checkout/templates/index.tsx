@@ -8,9 +8,9 @@ import CheckoutSummary from "./checkout-summary"
 const CheckoutTemplate = () => {
   return (
     <CheckoutProvider>
-      <div className="bg-gray-100 relative min-h-screen">
+      <div className="bg-gray-100 relative small:min-h-screen">
         <div className="h-16 bg-white">
-          <nav className="flex items-center h-full justify-between max-w-6xl mx-auto">
+          <nav className="flex items-center h-full justify-between content-container">
             <Link href="/cart">
               <a className="text-small-semi text-gray-700 flex items-center gap-x-2 uppercase flex-1 basis-0">
                 <ArrowRight className="transform rotate-180" size={16} />
@@ -25,7 +25,7 @@ const CheckoutTemplate = () => {
         </div>
         <div className="relative">
           <CheckoutLoader />
-          <div className="grid grid-cols-[1fr_416px] max-w-6xl mx-auto gap-x-8 py-12">
+          <div className="grid grid-cols-1 small:grid-cols-[1fr_416px] gap-y-8 content-container gap-x-8 py-12">
             <CheckoutForm />
             <CheckoutSummary />
           </div>

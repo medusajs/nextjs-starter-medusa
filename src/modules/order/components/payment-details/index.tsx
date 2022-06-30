@@ -47,7 +47,7 @@ const StripeDetails = ({ payment }: { payment: Payment }) => {
     last4: string
     exp_year: number
     exp_month: number
-  } = payment.data.charges.data[0].payment_method_details.card
+  } = (payment.data.charges as any).data[0].payment_method_details.card
 
   return (
     <div className="flex flex-col text-base-regular">

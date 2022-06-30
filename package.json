@@ -33,7 +33,6 @@
     "react-hook-form": "^7.30.0",
     "react-instantsearch-hooks-web": "^6.29.0",
     "react-query": "^3.34.16",
-    "react-slick": "^0.29.0",
     "use-debounce": "^8.0.1"
   },
   "devDependencies": {

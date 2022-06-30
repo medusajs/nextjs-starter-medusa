@@ -1,4 +1,4 @@
-import OrderDetails from "@modules/account/components/order-details"
+import OrderCompletedTemplate from "@modules/order/templates/order-completed-template"
 import { useOrder } from "medusa-react"
 import { useRouter } from "next/router"
 
@@ -15,7 +15,7 @@ const OrderDetailsTemplate = () => {
     return <div>Loading...</div>
   }
 
-  return <OrderDetails order={details} />
+  return <OrderCompletedTemplate order={details} />
 }
 
 export default OrderDetailsTemplate
