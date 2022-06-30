@@ -1,7 +1,5 @@
 {
   "features": {
-    "wishlist": false,
-    "customerAuth": true,
     "search": true
   }
 }

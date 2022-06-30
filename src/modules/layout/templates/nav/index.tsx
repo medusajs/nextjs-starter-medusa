@@ -81,11 +81,9 @@ const Nav = () => {
           <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
             <div className="hidden small:flex items-center gap-x-6">
               {process.env.FEATURE_SEARCH_ENABLED && <SearchDropdown />}
-              {process.env.FEATURE_CUSTOMERAUTH_ENABLED && (
-                <Link href="/account">
-                  <a>Account</a>
-                </Link>
-              )}
+              <Link href="/account">
+                <a>Account</a>
+              </Link>
             </div>
             <CartDropdown />
           </div>
