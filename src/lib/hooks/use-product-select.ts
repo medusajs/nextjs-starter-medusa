@@ -1,15 +1,15 @@
+import { Product } from "@medusajs/medusa"
 import isEqual from "lodash/isEqual"
-import React from "react"
-import { Product } from "types/medusa"
+import { useEffect, useMemo, useState } from "react"
 
 export const useProductSelect = (
   product: Pick<Product, "options" | "variants">
 ) => {
-  const [options, setOptions] = React.useState<Record<string, string>>({})
-  const [quantity, setQuantity] = React.useState(1)
+  const [options, setOptions] = useState<Record<string, string>>({})
+  const [quantity, setQuantity] = useState(1)
   const { variants } = product
 
-  React.useEffect(() => {
+  useEffect(() => {
     const optionObj: Record<string, string> = {}
     for (const option of product.options) {
       Object.assign(optionObj, { [option.id]: undefined })
@@ -17,7 +17,7 @@ export const useProductSelect = (
     setOptions(optionObj)
   }, [product])
 
-  const variantMap = React.useMemo(() => {
+  const variantMap = useMemo(() => {
     const map: Record<string, Record<string, string>> = {}
 
     for (const variant of variants) {
@@ -33,7 +33,7 @@ export const useProductSelect = (
     return map
   }, [variants])
 
-  const variant = React.useMemo(() => {
+  const variant = useMemo(() => {
     let variantId: string | undefined = undefined
 
     for (const key of Object.keys(variantMap)) {

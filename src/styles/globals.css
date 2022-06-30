@@ -109,4 +109,8 @@
   .text-3xl-semi {
     @apply text-[36px] leading-[48px] font-semibold;
   }
+
+  .product-page-constraint {
+    @apply mx-auto w-full small:max-w-[1008px] medium:max-w-[1164px] large:max-w-[1324px] xlarge:max-w-[1484px] 2xlarge:max-w-[1804px]
+  }
 }

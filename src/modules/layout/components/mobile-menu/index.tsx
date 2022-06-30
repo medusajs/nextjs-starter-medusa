@@ -1,109 +1,130 @@
-import { Dialog, Transition } from "@headlessui/react"
+import { Dialog } from "@headlessui/react"
 import { useAccount } from "@lib/context/account-context"
+import ChevronDown from "@modules/common/icons/chevron-down"
+import Search from "@modules/common/icons/search"
 import X from "@modules/common/icons/x"
+import { useCollections } from "medusa-react"
 import Link from "next/link"
-import React, { Fragment } from "react"
-import { SiteProps } from "types/global"
+import React from "react"
+import ReactCountryFlag from "react-country-flag"
 
 type MobileMenuProps = {
   open: boolean
   onClose: () => void
-} & SiteProps
+}
 
-const MobileMenu: React.FC<MobileMenuProps> = ({ open, onClose, site }) => {
+const MobileMenu: React.FC<MobileMenuProps> = ({ open, onClose }) => {
   const { customer, retrievingCustomer } = useAccount()
+  const { collections } = useCollections()
   return (
-    <Transition.Root show={open} as={Fragment}>
-      <Dialog
-        as="div"
-        className="fixed inset-0 flex z-50 lg:hidden"
-        onClose={onClose}
-      >
-        <div className="absolute inset-0 overflow-hidden">
-          <Transition.Child
-            as={Fragment}
-            enter="ease-in-out duration-500"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in-out duration-500"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <Dialog.Overlay className="absolute inset-0 bg-gray-700 bg-opacity-75 backdrop-blur-sm transition-opacity" />
-          </Transition.Child>
+    <Dialog
+      as="div"
+      className="fixed inset-0 flex z-50"
+      open={open}
+      onClose={onClose}
+    >
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="pointer-events-none fixed inset-y-0 right-left flex max-w-full">
+          <div className="relative w-screen pointer-events-auto bg-white text-gray-900 flex flex-col overflow-y-auto">
+            <div className="flex items-center justify-between w-full border-b border-gray-200 py-4 px-6">
+              <div className="flex-1 basis-0">
+                <button className="flex items-center gap-x-2">
+                  <ReactCountryFlag countryCode="dk" svg />
+                  <ChevronDown />
+                </button>
+              </div>
+              <div>
+                <h1 className="text-large-semi">ACME</h1>
+              </div>
+              <div className="flex-1 basis-0 flex justify-end">
+                <button onClick={onClose}>
+                  <X size={20} />
+                </button>
+              </div>
+            </div>
 
-          <div className="pointer-events-none fixed inset-y-0 right-left flex max-w-full">
-            <Transition.Child
-              as={Fragment}
-              enter="transition-all ease-in-out duration-500"
-              enterFrom="-translate-x-full opacity-0"
-              enterTo="translate-x-0 opacity-100"
-              leave="transition ease-in-out duration-500 transform"
-              leaveFrom="translate-x-0 opacity-100"
-              leaveTo="-translate-x-full opacity-0"
-            >
-              <div className="relative w-screen max-w-md pointer-events-auto py-6 px-8 bg-white text-gray-900 flex flex-col overflow-y-auto">
-                <div className="flex items-center justify-end mb-6">
-                  <button onClick={onClose}>
-                    <X size={24} />
-                  </button>
+            <div className="space-y-6 flex-1 flex flex-col justify-between p-6">
+              {process.env.FEATURE_SEARCH_ENABLED && (
+                <div className="bg-gray-50 flex items-center p-4 gap-x-2 text-gray-500">
+                  <Search size={24} />
+                  <span
+                    placeholder="Search products"
+                    className="text-base-regular"
+                  >
+                    Search products
+                  </span>
                 </div>
+              )}
 
-                <div className="space-y-6">
-                  <div className="flex flex-col">
-                    <div className="flex flex-col gap-y-1 text-large-semi text-gray-900 uppercase">
-                      {site.navData.collections.map((collection) => {
-                        return (
-                          <Link
-                            href={`/collections/${collection.id}`}
-                            passHref
-                            key={collection.id}
-                          >
-                            <a>{collection.title}</a>
+              <div className="flex flex-col flex-1 text-large-regular text-gray-900">
+                <ul className="flex flex-col gap-y-2">
+                  <li className="bg-gray-50 p-4">
+                    <Link href="/shop">
+                      <a className="flex items-center justify-between">
+                        <span>Shop</span>
+                        <ChevronDown className="-rotate-90" />
+                      </a>
+                    </Link>
+                  </li>
+                  {collections ? (
+                    <>
+                      {collections.map((collection) => (
+                        <li key={collection.id} className="bg-gray-50 p-4">
+                          <Link href={`/collections/${collection.id}`}>
+                            <a className="flex items-center justify-between">
+                              <span>{collection.title}</span>
+                              <ChevronDown className="-rotate-90" />
+                            </a>
                           </Link>
-                        )
-                      })}
-                    </div>
-                  </div>
+                        </li>
+                      ))}
+                    </>
+                  ) : null}
+                </ul>
+              </div>
 
-                  <div className="flex flex-col">
-                    <div className="flex flex-col gap-y-1 text-base-regular text-gray-700">
-                      {!customer || retrievingCustomer ? (
-                        <>
-                          <Link href={`/account/login`} passHref>
-                            <a>Login</a>
-                          </Link>
-                          <Link href={`/account/create`} passHref>
-                            <a>Create account</a>
-                          </Link>
-                        </>
-                      ) : (
-                        <>
-                          <Link href={`/account`} passHref>
-                            <a>Account</a>
-                          </Link>
-                          <Link href={`/account/addresses`} passHref>
-                            <a>Addresses</a>
-                          </Link>
-                          <Link href={`/account/orders`} passHref>
-                            <a>Orders</a>
-                          </Link>
-                          {process.env.FEATURE_WISHLIST_ENABLED && (
-                            <Link href={`/account/wishlist`} passHref>
-                              <a>Wishlist</a>
-                            </Link>
-                          )}
-                        </>
-                      )}
+              <div className="flex flex-col">
+                <div className="flex flex-col gap-y-8 text-small-regular">
+                  {!customer || retrievingCustomer ? (
+                    <div className="flex flex-col gap-y-4">
+                      <span className="text-gray-700 uppercase">Account</span>
+                      <Link href={`/account/login`} passHref>
+                        <a className="flex items-center justify-between border-b border-gray-200 py-2">
+                          <span className="normal-case">Sign in</span>
+                          <ChevronDown className="-rotate-90" />
+                        </a>
+                      </Link>
                     </div>
+                  ) : (
+                    <div className="flex flex-col gap-y-4">
+                      <span className="text-gray-700 uppercase">
+                        Signed in as
+                      </span>
+                      <Link href={`/account`} passHref>
+                        <a className="flex items-center justify-between border-b border-gray-200 py-2">
+                          <span className="normal-case">{customer.email}</span>
+                          <ChevronDown className="-rotate-90" />
+                        </a>
+                      </Link>
+                    </div>
+                  )}
+                  <div className="flex flex-col gap-y-4">
+                    <span className="text-gray-700 uppercase">Delivery</span>
+                    <button className="flex items-center justify-between border-b border-gray-200 py-2">
+                      <div className="flex items-center gap-x-2">
+                        <ReactCountryFlag countryCode="dk" svg />
+                        <span className="normal-case">Shipping to Denmark</span>
+                      </div>
+                      <ChevronDown className="-rotate-90" />
+                    </button>
                   </div>
                 </div>
               </div>
-            </Transition.Child>
+            </div>
           </div>
         </div>
-      </Dialog>
-    </Transition.Root>
+      </div>
+    </Dialog>
   )
 }
 

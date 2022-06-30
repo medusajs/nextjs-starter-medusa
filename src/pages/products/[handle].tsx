@@ -1,6 +1,7 @@
 import { medusaClient } from "@lib/config"
 import { IS_BROWSER } from "@lib/constants"
 import { getProductHandles } from "@lib/util/get-product-handles"
+import { Product } from "@medusajs/medusa"
 import Head from "@modules/common/components/head"
 import Layout from "@modules/layout/templates"
 import ProductTemplate from "@modules/products/templates"
@@ -65,6 +66,10 @@ const ProductPage: NextPageWithLayout<PrefetchedPageProps> = ({ notFound }) => {
   }
 
   return <></>
+}
+
+ProductPage.getLayout = (page: ReactElement) => {
+  return <Layout>{page}</Layout>
 }
 
 ProductPage.getLayout = (page: ReactElement) => {

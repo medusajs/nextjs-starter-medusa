@@ -23,6 +23,14 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
     return variantPrice || cheapestPrice || null
   }, [price])
 
+  const price = useProductPrice({ id: product.id, variantId: variant?.id })
+
+  const selectedPrice = useMemo(() => {
+    const { variantPrice, cheapestPrice } = price
+
+    return variantPrice || cheapestPrice || null
+  }, [price])
+
   return (
     <div className="flex flex-col gap-y-2">
       {product.collection && (

@@ -88,6 +88,10 @@ CollectionPage.getLayout = (page: ReactElement) => {
   return <Layout>{page}</Layout>
 }
 
+ProductPage.getLayout = (page: ReactElement) => {
+  return <Layout>{page}</Layout>
+}
+
 export const getStaticPaths: GetStaticPaths<Params> = async () => {
   const ids = await getCollectionIds()
 

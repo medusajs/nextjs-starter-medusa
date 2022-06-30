@@ -1,30 +1,34 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCartDropdown } from "@lib/context/cart-dropdown-context"
+import { useCallback, useEffect, useState } from "react"
 
 export const useScrollListenser = () => {
-  const [show, setShow] = useState<boolean>(true);
-  const [lastScrollY, setLastScrollY] = useState<number>(0);
+  const [show, setShow] = useState<boolean>(true)
+  const [lastScrollY, setLastScrollY] = useState<number>(0)
+
+  const { state: isCartOpen } = useCartDropdown()
 
   const controlNavbar = useCallback(() => {
-    if (typeof window !== 'undefined') { 
+    if (typeof window !== "undefined") {
       if (window.scrollY > lastScrollY) {
-        setShow(false); 
+        setShow(false)
       } else {
-        setShow(true);  
+        setShow(true)
       }
 
-      setLastScrollY(window.scrollY); 
+      setLastScrollY(window.scrollY)
     }
-  }, [lastScrollY, setShow]);
+  }, [lastScrollY, setShow])
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window.addEventListener('scroll', controlNavbar);
+    if (typeof window !== "undefined") {
+      window.addEventListener("scroll", controlNavbar)
 
       return () => {
-        window.removeEventListener('scroll', controlNavbar);
-      };
+        window.removeEventListener("scroll", controlNavbar)
+      }
     }
-  }, [lastScrollY, controlNavbar]);
+  }, [lastScrollY, controlNavbar])
 
-  return show
+  // If the cart is open, then we force the navbar to show
+  return isCartOpen ? isCartOpen : show
 }

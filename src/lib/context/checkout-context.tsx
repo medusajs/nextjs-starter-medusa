@@ -322,11 +322,14 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
 
   const router = useRouter()
 
+  /**
+   * Method to complete the checkout process. This is called when the user clicks the "Complete Checkout" button.
+   */
   const onPaymentCompleted = () => {
-    completeCheckout.mutate(undefined, {
+    complete(undefined, {
       onSuccess: ({ data }) => {
         resetCart()
-        router.push(`/order/confirmed?id=${data.id}`)
+        push(`/order/confirmed?id=${data.id}`)
       },
     })
   }
