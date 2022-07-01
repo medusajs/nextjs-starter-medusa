@@ -1,47 +1,70 @@
-import { getCollectionData } from "@lib/data"
+import { medusaClient } from "@lib/config"
 import { getCollectionIds } from "@lib/util/get-collection-ids"
-import { ProductCollection } from "@medusajs/medusa/dist"
 import CollectionTemplate from "@modules/collections/templates"
 import Head from "@modules/common/components/head"
 import Layout from "@modules/layout/templates"
+import SkeletonCollectionPage from "@modules/skeletons/templates/skeleton-collection-page"
 import { GetStaticPaths, GetStaticProps } from "next"
 import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
 import { ReactElement } from "react"
-import { Product } from "types/medusa"
-import { NextPageWithLayout, StoreProps } from "../../types/global"
+import { dehydrate, QueryClient, useQuery } from "react-query"
+import { NextPageWithLayout, PrefetchedPageProps } from "../../types/global"
 
 interface Params extends ParsedUrlQuery {
   id: string
 }
 
-interface AdditionalData {
-  initialProducts: Product[]
-  count: number
-  hasMore: boolean
+const fetchCollection = async (id: string) => {
+  return await medusaClient.collections.retrieve(id).then(({ collection }) => ({
+    id: collection.id,
+    title: collection.title,
+  }))
 }
 
-const ProductPage: NextPageWithLayout<
-  StoreProps<ProductCollection, AdditionalData>
-> = ({ page }) => {
-  const router = useRouter()
+export const fetchCollectionProducts = async ({
+  pageParam = 0,
+  id,
+  cartId,
+}: {
+  pageParam?: number
+  id: string
+  cartId?: string
+}) => {
+  const { products, count, offset } = await medusaClient.products.list({
+    limit: 12,
+    offset: pageParam,
+    collection_id: [id],
+    cart_id: cartId,
+  })
 
-  if (router.isFallback) {
-    return <div>Loading...</div>
+  return {
+    response: { products, count },
+    nextPage: count > offset + 12 ? offset + 12 : null,
+  }
+}
+
+const ProductPage: NextPageWithLayout<PrefetchedPageProps> = ({ notFound }) => {
+  const { query, isFallback } = useRouter()
+  const id = typeof query.id === "string" ? query.id : ""
+
+  const { data, isError, isLoading, isSuccess } = useQuery(
+    ["get_collection", id],
+    () => fetchCollection(id)
+  )
+
+  if (notFound) {
+    return <div>error</div>
+  }
+
+  if (isFallback || isLoading || !data) {
+    return <SkeletonCollectionPage />
   }
 
   return (
     <>
-      <Head
-        title={page.data.title}
-        description={`${page.data.title} collection`}
-      />
-      <CollectionTemplate
-        collection={page.data}
-        inititalProducts={page.additionalData.initialProducts}
-        count={page.additionalData.count}
-        hasMore={page.additionalData.hasMore}
-      />
+      <Head title={data.title} description={`${data.title} collection`} />
+      <CollectionTemplate collection={data} />
     </>
   )
 }
@@ -52,27 +75,44 @@ ProductPage.getLayout = (page: ReactElement) => {
 
 export const getStaticPaths: GetStaticPaths<Params> = async () => {
   const ids = await getCollectionIds()
+
   return {
     paths: ids.map((id) => ({ params: { id } })),
     fallback: true,
   }
 }
 
-export const getStaticProps: GetStaticProps<
-  StoreProps<ProductCollection, AdditionalData>,
-  Params
-> = async (context) => {
-  const id = context.params?.id
+export const getStaticProps: GetStaticProps = async (context) => {
+  const queryClient = new QueryClient()
+  const id = context.params?.id as string
 
-  if (!id) {
-    throw new Error("No id provided")
+  await queryClient.prefetchQuery(["get_collection", id], () =>
+    fetchCollection(id)
+  )
+
+  await queryClient.prefetchInfiniteQuery(
+    ["get_collection_products", id],
+    ({ pageParam }) => fetchCollectionProducts({ pageParam, id }),
+    {
+      getNextPageParam: (lastPage) => lastPage.nextPage,
+    }
+  )
+
+  const queryData = await queryClient.getQueryData([`get_collection`, id])
+
+  if (!queryData) {
+    return {
+      props: {
+        notFound: true,
+      },
+    }
   }
-
-  const data = await getCollectionData(id)
 
   return {
     props: {
-      ...data,
+      // Work around see https://github.com/TanStack/query/issues/1458#issuecomment-747716357
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+      notFound: false,
     },
   }
 }

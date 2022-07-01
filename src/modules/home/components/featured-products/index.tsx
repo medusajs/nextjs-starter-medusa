@@ -1,12 +1,11 @@
+import { useFeaturedProductsQuery } from "@lib/hooks/use-layout-data"
 import UnderlineLink from "@modules/common/components/underline-link"
 import ProductPreview from "@modules/products/components/product-preview"
-import { FeaturedProduct } from "@pages/index"
+import SkeletonProductPreview from "@modules/skeletons/components/skeleton-product-preview"
 
-type FeaturedProductsProps = {
-  products: FeaturedProduct[]
-}
+const FeaturedProducts = () => {
+  const { data } = useFeaturedProductsQuery()
 
-const FeaturedProducts = ({ products }: FeaturedProductsProps) => {
   return (
     <div className="py-12">
       <div className="content-container py-12">
@@ -19,11 +18,19 @@ const FeaturedProducts = ({ products }: FeaturedProductsProps) => {
           </p>
           <UnderlineLink href="/store">Explore products</UnderlineLink>
         </div>
-        <div className="grid grid-cols-2 small:grid-cols-4 gap-x-4 gap-y-8">
-          {products.map((product) => (
-            <ProductPreview key={product.id} product={product} />
-          ))}
-        </div>
+        <ul className="grid grid-cols-2 small:grid-cols-4 gap-x-4 gap-y-8">
+          {data
+            ? data.map((product) => (
+                <li key={product.id}>
+                  <ProductPreview {...product} />
+                </li>
+              ))
+            : Array.from(Array(4).keys()).map((i) => (
+                <li key={i}>
+                  <SkeletonProductPreview />
+                </li>
+              ))}
+        </ul>
       </div>
     </div>
   )

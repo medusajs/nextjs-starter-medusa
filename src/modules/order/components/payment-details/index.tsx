@@ -10,7 +10,6 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
   payments,
   paymentStatus,
 }) => {
-  console.log(payments)
   return (
     <div>
       <h2 className="text-base-semi">Payment</h2>

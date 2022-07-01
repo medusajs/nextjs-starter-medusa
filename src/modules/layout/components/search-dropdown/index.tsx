@@ -1,6 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react"
 import useToggleState from "@lib/hooks/use-toggle-state"
 import { searchClient, SEARCH_INDEX_NAME } from "@lib/search-client"
+import Search from "@modules/common/icons/search"
 import Hit from "@modules/search/components/hit"
 import Hits from "@modules/search/components/hits"
 import SearchBox from "@modules/search/components/search-box"
@@ -14,7 +15,13 @@ const SearchDropdown = () => {
 
   return (
     <>
-      <button onClick={open}>Search</button>
+      <button
+        onClick={open}
+        className="flex items-center gap-x-2 h-full transition-[min-width,colors] border-b border-transparent hover:border-gray-900  min-w-0 duration-500 ease-in-out hover:min-w-[400px] focus:min-w-[400px] focus-within:min-w-[400px] mt-px"
+      >
+        <Search />
+        Search
+      </button>
 
       <Transition.Root show={state} as={Fragment}>
         <Dialog

@@ -1,3 +1,4 @@
+import { getPercentageDiff } from "@lib/util/get-precentage-diff"
 import { Region } from "@medusajs/medusa"
 import clsx from "clsx"
 import { formatAmount } from "medusa-react"
@@ -17,14 +18,6 @@ const LineItemPrice = ({
   style = "default",
 }: LineItemPriceProps) => {
   const hasReducedPrice = variant.calculated_price < variant.original_price
-
-  const getDecrease = () => {
-    const diff =
-      variant.original_price * quantity - variant.calculated_price * quantity
-    const decrease = (diff / variant.original_price) * quantity * 100
-
-    return decrease.toFixed()
-  }
 
   return (
     <div className="flex flex-col text-gray-700 text-right">
@@ -54,7 +47,14 @@ const LineItemPrice = ({
             </span>
           </p>
           {style === "default" && (
-            <span className="text-rose-600">-{getDecrease()}%</span>
+            <span className="text-rose-600">
+              -
+              {getPercentageDiff(
+                variant.original_price,
+                variant.calculated_price
+              )}
+              %
+            </span>
           )}
         </>
       )}

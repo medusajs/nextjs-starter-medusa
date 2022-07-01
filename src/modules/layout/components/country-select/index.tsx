@@ -1,4 +1,5 @@
 import { Listbox, Transition } from "@headlessui/react"
+import { useStore } from "@lib/context/store-context"
 import useToggleState from "@lib/hooks/use-toggle-state"
 import { useRegions } from "medusa-react"
 import { Fragment, useEffect, useMemo, useState } from "react"
@@ -11,6 +12,7 @@ type CountryOption = {
 }
 
 const CountrySelect = () => {
+  const { countryCode, setRegion } = useStore()
   const { regions } = useRegions()
   const [current, setCurrent] = useState<CountryOption | undefined>(undefined)
   const { state, open, close } = useToggleState()
@@ -28,19 +30,29 @@ const CountrySelect = () => {
   }, [regions])
 
   useEffect(() => {
-    setCurrent(options?.[0])
-  }, [options])
+    if (countryCode) {
+      const option = options?.find((o) => o.country === countryCode)
+      setCurrent(option)
+    }
+  }, [countryCode, options])
 
   const handleChange = (option: CountryOption) => {
-    setCurrent(option)
+    setRegion(option.region, option.country)
     close()
   }
 
   return (
     <div onMouseEnter={open} onMouseLeave={close}>
-      <Listbox onChange={handleChange} value={options ? options[0] : undefined}>
+      <Listbox
+        onChange={handleChange}
+        value={
+          countryCode
+            ? options?.find((o) => o.country === countryCode)
+            : undefined
+        }
+      >
         <Listbox.Button className="py-1 w-full">
-          <div className="text-small-regular flex items-center gap-x-2">
+          <div className="text-small-regular flex items-center gap-x-2 xsmall:justify-end">
             <span>Shipping to:</span>
             {current && (
               <span className="text-small-semi flex items-center gap-x-2">
@@ -57,7 +69,7 @@ const CountrySelect = () => {
             )}
           </div>
         </Listbox.Button>
-        <div className="relative w-full">
+        <div className="relative w-full min-w-[316px]">
           <Transition
             show={state}
             as={Fragment}
@@ -66,7 +78,7 @@ const CountrySelect = () => {
             leaveTo="opacity-0"
           >
             <Listbox.Options
-              className="absolute top-0 left-0 z-[900] bg-gray-100 text-small-regular uppercase text-black"
+              className="absolute -bottom-[calc(100%-36px)] left-0 xsmall:left-auto xsmall:right-0 z-[900] bg-white drop-shadow-md text-small-regular uppercase text-black"
               static
             >
               {options?.map((o) => {

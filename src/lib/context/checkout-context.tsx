@@ -48,6 +48,7 @@ interface CheckoutContext {
   readyToComplete: boolean
   sameAsBilling: StateType
   editAddresses: StateType
+  initPayment: () => Promise<void>
   setAddresses: (addresses: CheckoutFormValues) => void
   setSavedAddress: (address: Address) => void
   setShippingOption: (soId: string) => void
@@ -280,7 +281,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
       )
 
       if (region && region.id !== cart.region.id) {
-        setRegion(region.id)
+        setRegion(region.id, countryCode)
       }
     }
   }
@@ -321,7 +322,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     complete(undefined, {
       onSuccess: ({ data }) => {
         resetCart()
-        push(`/order/confirmed?id=${data.id}`)
+        push(`/order/confirmed/${data.id}`)
       },
     })
   }
@@ -336,6 +337,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
           readyToComplete,
           sameAsBilling,
           editAddresses,
+          initPayment,
           setAddresses,
           setSavedAddress,
           setShippingOption,

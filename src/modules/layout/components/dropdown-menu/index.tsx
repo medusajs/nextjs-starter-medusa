@@ -1,26 +1,24 @@
 import { Popover, Transition } from "@headlessui/react"
+import {
+  useFeaturedProductsQuery,
+  useNavigationCollections,
+} from "@lib/hooks/use-layout-data"
+import repeat from "@lib/util/repeat"
 import ProductPreview from "@modules/products/components/product-preview"
+import SkeletonProductPreview from "@modules/skeletons/components/skeleton-product-preview"
 import clsx from "clsx"
-import { useCart, useCollections, useProducts } from "medusa-react"
+import { chunk } from "lodash"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import React, { useMemo, useState } from "react"
+import React, { useState } from "react"
 
 const DropdownMenu = () => {
   const [open, setOpen] = useState(false)
-  const { cart } = useCart()
-
-  const { asPath, push } = useRouter()
-
-  const active = useMemo(() => {
-    return asPath === "/shop"
-  }, [asPath])
-
-  const { collections } = useCollections()
-  const { products: featuredProducts } = useProducts({
-    limit: 3,
-    is_giftcard: false,
-  })
+  const { push } = useRouter()
+  const { data: collections, isLoading: loadingCollections } =
+    useNavigationCollections()
+  const { data: products, isLoading: loadingProducts } =
+    useFeaturedProductsQuery()
 
   return (
     <div
@@ -37,9 +35,9 @@ const DropdownMenu = () => {
                   className={clsx(
                     "relative h-full flex items-center transition-all ease-out duration-200"
                   )}
-                  onClick={() => push("/shop")}
+                  onClick={() => push("/store")}
                 >
-                  Shop
+                  Store
                 </Popover.Button>
               </a>
             </Link>
@@ -64,26 +62,48 @@ const DropdownMenu = () => {
                       <h3 className="text-base-semi text-gray-900 mb-4">
                         Collections
                       </h3>
-                      <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-                        {collections?.map((collection) => {
-                          return (
-                            <Link
-                              href={`/collections/${collection.id}`}
-                              key={collection.id}
-                            >
-                              <a onClick={() => setOpen(false)}>
-                                {collection.title}
-                              </a>
-                            </Link>
-                          )
-                        })}
+                      <div className="flex items-start">
+                        {collections &&
+                          chunk(collections, 6).map((chunk, index) => {
+                            return (
+                              <ul
+                                key={index}
+                                className="min-w-[152px] max-w-[200px] pr-4"
+                              >
+                                {chunk.map((collection) => {
+                                  return (
+                                    <div key={collection.id} className="pb-3">
+                                      <Link
+                                        href={`/collections/${collection.id}`}
+                                      >
+                                        <a onClick={() => setOpen(false)}>
+                                          {collection.title}
+                                        </a>
+                                      </Link>
+                                    </div>
+                                  )
+                                })}
+                              </ul>
+                            )
+                          })}
+                        {loadingCollections &&
+                          repeat(6).map((index) => (
+                            <div
+                              key={index}
+                              className="w-12 h-4 bg-gray-100 animate-pulse"
+                            />
+                          ))}
                       </div>
                     </div>
                     <div className="flex-1">
                       <div className="grid grid-cols-3 gap-4">
-                        {featuredProducts?.map((item) => (
-                          <ProductPreview product={item} key={item.id} />
+                        {products?.slice(0, 3).map((product) => (
+                          <ProductPreview {...product} key={product.id} />
                         ))}
+                        {loadingProducts &&
+                          repeat(3).map((index) => (
+                            <SkeletonProductPreview key={index} />
+                          ))}
                       </div>
                     </div>
                   </div>

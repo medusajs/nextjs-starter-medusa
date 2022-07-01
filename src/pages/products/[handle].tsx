@@ -1,24 +1,24 @@
 import { medusaClient } from "@lib/config"
-import { getProductData } from "@lib/data"
 import { getProductHandles } from "@lib/util/get-product-handles"
-import { Product } from "@medusajs/medusa"
 import Head from "@modules/common/components/head"
 import Layout from "@modules/layout/templates"
 import ProductTemplate from "@modules/products/templates"
-import { useCart } from "medusa-react"
+import SkeletonProductPage from "@modules/skeletons/templates/skeleton-product-page"
 import { GetStaticPaths, GetStaticProps } from "next"
+import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
-import { ReactElement, useEffect, useState } from "react"
-import { useQuery } from "react-query"
-import { NextPageWithLayout, StoreProps } from "types/global"
+import { ReactElement } from "react"
+import { dehydrate, QueryClient, useQuery } from "react-query"
+import { NextPageWithLayout, PrefetchedPageProps } from "types/global"
 
 interface Params extends ParsedUrlQuery {
   handle: string
 }
 
-// At runtime we refetch the product data to get the latest inventory data,
-// as well as the price data related to the current cart.
-const fetchRehydrate = async ({
+/**
+ * At runtime we refetch the products variant data to get the latest inventory data, and customer specific pricing.
+ */
+const fetchVariants = async ({
   productId,
   cartId,
 }: {
@@ -33,45 +33,75 @@ const fetchRehydrate = async ({
   return request.products[0].variants
 }
 
-const ProductPage: NextPageWithLayout<StoreProps<Product, Product[]>> = ({
-  page,
-  site,
-}) => {
-  const { data } = page
-  const { cart } = useCart()
+const fetchProduct = async (handle: string) => {
+  return await medusaClient.products
+    .list({ handle })
+    .then(({ products }) => products[0])
+}
 
-  const [product, setProduct] = useState(data)
+const ProductPage: NextPageWithLayout<PrefetchedPageProps> = ({ notFound }) => {
+  const { query, isFallback, replace } = useRouter()
+  const handle = typeof query.handle === "string" ? query.handle : ""
 
-  const { data: rehydratedVariants } = useQuery(
-    [`rehydrated_variants_${product.id}`, product.id, cart?.id],
-    async () =>
-      await fetchRehydrate({ productId: product.id, cartId: cart?.id! }),
+  const { data, isError, isLoading, isSuccess } = useQuery(
+    [`get_product`, handle],
+    () => fetchProduct(handle),
     {
-      enabled: !!cart,
+      enabled: handle.length > 0,
+      keepPreviousData: true,
     }
   )
 
-  // rehydrate product after inventory is fetched
-  useEffect(() => {
-    if (data && rehydratedVariants) {
-      // @ts-ignore - ignore ts as product variant type is erroneously typed
-      setProduct({
-        ...data,
-        variants: rehydratedVariants,
-      })
-    }
-  }, [data, rehydratedVariants])
+  // const [product, setProduct] = useState(data!)
 
-  return (
-    <>
-      <Head
-        description={product.description}
-        title={product.title}
-        image={product.thumbnail}
-      />
-      <ProductTemplate product={product} />
-    </>
-  )
+  // const { data: rehydratedVariants } = useQuery(
+  //   [`rehydrated_variants_${data?.id}`, product?.id, cart?.id],
+  //   async () =>
+  //     await fetchVariants({ productId: product?.id || "", cartId: cart?.id! }),
+  //   {
+  //     enabled: !!cart?.id,
+  //   }
+  // )
+
+  // // /**
+  // //  * Rehydrate the product variants with the latest inventory and pricing data.
+  // //  */
+  // // useEffect(() => {
+  // //   if (data && rehydratedVariants) {
+  // //     // @ts-ignore - ignore ts as product variant type is erroneously typed
+  // //     setProduct({
+  // //       ...data,
+  // //       variants: rehydratedVariants,
+  // //     })
+  // //   }
+  // // }, [data, rehydratedVariants])
+
+  if (notFound) {
+    return <div>error</div>
+  }
+
+  if (isFallback || isLoading || !data) {
+    return <SkeletonProductPage />
+  }
+
+  if (isError) {
+    replace("/404")
+  }
+
+  if (isSuccess) {
+    return (
+      <>
+        <Head
+          description={data.description}
+          title={data.title}
+          image={data.thumbnail}
+        />
+        <ProductTemplate product={data} />
+      </>
+    )
+  }
+
+  return <></>
 }
 
 ProductPage.getLayout = (page: ReactElement) => {
@@ -86,21 +116,29 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
   }
 }
 
-export const getStaticProps: GetStaticProps<
-  StoreProps<Product, Product[]>,
-  Params
-> = async (context) => {
-  const handle = context.params?.handle
+export const getStaticProps: GetStaticProps = async (context) => {
+  const handle = context.params?.handle as string
 
-  if (!handle) {
-    throw new Error("No handle provided")
+  const queryClient = new QueryClient()
+
+  await queryClient.prefetchQuery([`get_product`, handle], () =>
+    fetchProduct(handle)
+  )
+
+  const queryData = await queryClient.getQueryData([`get_product`, handle])
+
+  if (!queryData) {
+    return {
+      props: {
+        notFound: true,
+      },
+    }
   }
-
-  const data = await getProductData(handle)
 
   return {
     props: {
-      ...data,
+      dehydratedState: dehydrate(queryClient),
+      notFound: false,
     },
   }
 }

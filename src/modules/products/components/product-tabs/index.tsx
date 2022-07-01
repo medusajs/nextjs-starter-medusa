@@ -108,7 +108,7 @@ const ShippingInfoTab = () => {
             <span className="font-semibold">Fast delivery</span>
             <p className="max-w-sm">
               Your package will arrive in 3-5 business days at your pick up
-              location or in the comfort of your home. Read more
+              location or in the comfort of your home.
             </p>
           </div>
         </div>
@@ -117,8 +117,8 @@ const ShippingInfoTab = () => {
           <div>
             <span className="font-semibold">Simple exchanges</span>
             <p className="max-w-sm">
-              Your package will arrive in 3-5 business days at your pick up
-              location or in the comfort of your home. Read more
+              Is the fit not quite right? No worries - we&apos;ll exchange your
+              product for a new one.
             </p>
           </div>
         </div>
@@ -127,8 +127,9 @@ const ShippingInfoTab = () => {
           <div>
             <span className="font-semibold">Easy returns</span>
             <p className="max-w-sm">
-              Your package will arrive in 3-5 business days at your pick up
-              location or in the comfort of your home. Read more
+              Just return your product and we&apos;ll refund your money. No
+              questions asked – we&apos;ll do our best to make sure your return
+              is hassle-free.
             </p>
           </div>
         </div>

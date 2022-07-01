@@ -1,7 +1,7 @@
+import { Product } from "@medusajs/medusa"
 import { NextPage } from "next"
 import { AppProps } from "next/app"
 import { ReactElement, ReactNode } from "react"
-import { Product } from "./medusa"
 
 export type CollectionData = {
   id: string
@@ -22,13 +22,9 @@ export type StoreNavData = {
 }
 
 // page props for store pages (products and collection pages)
-export type StoreProps<T extends unknown, K extends unknown> = {
+export type StoreProps<T extends unknown> = {
   page: {
     data: T
-    additionalData: K
-  }
-  site: {
-    navData: StoreNavData
   }
 }
 
@@ -39,6 +35,10 @@ export type SiteProps = {
   }
 }
 
+export type PrefetchedPageProps = {
+  notFound: boolean
+}
+
 // For pages with nested layouts
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout: (page: ReactElement) => ReactNode
@@ -46,4 +46,24 @@ export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
 
 export type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout
+}
+
+export type ProductPreviewType = {
+  id: string
+  title: string
+  handle: string
+  thumbnail?: string
+  price?: {
+    calculated_price: string
+    original_price: string
+    difference: string
+    price_type: "default" | "sale"
+  }
+}
+
+export type InfiniteProductPage = {
+  response: {
+    products: Product[]
+    count: number
+  }
 }

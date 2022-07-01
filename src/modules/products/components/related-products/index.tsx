@@ -1,7 +1,11 @@
-import { medusaClient } from "@lib/config"
+import { fetchProductsList } from "@lib/data"
+import usePreviews from "@lib/hooks/use-previews"
+import getNumberOfSkeletons from "@lib/util/get-number-of-skeletons"
+import repeat from "@lib/util/repeat"
 import { Product, StoreGetProductsParams } from "@medusajs/medusa"
 import Button from "@modules/common/components/button"
-import Spinner from "@modules/common/icons/spinner"
+import SkeletonProductPreview from "@modules/skeletons/components/skeleton-product-preview"
+import { useCart } from "medusa-react"
 import { useMemo } from "react"
 import { useInfiniteQuery } from "react-query"
 import ProductPreview from "../product-preview"
@@ -11,8 +15,15 @@ type RelatedProductsProps = {
 }
 
 const RelatedProducts = ({ product }: RelatedProductsProps) => {
+  const { cart } = useCart()
+
   const queryParams: StoreGetProductsParams = useMemo(() => {
     const params: StoreGetProductsParams = {}
+
+    if (cart?.id) {
+      params.cart_id = cart.id
+    }
+
     if (product.collection_id) {
       params.collection_id = [product.collection_id]
     }
@@ -28,15 +39,18 @@ const RelatedProducts = ({ product }: RelatedProductsProps) => {
     params.is_giftcard = false
 
     return params
-  }, [product])
+  }, [product, cart?.id])
 
-  const { data, hasNextPage, fetchNextPage, isLoading } = useInfiniteQuery(
-    [`infinite-products_${product.id}`, queryParams],
-    ({ pageParam }) => fetchProducts({ pageParam, queryParams }),
-    {
-      getNextPageParam: (lastPage) => lastPage.nextPage,
-    }
-  )
+  const { data, hasNextPage, fetchNextPage, isLoading, isFetchingNextPage } =
+    useInfiniteQuery(
+      [`infinite-products-${product.id}`, queryParams, cart],
+      ({ pageParam }) => fetchProductsList({ pageParam, queryParams }),
+      {
+        getNextPageParam: (lastPage) => lastPage.nextPage,
+      }
+    )
+
+  const previews = usePreviews({ pages: data?.pages, region: cart?.region })
 
   return (
     <div className="product-page-constraint">
@@ -48,25 +62,27 @@ const RelatedProducts = ({ product }: RelatedProductsProps) => {
           You might also want to check out these products.
         </p>
       </div>
-      {!data ? (
-        <div className="w-full flex items-center justify-center">
-          <Spinner />
-        </div>
-      ) : (
-        <ul className="grid grid-cols-2 small:grid-cols-3 medium:grid-cols-4 gap-x-4 gap-y-8">
-          {data?.pages.map((page) => {
-            return page.response.products
-              .filter((p) => p.id !== product.id)
-              .map((p) => {
-                return (
-                  <li key={p.id}>
-                    <ProductPreview product={p} />
-                  </li>
-                )
-              })
-          })}
-        </ul>
-      )}
+
+      <ul className="grid grid-cols-2 small:grid-cols-3 medium:grid-cols-4 gap-x-4 gap-y-8">
+        {previews.map((p) => (
+          <li key={p.id}>
+            <ProductPreview {...p} />
+          </li>
+        ))}
+        {isLoading &&
+          !previews.length &&
+          repeat(8).map((index) => (
+            <li key={index}>
+              <SkeletonProductPreview />
+            </li>
+          ))}
+        {isFetchingNextPage &&
+          repeat(getNumberOfSkeletons(data?.pages)).map((index) => (
+            <li key={index}>
+              <SkeletonProductPreview />
+            </li>
+          ))}
+      </ul>
       {hasNextPage && (
         <div className="flex items-center justify-center mt-8">
           <Button
@@ -80,27 +96,6 @@ const RelatedProducts = ({ product }: RelatedProductsProps) => {
       )}
     </div>
   )
-}
-
-type FetchProductParams = {
-  pageParam?: number
-  queryParams: StoreGetProductsParams
-}
-
-const fetchProducts = async ({
-  pageParam = 0,
-  queryParams,
-}: FetchProductParams) => {
-  const { products, count, offset } = await medusaClient.products.list({
-    limit: 24,
-    offset: pageParam,
-    ...queryParams,
-  })
-
-  return {
-    response: { products, count },
-    nextPage: count > offset + 24 ? offset + 24 : null,
-  }
 }
 
 export default RelatedProducts

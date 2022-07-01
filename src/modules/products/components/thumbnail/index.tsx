@@ -2,7 +2,7 @@ import { Image as MedusaImage } from "@medusajs/medusa"
 import PlaceholderImage from "@modules/common/icons/placeholder-image"
 import clsx from "clsx"
 import Image from "next/image"
-import React, { useState } from "react"
+import React from "react"
 
 type ThumbnailProps = {
   thumbnail?: string | null
@@ -16,10 +16,6 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
   size = "small",
 }) => {
   const initialImage = thumbnail || images?.[0]?.url
-  const alternateImage =
-    images?.find((image) => image.url !== initialImage)?.url || initialImage
-
-  const [image, setImage] = useState(initialImage)
 
   return (
     <div
@@ -29,10 +25,8 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
         "w-[440px]": size === "large",
         "w-full": size === "full",
       })}
-      onMouseEnter={() => setImage(alternateImage)}
-      onMouseLeave={() => setImage(initialImage)}
     >
-      <ImageOrPlaceholder image={image} size={size} />
+      <ImageOrPlaceholder image={initialImage} size={size} />
     </div>
   )
 }
@@ -49,6 +43,7 @@ const ImageOrPlaceholder = ({
       objectFit="cover"
       objectPosition="center"
       className="absolute inset-0"
+      draggable={false}
     />
   ) : (
     <div className="w-full h-full absolute inset-0 bg-gray-100 flex items-center justify-center">
