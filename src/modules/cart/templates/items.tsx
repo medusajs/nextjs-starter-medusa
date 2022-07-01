@@ -1,6 +1,6 @@
 import { LineItem, Region } from "@medusajs/medusa"
-import SkeletonLineItem from "@modules/common/components/skeleton-line-item"
-import Item from "../components/item"
+import Item from "@modules/cart/components/item"
+import SkeletonLineItem from "@modules/skeletons/components/skeleton-line-item"
 
 type ItemsTemplateProps = {
   items?: Omit<LineItem, "beforeInsert">[]
@@ -9,7 +9,7 @@ type ItemsTemplateProps = {
 
 const ItemsTemplate = ({ items, region }: ItemsTemplateProps) => {
   return (
-    <div className="bg-white p-6 pt-0">
+    <div>
       <div className="border-b border-gray-200 pt-6 pb-3 flex items-center justify-between">
         <h1 className="text-xl-semi">Shopping Bag</h1>
         <span className="font-no">{items?.length} item(s)</span>

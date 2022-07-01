@@ -1,18 +1,22 @@
+import { StoreGetProductsParams } from "@medusajs/medusa"
+import Head from "@modules/common/components/head"
 import Layout from "@modules/layout/templates"
-import ProductPreview from "@modules/products/components/product-preview"
-import { useProducts } from "medusa-react"
+import InfiniteProducts from "@modules/products/components/infinite-products"
+import RefinementList from "@modules/store/components/refinement-list"
+import { useState } from "react"
 import { NextPageWithLayout } from "types/global"
 
 const Store: NextPageWithLayout = () => {
-  const { products } = useProducts()
+  const [params, setParams] = useState<StoreGetProductsParams>({})
+
   return (
-    <div className="content-container">
-      <div className="grid grid-cols-4 gap-x-4 gap-y-8">
-        {products?.map((product) => (
-          <ProductPreview key={product.id} product={product} />
-        ))}
+    <>
+      <Head title="Store" description="Explore all of our products" />
+      <div className="flex flex-col small:flex-row small:items-start py-6">
+        <RefinementList refinementList={params} setRefinementList={setParams} />
+        <InfiniteProducts params={params} />
       </div>
-    </div>
+    </>
   )
 }
 

@@ -9,7 +9,7 @@ type SummaryProps = {
 
 const Summary = ({ cart }: SummaryProps) => {
   return (
-    <div className="bg-white p-6 grid grid-cols-1 gap-y-6">
+    <div className="grid grid-cols-1 gap-y-6">
       <CartTotals cart={cart} />
       <Link href="/checkout">
         <a>

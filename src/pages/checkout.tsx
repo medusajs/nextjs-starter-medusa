@@ -1,8 +1,13 @@
 import CheckoutTemplate from "@modules/checkout/templates"
-import React from "react"
+import Head from "@modules/common/components/head"
 
 const Checkout = () => {
-  return <CheckoutTemplate />
+  return (
+    <>
+      <Head title="Checkout" />
+      <CheckoutTemplate />
+    </>
+  )
 }
 
 export default Checkout

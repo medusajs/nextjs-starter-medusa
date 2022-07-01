@@ -1,7 +1,7 @@
 import { ProductProvider } from "@lib/context/product-context"
 import { useIntersection } from "@lib/hooks/use-in-view"
 import { Product } from "@medusajs/medusa"
-import ProductTabs from "@modules/products/components/info-tabs"
+import ProductTabs from "@modules/products/components/product-tabs"
 import RelatedProducts from "@modules/products/components/related-products"
 import ProductInfo from "@modules/products/templates/product-info"
 import React, { useRef } from "react"

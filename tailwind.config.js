@@ -6,10 +6,15 @@ module.exports = {
   ],
   theme: {
     extend: {
+      transitionProperty: {
+        "width": "width",
+      },
       maxWidth: {
         "8xl": "100rem",
       },
       screens: {
+        "2xsmall": "320px",
+        "xsmall": "512px",
         "small": "1024px",
         "medium": "1280px",
         "large": "1440px",

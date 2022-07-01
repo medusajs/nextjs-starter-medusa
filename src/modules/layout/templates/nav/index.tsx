@@ -37,9 +37,7 @@ const Nav = () => {
     pathname === "/" ? setIsHome(true) : setIsHome(false)
   }, [pathname])
 
-  const {
-    control: { toggle },
-  } = useMobileMenu()
+  const { toggle } = useMobileMenu()
 
   return (
     <div
@@ -79,7 +77,7 @@ const Nav = () => {
           </div>
 
           <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
-            <div className="hidden small:flex items-center gap-x-6">
+            <div className="hidden small:flex items-center gap-x-6 h-full">
               {process.env.FEATURE_SEARCH_ENABLED && <SearchDropdown />}
               <Link href="/account">
                 <a>Account</a>

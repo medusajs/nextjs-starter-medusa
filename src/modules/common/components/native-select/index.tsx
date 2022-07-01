@@ -42,7 +42,6 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
       : false
 
     useEffect(() => {
-      console.log(innerRef.current?.value)
       if (innerRef.current && innerRef.current.value === "") {
         setIsPlaceholder(true)
       } else {

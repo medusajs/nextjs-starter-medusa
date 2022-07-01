@@ -2,8 +2,9 @@ import { medusaClient } from "@lib/config"
 import { Cart } from "@medusajs/medusa"
 import Button from "@modules/common/components/button"
 import Input from "@modules/common/components/input"
+import Trash from "@modules/common/icons/trash"
 import { formatAmount, useCart, useUpdateCart } from "medusa-react"
-import React, { useMemo, useState } from "react"
+import React, { useMemo } from "react"
 import { useForm } from "react-hook-form"
 import { useMutation } from "react-query"
 
@@ -17,7 +18,6 @@ type DiscountCodeProps = {
 
 const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
   const { id, discounts, region } = cart
-  const [show, setShow] = useState(false)
   const { mutate, isLoading } = useUpdateCart(id)
   const { setCart } = useCart()
 
@@ -89,18 +89,25 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
   }
 
   return (
-    <div className="w-full bg-white p-6 flex flex-col">
+    <div className="w-full bg-white flex flex-col">
       <div className="mb-4">
         <h3 className="text-base-semi">Discount</h3>
       </div>
       <div className="text-small-regular">
         {appliedDiscount ? (
           <div className="flex items-center justify-between">
-            <span>Discount</span>
             <div>
-              <span>{appliedDiscount}</span>
-              <button className="underline" onClick={onRemove}>
-                Remove
+              <span>Code: </span>
+              <span className="font-semibold">{appliedDiscount}</span>
+            </div>
+            <div>
+              <button
+                className="flex items-center gap-x-2"
+                onClick={onRemove}
+                disabled={isLoading}
+              >
+                <Trash size={16} />
+                <span className="sr-only">Remove gift card from order</span>
               </button>
             </div>
           </div>
@@ -115,7 +122,13 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                 errors={errors}
               />
               <div>
-                <Button className="!min-h-[0] h-[46px] w-[80px]">Apply</Button>
+                <Button
+                  className="!min-h-[0] h-[46px] w-[80px]"
+                  disabled={isLoading}
+                  isLoading={isLoading}
+                >
+                  Apply
+                </Button>
               </div>
             </div>
           </form>

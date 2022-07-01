@@ -1,7 +1,6 @@
 import { Image as MedusaImage } from "@medusajs/medusa"
-import clsx from "clsx"
 import Image from "next/image"
-import { useEffect, useRef, useState } from "react"
+import { useRef } from "react"
 
 type ImageGalleryProps = {
   images: MedusaImage[]
@@ -9,7 +8,6 @@ type ImageGalleryProps = {
 
 const ImageGallery = ({ images }: ImageGalleryProps) => {
   const imageRefs = useRef<(HTMLDivElement | null)[]>([])
-  const [currentIndex, setCurrentIndex] = useState(0)
 
   const handleScrollTo = (id: string) => {
     const element = document.getElementById(id)
@@ -22,30 +20,6 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
     }
   }
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry, index) => {
-          if (entry.isIntersecting) {
-            setCurrentIndex(index)
-            console.log(index)
-          }
-        })
-      },
-      { rootMargin: "200px 0px 0px 0px" }
-    )
-
-    for (const ref of imageRefs.current) {
-      if (ref) {
-        observer.observe(ref)
-      }
-    }
-
-    return () => {
-      observer.disconnect()
-    }
-  }, [])
-
   return (
     <div className="flex items-start relative">
       <div className="hidden small:flex flex-col gap-y-4 sticky top-20">
@@ -53,26 +27,25 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
           return (
             <button
               key={image.id}
-              className={clsx("h-14 w-12 relative border border-white", {
-                "border-gray-900": currentIndex === index,
-              })}
+              className="h-14 w-12 relative border border-white"
               onClick={() => {
                 handleScrollTo(image.id)
               }}
             >
+              <span className="sr-only">Go to image {index + 1}</span>
               <Image
                 src={image.url}
                 layout="fill"
                 objectFit="cover"
                 className="absolute inset-0"
-                alt=""
+                alt="Thumbnail"
               />
             </button>
           )
         })}
       </div>
       <div className="flex flex-col flex-1 small:mx-16 gap-y-4">
-        {images.map((image) => {
+        {images.map((image, index) => {
           return (
             <div
               ref={(image) => imageRefs.current.push(image)}
@@ -84,8 +57,9 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
                 src={image.url}
                 layout="fill"
                 objectFit="cover"
+                priority={index <= 2 ? true : false}
                 className="absolute inset-0"
-                alt=""
+                alt={`Product image ${index + 1}`}
               />
             </div>
           )

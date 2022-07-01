@@ -1,5 +1,5 @@
 import { medusaClient } from "@lib/config"
-import { Product } from "@medusajs/medusa"
+import { Product, StoreGetProductsParams } from "@medusajs/medusa"
 
 const COL_LIMIT = 15
 
@@ -52,66 +52,8 @@ export const getSiteData = async () => {
   }
 }
 
-const getRelatedProducts = async (product: Product) => {
-  const { id, type, tags, collection_id } = product
-
-  const relatedProducts: Product[] = []
-
-  // if product is in a collection, get products from that collection
-  if (collection_id) {
-    await medusaClient.products
-      .list({ collection_id: [collection_id], limit: 11 })
-      .then(({ products }) => relatedProducts.push(...products))
-      .catch((err) => {
-        if (process.env.NODE_ENV === "development") {
-          console.error(
-            "An error occured while fetching products related by collection:",
-            err
-          )
-        }
-      })
-  }
-
-  // if product has a type and we still don't have atleast 10 related products, get products of the same type
-  if (relatedProducts.length < 11 && type) {
-    await medusaClient.products
-      .list({ type: type.value, limit: 11 })
-      .then(({ products }) => relatedProducts.push(...products))
-      .catch((err) => {
-        if (process.env.NODE_ENV === "development") {
-          console.error(
-            "An error occured while fetching products related by type:",
-            err
-          )
-        }
-      })
-  }
-
-  if (relatedProducts.length < 11 && tags) {
-    // if product has tags, get products with same tags
-    await medusaClient.products
-      .list({ tags: tags.map((t) => t.value), limit: 11 })
-      .then(({ products }) => relatedProducts.push(...products))
-      .catch((err) => {
-        if (process.env.NODE_ENV === "development") {
-          console.error(
-            "An error occured while fetching products related by tags:",
-            err
-          )
-        }
-      })
-  }
-
-  // return up to 10 related products
-  const result = relatedProducts.filter((rp) => rp.id !== id).slice(0, 9)
-
-  return result
-}
-
 // get data for a specific product, as well as global data
 export const getProductData = async (handle: string) => {
-  const siteData = await getGlobalData()
-
   const data = await medusaClient.products
     .list({ handle })
     .then(({ products }) => products)
@@ -122,14 +64,10 @@ export const getProductData = async (handle: string) => {
     throw new Error(`Product with handle ${handle} not found`)
   }
 
-  const relatedProducts = await getRelatedProducts(product)
-
   return {
     page: {
       data: product,
-      additionalData: relatedProducts,
     },
-    site: siteData,
   }
 }
 
@@ -169,5 +107,26 @@ export const getCollectionData = async (id: string) => {
       additionalData,
     },
     site: siteData,
+  }
+}
+
+type FetchProductListParams = {
+  pageParam?: number
+  queryParams: StoreGetProductsParams
+}
+
+export const fetchProductsList = async ({
+  pageParam = 0,
+  queryParams,
+}: FetchProductListParams) => {
+  const { products, count, offset } = await medusaClient.products.list({
+    limit: 12,
+    offset: pageParam,
+    ...queryParams,
+  })
+
+  return {
+    response: { products, count },
+    nextPage: count > offset + 12 ? offset + 12 : null,
   }
 }

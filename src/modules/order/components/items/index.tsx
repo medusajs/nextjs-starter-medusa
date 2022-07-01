@@ -2,8 +2,8 @@ import useEnrichedLineItems from "@lib/hooks/use-enrich-line-items"
 import { LineItem, Region } from "@medusajs/medusa"
 import LineItemOptions from "@modules/common/components/line-item-options"
 import LineItemPrice from "@modules/common/components/line-item-price"
-import SkeletonLineItem from "@modules/common/components/skeleton-line-item"
 import Thumbnail from "@modules/products/components/thumbnail"
+import SkeletonLineItem from "@modules/skeletons/components/skeleton-line-item"
 import Link from "next/link"
 import { CalculatedVariant } from "types/medusa"
 
@@ -15,8 +15,6 @@ type ItemsProps = {
 
 const Items = ({ items, region, cartId }: ItemsProps) => {
   const enrichedItems = useEnrichedLineItems(items, cartId)
-
-  console.log(enrichedItems)
 
   return (
     <div className="p-10 border-b border-gray-200 gap-y-4 flex flex-col">

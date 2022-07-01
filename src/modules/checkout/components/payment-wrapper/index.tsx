@@ -32,7 +32,7 @@ const StripeWrapper: React.FC<WrapperProps> = ({
   children,
 }) => {
   const options: StripeElementsOptions = {
-    clientSecret: paymentSession!.data.client_secret,
+    clientSecret: paymentSession!.data.client_secret as string | undefined,
   }
 
   return (

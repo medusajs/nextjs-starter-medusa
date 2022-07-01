@@ -1,6 +1,7 @@
 import { Cart } from "@medusajs/medusa"
 import Button from "@modules/common/components/button"
 import Input from "@modules/common/components/input"
+import Trash from "@modules/common/icons/trash"
 import { useCart } from "medusa-react"
 import React, { useMemo } from "react"
 import { useForm } from "react-hook-form"
@@ -26,7 +27,7 @@ const GiftCard: React.FC<GiftCardProps> = ({ cart }) => {
     setError,
   } = useForm<GiftCardFormValues>()
 
-  const appliedDiscount = useMemo(() => {
+  const appliedGiftCard = useMemo(() => {
     if (!cart || !cart.gift_cards?.length) {
       return undefined
     }
@@ -67,27 +68,26 @@ const GiftCard: React.FC<GiftCardProps> = ({ cart }) => {
     )
   }
 
-  if (cart?.gift_cards.length) {
-    return (
-      <div>
-        <div></div>
-      </div>
-    )
-  }
-
   return (
     <div className="w-full bg-white p-6 flex flex-col">
       <div className="mb-4">
         <h3 className="text-base-semi">Gift Card</h3>
       </div>
       <div className="text-small-regular">
-        {appliedDiscount ? (
+        {appliedGiftCard ? (
           <div className="flex items-center justify-between">
-            <span>Code</span>
             <div>
-              <span>{appliedDiscount}</span>
-              <button className="underline" onClick={onRemove}>
-                Remove
+              <span className="text-gray-700">Code: </span>
+              <span className="font-semibold">{appliedGiftCard}</span>
+            </div>
+            <div>
+              <button
+                className="flex items-center gap-x-2"
+                onClick={onRemove}
+                disabled={isLoading}
+              >
+                <Trash size={16} />
+                <span className="sr-only">Remove gift card from order</span>
               </button>
             </div>
           </div>
@@ -103,7 +103,13 @@ const GiftCard: React.FC<GiftCardProps> = ({ cart }) => {
                 touched={touchedFields}
               />
               <div>
-                <Button className="!min-h-[0] h-[46px] w-[80px]">Apply</Button>
+                <Button
+                  className="!min-h-[0] h-[46px] w-[80px]"
+                  disabled={isLoading}
+                  isLoading={isLoading}
+                >
+                  Apply
+                </Button>
               </div>
             </div>
           </form>

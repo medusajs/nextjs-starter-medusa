@@ -1,42 +1,39 @@
-import useProductPrice from "@lib/hooks/use-product-price"
 import clsx from "clsx"
 import Link from "next/link"
-import { Product } from "types/medusa"
+import { ProductPreviewType } from "types/global"
 import Thumbnail from "../thumbnail"
 
-type ProductPreviewProps = Pick<
-  Product,
-  "id" | "title" | "handle" | "thumbnail"
->
-
-const ProductPreview = ({ product }: { product: ProductPreviewProps }) => {
-  const { cheapestPrice } = useProductPrice({ id: product.id })
-
+const ProductPreview = ({
+  title,
+  handle,
+  thumbnail,
+  price,
+}: ProductPreviewType) => {
   return (
-    <Link href={`/products/${product.handle}`}>
+    <Link href={`/products/${handle}`}>
       <a>
         <div>
-          <Thumbnail thumbnail={product.thumbnail} size="full" />
+          <Thumbnail thumbnail={thumbnail} size="full" />
           <div className="text-base-regular mt-2">
-            <span>{product.title}</span>
+            <span>{title}</span>
             <div className="flex items-center gap-x-2 mt-1">
-              {cheapestPrice ? (
+              {price ? (
                 <>
-                  {cheapestPrice.price_type === "sale" && (
+                  {price.price_type === "sale" && (
                     <span className="line-through text-gray-500">
-                      {cheapestPrice.original_price}
+                      {price.original_price}
                     </span>
                   )}
                   <span
                     className={clsx("font-semibold", {
-                      "text-rose-500": cheapestPrice.price_type === "sale",
+                      "text-rose-500": price.price_type === "sale",
                     })}
                   >
-                    {cheapestPrice.calculated_price}
+                    {price.calculated_price}
                   </span>
                 </>
               ) : (
-                <div className="w-14 h-4 animate-pulse bg-gray-50"></div>
+                <div className="w-20 h-6 animate-pulse bg-gray-100"></div>
               )}
             </div>
           </div>

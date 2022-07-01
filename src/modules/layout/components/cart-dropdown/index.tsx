@@ -36,11 +36,10 @@ const CartDropdown = () => {
         >
           <Popover.Panel
             static
-            className="hidden small:block absolute top-[calc(100%+1px)] right-0 bg-white border-x border-b border-gray-200 w-[382px]"
+            className="hidden small:block absolute top-[calc(100%+1px)] right-0 bg-white border-x border-b border-gray-200 w-[382px] text-gray-900"
           >
-            <div className="p-4 flex items-center justify-between uppercase">
+            <div className="p-4 flex items-center justify-center">
               <h3 className="text-large-semi">Shopping Bag</h3>
-              <span>{totalItems} item(s)</span>
             </div>
             {cart && items?.length ? (
               <>
@@ -117,7 +116,24 @@ const CartDropdown = () => {
                   </Link>
                 </div>
               </>
-            ) : null}
+            ) : (
+              <div>
+                <div className="flex py-16 flex-col gap-y-4 items-center justify-center">
+                  <div className="bg-gray-900 text-small-regular flex items-center justify-center w-6 h-6 rounded-full text-white">
+                    <span>0</span>
+                  </div>
+                  <span>Your shopping bag is empty.</span>
+                  <div>
+                    <Link href="/store">
+                      <a>
+                        <span className="sr-only">Go to all products page</span>
+                        <Button onClick={close}>Explore products</Button>
+                      </a>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            )}
           </Popover.Panel>
         </Transition>
       </Popover>

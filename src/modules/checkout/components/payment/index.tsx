@@ -1,5 +1,6 @@
 import { useCheckout } from "@lib/context/checkout-context"
 import Spinner from "@modules/common/icons/spinner"
+import { useEffect } from "react"
 import PaymentContainer from "../payment-container"
 import StepContainer from "../step-container"
 
@@ -7,8 +8,30 @@ const Payment = () => {
   const {
     cart,
     setPaymentSession,
+    initPayment,
     sameAsBilling: { state: isSame },
   } = useCheckout()
+
+  /**
+   * Fallback if the payment session are not loaded properly we
+   * retry to load them after a 5 second delay.
+   */
+  useEffect(() => {
+    let timeout: NodeJS.Timeout | null = null
+
+    if (cart?.shipping_address && cart?.payment_sessions) {
+      timeout = setTimeout(() => {
+        initPayment()
+      }, 5000)
+    }
+
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout)
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cart])
 
   return (
     <StepContainer
@@ -42,7 +65,7 @@ const Payment = () => {
               )
             })
         ) : (
-          <div className="flex flex-col items-center justify-center px-4 py-8 text-gray-900">
+          <div className="flex flex-col items-center justify-center px-4 py-16 text-gray-900">
             <Spinner />
           </div>
         )}
