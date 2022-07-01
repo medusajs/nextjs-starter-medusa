@@ -184,13 +184,14 @@ export const StoreProvider = ({ children }: StoreProps) => {
   }
 
   const resetCart = () => {
-    deleteFromLocalStorage()
+    deleteCart()
     createCart.mutate(
       {},
       {
         onSuccess: ({ cart }) => {
           setCart(cart)
-          storeInLocalStorage(cart.id)
+          storeCart(cart.id)
+          ensureRegion(cart.region)
         },
         onError: (error) => {
           if (process.env.NODE_ENV === "development") {
