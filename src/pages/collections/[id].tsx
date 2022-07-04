@@ -1,4 +1,5 @@
 import { medusaClient } from "@lib/config"
+import { IS_BROWSER } from "@lib/constants"
 import { getCollectionIds } from "@lib/util/get-collection-ids"
 import CollectionTemplate from "@modules/collections/templates"
 import Head from "@modules/common/components/head"
@@ -44,32 +45,46 @@ export const fetchCollectionProducts = async ({
   }
 }
 
-const ProductPage: NextPageWithLayout<PrefetchedPageProps> = ({ notFound }) => {
-  const { query, isFallback } = useRouter()
+const CollectionPage: NextPageWithLayout<PrefetchedPageProps> = ({
+  notFound,
+}) => {
+  const { query, isFallback, replace } = useRouter()
   const id = typeof query.id === "string" ? query.id : ""
 
-  const { data, isError, isLoading, isSuccess } = useQuery(
+  const { data, isError, isSuccess, isLoading } = useQuery(
     ["get_collection", id],
     () => fetchCollection(id)
   )
 
   if (notFound) {
-    return <div>error</div>
+    if (IS_BROWSER) {
+      replace("/404")
+    }
+
+    return <SkeletonCollectionPage />
+  }
+
+  if (isError) {
+    replace("/404")
   }
 
   if (isFallback || isLoading || !data) {
     return <SkeletonCollectionPage />
   }
 
-  return (
-    <>
-      <Head title={data.title} description={`${data.title} collection`} />
-      <CollectionTemplate collection={data} />
-    </>
-  )
+  if (isSuccess) {
+    return (
+      <>
+        <Head title={data.title} description={`${data.title} collection`} />
+        <CollectionTemplate collection={data} />
+      </>
+    )
+  }
+
+  return <></>
 }
 
-ProductPage.getLayout = (page: ReactElement) => {
+CollectionPage.getLayout = (page: ReactElement) => {
   return <Layout>{page}</Layout>
 }
 
@@ -110,11 +125,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: {
-      // Work around see https://github.com/TanStack/query/issues/1458#issuecomment-747716357
+      // Work around see – https://github.com/TanStack/query/issues/1458#issuecomment-747716357
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
       notFound: false,
     },
   }
 }
 
-export default ProductPage
+export default CollectionPage

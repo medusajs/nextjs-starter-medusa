@@ -12,14 +12,8 @@ type ProductActionsProps = {
 }
 
 const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
-  const {
-    formattedPrice,
-    updateOptions,
-    addToCart,
-    options,
-    inStock,
-    variant,
-  } = useProductActions()
+  const { updateOptions, addToCart, options, inStock, variant } =
+    useProductActions()
 
   const price = useProductPrice({ id: product.id, variantId: variant?.id })
 

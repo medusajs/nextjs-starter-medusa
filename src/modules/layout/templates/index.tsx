@@ -6,7 +6,7 @@ const Layout: React.FC = ({ children }) => {
   return (
     <div>
       <Nav />
-      <main className="min-h-[calc(100vh-64px)] relative">{children}</main>
+      <main className="relative">{children}</main>
       <Footer />
     </div>
   )

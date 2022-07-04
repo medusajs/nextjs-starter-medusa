@@ -1,9 +1,10 @@
 import { medusaClient } from "@lib/config"
 import { LOGIN_VIEW, useAccount } from "@lib/context/account-context"
+import Button from "@modules/common/components/button"
 import Input from "@modules/common/components/input"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import React, { useState } from "react"
+import { useState } from "react"
 import { FieldValues, useForm } from "react-hook-form"
 
 interface RegisterCredentials extends FieldValues {
@@ -15,13 +16,13 @@ interface RegisterCredentials extends FieldValues {
 }
 
 const Register = () => {
-  const { loginView } = useAccount()
+  const { loginView, refetchCustomer } = useAccount()
   const [_, setCurrentView] = loginView
   const [authError, setAuthError] = useState<string | undefined>(undefined)
   const router = useRouter()
 
   const handleError = (e: Error) => {
-    setAuthError("Invalid email or password")
+    setAuthError("An error occured. Please try again.")
   }
 
   const {
@@ -33,7 +34,10 @@ const Register = () => {
   const onSubmit = handleSubmit(async (credentials) => {
     medusaClient.customers
       .create(credentials)
-      .then(() => router.push("/account"))
+      .then(() => {
+        refetchCustomer()
+        router.push("/account")
+      })
       .catch(handleError)
   })
 
@@ -45,7 +49,7 @@ const Register = () => {
         experience.
       </p>
       <form className="w-full flex flex-col" onSubmit={onSubmit}>
-        <div className="flex flex-col w-full gap-y-8">
+        <div className="flex flex-col w-full gap-y-2">
           <Input
             label="First name"
             {...register("first_name", { required: "First name is required" })}
@@ -80,6 +84,13 @@ const Register = () => {
             errors={errors}
           />
         </div>
+        {authError && (
+          <div>
+            <span className="text-rose-500 w-full text-small-regular">
+              These credentials do not match our records
+            </span>
+          </div>
+        )}
         <span className="text-center text-gray-700 text-small-regular mt-6">
           By creating an account, you agree to Acme&apos;s{" "}
           <Link href="/content/privacy-policy">
@@ -91,9 +102,7 @@ const Register = () => {
           </Link>
           .
         </span>
-        <button className="bg-gray-900 uppercase text-white w-full py-4 mt-8 text-base-semi">
-          Join
-        </button>
+        <Button className="mt-6">Join</Button>
       </form>
       <span className="text-center text-gray-700 text-small-regular mt-6">
         Already a member?{" "}

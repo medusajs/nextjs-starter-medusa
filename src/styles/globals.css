@@ -101,4 +101,12 @@
   .text-2xl-semi {
     @apply text-[30px] leading-[48px] font-semibold;
   }
+
+  .text-3xl-regular {
+    @apply text-[36px] leading-[48px] font-normal;
+  }
+
+  .text-3xl-semi {
+    @apply text-[36px] leading-[48px] font-semibold;
+  }
 }

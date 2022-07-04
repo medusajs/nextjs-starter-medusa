@@ -1,7 +1,6 @@
 import { ProductVariant } from "@medusajs/medusa"
 import Thumbnail from "@modules/products/components/thumbnail"
 import Link from "next/link"
-import React from "react"
 
 export type ProductHit = {
   id: string
@@ -14,19 +13,15 @@ export type ProductHit = {
   collection_id: string | null
 }
 
-type HitProps = {
+export type HitProps = {
   hit: ProductHit
 }
 
 const Hit = ({ hit }: HitProps) => {
   return (
-    <div key={hit.id} className="col-span-1 row-span-1 relative">
-      <Link href={`/products/${hit.handle}`}>
-        <a>
-          <Thumbnail thumbnail={hit.thumbnail} size="full" />
-        </a>
-      </Link>
-      <div className="absolute inset-x-4 bottom-4 flex justify-between items-end">
+    <div key={hit.id} className="grid grid-cols-[86px_1fr] gap-4 w-full">
+      <Thumbnail thumbnail={hit.thumbnail} size="full" />
+      <div className="flex flex-col justify-between">
         <div className="flex flex-col">
           {hit.collection_id && (
             <Link href={`/collections/${hit.collection_id}`}>
@@ -35,9 +30,10 @@ const Hit = ({ hit }: HitProps) => {
               </a>
             </Link>
           )}
-          <Link href={`/products/${hit.handle}`}>
-            <a className="text-base-regular">{hit.title}</a>
-          </Link>
+          <span className="text-base-regular">{hit.title}</span>
+          <span className="text-small-regular text-gray-700">
+            {hit.description}
+          </span>
         </div>
       </div>
     </div>

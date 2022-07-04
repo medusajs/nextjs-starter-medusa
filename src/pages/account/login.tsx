@@ -1,26 +1,19 @@
-import { getSiteData } from "@lib/data"
 import LoginTemplate from "@modules/account/templates/login-template"
+import Head from "@modules/common/components/head"
 import Layout from "@modules/layout/templates"
-import { GetStaticProps, NextPage } from "next"
-import React from "react"
-import { SiteProps } from "types/global"
+import { NextPageWithLayout } from "types/global"
 
-const Login: NextPage<SiteProps> = ({ site }) => {
+const Login: NextPageWithLayout = () => {
   return (
-    <Layout site={site}>
+    <>
+      <Head title="Sign in" description="Sign in to your ACME account." />
       <LoginTemplate />
-    </Layout>
+    </>
   )
 }
 
-export const getStaticProps: GetStaticProps<SiteProps> = async () => {
-  const data = await getSiteData()
-
-  return {
-    props: {
-      ...data,
-    },
-  }
+Login.getLayout = (page) => {
+  return <Layout>{page}</Layout>
 }
 
 export default Login

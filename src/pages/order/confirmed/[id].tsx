@@ -1,7 +1,9 @@
 import { medusaClient } from "@lib/config"
+import { IS_BROWSER } from "@lib/constants"
 import Head from "@modules/common/components/head"
 import Layout from "@modules/layout/templates"
 import OrderCompletedTemplate from "@modules/order/templates/order-completed-template"
+import SkeletonOrderConfirmed from "@modules/skeletons/templates/skeleton-order-confirmed"
 import { GetStaticPaths, GetStaticProps } from "next"
 import { useRouter } from "next/router"
 import { ReactElement } from "react"
@@ -26,6 +28,18 @@ const Confirmed: NextPageWithLayout = () => {
     }
   )
 
+  if (isLoading) {
+    return <SkeletonOrderConfirmed />
+  }
+
+  if (isError) {
+    if (IS_BROWSER) {
+      router.replace("/404")
+    }
+
+    return <SkeletonOrderConfirmed />
+  }
+
   if (isSuccess) {
     return (
       <>
@@ -36,21 +50,6 @@ const Confirmed: NextPageWithLayout = () => {
 
         <OrderCompletedTemplate order={data} />
       </>
-    )
-  }
-
-  if (isLoading) {
-    return <div className="center">Loading...</div>
-  }
-
-  if (isError) {
-    return (
-      <div className="center">
-        We couldn&aspos;t find your pokemon{" "}
-        <span role="img" aria-label="sad">
-          😢
-        </span>
-      </div>
     )
   }
 

@@ -10,9 +10,8 @@ type ItemsTemplateProps = {
 const ItemsTemplate = ({ items, region }: ItemsTemplateProps) => {
   return (
     <div>
-      <div className="border-b border-gray-200 pt-6 pb-3 flex items-center justify-between">
+      <div className="border-b border-gray-200 pb-3 flex items-center">
         <h1 className="text-xl-semi">Shopping Bag</h1>
-        <span className="font-no">{items?.length} item(s)</span>
       </div>
       <div className="grid grid-cols-1 gap-y-8 py-8">
         {items && region

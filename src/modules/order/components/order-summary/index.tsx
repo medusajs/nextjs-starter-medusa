@@ -1,12 +1,11 @@
 import { Order } from "@medusajs/medusa"
 import { formatAmount } from "medusa-react"
-import React from "react"
 
 type OrderSummaryProps = {
   order: Order
 }
 
-const OrderSummary: React.FC<OrderSummaryProps> = ({ order }) => {
+const OrderSummary = ({ order }: OrderSummaryProps) => {
   const getAmount = (amount: number) => {
     return formatAmount({ amount, region: order.region, includeTaxes: false })
   }

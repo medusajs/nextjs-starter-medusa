@@ -42,7 +42,6 @@ const EditAddress: React.FC<EditAddressProps> = ({
   const { refetchCustomer } = useAccount()
   const {
     register,
-    control,
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>({

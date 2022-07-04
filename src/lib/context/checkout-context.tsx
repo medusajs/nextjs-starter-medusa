@@ -76,9 +76,10 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   } = useCart()
 
   const { customer } = useMeCustomer()
+  const { countryCode } = useStore()
 
   const methods = useForm<CheckoutFormValues>({
-    defaultValues: mapFormValues(customer, cart),
+    defaultValues: mapFormValues(customer, cart, countryCode),
     reValidateMode: "onChange",
   })
 
@@ -167,9 +168,9 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
    */
   useEffect(() => {
     if (cart?.id) {
-      methods.reset(mapFormValues(customer, cart))
+      methods.reset(mapFormValues(customer, cart, countryCode))
     }
-  }, [customer, cart, methods])
+  }, [customer, cart, methods, countryCode])
 
   useEffect(() => {
     if (!cart) {
@@ -370,7 +371,8 @@ export const useCheckout = () => {
  */
 const mapFormValues = (
   customer?: Omit<Customer, "password_hash">,
-  cart?: Omit<Cart, "refundable_amount" | "refunded_total">
+  cart?: Omit<Cart, "refundable_amount" | "refunded_total">,
+  currentCountry?: string
 ): CheckoutFormValues => {
   const customerShippingAddress = customer?.shipping_addresses?.[0]
   const customerBillingAddress = customer?.billing_address
@@ -395,6 +397,7 @@ const mapFormValues = (
         "",
       city: cart?.shipping_address?.city || customerShippingAddress?.city || "",
       country_code:
+        currentCountry ||
         cart?.shipping_address?.country_code ||
         customerShippingAddress?.country_code ||
         "",

@@ -1,4 +1,5 @@
 import { medusaClient } from "@lib/config"
+import { IS_BROWSER } from "@lib/constants"
 import { getProductHandles } from "@lib/util/get-product-handles"
 import Head from "@modules/common/components/head"
 import Layout from "@modules/layout/templates"
@@ -13,24 +14,6 @@ import { NextPageWithLayout, PrefetchedPageProps } from "types/global"
 
 interface Params extends ParsedUrlQuery {
   handle: string
-}
-
-/**
- * At runtime we refetch the products variant data to get the latest inventory data, and customer specific pricing.
- */
-const fetchVariants = async ({
-  productId,
-  cartId,
-}: {
-  productId: string
-  cartId: string
-}) => {
-  const request = await medusaClient.products.list({
-    id: productId,
-    cart_id: cartId,
-  })
-
-  return request.products[0].variants
 }
 
 const fetchProduct = async (handle: string) => {
@@ -52,32 +35,12 @@ const ProductPage: NextPageWithLayout<PrefetchedPageProps> = ({ notFound }) => {
     }
   )
 
-  // const [product, setProduct] = useState(data!)
-
-  // const { data: rehydratedVariants } = useQuery(
-  //   [`rehydrated_variants_${data?.id}`, product?.id, cart?.id],
-  //   async () =>
-  //     await fetchVariants({ productId: product?.id || "", cartId: cart?.id! }),
-  //   {
-  //     enabled: !!cart?.id,
-  //   }
-  // )
-
-  // // /**
-  // //  * Rehydrate the product variants with the latest inventory and pricing data.
-  // //  */
-  // // useEffect(() => {
-  // //   if (data && rehydratedVariants) {
-  // //     // @ts-ignore - ignore ts as product variant type is erroneously typed
-  // //     setProduct({
-  // //       ...data,
-  // //       variants: rehydratedVariants,
-  // //     })
-  // //   }
-  // // }, [data, rehydratedVariants])
-
   if (notFound) {
-    return <div>error</div>
+    if (IS_BROWSER) {
+      replace("/404")
+    }
+
+    return <SkeletonProductPage />
   }
 
   if (isFallback || isLoading || !data) {
