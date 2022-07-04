@@ -1,8 +1,9 @@
 import { medusaClient } from "@lib/config"
 import { LOGIN_VIEW, useAccount } from "@lib/context/account-context"
+import Button from "@modules/common/components/button"
 import Input from "@modules/common/components/input"
 import { useRouter } from "next/router"
-import React, { useState } from "react"
+import { useState } from "react"
 import { FieldValues, useForm } from "react-hook-form"
 
 interface SignInCredentials extends FieldValues {
@@ -37,13 +38,13 @@ const Login = () => {
   })
 
   return (
-    <div className="max-w-sm w-full flex flex-col items-center mt-12">
+    <div className="max-w-sm w-full flex flex-col items-center">
       <h1 className="text-large-semi uppercase mb-6">Welcome back</h1>
       <p className="text-center text-base-regular text-gray-700 mb-8">
         Sign in to access an enhanced shopping experience.
       </p>
       <form className="w-full" onSubmit={onSubmit}>
-        <div className="flex flex-col w-full gap-y-8">
+        <div className="flex flex-col w-full gap-y-2">
           <Input
             label="Email"
             {...register("email", { required: "Email is required" })}
@@ -65,9 +66,7 @@ const Login = () => {
             </span>
           </div>
         )}
-        <button className="bg-gray-900 uppercase text-white w-full py-4 mt-8 text-base-semi">
-          Enter
-        </button>
+        <Button className="mt-6">Enter</Button>
       </form>
       <span className="text-center text-gray-700 text-small-regular mt-6">
         Not a member?{" "}

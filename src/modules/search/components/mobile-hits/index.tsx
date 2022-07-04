@@ -11,7 +11,11 @@ type HitsProps<THit> = React.ComponentProps<"div"> &
     hitComponent: (props: { hit: THit }) => JSX.Element
   }
 
-const MobileHits = ({ hitComponent: Hit, ...props }: HitsProps<ProductHit>) => {
+const MobileHits = ({
+  hitComponent: Hit,
+  className,
+  ...props
+}: HitsProps<ProductHit>) => {
   const { hits } = useHits(props)
   const { query } = useSearchBox()
 
@@ -21,13 +25,13 @@ const MobileHits = ({ hitComponent: Hit, ...props }: HitsProps<ProductHit>) => {
   }
 
   return (
-    <div>
+    <div className={className}>
       <span className="text-small-regular uppercase text-gray-700">
         Results
       </span>
-      <div className="grid grid-cols-1 gap-4 py-4">
-        {hits.map((hit) => (
-          <li key={hit.objectID} className="list-none">
+      <div className="grid grid-cols-1 py-4">
+        {hits.map((hit, index) => (
+          <li key={index} className="list-none">
             <Hit hit={hit as unknown as ProductHit} />
           </li>
         ))}

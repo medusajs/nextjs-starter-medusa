@@ -1,15 +1,14 @@
 import { Address, ShippingMethod } from "@medusajs/medusa"
-import React from "react"
 
 type ShippingDetailsProps = {
   address: Address
   shippingMethods: ShippingMethod[]
 }
 
-const ShippingDetails: React.FC<ShippingDetailsProps> = ({
+const ShippingDetails = ({
   address,
   shippingMethods,
-}) => {
+}: ShippingDetailsProps) => {
   return (
     <div className="text-base-regular">
       <h2 className="text-base-semi">Delivery</h2>

@@ -1,4 +1,5 @@
 import { CheckoutFormValues } from "@lib/context/checkout-context"
+import { emailRegex } from "@lib/util/regex"
 import ConnectForm from "@modules/common/components/connect-form"
 import Input from "@modules/common/components/input"
 import { useMeCustomer } from "medusa-react"
@@ -24,6 +25,7 @@ const ShippingAddress = () => {
               label="Email"
               {...register("email", {
                 required: "Email is required",
+                pattern: emailRegex,
               })}
               autoComplete="email"
               errors={errors}

@@ -1,18 +1,17 @@
-import { Cart, Customer, Order } from "@medusajs/medusa"
-import CartIcon from "@modules/common/icons/cart"
+import { Customer, Order } from "@medusajs/medusa"
 import ChevronDown from "@modules/common/icons/chevron-down"
 import MapPin from "@modules/common/icons/map-pin"
 import Package from "@modules/common/icons/package"
 import User from "@modules/common/icons/user"
+import { formatAmount } from "medusa-react"
 import Link from "next/link"
 
 type OverviewProps = {
   orders?: Order[]
   customer?: Omit<Customer, "password_hash">
-  cart?: Omit<Cart, "refundable_amount" | "refunded_total">
 }
 
-const Overview = ({ orders, customer, cart }: OverviewProps) => {
+const Overview = ({ orders, customer }: OverviewProps) => {
   return (
     <div>
       <div className="small:hidden">
@@ -58,70 +57,122 @@ const Overview = ({ orders, customer, cart }: OverviewProps) => {
         </div>
       </div>
 
-      <div className="hidden small:grid grid-cols-2 gap-4">
-        <Link href="/account/profile">
-          <a className="col-span-2">
-            <div className="bg-rose-100 flex flex-col py-12 items-center justify-center gap-y-4">
-              <div className="flex items-center gap-x-4">
-                <div className="bg-white w-24 h-24 rounded-full flex items-center justify-center text-gray-900">
-                  <CartIcon size={36} />
-                </div>
-                <span className="text-2xl-semi font-mono">
-                  {orders?.length || 0}
-                </span>
-              </div>
-              <span>Orders</span>
+      <div className="hidden small:block">
+        <div className="text-xl-semi flex justify-between items-start mb-4">
+          <span>Hello {customer?.first_name}</span>
+          <span className="text-small-regular text-gray-700">
+            Signed in as:{" "}
+            <span className="font-semibold">{customer?.email}</span>
+          </span>
+        </div>
+        <div className="grid grid-cols-[1fr_244px] gap-x-8 gap-y-16 py-8 border-t border-gray-200">
+          <div className="flex flex-col gap-y-4 h-full col-span-1 row-span-2 flex-1">
+            <div className="flex items-center gap-x-2">
+              <h3 className="text-xl-semi">Recent orders</h3>
             </div>
-          </a>
-        </Link>
-        <Link href="/account/addresses">
-          <a>
-            <div className="bg-fuchsia-100 flex flex-col py-12 items-center justify-center gap-y-4">
-              <div className="flex items-center gap-x-4">
-                <div className="bg-white w-24 h-24 rounded-full flex items-center justify-center text-gray-900">
-                  <CartIcon size={36} />
-                </div>
-                <span className="text-2xl-semi font-mono">
-                  {customer?.shipping_addresses?.length || 0}
-                </span>
-              </div>
-              <span>Shipping Addresses</span>
+
+            <ul>
+              {orders ? (
+                orders.slice(0, 5).map((order) => {
+                  return (
+                    <li key={order.id}>
+                      <Link href={`/order/details/${order.id}`}>
+                        <a>
+                          <div className="bg-gray-50 flex justify-between items-center p-4">
+                            <div className="grid grid-cols-3 grid-rows-2 text-small-regular gap-x-4 flex-1">
+                              <span className="font-semibold">Date placed</span>
+                              <span className="font-semibold">
+                                Order number
+                              </span>
+                              <span className="font-semibold">
+                                Total amount
+                              </span>
+                              <span>
+                                {new Date(order.created_at).toDateString()}
+                              </span>
+                              <span>#{order.display_id}</span>
+                              <span>
+                                {formatAmount({
+                                  amount: order.total,
+                                  region: order.region,
+                                  includeTaxes: false,
+                                })}
+                              </span>
+                            </div>
+                            <button
+                              className="flex items-center justify-between"
+                              onClick={close}
+                            >
+                              <span className="sr-only">
+                                Go to order #{order.display_id}
+                              </span>
+                              <ChevronDown className="-rotate-90" />
+                            </button>
+                          </div>
+                        </a>
+                      </Link>
+                    </li>
+                  )
+                })
+              ) : (
+                <span>No recent orders</span>
+              )}
+            </ul>
+          </div>
+
+          <div className="flex flex-col gap-y-4">
+            <h3 className="text-xl-semi">Profile</h3>
+            <div className="flex items-end gap-x-2">
+              <span className="text-3xl-semi leading-none">
+                {getProfileCompletion(customer)}%
+              </span>
+              <span className="uppercase text-base-regular text-gray-500">
+                Completed
+              </span>
             </div>
-          </a>
-        </Link>
-        <Link href="/cart">
-          <a>
-            <div className="bg-sky-100 flex flex-col py-12 items-center justify-center gap-y-4">
-              <div className="flex items-center gap-x-4">
-                <div className="bg-white w-24 h-24 rounded-full flex items-center justify-center text-gray-900">
-                  <CartIcon size={36} />
-                </div>
-                <span className="text-2xl-semi font-mono">
-                  {cart?.items?.length || 0}
-                </span>
-              </div>
-              <span>Shopping Bag</span>
+          </div>
+
+          <div className="flex flex-col gap-y-4">
+            <h3 className="text-xl-semi">Addresses</h3>
+            <div className="flex items-end gap-x-2">
+              <span className="text-3xl-semi leading-none">
+                {customer?.shipping_addresses?.length || 0}
+              </span>
+              <span className="uppercase text-base-regular text-gray-500">
+                Saved
+              </span>
             </div>
-          </a>
-        </Link>
-        <Link href="/account/profile">
-          <a className="col-span-2">
-            <div className="bg-amber-100 flex flex-col py-12 items-center justify-center gap-y-4">
-              <div className="flex items-center gap-x-4">
-                <div className="bg-white w-24 h-24 rounded-full flex items-center justify-center text-gray-900">
-                  <CartIcon size={36} />
-                </div>
-                <span className="text-2xl-semi font-mono">
-                  {orders?.length || 0}
-                </span>
-              </div>
-              <span>Orders</span>
-            </div>
-          </a>
-        </Link>
+          </div>
+        </div>
       </div>
     </div>
   )
+}
+
+const getProfileCompletion = (customer?: Omit<Customer, "password_hash">) => {
+  let count = 0
+
+  if (!customer) {
+    return 0
+  }
+
+  if (customer.email) {
+    count++
+  }
+
+  if (customer.first_name && customer.last_name) {
+    count++
+  }
+
+  if (customer.phone) {
+    count++
+  }
+
+  if (customer.billing_address) {
+    count++
+  }
+
+  return (count / 4) * 100
 }
 
 export default Overview

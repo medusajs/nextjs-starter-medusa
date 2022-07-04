@@ -1,9 +1,9 @@
-import { useMobileMenu } from "@lib/context/mobile-menu-context"
+import { useModal } from "@lib/context/modal-context"
 import Hit, { HitProps } from "@modules/search/components/hit"
 import { useRouter } from "next/router"
 
-const MobileHit = ({ hit }: HitProps) => {
-  const { close } = useMobileMenu()
+const DesktopHit = ({ hit }: HitProps) => {
+  const { close } = useModal()
   const { push } = useRouter()
 
   const go = () => {
@@ -18,4 +18,4 @@ const MobileHit = ({ hit }: HitProps) => {
   )
 }
 
-export default MobileHit
+export default DesktopHit

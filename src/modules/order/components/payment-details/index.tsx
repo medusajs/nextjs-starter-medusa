@@ -1,15 +1,11 @@
 import { Payment, PaymentStatus } from "@medusajs/medusa"
-import React from "react"
 
 type PaymentDetailsProps = {
   payments: Payment[]
   paymentStatus: PaymentStatus
 }
 
-const PaymentDetails: React.FC<PaymentDetailsProps> = ({
-  payments,
-  paymentStatus,
-}) => {
+const PaymentDetails = ({ payments, paymentStatus }: PaymentDetailsProps) => {
   return (
     <div>
       <h2 className="text-base-semi">Payment</h2>

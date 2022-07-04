@@ -41,7 +41,7 @@ const ControlledSearchBox = ({
   return (
     <div {...props} className="w-full">
       <form action="" noValidate onSubmit={handleSubmit} onReset={handleReset}>
-        <div className="flex items-center justify-between mr-4">
+        <div className="flex items-center justify-between">
           <input
             ref={inputRef}
             autoComplete="off"
@@ -52,7 +52,7 @@ const ControlledSearchBox = ({
             type="search"
             value={value}
             onChange={onChange}
-            className="text-base-regular placeholder:text-gray-500 focus:placeholder:text-gray-900 focus:outline-none flex-1"
+            className="text-base-regular placeholder:transition-colors placeholder:text-gray-500 focus:placeholder:text-gray-900 focus:outline-none flex-1 bg-transparent"
           />
           {value && (
             <button
@@ -69,7 +69,7 @@ const ControlledSearchBox = ({
   )
 }
 
-const MobileSearchBox = () => {
+const SearchBox = () => {
   return (
     <SearchBoxWrapper>
       {(props) => {
@@ -83,4 +83,4 @@ const MobileSearchBox = () => {
   )
 }
 
-export default MobileSearchBox
+export default SearchBox

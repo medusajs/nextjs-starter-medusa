@@ -2,6 +2,11 @@
   "name": "medusa-next",
   "version": "0.1.0",
   "private": true,
+  "author": "Kasper Fabricius Kristensen <kasper@medusajs.com> (https://www.medusajs.com)",
+  "description": "Next.js starter to be used with Medusa server",
+  "keywords": [
+    "medusa-storefront"
+  ],
   "scripts": {
     "dev": "next dev -p 8000",
     "build": "next build",
@@ -33,7 +38,8 @@
     "react-hook-form": "^7.30.0",
     "react-instantsearch-hooks-web": "^6.29.0",
     "react-intersection-observer": "^9.3.4",
-    "react-query": "^3.34.16"
+    "react-query": "^3.34.16",
+    "sharp": "^0.30.7"
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",

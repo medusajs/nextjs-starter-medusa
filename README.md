@@ -27,7 +27,7 @@ Medusa is an open-source headless commerce engine that enables developers to cre
   </a>
 </p>
 
-> **Prerequisites**: To use the starter you should have a Medusa server running locally on port 9000. Your Medusa server have a version of Medu Check out [medusa-starter-default](https://github.com/medusajs/medusa-starter-default) for a quick setup.
+> **Prerequisites**: To use the starter you should have a Medusa server running locally on port 9000. Check out [medusa-starter-default](https://github.com/medusajs/medusa-starter-default) for a quick setup.
 
 # Overview
 
@@ -51,7 +51,7 @@ cd nextjs-starter-medusa/
 mv .env.template .env.local
 ```
 
-## Install dependencies
+### Install dependencies
 
 Use Yarn to install all dependencies.
 
@@ -59,7 +59,7 @@ Use Yarn to install all dependencies.
 yarn
 ```
 
-## Start developing
+### Start developing
 
 You are now ready to start up your project.
 
@@ -67,13 +67,13 @@ You are now ready to start up your project.
 yarn dev
 ```
 
-## Open the code and start customizing
+### Open the code and start customizing
 
 Your site is now running at http://localhost:8000!
 
 Edit `/pages/index.tsx` to see your site update in real-time!
 
-# Adding payment integrations
+# Payment integrations
 
 By default the this starter supports the following payment integrations
 
@@ -88,6 +88,45 @@ MEDUSA_PUBLIC_PAYPAL_CLIENT_ID=<your-paypal-client-id>
 ```
 
 You will also need to setup the integrations in your Medusa server. See the [Medusa documentation](https://docs.medusajs.com) for more information on how to configure [Stripe](https://docs.medusajs.com/add-plugins/stripe) and [PayPal](https://docs.medusajs.com/add-plugins/paypal) in your Medusa project.
+
+# Search integration
+
+This starter is configured to support using the `medusa-search-meilisearch` plugin out of the box. To enable search you will need to enable the feature flag in `./store-config.json`, which you do by changing the config to this:
+
+```json
+{
+  "features": {
+    "search": true
+  }
+}
+```
+
+Before you can search you will need to install the plugin in your Medusa server, for a written guide on how to do this – [see our documentation](https://docs.medusajs.com/add-plugins/meilisearch).
+
+The search components in this starter are developed with Algolia's `react-instant-search-hooks-web` library which should make it possible for you to seemlesly change your search provider to Algoli instead of MeiliSearch.
+
+To do this you will need to add `algoliasearch` to the project, by running
+
+```shell
+yarn add algoliasearch
+```
+
+After this you will need to switch the current MeiliSearch `SearchClient` out with a Alogolia client. To do this update `@lib/search-client`.
+
+```ts
+import algoliasearch from "algoliasearch/lite"
+
+const appId = process.env.NEXT_PUBLIC_SEARCH_APP_ID | "" // You should add this to your environment variables
+
+const apiKey = process.env.NEXT_PUBLIC_SEARCH_API_KEY || "test_key"
+
+const searchClient = algoliasearch(appId, apiKey)
+
+export const SEARCH_INDEX_NAME =
+  process.env.NEXT_PUBLIC_INDEX_NAME || "products"
+```
+
+After this you will need to set up Algolia with your Medusa server, and then you should be good to go. For a more thorough walkthrough of using Algolia with Medusa – [see our documentation](https://docs.medusajs.com/add-plugins/algolia), and the [doucmentation for using `react-instantsearch-hooks-web`](https://www.algolia.com/doc/guides/building-search-ui/getting-started/react-hooks/).
 
 # Ressources
 

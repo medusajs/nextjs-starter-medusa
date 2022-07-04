@@ -1,20 +1,19 @@
 import AccountLayout from "@modules/account/templates/account-layout"
-import ProfileTemplate from "@modules/account/templates/profile-template"
+import OrdersTemplate from "@modules/account/templates/orders-template"
 import Head from "@modules/common/components/head"
 import Layout from "@modules/layout/templates"
-import { ReactElement } from "react"
 import { NextPageWithLayout } from "types/global"
 
-const Profile: NextPageWithLayout = () => {
+const Orders: NextPageWithLayout = () => {
   return (
     <>
-      <Head title="Profile" description="View and edit your ACME profile." />
-      <ProfileTemplate />
+      <Head title="Orders" description="Overview of your previous orders." />
+      <OrdersTemplate />
     </>
   )
 }
 
-Profile.getLayout = (page: ReactElement) => {
+Orders.getLayout = (page) => {
   return (
     <Layout>
       <AccountLayout>{page}</AccountLayout>
@@ -22,4 +21,4 @@ Profile.getLayout = (page: ReactElement) => {
   )
 }
 
-export default Profile
+export default Orders

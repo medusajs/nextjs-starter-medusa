@@ -1,13 +1,17 @@
-import { getSiteData } from "@lib/data"
 import AccountLayout from "@modules/account/templates/account-layout"
 import OverviewTemplate from "@modules/account/templates/overview-template"
+import Head from "@modules/common/components/head"
 import Layout from "@modules/layout/templates"
-import { GetStaticProps } from "next"
 import { ReactElement } from "react"
-import { NextPageWithLayout, SiteProps } from "types/global"
+import { NextPageWithLayout } from "types/global"
 
-const Account: NextPageWithLayout<SiteProps> = ({ site }) => {
-  return <OverviewTemplate />
+const Account: NextPageWithLayout = () => {
+  return (
+    <>
+      <Head title="Account" description="Overview of your account activity." />
+      <OverviewTemplate />
+    </>
+  )
 }
 
 Account.getLayout = (page: ReactElement) => {
@@ -16,16 +20,6 @@ Account.getLayout = (page: ReactElement) => {
       <AccountLayout>{page}</AccountLayout>
     </Layout>
   )
-}
-
-export const getStaticProps: GetStaticProps<SiteProps> = async () => {
-  const data = await getSiteData()
-
-  return {
-    props: {
-      ...data,
-    },
-  }
 }
 
 export default Account
