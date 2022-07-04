@@ -88,7 +88,7 @@ CollectionPage.getLayout = (page: ReactElement) => {
   return <Layout>{page}</Layout>
 }
 
-ProductPage.getLayout = (page: ReactElement) => {
+CollectionPage.getLayout = (page: ReactElement) => {
   return <Layout>{page}</Layout>
 }
 
