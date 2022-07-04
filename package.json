@@ -1,6 +1,6 @@
 {
   "name": "medusa-next",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "author": "Kasper Fabricius Kristensen <kasper@medusajs.com> (https://www.medusajs.com)",
   "description": "Next.js starter to be used with Medusa server",
