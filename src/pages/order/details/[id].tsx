@@ -1,4 +1,5 @@
 import { medusaClient } from "@lib/config"
+import { IS_BROWSER } from "@lib/constants"
 import Head from "@modules/common/components/head"
 import Layout from "@modules/layout/templates"
 import OrderDetailsTemplate from "@modules/order/templates/order-details-template"
@@ -27,6 +28,18 @@ const Confirmed: NextPageWithLayout = () => {
     }
   )
 
+  if (isLoading) {
+    return <SkeletonOrderConfirmed />
+  }
+
+  if (isError) {
+    if (IS_BROWSER) {
+      router.replace("/404")
+    }
+
+    return <SkeletonOrderConfirmed />
+  }
+
   if (isSuccess) {
     return (
       <>
@@ -37,21 +50,6 @@ const Confirmed: NextPageWithLayout = () => {
 
         <OrderDetailsTemplate order={data} />
       </>
-    )
-  }
-
-  if (isLoading) {
-    return <SkeletonOrderConfirmed />
-  }
-
-  if (isError) {
-    return (
-      <div className="center">
-        We couldn&aspos;t find your order{" "}
-        <span role="img" aria-label="sad">
-          😢
-        </span>
-      </div>
     )
   }
 

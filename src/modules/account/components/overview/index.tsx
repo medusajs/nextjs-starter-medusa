@@ -65,82 +65,87 @@ const Overview = ({ orders, customer }: OverviewProps) => {
             <span className="font-semibold">{customer?.email}</span>
           </span>
         </div>
-        <div className="grid grid-cols-[1fr_244px] gap-x-8 gap-y-16 py-8 border-t border-gray-200">
+        <div className="flex flex-col py-8 border-t border-gray-200">
           <div className="flex flex-col gap-y-4 h-full col-span-1 row-span-2 flex-1">
-            <div className="flex items-center gap-x-2">
-              <h3 className="text-xl-semi">Recent orders</h3>
+            <div className="flex items-start gap-x-16 mb-6">
+              <div className="flex flex-col gap-y-4">
+                <h3 className="text-large-semi">Profile</h3>
+                <div className="flex items-end gap-x-2">
+                  <span className="text-3xl-semi leading-none">
+                    {getProfileCompletion(customer)}%
+                  </span>
+                  <span className="uppercase text-base-regular text-gray-500">
+                    Completed
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-y-4">
+                <h3 className="text-large-semi">Addresses</h3>
+                <div className="flex items-end gap-x-2">
+                  <span className="text-3xl-semi leading-none">
+                    {customer?.shipping_addresses?.length || 0}
+                  </span>
+                  <span className="uppercase text-base-regular text-gray-500">
+                    Saved
+                  </span>
+                </div>
+              </div>
             </div>
 
-            <ul>
-              {orders ? (
-                orders.slice(0, 5).map((order) => {
-                  return (
-                    <li key={order.id}>
-                      <Link href={`/order/details/${order.id}`}>
-                        <a>
-                          <div className="bg-gray-50 flex justify-between items-center p-4">
-                            <div className="grid grid-cols-3 grid-rows-2 text-small-regular gap-x-4 flex-1">
-                              <span className="font-semibold">Date placed</span>
-                              <span className="font-semibold">
-                                Order number
-                              </span>
-                              <span className="font-semibold">
-                                Total amount
-                              </span>
-                              <span>
-                                {new Date(order.created_at).toDateString()}
-                              </span>
-                              <span>#{order.display_id}</span>
-                              <span>
-                                {formatAmount({
-                                  amount: order.total,
-                                  region: order.region,
-                                  includeTaxes: false,
-                                })}
-                              </span>
+            <div className="flex flex-col gap-y-4">
+              <div className="flex items-center gap-x-2">
+                <h3 className="text-large-semi">Recent orders</h3>
+              </div>
+              <ul className="flex flex-col gap-y-4">
+                {orders ? (
+                  orders.slice(0, 5).map((order) => {
+                    return (
+                      <li key={order.id}>
+                        <Link href={`/order/details/${order.id}`}>
+                          <a>
+                            <div className="bg-gray-50 flex justify-between items-center p-4">
+                              <div className="grid grid-cols-3 grid-rows-2 text-small-regular gap-x-4 flex-1">
+                                <span className="font-semibold">
+                                  Date placed
+                                </span>
+                                <span className="font-semibold">
+                                  Order number
+                                </span>
+                                <span className="font-semibold">
+                                  Total amount
+                                </span>
+                                <span>
+                                  {new Date(order.created_at).toDateString()}
+                                </span>
+                                <span>#{order.display_id}</span>
+                                <span>
+                                  {formatAmount({
+                                    amount: order.total,
+                                    region: order.region,
+                                    includeTaxes: false,
+                                  })}
+                                </span>
+                              </div>
+                              <button
+                                className="flex items-center justify-between"
+                                onClick={close}
+                              >
+                                <span className="sr-only">
+                                  Go to order #{order.display_id}
+                                </span>
+                                <ChevronDown className="-rotate-90" />
+                              </button>
                             </div>
-                            <button
-                              className="flex items-center justify-between"
-                              onClick={close}
-                            >
-                              <span className="sr-only">
-                                Go to order #{order.display_id}
-                              </span>
-                              <ChevronDown className="-rotate-90" />
-                            </button>
-                          </div>
-                        </a>
-                      </Link>
-                    </li>
-                  )
-                })
-              ) : (
-                <span>No recent orders</span>
-              )}
-            </ul>
-          </div>
-
-          <div className="flex flex-col gap-y-4">
-            <h3 className="text-xl-semi">Profile</h3>
-            <div className="flex items-end gap-x-2">
-              <span className="text-3xl-semi leading-none">
-                {getProfileCompletion(customer)}%
-              </span>
-              <span className="uppercase text-base-regular text-gray-500">
-                Completed
-              </span>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-y-4">
-            <h3 className="text-xl-semi">Addresses</h3>
-            <div className="flex items-end gap-x-2">
-              <span className="text-3xl-semi leading-none">
-                {customer?.shipping_addresses?.length || 0}
-              </span>
-              <span className="uppercase text-base-regular text-gray-500">
-                Saved
-              </span>
+                          </a>
+                        </Link>
+                      </li>
+                    )
+                  })
+                ) : (
+                  <span>No recent orders</span>
+                )}
+              </ul>
             </div>
           </div>
         </div>
