@@ -19,9 +19,9 @@ const fetchCollectionData = async (): Promise<LayoutCollection[]> => {
   do {
     await medusaClient.collections
       .list({ offset })
-      .then(({ collections: newCollections, count }) => {
+      .then(({ collections: newCollections, count: newCount }) => {
         collections = [...collections, ...newCollections]
-        count = count
+        count = newCount
         offset = collections.length
       })
       .catch((_) => {
