@@ -1,14 +1,17 @@
 <p align="center">
-  <a href="https://nextjs.org/">
-    <img alt="Next.js" src="https://medusa-public-images.s3.eu-west-1.amazonaws.com/nextjs.png" width="100" />
+  <a href="https://www.medusajs.com">
+    <img alt="Medusa" src="https://user-images.githubusercontent.com/7554214/153162406-bf8fd16f-aa98-4604-b87b-e13ab4baf604.png" width="100" />
   </a>
 </p>
+
 <h1 align="center">
   Medusa Next.js Starter
 </h1>
+
 <p align="center">
 Medusa is an open-source headless commerce engine that enables developers to create amazing digital commerce experiences.
 </p>
+
 <p align="center">
   <a href="https://github.com/medusajs/medusa/blob/master/LICENSE">
     <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="Medusa is released under the MIT license." />
@@ -26,51 +29,115 @@ Medusa is an open-source headless commerce engine that enables developers to cre
 
 > **Prerequisites**: To use the starter you should have a Medusa server running locally on port 9000. Check out [medusa-starter-default](https://github.com/medusajs/medusa-starter-default) for a quick setup.
 
-## Quickstart
+# Overview
 
-1. **Setting up the environment variables**
+![article-standard-thumbnail-example](https://user-images.githubusercontent.com/45367945/176660866-82d97db0-a52c-4b45-a6a7-d58a32e3dfe5.png)
 
-   Navigate into your projects directory and get your enviroment variables ready:
+The Medusa Next.js Starter is built with:
 
-   ```shell
-   cd nextjs-starter-medusa/
-   mv .env.template .env.local
-   ```
+- [Next.js](https://nextjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Typescript](https://www.typescriptlang.org/)
+- [Medusa](https://medusajs.com/)
 
-   Add your Stripe API key to your `.env.local`
+# Quickstart
 
-   ```
-   NEXT_PUBLIC_STRIPE_KEY=pk_test_something
-   ```
+## Setting up the environment variables
 
-2. **Install dependencies**
+Navigate into your projects directory and get your enviroment variables ready:
 
-   Use Yarn to install all dependencies.
+```shell
+cd nextjs-starter-medusa/
+mv .env.template .env.local
+```
 
-   ```shell
-   yarn
-   ```
+### Install dependencies
 
-3. **Start developing.**
+Use Yarn to install all dependencies.
 
-   You are now ready to start up your project.
+```shell
+yarn
+```
 
-   ```shell
-   yarn dev
-   ```
+### Start developing
 
-4. **Open the code and start customizing!**
+You are now ready to start up your project.
 
-   Your site is now running at http://localhost:8000!
+```shell
+yarn dev
+```
 
-   Edit `/pages/index.js` to see your site update in real-time!
+### Open the code and start customizing
 
-5. **Learn more about Medusa**
+Your site is now running at http://localhost:8000!
 
-   - [Website](https://www.medusa-commerce.com/)
-   - [GitHub](https://github.com/medusajs)
-   - [Documentation](https://docs.medusa-commerce.com/)
+Edit `/pages/index.tsx` to see your site update in real-time!
 
-6. **Learn more about Next.js**
+# Payment integrations
 
-   - [Documentation](https://nextjs.org/docs)
+By default the this starter supports the following payment integrations
+
+- [Stripe](https://stripe.com/)
+- [Paypal](https://www.paypal.com/)
+
+To enable the integrations you need to add the following to your `.env.local` file:
+
+```shell
+MEDUSA_PAYMENT_STRIPE_PUBLIC_KEY=<your-stripe-public-key>
+MEDUSA_PUBLIC_PAYPAL_CLIENT_ID=<your-paypal-client-id>
+```
+
+You will also need to setup the integrations in your Medusa server. See the [Medusa documentation](https://docs.medusajs.com) for more information on how to configure [Stripe](https://docs.medusajs.com/add-plugins/stripe) and [PayPal](https://docs.medusajs.com/add-plugins/paypal) in your Medusa project.
+
+# Search integration
+
+This starter is configured to support using the `medusa-search-meilisearch` plugin out of the box. To enable search you will need to enable the feature flag in `./store-config.json`, which you do by changing the config to this:
+
+```json
+{
+  "features": {
+    "search": true
+  }
+}
+```
+
+Before you can search you will need to install the plugin in your Medusa server, for a written guide on how to do this – [see our documentation](https://docs.medusajs.com/add-plugins/meilisearch).
+
+The search components in this starter are developed with Algolia's `react-instant-search-hooks-web` library which should make it possible for you to seemlesly change your search provider to Algoli instead of MeiliSearch.
+
+To do this you will need to add `algoliasearch` to the project, by running
+
+```shell
+yarn add algoliasearch
+```
+
+After this you will need to switch the current MeiliSearch `SearchClient` out with a Alogolia client. To do this update `@lib/search-client`.
+
+```ts
+import algoliasearch from "algoliasearch/lite"
+
+const appId = process.env.NEXT_PUBLIC_SEARCH_APP_ID | "" // You should add this to your environment variables
+
+const apiKey = process.env.NEXT_PUBLIC_SEARCH_API_KEY || "test_key"
+
+const searchClient = algoliasearch(appId, apiKey)
+
+export const SEARCH_INDEX_NAME =
+  process.env.NEXT_PUBLIC_INDEX_NAME || "products"
+```
+
+After this you will need to set up Algolia with your Medusa server, and then you should be good to go. For a more thorough walkthrough of using Algolia with Medusa – [see our documentation](https://docs.medusajs.com/add-plugins/algolia), and the [doucmentation for using `react-instantsearch-hooks-web`](https://www.algolia.com/doc/guides/building-search-ui/getting-started/react-hooks/).
+
+# Ressources
+
+## Learn more about Medusa
+
+- [Website](https://www.medusa-commerce.com/)
+- [GitHub](https://github.com/medusajs)
+- [Documentation](https://docs.medusa-commerce.com/)
+
+## Learn more about Next.js
+
+- [Website](https://nextjs.org/)
+- [GitHub](https://github.com/vercel/next.js)
+- [Documentation](https://nextjs.org/docs)
