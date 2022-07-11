@@ -29,6 +29,7 @@
     "@paypal/react-paypal-js": "^7.8.1",
     "@stripe/react-stripe-js": "^1.7.2",
     "@stripe/stripe-js": "^1.29.0",
+    "algoliasearch": "^4.13.1",
     "clsx": "^1.1.1",
     "lodash": "^4.17.21",
     "medusa-react": "^0.3.5",
