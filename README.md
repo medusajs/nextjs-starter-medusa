@@ -75,7 +75,7 @@ Edit `/pages/index.tsx` to see your site update in real-time!
 
 # Payment integrations
 
-By default the this starter supports the following payment integrations
+By default this starter supports the following payment integrations
 
 - [Stripe](https://stripe.com/)
 - [Paypal](https://www.paypal.com/)
