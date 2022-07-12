@@ -19,5 +19,5 @@ module.exports = withStoreConfig({
     domains: ["medusa-public-images.s3.eu-west-1.amazonaws.com", "localhost"],
   },
 })
-
+console.log(process.env)
 console.log("next.config.js", JSON.stringify(module.exports, null, 2))
