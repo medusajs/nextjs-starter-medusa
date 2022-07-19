@@ -18,6 +18,14 @@ module.exports = withStoreConfig({
   images: {
     domains: ["medusa-public-images.s3.eu-west-1.amazonaws.com", "localhost"],
   },
+  rewrites: async () => {
+    return [
+      {
+        source: '/health',
+        destination: '/api/health',
+      },
+    ];
+  },
 })
 console.log(process.env)
 console.log("next.config.js", JSON.stringify(module.exports, null, 2))
