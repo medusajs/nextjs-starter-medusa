@@ -69,7 +69,7 @@ export const StoreProvider = ({ children }: StoreProps) => {
     if (!IS_SERVER) {
       const storedRegion = localStorage.getItem("medusa_region")
       if (storedRegion) {
-        const { regionId, countryCode } = JSON.parse(storedRegion)
+        const { countryCode } = JSON.parse(storedRegion)
         setCountryCode(countryCode)
       }
     }
@@ -116,6 +116,7 @@ export const StoreProvider = ({ children }: StoreProps) => {
         setRegion(region.id, countryCode)
       }
 
+      storeRegion(region.id, countryCode)
       setCountryCode(countryCode)
     }
   }
@@ -139,9 +140,10 @@ export const StoreProvider = ({ children }: StoreProps) => {
     }
   }
 
-  const createNewCart = async () => {
+  const createNewCart = async (regionId?: string) => {
+    console.log("new cart", regionId)
     await createCart.mutateAsync(
-      {},
+      { region_id: regionId },
       {
         onSuccess: ({ cart }) => {
           setCart(cart)
@@ -159,8 +161,13 @@ export const StoreProvider = ({ children }: StoreProps) => {
 
   const resetCart = () => {
     deleteCart()
+
+    const savedRegion = getRegion()
+
     createCart.mutate(
-      {},
+      {
+        region_id: savedRegion?.regionId,
+      },
       {
         onSuccess: ({ cart }) => {
           setCart(cart)
@@ -179,6 +186,7 @@ export const StoreProvider = ({ children }: StoreProps) => {
   useEffect(() => {
     const ensureCart = async () => {
       const cartId = getCart()
+      const region = getRegion()
 
       if (cartId) {
         const cartRes = await medusaClient.carts
@@ -192,14 +200,14 @@ export const StoreProvider = ({ children }: StoreProps) => {
 
         if (!cartRes || cartRes.completed_at) {
           deleteCart()
-          await createNewCart()
+          await createNewCart(region?.regionId)
           return
         }
 
         setCart(cartRes)
         ensureRegion(cartRes.region)
       } else {
-        await createNewCart()
+        await createNewCart(region?.regionId)
       }
     }
 
