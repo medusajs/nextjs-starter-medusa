@@ -120,11 +120,11 @@ After this you will need to switch the current MeiliSearch `SearchClient` out wi
 ```ts
 import algoliasearch from "algoliasearch/lite"
 
-const appId = process.env.NEXT_PUBLIC_SEARCH_APP_ID | "" // You should add this to your environment variables
+const appId = process.env.NEXT_PUBLIC_SEARCH_APP_ID || "test_app_id" // You should add this to your environment variables
 
 const apiKey = process.env.NEXT_PUBLIC_SEARCH_API_KEY || "test_key"
 
-const searchClient = algoliasearch(appId, apiKey)
+export const searchClient = algoliasearch(appId, apiKey)
 
 export const SEARCH_INDEX_NAME =
   process.env.NEXT_PUBLIC_INDEX_NAME || "products"
