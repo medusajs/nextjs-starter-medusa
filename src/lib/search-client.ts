@@ -12,6 +12,7 @@ export const SEARCH_INDEX_NAME =
 
 
 // If you want to use Algolia instead then uncomment the following lines, and delete the above lines
+// you should also install algoliasearch - yarn add algoliasearch
 
 // import algoliasearch from "algoliasearch/lite"
 
