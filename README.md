@@ -42,6 +42,10 @@ The Medusa Next.js Starter is built with:
 
 # Quickstart
 
+## Deploy in 5 minutes
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/medusajs/nextjs-starter-medusa)
+
 ## Setting up the environment variables
 
 Navigate into your projects directory and get your enviroment variables ready:
@@ -75,7 +79,7 @@ Edit `/pages/index.tsx` to see your site update in real-time!
 
 # Payment integrations
 
-By default the this starter supports the following payment integrations
+By default this starter supports the following payment integrations
 
 - [Stripe](https://stripe.com/)
 - [Paypal](https://www.paypal.com/)
@@ -128,7 +132,7 @@ export const SEARCH_INDEX_NAME =
 
 After this you will need to set up Algolia with your Medusa server, and then you should be good to go. For a more thorough walkthrough of using Algolia with Medusa – [see our documentation](https://docs.medusajs.com/add-plugins/algolia), and the [doucmentation for using `react-instantsearch-hooks-web`](https://www.algolia.com/doc/guides/building-search-ui/getting-started/react-hooks/).
 
-# Ressources
+# Resources
 
 ## Learn more about Medusa
 
