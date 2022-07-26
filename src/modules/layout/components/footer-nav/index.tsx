@@ -36,7 +36,7 @@ const FooterNav = () => {
             <ul className="grid grid-cols-1 gap-y-2">
               <li>
                 <a
-                  href="https://docs.medusajs.com"
+                  href="https://github.com/medusajs"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -54,7 +54,7 @@ const FooterNav = () => {
               </li>
               <li>
                 <a
-                  href="https://docs.medusajs.com"
+                  href="https://github.com/medusajs/nextjs-starter-medusa"
                   target="_blank"
                   rel="noreferrer"
                 >
