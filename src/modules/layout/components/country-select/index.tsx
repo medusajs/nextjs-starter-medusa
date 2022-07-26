@@ -78,7 +78,7 @@ const CountrySelect = () => {
             leaveTo="opacity-0"
           >
             <Listbox.Options
-              className="absolute -bottom-[calc(100%-36px)] left-0 xsmall:left-auto xsmall:right-0 z-[900] bg-white drop-shadow-md text-small-regular uppercase text-black"
+              className="absolute -bottom-[calc(100%-36px)] left-0 xsmall:left-auto xsmall:right-0 max-h-[442px] overflow-y-scroll z-[900] bg-white drop-shadow-md text-small-regular uppercase text-black"
               static
             >
               {options?.map((o) => {
