@@ -1,11 +1,17 @@
 import { medusaClient } from "../config"
 
 export const getProductHandles = async (): Promise<string[]> => {
-  const data = await medusaClient.products
-    .list({ limit: 100 })
-    .then(({ products }) => {
-      return products.map(({ handle }) => handle)
-    })
+  const products = await medusaClient.products
+    .list({ limit: 25 })
+    .then(({ products }) => products)
 
-  return data
+  const handles: string[] = []
+  
+  for (const product of products) {
+    if (product.handle) {
+      handles.push(product.handle)
+    }
+  }
+
+  return handles
 }

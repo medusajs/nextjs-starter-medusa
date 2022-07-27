@@ -51,8 +51,8 @@ export type AppPropsWithLayout = AppProps & {
 export type ProductPreviewType = {
   id: string
   title: string
-  handle: string
-  thumbnail?: string
+  handle: string | null
+  thumbnail: string | null
   price?: {
     calculated_price: string
     original_price: string
