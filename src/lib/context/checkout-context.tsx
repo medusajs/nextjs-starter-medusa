@@ -145,23 +145,15 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
       return shipping_options?.map((option) => ({
         value: option.id,
         label: option.name,
-        price: formatAmount({ amount: option.amount, region: cart.region }),
+        price: formatAmount({
+          amount: option.amount || 0,
+          region: cart.region,
+        }),
       }))
     }
 
     return []
   }, [shipping_options, cart])
-
-  /**
-   * Boolean that indicates if the cart is empty.
-   */
-  const emptyCart = useMemo(() => {
-    if (cart?.id && !cart?.items?.length) {
-      return true
-    }
-
-    return false
-  }, [cart])
 
   /**
    * Resets the form when the cart changed.
