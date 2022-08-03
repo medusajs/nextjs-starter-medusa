@@ -31,7 +31,7 @@ Medusa is an open-source headless commerce engine that enables developers to cre
 
 # Overview
 
-![article-standard-thumbnail-example](https://user-images.githubusercontent.com/45367945/176660866-82d97db0-a52c-4b45-a6a7-d58a32e3dfe5.png)
+![next-starter](https://user-images.githubusercontent.com/45367945/182571697-a68c502f-5844-4eea-8735-7683f775ac8b.png)
 
 The Medusa Next.js Starter is built with:
 
