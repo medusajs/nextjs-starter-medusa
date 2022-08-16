@@ -37,7 +37,7 @@ const ImageOrPlaceholder = ({
 }: Pick<ThumbnailProps, "size"> & { image?: string }) => {
   return image ? (
     <Image
-      src={image}
+    src={image.startsWith("//") ? `https:${image}` : image}
       alt="Thumbnail"
       layout="fill"
       objectFit="cover"

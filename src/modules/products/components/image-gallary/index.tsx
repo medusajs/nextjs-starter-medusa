@@ -34,7 +34,9 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
             >
               <span className="sr-only">Go to image {index + 1}</span>
               <Image
-                src={image.url}
+                src={
+                  image.url.startsWith("//") ? `https:${image.url}` : image.url
+                }
                 layout="fill"
                 objectFit="cover"
                 className="absolute inset-0"
@@ -54,7 +56,9 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
               id={image.id}
             >
               <Image
-                src={image.url}
+                src={
+                  image.url.startsWith("//") ? `https:${image.url}` : image.url
+                }
                 layout="fill"
                 objectFit="cover"
                 priority={index <= 2 ? true : false}
