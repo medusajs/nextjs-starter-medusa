@@ -136,9 +136,9 @@ After this you will need to set up Algolia with your Medusa server, and then you
 
 ## Learn more about Medusa
 
-- [Website](https://www.medusa-commerce.com/)
+- [Website](https://www.medusajs.com/)
 - [GitHub](https://github.com/medusajs)
-- [Documentation](https://docs.medusa-commerce.com/)
+- [Documentation](https://docs.medusajs.com/)
 
 ## Learn more about Next.js
 
