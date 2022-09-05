@@ -1,3 +1,4 @@
+import { useAccount } from "@lib/context/account-context"
 import ChevronDown from "@modules/common/icons/chevron-down"
 import clsx from "clsx"
 import Link from "next/link"
@@ -5,6 +6,7 @@ import { useRouter } from "next/router"
 
 const AccountNav = () => {
   const { route } = useRouter()
+  const { handleLogout } = useAccount()
 
   return (
     <div>
@@ -44,6 +46,11 @@ const AccountNav = () => {
                 <AccountNavLink href="/account/orders" route={route}>
                   Orders
                 </AccountNavLink>
+              </li>
+              <li className="text-grey-700">
+                <button type="button" onClick={handleLogout}>
+                  Log out
+                </button>
               </li>
             </ul>
           </div>

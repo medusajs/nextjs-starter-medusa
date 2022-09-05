@@ -141,7 +141,6 @@ export const StoreProvider = ({ children }: StoreProps) => {
   }
 
   const createNewCart = async (regionId?: string) => {
-    console.log("new cart", regionId)
     await createCart.mutateAsync(
       { region_id: regionId },
       {

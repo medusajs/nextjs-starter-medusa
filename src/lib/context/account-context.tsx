@@ -1,7 +1,9 @@
+import { medusaClient } from "@lib/config"
 import { Customer } from "@medusajs/medusa"
 import { useMeCustomer } from "medusa-react"
 import { useRouter } from "next/router"
 import React, { createContext, useCallback, useContext, useState } from "react"
+import { useMutation } from "react-query"
 
 export enum LOGIN_VIEW {
   SIGN_IN = "sign-in",
@@ -14,6 +16,7 @@ interface AccountContext {
   loginView: [LOGIN_VIEW, React.Dispatch<React.SetStateAction<LOGIN_VIEW>>]
   checkSession: () => void
   refetchCustomer: () => void
+  handleLogout: () => void
 }
 
 const AccountContext = createContext<AccountContext | null>(null)
@@ -22,11 +25,16 @@ interface AccountProviderProps {
   children?: React.ReactNode
 }
 
+const handleDeleteSession = () => {
+  return medusaClient.auth.deleteSession()
+}
+
 export const AccountProvider = ({ children }: AccountProviderProps) => {
   const {
     customer,
     isLoading: retrievingCustomer,
     refetch,
+    remove,
   } = useMeCustomer({ onError: () => {} })
   const loginView = useState<LOGIN_VIEW>(LOGIN_VIEW.SIGN_IN)
 
@@ -38,6 +46,18 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
     }
   }, [customer, retrievingCustomer, router])
 
+  const useDeleteSession = useMutation("delete-session", handleDeleteSession)
+
+  const handleLogout = () => {
+    useDeleteSession.mutate(undefined, {
+      onSuccess: () => {
+        remove()
+        loginView[1](LOGIN_VIEW.SIGN_IN)
+        router.push("/")
+      },
+    })
+  }
+
   return (
     <AccountContext.Provider
       value={{
@@ -46,6 +66,7 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
         loginView,
         checkSession,
         refetchCustomer: refetch,
+        handleLogout,
       }}
     >
       {children}
