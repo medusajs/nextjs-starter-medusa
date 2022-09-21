@@ -44,8 +44,8 @@ export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout: (page: ReactElement) => ReactNode
 }
 
-export type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout
+export type AppPropsWithLayout<P = {}, IP = P> = AppProps<P> & {
+  Component: NextPageWithLayout<P, IP>
 }
 
 export type ProductPreviewType = {
