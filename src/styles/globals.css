@@ -110,3 +110,9 @@
     @apply text-[36px] leading-[48px] font-semibold;
   }
 }
+
+.bio-wrapper {
+  background-color: rgba(5, 4, 4, 0.755);
+  padding: 2%;
+  border: 4px solid black;
+}

@@ -6,12 +6,13 @@ const Hero = () => {
     <div className="h-[90vh] w-full relative">
       <div className="text-white absolute inset-0 z-10 flex flex-col justify-center items-center text-center small:text-left small:justify-end small:items-start small:p-32">
         <h1 className="text-2xl-semi mb-4 drop-shadow-md shadow-black">
-          Summer styles are finally here
+          Heaven meets Hell
         </h1>
-        <p className="text-base-regular max-w-[32rem] mb-6 drop-shadow-md shadow-black">
-          This year, our new summer collection will shelter you from the harsh
-          elements of a world that doesn&apos;t care if you live or die.
-        </p>
+        <div className="bio-wrapper">
+          <p className="text-base-regular max-w-[32rem] mb-6 drop-shadow-md shadow-black">
+          EyeBall is a mixed media artist, currently based out of California. Featuring a variety of styles, primarily dark surrealism. Concepts derived from near death experiences, self induced physiological torment, as well as inwards exploration. Highlighting the fact that life is confusing and messy, but also simple and beautiful.
+          </p>
+        </div>
         <UnderlineLink href="/store">Explore products</UnderlineLink>
       </div>
       <Image
