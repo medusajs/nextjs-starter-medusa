@@ -45,6 +45,7 @@ interface StoreProps {
 
 const IS_SERVER = typeof window === "undefined"
 const CART_KEY = "medusa_cart_id"
+const REGION_KEY = "medusa_region"
 
 export const StoreProvider = ({ children }: StoreProps) => {
   const { cart, setCart, createCart, updateCart } = useCart()
@@ -57,7 +58,7 @@ export const StoreProvider = ({ children }: StoreProps) => {
   const storeRegion = (regionId: string, countryCode: string) => {
     if (!IS_SERVER) {
       localStorage.setItem(
-        "medusa_region",
+        REGION_KEY,
         JSON.stringify({ regionId, countryCode })
       )
 
@@ -67,7 +68,7 @@ export const StoreProvider = ({ children }: StoreProps) => {
 
   useEffect(() => {
     if (!IS_SERVER) {
-      const storedRegion = localStorage.getItem("medusa_region")
+      const storedRegion = localStorage.getItem(REGION_KEY)
       if (storedRegion) {
         const { countryCode } = JSON.parse(storedRegion)
         setCountryCode(countryCode)
@@ -77,7 +78,7 @@ export const StoreProvider = ({ children }: StoreProps) => {
 
   const getRegion = () => {
     if (!IS_SERVER) {
-      const region = localStorage.getItem("medusa_region")
+      const region = localStorage.getItem(REGION_KEY)
       if (region) {
         return JSON.parse(region) as { regionId: string; countryCode: string }
       }
@@ -140,6 +141,12 @@ export const StoreProvider = ({ children }: StoreProps) => {
     }
   }
 
+  const deleteRegion = () => {
+    if (!IS_SERVER) {
+      localStorage.removeItem(REGION_KEY)
+    }
+  }
+
   const createNewCart = async (regionId?: string) => {
     await createCart.mutateAsync(
       { region_id: regionId },
@@ -199,7 +206,8 @@ export const StoreProvider = ({ children }: StoreProps) => {
 
         if (!cartRes || cartRes.completed_at) {
           deleteCart()
-          await createNewCart(region?.regionId)
+          deleteRegion()
+          await createNewCart()
           return
         }
 

@@ -15,7 +15,7 @@ const transformProductPreview = (
       return curr
     }
     return acc
-  })
+  }, variants[0])
 
   return {
     id: product.id,
