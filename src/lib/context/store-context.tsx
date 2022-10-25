@@ -106,19 +106,21 @@ export const StoreProvider = ({ children }: StoreProps) => {
     )
   }
 
-  const ensureRegion = (region: Region) => {
+  const ensureRegion = (region: Region, countryCode?: string | null) => {
     if (!IS_SERVER) {
-      const { regionId, countryCode } = getRegion() || {
+      const { regionId, countryCode: defaultCountryCode } = getRegion() || {
         regionId: region.id,
         countryCode: region.countries[0].iso_2,
       }
 
+      const finalCountryCode = countryCode || defaultCountryCode
+
       if (regionId !== region.id) {
-        setRegion(region.id, countryCode)
+        setRegion(region.id, finalCountryCode)
       }
 
-      storeRegion(region.id, countryCode)
-      setCountryCode(countryCode)
+      storeRegion(region.id, finalCountryCode)
+      setCountryCode(finalCountryCode)
     }
   }
 
@@ -154,7 +156,7 @@ export const StoreProvider = ({ children }: StoreProps) => {
         onSuccess: ({ cart }) => {
           setCart(cart)
           storeCart(cart.id)
-          ensureRegion(cart.region)
+          ensureRegion(cart.region, cart.shipping_address?.country_code)
         },
         onError: (error) => {
           if (process.env.NODE_ENV === "development") {
@@ -178,7 +180,7 @@ export const StoreProvider = ({ children }: StoreProps) => {
         onSuccess: ({ cart }) => {
           setCart(cart)
           storeCart(cart.id)
-          ensureRegion(cart.region)
+          ensureRegion(cart.region, cart.shipping_address?.country_code)
         },
         onError: (error) => {
           if (process.env.NODE_ENV === "development") {
