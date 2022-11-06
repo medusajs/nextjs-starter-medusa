@@ -16,9 +16,8 @@ const FooterCTA = () => {
           <Image
             src="/cta_three.jpg"
             alt=""
-            layout="fill"
-            objectFit="cover"
-            className="absolute inset-0"
+            className="absolute inset-0 object-cover"
+            fill
           />
         </div>
       </div>

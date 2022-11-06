@@ -39,11 +39,9 @@ const ImageOrPlaceholder = ({
     <Image
       src={image}
       alt="Thumbnail"
-      layout="fill"
-      objectFit="cover"
-      objectPosition="center"
-      className="absolute inset-0"
+      className="absolute inset-0 object-cover object-center"
       draggable={false}
+      fill
     />
   ) : (
     <div className="w-full h-full absolute inset-0 bg-gray-100 flex items-center justify-center">
