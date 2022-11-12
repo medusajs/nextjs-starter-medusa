@@ -44,7 +44,7 @@ const Modal: React.FC<ModalProps> & {
             >
               <Dialog.Panel
                 className={clsx(
-                  "w-full h-full transform overflow-hidden bg-white p-10 text-left align-middle shadow-xl transition-all max-h-[65vh]",
+                  "flex flex-col justify-start w-full h-full transform overflow-hidden bg-white p-10 text-left align-middle shadow-xl transition-all max-h-[65vh]",
                   {
                     "max-w-md": size === "small",
                     "max-w-xl": size === "medium",
@@ -86,7 +86,7 @@ const Description: React.FC = ({ children }) => {
 }
 
 const Body: React.FC = ({ children }) => {
-  return <div className="h-full">{children}</div>
+  return <div className="flex-1">{children}</div>
 }
 
 const Footer: React.FC = ({ children }) => {
