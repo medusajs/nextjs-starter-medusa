@@ -87,8 +87,8 @@ By default this starter supports the following payment integrations
 To enable the integrations you need to add the following to your `.env.local` file:
 
 ```shell
-MEDUSA_PAYMENT_STRIPE_PUBLIC_KEY=<your-stripe-public-key>
-MEDUSA_PUBLIC_PAYPAL_CLIENT_ID=<your-paypal-client-id>
+NEXT_PUBLIC_STRIPE_KEY=<your-stripe-public-key>
+NEXT_PUBLIC_PAYPAL_CLIENT_ID=<your-paypal-client-id>
 ```
 
 You will also need to setup the integrations in your Medusa server. See the [Medusa documentation](https://docs.medusajs.com) for more information on how to configure [Stripe](https://docs.medusajs.com/add-plugins/stripe) and [PayPal](https://docs.medusajs.com/add-plugins/paypal) in your Medusa project.
