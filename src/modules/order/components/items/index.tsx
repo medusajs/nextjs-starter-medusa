@@ -5,7 +5,6 @@ import LineItemPrice from "@modules/common/components/line-item-price"
 import Thumbnail from "@modules/products/components/thumbnail"
 import SkeletonLineItem from "@modules/skeletons/components/skeleton-line-item"
 import Link from "next/link"
-import { CalculatedVariant } from "types/medusa"
 
 type ItemsProps = {
   items: LineItem[]
@@ -40,11 +39,7 @@ const Items = ({ items, region, cartId }: ItemsProps) => {
                         <span>Quantity: {item.quantity}</span>
                       </div>
                       <div className="flex justify-end">
-                        <LineItemPrice
-                          quantity={item.quantity}
-                          region={region}
-                          variant={item.variant as CalculatedVariant}
-                        />
+                        <LineItemPrice region={region} item={item} />
                       </div>
                     </div>
                   </div>

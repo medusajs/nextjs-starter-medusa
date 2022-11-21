@@ -1,23 +1,25 @@
 import { getPercentageDiff } from "@lib/util/get-precentage-diff"
-import { Region } from "@medusajs/medusa"
+import { LineItem, Region } from "@medusajs/medusa"
 import clsx from "clsx"
 import { formatAmount } from "medusa-react"
 import { CalculatedVariant } from "types/medusa"
 
 type LineItemPriceProps = {
-  variant: CalculatedVariant
+  item: Omit<LineItem, "beforeInsert">
   region: Region
-  quantity: number
   style?: "default" | "tight"
 }
 
 const LineItemPrice = ({
-  variant,
+  item,
   region,
-  quantity,
   style = "default",
 }: LineItemPriceProps) => {
-  const hasReducedPrice = variant.calculated_price < variant.original_price
+  const originalPrice =
+    (item.variant as CalculatedVariant).original_price * item.quantity
+  const hasReducedPrice = (item.total || 0) < originalPrice
+
+  console.log(item)
 
   return (
     <div className="flex flex-col text-gray-700 text-right">
@@ -27,7 +29,7 @@ const LineItemPrice = ({
         })}
       >
         {formatAmount({
-          amount: variant.calculated_price * quantity,
+          amount: item.total || 0,
           region: region,
           includeTaxes: false,
         })}
@@ -40,7 +42,7 @@ const LineItemPrice = ({
             )}
             <span className="line-through">
               {formatAmount({
-                amount: variant.original_price * quantity,
+                amount: originalPrice,
                 region: region,
                 includeTaxes: false,
               })}
@@ -48,12 +50,7 @@ const LineItemPrice = ({
           </p>
           {style === "default" && (
             <span className="text-rose-600">
-              -
-              {getPercentageDiff(
-                variant.original_price,
-                variant.calculated_price
-              )}
-              %
+              -{getPercentageDiff(originalPrice, item.total || 0)}%
             </span>
           )}
         </>
