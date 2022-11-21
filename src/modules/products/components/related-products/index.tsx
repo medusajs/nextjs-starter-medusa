@@ -28,10 +28,6 @@ const RelatedProducts = ({ product }: RelatedProductsProps) => {
       params.collection_id = [product.collection_id]
     }
 
-    if (product.type) {
-      params.type = product.type.id
-    }
-
     if (product.tags) {
       params.tags = product.tags.map((t) => t.value)
     }

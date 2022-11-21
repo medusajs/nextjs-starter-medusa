@@ -28,7 +28,7 @@ const useProductPrice = ({ id, variantId }: useProductPriceProps) => {
   }
 
   const cheapestPrice = useMemo(() => {
-    if (!product || !cart?.region) {
+    if (!product || !product.variants?.length || !cart?.region) {
       return null
     }
 

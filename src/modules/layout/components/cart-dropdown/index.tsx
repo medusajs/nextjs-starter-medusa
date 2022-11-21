@@ -10,7 +10,6 @@ import Thumbnail from "@modules/products/components/thumbnail"
 import { formatAmount, useCart } from "medusa-react"
 import Link from "next/link"
 import { Fragment } from "react"
-import { CalculatedVariant } from "types/medusa"
 
 const CartDropdown = () => {
   const { cart, totalItems } = useCart()
@@ -73,8 +72,7 @@ const CartDropdown = () => {
                               <div className="flex justify-end">
                                 <LineItemPrice
                                   region={cart.region}
-                                  variant={item.variant as CalculatedVariant}
-                                  quantity={item.quantity}
+                                  item={item}
                                   style="tight"
                                 />
                               </div>
