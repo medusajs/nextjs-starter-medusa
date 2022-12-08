@@ -1,18 +1,20 @@
 import { medusaClient } from "@lib/config"
 import { IS_BROWSER } from "@lib/constants"
+import { Order } from "@medusajs/medusa"
 import Head from "@modules/common/components/head"
 import Layout from "@modules/layout/templates"
 import OrderCompletedTemplate from "@modules/order/templates/order-completed-template"
 import SkeletonOrderConfirmed from "@modules/skeletons/templates/skeleton-order-confirmed"
-import { useOrder } from "medusa-react"
 import { GetStaticPaths, GetStaticProps } from "next"
 import { useRouter } from "next/router"
 import { ReactElement } from "react"
-import { dehydrate, QueryClient } from "react-query"
+import { dehydrate, QueryClient, useQuery } from "react-query"
 import { NextPageWithLayout } from "types/global"
 
 const fetchOrder = async (id: string) => {
-  return await medusaClient.orders.retrieve(id).then(({ order }) => order)
+  return await medusaClient.orders
+    .retrieve(id)
+    .then(({ order }) => order as unknown as Order)
 }
 
 const Confirmed: NextPageWithLayout = () => {
@@ -20,16 +22,20 @@ const Confirmed: NextPageWithLayout = () => {
 
   const id = typeof router.query?.id === "string" ? router.query.id : ""
 
-  const { isSuccess, order, isError, isLoading } = useOrder(id, {
-    enabled: id.length > 0,
-    staleTime: Infinity,
-  })
+  const { isSuccess, data, isLoading, isError } = useQuery(
+    ["get_order_confirmed", id],
+    () => fetchOrder(id),
+    {
+      enabled: id.length > 0,
+      staleTime: Infinity,
+    }
+  )
 
   if (isLoading) {
     return <SkeletonOrderConfirmed />
   }
 
-  if (isError || !order) {
+  if (isError) {
     if (IS_BROWSER) {
       router.replace("/404")
     }
@@ -45,7 +51,7 @@ const Confirmed: NextPageWithLayout = () => {
           description="You purchase was successful"
         />
 
-        <OrderCompletedTemplate order={order} />
+        <OrderCompletedTemplate order={data} />
       </>
     )
   }
