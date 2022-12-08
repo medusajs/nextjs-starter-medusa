@@ -531,6 +531,40 @@
     winston "^3.3.3"
     yargs "^15.3.1"
 
+"@medusajs/medusa-cli@^1.3.5":
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/@medusajs/medusa-cli/-/medusa-cli-1.3.5.tgz#4f8effab4ce26a4e02d757005d8577641fe09043"
+  integrity sha512-sAXWSiMYdZqzkjRmRUaCGPKDLmZ15tHZZqZQ1g8EdcuouFsGZaEVnx83vyo4q90AWOS4/SRrCXV6iDSwUCs8cA==
+  dependencies:
+    "@babel/polyfill" "^7.8.7"
+    "@babel/runtime" "^7.9.6"
+    axios "^0.21.1"
+    chalk "^4.0.0"
+    configstore "5.0.1"
+    core-js "^3.6.5"
+    dotenv "^8.2.0"
+    execa "^5.1.1"
+    fs-exists-cached "^1.0.0"
+    fs-extra "^10.0.0"
+    hosted-git-info "^4.0.2"
+    inquirer "^8.0.0"
+    is-valid-path "^0.1.1"
+    meant "^1.0.1"
+    medusa-core-utils "^1.1.31"
+    medusa-telemetry "0.0.15"
+    netrc-parser "^3.1.6"
+    open "^8.0.6"
+    ora "^5.4.1"
+    pg-god "^1.0.11"
+    prompts "^2.4.1"
+    regenerator-runtime "^0.13.5"
+    resolve-cwd "^3.0.0"
+    stack-trace "^0.0.10"
+    ulid "^2.3.0"
+    url "^0.11.0"
+    winston "^3.3.3"
+    yargs "^15.3.1"
+
 "@medusajs/medusa-js@^1.3.3":
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/@medusajs/medusa-js/-/medusa-js-1.3.3.tgz#53f8f1728dae744a71f4e56050288f447a62e915"
@@ -542,7 +576,7 @@
     qs "^6.10.3"
     retry-axios "^2.6.0"
 
-"@medusajs/medusa@^1.6.2", "@medusajs/medusa@^1.6.3":
+"@medusajs/medusa@^1.6.2":
   version "1.6.3"
   resolved "https://registry.yarnpkg.com/@medusajs/medusa/-/medusa-1.6.3.tgz#9bc5bb581c2d5d36b6f207ac82e5d86f5575b614"
   integrity sha512-sxGdY3crSHdDeY+FsUKvya5EP4aTeR9vP49/ML9G624TrP9Fo8+FXNGm8ASr5nJZd3iJNCE5TMa7NZhq7qy6Cw==
@@ -570,6 +604,55 @@
     iso8601-duration "^1.3.0"
     jsonwebtoken "^8.5.1"
     medusa-core-utils "^1.1.34"
+    medusa-test-utils "^1.1.37"
+    morgan "^1.9.1"
+    multer "^1.4.2"
+    node-schedule "^2.1.0"
+    papaparse "^5.3.2"
+    passport "^0.4.0"
+    passport-http-bearer "^1.0.1"
+    passport-jwt "^4.0.0"
+    passport-local "^1.0.0"
+    pg "^8.5.1"
+    randomatic "^3.1.1"
+    redis "^3.0.2"
+    reflect-metadata "^0.1.13"
+    request-ip "^2.1.3"
+    resolve-cwd "^3.0.0"
+    scrypt-kdf "^2.0.1"
+    sqlite3 "^5.0.2"
+    ulid "^2.3.0"
+    uuid "^8.3.1"
+    winston "^3.2.1"
+
+"@medusajs/medusa@^1.6.5":
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/@medusajs/medusa/-/medusa-1.6.5.tgz#e6c79b7d53525b5f69326167eebf9e54f514dd4b"
+  integrity sha512-jQj6UHZofcsDQPTPP6s2RA48BCjDVvys/fzYI4LATxqdwNaj0cFE4ugJIfxxzgxB0uC0u7+xxfSF95nvm1yfMw==
+  dependencies:
+    "@medusajs/medusa-cli" "^1.3.5"
+    "@types/ioredis" "^4.28.10"
+    "@types/lodash" "^4.14.168"
+    awilix "^4.2.3"
+    body-parser "^1.19.0"
+    bull "^3.12.1"
+    chokidar "^3.4.2"
+    class-transformer "^0.5.1"
+    class-validator "^0.13.1"
+    connect-redis "^5.0.0"
+    cookie-parser "^1.4.4"
+    core-js "^3.6.5"
+    cors "^2.8.5"
+    cross-spawn "^7.0.3"
+    express "^4.17.1"
+    express-session "^1.17.1"
+    fs-exists-cached "^1.0.0"
+    glob "^7.1.6"
+    ioredis "^4.17.3"
+    ioredis-mock "^5.6.0"
+    iso8601-duration "^1.3.0"
+    jsonwebtoken "^8.5.1"
+    medusa-core-utils "^1.1.35"
     medusa-test-utils "^1.1.37"
     morgan "^1.9.1"
     multer "^1.4.2"
@@ -4423,6 +4506,14 @@ medusa-core-utils@^1.1.34:
     joi "^17.3.0"
     joi-objectid "^3.0.1"
 
+medusa-core-utils@^1.1.35:
+  version "1.1.35"
+  resolved "https://registry.yarnpkg.com/medusa-core-utils/-/medusa-core-utils-1.1.35.tgz#a5376920ce7a56e90ef418333c50ad2a22b09810"
+  integrity sha512-epFs9VY6wmQ6nPqe6zlpjjG0HhvzRVhDETTqum3AWeqFD4zQnOaRMiQrgFKEVuLokckQ2qzBuXoGP9tcIWr/HA==
+  dependencies:
+    joi "^17.3.0"
+    joi-objectid "^3.0.1"
+
 medusa-react@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/medusa-react/-/medusa-react-3.0.1.tgz#218bb834d595e54ed104317f61c21eddb35de82b"
@@ -4437,6 +4528,21 @@ medusa-telemetry@0.0.14:
   version "0.0.14"
   resolved "https://registry.yarnpkg.com/medusa-telemetry/-/medusa-telemetry-0.0.14.tgz#1247e3712ab1092c7318cae3d5d958f5c2873a20"
   integrity sha512-eG5VdU7uA1jQxP9p7SacPjWvYLBAVjHU39Pgvj2bWU8W6uBgCO2L+BGXcUZbr8DAdr9lK9w5IShltVQGjDsoWw==
+  dependencies:
+    axios "^0.21.1"
+    axios-retry "^3.1.9"
+    boxen "^5.0.1"
+    ci-info "^3.2.0"
+    configstore "5.0.1"
+    global "^4.4.0"
+    is-docker "^2.2.1"
+    remove-trailing-slash "^0.1.1"
+    uuid "^8.3.2"
+
+medusa-telemetry@0.0.15:
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/medusa-telemetry/-/medusa-telemetry-0.0.15.tgz#fe78ef1d51845806f669867eb90336bc51f8aba4"
+  integrity sha512-iQ/8a2lUVIVGXKj+by2Vc85eNWAwEAa5RxTQSQpgVOoMy0a/pw951EYQkYsch2cJAVW/tHmWqY0gYmqUuZ0c8A==
   dependencies:
     axios "^0.21.1"
     axios-retry "^3.1.9"
