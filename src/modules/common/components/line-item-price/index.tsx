@@ -19,8 +19,6 @@ const LineItemPrice = ({
     (item.variant as CalculatedVariant).original_price * item.quantity
   const hasReducedPrice = (item.total || 0) < originalPrice
 
-  console.log(item)
-
   return (
     <div className="flex flex-col text-gray-700 text-right">
       <span

@@ -3,7 +3,6 @@ import Help from "@modules/order/components/help"
 import Items from "@modules/order/components/items"
 import OrderDetails from "@modules/order/components/order-details"
 import OrderSummary from "@modules/order/components/order-summary"
-import PaymentDetails from "@modules/order/components/payment-details"
 import ShippingDetails from "@modules/order/components/shipping-details"
 import React from "react"
 
@@ -25,18 +24,14 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
             cartId={order.cart_id}
           />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-10 border-b border-gray-200">
-            <PaymentDetails
-              payments={order.payments}
-              paymentStatus={order.payment_status}
-            />
             <ShippingDetails
               shippingMethods={order.shipping_methods}
               address={order.shipping_address}
             />
+            <OrderSummary order={order} />
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-10">
             <Help />
-            <OrderSummary order={order} />
           </div>
         </div>
       </div>
