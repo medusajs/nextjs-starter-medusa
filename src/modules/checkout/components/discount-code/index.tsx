@@ -6,7 +6,7 @@ import Trash from "@modules/common/icons/trash"
 import { formatAmount, useCart, useUpdateCart } from "medusa-react"
 import React, { useMemo } from "react"
 import { useForm } from "react-hook-form"
-import { useMutation } from "react-query"
+import { useMutation } from "@tanstack/react-query"
 
 type DiscountFormValues = {
   discount_code: string
