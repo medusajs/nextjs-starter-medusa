@@ -5,11 +5,11 @@ import Head from "@modules/common/components/head"
 import Layout from "@modules/layout/templates"
 import ProductTemplate from "@modules/products/templates"
 import SkeletonProductPage from "@modules/skeletons/templates/skeleton-product-page"
+import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query"
 import { GetStaticPaths, GetStaticProps } from "next"
 import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
 import { ReactElement } from "react"
-import { dehydrate, QueryClient, useQuery } from "react-query"
 import { NextPageWithLayout, PrefetchedPageProps } from "types/global"
 
 interface Params extends ParsedUrlQuery {
@@ -81,7 +81,6 @@ export const getStaticPaths: GetStaticPaths<Params> = async () => {
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const handle = context.params?.handle as string
-
   const queryClient = new QueryClient()
 
   await queryClient.prefetchQuery([`get_product`, handle], () =>

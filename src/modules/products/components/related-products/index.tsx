@@ -7,7 +7,7 @@ import Button from "@modules/common/components/button"
 import SkeletonProductPreview from "@modules/skeletons/components/skeleton-product-preview"
 import { useCart } from "medusa-react"
 import { useMemo } from "react"
-import { useInfiniteQuery } from "react-query"
+import { useInfiniteQuery } from "@tanstack/react-query"
 import ProductPreview from "../product-preview"
 
 type RelatedProductsProps = {
