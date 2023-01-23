@@ -7,7 +7,7 @@ import SkeletonOrderConfirmed from "@modules/skeletons/templates/skeleton-order-
 import { GetStaticPaths, GetStaticProps } from "next"
 import { useRouter } from "next/router"
 import { ReactElement } from "react"
-import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query"
+import { dehydrate, QueryClient, useQuery } from "react-query"
 import { NextPageWithLayout } from "types/global"
 
 const fetchOrder = async (id: string) => {

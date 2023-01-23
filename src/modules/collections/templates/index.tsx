@@ -7,7 +7,7 @@ import { fetchCollectionProducts } from "@pages/collections/[id]"
 import { useCart } from "medusa-react"
 import React, { useEffect } from "react"
 import { useInView } from "react-intersection-observer"
-import { useInfiniteQuery } from "@tanstack/react-query"
+import { useInfiniteQuery } from "react-query"
 
 type CollectionTemplateProps = {
   collection: {

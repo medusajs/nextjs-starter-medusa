@@ -9,7 +9,7 @@ import { GetStaticPaths, GetStaticProps } from "next"
 import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
 import { ReactElement } from "react"
-import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query"
+import { dehydrate, QueryClient, useQuery } from "react-query"
 import { NextPageWithLayout, PrefetchedPageProps } from "../../types/global"
 
 interface Params extends ParsedUrlQuery {

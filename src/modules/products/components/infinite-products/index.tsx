@@ -8,7 +8,7 @@ import SkeletonProductPreview from "@modules/skeletons/components/skeleton-produ
 import { useCart } from "medusa-react"
 import { useEffect, useMemo } from "react"
 import { useInView } from "react-intersection-observer"
-import { useInfiniteQuery } from "@tanstack/react-query"
+import { useInfiniteQuery } from "react-query"
 
 type InfiniteProductsType = {
   params: StoreGetProductsParams
