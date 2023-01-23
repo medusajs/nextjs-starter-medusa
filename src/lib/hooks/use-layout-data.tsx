@@ -1,8 +1,8 @@
 import { medusaClient } from "@lib/config"
 import { getPercentageDiff } from "@lib/util/get-precentage-diff"
 import { Product, ProductCollection, Region } from "@medusajs/medusa"
+import { useQuery } from "@tanstack/react-query"
 import { formatAmount, useCart } from "medusa-react"
-import { useQuery } from "react-query"
 import { ProductPreviewType } from "types/global"
 import { CalculatedVariant } from "types/medusa"
 
@@ -36,7 +36,9 @@ const fetchCollectionData = async (): Promise<LayoutCollection[]> => {
 }
 
 export const useNavigationCollections = () => {
-  const queryResults = useQuery("navigation_collections", fetchCollectionData, {
+  const queryResults = useQuery({
+    queryFn: fetchCollectionData,
+    queryKey: ["navigation_collections"],
     staleTime: Infinity,
     refetchOnWindowFocus: false,
   })
