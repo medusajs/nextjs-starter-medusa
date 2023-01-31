@@ -35,7 +35,15 @@ const Item = ({ item, region }: ItemProps) => {
             }
             className="max-h-[35px] w-[75px]"
           >
-            {Array.from([...Array(item.variant.inventory_quantity)].keys())
+            {Array.from(
+              [
+                ...Array(
+                  item.variant.inventory_quantity > 0
+                    ? item.variant.inventory_quantity
+                    : 10
+                ),
+              ].keys()
+            )
               .slice(0, 10)
               .map((i) => {
                 const value = i + 1
