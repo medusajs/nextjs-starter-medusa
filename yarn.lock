@@ -591,6 +591,16 @@
     retry-axios "^2.6.0"
     uuid "^9.0.0"
 
+"@medusajs/medusa-js@^1.3.8":
+  version "1.3.8"
+  resolved "https://registry.yarnpkg.com/@medusajs/medusa-js/-/medusa-js-1.3.8.tgz#f94726386cb4f00adcc306cc4247dfb0bbd86232"
+  integrity sha512-yDiQDoaE45kSwRNScPff+icXK+YoJiYlSzcjazhuXiJWj1L6QG6uqevYY4hZQcjQejtNw2IzE86YSH0+V6xLAg==
+  dependencies:
+    axios "^0.24.0"
+    qs "^6.10.3"
+    retry-axios "^2.6.0"
+    uuid "^9.0.0"
+
 "@medusajs/medusa@^1.7.5":
   version "1.7.5"
   resolved "https://registry.yarnpkg.com/@medusajs/medusa/-/medusa-1.7.5.tgz#92b3229352db3737560472864ee50eb9c2ede858"
@@ -4523,11 +4533,6 @@ locate-path@^5.0.0:
   dependencies:
     p-locate "^4.1.0"
 
-lodash-es@^4.17.21:
-  version "4.17.21"
-  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.21.tgz#43e626c46e6591b7750beb2b50117390c609e3ee"
-  integrity sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==
-
 lodash.defaults@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/lodash.defaults/-/lodash.defaults-4.2.0.tgz#d09178716ffea4dde9e5fb7b37f6f0802274580c"
@@ -4707,14 +4712,12 @@ medusa-core-utils@^1.1.31, medusa-core-utils@^1.1.32, medusa-core-utils@^1.1.37:
     joi "^17.3.0"
     joi-objectid "^3.0.1"
 
-medusa-react@^4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/medusa-react/-/medusa-react-4.0.3.tgz#ae6d313d3be0f2e4900d83a45348635df432ec66"
-  integrity sha512-JuKlcIZjhzlBJMzS/aMCDPt/75S1cljx6VOBLeOpepB1h44jkqebqdPHkuIB2QU9RlzkHonpMTw8Qr+N1mBaSQ==
+medusa-react@^4.0.4:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/medusa-react/-/medusa-react-4.0.4.tgz#84f96dc1e613b1979e7534758b6c72fd26c87317"
+  integrity sha512-0epeLgDZ+A2jtd9SCzaXrLhUSbzRr0osgmdABFBD4zPCr0qSAH+WaWCXAdEEQbb5SlwgvnVpJ+Ly4Iw1xj73mg==
   dependencies:
-    "@medusajs/medusa-js" "^1.3.7"
-    lodash "^4.17.21"
-    lodash-es "^4.17.21"
+    "@medusajs/medusa-js" "^1.3.8"
 
 medusa-telemetry@0.0.16, medusa-telemetry@^0.0.16:
   version "0.0.16"
