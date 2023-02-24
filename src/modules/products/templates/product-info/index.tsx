@@ -1,9 +1,9 @@
 import ProductActions from "@modules/products/components/product-actions"
 import React from "react"
-import { Product } from "types/medusa"
+import { ProductWithVariantsWithOptions } from "types/medusa"
 
 type ProductInfoProps = {
-  product: Product
+  product: ProductWithVariantsWithOptions
 }
 
 const ProductInfo: React.FC<ProductInfoProps> = ({ product }) => {

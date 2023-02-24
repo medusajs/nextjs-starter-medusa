@@ -1,7 +1,7 @@
 import { useAccount } from "@lib/context/account-context"
 import useToggleState from "@lib/hooks/use-toggle-state"
 import { emailRegex } from "@lib/util/regex"
-import { Customer } from "@medusajs/medusa"
+import { Customer } from "@medusajs/client-types"
 import EditButton from "@modules/account/components/edit-button"
 import Button from "@modules/common/components/button"
 import Input from "@modules/common/components/input"
@@ -60,7 +60,7 @@ const EditEmailModal: React.FC<EditEmailModalProps> = ({ customer }) => {
           setSubmitting(false)
           setError("Unable to update email, try again later.")
         },
-      }
+      },
     )
   })
 

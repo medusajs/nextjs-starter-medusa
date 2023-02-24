@@ -1,5 +1,5 @@
 import { useAccount } from "@lib/context/account-context"
-import { Customer } from "@medusajs/medusa"
+import { Customer } from "@medusajs/client-types"
 import Input from "@modules/common/components/input"
 import { useUpdateMe } from "medusa-react"
 import React, { useEffect } from "react"
@@ -16,7 +16,7 @@ type UpdateCustomerEmailFormData = {
 
 const ProfileEmail: React.FC<MyInformationProps> = ({ customer }) => {
   const [errorMessage, setErrorMessage] = React.useState<string | undefined>(
-    undefined
+    undefined,
   )
 
   const {
@@ -65,7 +65,7 @@ const ProfileEmail: React.FC<MyInformationProps> = ({ customer }) => {
         onError: () => {
           setErrorMessage("Email already in use")
         },
-      }
+      },
     )
   }
 

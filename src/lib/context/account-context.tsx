@@ -1,5 +1,5 @@
 import { medusaClient } from "@lib/config"
-import { Customer } from "@medusajs/medusa"
+import { StoreCustomersRes } from "@medusajs/client-types"
 import { useMutation } from "@tanstack/react-query"
 import { useMeCustomer } from "medusa-react"
 import { useRouter } from "next/router"
@@ -11,7 +11,7 @@ export enum LOGIN_VIEW {
 }
 
 interface AccountContext {
-  customer?: Omit<Customer, "password_hash">
+  customer?: StoreCustomersRes["customer"]
   retrievingCustomer: boolean
   loginView: [LOGIN_VIEW, React.Dispatch<React.SetStateAction<LOGIN_VIEW>>]
   checkSession: () => void

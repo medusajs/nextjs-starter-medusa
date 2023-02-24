@@ -1,5 +1,5 @@
 import transformProductPreview from "@lib/util/transform-product-preview"
-import { Product, Region } from "@medusajs/medusa"
+import { Product, Region } from "@medusajs/client-types"
 import { useMemo } from "react"
 import { InfiniteProductPage, ProductPreviewType } from "types/global"
 
@@ -8,7 +8,7 @@ type UsePreviewProps<T> = {
   region?: Region
 }
 
-const usePreviews = <T extends InfiniteProductPage>({
+const usePreviews = <T extends InfiniteProductPage> ({
   pages,
   region,
 }: UsePreviewProps<T>) => {
@@ -24,7 +24,7 @@ const usePreviews = <T extends InfiniteProductPage>({
     }
 
     const transformedProducts = products.map((p) =>
-      transformProductPreview(p, region)
+      transformProductPreview(p, region),
     )
 
     return transformedProducts

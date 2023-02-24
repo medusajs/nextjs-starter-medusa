@@ -1,5 +1,5 @@
 import { useAccount } from "@lib/context/account-context"
-import { Customer, StorePostCustomersCustomerReq } from "@medusajs/medusa"
+import { Customer, SetRelation, StorePostCustomersCustomerReq } from "@medusajs/client-types"
 import Input from "@modules/common/components/input"
 import NativeSelect from "@modules/common/components/native-select"
 import { useRegions, useUpdateMe } from "medusa-react"
@@ -7,8 +7,10 @@ import React, { useEffect, useMemo } from "react"
 import { useForm, useWatch } from "react-hook-form"
 import AccountInfo from "../account-info"
 
+type CustomerWithBillingAddress = SetRelation<Customer, "billing_address">
+
 type MyInformationProps = {
-  customer: Omit<Customer, "password_hash">
+  customer: CustomerWithBillingAddress
 }
 
 type UpdateCustomerNameFormData = Pick<
@@ -95,7 +97,7 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({ customer }) => {
         onSuccess: () => {
           refetchCustomer()
         },
-      }
+      },
     )
   }
 
@@ -106,7 +108,7 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({ customer }) => {
 
     const country =
       regionOptions?.find(
-        (country) => country.value === customer.billing_address.country_code
+        (country) => country.value === customer.billing_address.country_code,
       )?.label || customer.billing_address.country_code?.toUpperCase()
 
     return (

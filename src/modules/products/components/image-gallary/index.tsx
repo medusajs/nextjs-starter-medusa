@@ -1,4 +1,4 @@
-import { Image as MedusaImage } from "@medusajs/medusa"
+import { Image as MedusaImage } from "@medusajs/client-types"
 import Image from "next/image"
 import { useRef } from "react"
 

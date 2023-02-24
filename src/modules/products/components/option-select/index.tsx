@@ -1,10 +1,12 @@
 import { onlyUnique } from "@lib/util/only-unique"
-import { ProductOption } from "@medusajs/medusa"
+import { ProductOption, SetRelation } from "@medusajs/client-types"
 import clsx from "clsx"
 import React from "react"
 
+type ProductOptionWithValues = SetRelation<ProductOption, "values">
+
 type OptionSelectProps = {
-  option: ProductOption
+  option: ProductOptionWithValues
   current: string
   updateOption: (option: Record<string, string>) => void
   title: string
@@ -29,7 +31,7 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
               key={v}
               className={clsx(
                 "border-gray-200 border text-xsmall-regular h-[50px] transition-all duration-200",
-                { "border-gray-900": v === current }
+                { "border-gray-900": v === current },
               )}
             >
               {v}

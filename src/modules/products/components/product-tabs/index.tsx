@@ -1,13 +1,15 @@
 import { Tab } from "@headlessui/react"
-import { Product } from "@medusajs/medusa"
+import { Product, SetRelation } from "@medusajs/client-types"
 import Back from "@modules/common/icons/back"
 import FastDelivery from "@modules/common/icons/fast-delivery"
 import Refresh from "@modules/common/icons/refresh"
 import clsx from "clsx"
 import { useMemo } from "react"
 
+type ProductWithTags = SetRelation<Product, "tags">
+
 type ProductTabsProps = {
-  product: Product
+  product: ProductWithTags
 }
 
 const ProductTabs = ({ product }: ProductTabsProps) => {
@@ -37,7 +39,7 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
                     "text-left uppercase text-small-regular pb-2 -mb-px border-b border-gray-200 transition-color duration-150 ease-in-out",
                     {
                       "border-b border-gray-900": selected,
-                    }
+                    },
                   )
                 }
               >

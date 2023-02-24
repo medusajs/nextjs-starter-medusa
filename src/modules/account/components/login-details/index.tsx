@@ -1,4 +1,4 @@
-import { Customer } from "@medusajs/medusa"
+import { Customer } from "@medusajs/client-types"
 import React from "react"
 import Detail from "../detail-container"
 import EditEmailModal from "./edit-email-modal"

@@ -1,6 +1,6 @@
 import { Listbox, Transition } from "@headlessui/react"
 import { useCheckout } from "@lib/context/checkout-context"
-import { Address } from "@medusajs/medusa"
+import { Address } from "@medusajs/client-types"
 import Radio from "@modules/common/components/radio"
 import ChevronDown from "@modules/common/icons/chevron-down"
 import clsx from "clsx"
@@ -44,7 +44,7 @@ const AddressSelect = ({ addresses }: AddressSelectProps) => {
           "metadata",
           "customer_id",
         ]),
-        currentShippingAddress
+        currentShippingAddress,
       )
 
       if (checkEquality) {
@@ -56,7 +56,8 @@ const AddressSelect = ({ addresses }: AddressSelectProps) => {
   return (
     <Listbox onChange={handleSelect} value={selected}>
       <div className="relative">
-        <Listbox.Button className="relative w-full flex justify-between items-center px-4 py-[10px] text-left bg-white cursor-default focus:outline-none border border-gray-200 focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-gray-300 focus-visible:ring-offset-2 focus-visible:border-gray-300 text-base-regular">
+        <Listbox.Button
+          className="relative w-full flex justify-between items-center px-4 py-[10px] text-left bg-white cursor-default focus:outline-none border border-gray-200 focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-gray-300 focus-visible:ring-offset-2 focus-visible:border-gray-300 text-base-regular">
           {({ open }) => (
             <>
               <span className="block truncate">
@@ -77,7 +78,8 @@ const AddressSelect = ({ addresses }: AddressSelectProps) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute z-20 w-full overflow-auto text-small-regular bg-white border border-gray-200 border-top-0 max-h-60 focus:outline-none sm:text-sm">
+          <Listbox.Options
+            className="absolute z-20 w-full overflow-auto text-small-regular bg-white border border-gray-200 border-top-0 max-h-60 focus:outline-none sm:text-sm">
             {addresses.map((address) => {
               return (
                 <Listbox.Option

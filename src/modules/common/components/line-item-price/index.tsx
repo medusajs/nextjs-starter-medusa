@@ -1,5 +1,5 @@
 import { getPercentageDiff } from "@lib/util/get-precentage-diff"
-import { LineItem, Region } from "@medusajs/medusa"
+import { LineItem, Region } from "@medusajs/client-types"
 import clsx from "clsx"
 import { formatAmount } from "medusa-react"
 import { CalculatedVariant } from "types/medusa"

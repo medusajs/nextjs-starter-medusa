@@ -1,7 +1,7 @@
 import { RadioGroup } from "@headlessui/react"
 import { ErrorMessage } from "@hookform/error-message"
 import { useCheckout } from "@lib/context/checkout-context"
-import { Cart } from "@medusajs/medusa"
+import { Cart, SetRelation } from "@medusajs/client-types"
 import Radio from "@modules/common/components/radio"
 import Spinner from "@modules/common/icons/spinner"
 import clsx from "clsx"
@@ -16,8 +16,10 @@ type ShippingOption = {
   price: string
 }
 
+type CartWithRegion = SetRelation<Cart, "region">
+
 type ShippingProps = {
-  cart: Omit<Cart, "refundable_amount" | "refunded_total">
+  cart: CartWithRegion
 }
 
 type ShippingFormProps = {
@@ -63,9 +65,9 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
               message:
                 "An error occurred while adding shipping. Please try again.",
             },
-            { shouldFocus: true }
+            { shouldFocus: true },
           ),
-      }
+      },
     )
   }
 
@@ -124,7 +126,7 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
                           "flex items-center justify-between text-small-regular cursor-pointer py-4 border-b border-gray-200 last:border-b-0 px-8",
                           {
                             "bg-gray-50": option.value === value,
-                          }
+                          },
                         )}
                       >
                         <div className="flex items-center gap-x-4">

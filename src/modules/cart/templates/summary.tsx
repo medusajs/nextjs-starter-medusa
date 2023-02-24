@@ -1,10 +1,12 @@
-import { Cart } from "@medusajs/medusa"
+import { Cart, SetRelation } from "@medusajs/client-types"
 import Button from "@modules/common/components/button"
 import CartTotals from "@modules/common/components/cart-totals"
 import Link from "next/link"
 
+type CartWithRegion = SetRelation<Cart, "region">
+
 type SummaryProps = {
-  cart: Omit<Cart, "refundable_amount" | "refunded_total">
+  cart: CartWithRegion
 }
 
 const Summary = ({ cart }: SummaryProps) => {

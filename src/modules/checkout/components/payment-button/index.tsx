@@ -1,5 +1,5 @@
 import { useCheckout } from "@lib/context/checkout-context"
-import { PaymentSession } from "@medusajs/medusa"
+import { PaymentSession } from "@medusajs/client-types"
 import Button from "@modules/common/components/button"
 import Spinner from "@modules/common/icons/spinner"
 import { OnApproveActions, OnApproveData } from "@paypal/paypal-js"
@@ -68,7 +68,7 @@ const StripePaymentButton = ({
   const [disabled, setDisabled] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | undefined>(
-    undefined
+    undefined,
   )
 
   const { cart } = useCart()
@@ -111,7 +111,7 @@ const StripePaymentButton = ({
               postal_code: cart.billing_address.postal_code ?? undefined,
               state: cart.billing_address.province ?? undefined,
             },
-            email: cart.email,
+            email: cart.email ?? undefined,
             phone: cart.billing_address.phone ?? undefined,
           },
         },
@@ -173,7 +173,7 @@ const PayPalPaymentButton = ({
 }) => {
   const [submitting, setSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | undefined>(
-    undefined
+    undefined,
   )
 
   const { cart } = useCart()
@@ -181,7 +181,7 @@ const PayPalPaymentButton = ({
 
   const handlePayment = async (
     _data: OnApproveData,
-    actions: OnApproveActions
+    actions: OnApproveActions,
   ) => {
     actions?.order
       ?.authorize()

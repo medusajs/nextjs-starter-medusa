@@ -1,5 +1,5 @@
 import { medusaClient } from "@lib/config"
-import { Cart } from "@medusajs/medusa"
+import { Cart, Discount, Merge, SetRelation } from "@medusajs/client-types"
 import Button from "@modules/common/components/button"
 import Input from "@modules/common/components/input"
 import Trash from "@modules/common/icons/trash"
@@ -12,8 +12,12 @@ type DiscountFormValues = {
   discount_code: string
 }
 
+type CartWithDiscountsWithRegion = Merge<SetRelation<Cart, "discounts" | "region">, {
+  discounts: Array<SetRelation<Discount, "rule">>
+}>
+
 type DiscountCodeProps = {
-  cart: Omit<Cart, "refundable_amount" | "refunded_total">
+  cart: CartWithDiscountsWithRegion
 }
 
 const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
@@ -24,7 +28,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
   const { isLoading: mutationLoading, mutate: removeDiscount } = useMutation(
     (payload: { cartId: string; code: string }) => {
       return medusaClient.carts.deleteDiscount(payload.cartId, payload.code)
-    }
+    },
   )
 
   const appliedDiscount = useMemo(() => {
@@ -70,10 +74,10 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
             },
             {
               shouldFocus: true,
-            }
+            },
           )
         },
-      }
+      },
     )
   }
 
@@ -84,7 +88,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
         onSuccess: ({ cart }) => {
           setCart(cart)
         },
-      }
+      },
     )
   }
 

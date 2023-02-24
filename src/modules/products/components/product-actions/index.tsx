@@ -5,10 +5,10 @@ import OptionSelect from "@modules/products/components/option-select"
 import clsx from "clsx"
 import Link from "next/link"
 import React, { useMemo } from "react"
-import { Product } from "types/medusa"
+import { ProductWithVariantsWithOptions } from "types/medusa"
 
 type ProductActionsProps = {
-  product: Product
+  product: ProductWithVariantsWithOptions
 }
 
 const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {

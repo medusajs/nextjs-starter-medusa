@@ -1,5 +1,5 @@
 import { useAccount } from "@lib/context/account-context"
-import { Customer } from "@medusajs/medusa"
+import { Customer } from "@medusajs/client-types"
 import Input from "@modules/common/components/input"
 import { useUpdateMe } from "medusa-react"
 import React, { useEffect } from "react"
@@ -23,7 +23,7 @@ const ProfilePhone: React.FC<MyInformationProps> = ({ customer }) => {
     formState: { errors },
   } = useForm<UpdateCustomerPhoneFormData>({
     defaultValues: {
-      phone: customer.phone,
+      phone: customer.phone ?? "",
     },
   })
 
@@ -39,7 +39,7 @@ const ProfilePhone: React.FC<MyInformationProps> = ({ customer }) => {
 
   useEffect(() => {
     reset({
-      phone: customer.phone,
+      phone: customer.phone ?? "",
     })
   }, [customer, reset])
 
@@ -58,7 +58,7 @@ const ProfilePhone: React.FC<MyInformationProps> = ({ customer }) => {
         onSuccess: () => {
           refetchCustomer()
         },
-      }
+      },
     )
   }
 

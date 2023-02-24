@@ -1,5 +1,5 @@
 import { useAccount } from "@lib/context/account-context"
-import { Customer } from "@medusajs/medusa"
+import { Customer } from "@medusajs/client-types"
 import Input from "@modules/common/components/input"
 import { useUpdateMe } from "medusa-react"
 import React, { useEffect } from "react"
@@ -7,7 +7,7 @@ import { useForm, useWatch } from "react-hook-form"
 import AccountInfo from "../account-info"
 
 type MyInformationProps = {
-  customer: Omit<Customer, "password_hash">
+  customer: Customer
 }
 
 type UpdateCustomerNameFormData = {
@@ -24,8 +24,8 @@ const ProfileName: React.FC<MyInformationProps> = ({ customer }) => {
     formState: { errors },
   } = useForm<UpdateCustomerNameFormData>({
     defaultValues: {
-      first_name: customer.first_name,
-      last_name: customer.last_name,
+      first_name: customer.first_name ?? "",
+      last_name: customer.last_name ?? "",
     },
   })
 
@@ -41,8 +41,8 @@ const ProfileName: React.FC<MyInformationProps> = ({ customer }) => {
 
   useEffect(() => {
     reset({
-      first_name: customer.first_name,
-      last_name: customer.last_name,
+      first_name: customer.first_name ?? "",
+      last_name: customer.last_name ?? "",
     })
   }, [customer, reset])
 
@@ -65,7 +65,7 @@ const ProfileName: React.FC<MyInformationProps> = ({ customer }) => {
         onSuccess: () => {
           refetchCustomer()
         },
-      }
+      },
     )
   }
 

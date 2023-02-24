@@ -1,9 +1,11 @@
-import { Cart } from "@medusajs/medusa"
+import { Cart, SetRelation } from "@medusajs/client-types"
 import { formatAmount } from "medusa-react"
 import React from "react"
 
+type CartWithRegion = SetRelation<Cart, "region">
+
 type CartTotalsProps = {
-  cart: Omit<Cart, "refundable_amount" | "refunded_total">
+  cart: CartWithRegion
 }
 
 const CartTotals: React.FC<CartTotalsProps> = ({ cart }) => {

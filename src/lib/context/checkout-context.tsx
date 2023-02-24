@@ -1,11 +1,6 @@
 import { medusaClient } from "@lib/config"
 import useToggleState, { StateType } from "@lib/hooks/use-toggle-state"
-import {
-  Address,
-  Cart,
-  Customer,
-  StorePostCartsCartReq,
-} from "@medusajs/medusa"
+import { Address, Cart, Customer, StorePostCartsCartReq } from "@medusajs/client-types"
 import Wrapper from "@modules/checkout/components/payment-wrapper"
 import { isEqual } from "lodash"
 import {
@@ -89,7 +84,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   } = useSetPaymentSession(cart?.id!)
 
   const { mutate: updateCart, isLoading: updatingCart } = useUpdateCart(
-    cart?.id!
+    cart?.id!,
   )
 
   const { shipping_options } = useCartShippingOptions(cart?.id!, {
@@ -105,7 +100,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   const sameAsBilling = useToggleState(
     cart?.billing_address && cart?.shipping_address
       ? isEqual(cart.billing_address, cart.shipping_address)
-      : true
+      : true,
   )
 
   /**
@@ -188,7 +183,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
         { option_id: soId },
         {
           onSuccess: ({ cart }) => setCart(cart),
-        }
+        },
       )
     }
   }
@@ -234,7 +229,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
           onSuccess: ({ cart }) => {
             setCart(cart)
           },
-        }
+        },
       )
     }
   }
@@ -270,7 +265,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   const validateRegion = (countryCode: string) => {
     if (regions && cart) {
       const region = regions.find((r) =>
-        r.countries.map((c) => c.iso_2).includes(countryCode)
+        r.countries.map((c) => c.iso_2).includes(countryCode),
       )
 
       if (region && region.id !== cart.region.id) {
@@ -349,7 +344,7 @@ export const useCheckout = () => {
   const form = useFormContext<CheckoutFormValues>()
   if (context === null) {
     throw new Error(
-      "useProductActionContext must be used within a ProductActionProvider"
+      "useProductActionContext must be used within a ProductActionProvider",
     )
   }
   return { ...context, ...form }
@@ -364,7 +359,7 @@ export const useCheckout = () => {
 const mapFormValues = (
   customer?: Omit<Customer, "password_hash">,
   cart?: Omit<Cart, "refundable_amount" | "refunded_total">,
-  currentCountry?: string
+  currentCountry?: string,
 ): CheckoutFormValues => {
   const customerShippingAddress = customer?.shipping_addresses?.[0]
   const customerBillingAddress = customer?.billing_address

@@ -1,6 +1,6 @@
 import { medusaClient } from "@lib/config"
 import { getPercentageDiff } from "@lib/util/get-precentage-diff"
-import { Product, ProductCollection, Region } from "@medusajs/medusa"
+import { Product, ProductCollection, Region } from "@medusajs/client-types"
 import { useQuery } from "@tanstack/react-query"
 import { formatAmount, useCart } from "medusa-react"
 import { ProductPreviewType } from "types/global"
@@ -48,7 +48,7 @@ export const useNavigationCollections = () => {
 
 const fetchFeaturedProducts = async (
   cartId: string,
-  region: Region
+  region: Region,
 ): Promise<ProductPreviewType[]> => {
   const products = await medusaClient.products
     .list({
@@ -78,28 +78,28 @@ const fetchFeaturedProducts = async (
         thumbnail: p.thumbnail,
         price: cheapestVariant
           ? {
-              calculated_price: formatAmount({
-                amount: cheapestVariant.calculated_price,
-                region: region,
-                includeTaxes: false,
-              }),
-              original_price: formatAmount({
-                amount: cheapestVariant.original_price,
-                region: region,
-                includeTaxes: false,
-              }),
-              difference: getPercentageDiff(
-                cheapestVariant.original_price,
-                cheapestVariant.calculated_price
-              ),
-              price_type: cheapestVariant.calculated_price_type,
-            }
+            calculated_price: formatAmount({
+              amount: cheapestVariant.calculated_price,
+              region: region,
+              includeTaxes: false,
+            }),
+            original_price: formatAmount({
+              amount: cheapestVariant.original_price,
+              region: region,
+              includeTaxes: false,
+            }),
+            difference: getPercentageDiff(
+              cheapestVariant.original_price,
+              cheapestVariant.calculated_price,
+            ),
+            price_type: cheapestVariant.calculated_price_type,
+          }
           : {
-              calculated_price: "N/A",
-              original_price: "N/A",
-              difference: "N/A",
-              price_type: "default",
-            },
+            calculated_price: "N/A",
+            original_price: "N/A",
+            difference: "N/A",
+            price_type: "default",
+          },
       }
     })
 }
@@ -114,7 +114,7 @@ export const useFeaturedProductsQuery = () => {
       enabled: !!cart?.id && !!cart?.region,
       staleTime: Infinity,
       refetchOnWindowFocus: false,
-    }
+    },
   )
 
   return queryResults

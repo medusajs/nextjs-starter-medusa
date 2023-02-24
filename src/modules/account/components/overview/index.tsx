@@ -1,4 +1,4 @@
-import { Customer, Order } from "@medusajs/medusa"
+import { Customer, Order, SetRelation } from "@medusajs/client-types"
 import ChevronDown from "@modules/common/icons/chevron-down"
 import MapPin from "@modules/common/icons/map-pin"
 import Package from "@modules/common/icons/package"
@@ -6,9 +6,11 @@ import User from "@modules/common/icons/user"
 import { formatAmount } from "medusa-react"
 import Link from "next/link"
 
+type OrderWithRegionWithTotal = SetRelation<Order, "region" | "total">
+
 type OverviewProps = {
-  orders?: Order[]
-  customer?: Omit<Customer, "password_hash">
+  orders?: OrderWithRegionWithTotal[]
+  customer?: Customer
 }
 
 const Overview = ({ orders, customer }: OverviewProps) => {

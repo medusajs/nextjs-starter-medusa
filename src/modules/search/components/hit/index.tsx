@@ -1,4 +1,4 @@
-import { ProductVariant } from "@medusajs/medusa"
+import { ProductVariant } from "@medusajs/client-types"
 import Thumbnail from "@modules/products/components/thumbnail"
 import Link from "next/link"
 

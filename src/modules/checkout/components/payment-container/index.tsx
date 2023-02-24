@@ -1,4 +1,4 @@
-import { PaymentSession } from "@medusajs/medusa"
+import { PaymentSession } from "@medusajs/client-types"
 import Radio from "@modules/common/components/radio"
 import clsx from "clsx"
 import React from "react"
@@ -43,7 +43,7 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
         "flex flex-col gap-y-4 border-b border-gray-200 last:border-b-0",
         {
           "bg-gray-50": selected,
-        }
+        },
       )}
     >
       <button

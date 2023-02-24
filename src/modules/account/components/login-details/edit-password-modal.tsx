@@ -1,7 +1,7 @@
 import { medusaClient } from "@lib/config"
 import { useAccount } from "@lib/context/account-context"
 import useToggleState from "@lib/hooks/use-toggle-state"
-import { Customer } from "@medusajs/medusa"
+import { Customer } from "@medusajs/client-types"
 import EditButton from "@modules/account/components/edit-button"
 import Button from "@modules/common/components/button"
 import Input from "@modules/common/components/input"
@@ -82,7 +82,7 @@ const EditPasswordModal: React.FC<EditPasswordModalProps> = ({ customer }) => {
           setSubmitting(false)
           setError("Unable to update password, try again later.")
         },
-      }
+      },
     )
   })
 

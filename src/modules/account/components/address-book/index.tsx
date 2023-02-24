@@ -1,10 +1,12 @@
-import { Customer } from "@medusajs/medusa"
+import { Customer, SetRelation } from "@medusajs/client-types"
 import React from "react"
 import AddAddress from "../address-card/add-address"
 import EditAddress from "../address-card/edit-address-modal"
 
+type CustomerWithShippingAddresses = SetRelation<Customer, "shipping_addresses">
+
 type AddressBookProps = {
-  customer: Omit<Customer, "password_hash">
+  customer: CustomerWithShippingAddresses
 }
 
 const AddressBook: React.FC<AddressBookProps> = ({ customer }) => {

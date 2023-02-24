@@ -2,7 +2,7 @@ import { fetchProductsList } from "@lib/data"
 import usePreviews from "@lib/hooks/use-previews"
 import getNumberOfSkeletons from "@lib/util/get-number-of-skeletons"
 import repeat from "@lib/util/repeat"
-import { Product, StoreGetProductsParams } from "@medusajs/medusa"
+import { Product, StoreGetProductsParams } from "@medusajs/client-types"
 import Button from "@modules/common/components/button"
 import SkeletonProductPreview from "@modules/skeletons/components/skeleton-product-preview"
 import { useCart } from "medusa-react"
@@ -43,7 +43,7 @@ const RelatedProducts = ({ product }: RelatedProductsProps) => {
       ({ pageParam }) => fetchProductsList({ pageParam, queryParams }),
       {
         getNextPageParam: (lastPage) => lastPage.nextPage,
-      }
+      },
     )
 
   const previews = usePreviews({ pages: data?.pages, region: cart?.region })

@@ -1,12 +1,7 @@
 import { medusaClient } from "@lib/config"
 import { handleError } from "@lib/util/handle-error"
-import { Region } from "@medusajs/medusa"
-import {
-  useCart,
-  useCreateLineItem,
-  useDeleteLineItem,
-  useUpdateLineItem,
-} from "medusa-react"
+import { Region, SetRelation } from "@medusajs/client-types"
+import { useCart, useCreateLineItem, useDeleteLineItem, useUpdateLineItem } from "medusa-react"
 import React, { useEffect, useState } from "react"
 import { useCartDropdown } from "./cart-dropdown-context"
 
@@ -28,6 +23,8 @@ interface StoreContext {
   deleteItem: (lineId: string) => void
   resetCart: () => void
 }
+
+type RegionWithCounties = SetRelation<Region, "countries">
 
 const StoreContext = React.createContext<StoreContext | null>(null)
 
@@ -59,7 +56,7 @@ export const StoreProvider = ({ children }: StoreProps) => {
     if (!IS_SERVER) {
       localStorage.setItem(
         REGION_KEY,
-        JSON.stringify({ regionId, countryCode })
+        JSON.stringify({ regionId, countryCode }),
       )
 
       setCountryCode(countryCode)
@@ -102,11 +99,11 @@ export const StoreProvider = ({ children }: StoreProps) => {
             console.error(error)
           }
         },
-      }
+      },
     )
   }
 
-  const ensureRegion = (region: Region, countryCode?: string | null) => {
+  const ensureRegion = (region: RegionWithCounties, countryCode?: string | null) => {
     if (!IS_SERVER) {
       const { regionId, countryCode: defaultCountryCode } = getRegion() || {
         regionId: region.id,
@@ -163,7 +160,7 @@ export const StoreProvider = ({ children }: StoreProps) => {
             console.error(error)
           }
         },
-      }
+      },
     )
   }
 
@@ -187,7 +184,7 @@ export const StoreProvider = ({ children }: StoreProps) => {
             console.error(error)
           }
         },
-      }
+      },
     )
   }
 
@@ -247,7 +244,7 @@ export const StoreProvider = ({ children }: StoreProps) => {
         onError: (error) => {
           handleError(error)
         },
-      }
+      },
     )
   }
 
@@ -264,7 +261,7 @@ export const StoreProvider = ({ children }: StoreProps) => {
         onError: (error) => {
           handleError(error)
         },
-      }
+      },
     )
   }
 
@@ -288,7 +285,7 @@ export const StoreProvider = ({ children }: StoreProps) => {
         onError: (error) => {
           handleError(error)
         },
-      }
+      },
     )
   }
 

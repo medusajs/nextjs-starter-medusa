@@ -1,7 +1,7 @@
 import { medusaClient } from "@lib/config"
 import { useAccount } from "@lib/context/account-context"
 import useToggleState from "@lib/hooks/use-toggle-state"
-import { Address } from "@medusajs/medusa"
+import { Address } from "@medusajs/client-types"
 import CountrySelect from "@modules/checkout/components/country-select"
 import Button from "@modules/common/components/button"
 import Input from "@modules/common/components/input"
@@ -103,7 +103,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
           "border border-gray-200 p-5 min-h-[220px] h-full w-full flex flex-col justify-between transition-colors",
           {
             "border-gray-900": isActive,
-          }
+          },
         )}
       >
         <div className="flex flex-col">

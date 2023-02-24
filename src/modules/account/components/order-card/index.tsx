@@ -1,12 +1,14 @@
-import { Order } from "@medusajs/medusa"
+import { Order, SetRelation } from "@medusajs/client-types"
 import Button from "@modules/common/components/button"
 import Thumbnail from "@modules/products/components/thumbnail"
 import { formatAmount } from "medusa-react"
 import Link from "next/link"
 import { useMemo } from "react"
 
+type OrderWithItemsWithRegionWithTotal = SetRelation<Order, "items" | "region" | "total">
+
 type OrderCardProps = {
-  order: Omit<Order, "beforeInsert">
+  order: OrderWithItemsWithRegionWithTotal
 }
 
 const OrderCard = ({ order }: OrderCardProps) => {

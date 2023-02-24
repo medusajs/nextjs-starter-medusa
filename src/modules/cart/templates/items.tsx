@@ -1,9 +1,10 @@
-import { LineItem, Region } from "@medusajs/medusa"
+import { Region } from "@medusajs/client-types"
 import Item from "@modules/cart/components/item"
 import SkeletonLineItem from "@modules/skeletons/components/skeleton-line-item"
+import { LineItemWithRelations } from "../../../types/medusa"
 
 type ItemsTemplateProps = {
-  items?: Omit<LineItem, "beforeInsert">[]
+  items?: LineItemWithRelations[]
   region?: Region
 }
 
@@ -16,15 +17,15 @@ const ItemsTemplate = ({ items, region }: ItemsTemplateProps) => {
       <div className="grid grid-cols-1 gap-y-8 py-8">
         {items && region
           ? items
-              .sort((a, b) => {
-                return a.created_at > b.created_at ? -1 : 1
-              })
-              .map((item) => {
-                return <Item key={item.id} item={item} region={region} />
-              })
+            .sort((a, b) => {
+              return a.created_at > b.created_at ? -1 : 1
+            })
+            .map((item) => {
+              return <Item key={item.id} item={item} region={region} />
+            })
           : Array.from(Array(5).keys()).map((i) => {
-              return <SkeletonLineItem key={i} />
-            })}
+            return <SkeletonLineItem key={i} />
+          })}
       </div>
     </div>
   )

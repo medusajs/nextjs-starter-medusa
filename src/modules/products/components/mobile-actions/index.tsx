@@ -7,11 +7,11 @@ import ChevronDown from "@modules/common/icons/chevron-down"
 import X from "@modules/common/icons/x"
 import clsx from "clsx"
 import React, { Fragment, useMemo } from "react"
-import { Product } from "types/medusa"
 import OptionSelect from "../option-select"
+import { ProductWithVariantsWithOptions } from "types/medusa"
 
 type MobileActionsProps = {
-  product: Product
+  product: ProductWithVariantsWithOptions
   show: boolean
 }
 
@@ -44,7 +44,8 @@ const MobileActions: React.FC<MobileActionsProps> = ({ product, show }) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="bg-white flex flex-col gap-y-3 justify-center items-center text-large-regular p-4 h-full w-full border-t border-gray-200">
+          <div
+            className="bg-white flex flex-col gap-y-3 justify-center items-center text-large-regular p-4 h-full w-full border-t border-gray-200">
             <div className="flex items-center gap-x-2">
               <span>{product.title}</span>
               <span>—</span>

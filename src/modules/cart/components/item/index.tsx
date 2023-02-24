@@ -1,13 +1,14 @@
 import { useStore } from "@lib/context/store-context"
-import { LineItem, Region } from "@medusajs/medusa"
+import { Region } from "@medusajs/client-types"
 import LineItemOptions from "@modules/common/components/line-item-options"
 import LineItemPrice from "@modules/common/components/line-item-price"
 import NativeSelect from "@modules/common/components/native-select"
 import Trash from "@modules/common/icons/trash"
 import Thumbnail from "@modules/products/components/thumbnail"
+import { LineItemWithRelations } from "../../../../types/medusa"
 
 type ItemProps = {
-  item: Omit<LineItem, "beforeInsert">
+  item: LineItemWithRelations
   region: Region
 }
 

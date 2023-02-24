@@ -1,4 +1,4 @@
-import { Image as MedusaImage } from "@medusajs/medusa"
+import { Image as MedusaImage } from "@medusajs/client-types"
 import PlaceholderImage from "@modules/common/icons/placeholder-image"
 import clsx from "clsx"
 import Image from "next/image"

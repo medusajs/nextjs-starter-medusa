@@ -1,8 +1,10 @@
-import { Address, ShippingMethod } from "@medusajs/medusa"
+import { Address, SetRelation, ShippingMethod } from "@medusajs/client-types"
+
+type ShippingMethodWithShippingOption = SetRelation<ShippingMethod, "shipping_option">
 
 type ShippingDetailsProps = {
   address: Address
-  shippingMethods: ShippingMethod[]
+  shippingMethods: ShippingMethodWithShippingOption[]
 }
 
 const ShippingDetails = ({

@@ -1,7 +1,9 @@
-import { Order } from "@medusajs/medusa"
+import { Order, SetRelation } from "@medusajs/client-types"
+
+type OrderWithItems = SetRelation<Order, "items">
 
 type OrderDetailsProps = {
-  order: Order
+  order: OrderWithItems
   showStatus?: boolean
 }
 

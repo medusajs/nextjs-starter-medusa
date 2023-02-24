@@ -1,4 +1,4 @@
-import { StoreGetProductsParams } from "@medusajs/medusa"
+import { StoreGetProductsParams } from "@medusajs/client-types"
 import Head from "@modules/common/components/head"
 import Layout from "@modules/layout/templates"
 import InfiniteProducts from "@modules/products/components/infinite-products"

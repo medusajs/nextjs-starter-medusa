@@ -1,8 +1,10 @@
-import { Order } from "@medusajs/medusa"
+import { Order, SetRelation } from "@medusajs/client-types"
 import { formatAmount } from "medusa-react"
 
+type OrderWithRegionWithDiscountTotalWithGiftCardTotal = SetRelation<Order, "region" | "discount_total" | "gift_card_total">
+
 type OrderSummaryProps = {
-  order: Order
+  order: OrderWithRegionWithDiscountTotalWithGiftCardTotal
 }
 
 const OrderSummary = ({ order }: OrderSummaryProps) => {

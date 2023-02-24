@@ -1,5 +1,5 @@
 import { medusaClient } from "@lib/config"
-import { Customer } from "@medusajs/medusa"
+import { Customer } from "@medusajs/client-types"
 import Input from "@modules/common/components/input"
 import { useUpdateMe } from "medusa-react"
 import React, { useEffect } from "react"
@@ -18,7 +18,7 @@ type UpdateCustomerPasswordFormData = {
 
 const ProfileName: React.FC<MyInformationProps> = ({ customer }) => {
   const [errorMessage, setErrorMessage] = React.useState<string | undefined>(
-    undefined
+    undefined,
   )
   const {
     register,
