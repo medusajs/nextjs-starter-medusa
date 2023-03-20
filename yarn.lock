@@ -446,6 +446,18 @@
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
 
+"@hapi/hoek@^9.0.0":
+  version "9.3.0"
+  resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.3.0.tgz#8368869dcb735be2e7f5cb7647de78e167a251fb"
+  integrity sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==
+
+"@hapi/topo@^5.0.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@hapi/topo/-/topo-5.1.0.tgz#dc448e332c6c6e37a4dc02fd84ba8d44b9afb012"
+  integrity sha512-foQZKJig7Ob0BMAYBfcJk8d77QtOe7Wo4ox7ff1lQYoNNAb6jwcY1ncdoy2e9wQZzvNy7ODZCYJkK8kzmcAnAg==
+  dependencies:
+    "@hapi/hoek" "^9.0.0"
+
 "@headlessui/react@^1.6.1":
   version "1.7.7"
   resolved "https://registry.yarnpkg.com/@headlessui/react/-/react-1.7.7.tgz#d6f8708d8943ae8ebb1a6929108234e4515ac7e8"
@@ -535,15 +547,15 @@
     semver "^7.3.5"
     tar "^6.1.11"
 
-"@medusajs/client-types@0.1.0-dev-1679077162720":
-  version "0.1.0-dev-1679077162720"
-  resolved "http://localhost:4873/@medusajs%2fclient-types/-/client-types-0.1.0-dev-1679077162720.tgz#49955f6aa72bda89512be9037c0f06008e46c3b8"
-  integrity sha512-FnPODgx0gOzMyFq+uIBNLXw3s7v9Hiwd6AJgDnALnXO7L6RXLXEbSWTb39LOgVdQXISsrze4yFgFNAkVpNwraw==
+"@medusajs/client-types@0.2.0-snapshot-20230320172940":
+  version "0.2.0-snapshot-20230320172940"
+  resolved "https://registry.yarnpkg.com/@medusajs/client-types/-/client-types-0.2.0-snapshot-20230320172940.tgz#c3f1accc646508299da8254703a3f6b4c0842c15"
+  integrity sha512-ZEFbDrK6LHYGd+zDW+5Li27hiVQPnbh0rX5fVvQXTKVn7tlg/VPcwBg2p2dASvrHhQYY9f9T2vTczYr/a3XLxg==
 
-"@medusajs/medusa-cli@1.3.8-dev-1679077162720":
-  version "1.3.8-dev-1679077162720"
-  resolved "http://localhost:4873/@medusajs%2fmedusa-cli/-/medusa-cli-1.3.8-dev-1679077162720.tgz#a7e11b706841319008d0e7d635b0f7d869ca085c"
-  integrity sha512-HBaDMhSS2K8bbj/olzDtu4FvEtCxO+yuuoUUtuR3ZnqTucrDVgKyJrQwc+lcdNs6P7dq8HKuHybUmmJ8VLwNdg==
+"@medusajs/medusa-cli@^1.3.8":
+  version "1.3.8"
+  resolved "https://registry.yarnpkg.com/@medusajs/medusa-cli/-/medusa-cli-1.3.8.tgz#1cbf31e921819cab2a53f07fe80772e03855f64e"
+  integrity sha512-jmAzJbTnQC9P/ZDQT4+8hYfeDuozpm1YPu+gZJLPf/ZanjJLWb6QKy6g0Smru6MlOw0dK5iHEZYXkZpiqNUATQ==
   dependencies:
     "@babel/polyfill" "^7.8.7"
     "@babel/runtime" "^7.9.6"
@@ -559,8 +571,8 @@
     inquirer "^8.0.0"
     is-valid-path "^0.1.1"
     meant "^1.0.3"
-    medusa-core-utils "1.1.39-dev-1679077162720"
-    medusa-telemetry "0.0.16-dev-1679077162720"
+    medusa-core-utils "^1.1.39"
+    medusa-telemetry "0.0.16"
     netrc-parser "^3.1.6"
     open "^8.0.6"
     ora "^5.4.1"
@@ -574,43 +586,23 @@
     winston "^3.8.2"
     yargs "^15.3.1"
 
-"@medusajs/medusa-client-admin@0.1.0-dev-1679077162720":
-  version "0.1.0-dev-1679077162720"
-  resolved "http://localhost:4873/@medusajs%2fmedusa-client-admin/-/medusa-client-admin-0.1.0-dev-1679077162720.tgz#bcb9cd3f030bcc46ea87100c939cdb5760bd9e8f"
-  integrity sha512-1CbM8xCS7bq9a7EJJrD4Cv/gRND1WF5JagTUhITN3e/OD6dP9e4DDDu3q/1qBfBXLtU2VIsJUM7QrSIRy/HxmQ==
-  dependencies:
-    "@medusajs/client-types" "0.1.0-dev-1679077162720"
-    axios "^1.2.0"
-    form-data "^4.0.0"
-    node-fetch "2.6.7"
-
-"@medusajs/medusa-client-store@0.1.0-dev-1679077162720":
-  version "0.1.0-dev-1679077162720"
-  resolved "http://localhost:4873/@medusajs%2fmedusa-client-store/-/medusa-client-store-0.1.0-dev-1679077162720.tgz#2c6eab2e5958b51e88396fee80ea1c1d0218cb84"
-  integrity sha512-azbX/tpqKmtWohNHxXDADGtX4Hs9FuehCwyL/yQURjC9ZbMc9RRK6ohpnFymN5wpePR+BEZEd9PKwEWWI0J94A==
-  dependencies:
-    "@medusajs/client-types" "0.1.0-dev-1679077162720"
-    axios "^1.2.0"
-    form-data "^4.0.0"
-    node-fetch "2.6.7"
-
-"@medusajs/medusa-js@1.3.10-dev-1679077162720":
-  version "1.3.10-dev-1679077162720"
-  resolved "http://localhost:4873/@medusajs%2fmedusa-js/-/medusa-js-1.3.10-dev-1679077162720.tgz#88d4cd1ace983a7efb1c4789dfd5db7576b6d7c0"
-  integrity sha512-eTLRug3dWnurbb27ChCnAHXPscUpZaZwUDllcaOXvvVirCBePjKwLX5ei6hsgytZqyNP3A+vc+Tszrn2jLSACA==
+"@medusajs/medusa-js@2.0.0-snapshot-20230320172940":
+  version "2.0.0-snapshot-20230320172940"
+  resolved "https://registry.yarnpkg.com/@medusajs/medusa-js/-/medusa-js-2.0.0-snapshot-20230320172940.tgz#a2089cbf1e01c295e3183152e03ef2881a1f02e2"
+  integrity sha512-/OVIqE2lFKXts9ol+e8qTXTu+8kNuOtTf4GCR1n5Pbc8QVZlDAQwn2tPkmVW/gUJVfLxVaJvmm8vkgvDPtmdMg==
   dependencies:
     axios "^0.24.0"
     qs "^6.10.3"
     retry-axios "^2.6.0"
     uuid "^9.0.0"
 
-"@medusajs/medusa@1.7.13-dev-1679077162720":
-  version "1.7.13-dev-1679077162720"
-  resolved "http://localhost:4873/@medusajs%2fmedusa/-/medusa-1.7.13-dev-1679077162720.tgz#dcd19416fd37917c24be23fd3f2be246bfda8c23"
-  integrity sha512-f7vFCei8cqhyC1PHCYCuB5ATOO9Xxyx3fwKBKIDaTyQHCYKg06wLudhDMy0gghzNCxC8D/xEk5FlnLDPqUsLKg==
+"@medusajs/medusa@2.0.0-snapshot-20230320172940":
+  version "2.0.0-snapshot-20230320172940"
+  resolved "https://registry.yarnpkg.com/@medusajs/medusa/-/medusa-2.0.0-snapshot-20230320172940.tgz#a7bc9abcf3ddc2c8069716ea99bc5c5a6ce14371"
+  integrity sha512-PGNiFFrpH3mZT0HlarYHXZ8tSj5S36HTMWHxxqtzNedl2XyV6/M0uRFLYc0RbUEDczb84aheGTEMze2+ACrZJQ==
   dependencies:
-    "@medusajs/medusa-cli" "1.3.8-dev-1679077162720"
-    "@medusajs/modules-sdk" "0.0.1-dev-1679077162720"
+    "@medusajs/medusa-cli" "^1.3.8"
+    "@medusajs/modules-sdk" "0.1.0-snapshot-20230320172940"
     "@types/ioredis" "^4.28.10"
     "@types/lodash" "^4.14.191"
     awilix "^8.0.0"
@@ -632,9 +624,9 @@
     ioredis-mock "^5.6.0"
     iso8601-duration "^1.3.0"
     jsonwebtoken "^8.5.1"
-    medusa-core-utils "1.1.39-dev-1679077162720"
-    medusa-telemetry "0.0.16-dev-1679077162720"
-    medusa-test-utils "1.1.39-dev-1679077162720"
+    medusa-core-utils "1.2.0-snapshot-20230320172940"
+    medusa-telemetry "^0.0.16"
+    medusa-test-utils "1.1.40-snapshot-20230320172940"
     morgan "^1.9.1"
     multer "^1.4.4"
     node-schedule "^2.1.1"
@@ -655,15 +647,15 @@
     uuid "^8.3.2"
     winston "^3.8.2"
 
-"@medusajs/modules-sdk@0.0.1-dev-1679077162720":
-  version "0.0.1-dev-1679077162720"
-  resolved "http://localhost:4873/@medusajs%2fmodules-sdk/-/modules-sdk-0.0.1-dev-1679077162720.tgz#0d24c3c49fce1c7d94b338e370b0de1edd7a49dc"
-  integrity sha512-g6CE/oCvEePRxEkLXimOJNBIn1eLDu2IznuRddKC283DOpANT4WH9Xfw44ELZS+hkmcMzcatD7EYoxZ92HhesA==
+"@medusajs/modules-sdk@0.1.0-snapshot-20230320172940":
+  version "0.1.0-snapshot-20230320172940"
+  resolved "https://registry.yarnpkg.com/@medusajs/modules-sdk/-/modules-sdk-0.1.0-snapshot-20230320172940.tgz#d047afe015247e7886f42aa9df058392d82eea2b"
+  integrity sha512-sB1lqkWnHPO6twLuSNh/t9b5QkgeiQRMQMFbVH2z7d1EVsrXdcfB8xtmqw/kz4qonWYErFbH2PILgeNRMQsP7A==
   dependencies:
     awilix "^8.0.0"
     glob "7.1.6"
-    medusa-core-utils "1.1.39-dev-1679077162720"
-    medusa-telemetry "0.0.16-dev-1679077162720"
+    medusa-core-utils "1.2.0-snapshot-20230320172940"
+    medusa-telemetry "^0.0.16"
     resolve-cwd "^3.0.0"
 
 "@meilisearch/instant-meilisearch@^0.7.1":
@@ -923,6 +915,23 @@
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.2.0.tgz#8be36a1f66f3265389e90b5f9c9962146758f728"
   integrity sha512-sXo/qW2/pAcmT43VoRKOJbDOfV3cYpq3szSVfIThQXNt+E4DfKj361vaAt3c88U5tPUxzEswam7GW48PJqtKAg==
+
+"@sideway/address@^4.1.3":
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/@sideway/address/-/address-4.1.4.tgz#03dccebc6ea47fdc226f7d3d1ad512955d4783f0"
+  integrity sha512-7vwq+rOHVWjyXxVlR76Agnvhy8I9rpzjosTESvmhNeXOXdZZB15Fl+TI9x1SiHZH5Jv2wTGduSxFDIaq0m3DUw==
+  dependencies:
+    "@hapi/hoek" "^9.0.0"
+
+"@sideway/formula@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@sideway/formula/-/formula-3.0.1.tgz#80fcbcbaf7ce031e0ef2dd29b1bfc7c3f583611f"
+  integrity sha512-/poHZJJVjx3L+zVD6g9KgHfYnb443oi7wLu/XKojDviHy6HOEOA6z1Trk5aR1dGcmPenJEgb2sK2I80LeS3MIg==
+
+"@sideway/pinpoint@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@sideway/pinpoint/-/pinpoint-2.0.0.tgz#cff8ffadc372ad29fd3f78277aeb29e632cc70df"
+  integrity sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==
 
 "@stripe/react-stripe-js@^1.7.2":
   version "1.16.4"
@@ -1639,9 +1648,9 @@ axios-retry@^3.1.9:
     "@babel/runtime" "^7.15.4"
     is-retry-allowed "^2.2.0"
 
-axios@^0.21.4:
+axios@^0.21.1, axios@^0.21.4:
   version "0.21.4"
-  resolved "http://localhost:4873/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
   integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
   dependencies:
     follow-redirects "^1.14.0"
@@ -1652,15 +1661,6 @@ axios@^0.24.0:
   integrity sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==
   dependencies:
     follow-redirects "^1.14.4"
-
-axios@^1.2.0:
-  version "1.3.4"
-  resolved "http://localhost:4873/axios/-/axios-1.3.4.tgz#f5760cefd9cfb51fd2481acf88c05f67c4523024"
-  integrity sha512-toYm+Bsyl6VC5wSkfkbbNB6ROv7KY93PEBBL6xyDczaIHasAiv4wPqQ/c4RjoQzipxRD2W5g21cOqQulZ7rHwQ==
-  dependencies:
-    follow-redirects "^1.15.0"
-    form-data "^4.0.0"
-    proxy-from-env "^1.1.0"
 
 axobject-query@^3.1.1:
   version "3.1.1"
@@ -2189,7 +2189,7 @@ colorspace@1.1.x:
     color "^3.1.3"
     text-hex "1.0.x"
 
-combined-stream@^1.0.6, combined-stream@^1.0.8, combined-stream@~1.0.6:
+combined-stream@^1.0.6, combined-stream@~1.0.6:
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/combined-stream/-/combined-stream-1.0.8.tgz#c3d45a8b34fd730631a110a8a2520682b31d5a7f"
   integrity sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==
@@ -3359,7 +3359,7 @@ fn.name@1.x.x:
   resolved "https://registry.yarnpkg.com/fn.name/-/fn.name-1.1.0.tgz#26cad8017967aea8731bc42961d04a3d5988accc"
   integrity sha512-GRnmB5gPyJpAhTQdSZTSp9uaPSvl09KoYcMQtsB9rQoOmzs9dH6ffeccH+Z+cv6P68Hu5bC6JjRh4Ah/mHSNRw==
 
-follow-redirects@^1.14.0, follow-redirects@^1.14.4, follow-redirects@^1.15.0:
+follow-redirects@^1.14.0, follow-redirects@^1.14.4:
   version "1.15.2"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
   integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
@@ -3375,15 +3375,6 @@ forever-agent@~0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/forever-agent/-/forever-agent-0.6.1.tgz#fbc71f0c41adeb37f96c577ad1ed42d8fdacca91"
   integrity sha512-j0KLYPhm6zeac4lz3oJ3o65qvgQCcPubiyotZrXqEaG4hNagNYO8qdlUrX5vwqv9ohqeT/Z3j6+yW067yWWdUw==
-
-form-data@^4.0.0:
-  version "4.0.0"
-  resolved "http://localhost:4873/form-data/-/form-data-4.0.0.tgz#93919daeaf361ee529584b9b31664dc12c9fa452"
-  integrity sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==
-  dependencies:
-    asynckit "^0.4.0"
-    combined-stream "^1.0.8"
-    mime-types "^2.1.12"
 
 form-data@~2.3.2:
   version "2.3.3"
@@ -4316,6 +4307,22 @@ jest-worker@^27.4.5:
     merge-stream "^2.0.0"
     supports-color "^8.0.0"
 
+joi-objectid@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/joi-objectid/-/joi-objectid-3.0.1.tgz#63ace7860f8e1a993a28d40c40ffd8eff01a3668"
+  integrity sha512-V/3hbTlGpvJ03Me6DJbdBI08hBTasFOmipsauOsxOSnsF1blxV537WTl1zPwbfcKle4AK0Ma4OPnzMH4LlvTpQ==
+
+joi@^17.3.0:
+  version "17.9.0"
+  resolved "https://registry.yarnpkg.com/joi/-/joi-17.9.0.tgz#52e161b6c91fc229799c3c948f0d219628423393"
+  integrity sha512-PWirKfKoZL3kWHfkGKzdCLGv23c00rI31PKVDMg33b/ANe+bMC/ZPdEnHAoHzn5Hy6BTg3J0A2yRVKzT64e6Xw==
+  dependencies:
+    "@hapi/hoek" "^9.0.0"
+    "@hapi/topo" "^5.0.0"
+    "@sideway/address" "^4.1.3"
+    "@sideway/formula" "^3.0.1"
+    "@sideway/pinpoint" "^2.0.0"
+
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -4716,26 +4723,32 @@ media-typer@0.3.0:
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
   integrity sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==
 
-medusa-core-utils@1.1.39-dev-1679077162720:
-  version "1.1.39-dev-1679077162720"
-  resolved "http://localhost:4873/medusa-core-utils/-/medusa-core-utils-1.1.39-dev-1679077162720.tgz#25507e0b5a9482a2ce03574f68b2391e12e8ad31"
-  integrity sha512-VjKYZAw2u+1IcGr8ALd5V/7l/W8lDVpHPeP/Nz1vQkslqZU3qaWhAePP7xr+olAGpiYMnocskMiH++MiO71y5g==
+medusa-core-utils@1.2.0-snapshot-20230320172940:
+  version "1.2.0-snapshot-20230320172940"
+  resolved "https://registry.yarnpkg.com/medusa-core-utils/-/medusa-core-utils-1.2.0-snapshot-20230320172940.tgz#8000c541f4cc07585a02d6301b78a41d3c294578"
+  integrity sha512-9YJONK5KCuEwnKdbWulOV4S9/5JEmeZj6L9sUNsPeLtv0W4YMPpmeGNgH5s0GNdCQIgxluqNhAxgG0GFhtUbFA==
 
-medusa-react@4.0.4-dev-1679077162720:
-  version "4.0.4-dev-1679077162720"
-  resolved "http://localhost:4873/medusa-react/-/medusa-react-4.0.4-dev-1679077162720.tgz#f28825305e1edcd8b0883bc493f5c8886c1d98e1"
-  integrity sha512-ASAIrIppWNOBTiS1VV7UwVqu39xGhl6zv8w1EvN+eD2cjza4qAPL5yKyrbIXz/XPY+3unlSI6g5N4kDHjJaX7w==
+medusa-core-utils@^1.1.39:
+  version "1.1.39"
+  resolved "https://registry.yarnpkg.com/medusa-core-utils/-/medusa-core-utils-1.1.39.tgz#72a4ed63a2779583dc8e5f2661763cfa13eed9d6"
+  integrity sha512-bceQdAuC//d41xn6JHOmBQudb/KD1qp0A9/tmMVdCkKuDguyHVNgIAoWRMymqXeCHMe+AS++38SEllYXWkLGag==
   dependencies:
-    "@medusajs/medusa-client-admin" "0.1.0-dev-1679077162720"
-    "@medusajs/medusa-client-store" "0.1.0-dev-1679077162720"
-    "@medusajs/medusa-js" "1.3.10-dev-1679077162720"
+    joi "^17.3.0"
+    joi-objectid "^3.0.1"
 
-medusa-telemetry@0.0.16-dev-1679077162720:
-  version "0.0.16-dev-1679077162720"
-  resolved "http://localhost:4873/medusa-telemetry/-/medusa-telemetry-0.0.16-dev-1679077162720.tgz#ae3f08842b07239ceca1283cd7bee4c79dfcc770"
-  integrity sha512-rQrEgYVv/BRpG9KGifN+5v0IQT2nUIcJgvwAc6q9iAeBuES12pjSrJvD6CHCl8sXhN3W7g10xBxUW3aJvoI8lg==
+medusa-react@5.0.0-snapshot-20230320172940:
+  version "5.0.0-snapshot-20230320172940"
+  resolved "https://registry.yarnpkg.com/medusa-react/-/medusa-react-5.0.0-snapshot-20230320172940.tgz#3bf5ebf3c49fb9becee1e66a281fdcb27e439439"
+  integrity sha512-dYxym0O+KY7WW9kiEGDqgxfL6zlLTimjAs81tVTDEWKMyYFCUMHQAZLFjkD3WtiKRFkZc1kNKELqHGJKaiEXMA==
   dependencies:
-    axios "^0.21.4"
+    "@medusajs/medusa-js" "2.0.0-snapshot-20230320172940"
+
+medusa-telemetry@0.0.16, medusa-telemetry@^0.0.16:
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/medusa-telemetry/-/medusa-telemetry-0.0.16.tgz#f087494df4646c5c7cf281603595a213b50b116a"
+  integrity sha512-i9FVCfILzVQXXYuPCNf4h9BwTqi1uVyL08zzKLTCq/ttodyMb77TmnvolrE5XuvLsRbw3iqQ3aGq+sn0aURaVQ==
+  dependencies:
+    axios "^0.21.1"
     axios-retry "^3.1.9"
     boxen "^5.0.1"
     ci-info "^3.2.0"
@@ -4745,13 +4758,13 @@ medusa-telemetry@0.0.16-dev-1679077162720:
     remove-trailing-slash "^0.1.1"
     uuid "^8.3.2"
 
-medusa-test-utils@1.1.39-dev-1679077162720:
-  version "1.1.39-dev-1679077162720"
-  resolved "http://localhost:4873/medusa-test-utils/-/medusa-test-utils-1.1.39-dev-1679077162720.tgz#dd453e6df8c27aefec70312aa353afde13fa2e42"
-  integrity sha512-9Iipnec7uSeyBI4OJC4/Utz35AoioPCA2qP65GfN3KGf64JrSPqS32GIW5abFaF7Uu25/tglnEiucT1pyZJDwg==
+medusa-test-utils@1.1.40-snapshot-20230320172940:
+  version "1.1.40-snapshot-20230320172940"
+  resolved "https://registry.yarnpkg.com/medusa-test-utils/-/medusa-test-utils-1.1.40-snapshot-20230320172940.tgz#ac0b1fc585d6d0be47c39750a3fdef4521c6ef7f"
+  integrity sha512-QCvc+z4E19lN7VxGiMXo2qt877nnAlLjAjqFQk0bWXikpJsd4CLXhcQxgT+fKc8/DRsvx/y6FVVFgI69vBbV/w==
   dependencies:
     "@babel/plugin-transform-classes" "^7.9.5"
-    medusa-core-utils "1.1.39-dev-1679077162720"
+    medusa-core-utils "1.2.0-snapshot-20230320172940"
     randomatic "^3.1.1"
 
 meilisearch@0.25.1:
@@ -5779,11 +5792,6 @@ proxy-from-env@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/proxy-from-env/-/proxy-from-env-1.0.0.tgz#33c50398f70ea7eb96d21f7b817630a55791c7ee"
   integrity sha512-F2JHgJQ1iqwnHDcQjVBsq3n/uoaFL+iPW/eAeL7kVxy/2RrWaN4WroKjjvbsoRtv0ftelNyC01bjRhn/bhcf4A==
-
-proxy-from-env@^1.1.0:
-  version "1.1.0"
-  resolved "http://localhost:4873/proxy-from-env/-/proxy-from-env-1.1.0.tgz#e102f16ca355424865755d2c9e8ea4f24d58c3e2"
-  integrity sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==
 
 psl@^1.1.28:
   version "1.9.0"
