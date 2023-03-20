@@ -68,7 +68,7 @@ const StripePaymentButton = ({
   const [disabled, setDisabled] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | undefined>(
-    undefined,
+    undefined
   )
 
   const { cart } = useCart()
@@ -173,7 +173,7 @@ const PayPalPaymentButton = ({
 }) => {
   const [submitting, setSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | undefined>(
-    undefined,
+    undefined
   )
 
   const { cart } = useCart()
@@ -181,7 +181,7 @@ const PayPalPaymentButton = ({
 
   const handlePayment = async (
     _data: OnApproveData,
-    actions: OnApproveActions,
+    actions: OnApproveActions
   ) => {
     actions?.order
       ?.authorize()

@@ -1,5 +1,9 @@
 import { useAccount } from "@lib/context/account-context"
-import { Customer, SetRelation, StorePostCustomersCustomerReq } from "@medusajs/client-types"
+import {
+  Customer,
+  SetRelation,
+  StorePostCustomersCustomerReq,
+} from "@medusajs/client-types"
 import Input from "@modules/common/components/input"
 import NativeSelect from "@modules/common/components/native-select"
 import { useRegions, useUpdateMe } from "medusa-react"
@@ -97,7 +101,7 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({ customer }) => {
         onSuccess: () => {
           refetchCustomer()
         },
-      },
+      }
     )
   }
 
@@ -108,7 +112,7 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({ customer }) => {
 
     const country =
       regionOptions?.find(
-        (country) => country.value === customer.billing_address.country_code,
+        (country) => country.value === customer.billing_address.country_code
       )?.label || customer.billing_address.country_code?.toUpperCase()
 
     return (

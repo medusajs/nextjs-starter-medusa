@@ -60,7 +60,7 @@ const EditEmailModal: React.FC<EditEmailModalProps> = ({ customer }) => {
           setSubmitting(false)
           setError("Unable to update email, try again later.")
         },
-      },
+      }
     )
   })
 

@@ -50,10 +50,10 @@ const GiftCard: React.FC<GiftCardProps> = ({ cart }) => {
             },
             {
               shouldFocus: true,
-            },
+            }
           )
         },
-      },
+      }
     )
   }
 
@@ -64,7 +64,7 @@ const GiftCard: React.FC<GiftCardProps> = ({ cart }) => {
       },
       {
         onSuccess: ({ cart }) => setCart(cart),
-      },
+      }
     )
   }
 

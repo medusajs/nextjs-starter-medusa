@@ -12,9 +12,12 @@ type DiscountFormValues = {
   discount_code: string
 }
 
-type CartWithDiscountsWithRegion = Merge<SetRelation<Cart, "discounts" | "region">, {
-  discounts: Array<SetRelation<Discount, "rule">>
-}>
+type CartWithDiscountsWithRegion = Merge<
+  SetRelation<Cart, "discounts" | "region">,
+  {
+    discounts: Array<SetRelation<Discount, "rule">>
+  }
+>
 
 type DiscountCodeProps = {
   cart: CartWithDiscountsWithRegion
@@ -28,7 +31,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
   const { isLoading: mutationLoading, mutate: removeDiscount } = useMutation(
     (payload: { cartId: string; code: string }) => {
       return medusaClient.carts.deleteDiscount(payload.cartId, payload.code)
-    },
+    }
   )
 
   const appliedDiscount = useMemo(() => {
@@ -74,10 +77,10 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
             },
             {
               shouldFocus: true,
-            },
+            }
           )
         },
-      },
+      }
     )
   }
 
@@ -88,7 +91,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
         onSuccess: ({ cart }) => {
           setCart(cart)
         },
-      },
+      }
     )
   }
 

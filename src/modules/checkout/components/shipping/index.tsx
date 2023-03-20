@@ -65,9 +65,9 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
               message:
                 "An error occurred while adding shipping. Please try again.",
             },
-            { shouldFocus: true },
+            { shouldFocus: true }
           ),
-      },
+      }
     )
   }
 
@@ -126,7 +126,7 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
                           "flex items-center justify-between text-small-regular cursor-pointer py-4 border-b border-gray-200 last:border-b-0 px-8",
                           {
                             "bg-gray-50": option.value === value,
-                          },
+                          }
                         )}
                       >
                         <div className="flex items-center gap-x-4">

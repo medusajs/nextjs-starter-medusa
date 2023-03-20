@@ -16,7 +16,7 @@ type UpdateCustomerEmailFormData = {
 
 const ProfileEmail: React.FC<MyInformationProps> = ({ customer }) => {
   const [errorMessage, setErrorMessage] = React.useState<string | undefined>(
-    undefined,
+    undefined
   )
 
   const {
@@ -65,7 +65,7 @@ const ProfileEmail: React.FC<MyInformationProps> = ({ customer }) => {
         onError: () => {
           setErrorMessage("Email already in use")
         },
-      },
+      }
     )
   }
 

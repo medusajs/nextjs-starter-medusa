@@ -2,7 +2,13 @@ import { canBuy } from "@lib/util/can-buy"
 import { findCheapestPrice } from "@lib/util/prices"
 import isEqual from "lodash/isEqual"
 import { formatVariantPrice, useCart } from "medusa-react"
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react"
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react"
 import { ProductVariant } from "@medusajs/client-types"
 import { useStore } from "./store-context"
 import { ProductWithRelations } from "../../types/medusa"
@@ -167,7 +173,7 @@ export const useProductActions = () => {
   const context = useContext(ProductActionContext)
   if (context === null) {
     throw new Error(
-      "useProductActionContext must be used within a ProductActionProvider",
+      "useProductActionContext must be used within a ProductActionProvider"
     )
   }
   return context

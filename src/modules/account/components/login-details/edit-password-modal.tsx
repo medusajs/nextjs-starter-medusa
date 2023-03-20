@@ -82,7 +82,7 @@ const EditPasswordModal: React.FC<EditPasswordModalProps> = ({ customer }) => {
           setSubmitting(false)
           setError("Unable to update password, try again later.")
         },
-      },
+      }
     )
   })
 

@@ -43,7 +43,7 @@ const RelatedProducts = ({ product }: RelatedProductsProps) => {
       ({ pageParam }) => fetchProductsList({ pageParam, queryParams }),
       {
         getNextPageParam: (lastPage) => lastPage.nextPage,
-      },
+      }
     )
 
   const previews = usePreviews({ pages: data?.pages, region: cart?.region })

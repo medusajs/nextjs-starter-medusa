@@ -43,7 +43,7 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
         "flex flex-col gap-y-4 border-b border-gray-200 last:border-b-0",
         {
           "bg-gray-50": selected,
-        },
+        }
       )}
     >
       <button

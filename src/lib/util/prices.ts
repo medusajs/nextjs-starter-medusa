@@ -1,9 +1,17 @@
-import { MoneyAmount, ProductVariant, Region, SetRelation } from "@medusajs/client-types"
+import {
+  MoneyAmount,
+  ProductVariant,
+  Region,
+  SetRelation,
+} from "@medusajs/client-types"
 import { formatAmount } from "medusa-react"
 
 type ProductVariantWithPrices = SetRelation<ProductVariant, "prices">
 
-export const findCheapestRegionPrice = (variants: ProductVariantWithPrices[], regionId: string) => {
+export const findCheapestRegionPrice = (
+  variants: ProductVariantWithPrices[],
+  regionId: string
+) => {
   const regionPrices = variants.reduce((acc, v) => {
     const price = v.prices.find((p) => p.region_id === regionId)
     if (price) {
@@ -31,7 +39,7 @@ export const findCheapestRegionPrice = (variants: ProductVariantWithPrices[], re
 
 export const findCheapestCurrencyPrice = (
   variants: ProductVariantWithPrices[],
-  currencyCode: string,
+  currencyCode: string
 ) => {
   const currencyPrices = variants.reduce((acc, v) => {
     const price = v.prices.find((p) => p.currency_code === currencyCode)
@@ -58,16 +66,16 @@ export const findCheapestCurrencyPrice = (
   return cheapestPrice
 }
 
-export const findCheapestPrice = (variants: ProductVariantWithPrices[], region: Region) => {
+export const findCheapestPrice = (
+  variants: ProductVariantWithPrices[],
+  region: Region
+) => {
   const { id, currency_code } = region
 
   let cheapestPrice = findCheapestRegionPrice(variants, id)
 
   if (!cheapestPrice) {
-    cheapestPrice = findCheapestCurrencyPrice(
-      variants,
-      currency_code,
-    )
+    cheapestPrice = findCheapestCurrencyPrice(variants, currency_code)
   }
 
   if (cheapestPrice) {

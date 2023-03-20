@@ -65,7 +65,7 @@ const ProfileName: React.FC<MyInformationProps> = ({ customer }) => {
         onSuccess: () => {
           refetchCustomer()
         },
-      },
+      }
     )
   }
 

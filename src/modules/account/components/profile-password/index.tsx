@@ -18,7 +18,7 @@ type UpdateCustomerPasswordFormData = {
 
 const ProfileName: React.FC<MyInformationProps> = ({ customer }) => {
   const [errorMessage, setErrorMessage] = React.useState<string | undefined>(
-    undefined,
+    undefined
   )
   const {
     register,

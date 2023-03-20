@@ -6,7 +6,7 @@ import { CalculatedVariant } from "types/medusa"
 
 const transformProductPreview = (
   product: Product,
-  region: Region,
+  region: Region
 ): ProductPreviewType => {
   const variants = product.variants as CalculatedVariant[]
 
@@ -28,22 +28,22 @@ const transformProductPreview = (
     thumbnail: product.thumbnail,
     price: cheapestVariant
       ? {
-        calculated_price: formatAmount({
-          amount: cheapestVariant.calculated_price,
-          region: region,
-          includeTaxes: false,
-        }),
-        original_price: formatAmount({
-          amount: cheapestVariant.original_price,
-          region: region,
-          includeTaxes: false,
-        }),
-        difference: getPercentageDiff(
-          cheapestVariant.original_price,
-          cheapestVariant.calculated_price,
-        ),
-        price_type: cheapestVariant.calculated_price_type,
-      }
+          calculated_price: formatAmount({
+            amount: cheapestVariant.calculated_price,
+            region: region,
+            includeTaxes: false,
+          }),
+          original_price: formatAmount({
+            amount: cheapestVariant.original_price,
+            region: region,
+            includeTaxes: false,
+          }),
+          difference: getPercentageDiff(
+            cheapestVariant.original_price,
+            cheapestVariant.calculated_price
+          ),
+          price_type: cheapestVariant.calculated_price_type,
+        }
       : undefined,
   }
 }

@@ -16,7 +16,8 @@ type MobileActionsProps = {
 }
 
 const MobileActions: React.FC<MobileActionsProps> = ({ product, show }) => {
-  const { variant, addToCart, options, inStock, updateOptions } = useProductActions()
+  const { variant, addToCart, options, inStock, updateOptions } =
+    useProductActions()
   const { state, open, close } = useToggleState()
 
   const price = useProductPrice({ id: product.id, variantId: variant?.id })
@@ -44,8 +45,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({ product, show }) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div
-            className="bg-white flex flex-col gap-y-3 justify-center items-center text-large-regular p-4 h-full w-full border-t border-gray-200">
+          <div className="bg-white flex flex-col gap-y-3 justify-center items-center text-large-regular p-4 h-full w-full border-t border-gray-200">
             <div className="flex items-center gap-x-2">
               <span>{product.title}</span>
               <span>—</span>
@@ -81,7 +81,9 @@ const MobileActions: React.FC<MobileActionsProps> = ({ product, show }) => {
                   <ChevronDown />
                 </div>
               </Button>
-              <Button onClick={addToCart}>{!inStock ? "Out of stock" : "Add to cart"}</Button>
+              <Button onClick={addToCart}>
+                {!inStock ? "Out of stock" : "Add to cart"}
+              </Button>
             </div>
           </div>
         </Transition>

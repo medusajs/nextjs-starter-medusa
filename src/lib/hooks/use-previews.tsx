@@ -8,7 +8,7 @@ type UsePreviewProps<T> = {
   region?: Region
 }
 
-const usePreviews = <T extends InfiniteProductPage> ({
+const usePreviews = <T extends InfiniteProductPage>({
   pages,
   region,
 }: UsePreviewProps<T>) => {
@@ -24,7 +24,7 @@ const usePreviews = <T extends InfiniteProductPage> ({
     }
 
     const transformedProducts = products.map((p) =>
-      transformProductPreview(p, region),
+      transformProductPreview(p, region)
     )
 
     return transformedProducts

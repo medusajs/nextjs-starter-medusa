@@ -15,7 +15,7 @@ const RefinementList = ({
 
   const handleCollectionChange = (
     e: ChangeEvent<HTMLInputElement>,
-    id: string,
+    id: string
   ) => {
     const { checked } = e.target
 
@@ -56,7 +56,7 @@ const RefinementList = ({
                   <input
                     type="checkbox"
                     defaultChecked={refinementList.collection_id?.includes(
-                      c.id,
+                      c.id
                     )}
                     onChange={(e) => handleCollectionChange(e, c.id)}
                     className="accent-amber-200"

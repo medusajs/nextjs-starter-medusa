@@ -58,7 +58,7 @@ const ProfilePhone: React.FC<MyInformationProps> = ({ customer }) => {
         onSuccess: () => {
           refetchCustomer()
         },
-      },
+      }
     )
   }
 
