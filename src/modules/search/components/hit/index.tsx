@@ -23,8 +23,8 @@ const Hit = ({ hit }: HitProps) => {
       <Thumbnail thumbnail={hit.thumbnail} size="full" />
       <div className="flex flex-col justify-between">
         <div className="flex flex-col">
-          {hit.collection_id && (
-            <Link href={`/collections/${hit.collection_id}`}>
+          {hit.collection_handle && (
+            <Link href={`/collections/${hit.collection_handle}`}>
               <a className="text-small-regular text-gray-500">
                 {hit.collection_handle}
               </a>
