@@ -37,12 +37,12 @@ const OrderOverview = () => {
         You don&apos;t have any orders yet, let us change that {":)"}
       </p>
       <div className="mt-4">
-        <Link href="/" passHref>
+        <Link href="/" passHref legacyBehavior>
           <Button>Continue shopping</Button>
         </Link>
       </div>
     </div>
-  )
+  );
 }
 
 export default OrderOverview

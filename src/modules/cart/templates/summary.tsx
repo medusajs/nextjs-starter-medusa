@@ -12,12 +12,12 @@ const Summary = ({ cart }: SummaryProps) => {
     <div className="grid grid-cols-1 gap-y-6">
       <CartTotals cart={cart} />
       <Link href="/checkout">
-        <a>
-          <Button>Go to checkout</Button>
-        </a>
+
+        <Button>Go to checkout</Button>
+
       </Link>
     </div>
-  )
+  );
 }
 
 export default Summary

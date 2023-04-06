@@ -32,7 +32,7 @@ const Items = ({ items, region, cartId }: ItemsProps) => {
                           <Link
                             href={`/products/${item.variant.product.handle}`}
                           >
-                            <a>{item.title}</a>
+                            {item.title}
                           </Link>
                         </h3>
                         <LineItemOptions variant={item.variant} />
@@ -45,13 +45,13 @@ const Items = ({ items, region, cartId }: ItemsProps) => {
                   </div>
                 </div>
               </div>
-            )
+            );
           })
         : Array.from(Array(items.length).keys()).map((i) => {
             return <SkeletonLineItem key={i} />
           })}
     </div>
-  )
+  );
 }
 
 export default Items

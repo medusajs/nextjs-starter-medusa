@@ -71,8 +71,8 @@ const Nav = () => {
           </div>
 
           <div className="flex items-center h-full">
-            <Link href="/">
-              <a className="text-xl-semi uppercase">Acme</a>
+            <Link href="/" className="text-xl-semi uppercase">
+              Acme
             </Link>
           </div>
 
@@ -80,7 +80,7 @@ const Nav = () => {
             <div className="hidden small:flex items-center gap-x-6 h-full">
               {process.env.FEATURE_SEARCH_ENABLED && <DesktopSearchModal />}
               <Link href="/account">
-                <a>Account</a>
+                Account
               </Link>
             </div>
             <CartDropdown />
@@ -89,7 +89,7 @@ const Nav = () => {
         <MobileMenu />
       </header>
     </div>
-  )
+  );
 }
 
 export default Nav
