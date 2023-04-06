@@ -1,7 +1,7 @@
 import { Image as MedusaImage } from "@medusajs/medusa"
 import PlaceholderImage from "@modules/common/icons/placeholder-image"
 import clsx from "clsx"
-import Image from "next/image"
+import Image from "next/legacy/image";
 import React from "react"
 
 type ThumbnailProps = {

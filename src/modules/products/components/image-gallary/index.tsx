@@ -1,5 +1,5 @@
 import { Image as MedusaImage } from "@medusajs/medusa"
-import Image from "next/image"
+import Image from "next/legacy/image";
 import { useRef } from "react"
 
 type ImageGalleryProps = {
