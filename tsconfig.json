@@ -14,6 +14,11 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "types": ["cypress"],
     "baseUrl": "./src",
     "paths": {
@@ -29,7 +34,7 @@
     "cypress/support/index.js",
     "cypress/support/commands.js",
     "cypress/integration/product.spec.js",
-    "cypress/plugins/index.js",
+    "cypress/plugins/index.js"
   ],
   "exclude": [
     "node_modules",
