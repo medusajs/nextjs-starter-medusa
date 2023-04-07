@@ -9,7 +9,11 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <link rel="preconnect" href={`//${hostname}`} crossOrigin="true" />
+          <link
+            rel="preconnect"
+            href={`//${hostname}`}
+            crossOrigin="use-credentials"
+          />
           <link rel="dns-prefetch" href={`//${hostname}`} />
           <link
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
