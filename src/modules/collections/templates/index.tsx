@@ -4,10 +4,10 @@ import repeat from "@lib/util/repeat"
 import ProductPreview from "@modules/products/components/product-preview"
 import SkeletonProductPreview from "@modules/skeletons/components/skeleton-product-preview"
 import { fetchCollectionProducts } from "@pages/collections/[id]"
+import { useInfiniteQuery } from "@tanstack/react-query"
 import { useCart } from "medusa-react"
 import React, { useEffect } from "react"
 import { useInView } from "react-intersection-observer"
-import { useInfiniteQuery } from "@tanstack/react-query"
 
 type CollectionTemplateProps = {
   collection: {
@@ -28,6 +28,7 @@ const CollectionTemplate: React.FC<CollectionTemplateProps> = ({
     fetchNextPage,
     isFetchingNextPage,
     isLoading,
+    refetch,
   } = useInfiniteQuery(
     [`get_collection_products`, collection.id, cart?.id],
     ({ pageParam }) =>
@@ -40,6 +41,12 @@ const CollectionTemplate: React.FC<CollectionTemplateProps> = ({
       getNextPageParam: (lastPage) => lastPage.nextPage,
     }
   )
+
+  useEffect(() => {
+    if (cart?.region_id) {
+      refetch()
+    }
+  }, [cart?.region_id, refetch])
 
   const previews = usePreviews({
     pages: infiniteData?.pages,
