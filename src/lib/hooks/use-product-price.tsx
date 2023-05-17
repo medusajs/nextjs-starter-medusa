@@ -38,7 +38,7 @@ const useProductPrice = ({ id, variantId }: useProductPriceProps) => {
       return null
     }
 
-    const variants = product.variants as CalculatedVariant[]
+    const variants = product.variants as unknown as CalculatedVariant[]
 
     const cheapestVariant = variants.reduce((prev, curr) => {
       return prev.calculated_price < curr.calculated_price ? prev : curr
@@ -70,7 +70,7 @@ const useProductPrice = ({ id, variantId }: useProductPriceProps) => {
 
     const variant = product.variants.find(
       (v) => v.id === variantId || v.sku === variantId
-    ) as CalculatedVariant
+    ) as unknown as CalculatedVariant
 
     if (!variant) {
       return null

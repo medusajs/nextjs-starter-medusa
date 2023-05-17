@@ -1,5 +1,6 @@
 import { useProductActions } from "@lib/context/product-context"
 import useProductPrice from "@lib/hooks/use-product-price"
+import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 import Button from "@modules/common/components/button"
 import OptionSelect from "@modules/products/components/option-select"
 import clsx from "clsx"
@@ -8,14 +9,14 @@ import React, { useMemo } from "react"
 import { Product } from "types/medusa"
 
 type ProductActionsProps = {
-  product: Product
+  product: PricedProduct
 }
 
 const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
   const { updateOptions, addToCart, options, inStock, variant } =
     useProductActions()
 
-  const price = useProductPrice({ id: product.id, variantId: variant?.id })
+  const price = useProductPrice({ id: product.id!, variantId: variant?.id })
 
   const selectedPrice = useMemo(() => {
     const { variantPrice, cheapestPrice } = price
@@ -38,7 +39,7 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
 
       {product.variants.length > 1 && (
         <div className="my-8 flex flex-col gap-y-6">
-          {product.options.map((option) => {
+          {(product.options || []).map((option) => {
             return (
               <div key={option.id}>
                 <OptionSelect

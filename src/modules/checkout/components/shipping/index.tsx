@@ -11,8 +11,8 @@ import { Controller, useForm } from "react-hook-form"
 import StepContainer from "../step-container"
 
 type ShippingOption = {
-  value: string
-  label: string
+  value?: string
+  label?: string
   price: string
 }
 
