@@ -9,9 +9,10 @@ import clsx from "clsx"
 import React, { Fragment, useMemo } from "react"
 import { Product } from "types/medusa"
 import OptionSelect from "../option-select"
+import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 
 type MobileActionsProps = {
-  product: Product
+  product: PricedProduct
   show: boolean
 }
 
@@ -19,7 +20,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({ product, show }) => {
   const { variant, addToCart, options, inStock, updateOptions } = useProductActions()
   const { state, open, close } = useToggleState()
 
-  const price = useProductPrice({ id: product.id, variantId: variant?.id })
+  const price = useProductPrice({ id: product.id!, variantId: variant?.id })
 
   const selectedPrice = useMemo(() => {
     const { variantPrice, cheapestPrice } = price
@@ -122,7 +123,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({ product, show }) => {
                   <div className="bg-white px-6 py-12">
                     {product.variants.length > 1 && (
                       <div className="flex flex-col gap-y-6">
-                        {product.options.map((option) => {
+                        {(product.options || []).map((option) => {
                           return (
                             <div key={option.id}>
                               <OptionSelect

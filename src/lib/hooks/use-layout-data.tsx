@@ -1,6 +1,7 @@
 import { medusaClient } from "@lib/config"
 import { getPercentageDiff } from "@lib/util/get-precentage-diff"
 import { Product, ProductCollection, Region } from "@medusajs/medusa"
+import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 import { useQuery } from "@tanstack/react-query"
 import { formatAmount, useCart } from "medusa-react"
 import { ProductPreviewType } from "types/global"
@@ -57,12 +58,12 @@ const fetchFeaturedProducts = async (
       cart_id: cartId,
     })
     .then(({ products }) => products)
-    .catch((_) => [] as Product[])
+    .catch((_) => [] as PricedProduct[])
 
   return products
     .filter((p) => !!p.variants)
     .map((p) => {
-      const variants = p.variants as CalculatedVariant[]
+      const variants = p.variants as unknown as CalculatedVariant[]
 
       const cheapestVariant = variants.reduce((acc, curr) => {
         if (acc.calculated_price > curr.calculated_price) {
@@ -72,10 +73,10 @@ const fetchFeaturedProducts = async (
       }, variants[0])
 
       return {
-        id: p.id,
-        title: p.title,
-        handle: p.handle,
-        thumbnail: p.thumbnail,
+        id: p.id!,
+        title: p.title!,
+        handle: p.handle!,
+        thumbnail: p.thumbnail!,
         price: cheapestVariant
           ? {
               calculated_price: formatAmount({

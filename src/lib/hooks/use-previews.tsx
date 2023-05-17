@@ -1,5 +1,6 @@
 import transformProductPreview from "@lib/util/transform-product-preview"
 import { Product, Region } from "@medusajs/medusa"
+import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 import { useMemo } from "react"
 import { InfiniteProductPage, ProductPreviewType } from "types/global"
 
@@ -17,7 +18,7 @@ const usePreviews = <T extends InfiniteProductPage>({
       return []
     }
 
-    const products: Product[] = []
+    const products: PricedProduct[] = []
 
     for (const page of pages) {
       products.push(...page.response.products)

@@ -11,6 +11,7 @@ import React, {
 } from "react"
 import { Product, Variant } from "types/medusa"
 import { useStore } from "./store-context"
+import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 
 interface ProductContext {
   formattedPrice: string
@@ -30,7 +31,7 @@ const ProductActionContext = createContext<ProductContext | null>(null)
 
 interface ProductProviderProps {
   children?: React.ReactNode
-  product: Product
+  product: PricedProduct
 }
 
 export const ProductProvider = ({
@@ -44,12 +45,12 @@ export const ProductProvider = ({
 
   const { addItem } = useStore()
   const { cart } = useCart()
-  const { variants } = product
+  const variants = product.variants as unknown as Variant[]
 
   useEffect(() => {
     // initialize the option state
     const optionObj: Record<string, string> = {}
-    for (const option of product.options) {
+    for (const option of (product.options || [])) {
       Object.assign(optionObj, { [option.id]: undefined })
     }
     setOptions(optionObj)
