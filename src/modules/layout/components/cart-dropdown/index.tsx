@@ -59,11 +59,12 @@ const CartDropdown = () => {
                           <div className="flex flex-col flex-1">
                             <div className="flex items-start justify-between">
                               <div>
-                                <h3 className="text-base-regular overflow-ellipsis overflow-hidden whitespace-nowrap mr-4 w-[130px]">
+                                <h3
+                                  className="text-base-regular overflow-ellipsis overflow-hidden whitespace-nowrap mr-4 w-[130px]">
                                   <Link
                                     href={`/products/${item.variant.product.handle}`}
                                   >
-                                    <a>{item.title}</a>
+                                    {item.title}
                                   </Link>
                                 </h3>
                                 <LineItemOptions variant={item.variant} />
@@ -108,25 +109,22 @@ const CartDropdown = () => {
                     </span>
                   </div>
                   <Link href="/cart" passHref>
-                    <a>
-                      <Button>Go to bag</Button>
-                    </a>
+                    <Button>Go to bag</Button>
                   </Link>
                 </div>
               </>
             ) : (
               <div>
                 <div className="flex py-16 flex-col gap-y-4 items-center justify-center">
-                  <div className="bg-gray-900 text-small-regular flex items-center justify-center w-6 h-6 rounded-full text-white">
+                  <div
+                    className="bg-gray-900 text-small-regular flex items-center justify-center w-6 h-6 rounded-full text-white">
                     <span>0</span>
                   </div>
                   <span>Your shopping bag is empty.</span>
                   <div>
                     <Link href="/store">
-                      <a>
-                        <span className="sr-only">Go to all products page</span>
-                        <Button onClick={close}>Explore products</Button>
-                      </a>
+                      <span className="sr-only">Go to all products page</span>
+                      <Button onClick={close}>Explore products</Button>
                     </Link>
                   </div>
                 </div>

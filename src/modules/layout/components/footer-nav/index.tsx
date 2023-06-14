@@ -10,8 +10,8 @@ const FooterNav = () => {
     <div className="content-container flex flex-col gap-y-8 pt-16 pb-8">
       <div className="flex flex-col gap-y-6 xsmall:flex-row items-start justify-between">
         <div>
-          <Link href="/">
-            <a className="text-xl-semi uppercase">Acme</a>
+          <Link href="/" className="text-xl-semi uppercase">
+            Acme
           </Link>
         </div>
         <div className="text-small-regular grid grid-cols-2 gap-x-16">
@@ -25,7 +25,7 @@ const FooterNav = () => {
               {collections?.map((c) => (
                 <li key={c.id}>
                   <Link href={`/collections/${c.id}`}>
-                    <a>{c.title}</a>
+                    {c.title}
                   </Link>
                 </li>
               ))}
@@ -65,7 +65,8 @@ const FooterNav = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col-reverse gap-y-4 justify-center xsmall:items-center xsmall:flex-row xsmall:items-end xsmall:justify-between">
+      <div
+        className="flex flex-col-reverse gap-y-4 justify-center xsmall:items-center xsmall:flex-row xsmall:items-end xsmall:justify-between">
         <span className="text-xsmall-regular text-gray-500">
           © Copyright 2022 ACME
         </span>

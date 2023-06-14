@@ -50,7 +50,7 @@ const Nav = () => {
           "relative h-16 px-8 mx-auto transition-colors bg-transparent border-b border-transparent duration-200 group-hover:bg-white group-hover:border-gray-200",
           {
             "!bg-white !border-gray-200": !isHome || isScrolled,
-          }
+          },
         )}
       >
         <nav
@@ -58,7 +58,7 @@ const Nav = () => {
             "text-gray-900 flex items-center justify-between w-full h-full text-small-regular transition-colors duration-200",
             {
               "text-white group-hover:text-gray-900": isHome && !isScrolled,
-            }
+            },
           )}
         >
           <div className="flex-1 basis-0 h-full flex items-center">
@@ -71,8 +71,8 @@ const Nav = () => {
           </div>
 
           <div className="flex items-center h-full">
-            <Link href="/">
-              <a className="text-xl-semi uppercase">Acme</a>
+            <Link href="/" className="text-xl-semi uppercase">
+              Acme
             </Link>
           </div>
 
@@ -80,7 +80,7 @@ const Nav = () => {
             <div className="hidden small:flex items-center gap-x-6 h-full">
               {process.env.FEATURE_SEARCH_ENABLED && <DesktopSearchModal />}
               <Link href="/account">
-                <a>Account</a>
+                Account
               </Link>
             </div>
             <CartDropdown />
