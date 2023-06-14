@@ -24,7 +24,7 @@ const FooterNav = () => {
             >
               {collections?.map((c) => (
                 <li key={c.id}>
-                  <Link href={`/collections/${c.id}`}>
+                  <Link href={`/collections/${c.id}`} legacyBehavior>
                     {c.title}
                   </Link>
                 </li>
@@ -75,7 +75,7 @@ const FooterNav = () => {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default FooterNav

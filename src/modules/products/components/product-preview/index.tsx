@@ -10,7 +10,7 @@ const ProductPreview = ({
                           price,
                         }: ProductPreviewType) => {
   return (
-    <Link href={`/products/${handle}`}>
+    <Link href={`/products/${handle}`} legacyBehavior>
       <div>
         <Thumbnail thumbnail={thumbnail} size="full" />
         <div className="text-base-regular mt-2">
@@ -38,7 +38,7 @@ const ProductPreview = ({
         </div>
       </div>
     </Link>
-  )
+  );
 }
 
 export default ProductPreview

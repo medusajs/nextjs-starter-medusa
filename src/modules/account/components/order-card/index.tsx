@@ -65,12 +65,12 @@ const OrderCard = ({ order }: OrderCardProps) => {
         )}
       </div>
       <div className="flex justify-end">
-        <Link href={`/order/details/${order.id}`}>
+        <Link href={`/order/details/${order.id}`} legacyBehavior>
           <Button variant="secondary">See details</Button>
         </Link>
       </div>
     </div>
-  )
+  );
 }
 
 export default OrderCard

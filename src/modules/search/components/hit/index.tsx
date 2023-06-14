@@ -24,7 +24,10 @@ const Hit = ({ hit }: HitProps) => {
       <div className="flex flex-col justify-between">
         <div className="flex flex-col">
           {hit.collection_id && (
-            <Link href={`/collections/${hit.collection_id}`} className="text-small-regular text-gray-500">
+            <Link
+              href={`/collections/${hit.collection_id}`}
+              className="text-small-regular text-gray-500"
+              legacyBehavior>
               {hit.collection_handle}
             </Link>
           )}
@@ -35,7 +38,7 @@ const Hit = ({ hit }: HitProps) => {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default Hit

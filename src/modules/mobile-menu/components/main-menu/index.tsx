@@ -61,7 +61,7 @@ const MainMenu = () => {
         <div className="flex flex-col flex-1 text-large-regular text-gray-900">
           <ul className="flex flex-col gap-y-2">
             <li className="bg-gray-50 p-4">
-              <Link href="/store">
+              <Link href="/store" legacyBehavior>
                 <button
                   className="flex items-center justify-between w-full"
                   onClick={close}
@@ -76,7 +76,7 @@ const MainMenu = () => {
               <>
                 {collections.map((collection) => (
                   <li key={collection.id} className="bg-gray-50 p-4">
-                    <Link href={`/collections/${collection.id}`}>
+                    <Link href={`/collections/${collection.id}`} legacyBehavior>
                       <button
                         className="flex items-center justify-between w-full"
                         onClick={close}
@@ -100,7 +100,7 @@ const MainMenu = () => {
             {!customer ? (
               <div className="flex flex-col gap-y-4">
                 <span className="text-gray-700 uppercase">Account</span>
-                <Link href={`/account/login`} passHref>
+                <Link href={`/account/login`} passHref legacyBehavior>
                   <button
                     className="flex items-center justify-between border-b border-gray-200 py-2 w-full"
                     onClick={close}
@@ -114,7 +114,7 @@ const MainMenu = () => {
             ) : (
               <div className="flex flex-col gap-y-4">
                 <span className="text-gray-700 uppercase">Signed in as</span>
-                <Link href={`/account`} passHref>
+                <Link href={`/account`} passHref legacyBehavior>
                   <button
                     className="flex items-center justify-between border-b border-gray-200 py-2 w-full"
                     onClick={close}
@@ -149,7 +149,7 @@ const MainMenu = () => {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default MainMenu

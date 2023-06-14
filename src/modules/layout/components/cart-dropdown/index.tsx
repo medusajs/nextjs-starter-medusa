@@ -20,7 +20,7 @@ const CartDropdown = () => {
   return (
     <div className="h-full z-50" onMouseEnter={open} onMouseLeave={close}>
       <Popover className="relative h-full">
-        <Link href="/cart" passHref>
+        <Link href="/cart" passHref legacyBehavior>
           <Popover.Button className="h-full">{`My Bag (${totalItems})`}</Popover.Button>
         </Link>
         <Transition
@@ -61,9 +61,7 @@ const CartDropdown = () => {
                               <div>
                                 <h3
                                   className="text-base-regular overflow-ellipsis overflow-hidden whitespace-nowrap mr-4 w-[130px]">
-                                  <Link
-                                    href={`/products/${item.variant.product.handle}`}
-                                  >
+                                  <Link href={`/products/${item.variant.product.handle}`} legacyBehavior>
                                     {item.title}
                                   </Link>
                                 </h3>
@@ -108,7 +106,7 @@ const CartDropdown = () => {
                       })}
                     </span>
                   </div>
-                  <Link href="/cart" passHref>
+                  <Link href="/cart" passHref legacyBehavior>
                     <Button>Go to bag</Button>
                   </Link>
                 </div>
@@ -122,9 +120,11 @@ const CartDropdown = () => {
                   </div>
                   <span>Your shopping bag is empty.</span>
                   <div>
-                    <Link href="/store">
-                      <span className="sr-only">Go to all products page</span>
-                      <Button onClick={close}>Explore products</Button>
+                    <Link href="/store" legacyBehavior>
+                      <>
+                        <span className="sr-only">Go to all products page</span>
+                        <Button onClick={close}>Explore products</Button>
+                      </>
                     </Link>
                   </div>
                 </div>

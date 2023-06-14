@@ -29,7 +29,7 @@ const DropdownMenu = () => {
       <div className="flex items-center h-full">
         <Popover className="h-full flex">
           <>
-            <Link href="/shop" className="relative flex h-full" passHref>
+            <Link href="/shop" className="relative flex h-full" passHref legacyBehavior>
               <Popover.Button
                 className={clsx(
                   "relative h-full flex items-center transition-all ease-out duration-200",
@@ -74,14 +74,14 @@ const DropdownMenu = () => {
                                       <Link
                                         href={`/collections/${collection.id}`}
                                         onClick={() => setOpen(false)}
-                                      >
+                                        legacyBehavior>
                                         {collection.title}
                                       </Link>
                                     </div>
-                                  )
+                                  );
                                 })}
                               </ul>
-                            )
+                            );
                           })}
                         {loadingCollections &&
                           repeat(6).map((index) => (
@@ -111,7 +111,7 @@ const DropdownMenu = () => {
         </Popover>
       </div>
     </div>
-  )
+  );
 }
 
 export default DropdownMenu

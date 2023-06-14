@@ -27,7 +27,10 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
   return (
     <div className="flex flex-col gap-y-2">
       {product.collection && (
-        <Link href={`/collections/${product.collection.id}`} className="text-small-regular text-gray-700">
+        <Link
+          href={`/collections/${product.collection.id}`}
+          className="text-small-regular text-gray-700"
+          legacyBehavior>
           {product.collection.title}
         </Link>
       )}
@@ -85,7 +88,7 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
         {!inStock ? "Out of stock" : "Add to cart"}
       </Button>
     </div>
-  )
+  );
 }
 
 export default ProductActions

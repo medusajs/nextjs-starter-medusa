@@ -29,9 +29,7 @@ const Items = ({ items, region, cartId }: ItemsProps) => {
                   <div className="flex items-start justify-between">
                     <div>
                       <h3 className="text-base-regular overflow-ellipsis overflow-hidden whitespace-nowrap mr-4">
-                        <Link
-                          href={`/products/${item.variant.product.handle}`}
-                        >
+                        <Link href={`/products/${item.variant.product.handle}`} legacyBehavior>
                           {item.title}
                         </Link>
                       </h3>
@@ -45,13 +43,13 @@ const Items = ({ items, region, cartId }: ItemsProps) => {
                 </div>
               </div>
             </div>
-          )
+          );
         })
         : Array.from(Array(items.length).keys()).map((i) => {
           return <SkeletonLineItem key={i} />
         })}
     </div>
-  )
+  );
 }
 
 export default Items
