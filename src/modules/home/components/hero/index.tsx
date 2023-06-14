@@ -1,5 +1,5 @@
 import UnderlineLink from "@modules/common/components/underline-link"
-import Image from "next/legacy/image"
+import Image from "next/image"
 
 const Hero = () => {
   return (
@@ -16,17 +16,19 @@ const Hero = () => {
       </div>
       <Image
         src="/hero.jpg"
-        layout="fill"
         loading="eager"
         priority={true}
         quality={90}
-        objectFit="cover"
         alt="Photo by @thevoncomplex https://unsplash.com/@thevoncomplex"
         className="absolute inset-0"
         draggable="false"
-      />
+        fill
+        sizes="100vw"
+        style={{
+          objectFit: "cover"
+        }} />
     </div>
-  )
+  );
 }
 
 export default Hero

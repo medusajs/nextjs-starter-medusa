@@ -1,5 +1,5 @@
 import UnderlineLink from "@modules/common/components/underline-link"
-import Image from "next/legacy/image"
+import Image from "next/image"
 
 const FooterCTA = () => {
   return (
@@ -16,14 +16,16 @@ const FooterCTA = () => {
           <Image
             src="/cta_three.jpg"
             alt=""
-            layout="fill"
-            objectFit="cover"
             className="absolute inset-0"
-          />
+            fill
+            sizes="100vw"
+            style={{
+              objectFit: "cover"
+            }} />
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default FooterCTA
