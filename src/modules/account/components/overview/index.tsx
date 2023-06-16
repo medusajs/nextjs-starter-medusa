@@ -24,36 +24,45 @@ const Overview = ({ orders, customer }: OverviewProps) => {
               <Link
                 href="/account/profile"
                 className="flex items-center justify-between py-4 border-b border-gray-200 px-8"
-                legacyBehavior>
-                <div className="flex items-center gap-x-2">
-                  <User size={16} />
-                  <span>Profile</span>
-                </div>
-                <ChevronDown className="transform -rotate-90" />
+                legacyBehavior
+              >
+                <>
+                  <div className="flex items-center gap-x-2">
+                    <User size={16} />
+                    <span>Profile</span>
+                  </div>
+                  <ChevronDown className="transform -rotate-90" />
+                </>
               </Link>
             </li>
             <li>
               <Link
                 href="/account/addresses"
                 className="flex items-center justify-between py-4 border-b border-gray-200 px-8"
-                legacyBehavior>
-                <div className="flex items-center gap-x-2">
-                  <MapPin size={16} />
-                  <span>Addresses</span>
-                </div>
-                <ChevronDown className="transform -rotate-90" />
+                legacyBehavior
+              >
+                <>
+                  <div className="flex items-center gap-x-2">
+                    <MapPin size={16} />
+                    <span>Addresses</span>
+                  </div>
+                  <ChevronDown className="transform -rotate-90" />
+                </>
               </Link>
             </li>
             <li>
               <Link
                 href="/account/orders"
                 className="flex items-center justify-between py-4 border-b border-gray-200 px-8"
-                legacyBehavior>
-                <div className="flex items-center gap-x-2">
-                  <Package size={16} />
-                  <span>Orders</span>
-                </div>
-                <ChevronDown className="transform -rotate-90" />
+                legacyBehavior
+              >
+                <>
+                  <div className="flex items-center gap-x-2">
+                    <Package size={16} />
+                    <span>Orders</span>
+                  </div>
+                  <ChevronDown className="transform -rotate-90" />
+                </>
               </Link>
             </li>
           </ul>
@@ -105,43 +114,44 @@ const Overview = ({ orders, customer }: OverviewProps) => {
                   orders.slice(0, 5).map((order) => {
                     return (
                       <li key={order.id}>
-                        <Link href={`/order/details/${order.id}`} legacyBehavior>
+                        <Link
+                          href={`/order/details/${order.id}`}
+                          legacyBehavior
+                        >
                           <div className="bg-gray-50 flex justify-between items-center p-4">
                             <div className="grid grid-cols-3 grid-rows-2 text-small-regular gap-x-4 flex-1">
-                                <span className="font-semibold">
-                                  Date placed
-                                </span>
+                              <span className="font-semibold">Date placed</span>
                               <span className="font-semibold">
-                                  Order number
-                                </span>
+                                Order number
+                              </span>
                               <span className="font-semibold">
-                                  Total amount
-                                </span>
+                                Total amount
+                              </span>
                               <span>
-                                  {new Date(order.created_at).toDateString()}
-                                </span>
+                                {new Date(order.created_at).toDateString()}
+                              </span>
                               <span>#{order.display_id}</span>
                               <span>
-                                  {formatAmount({
-                                    amount: order.total,
-                                    region: order.region,
-                                    includeTaxes: false,
-                                  })}
-                                </span>
+                                {formatAmount({
+                                  amount: order.total,
+                                  region: order.region,
+                                  includeTaxes: false,
+                                })}
+                              </span>
                             </div>
                             <button
                               className="flex items-center justify-between"
                               onClick={close}
                             >
-                                <span className="sr-only">
-                                  Go to order #{order.display_id}
-                                </span>
+                              <span className="sr-only">
+                                Go to order #{order.display_id}
+                              </span>
                               <ChevronDown className="-rotate-90" />
                             </button>
                           </div>
                         </Link>
                       </li>
-                    );
+                    )
                   })
                 ) : (
                   <span>No recent orders</span>
@@ -152,7 +162,7 @@ const Overview = ({ orders, customer }: OverviewProps) => {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 const getProfileCompletion = (customer?: Omit<Customer, "password_hash">) => {
