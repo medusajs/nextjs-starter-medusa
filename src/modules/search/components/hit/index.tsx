@@ -27,7 +27,7 @@ const Hit = ({ hit }: HitProps) => {
             <Link
               href={`/collections/${hit.collection_id}`}
               className="text-small-regular text-gray-500"
-              legacyBehavior>
+            >
               {hit.collection_handle}
             </Link>
           )}
@@ -38,7 +38,7 @@ const Hit = ({ hit }: HitProps) => {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export default Hit

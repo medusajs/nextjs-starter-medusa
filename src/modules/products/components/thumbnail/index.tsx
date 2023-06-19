@@ -45,13 +45,14 @@ const ImageOrPlaceholder = ({
       sizes="100vw"
       style={{
         objectFit: "cover",
-        objectPosition: "center"
-      }} />
+        objectPosition: "center",
+      }}
+    />
   ) : (
     <div className="w-full h-full absolute inset-0 bg-gray-100 flex items-center justify-center">
       <PlaceholderImage size={size === "small" ? 16 : 24} />
     </div>
-  );
+  )
 }
 
 export default Thumbnail

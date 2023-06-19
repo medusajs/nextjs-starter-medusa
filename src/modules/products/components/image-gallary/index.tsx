@@ -40,10 +40,11 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
                 fill
                 sizes="100vw"
                 style={{
-                  objectFit: "cover"
-                }} />
+                  objectFit: "cover",
+                }}
+              />
             </button>
-          );
+          )
         })}
       </div>
       <div className="flex flex-col flex-1 small:mx-16 gap-y-4">
@@ -63,14 +64,15 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
                 fill
                 sizes="100vw"
                 style={{
-                  objectFit: "cover"
-                }} />
+                  objectFit: "cover",
+                }}
+              />
             </div>
-          );
+          )
         })}
       </div>
     </div>
-  );
+  )
 }
 
 export default ImageGallery

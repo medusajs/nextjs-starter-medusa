@@ -15,7 +15,6 @@ const AccountNav = () => {
           <Link
             href="/account"
             className="flex items-center gap-x-2 text-small-regular py-2"
-            legacyBehavior
           >
             <>
               <ChevronDown className="transform rotate-90" />
@@ -78,7 +77,6 @@ const AccountNavLink = ({ href, route, children }: AccountNavLinkProps) => {
       className={clsx("text-gray-700", {
         "text-gray-900 font-semibold": active,
       })}
-      legacyBehavior
     >
       <>{children}</>
     </Link>

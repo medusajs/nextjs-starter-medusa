@@ -20,12 +20,13 @@ const FooterCTA = () => {
             fill
             sizes="100vw"
             style={{
-              objectFit: "cover"
-            }} />
+              objectFit: "cover",
+            }}
+          />
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export default FooterCTA

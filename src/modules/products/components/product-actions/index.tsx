@@ -30,7 +30,7 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
         <Link
           href={`/collections/${product.collection.id}`}
           className="text-small-regular text-gray-700"
-          legacyBehavior>
+        >
           {product.collection.title}
         </Link>
       )}
@@ -88,7 +88,7 @@ const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
         {!inStock ? "Out of stock" : "Add to cart"}
       </Button>
     </div>
-  );
+  )
 }
 
 export default ProductActions

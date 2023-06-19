@@ -19,37 +19,39 @@ const Items = ({ items, region, cartId }: ItemsProps) => {
     <div className="p-10 border-b border-gray-200 gap-y-4 flex flex-col">
       {enrichedItems?.length
         ? enrichedItems.map((item) => {
-          return (
-            <div className="grid grid-cols-[122px_1fr] gap-x-4" key={item.id}>
-              <div className="w-[122px]">
-                <Thumbnail thumbnail={item.thumbnail} size="full" />
-              </div>
-              <div className="flex flex-col justify-between flex-1">
-                <div className="flex flex-col flex-1 text-small-regular">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h3 className="text-base-regular overflow-ellipsis overflow-hidden whitespace-nowrap mr-4">
-                        <Link href={`/products/${item.variant.product.handle}`} legacyBehavior>
-                          {item.title}
-                        </Link>
-                      </h3>
-                      <LineItemOptions variant={item.variant} />
-                      <span>Quantity: {item.quantity}</span>
-                    </div>
-                    <div className="flex justify-end">
-                      <LineItemPrice region={region} item={item} />
+            return (
+              <div className="grid grid-cols-[122px_1fr] gap-x-4" key={item.id}>
+                <div className="w-[122px]">
+                  <Thumbnail thumbnail={item.thumbnail} size="full" />
+                </div>
+                <div className="flex flex-col justify-between flex-1">
+                  <div className="flex flex-col flex-1 text-small-regular">
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <h3 className="text-base-regular overflow-ellipsis overflow-hidden whitespace-nowrap mr-4">
+                          <Link
+                            href={`/products/${item.variant.product.handle}`}
+                          >
+                            {item.title}
+                          </Link>
+                        </h3>
+                        <LineItemOptions variant={item.variant} />
+                        <span>Quantity: {item.quantity}</span>
+                      </div>
+                      <div className="flex justify-end">
+                        <LineItemPrice region={region} item={item} />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          );
-        })
+            )
+          })
         : Array.from(Array(items.length).keys()).map((i) => {
-          return <SkeletonLineItem key={i} />
-        })}
+            return <SkeletonLineItem key={i} />
+          })}
     </div>
-  );
+  )
 }
 
 export default Items

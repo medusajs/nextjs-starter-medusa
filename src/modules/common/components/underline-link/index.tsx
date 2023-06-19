@@ -12,7 +12,7 @@ const UnderlineLink = ({ href, children }: UnderlineLinkProps) => {
       <Link
         href={href}
         className="flex items-center text-large-regular border-b border-current gap-x-4 py-2 transition-all duration-300 group hover:pl-4 hover:pr-1"
-        legacyBehavior>
+      >
         <>
           <span>{children}</span>
           <ArrowRight

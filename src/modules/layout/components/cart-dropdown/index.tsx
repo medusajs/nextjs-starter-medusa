@@ -20,7 +20,7 @@ const CartDropdown = () => {
   return (
     <div className="h-full z-50" onMouseEnter={open} onMouseLeave={close}>
       <Popover className="relative h-full">
-        <Link href="/cart" passHref legacyBehavior>
+        <Link href="/cart" passHref>
           <Popover.Button className="h-full">{`My Bag (${totalItems})`}</Popover.Button>
         </Link>
         <Transition
@@ -59,9 +59,11 @@ const CartDropdown = () => {
                           <div className="flex flex-col flex-1">
                             <div className="flex items-start justify-between">
                               <div>
-                                <h3
-                                  className="text-base-regular overflow-ellipsis overflow-hidden whitespace-nowrap mr-4 w-[130px]">
-                                  <Link href={`/products/${item.variant.product.handle}`} legacyBehavior>
+                                <h3 className="text-base-regular overflow-ellipsis overflow-hidden whitespace-nowrap mr-4 w-[130px]">
+                                  <Link
+                                    href={`/products/${item.variant.product.handle}`}
+                                    legacyBehavior
+                                  >
                                     {item.title}
                                   </Link>
                                 </h3>
@@ -106,7 +108,7 @@ const CartDropdown = () => {
                       })}
                     </span>
                   </div>
-                  <Link href="/cart" passHref legacyBehavior>
+                  <Link href="/cart" passHref>
                     <Button>Go to bag</Button>
                   </Link>
                 </div>
@@ -114,13 +116,12 @@ const CartDropdown = () => {
             ) : (
               <div>
                 <div className="flex py-16 flex-col gap-y-4 items-center justify-center">
-                  <div
-                    className="bg-gray-900 text-small-regular flex items-center justify-center w-6 h-6 rounded-full text-white">
+                  <div className="bg-gray-900 text-small-regular flex items-center justify-center w-6 h-6 rounded-full text-white">
                     <span>0</span>
                   </div>
                   <span>Your shopping bag is empty.</span>
                   <div>
-                    <Link href="/store" legacyBehavior>
+                    <Link href="/store">
                       <>
                         <span className="sr-only">Go to all products page</span>
                         <Button onClick={close}>Explore products</Button>

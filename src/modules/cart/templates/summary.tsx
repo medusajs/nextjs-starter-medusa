@@ -11,11 +11,11 @@ const Summary = ({ cart }: SummaryProps) => {
   return (
     <div className="grid grid-cols-1 gap-y-6">
       <CartTotals cart={cart} />
-      <Link href="/checkout" legacyBehavior>
+      <Link href="/checkout">
         <Button>Go to checkout</Button>
       </Link>
     </div>
-  );
+  )
 }
 
 export default Summary
