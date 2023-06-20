@@ -35,10 +35,13 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
               <span className="sr-only">Go to image {index + 1}</span>
               <Image
                 src={image.url}
-                layout="fill"
-                objectFit="cover"
                 className="absolute inset-0"
                 alt="Thumbnail"
+                fill
+                sizes="100vw"
+                style={{
+                  objectFit: "cover",
+                }}
               />
             </button>
           )
@@ -55,11 +58,14 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
             >
               <Image
                 src={image.url}
-                layout="fill"
-                objectFit="cover"
                 priority={index <= 2 ? true : false}
                 className="absolute inset-0"
                 alt={`Product image ${index + 1}`}
+                fill
+                sizes="100vw"
+                style={{
+                  objectFit: "cover",
+                }}
               />
             </div>
           )

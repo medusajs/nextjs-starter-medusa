@@ -21,36 +21,45 @@ const Overview = ({ orders, customer }: OverviewProps) => {
         <div className="text-base-regular">
           <ul>
             <li>
-              <Link href="/account/profile">
-                <a className="flex items-center justify-between py-4 border-b border-gray-200 px-8">
+              <Link
+                href="/account/profile"
+                className="flex items-center justify-between py-4 border-b border-gray-200 px-8"
+              >
+                <>
                   <div className="flex items-center gap-x-2">
                     <User size={16} />
                     <span>Profile</span>
                   </div>
                   <ChevronDown className="transform -rotate-90" />
-                </a>
+                </>
               </Link>
             </li>
             <li>
-              <Link href="/account/addresses">
-                <a className="flex items-center justify-between py-4 border-b border-gray-200 px-8">
+              <Link
+                href="/account/addresses"
+                className="flex items-center justify-between py-4 border-b border-gray-200 px-8"
+              >
+                <>
                   <div className="flex items-center gap-x-2">
                     <MapPin size={16} />
                     <span>Addresses</span>
                   </div>
                   <ChevronDown className="transform -rotate-90" />
-                </a>
+                </>
               </Link>
             </li>
             <li>
-              <Link href="/account/orders">
-                <a className="flex items-center justify-between py-4 border-b border-gray-200 px-8">
+              <Link
+                href="/account/orders"
+                className="flex items-center justify-between py-4 border-b border-gray-200 px-8"
+              >
+                <>
                   <div className="flex items-center gap-x-2">
                     <Package size={16} />
                     <span>Orders</span>
                   </div>
                   <ChevronDown className="transform -rotate-90" />
-                </a>
+                </>
               </Link>
             </li>
           </ul>
@@ -103,41 +112,37 @@ const Overview = ({ orders, customer }: OverviewProps) => {
                     return (
                       <li key={order.id}>
                         <Link href={`/order/details/${order.id}`}>
-                          <a>
-                            <div className="bg-gray-50 flex justify-between items-center p-4">
-                              <div className="grid grid-cols-3 grid-rows-2 text-small-regular gap-x-4 flex-1">
-                                <span className="font-semibold">
-                                  Date placed
-                                </span>
-                                <span className="font-semibold">
-                                  Order number
-                                </span>
-                                <span className="font-semibold">
-                                  Total amount
-                                </span>
-                                <span>
-                                  {new Date(order.created_at).toDateString()}
-                                </span>
-                                <span>#{order.display_id}</span>
-                                <span>
-                                  {formatAmount({
-                                    amount: order.total,
-                                    region: order.region,
-                                    includeTaxes: false,
-                                  })}
-                                </span>
-                              </div>
-                              <button
-                                className="flex items-center justify-between"
-                                onClick={close}
-                              >
-                                <span className="sr-only">
-                                  Go to order #{order.display_id}
-                                </span>
-                                <ChevronDown className="-rotate-90" />
-                              </button>
+                          <div className="bg-gray-50 flex justify-between items-center p-4">
+                            <div className="grid grid-cols-3 grid-rows-2 text-small-regular gap-x-4 flex-1">
+                              <span className="font-semibold">Date placed</span>
+                              <span className="font-semibold">
+                                Order number
+                              </span>
+                              <span className="font-semibold">
+                                Total amount
+                              </span>
+                              <span>
+                                {new Date(order.created_at).toDateString()}
+                              </span>
+                              <span>#{order.display_id}</span>
+                              <span>
+                                {formatAmount({
+                                  amount: order.total,
+                                  region: order.region,
+                                  includeTaxes: false,
+                                })}
+                              </span>
                             </div>
-                          </a>
+                            <button
+                              className="flex items-center justify-between"
+                              onClick={close}
+                            >
+                              <span className="sr-only">
+                                Go to order #{order.display_id}
+                              </span>
+                              <ChevronDown className="-rotate-90" />
+                            </button>
+                          </div>
                         </Link>
                       </li>
                     )

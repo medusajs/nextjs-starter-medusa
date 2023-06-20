@@ -13,10 +13,8 @@ const NotFound: NextPageWithLayout = () => {
         <p className="text-small-regular text-gray-700">
           The page you tried to access does not exist.
         </p>
-        <Link href="/">
-          <a className="mt-4 underline text-base-regular text-gray-900">
-            Go to frontpage
-          </a>
+        <Link href="/" className="mt-4 underline text-base-regular text-gray-900">
+          Go to frontpage
         </Link>
       </div>
     </>
