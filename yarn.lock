@@ -559,12 +559,13 @@
     winston "^3.8.2"
     yargs "^15.3.1"
 
-"@medusajs/medusa-js@5.0.0", "@medusajs/medusa-js@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@medusajs/medusa-js/-/medusa-js-5.0.0.tgz#2e93deda5701bd8385209d6fda510aa58e4f1d46"
-  integrity sha512-LAqfazDSIs2LIqlq8Q/fF+WYTYmDlfh3aIWwqHVwFOLHbkYKh17FGFVtdKqmcviGazUmtLe0VhBTfGt7gz7tZA==
+"@medusajs/medusa-js@^6.0.0", "@medusajs/medusa-js@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@medusajs/medusa-js/-/medusa-js-6.0.1.tgz#f0cdfab2fe6fe5536376625b52e52bf740aaf14f"
+  integrity sha512-7efHlXV1kNE7nJVhYVtT3wEQmBI8XZWHjOe779io428fG4YtIBfcgNxYtUiAeEFN3tKF22kmlcb3Go9Rfj3OvA==
   dependencies:
     axios "^0.24.0"
+    cross-env "^5.2.1"
     qs "^6.10.3"
     retry-axios "^2.6.0"
     uuid "^9.0.0"
@@ -2293,6 +2294,13 @@ cron-parser@^4.2.0, cron-parser@^4.6.0:
   integrity sha512-jbokKWGcyU4gl6jAfX97E1gDpY12DJ1cLJZmoDzaAln/shZ+S3KBFBuA2Q6WeUN4gJf/8klnV1EfvhA2lK5IRQ==
   dependencies:
     luxon "^3.2.1"
+
+cross-env@^5.2.1:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-5.2.1.tgz#b2c76c1ca7add66dc874d11798466094f551b34d"
+  integrity sha512-1yHhtcfAd1r4nwQgknowuUNfIT9E8dOMMspC36g45dN+iD1blloi7xp8X/xAIDnjHWyt1uQ8PHk2fkNaym7soQ==
+  dependencies:
+    cross-spawn "^6.0.5"
 
 cross-fetch@^3.1.5:
   version "3.1.6"
@@ -4524,12 +4532,12 @@ medusa-core-utils@^1.2.0:
   resolved "https://registry.yarnpkg.com/medusa-core-utils/-/medusa-core-utils-1.2.0.tgz#4a2aa9fd63dacda487b220c8e462540990605092"
   integrity sha512-9mzXGkMsll92C46Ub8A9vwjcfFiHfdkgshwmPP9QpRrm02M6N+SQb45S2A9t0dKjyT9J7rgCCSrFhYQg3pvqbw==
 
-medusa-react@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/medusa-react/-/medusa-react-8.0.0.tgz#b4aa6e54262261b22aa54e84b673e2a966346be0"
-  integrity sha512-5OoZnt5bacnR2z42YWg073Vs5MuWvEUguNoKjGcV5TjQaFa96zdmxHywm5yb2z/DYqKmCfyCSaCjL/1AOMBpiA==
+medusa-react@^9.0.0:
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/medusa-react/-/medusa-react-9.0.1.tgz#9186efdf57b654400a99e3ccd34227a5af8c6672"
+  integrity sha512-iOHq6sE1hmZ0HphrilaB2t2tEOTYwBazBKjhtobGSWzDE4uSloUAnVNB7ZGyXkOm4C5EIedKcHRTHAViignumg==
   dependencies:
-    "@medusajs/medusa-js" "5.0.0"
+    "@medusajs/medusa-js" "^6.0.1"
 
 medusa-telemetry@^0.0.16:
   version "0.0.16"
