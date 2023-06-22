@@ -1,6 +1,10 @@
 <p align="center">
   <a href="https://www.medusajs.com">
-    <img alt="Medusa" src="https://user-images.githubusercontent.com/7554214/153162406-bf8fd16f-aa98-4604-b87b-e13ab4baf604.png" width="100" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/59018053/229103275-b5e482bb-4601-46e6-8142-244f531cebdb.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/59018053/229103726-e5b529a3-9b3f-4970-8a1f-c6af37f087bf.svg">
+    <img alt="Medusa logo" src="https://user-images.githubusercontent.com/59018053/229103726-e5b529a3-9b3f-4970-8a1f-c6af37f087bf.svg">
+    </picture>
   </a>
 </p>
 
@@ -13,9 +17,6 @@ Medusa is an open-source headless commerce engine that enables developers to cre
 </p>
 
 <p align="center">
-  <a href="https://github.com/medusajs/medusa/blob/master/LICENSE">
-    <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="Medusa is released under the MIT license." />
-  </a>
   <a href="https://github.com/medusajs/medusa/blob/master/CONTRIBUTING.md">
     <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat" alt="PRs welcome!" />
   </a>
@@ -31,24 +32,34 @@ Medusa is an open-source headless commerce engine that enables developers to cre
 
 # Overview
 
-![next-starter](https://user-images.githubusercontent.com/45367945/182571697-a68c502f-5844-4eea-8735-7683f775ac8b.png)
-
 The Medusa Next.js Starter is built with:
-
 - [Next.js](https://nextjs.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Typescript](https://www.typescriptlang.org/)
 - [Medusa](https://medusajs.com/)
 
+Features include:
+- Full e-commerce support
+- Next.js 13
+- Customer Accounts
+- Search with Algolia
+- Checkout with PayPal and Stripe
+- App Router (coming soon)
+- [Product Module](https://docs.medusajs.com/modules/products/serverless-module) support (coming soon)
+
 # Quickstart
 
-## Deploy in 5 minutes
+## Deploy
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/medusajs/nextjs-starter-medusa)
+
+### Deploy with Vercel
+To get started, click the "Deploy with Vercel" button below.
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fmedusajs%2Fnextjs-starter-medusa&env=NEXT_PUBLIC_MEDUSA_BACKEND_URL&envDescription=The%20URL%20of%20your%20Medusa%20server&envLink=https%3A%2F%2Fdocs.medusajs.com%2Fdeployments%2Fserver%2F&demo-title=Medusa%20Next.js%20Starter&demo-description=A%20fully-fledged%20e-commerce%20store%20with%20Next.js%20and%20Medusa&demo-url=https%3A%2F%2Fnext.medusajs.com&demo-image=https%3A%2F%2Fmedusa-server-testing.s3.amazonaws.com%2FCleanShot%2B2023-06-22%2Bat%2B09.00.53%25402x-1687417264472.png&skippable-integrations=1)
 
 ## Setting up the environment variables
 
-Navigate into your projects directory and get your enviroment variables ready:
+Navigate into your projects directory and get your environment variables ready:
 
 ```shell
 cd nextjs-starter-medusa/
