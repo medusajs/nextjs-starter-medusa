@@ -1,3 +1,4 @@
+"use client"
 import { Dialog, Transition } from "@headlessui/react"
 import { useProductActions } from "@lib/context/product-context"
 import useProductPrice from "@lib/hooks/use-product-price"
@@ -7,17 +8,23 @@ import ChevronDown from "@modules/common/icons/chevron-down"
 import X from "@modules/common/icons/x"
 import clsx from "clsx"
 import React, { Fragment, useMemo } from "react"
-import { Product } from "types/medusa"
 import OptionSelect from "../option-select"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
+import { useIntersection } from "@lib/hooks/use-in-view"
 
 type MobileActionsProps = {
   product: PricedProduct
-  show: boolean
 }
 
-const MobileActions: React.FC<MobileActionsProps> = ({ product, show }) => {
-  const { variant, addToCart, options, inStock, updateOptions } = useProductActions()
+const MobileActions: React.FC<MobileActionsProps> = ({ product }) => {
+  const show = true // TODO
+  //   useIntersection(
+  //   document.getElementById("js-product-section"),
+  //   "0px",
+  // )
+
+  const { variant, addToCart, options, inStock, updateOptions } =
+    useProductActions()
   const { state, open, close } = useToggleState()
 
   const price = useProductPrice({ id: product.id!, variantId: variant?.id })
@@ -81,7 +88,9 @@ const MobileActions: React.FC<MobileActionsProps> = ({ product, show }) => {
                   <ChevronDown />
                 </div>
               </Button>
-              <Button onClick={addToCart}>{!inStock ? "Out of stock" : "Add to cart"}</Button>
+              <Button onClick={addToCart}>
+                {!inStock ? "Out of stock" : "Add to cart"}
+              </Button>
             </div>
           </div>
         </Transition>

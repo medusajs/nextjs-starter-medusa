@@ -1,5 +1,6 @@
+"use client"
+
 import { Tab } from "@headlessui/react"
-import { Product } from "@medusajs/medusa"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 import Back from "@modules/common/icons/back"
 import FastDelivery from "@modules/common/icons/fast-delivery"
