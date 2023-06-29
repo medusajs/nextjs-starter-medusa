@@ -2,6 +2,9 @@ const { withStoreConfig } = require("./store-config")
 const store = require("./store.config.json")
 
 module.exports = withStoreConfig({
+  experimental: {
+    serverActions: true,
+  },
   features: store.features,
   reactStrictMode: true,
   images: {
