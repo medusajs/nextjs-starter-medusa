@@ -2,7 +2,7 @@ import { medusaClient } from "@lib/config"
 import { Customer } from "@medusajs/medusa"
 import { useMutation } from "@tanstack/react-query"
 import { useMeCustomer } from "medusa-react"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import React, { createContext, useCallback, useContext, useState } from "react"
 
 export enum LOGIN_VIEW {
