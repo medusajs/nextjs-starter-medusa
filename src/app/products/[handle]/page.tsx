@@ -1,3 +1,4 @@
+"use client"
 import { getProductHandles } from "@lib/util/get-product-handles"
 import ProductTemplate from "@modules/products/templates"
 
