@@ -21,11 +21,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         <MobileMenuProvider>
           <CartProvider>
             <StoreProvider>
-              <AccountProvider>
-                <Nav />
-                {children}
-                <Footer />
-              </AccountProvider>
+              <AccountProvider>{children}</AccountProvider>
             </StoreProvider>
           </CartProvider>
         </MobileMenuProvider>

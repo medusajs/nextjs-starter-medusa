@@ -1,3 +1,6 @@
+import Footer from "@modules/layout/templates/footer"
+import Nav from "@modules/layout/templates/nav"
+import Providers from "@modules/providers"
 import "styles/globals.css"
 
 export default function RootLayout({
@@ -8,7 +11,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <main className="relative">{children}</main>
+        <Providers>
+          <main className="relative">{children}</main>
+        </Providers>
       </body>
     </html>
   )

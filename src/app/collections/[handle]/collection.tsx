@@ -28,11 +28,11 @@ const fetchCollectionProducts = async ({
   handle: string
   cartId?: string
 }) => {
-  const { products, count, nextPage } = await fetch(
+  const { response, nextPage } = await fetch(
     `${BASEURL}/collections?handle=${handle}&cart_id=${cartId}&page=${pageParam}`
   ).then((res) => res.json())
   return {
-    response: { products, count },
+    response,
     nextPage,
   }
 }
@@ -46,7 +46,6 @@ const Collection: React.FC<CollectionTemplateProps> = ({ collection }) => {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
-    isLoading,
     refetch,
   } = useInfiniteQuery(
     [`get_collection_products`, collection.handle, cart?.id],
@@ -90,13 +89,6 @@ const Collection: React.FC<CollectionTemplateProps> = ({ collection }) => {
             <ProductPreview {...p} />
           </li>
         ))}
-        {isLoading &&
-          !previews.length &&
-          repeat(8).map((index) => (
-            <li key={index}>
-              <SkeletonProductPreview />
-            </li>
-          ))}
         {isFetchingNextPage &&
           repeat(getNumberOfSkeletons(infiniteData?.pages)).map((index) => (
             <li key={index}>

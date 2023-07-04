@@ -12,15 +12,17 @@ export async function GET(request: NextRequest) {
       throw new Error(JSON.stringify(error.error))
     })
 
-  const { response, nextPage } = await fetchCollectionProducts({
+  const { products, count, nextPage } = await fetchCollectionProducts({
     pageParam,
     id: collection.id,
   }).then((res) => res)
 
   return NextResponse.json({
     collection,
-    products: response.products,
-    count: response.count,
+    response: {
+      products,
+      count,
+    },
     nextPage,
   })
 }
@@ -52,7 +54,8 @@ async function fetchCollectionProducts({
   ).then((res) => res.body)
 
   return {
-    response: { products, count },
+    products: [...products, ...products, ...products, ...products],
+    count: 15,
     nextPage: count > offset + 12 ? offset + 12 : null,
   }
 }

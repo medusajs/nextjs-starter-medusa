@@ -1,3 +1,4 @@
+import PageLayout from "app/page-layout"
 import Collection from "./collection"
 
 import { Metadata } from "next"
@@ -26,8 +27,8 @@ export default async function CollectionPage({ params }: Props) {
   ).then((res) => res.json())
 
   return (
-    <>
+    <PageLayout>
       <Collection collection={collection} />
-    </>
+    </PageLayout>
   )
 }

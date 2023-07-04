@@ -1,5 +1,6 @@
 import { Metadata } from "next"
 import Store from "./store"
+import PageLayout from "app/page-layout"
 
 export const metadata: Metadata = {
   title: "Store",
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 }
 
 export default function StorePage() {
-  return <Store />
+  return (
+    <PageLayout>
+      <Store />
+    </PageLayout>
+  )
 }
