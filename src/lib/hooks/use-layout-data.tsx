@@ -8,7 +8,7 @@ import { ProductPreviewType } from "types/global"
 import { CalculatedVariant } from "types/medusa"
 
 type LayoutCollection = {
-  id: string
+  handle: string
   title: string
 }
 
@@ -31,7 +31,7 @@ const fetchCollectionData = async (): Promise<LayoutCollection[]> => {
   } while (collections.length < count)
 
   return collections.map((c) => ({
-    id: c.id,
+    handle: c.handle,
     title: c.title,
   }))
 }

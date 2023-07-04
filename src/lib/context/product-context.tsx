@@ -1,3 +1,5 @@
+"use client"
+
 import { canBuy } from "@lib/util/can-buy"
 import { findCheapestPrice } from "@lib/util/prices"
 import isEqual from "lodash/isEqual"
@@ -50,7 +52,7 @@ export const ProductProvider = ({
   useEffect(() => {
     // initialize the option state
     const optionObj: Record<string, string> = {}
-    for (const option of (product.options || [])) {
+    for (const option of product.options || []) {
       Object.assign(optionObj, { [option.id]: undefined })
     }
     setOptions(optionObj)

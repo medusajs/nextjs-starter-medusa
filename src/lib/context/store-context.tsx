@@ -1,3 +1,5 @@
+"use client"
+
 import { medusaClient } from "@lib/config"
 import { handleError } from "@lib/util/handle-error"
 import { Region } from "@medusajs/medusa"

@@ -1,3 +1,5 @@
+"use client"
+
 import { medusaClient } from "@lib/config"
 import { Customer } from "@medusajs/medusa"
 import { useMutation } from "@tanstack/react-query"

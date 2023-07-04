@@ -70,9 +70,12 @@ const DropdownMenu = () => {
                               >
                                 {chunk.map((collection) => {
                                   return (
-                                    <div key={collection.id} className="pb-3">
+                                    <div
+                                      key={collection.handle}
+                                      className="pb-3"
+                                    >
                                       <Link
-                                        href={`/collections/${collection.id}`}
+                                        href={`/collections/${collection.handle}`}
                                         onClick={() => setOpen(false)}
                                       >
                                         {collection.title}

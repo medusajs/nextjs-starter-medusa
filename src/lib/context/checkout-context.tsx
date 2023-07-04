@@ -1,3 +1,5 @@
+"use client"
+
 import { medusaClient } from "@lib/config"
 import useToggleState, { StateType } from "@lib/hooks/use-toggle-state"
 import {

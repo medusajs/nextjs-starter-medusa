@@ -1,6 +1,6 @@
 import Providers from "@modules/providers"
 
-export default function CheckoutLayout({
+export default function CollectionLayout({
   children,
 }: {
   children: React.ReactNode
