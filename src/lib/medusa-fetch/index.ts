@@ -1,5 +1,3 @@
-import { url } from "inspector"
-
 const MEDUSA_API_KEY = process.env.NEXT_PUBLIC_MEDUSA_API_KEY || ""
 const REVALIDATE_WINDOW = process.env.REVALIDATE_WINDOW || "60*60"
 const ENDPOINT =

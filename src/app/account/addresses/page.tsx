@@ -1,4 +1,3 @@
-import AccountLayout from "@modules/account/templates/account-layout"
 import AddressesTemplate from "@modules/account/templates/addresses-template"
 import { Metadata } from "next"
 
@@ -8,9 +7,5 @@ export const metadata: Metadata = {
 }
 
 export default function Addresses() {
-  return (
-    <AccountLayout>
-      <AddressesTemplate />
-    </AccountLayout>
-  )
+  return <AddressesTemplate />
 }

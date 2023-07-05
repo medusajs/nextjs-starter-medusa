@@ -1,6 +1,5 @@
 import medusaRequest from "@lib/medusa-fetch"
 import OrderCompletedTemplate from "@modules/order/templates/order-completed-template"
-import PageLayout from "app/page-layout"
 import { Metadata } from "next"
 
 type Props = {

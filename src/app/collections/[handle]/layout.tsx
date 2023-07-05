@@ -1,9 +1,9 @@
-import Providers from "@modules/providers"
+import PageLayout from "app/page-layout"
 
 export default function CollectionLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  return <Providers>{children}</Providers>
+  return <PageLayout>{children}</PageLayout>
 }

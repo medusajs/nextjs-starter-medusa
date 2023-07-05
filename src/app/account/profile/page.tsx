@@ -1,4 +1,3 @@
-import AccountLayout from "@modules/account/templates/account-layout"
 import ProfileTemplate from "@modules/account/templates/profile-template"
 import { Metadata } from "next"
 
@@ -8,9 +7,5 @@ export const metadata: Metadata = {
 }
 
 export default function Profile() {
-  return (
-    <AccountLayout>
-      <ProfileTemplate />
-    </AccountLayout>
-  )
+  return <ProfileTemplate />
 }
