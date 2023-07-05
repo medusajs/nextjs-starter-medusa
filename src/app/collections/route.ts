@@ -3,12 +3,11 @@ import { NextRequest, NextResponse } from "next/server"
 
 export const runtime = "edge"
 
-export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams
-  const handle = searchParams.get("handle") ?? ""
-  const pageParam = searchParams.get("pageParam") ?? "0"
-  const limit = searchParams.get("limit") ?? "12"
-  const cart_id = searchParams.get("cart_id") ?? ""
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Record<string, any> }
+) {
+  const { handle, pageParam, limit, cart_id } = params
 
   const collection = await fetchCollection(handle)
     .then((res) => res)
