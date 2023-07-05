@@ -2,10 +2,10 @@ import { useAccount } from "@lib/context/account-context"
 import ChevronDown from "@modules/common/icons/chevron-down"
 import clsx from "clsx"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { usePathname } from "next/navigation"
 
 const AccountNav = () => {
-  const { route } = useRouter()
+  const route = usePathname()
   const { handleLogout } = useAccount()
 
   return (
@@ -31,22 +31,22 @@ const AccountNav = () => {
           <div className="text-base-regular">
             <ul className="flex mb-0 justify-start items-start flex-col gap-y-4">
               <li>
-                <AccountNavLink href="/account" route={route}>
+                <AccountNavLink href="/account" route={route!}>
                   Overview
                 </AccountNavLink>
               </li>
               <li>
-                <AccountNavLink href="/account/profile" route={route}>
+                <AccountNavLink href="/account/profile" route={route!}>
                   Profile
                 </AccountNavLink>
               </li>
               <li>
-                <AccountNavLink href="/account/addresses" route={route}>
+                <AccountNavLink href="/account/addresses" route={route!}>
                   Addresses
                 </AccountNavLink>
               </li>
               <li>
-                <AccountNavLink href="/account/orders" route={route}>
+                <AccountNavLink href="/account/orders" route={route!}>
                   Orders
                 </AccountNavLink>
               </li>

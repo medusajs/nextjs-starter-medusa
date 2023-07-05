@@ -1,4 +1,3 @@
-import { medusaClient } from "@lib/config"
 import { IS_BROWSER } from "@lib/constants"
 import Head from "@modules/common/components/head"
 import Layout from "@modules/layout/templates"
@@ -9,9 +8,11 @@ import { useRouter } from "next/router"
 import { ReactElement } from "react"
 import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query"
 import { NextPageWithLayout } from "types/global"
+import medusaRequest from "@lib/medusa-fetch"
 
 const fetchOrder = async (id: string) => {
-  return await medusaClient.orders.retrieve(id).then(({ order }) => order)
+  const { order } = await medusaRequest(`/orders/${id}`).then((res) => res.body)
+  return order
 }
 
 const Confirmed: NextPageWithLayout = () => {

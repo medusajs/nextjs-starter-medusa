@@ -1,3 +1,5 @@
+"use client"
+
 import { useAccount } from "@lib/context/account-context"
 import UnderlineLink from "@modules/common/components/underline-link"
 import Spinner from "@modules/common/icons/spinner"
@@ -6,6 +8,8 @@ import AccountNav from "../components/account-nav"
 
 const AccountLayout: React.FC = ({ children }) => {
   const { customer, retrievingCustomer, checkSession } = useAccount()
+
+  console.log({ customer, retrievingCustomer })
 
   useEffect(() => {
     checkSession()

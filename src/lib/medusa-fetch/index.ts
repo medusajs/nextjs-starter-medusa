@@ -16,10 +16,7 @@ export default async function medusaRequest(
       "Content-Type": "application/json",
       "x-publishable-key": MEDUSA_API_KEY,
     },
-  }
-
-  if (!path.includes("/carts")) {
-    options.next = { revalidate: parseInt(REVALIDATE_WINDOW) }
+    next: { revalidate: parseInt(REVALIDATE_WINDOW) },
   }
 
   if (payload) {

@@ -1,11 +1,9 @@
 import PageLayout from "app/page-layout"
-import Collection from "./collection"
-
+import CollectionTemplate from "@modules/collections/templates"
 import { Metadata } from "next"
 
 type Props = {
   params: { handle: string }
-  searchParams: { [key: string]: string | string[] | undefined }
 }
 
 const BASEURL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://localhost:3000"
@@ -28,7 +26,7 @@ export default async function CollectionPage({ params }: Props) {
 
   return (
     <PageLayout>
-      <Collection collection={collection} />
+      <CollectionTemplate collection={collection} />
     </PageLayout>
   )
 }
