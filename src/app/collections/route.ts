@@ -9,8 +9,6 @@ export async function GET(request: NextRequest) {
   const pageParam = searchParams.get("pageParam") ?? "0"
   const limit = searchParams.get("limit") ?? "12"
 
-  console.log({ handle, pageParam, limit })
-
   const collection = await fetchCollection(handle)
     .then((res) => res)
     .catch((error) => {

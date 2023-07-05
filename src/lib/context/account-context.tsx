@@ -39,7 +39,6 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
     remove,
   } = useMeCustomer({ onError: () => {} })
 
-  console.log({ customer, retrievingCustomer })
   const loginView = useState<LOGIN_VIEW>(LOGIN_VIEW.SIGN_IN)
 
   const router = useRouter()
