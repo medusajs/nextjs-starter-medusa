@@ -6,7 +6,7 @@ const ENDPOINT =
 export default async function medusaRequest(
   method: string,
   path = "",
-  payload?: Record<string, string> | undefined
+  payload?: Record<string, any> | undefined
 ) {
   const options: RequestInit = {
     method,
@@ -18,15 +18,11 @@ export default async function medusaRequest(
   }
 
   if (payload) {
-    if (method === "POST") {
-      options.body = JSON.stringify(payload)
+    if ("body" in payload) {
+      options.body = JSON.stringify(payload.body)
     }
-    if (method === "GET") {
-      // if the path has a query string, append the payload to it. if not, create a new query string
-      const pathWithQuery = path.includes("?")
-        ? `${path}&${new URLSearchParams(payload).toString()}`
-        : `${path}?${new URLSearchParams(payload).toString()}`
-      path = pathWithQuery
+    if ("query" in payload) {
+      path = `${path}?${new URLSearchParams(payload.query).toString()}`
     }
   }
 
