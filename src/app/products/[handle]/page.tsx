@@ -10,14 +10,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { products } = await medusaRequest("GET", "/products", {
     query: {
       handle: params.handle,
-      //   expand: "variants,variants.prices,thumbnail",
     },
   }).then((res) => res.body)
 
   const product = products[0]
 
   return {
-    title: `${products.title} | Acme Store`,
+    title: `${product.title} | Acme Store`,
     description: `${product.title}`,
     openGraph: {
       title: `${product.title} | Acme Store`,
@@ -31,7 +30,6 @@ export default async function CollectionPage({ params }: Props) {
   const { products } = await medusaRequest("GET", "/products", {
     query: {
       handle: params.handle,
-      //   expand: "variants,variants.prices",
     },
   }).then((res) => res.body)
 

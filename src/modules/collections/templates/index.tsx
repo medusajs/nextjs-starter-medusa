@@ -86,14 +86,11 @@ const CollectionTemplate: React.FC<CollectionTemplateProps> = ({
         <h1>{collection.title}</h1>
       </div>
       <ul className="grid grid-cols-2 small:grid-cols-3 medium:grid-cols-4 gap-x-4 gap-y-8">
-        {previews.map((p) => {
-          console.log(p)
-          return (
-            <li key={p.id}>
-              <ProductPreview {...p} />
-            </li>
-          )
-        })}
+        {previews.map((p) => (
+          <li key={p.id}>
+            <ProductPreview {...p} />
+          </li>
+        ))}
         {isFetchingNextPage &&
           repeat(getNumberOfSkeletons(infiniteData?.pages)).map((index) => (
             <li key={index}>

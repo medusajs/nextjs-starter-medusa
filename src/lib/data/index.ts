@@ -126,10 +126,6 @@ export const fetchProductsList = async ({
     ...queryParams,
   })
 
-  console.log({ pageParam, ...queryParams })
-
-  console.log({ products, count, offset })
-
   return {
     response: { products, count },
     nextPage: count > offset + 12 ? offset + 12 : null,
