@@ -20,16 +20,16 @@ type CollectionTemplateProps = {
 const BASEURL = process.env.NEXT_PUBLIC_BASE_URL
 
 const fetchCollectionProducts = async ({
-  pageParam,
+  pageParam = 0,
   handle,
   cartId,
 }: {
-  pageParam?: string
+  pageParam?: number
   handle: string
   cartId?: string
 }) => {
   const { response, nextPage } = await fetch(
-    `${BASEURL}/collections?handle=${handle}&cart_id=${cartId}&page=${pageParam}`
+    `${BASEURL}/collections?handle=${handle}&cart_id=${cartId}&page=${pageParam.toString()}`
   ).then((res) => res.json())
   return {
     response,

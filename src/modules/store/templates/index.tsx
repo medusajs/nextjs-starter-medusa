@@ -5,7 +5,7 @@ import InfiniteProducts from "@modules/products/components/infinite-products"
 import RefinementList from "@modules/store/components/refinement-list"
 import { useState } from "react"
 
-const Store = () => {
+const StoreTemplate = () => {
   const [params, setParams] = useState<StoreGetProductsParams>({})
 
   return (
@@ -16,4 +16,4 @@ const Store = () => {
   )
 }
 
-export default Store
+export default StoreTemplate

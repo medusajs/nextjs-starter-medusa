@@ -1,10 +1,15 @@
 import medusaRequest from "@lib/medusa-fetch"
 import { NextRequest, NextResponse } from "next/server"
 
+export const runtime = "edge"
+
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
   const handle = searchParams.get("handle") ?? ""
   const pageParam = searchParams.get("pageParam") ?? "0"
+  const limit = searchParams.get("limit") ?? "12"
+
+  console.log({ handle, pageParam, limit })
 
   const collection = await fetchCollection(handle)
     .then((res) => res)
@@ -15,6 +20,7 @@ export async function GET(request: NextRequest) {
   const { products, count, nextPage } = await fetchCollectionProducts({
     pageParam,
     id: collection.id,
+    limit,
   }).then((res) => res)
 
   return NextResponse.json({
@@ -38,24 +44,30 @@ async function fetchCollection(handle: string) {
 }
 
 async function fetchCollectionProducts({
-  pageParam = "0",
+  pageParam,
   id,
+  limit,
 }: {
-  pageParam?: string
+  pageParam: string
   id: string
+  limit: string
 }) {
   const { products, count, offset } = await medusaRequest(
     "GET",
     `/products?collection_id[]=${id}`,
     {
-      limit: "12",
+      limit,
       offset: pageParam,
+      expand: "variants,variants.prices",
     }
   ).then((res) => res.body)
 
   return {
-    products: [...products, ...products, ...products, ...products],
-    count: 15,
-    nextPage: count > offset + 12 ? offset + 12 : null,
+    products,
+    count,
+    nextPage:
+      count > parseInt(offset) + parseInt(limit)
+        ? parseInt(offset) + parseInt(limit)
+        : null,
   }
 }
