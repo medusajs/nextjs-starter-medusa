@@ -1,15 +1,20 @@
 import medusaRequest from "@lib/medusa-fetch"
 import OrderCompletedTemplate from "@modules/order/templates/order-completed-template"
-import PageLayout from "app/page-layout"
 import { Metadata } from "next"
 
 type Props = {
   params: { id: string }
 }
 
-export const metadata: Metadata = {
-  title: "Order Confirmed",
-  description: "You purchase was successful",
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { order } = await medusaRequest("GET", `/orders/${params.id}`).then(
+    (res) => res.body
+  )
+
+  return {
+    title: `Order #${order.display_id}`,
+    description: `View your order`,
+  }
 }
 
 export default async function CollectionPage({ params }: Props) {
