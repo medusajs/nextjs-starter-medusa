@@ -8,6 +8,7 @@ export async function GET(request: NextRequest) {
   const handle = searchParams.get("handle") ?? ""
   const pageParam = searchParams.get("pageParam") ?? "0"
   const limit = searchParams.get("limit") ?? "12"
+  const cart_id = searchParams.get("cart_id") ?? ""
 
   const collection = await fetchCollection(handle)
     .then((res) => res)
@@ -19,6 +20,7 @@ export async function GET(request: NextRequest) {
     pageParam,
     id: collection.id,
     limit,
+    cart_id,
   }).then((res) => res)
 
   return NextResponse.json({
@@ -45,15 +47,18 @@ async function fetchCollectionProducts({
   pageParam,
   id,
   limit,
+  cart_id,
 }: {
   pageParam: string
   id: string
   limit: string
+  cart_id: string
 }) {
   const { products, count, offset } = await medusaRequest(
     "GET",
     `/products?collection_id[]=${id}`,
     {
+      cart_id,
       limit,
       offset: pageParam,
       expand: "variants,variants.prices",
