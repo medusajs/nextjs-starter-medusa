@@ -11,7 +11,7 @@ import React, {
   useMemo,
   useState,
 } from "react"
-import { Product, Variant } from "types/medusa"
+import { Variant } from "types/medusa"
 import { useStore } from "./store-context"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 
