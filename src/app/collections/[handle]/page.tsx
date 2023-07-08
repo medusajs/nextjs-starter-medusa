@@ -5,7 +5,7 @@ type Props = {
   params: { handle: string }
 }
 
-const BASEURL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://localhost:3000"
+const BASEURL = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { collection } = await fetch(
