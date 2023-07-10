@@ -1,5 +1,5 @@
 const MEDUSA_API_KEY = process.env.NEXT_PUBLIC_MEDUSA_API_KEY || ""
-const REVALIDATE_WINDOW = process.env.REVALIDATE_WINDOW || "60*1000*10" // 10 minutes
+const REVALIDATE_WINDOW = process.env.REVALIDATE_WINDOW || "1000 * 60 * 60" // 10 minutes
 const ENDPOINT =
   process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000"
 
@@ -22,8 +22,8 @@ export default async function medusaRequest(
       options.body = JSON.stringify(payload.body)
     }
     if ("query" in payload) {
-      const queries = parseArrays(payload.query)
-      path = `${path}?${new URLSearchParams(queries).toString()}`
+      const params = objectToURLSearchParams(payload.query).toString()
+      path = `${path}?${params}`
     }
   }
 
@@ -46,14 +46,18 @@ export default async function medusaRequest(
   }
 }
 
-const parseArrays = (obj: Record<string, any>) => {
-  const result = {} as Record<string, any>
-  Object.entries(obj).forEach(([key, value]) => {
-    if (Array.isArray(value)) {
-      result[`${key}[]`] = value.join(",")
-      return
+function objectToURLSearchParams(obj: Record<string, any>): URLSearchParams {
+  const params = new URLSearchParams()
+
+  for (const key in obj) {
+    if (Array.isArray(obj[key])) {
+      obj[key].forEach((value: any) => {
+        params.append(`${key}[]`, value)
+      })
+    } else {
+      params.append(key, obj[key])
     }
-    result[key] = value
-  })
-  return result
+  }
+
+  return params
 }
