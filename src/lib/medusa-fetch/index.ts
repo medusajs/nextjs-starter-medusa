@@ -40,6 +40,7 @@ export default async function medusaRequest(
 
     return {
       status: result.status,
+      ok: result.ok,
       body,
     }
   } catch (error: any) {

@@ -6,15 +6,23 @@ type Props = {
   params: { id: string }
 }
 
+async function getOrder(id: string) {
+  const res = await medusaRequest("GET", `/orders/${id}`)
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch order: ${id}`)
+  }
+
+  return res.body
+}
+
 export const metadata: Metadata = {
   title: "Order Confirmed",
   description: "You purchase was successful",
 }
 
 export default async function CollectionPage({ params }: Props) {
-  const { order } = await medusaRequest("GET", `/orders/${params.id}`).then(
-    (res) => res.body
-  )
+  const { order } = await getOrder(params.id)
 
   return <OrderCompletedTemplate order={order} />
 }

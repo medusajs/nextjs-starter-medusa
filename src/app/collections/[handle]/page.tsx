@@ -7,10 +7,18 @@ type Props = {
 
 const BASEURL = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"
 
+async function getCollection(handle: string) {
+  const res = await fetch(`${BASEURL}/collections?handle=${handle}`)
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch collection: ${handle}`)
+  }
+
+  return res.json()
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { collection } = await fetch(
-    `${BASEURL}/collections?handle=${params.handle}`
-  ).then((res) => res.json())
+  const { collection } = await getCollection(params.handle)
 
   return {
     title: `${collection.title} | Acme Store`,
@@ -19,9 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function CollectionPage({ params }: Props) {
-  const { collection } = await fetch(
-    `${BASEURL}/collections?handle=${params.handle}`
-  ).then((res) => res.json())
+  const { collection } = await getCollection(params.handle)
 
   return <CollectionTemplate collection={collection} />
 }
