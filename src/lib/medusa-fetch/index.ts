@@ -1,5 +1,5 @@
 const MEDUSA_API_KEY = process.env.NEXT_PUBLIC_MEDUSA_API_KEY || ""
-const REVALIDATE_WINDOW = process.env.REVALIDATE_WINDOW || "60*60"
+const REVALIDATE_WINDOW = process.env.REVALIDATE_WINDOW || "60*1000*10" // 10 minutes
 const ENDPOINT =
   process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000"
 
@@ -22,7 +22,8 @@ export default async function medusaRequest(
       options.body = JSON.stringify(payload.body)
     }
     if ("query" in payload) {
-      path = `${path}?${new URLSearchParams(payload.query).toString()}`
+      const queries = parseArrays(payload.query)
+      path = `${path}?${new URLSearchParams(queries).toString()}`
     }
   }
 
@@ -43,4 +44,16 @@ export default async function medusaRequest(
       error: error.message,
     }
   }
+}
+
+const parseArrays = (obj: Record<string, any>) => {
+  const result = {} as Record<string, any>
+  Object.entries(obj).forEach(([key, value]) => {
+    if (Array.isArray(value)) {
+      result[`${key}[]`] = value.join(",")
+      return
+    }
+    result[key] = value
+  })
+  return result
 }

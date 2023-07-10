@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
 
 async function fetchCollection(handle: string) {
   return await medusaRequest("GET", "/collections", {
-    query: { "handle[]": handle },
+    query: { handle: [handle] },
   }).then(({ body }) => ({
     id: body.collections[0].id,
     handle: body.collections[0].handle,
@@ -53,7 +53,7 @@ async function fetchCollectionProducts({
 }) {
   const { products, count, offset } = await medusaRequest("GET", "/products", {
     query: {
-      "collection_id[]": id,
+      collection_id: [id],
       cart_id,
       limit,
       offset: pageParam,
