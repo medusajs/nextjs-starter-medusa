@@ -1,9 +1,18 @@
-function RootLayout({ children }: { children: React.ReactNode }) {
+import Providers from "@modules/providers"
+import "styles/globals.css"
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Providers>
+          <main className="relative">{children}</main>
+        </Providers>
+      </body>
     </html>
   )
 }
-
-export default RootLayout

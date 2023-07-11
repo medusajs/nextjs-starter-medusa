@@ -1,3 +1,5 @@
+"use client"
+
 import { useAccount } from "@lib/context/account-context"
 import ProfileEmail from "@modules/account/components/profile-email"
 import ProfileName from "@modules/account/components/profile-name"

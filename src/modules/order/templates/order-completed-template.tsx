@@ -1,3 +1,5 @@
+"use client"
+
 import { Order } from "@medusajs/medusa"
 import Help from "@modules/order/components/help"
 import Items from "@modules/order/components/items"

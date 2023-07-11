@@ -1,3 +1,5 @@
+"use client"
+
 import { useAccount } from "@lib/context/account-context"
 import AddressBook from "../components/address-book"
 

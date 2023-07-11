@@ -1,8 +1,10 @@
+"use client"
+
 import { medusaClient } from "@lib/config"
 import { Customer } from "@medusajs/medusa"
 import { useMutation } from "@tanstack/react-query"
 import { useMeCustomer } from "medusa-react"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import React, { createContext, useCallback, useContext, useState } from "react"
 
 export enum LOGIN_VIEW {
@@ -36,6 +38,7 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
     refetch,
     remove,
   } = useMeCustomer({ onError: () => {} })
+
   const loginView = useState<LOGIN_VIEW>(LOGIN_VIEW.SIGN_IN)
 
   const router = useRouter()

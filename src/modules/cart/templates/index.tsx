@@ -1,3 +1,5 @@
+"use client"
+
 import useEnrichedLineItems from "@lib/hooks/use-enrich-line-items"
 import DiscountCode from "@modules/checkout/components/discount-code"
 import SkeletonCartPage from "@modules/skeletons/templates/skeleton-cart-page"

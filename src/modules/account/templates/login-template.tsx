@@ -1,6 +1,8 @@
+"use client"
+
 import { useAccount } from "@lib/context/account-context"
 import Register from "@modules/account/components/register"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import Login from "../components/login"
 

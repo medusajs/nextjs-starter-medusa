@@ -1,3 +1,5 @@
+"use client"
+
 import { useAccount } from "@lib/context/account-context"
 import UnderlineLink from "@modules/common/components/underline-link"
 import Spinner from "@modules/common/icons/spinner"

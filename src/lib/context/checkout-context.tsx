@@ -1,3 +1,5 @@
+"use client"
+
 import { medusaClient } from "@lib/config"
 import useToggleState, { StateType } from "@lib/hooks/use-toggle-state"
 import {
@@ -17,7 +19,7 @@ import {
   useSetPaymentSession,
   useUpdateCart,
 } from "medusa-react"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import React, { createContext, useContext, useEffect, useMemo } from "react"
 import { FormProvider, useForm, useFormContext } from "react-hook-form"
 import { useStore } from "./store-context"

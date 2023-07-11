@@ -3,7 +3,7 @@ import { LOGIN_VIEW, useAccount } from "@lib/context/account-context"
 import Button from "@modules/common/components/button"
 import Input from "@modules/common/components/input"
 import Spinner from "@modules/common/icons/spinner"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { FieldValues, useForm } from "react-hook-form"
 

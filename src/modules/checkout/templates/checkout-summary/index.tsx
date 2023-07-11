@@ -1,3 +1,5 @@
+"use client"
+
 import DiscountCode from "@modules/checkout/components/discount-code"
 import GiftCard from "@modules/checkout/components/gift-card"
 import PaymentButton from "@modules/checkout/components/payment-button"
