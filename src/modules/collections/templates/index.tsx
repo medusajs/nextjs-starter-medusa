@@ -29,7 +29,7 @@ const fetchCollectionProducts = async ({
   cartId?: string
 }) => {
   const { response, nextPage } = await fetch(
-    `${BASEURL}/collections?handle=${handle}&cart_id=${cartId}&page=${pageParam.toString()}`
+    `${BASEURL}/api/collections?handle=${handle}&cart_id=${cartId}&page=${pageParam.toString()}`
   ).then((res) => res.json())
   return {
     response,
