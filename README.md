@@ -28,7 +28,13 @@ Medusa is an open-source headless commerce engine that enables developers to cre
   </a>
 </p>
 
-> **Prerequisites**: To use the starter you should have a Medusa server running locally on port 9000. Check out [medusa-starter-default](https://github.com/medusajs/medusa-starter-default) for a quick setup.
+### Prerequisites
+To use the starter you should have a Medusa server running locally on port 9000.
+For a quick setup, run: 
+```shell
+npx create-medusa-app@latest
+```
+Check out [create-medusa-app docs](https://docs.medusajs.com/create-medusa-app) for more details and troubleshooting.
 
 # Overview
 
