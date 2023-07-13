@@ -44,12 +44,17 @@ The Medusa Next.js Starter is built with:
 - [Medusa](https://medusajs.com/)
 
 Features include:
-- Full e-commerce support
+- Full e-commerce support:
+  - Product Detail Page
+  - Product Overview Page
+  - Search with Algolia
+  - Product Collections
+  - Cart
+  - Checkout with PayPal and Stripe
+  - User Accounts
+  - Order Details
 - Next.js 13
-- App Router
-- Customer Accounts
-- Search with Algolia
-- Checkout with PayPal and Stripe
+- Full App Router support with [Dynamic Routes](https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes) and [Route Groups](https://nextjs.org/docs/app/building-your-application/routing/route-groups)
 - [Product Module](https://docs.medusajs.com/modules/products/serverless-module) support (coming soon)
 
 # Quickstart
