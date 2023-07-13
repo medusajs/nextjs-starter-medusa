@@ -9,12 +9,11 @@
 </p>
 
 <h1 align="center">
-  Medusa Next.js Starter
+  Medusa Next.js Starter Template
 </h1>
 
 <p align="center">
-Medusa is an open-source headless commerce engine that enables developers to create amazing digital commerce experiences.
-</p>
+Combine Medusa's modules for your commerce backend with the newest Next.js 13 features for a performant storefront.</p>
 
 <p align="center">
   <a href="https://github.com/medusajs/medusa/blob/master/CONTRIBUTING.md">
