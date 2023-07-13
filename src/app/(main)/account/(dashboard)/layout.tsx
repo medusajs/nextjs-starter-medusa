@@ -1,6 +1,6 @@
 import AccountLayout from "@modules/account/templates/account-layout"
 
-export default function AddressPageLayout({
+export default function AccountPageLayout({
   children,
 }: {
   children: React.ReactNode
