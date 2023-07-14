@@ -20,9 +20,9 @@ const CartDropdown = () => {
   return (
     <div className="h-full z-50" onMouseEnter={open} onMouseLeave={close}>
       <Popover className="relative h-full">
-        <Link href="/cart" passHref>
-          <Popover.Button className="h-full">{`My Bag (${totalItems})`}</Popover.Button>
-        </Link>
+        <Popover.Button className="h-full">
+          <Link href="/cart">{`My Bag (${totalItems})`}</Link>
+        </Popover.Button>
         <Transition
           show={state}
           as={Fragment}
