@@ -25,7 +25,10 @@ const ShippingAddress = () => {
               label="Email"
               {...register("email", {
                 required: "Email is required",
-                pattern: emailRegex,
+                pattern: {
+                  value: emailRegex,
+                  message: "Email address is invalid"
+                },
               })}
               autoComplete="email"
               errors={errors}
