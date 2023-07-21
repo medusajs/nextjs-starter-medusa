@@ -3,7 +3,7 @@ import Eye from "@modules/common/icons/eye"
 import EyeOff from "@modules/common/icons/eye-off"
 import clsx from "clsx"
 import React, { useEffect, useImperativeHandle, useState } from "react"
-import { get } from "react-hook-form"
+import { get } from "lodash"
 
 type InputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -33,8 +33,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     useImperativeHandle(ref, () => inputRef.current!)
 
-    const hasError = get(errors, name) && get(touched, name)
-
     return (
       <div>
         <div className="relative z-0 w-full text-base-regular">
@@ -45,7 +43,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             className={clsx(
               "pt-4 pb-1 block w-full px-4 mt-0 bg-transparent border appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 border-gray-200",
               {
-                "border-rose-500 focus:border-rose-500": hasError,
+                "border-rose-500 focus:border-rose-500": errors ? get(errors, name) : false,
               }
             )}
             {...props}
@@ -57,7 +55,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             className={clsx(
               "mx-3 px-1 transition-all absolute duration-300 top-3 -z-1 origin-0 text-gray-500",
               {
-                "!text-rose-500": hasError,
+                "!text-rose-500": errors ? get(errors, name) : false,
               }
             )}
           >
@@ -74,7 +72,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             </button>
           )}
         </div>
-        {hasError && (
+        {(
           <ErrorMessage
             errors={errors}
             name={name}
