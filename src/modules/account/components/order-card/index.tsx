@@ -43,7 +43,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
           return (
             <div key={i.id} className="flex flex-col gap-y-2">
               <Thumbnail
-                thumbnail={order.items[0].thumbnail}
+                thumbnail={i.thumbnail}
                 images={[]}
                 size="full"
               />
