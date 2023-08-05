@@ -1,6 +1,6 @@
 import { useMobileMenu } from "@lib/context/mobile-menu-context"
 import Hit, { HitProps } from "@modules/search/components/hit"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 
 const MobileHit = ({ hit }: HitProps) => {
   const { close } = useMobileMenu()
