@@ -5,7 +5,7 @@ export const runtime = "edge"
 
 export async function GET(request: NextRequest) {
   const searchParams = Object.fromEntries(request.nextUrl.searchParams)
-  const { handle, pageParam, limit, cart_id } = searchParams
+  const { handle, page, limit, cart_id } = searchParams
 
   const collection = await fetchCollection(handle)
     .then((res) => res)
@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
     })
 
   const { products, count, nextPage } = await fetchCollectionProducts({
-    pageParam,
+    page,
     id: collection.id,
     limit,
     cart_id,
@@ -41,12 +41,12 @@ async function fetchCollection(handle: string) {
 }
 
 async function fetchCollectionProducts({
-  pageParam = "0",
+  page = "0",
   id,
   limit = "12",
   cart_id,
 }: {
-  pageParam: string
+  page: string
   id: string
   limit: string
   cart_id: string
@@ -56,17 +56,16 @@ async function fetchCollectionProducts({
       collection_id: [id],
       cart_id,
       limit,
-      offset: pageParam,
+      offset: page,
       expand: "variants,variants.prices",
     },
   }).then((res) => res.body)
 
+  const nextPage = parseInt(offset) + parseInt(limit)
+
   return {
     products,
     count,
-    nextPage:
-      count > parseInt(offset) + parseInt(limit)
-        ? parseInt(offset) + parseInt(limit)
-        : null,
+    nextPage: count > nextPage ? nextPage : null,
   }
 }
