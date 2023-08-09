@@ -1,5 +1,6 @@
 import CollectionTemplate from "@modules/collections/templates"
 import { Metadata } from "next"
+import { notFound } from "next/navigation"
 
 type Props = {
   params: { handle: string }
@@ -11,7 +12,7 @@ async function getCollection(handle: string) {
   const res = await fetch(`${BASEURL}/collections?handle=${handle}`)
 
   if (!res.ok) {
-    throw new Error(`Failed to fetch collection: ${handle}`)
+    notFound()
   }
 
   return res.json()
@@ -19,6 +20,10 @@ async function getCollection(handle: string) {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { collection } = await getCollection(params.handle)
+
+  if (!collection) {
+    notFound()
+  }
 
   return {
     title: `${collection.title} | Acme Store`,
