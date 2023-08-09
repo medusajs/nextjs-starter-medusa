@@ -1,6 +1,7 @@
 import medusaRequest from "@lib/medusa-fetch"
 import ProductTemplate from "@modules/products/templates"
 import { Metadata } from "next"
+import { notFound } from "next/navigation"
 
 type Props = {
   params: { handle: string }
@@ -14,7 +15,7 @@ async function getProducts(handle: string) {
   })
 
   if (!res.ok) {
-    throw new Error(`Failed to fetch product: ${handle}`)
+    notFound()
   }
 
   return res.body
@@ -22,6 +23,10 @@ async function getProducts(handle: string) {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { products } = await getProducts(params.handle)
+
+  if (!products.length) {
+    notFound()
+  }
 
   const product = products[0]
 
