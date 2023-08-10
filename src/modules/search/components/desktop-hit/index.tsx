@@ -1,6 +1,6 @@
 import { useModal } from "@lib/context/modal-context"
 import Hit, { HitProps } from "@modules/search/components/hit"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 
 const DesktopHit = ({ hit }: HitProps) => {
   const { close } = useModal()
