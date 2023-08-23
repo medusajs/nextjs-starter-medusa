@@ -13,7 +13,7 @@ import { useEffect, useState } from "react"
 
 const Nav = () => {
   const pathname = usePathname()
-  const [isHome, setIsHome] = useState(false)
+  const [isHome, setIsHome] = useState(true)
   const [isScrolled, setIsScrolled] = useState(false)
 
   //useEffect that detects if window is scrolled > 5px on the Y axis
