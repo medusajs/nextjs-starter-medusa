@@ -54,8 +54,6 @@ async function getProductsByCollectionId(queryParams: Record<string, any>) {
 
   const products = data.map((c) => c.products).flat() as ProductDTO[]
 
-  if (!products) return []
-
   const publishedProducts = filterPublishedProducts(products)
 
   const count = publishedProducts.length
@@ -78,6 +76,7 @@ async function getProductsByCollectionId(queryParams: Record<string, any>) {
 
 async function getProducts(params: Record<string, any>) {
   const productService = await initializeProductModule()
+
   const { id, limit, offset, cart_id } = params
 
   const filters = {} as FilterableProductProps
@@ -92,10 +91,6 @@ async function getProducts(params: Record<string, any>) {
     skip: parseInt(offset) || 0,
     withDeleted: false,
   })
-
-  if (!data) {
-    return []
-  }
 
   const publishedProducts = filterPublishedProducts(data)
 

@@ -6,9 +6,9 @@ import { ProductDTO, ProductVariantDTO } from "@medusajs/types/dist/product"
  * @param data Array of product objects (with variants) to get prices for
  * @param cartId (Optional) cart id to get region-specific prices
  */
-export default async function getVariants(data: ProductDTO[], cartId?: string) {
+export default async function getPrices(data: ProductDTO[], cartId?: string) {
   if (!data || !data.length) {
-    throw new Error("No products provided")
+    return []
   }
 
   // Map of variant id to variant object
