@@ -19,6 +19,7 @@ export async function GET(
         "variants.options",
         "tags",
         "options",
+        "options.values",
         "images",
         "description",
         "collection",
