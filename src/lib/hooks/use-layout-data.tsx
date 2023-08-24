@@ -18,8 +18,10 @@ const fetchCollectionData = async (): Promise<LayoutCollection[]> => {
   let count = 1
 
   do {
-    await medusaClient.collections
-      .list({ offset })
+    await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/collections?offset=${offset}`
+    )
+      .then((res) => res.json())
       .then(({ collections: newCollections, count: newCount }) => {
         collections = [...collections, ...newCollections]
         count = newCount
@@ -51,12 +53,10 @@ const fetchFeaturedProducts = async (
   cartId: string,
   region: Region
 ): Promise<ProductPreviewType[]> => {
-  const products = await medusaClient.products
-    .list({
-      is_giftcard: false,
-      limit: 4,
-      cart_id: cartId,
-    })
+  const products: PricedProduct[] = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/products?limit=4&cart_id=${cartId}`
+  )
+    .then((res) => res.json())
     .then(({ products }) => products)
     .catch((_) => [] as PricedProduct[])
 

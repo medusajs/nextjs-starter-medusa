@@ -1,5 +1,5 @@
 const MEDUSA_API_KEY = process.env.NEXT_PUBLIC_MEDUSA_API_KEY || ""
-const REVALIDATE_WINDOW = process.env.REVALIDATE_WINDOW || "1000 * 60 * 60" // 10 minutes
+const REVALIDATE_WINDOW = process.env.REVALIDATE_WINDOW || 1000 * 60 * 60 // 10 minutes
 const ENDPOINT =
   process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://localhost:9000"
 
@@ -17,7 +17,10 @@ export default async function medusaRequest(
       "Content-Type": "application/json",
       "x-publishable-key": MEDUSA_API_KEY,
     },
-    next: { revalidate: parseInt(REVALIDATE_WINDOW) },
+    next: {
+      revalidate: parseInt(REVALIDATE_WINDOW.toString()),
+      tags: ["medusa_request"],
+    },
   }
 
   if (payload) {
