@@ -18,12 +18,17 @@ export async function GET(request: NextRequest) {
   }
 
   const [data, count] = await productService.listAndCount(filters, {
-    relations: ["variants", "variants.options", "tags"],
+    relations: ["variants", "variants.options", "tags", "status"],
     take: parseInt(limit) || 100,
     skip: parseInt(offset) || 0,
+    withDeleted: false,
   })
 
-  const productsWithPrices = await getPrices(data, cart_id)
+  const publishedProducts = data.filter(
+    (product) => product.status === "published"
+  )
+
+  const productsWithPrices = await getPrices(publishedProducts, cart_id)
 
   const nextPage = parseInt(offset) + parseInt(limit)
 

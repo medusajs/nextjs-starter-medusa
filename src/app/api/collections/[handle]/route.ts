@@ -38,6 +38,8 @@ export async function GET(
         "products.variants",
         "products.variants.options",
         "products.tags",
+        "products.options",
+        "products.status",
       ],
       take: parseInt(limit) || 100,
       skip: parseInt(page) || 0,
@@ -47,7 +49,11 @@ export async function GET(
     return notFound()
   }
 
-  const productsWithPrices = await getPrices(products, cart_id)
+  const publishedProducts = products.filter(
+    (product) => product.status === "published"
+  )
+
+  const productsWithPrices = await getPrices(publishedProducts, cart_id)
 
   const nextPage = parseInt(page) + parseInt(limit)
 
