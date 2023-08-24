@@ -39,8 +39,8 @@ export async function GET(
         "products.variants.options",
         "products.tags",
       ],
-      take: limit || 100,
-      skip: page || 0,
+      take: parseInt(limit) || 100,
+      skip: parseInt(page) || 0,
     })
 
   if (!products) {

@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   const [collections, count] = await productService.listAndCountCollections(
     {},
     {
-      skip: offset || 0,
+      skip: parseInt(offset) || 0,
       take: 100,
     }
   )

@@ -23,7 +23,7 @@ export async function GET(
         "description",
         "collection",
       ],
-      take: limit || 100,
+      take: parseInt(limit) || 100,
     }
   )
 

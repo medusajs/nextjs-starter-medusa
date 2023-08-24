@@ -19,8 +19,8 @@ export async function GET(request: NextRequest) {
 
   const [data, count] = await productService.listAndCount(filters, {
     relations: ["variants", "variants.options", "tags"],
-    take: limit || 100,
-    skip: offset || 0,
+    take: parseInt(limit) || 100,
+    skip: parseInt(offset) || 0,
   })
 
   const productsWithPrices = await getPrices(data, cart_id)
