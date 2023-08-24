@@ -16,11 +16,7 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
   updateOption,
   title,
 }) => {
-  console.log({ option })
-
   const filteredOptions = option.values.map((v) => v.value).filter(onlyUnique)
-
-  console.log({ filteredOptions })
 
   return (
     <div className="flex flex-col gap-y-3">

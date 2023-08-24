@@ -14,9 +14,12 @@ export default async function getVariants(data: ProductDTO[], cartId?: string) {
   // Map of variant id to variant object
   const variantsById = new Map<string, Record<string, any>>()
 
+  const productIds = data.map((p) => p.id)
+
   const query = {
+    id: productIds,
     expand: "variants,variants.prices,variants.options",
-  } as Record<string, string>
+  } as Record<string, any>
 
   if (cartId) {
     query.cart_id = cartId
