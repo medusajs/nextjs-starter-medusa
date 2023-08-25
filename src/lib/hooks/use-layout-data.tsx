@@ -1,6 +1,5 @@
-import { medusaClient } from "@lib/config"
 import { getPercentageDiff } from "@lib/util/get-precentage-diff"
-import { Product, ProductCollection, Region } from "@medusajs/medusa"
+import { ProductCollection, Region } from "@medusajs/medusa"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 import { useQuery } from "@tanstack/react-query"
 import { formatAmount, useCart } from "medusa-react"
@@ -19,7 +18,12 @@ const fetchCollectionData = async (): Promise<LayoutCollection[]> => {
 
   do {
     await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/collections?offset=${offset}`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/collections?offset=${offset}`,
+      {
+        next: {
+          tags: ["collections"],
+        },
+      }
     )
       .then((res) => res.json())
       .then(({ collections: newCollections, count: newCount }) => {
@@ -54,7 +58,12 @@ const fetchFeaturedProducts = async (
   region: Region
 ): Promise<ProductPreviewType[]> => {
   const products: PricedProduct[] = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/products?limit=4&cart_id=${cartId}`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/products?limit=4&cart_id=${cartId}&region_id=${region.id}`,
+    {
+      next: {
+        tags: ["products"],
+      },
+    }
   )
     .then((res) => res.json())
     .then(({ products }) => products)

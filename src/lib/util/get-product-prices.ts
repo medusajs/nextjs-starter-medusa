@@ -6,7 +6,11 @@ import { ProductDTO, ProductVariantDTO } from "@medusajs/types/dist/product"
  * @param data Array of product objects (with variants) to get prices for
  * @param cartId (Optional) cart id to get region-specific prices
  */
-export default async function getPrices(data: ProductDTO[], cartId?: string) {
+export default async function getPrices(
+  data: ProductDTO[],
+  cartId?: string,
+  regionId?: string
+) {
   if (!data || !data.length) {
     return []
   }
@@ -23,6 +27,10 @@ export default async function getPrices(data: ProductDTO[], cartId?: string) {
 
   if (cartId) {
     query.cart_id = cartId
+  }
+
+  if (regionId) {
+    query.region_id = regionId
   }
 
   // Get all products with variants and prices from Medusa API

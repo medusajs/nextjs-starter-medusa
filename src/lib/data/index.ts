@@ -14,7 +14,12 @@ export const fetchProductsList = async ({
   const params = new URLSearchParams(queryParams as Record<string, string>)
 
   const { products, count, nextPage } = await fetch(
-    `${API_BASE_URL}/api/products?limit=12&offset=${pageParam}&${params.toString()}`
+    `${API_BASE_URL}/api/products?limit=12&offset=${pageParam}&${params.toString()}`,
+    {
+      next: {
+        tags: ["products"],
+      },
+    }
   ).then((res) => res.json())
 
   return {

@@ -40,7 +40,7 @@ const CountrySelect = () => {
   }, [countryCode, options])
 
   const handleChange = (option: CountryOption) => {
-    revalidateTags(["medusa_request"])
+    revalidateTags(["medusa_request", "products", "collections"])
     setRegion(option.region, option.country)
     close()
   }
