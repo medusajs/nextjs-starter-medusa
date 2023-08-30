@@ -1,4 +1,4 @@
-import { getProductByHandle } from "@lib/medusa-fetch/products"
+import { getProductByHandle } from "@lib/data"
 import ProductTemplate from "@modules/products/templates"
 import { Metadata } from "next"
 import { notFound } from "next/navigation"

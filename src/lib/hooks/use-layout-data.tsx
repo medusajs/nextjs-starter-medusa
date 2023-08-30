@@ -1,3 +1,4 @@
+import { getProductsList, getCollectionsList } from "@lib/data"
 import { getPercentageDiff } from "@lib/util/get-precentage-diff"
 import { ProductCollection, Region } from "@medusajs/medusa"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
@@ -17,15 +18,8 @@ const fetchCollectionData = async (): Promise<LayoutCollection[]> => {
   let count = 1
 
   do {
-    await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/collections?offset=${offset}`,
-      {
-        next: {
-          tags: ["collections"],
-        },
-      }
-    )
-      .then((res) => res.json())
+    await getCollectionsList(offset)
+      .then((res) => res)
       .then(({ collections: newCollections, count: newCount }) => {
         collections = [...collections, ...newCollections]
         count = newCount
@@ -57,15 +51,15 @@ const fetchFeaturedProducts = async (
   cartId: string,
   region: Region
 ): Promise<ProductPreviewType[]> => {
-  const products: PricedProduct[] = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/products?limit=4&cart_id=${cartId}&region_id=${region.id}`,
-    {
-      next: {
-        tags: ["products"],
-      },
-    }
-  )
-    .then((res) => res.json())
+  const products: PricedProduct[] = await getProductsList({
+    pageParam: 4,
+    queryParams: {
+      limit: 4,
+      cart_id: cartId,
+      region_id: region.id,
+    },
+  })
+    .then((res) => res.response)
     .then(({ products }) => products)
     .catch((_) => [] as PricedProduct[])
 

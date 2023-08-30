@@ -58,7 +58,7 @@ export async function GET(
   const nextPage = parseInt(page) + parseInt(limit)
 
   return NextResponse.json({
-    collection: collectionMeta,
+    collections: [collectionMeta],
     response: {
       products: productsWithPrices,
       count,

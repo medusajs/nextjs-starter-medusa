@@ -23,15 +23,17 @@ export default async function medusaRequest(
     },
   }
 
-  if (payload) {
-    if ("body" in payload) {
-      options.body = JSON.stringify(payload.body)
-    }
-    if ("query" in payload) {
-      const params = objectToURLSearchParams(payload.query!).toString()
-      path = `${path}?${params}`
-    }
+  if (payload?.body) {
+    options.body = JSON.stringify(payload.body)
   }
+
+  if (payload?.query) {
+    const params = objectToURLSearchParams(payload.query!).toString()
+    path = `${path}?${params}`
+  }
+
+  const limit = payload?.query?.limit || 100
+  const offset = payload?.query?.offset || 0
 
   try {
     const result = await fetch(`${ENDPOINT}/store${path}`, options)
@@ -40,6 +42,10 @@ export default async function medusaRequest(
     if (body.errors) {
       throw body.errors[0]
     }
+
+    const nextPage = offset + limit
+
+    body.nextPage = body.count > nextPage ? nextPage : null
 
     return {
       status: result.status,

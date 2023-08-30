@@ -1,6 +1,7 @@
 "use client"
 
 import usePreviews from "@lib/hooks/use-previews"
+import { getProductsByCollectionHandle } from "@lib/data"
 import getNumberOfSkeletons from "@lib/util/get-number-of-skeletons"
 import repeat from "@lib/util/repeat"
 import ProductPreview from "@modules/products/components/product-preview"
@@ -14,26 +15,7 @@ type CollectionTemplateProps = {
   collection: {
     handle: string
     title: string
-  }
-}
-
-const BASEURL = process.env.NEXT_PUBLIC_BASE_URL
-
-const fetchCollectionProducts = async ({
-  pageParam = 0,
-  handle,
-  cartId,
-}: {
-  pageParam?: number
-  handle: string
-  cartId?: string
-}) => {
-  const { response, nextPage } = await fetch(
-    `${BASEURL}/api/collections/${handle}?cart_id=${cartId}&page=${pageParam.toString()}`
-  ).then((res) => res.json())
-  return {
-    response,
-    nextPage,
+    id: string
   }
 }
 
@@ -52,7 +34,7 @@ const CollectionTemplate: React.FC<CollectionTemplateProps> = ({
   } = useInfiniteQuery(
     [`get_collection_products`, collection.handle, cart?.id],
     ({ pageParam }) =>
-      fetchCollectionProducts({
+      getProductsByCollectionHandle({
         pageParam,
         handle: collection.handle,
         cartId: cart?.id,
