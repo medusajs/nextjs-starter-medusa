@@ -1,3 +1,4 @@
+import { getProductByHandle } from "@lib/medusa-fetch/products"
 import ProductTemplate from "@modules/products/templates"
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
@@ -6,20 +7,13 @@ type Props = {
   params: { handle: string }
 }
 
-async function getProducts(handle: string) {
-  const data = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/${handle}`
-  )
-    .then((res) => res.json())
-    .catch(() => {
-      notFound()
-    })
-
-  return data
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { product } = await getProducts(params.handle)
+  const { products } = await getProductByHandle(params.handle).catch((err) => {
+    console.error(err)
+    notFound()
+  })
+
+  const product = products[0]
 
   return {
     title: `${product.title} | Acme Store`,
@@ -33,7 +27,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function CollectionPage({ params }: Props) {
-  const { product } = await getProducts(params.handle)
+  const { products } = await getProductByHandle(params.handle).catch((err) => {
+    console.error(err)
+    notFound()
+  })
 
-  return <ProductTemplate product={product} />
+  console.log(products)
+
+  return <ProductTemplate product={products[0]} />
 }

@@ -8,7 +8,9 @@ export async function GET(
   { params }: { params: Record<string, any> }
 ) {
   const { handle } = params
-  const { cart_id } = Object.fromEntries(request.nextUrl.searchParams)
+  const { cart_id, region_id } = Object.fromEntries(
+    request.nextUrl.searchParams
+  )
   const productService = await initializeProductModule()
 
   const data = await productService.list(
@@ -29,7 +31,7 @@ export async function GET(
     }
   )
 
-  const productsWithPrices = await getPrices(data, cart_id)
+  const productsWithPrices = await getPrices(data, cart_id, region_id)
 
-  return NextResponse.json({ product: productsWithPrices[0] })
+  return NextResponse.json({ products: productsWithPrices })
 }
