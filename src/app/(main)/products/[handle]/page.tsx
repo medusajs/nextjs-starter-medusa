@@ -8,12 +8,13 @@ type Props = {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { products } = await getProductByHandle(params.handle).catch((err) => {
-    console.error(err)
-    notFound()
-  })
+  const data = await getProductByHandle(params.handle)
 
-  const product = products[0]
+  const product = data.products[0]
+
+  if (!product) {
+    notFound()
+  }
 
   return {
     title: `${product.title} | Acme Store`,
@@ -31,8 +32,6 @@ export default async function CollectionPage({ params }: Props) {
     console.error(err)
     notFound()
   })
-
-  console.log(products)
 
   return <ProductTemplate product={products[0]} />
 }
