@@ -29,7 +29,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CollectionPage({ params }: Props) {
   const { products } = await getProductByHandle(params.handle).catch((err) => {
-    console.error(err)
     notFound()
   })
 
