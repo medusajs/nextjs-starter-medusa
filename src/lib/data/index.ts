@@ -1,11 +1,6 @@
 import medusaRequest from "../medusa-fetch"
 import { StoreGetProductsParams } from "@medusajs/medusa"
 
-type GetProductListParams = {
-  pageParam?: number
-  queryParams: StoreGetProductsParams
-}
-
 /**
  * This file contains functions for fetching products and collections from the Medusa API or the Medusa Product Module,
  * depending on the feature flag. By default, the standard Medusa API is used. To use the Medusa Product Module, set the feature flag to true.
@@ -19,7 +14,7 @@ const PRODUCT_MODULE_ENABLED =
 const API_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000"
 
 // Set DEBUG to true to console.log where the data is coming from.
-const DEBUG = true
+const DEBUG = false
 
 /**
  * Fetches a product by handle, using the Medusa API or the Medusa Product Module, depending on the feature flag.
@@ -64,7 +59,10 @@ export async function getProductByHandle(handle: string) {
 export async function getProductsList({
   pageParam = 0,
   queryParams,
-}: GetProductListParams) {
+}: {
+  pageParam?: number
+  queryParams: StoreGetProductsParams
+}) {
   const limit = queryParams.limit || 12
 
   if (PRODUCT_MODULE_ENABLED) {
@@ -157,7 +155,9 @@ export async function getCollectionsList(offset: number = 0) {
 /**
  * Fetches a collection by handle, using the Medusa API or the Medusa Product Module, depending on the feature flag.
  * @param handle  (string) - The handle of the collection to retrieve
- * @returns (array) - An array of collections (should only be one)
+ * @returns collections (array) - An array of collections (should only be one)
+ * @returns response (object) - An object containing the products and the number of products in the collection
+ * @returns nextPage (number) - The offset of the next page of products
  */
 export async function getCollectionByHandle(handle: string) {
   if (PRODUCT_MODULE_ENABLED) {
@@ -185,6 +185,14 @@ export async function getCollectionByHandle(handle: string) {
   return data
 }
 
+/**
+ * Fetches a list of products in a collection, using the Medusa API or the Medusa Product Module, depending on the feature flag.
+ * @param pageParam (number) - The offset of the products to retrieve
+ * @param handle (string) - The handle of the collection to retrieve
+ * @param cartId (string) - The ID of the cart
+ * @returns response (object) - An object containing the products and the number of products in the collection
+ * @returns nextPage (number) - The offset of the next page of products
+ */
 export async function getProductsByCollectionHandle({
   pageParam = 0,
   handle,
