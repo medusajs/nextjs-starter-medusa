@@ -1,8 +1,7 @@
-import { fetchProductsList } from "@lib/data"
 import usePreviews from "@lib/hooks/use-previews"
 import getNumberOfSkeletons from "@lib/util/get-number-of-skeletons"
 import repeat from "@lib/util/repeat"
-import { Product, StoreGetProductsParams } from "@medusajs/medusa"
+import { StoreGetProductsParams } from "@medusajs/medusa"
 import Button from "@modules/common/components/button"
 import SkeletonProductPreview from "@modules/skeletons/components/skeleton-product-preview"
 import { useCart } from "medusa-react"
@@ -10,6 +9,7 @@ import { useMemo } from "react"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import ProductPreview from "../product-preview"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
+import { getProductsList } from "@lib/data"
 
 type RelatedProductsProps = {
   product: PricedProduct
@@ -41,7 +41,7 @@ const RelatedProducts = ({ product }: RelatedProductsProps) => {
   const { data, hasNextPage, fetchNextPage, isLoading, isFetchingNextPage } =
     useInfiniteQuery(
       [`infinite-products-${product.id}`, queryParams, cart],
-      ({ pageParam }) => fetchProductsList({ pageParam, queryParams }),
+      ({ pageParam }) => getProductsList({ pageParam, queryParams }),
       {
         getNextPageParam: (lastPage) => lastPage.nextPage,
       }

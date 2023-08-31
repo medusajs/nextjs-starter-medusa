@@ -4,6 +4,7 @@ const store = require("./store.config.json")
 module.exports = withStoreConfig({
   experimental: {
     serverActions: true,
+    serverComponentsExternalPackages: ["@medusajs/product"],
   },
   features: store.features,
   reactStrictMode: true,

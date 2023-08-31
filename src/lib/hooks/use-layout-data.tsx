@@ -1,6 +1,6 @@
-import { medusaClient } from "@lib/config"
+import { getProductsList, getCollectionsList } from "@lib/data"
 import { getPercentageDiff } from "@lib/util/get-precentage-diff"
-import { Product, ProductCollection, Region } from "@medusajs/medusa"
+import { ProductCollection, Region } from "@medusajs/medusa"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 import { useQuery } from "@tanstack/react-query"
 import { formatAmount, useCart } from "medusa-react"
@@ -18,8 +18,8 @@ const fetchCollectionData = async (): Promise<LayoutCollection[]> => {
   let count = 1
 
   do {
-    await medusaClient.collections
-      .list({ offset })
+    await getCollectionsList(offset)
+      .then((res) => res)
       .then(({ collections: newCollections, count: newCount }) => {
         collections = [...collections, ...newCollections]
         count = newCount
@@ -51,12 +51,15 @@ const fetchFeaturedProducts = async (
   cartId: string,
   region: Region
 ): Promise<ProductPreviewType[]> => {
-  const products = await medusaClient.products
-    .list({
-      is_giftcard: false,
+  const products: PricedProduct[] = await getProductsList({
+    pageParam: 4,
+    queryParams: {
       limit: 4,
       cart_id: cartId,
-    })
+      region_id: region.id,
+    },
+  })
+    .then((res) => res.response)
     .then(({ products }) => products)
     .catch((_) => [] as PricedProduct[])
 
