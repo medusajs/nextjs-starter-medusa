@@ -20,10 +20,6 @@ export async function GET(request: NextRequest) {
     }
   )
 
-  if (!collections) {
-    return notFound()
-  }
-
   return NextResponse.json({
     collections,
     count,
