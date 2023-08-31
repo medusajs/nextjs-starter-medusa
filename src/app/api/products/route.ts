@@ -8,6 +8,11 @@ import {
 } from "@medusajs/types/dist/product/common"
 import { notFound } from "next/navigation"
 
+/**
+ * This endpoint uses the serverless Product Module to retrieve a list of products.
+ * The module connects directly to you Medusa database to retrieve and manipulate data, without the need for a dedicated server.
+ * Read more about the Product Module here: https://docs.medusajs.com/modules/products/serverless-module
+ */
 export async function GET(request: NextRequest) {
   const queryParams = Object.fromEntries(request.nextUrl.searchParams)
 
