@@ -55,7 +55,7 @@ Features include:
   - Order Details
 - Next.js 13
 - Full App Router support with [Dynamic Routes](https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes) and [Route Groups](https://nextjs.org/docs/app/building-your-application/routing/route-groups)
-- [Product Module](https://docs.medusajs.com/modules/products/serverless-module) support
+- [Product Module](https://docs.medusajs.com/modules/products/serverless-module) support (beta)
 
 # Quickstart
 
@@ -99,6 +99,7 @@ Your site is now running at http://localhost:8000!
 Edit `/pages/index.tsx` to see your site update in real-time!
 
 # Product Module
+> The Product Module is currently in beta. You can learn more about it [here](https://docs.medusajs.com/modules/products/serverless-module). In addition, the product module in the Next.js storefront can't be used without the Medusa backend at the moment.
 
 This starter has full support for our new serverless [Product Module](https://docs.medusajs.com/modules/products/serverless-module) for retrieving and manipulating product data directly from a serverless function. This keeps your product logic close to the frontend, making it easy to customize or extend Medusa's core functionality from within your Next.js project.
 
