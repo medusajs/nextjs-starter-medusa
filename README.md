@@ -55,7 +55,7 @@ Features include:
   - Order Details
 - Next.js 13
 - Full App Router support with [Dynamic Routes](https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes) and [Route Groups](https://nextjs.org/docs/app/building-your-application/routing/route-groups)
-- [Product Module](https://docs.medusajs.com/modules/products/serverless-module) support
+- [Product Module](https://docs.medusajs.com/modules/products/serverless-module) support (beta)
 
 # Quickstart
 
