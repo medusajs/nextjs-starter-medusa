@@ -65,10 +65,10 @@ function objectToURLSearchParams(obj: Record<string, any>): URLSearchParams {
   for (const key in obj) {
     if (Array.isArray(obj[key])) {
       obj[key].forEach((value: any) => {
-        params.append(`${key}[]`, value)
+        params.append(`${key}[]`, decodeURIComponent(value))
       })
     } else {
-      params.append(key, obj[key])
+      params.append(key, decodeURIComponent(obj[key]))
     }
   }
 
