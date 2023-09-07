@@ -15,7 +15,7 @@ const OnboardingCta = ({ orderId }: { orderId: string }) => {
           You can now complete setting up your store in the admin.
         </span>
         <a
-          href={`http://localhost:7001/a/orders/?order_id=${orderId}&onboarding_step=setup_finished_nextjs`}
+          href={`http://localhost:7001/a/orders/${orderId}`}
           onClick={resetOnboarding}
         >
           <Button className="md:w-80">Complete setup in admin</Button>
