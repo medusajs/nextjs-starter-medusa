@@ -6,7 +6,8 @@ import Items from "@modules/order/components/items"
 import OrderDetails from "@modules/order/components/order-details"
 import OrderSummary from "@modules/order/components/order-summary"
 import ShippingDetails from "@modules/order/components/shipping-details"
-import React from "react"
+import OnboardingCta from "@modules/order/components/onboarding-cta"
+import React, { useEffect, useState } from "react"
 
 type OrderCompletedTemplateProps = {
   order: Order
@@ -15,9 +16,17 @@ type OrderCompletedTemplateProps = {
 const OrderCompletedTemplate: React.FC<OrderCompletedTemplateProps> = ({
   order,
 }) => {
+  const [isOnboarding, setIsOnboarding] = useState<boolean>(false)
+
+  useEffect(() => {
+    const onboarding = window.sessionStorage.getItem("onboarding")
+    setIsOnboarding(onboarding === "true")
+  }, [])
+
   return (
     <div className="bg-gray-50 py-6 min-h-[calc(100vh-64px)]">
-      <div className="content-container flex justify-center">
+      <div className="content-container flex flex-col justify-center items-center">
+        {isOnboarding && <OnboardingCta orderId={order.id} />}
         <div className="max-w-4xl h-full bg-white w-full">
           <OrderDetails order={order} />
           <Items
