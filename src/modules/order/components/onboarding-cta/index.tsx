@@ -1,6 +1,10 @@
 import Button from "@modules/common/components/button"
 
 const OnboardingCta = ({ orderId }: { orderId: string }) => {
+  const resetOnboarding = () => {
+    window.sessionStorage.setItem("onboarding", "false")
+  }
+
   return (
     <div className="max-w-4xl h-full bg-white w-full mb-4">
       <div className="flex flex-col gap-y-6 center p-10 md:items-center">
@@ -12,6 +16,7 @@ const OnboardingCta = ({ orderId }: { orderId: string }) => {
         </span>
         <a
           href={`http://localhost:7001/a/orders/?order_id=${orderId}&onboarding_step=setup_finished_nextjs`}
+          onClick={resetOnboarding}
         >
           <Button className="md:w-80">Complete setup in admin</Button>
         </a>
