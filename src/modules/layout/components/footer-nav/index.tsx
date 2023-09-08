@@ -21,25 +21,27 @@ const FooterNav = () => {
           <div className="flex flex-col gap-y-2">
             <span className="text-base-semi">Categories</span>
             <ul
-              className={clsx("grid grid-cols-1 gap-y-2", {
-                "grid-cols-2": (product_categories?.length || 0) > 4,
+              className={clsx("grid grid-cols-1 gap-2", {
+                "grid-cols-2": (product_categories?.length || 0) > 3,
               })}
             >
-              {collections?.map((c) => (
-                <li key={c.id}>
-                  <Link href={`/categories/${c.handle}`}>{c.title}</Link>
-                </li>
-              ))}
+              {product_categories?.slice(0, 6).map((c) => {
+                return (
+                  <li key={c.id}>
+                    <Link href={`/categories/${c.handle}`}>{c.name}</Link>
+                  </li>
+                )
+              })}
             </ul>
           </div>
           <div className="flex flex-col gap-y-2">
             <span className="text-base-semi">Collections</span>
             <ul
-              className={clsx("grid grid-cols-1 gap-y-2", {
-                "grid-cols-2": (collections?.length || 0) > 4,
+              className={clsx("grid grid-cols-1 gap-2", {
+                "grid-cols-2": (collections?.length || 0) > 3,
               })}
             >
-              {collections?.map((c) => (
+              {collections?.slice(0, 6).map((c) => (
                 <li key={c.id}>
                   <Link href={`/collections/${c.handle}`}>{c.title}</Link>
                 </li>
