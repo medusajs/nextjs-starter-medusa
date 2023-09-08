@@ -66,7 +66,7 @@ export async function getProductsList({
   const limit = queryParams.limit || 12
 
   if (PRODUCT_MODULE_ENABLED) {
-    console.log("PRODUCT_MODULE_ENABLED")
+    DEBUG && console.log("PRODUCT_MODULE_ENABLED")
     const params = new URLSearchParams(queryParams as Record<string, string>)
 
     const { products, count, nextPage } = await fetch(
@@ -226,6 +226,92 @@ export async function getProductsByCollectionHandle({
   const { response, nextPage } = await getProductsList({
     pageParam,
     queryParams: { collection_id: [id], cart_id: cartId },
+  })
+    .then((res) => res)
+    .catch((err) => {
+      throw err
+    })
+
+  return {
+    response,
+    nextPage,
+  }
+}
+
+/**
+ * Fetches a category by handle, using the Medusa API or the Medusa Product Module, depending on the feature flag.
+ * @param handle  (string) - The handle of the category to retrieve
+ * @returns collections (array) - An array of categories (should only be one)
+ * @returns response (object) - An object containing the products and the number of products in the category
+ * @returns nextPage (number) - The offset of the next page of products
+ */
+export async function getCategoryByHandle(handle: string) {
+  if (PRODUCT_MODULE_ENABLED) {
+    DEBUG && console.log("PRODUCT_MODULE_ENABLED")
+    const data = await fetch(`${API_BASE_URL}/api/categories/${handle}`)
+      .then((res) => res.json())
+      .catch((err) => {
+        throw err
+      })
+
+    return data
+  }
+
+  DEBUG && console.log("PRODUCT_MODULE_DISABLED")
+  const data = await medusaRequest("GET", "/product-categories", {
+    query: {
+      handle: handle,
+    },
+  })
+    .then((res) => res.body)
+    .catch((err) => {
+      throw err
+    })
+
+  return data
+}
+
+/**
+ * Fetches a list of products in a collection, using the Medusa API or the Medusa Product Module, depending on the feature flag.
+ * @param pageParam (number) - The offset of the products to retrieve
+ * @param handle (string) - The handle of the collection to retrieve
+ * @param cartId (string) - The ID of the cart
+ * @returns response (object) - An object containing the products and the number of products in the collection
+ * @returns nextPage (number) - The offset of the next page of products
+ */
+export async function getProductsByCategoryHandle({
+  pageParam = 0,
+  handle,
+  cartId,
+}: {
+  pageParam?: number
+  handle: string
+  cartId?: string
+}) {
+  if (PRODUCT_MODULE_ENABLED) {
+    DEBUG && console.log("PRODUCT_MODULE_ENABLED")
+    const { response, nextPage } = await fetch(
+      `${API_BASE_URL}/api/categories/${handle}?cart_id=${cartId}&page=${pageParam.toString()}`
+    )
+      .then((res) => res.json())
+      .catch((err) => {
+        throw err
+      })
+
+    return {
+      response,
+      nextPage,
+    }
+  }
+
+  DEBUG && console.log("PRODUCT_MODULE_DISABLED")
+  const { id } = await getCategoryByHandle(handle).then(
+    (res) => res.product_categories[0]
+  )
+
+  const { response, nextPage } = await getProductsList({
+    pageParam,
+    queryParams: { category_id: [id], cart_id: cartId },
   })
     .then((res) => res)
     .catch((err) => {

@@ -1,12 +1,13 @@
 "use client"
 
 import clsx from "clsx"
-import { useCollections } from "medusa-react"
+import { useCollections, useProductCategories } from "medusa-react"
 import Link from "next/link"
 import CountrySelect from "../country-select"
 
 const FooterNav = () => {
   const { collections } = useCollections()
+  const { product_categories } = useProductCategories()
 
   return (
     <div className="content-container flex flex-col gap-y-8 pt-16 pb-8">
@@ -16,7 +17,21 @@ const FooterNav = () => {
             Acme
           </Link>
         </div>
-        <div className="text-small-regular grid grid-cols-2 gap-x-16">
+        <div className="text-small-regular grid grid-cols-3 gap-x-16">
+          <div className="flex flex-col gap-y-2">
+            <span className="text-base-semi">Categories</span>
+            <ul
+              className={clsx("grid grid-cols-1 gap-y-2", {
+                "grid-cols-2": (product_categories?.length || 0) > 4,
+              })}
+            >
+              {collections?.map((c) => (
+                <li key={c.id}>
+                  <Link href={`/categories/${c.handle}`}>{c.title}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
           <div className="flex flex-col gap-y-2">
             <span className="text-base-semi">Collections</span>
             <ul
