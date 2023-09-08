@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
 
   const { offset } = Object.fromEntries(request.nextUrl.searchParams)
 
-  const [categories, count] = await productService
+  const [product_categories, count] = await productService
     .listAndCountCategories(
       {},
       {
@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
     })
 
   return NextResponse.json({
-    categories,
+    product_categories,
     count,
   })
 }
