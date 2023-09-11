@@ -143,7 +143,7 @@ You will also need to setup the integrations in your Medusa server. See the [Med
 
 # Search integration
 
-This starter is configured to support using the `medusa-search-meilisearch` plugin out of the box. To enable search you will need to enable the feature flag in `./store-config.json`, which you do by changing the config to this:
+This starter is configured to support using the `medusa-search-meilisearch` plugin out of the box. To enable search you will need to enable the feature flag in `./store.config.json`, which you do by changing the config to this:
 
 ```javascript
 {
