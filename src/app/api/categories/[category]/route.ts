@@ -20,7 +20,7 @@ export async function GET(
 ) {
   const productService = await initializeProductModule()
 
-  const { handle } = params
+  const { category } = params
 
   const searchParams = Object.fromEntries(request.nextUrl.searchParams)
   const { offset, limit, cart_id } = searchParams
@@ -30,7 +30,7 @@ export async function GET(
   } = (await productService
     .listCategories(
       {
-        handle,
+        handle: category,
       },
       {
         relations: [
@@ -40,6 +40,7 @@ export async function GET(
           "products.tags",
           "products.options",
           "products.status",
+          "category_children",
         ],
         select: ["id", "handle", "name", "description"],
         take: 1,

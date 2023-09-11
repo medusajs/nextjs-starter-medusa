@@ -10,16 +10,30 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import { useCart } from "medusa-react"
 import React, { useEffect } from "react"
 import { useInView } from "react-intersection-observer"
+import Link from "next/link"
+import UnderlineLink from "@modules/common/components/underline-link"
 
 type CategoryTemplateProps = {
   category: {
     handle: string
     name: string
     id: string
+    category_children?: {
+      name: string
+      handle: string
+      id: string
+    }[]
+  }
+  parent?: {
+    handle: string
+    name: string
   }
 }
 
-const CategoryTemplate: React.FC<CategoryTemplateProps> = ({ category }) => {
+const CategoryTemplate: React.FC<CategoryTemplateProps> = ({
+  category,
+  parent,
+}) => {
   const { cart } = useCart()
   const { ref, inView } = useInView()
 
@@ -62,9 +76,33 @@ const CategoryTemplate: React.FC<CategoryTemplateProps> = ({ category }) => {
 
   return (
     <div className="content-container py-6">
-      <div className="mb-8 text-2xl-semi">
+      <div className="flex flex-row mb-8 text-2xl-semi gap-4">
+        {parent && (
+          <>
+            <span className="text-gray-500">
+              <Link
+                className="mr-4 hover:text-black"
+                href={`/${parent.handle}`}
+              >
+                {parent.name}
+              </Link>
+              /
+            </span>
+          </>
+        )}
         <h1>{category.name}</h1>
       </div>
+      {category.category_children && (
+        <div className="mb-8 text-base-large">
+          <ul className="grid grid-cols-1 gap-2">
+            {category.category_children?.map((c) => (
+              <li key={c.id}>
+                <UnderlineLink href={`/${c.handle}`}>{c.name}</UnderlineLink>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       <ul className="grid grid-cols-2 small:grid-cols-3 medium:grid-cols-4 gap-x-4 gap-y-8">
         {previews.map((p) => (
           <li key={p.id}>
