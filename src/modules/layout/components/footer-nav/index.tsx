@@ -17,7 +17,7 @@ const FooterNav = () => {
             Acme
           </Link>
         </div>
-        <div className="text-small-regular grid grid-cols-3 gap-x-16">
+        <div className="text-small-regular grid grid-cols-3 gap-x-10 md:gap-x-16">
           {product_categories && (
             <div className="flex flex-col gap-y-2">
               <span className="text-base-semi">Categories</span>
