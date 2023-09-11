@@ -18,6 +18,7 @@ type CategoryTemplateProps = {
     handle: string
     name: string
     id: string
+    description?: string
     category_children?: {
       name: string
       handle: string
@@ -92,6 +93,11 @@ const CategoryTemplate: React.FC<CategoryTemplateProps> = ({
         )}
         <h1>{category.name}</h1>
       </div>
+      {category.description && (
+        <div className="mb-8 text-base-regular">
+          <p>{category.description}</p>
+        </div>
+      )}
       {category.category_children && (
         <div className="mb-8 text-base-large">
           <ul className="grid grid-cols-1 gap-2">

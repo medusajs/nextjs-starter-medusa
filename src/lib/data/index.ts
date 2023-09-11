@@ -260,7 +260,7 @@ export async function getCategoryByHandle(handle: string) {
   DEBUG && console.log("PRODUCT_MODULE_DISABLED")
   const data = await medusaRequest("GET", "/product-categories", {
     query: {
-      handle: handle,
+      handle,
     },
   })
     .then((res) => res.body)
@@ -268,7 +268,10 @@ export async function getCategoryByHandle(handle: string) {
       throw err
     })
 
-  return data
+  return {
+    product_categories: data.product_categories,
+    parent: data.product_categories[0].parent_category,
+  }
 }
 
 /**
