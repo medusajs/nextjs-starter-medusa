@@ -5,7 +5,7 @@ const ProductOnboardingCta = () => {
     <div className="max-w-4xl h-full bg-gray-100 w-full mb-4 p-8">
       <div className="flex flex-col gap-y-6 center">
         <span className="text-gray-700 text-xl">
-          Your test product was successfully created! 🎉
+          Your demo product was successfully created! 🎉
         </span>
         <span className="text-gray-700 text-small-regular">
           You can now continue setting up your store in the admin.
