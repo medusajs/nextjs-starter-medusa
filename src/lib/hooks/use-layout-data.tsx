@@ -57,6 +57,7 @@ const fetchFeaturedProducts = async (
       limit: 4,
       cart_id: cartId,
       region_id: region.id,
+      currency_code: region.currency_code,
     },
   })
     .then((res) => res.response)

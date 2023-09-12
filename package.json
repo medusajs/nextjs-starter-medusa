@@ -22,8 +22,11 @@
   "dependencies": {
     "@headlessui/react": "^1.6.1",
     "@hookform/error-message": "^2.0.0",
+    "@medusajs/link-modules": "^0.1.0",
     "@medusajs/medusa-js": "^6.0.3",
-    "@medusajs/product": "^0.1.7",
+    "@medusajs/modules-sdk": "^1.10.0",
+    "@medusajs/pricing": "^0.0.2",
+    "@medusajs/product": "^0.2.0",
     "@meilisearch/instant-meilisearch": "^0.7.1",
     "@paypal/paypal-js": "^5.0.6",
     "@paypal/react-paypal-js": "^7.8.1",

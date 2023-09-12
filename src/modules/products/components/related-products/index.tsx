@@ -25,6 +25,10 @@ const RelatedProducts = ({ product }: RelatedProductsProps) => {
       params.cart_id = cart.id
     }
 
+    if (cart?.region?.currency_code) {
+      params.currency_code = cart.region.currency_code
+    }
+
     if (product.collection_id) {
       params.collection_id = [product.collection_id]
     }
@@ -36,7 +40,7 @@ const RelatedProducts = ({ product }: RelatedProductsProps) => {
     params.is_giftcard = false
 
     return params
-  }, [product, cart?.id])
+  }, [product, cart?.id, cart?.region])
 
   const { data, hasNextPage, fetchNextPage, isLoading, isFetchingNextPage } =
     useInfiniteQuery(

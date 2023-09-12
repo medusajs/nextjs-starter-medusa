@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server"
-import { initialize as initializeProductModule } from "@medusajs/product"
-import { ProductCollectionDTO } from "@medusajs/types/dist/product"
 import { notFound } from "next/navigation"
-import getPrices from "@lib/util/get-product-prices"
+
+import { initialize as initializeProductModule } from "@medusajs/product"
+import { MedusaApp, Modules } from "@medusajs/modules-sdk"
+import { ProductCollectionDTO, ProductDTO } from "@medusajs/types/dist/product"
 
 /**
  * This endpoint uses the serverless Product Module to retrieve a collection and its products by handle.
@@ -18,7 +19,7 @@ export async function GET(
   const { handle } = params
 
   const searchParams = Object.fromEntries(request.nextUrl.searchParams)
-  const { page, limit, cart_id } = searchParams
+  const { page, limit } = searchParams
 
   const collections = await productService.listCollections()
 
@@ -34,40 +35,104 @@ export async function GET(
     return notFound()
   }
 
-  const count = collection.products?.length || 0
+  const {
+    rows: products,
+    metadata: { count },
+  } = await getProductsByCollectionId(collection.id, searchParams)
 
-  const { products, ...collectionMeta } =
-    await productService.retrieveCollection(collection.id, {
-      relations: [
-        "products",
-        "products.variants",
-        "products.variants.options",
-        "products.tags",
-        "products.options",
-        "products.status",
-      ],
-      take: parseInt(limit) || 100,
-      skip: parseInt(page) || 0,
-    })
-
-  if (!products) {
-    return notFound()
-  }
-
-  const publishedProducts = products.filter(
+  const publishedProducts: ProductDTO[] = products.filter(
     (product) => product.status === "published"
   )
-
-  const productsWithPrices = await getPrices(publishedProducts, cart_id)
 
   const nextPage = parseInt(page) + parseInt(limit)
 
   return NextResponse.json({
-    collections: [collectionMeta],
+    collections: [collection],
     response: {
-      products: productsWithPrices,
+      products: publishedProducts,
       count,
     },
     nextPage: count > nextPage ? nextPage : null,
   })
+}
+
+async function getProductsByCollectionId(
+  collection_id: string,
+  params: Record<string, any>
+): Promise<{ rows: ProductDTO[]; metadata: Record<string, any> }> {
+  const { query } = await MedusaApp({
+    modulesConfig: [
+      {
+        module: Modules.PRODUCT,
+        path: "@medusajs/product",
+      },
+      {
+        module: Modules.PRICING,
+        path: "@medusajs/pricing",
+      },
+    ],
+    sharedResourcesConfig: {
+      database: { clientUrl: process.env.POSTGRES_URL },
+    },
+  })
+
+  const filters = {
+    take: parseInt(params.limit) || 100,
+    skip: parseInt(params.offset) || 0,
+    filters: {
+      collection_id: [collection_id],
+    },
+  }
+
+  const productsQuery = `#graphql
+    query($filters: Record, $take: Int, $skip: Int) {
+      products(filters: $filters, take: $take, skip: $skip) {
+        id
+        title
+        handle
+        tags
+        status
+        collection
+        collection_id
+        thumbnail
+        images {
+            url
+            alt_text
+            id
+        }
+        options {
+            id
+            value
+            title
+        }
+        variants {
+            id
+            title
+            created_at
+            updated_at
+            thumbnail
+            inventory_quantity
+            material
+            weight
+            length
+            height
+            width
+            options {
+                id
+                value
+                title
+            }
+            prices {
+                money_amount {
+                  amount
+                  currency_code
+            }
+          }
+        }
+      }
+    }`
+
+  const response = await query(productsQuery, filters)
+
+  return response
 }
