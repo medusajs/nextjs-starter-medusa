@@ -5,7 +5,7 @@ import { initialize as initializeProductModule } from "@medusajs/product"
 
 /**
  * This endpoint uses the serverless Product Module to retrieve a product by handle.
- * The module connects directly to you Medusa database to retrieve and manipulate data, without the need for a dedicated server.
+ * The module connects directly to your Medusa database to retrieve and manipulate data, without the need for a dedicated server.
  * Read more about the Product Module here: https://docs.medusajs.com/modules/products/serverless-module
  */
 export async function GET(
