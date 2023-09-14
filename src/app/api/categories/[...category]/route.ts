@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
-import { notFound } from "next/navigation"
-
 import { initialize as initializeProductModule } from "@medusajs/product"
+import { ProductDTO } from "@medusajs/types/dist/product"
+import { notFound } from "next/navigation"
 import { MedusaApp, Modules } from "@medusajs/modules-sdk"
-import { ProductCollectionDTO, ProductDTO } from "@medusajs/types/dist/product"
 
 /**
- * This endpoint uses the serverless Product Module to retrieve a collection and its products by handle.
+ * This endpoint uses the serverless Product Module to retrieve a category and its products by handle.
  * The module connects directly to you Medusa database to retrieve and manipulate data, without the need for a dedicated server.
  * Read more about the Product Module here: https://docs.medusajs.com/modules/products/serverless-module
  */
@@ -16,29 +15,40 @@ export async function GET(
 ) {
   const productService = await initializeProductModule()
 
-  const { handle } = params
-
   const searchParams = Object.fromEntries(request.nextUrl.searchParams)
   const { page, limit } = searchParams
 
-  const collections = await productService.listCollections()
+  let { category: categoryHandle } = params
 
-  const collectionsByHandle = new Map<string, ProductCollectionDTO>()
+  const handle = categoryHandle.map((handle: string, index: number) => {
+    return categoryHandle.slice(0, index + 1).join("/")
+  })
 
-  for (const collection of collections) {
-    collectionsByHandle.set(collection.handle, collection)
-  }
+  const product_categories = await productService
+    .listCategories(
+      {
+        handle,
+      },
+      {
+        select: ["id", "handle", "name", "description"],
+        relations: ["category_children"],
+        take: handle.length,
+      }
+    )
+    .catch((e) => {
+      return notFound()
+    })
 
-  const collection = collectionsByHandle.get(handle)
+  const category = product_categories[0]
 
-  if (!collection) {
+  if (!category) {
     return notFound()
   }
 
   const {
     rows: products,
     metadata: { count },
-  } = await getProductsByCollectionId(collection.id, searchParams)
+  } = await getProductsByCategoryId(category.id, searchParams)
 
   const publishedProducts: ProductDTO[] = products.filter(
     (product) => product.status === "published"
@@ -47,7 +57,7 @@ export async function GET(
   const nextPage = parseInt(page) + parseInt(limit)
 
   return NextResponse.json({
-    collections: [collection],
+    product_categories: Object.values(product_categories),
     response: {
       products: publishedProducts,
       count,
@@ -56,8 +66,8 @@ export async function GET(
   })
 }
 
-async function getProductsByCollectionId(
-  collection_id: string,
+async function getProductsByCategoryId(
+  category_id: string,
   params: Record<string, any>
 ): Promise<{ rows: ProductDTO[]; metadata: Record<string, any> }> {
   // Extract the query parameters
@@ -85,7 +95,7 @@ async function getProductsByCollectionId(
     take: parseInt(params.limit) || 100,
     skip: parseInt(params.offset) || 0,
     filters: {
-      collection_id: [collection_id],
+      category_id: [category_id],
     },
     currency_code,
   }

@@ -11,8 +11,10 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Record<string, any> }
 ) {
+  // Extract the query parameters
   const { handle } = params
 
+  // Initialize Remote Query with the Product and Pricing Modules
   const { query } = await MedusaApp({
     modulesConfig: [
       {
@@ -29,9 +31,16 @@ export async function GET(
     },
   })
 
+  // Set the filters for the query
+  const filters = {
+    handle,
+    take: 1,
+  }
+
+  // Set the GraphQL query
   const productsQuery = `#graphql
-    query {
-      products(handle: "${handle}", take: 1) {
+    query($handle: String, $take: Int) {
+      products(handle: $handle, take: $take) {
         id
         title
         handle
@@ -62,12 +71,6 @@ export async function GET(
             length
             height
             width
-            prices {
-                money_amount {
-                  amount
-                  currency_code
-                }
-            }
             options {
                 id
                 value
@@ -77,7 +80,13 @@ export async function GET(
       }
     }`
 
-  const products = await query(productsQuery)
+  // Run the query
+  const data = await query(productsQuery, filters)
 
+  // Format the response
+  // const products = formatModuleResponse(data)
+  const products = data
+
+  // Return the response
   return NextResponse.json({ products })
 }

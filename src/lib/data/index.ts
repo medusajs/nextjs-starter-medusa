@@ -1,6 +1,14 @@
-import { Product, ProductCategory, ProductCollection } from "@medusajs/product"
+import { Product, ProductCategory, ProductCollection } from "@medusajs/medusa"
 import medusaRequest from "../medusa-fetch"
 import { StoreGetProductsParams } from "@medusajs/medusa"
+import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
+
+export type ProductCategoryWithChildren = Omit<
+  ProductCategory,
+  "category_children"
+> & {
+  category_children: ProductCategory[]
+}
 
 /**
  * This file contains functions for fetching products and collections from the Medusa API or the Medusa Product Module,
@@ -24,7 +32,7 @@ const DEBUG = false
  */
 export async function getProductByHandle(
   handle: string
-): Promise<{ products: Product[] }> {
+): Promise<{ products: PricedProduct[] }> {
   if (PRODUCT_MODULE_ENABLED) {
     DEBUG && console.log("PRODUCT_MODULE_ENABLED")
     const data = await fetch(`${API_BASE_URL}/api/products/${handle}`)
@@ -66,7 +74,7 @@ export async function getProductsList({
   pageParam?: number
   queryParams: StoreGetProductsParams
 }): Promise<{
-  response: { products: Product[]; count: number }
+  response: { products: PricedProduct[]; count: number }
   nextPage: number
 }> {
   const limit = queryParams.limit || 12
@@ -209,20 +217,20 @@ export async function getProductsByCollectionHandle({
   pageParam = 0,
   handle,
   cartId,
-  currency_code,
+  currencyCode,
 }: {
   pageParam?: number
   handle: string
   cartId?: string
-  currency_code?: string
+  currencyCode?: string
 }): Promise<{
-  response: { products: Product[]; count: number }
+  response: { products: PricedProduct[]; count: number }
   nextPage: number
 }> {
   if (PRODUCT_MODULE_ENABLED) {
     DEBUG && console.log("PRODUCT_MODULE_ENABLED")
     const { response, nextPage } = await fetch(
-      `${API_BASE_URL}/api/collections/${handle}?currency_code=${currency_code}&page=${pageParam.toString()}`
+      `${API_BASE_URL}/api/collections/${handle}?currency_code=${currencyCode}&page=${pageParam.toString()}`
     )
       .then((res) => res.json())
       .catch((err) => {
@@ -266,7 +274,10 @@ export async function getProductsByCollectionHandle({
 export async function getCategoriesList(
   offset: number = 0,
   limit?: number
-): Promise<{ product_categories: ProductCategory[]; count: number }> {
+): Promise<{
+  product_categories: ProductCategoryWithChildren[]
+  count: number
+}> {
   if (PRODUCT_MODULE_ENABLED) {
     DEBUG && console.log("PRODUCT_MODULE_ENABLED")
     const { product_categories, count } = await fetch(
@@ -318,8 +329,8 @@ export async function getCategoriesList(
  * @returns nextPage (number) - The offset of the next page of products
  */
 export async function getCategoryByHandle(handle: string): Promise<{
-  product_categories: ProductCategory[]
-  parent: ProductCategory
+  product_categories: ProductCategoryWithChildren[]
+  parent: ProductCategoryWithChildren
 }> {
   if (PRODUCT_MODULE_ENABLED) {
     DEBUG && console.log("PRODUCT_MODULE_ENABLED")
@@ -361,18 +372,20 @@ export async function getProductsByCategoryHandle({
   pageParam = 0,
   handle,
   cartId,
+  currencyCode,
 }: {
   pageParam?: number
   handle: string
   cartId?: string
+  currencyCode?: string
 }): Promise<{
-  response: { products: Product[]; count: number }
+  response: { products: PricedProduct[]; count: number }
   nextPage: number
 }> {
   if (PRODUCT_MODULE_ENABLED) {
     DEBUG && console.log("PRODUCT_MODULE_ENABLED")
     const { response, nextPage } = await fetch(
-      `${API_BASE_URL}/api/categories/${handle}?cart_id=${cartId}&page=${pageParam.toString()}`
+      `${API_BASE_URL}/api/categories/${handle}?currency_code=${currencyCode}&page=${pageParam.toString()}`
     )
       .then((res) => res.json())
       .catch((err) => {
