@@ -1,6 +1,10 @@
-import { Product, ProductCategory, ProductCollection } from "@medusajs/medusa"
 import medusaRequest from "../medusa-fetch"
-import { StoreGetProductsParams } from "@medusajs/medusa"
+import {
+  StoreGetProductsParams,
+  Product,
+  ProductCategory,
+  ProductCollection,
+} from "@medusajs/medusa"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 
 export type ProductCategoryWithChildren = Omit<

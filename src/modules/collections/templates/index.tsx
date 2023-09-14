@@ -10,7 +10,7 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import { useCart } from "medusa-react"
 import React, { useEffect } from "react"
 import { useInView } from "react-intersection-observer"
-import { ProductCollection } from "@medusajs/product"
+import { ProductCollection } from "@medusajs/medusa"
 
 const CollectionTemplate: React.FC<{ collection: ProductCollection }> = ({
   collection,
