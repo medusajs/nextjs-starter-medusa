@@ -1,3 +1,4 @@
+import { Product, ProductCategory, ProductCollection } from "@medusajs/product"
 import medusaRequest from "../medusa-fetch"
 import { StoreGetProductsParams } from "@medusajs/medusa"
 
@@ -21,7 +22,9 @@ const DEBUG = false
  * @param handle (string) - The handle of the product to retrieve
  * @returns (array) - An array of products (should only be one)
  */
-export async function getProductByHandle(handle: string) {
+export async function getProductByHandle(
+  handle: string
+): Promise<{ products: Product[] }> {
   if (PRODUCT_MODULE_ENABLED) {
     DEBUG && console.log("PRODUCT_MODULE_ENABLED")
     const data = await fetch(`${API_BASE_URL}/api/products/${handle}`)
@@ -62,7 +65,10 @@ export async function getProductsList({
 }: {
   pageParam?: number
   queryParams: StoreGetProductsParams
-}) {
+}): Promise<{
+  response: { products: Product[]; count: number }
+  nextPage: number
+}> {
   const limit = queryParams.limit || 12
 
   if (PRODUCT_MODULE_ENABLED) {
@@ -113,7 +119,9 @@ export async function getProductsList({
  * @returns collections (array) - An array of collections
  * @returns count (number) - The total number of collections
  */
-export async function getCollectionsList(offset: number = 0) {
+export async function getCollectionsList(
+  offset: number = 0
+): Promise<{ collections: ProductCollection[]; count: number }> {
   if (PRODUCT_MODULE_ENABLED) {
     DEBUG && console.log("PRODUCT_MODULE_ENABLED")
     const { collections, count } = await fetch(
@@ -159,7 +167,11 @@ export async function getCollectionsList(offset: number = 0) {
  * @returns response (object) - An object containing the products and the number of products in the collection
  * @returns nextPage (number) - The offset of the next page of products
  */
-export async function getCollectionByHandle(handle: string) {
+export async function getCollectionByHandle(handle: string): Promise<{
+  collections: ProductCollection[]
+  response: { products: Product[]; count: number }
+  nextPage: number
+}> {
   if (PRODUCT_MODULE_ENABLED) {
     DEBUG && console.log("PRODUCT_MODULE_ENABLED")
     const data = await fetch(`${API_BASE_URL}/api/collections/${handle}`)
@@ -197,15 +209,20 @@ export async function getProductsByCollectionHandle({
   pageParam = 0,
   handle,
   cartId,
+  currency_code,
 }: {
   pageParam?: number
   handle: string
   cartId?: string
-}) {
+  currency_code?: string
+}): Promise<{
+  response: { products: Product[]; count: number }
+  nextPage: number
+}> {
   if (PRODUCT_MODULE_ENABLED) {
     DEBUG && console.log("PRODUCT_MODULE_ENABLED")
     const { response, nextPage } = await fetch(
-      `${API_BASE_URL}/api/collections/${handle}?cart_id=${cartId}&page=${pageParam.toString()}`
+      `${API_BASE_URL}/api/collections/${handle}?currency_code=${currency_code}&page=${pageParam.toString()}`
     )
       .then((res) => res.json())
       .catch((err) => {
@@ -239,13 +256,71 @@ export async function getProductsByCollectionHandle({
 }
 
 /**
+ * Fetches a list of categories, using the Medusa API or the Medusa Product Module, depending on the feature flag.
+ * @param offset (number) - The offset of the categories to retrieve (default: 0
+ * @param limit (number) - The limit of the categories to retrieve (default: 100)
+ * @returns product_categories (array) - An array of product_categories
+ * @returns count (number) - The total number of categories
+ * @returns nextPage (number) - The offset of the next page of categories
+ */
+export async function getCategoriesList(
+  offset: number = 0,
+  limit?: number
+): Promise<{ product_categories: ProductCategory[]; count: number }> {
+  if (PRODUCT_MODULE_ENABLED) {
+    DEBUG && console.log("PRODUCT_MODULE_ENABLED")
+    const { product_categories, count } = await fetch(
+      `${API_BASE_URL}/api/categories?offset=${offset}&limit=${limit}`,
+      {
+        next: {
+          tags: ["categories"],
+        },
+      }
+    )
+      .then((res) => res.json())
+      .catch((err) => {
+        throw err
+      })
+
+    return {
+      product_categories,
+      count,
+    }
+  }
+
+  DEBUG && console.log("PRODUCT_MODULE_DISABLED")
+  const { product_categories, count } = await medusaRequest(
+    "GET",
+    "/product-categories",
+    {
+      query: {
+        offset,
+        limit,
+      },
+    }
+  )
+    .then((res) => res.body)
+    .catch((err) => {
+      throw err
+    })
+
+  return {
+    product_categories,
+    count,
+  }
+}
+
+/**
  * Fetches a category by handle, using the Medusa API or the Medusa Product Module, depending on the feature flag.
  * @param handle  (string) - The handle of the category to retrieve
  * @returns collections (array) - An array of categories (should only be one)
  * @returns response (object) - An object containing the products and the number of products in the category
  * @returns nextPage (number) - The offset of the next page of products
  */
-export async function getCategoryByHandle(handle: string) {
+export async function getCategoryByHandle(handle: string): Promise<{
+  product_categories: ProductCategory[]
+  parent: ProductCategory
+}> {
   if (PRODUCT_MODULE_ENABLED) {
     DEBUG && console.log("PRODUCT_MODULE_ENABLED")
     const data = await fetch(`${API_BASE_URL}/api/categories/${handle}`)
@@ -290,7 +365,10 @@ export async function getProductsByCategoryHandle({
   pageParam?: number
   handle: string
   cartId?: string
-}) {
+}): Promise<{
+  response: { products: Product[]; count: number }
+  nextPage: number
+}> {
   if (PRODUCT_MODULE_ENABLED) {
     DEBUG && console.log("PRODUCT_MODULE_ENABLED")
     const { response, nextPage } = await fetch(
