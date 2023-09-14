@@ -323,18 +323,17 @@ export async function getCategoriesList(
 
 /**
  * Fetches a category by handle, using the Medusa API or the Medusa Product Module, depending on the feature flag.
- * @param handle  (string) - The handle of the category to retrieve
+ * @param categoryHandle  (string) - The handle of the category to retrieve
  * @returns collections (array) - An array of categories (should only be one)
  * @returns response (object) - An object containing the products and the number of products in the category
  * @returns nextPage (number) - The offset of the next page of products
  */
-export async function getCategoryByHandle(handle: string): Promise<{
+export async function getCategoryByHandle(categoryHandle: string[]): Promise<{
   product_categories: ProductCategoryWithChildren[]
-  parent: ProductCategoryWithChildren
 }> {
   if (PRODUCT_MODULE_ENABLED) {
     DEBUG && console.log("PRODUCT_MODULE_ENABLED")
-    const data = await fetch(`${API_BASE_URL}/api/categories/${handle}`)
+    const data = await fetch(`${API_BASE_URL}/api/categories/${categoryHandle}`)
       .then((res) => res.json())
       .catch((err) => {
         throw err
@@ -344,19 +343,29 @@ export async function getCategoryByHandle(handle: string): Promise<{
   }
 
   DEBUG && console.log("PRODUCT_MODULE_DISABLED")
-  const data = await medusaRequest("GET", "/product-categories", {
-    query: {
-      handle,
-    },
+
+  const handles = categoryHandle.map((handle: string, index: number) => {
+    return categoryHandle.slice(0, index + 1).join("/")
   })
-    .then((res) => res.body)
-    .catch((err) => {
-      throw err
+
+  const product_categories = [] as ProductCategoryWithChildren[]
+
+  for (const handle of handles) {
+    await medusaRequest("GET", "/product-categories", {
+      query: {
+        handle,
+      },
     })
+      .then(({ body }) => {
+        product_categories.push(body.product_categories[0])
+      })
+      .catch((err) => {
+        throw err
+      })
+  }
 
   return {
-    product_categories: data.product_categories,
-    parent: data.product_categories[0].parent_category,
+    product_categories,
   }
 }
 
@@ -399,7 +408,7 @@ export async function getProductsByCategoryHandle({
   }
 
   DEBUG && console.log("PRODUCT_MODULE_DISABLED")
-  const { id } = await getCategoryByHandle(handle).then(
+  const { id } = await getCategoryByHandle([handle]).then(
     (res) => res.product_categories[0]
   )
 

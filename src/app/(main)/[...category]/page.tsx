@@ -8,13 +8,11 @@ type Props = {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const handle = params.category.join("/")
-
-  const { product_categories } = await getCategoryByHandle(handle).catch(
-    (err) => {
-      notFound()
-    }
-  )
+  const { product_categories } = await getCategoryByHandle(
+    params.category
+  ).catch((err) => {
+    notFound()
+  })
 
   const category = product_categories[0]
 
@@ -25,12 +23,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function CategoryPage({ params }: Props) {
-  const handle = params.category.join("/")
-  const { product_categories } = await getCategoryByHandle(handle).catch(
-    (err) => {
-      notFound()
-    }
-  )
+  const { product_categories } = await getCategoryByHandle(
+    params.category
+  ).catch((err) => {
+    notFound()
+  })
 
   return <CategoryTemplate categories={product_categories} />
 }
