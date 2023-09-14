@@ -337,7 +337,14 @@ export async function getCategoryByHandle(categoryHandle: string[]): Promise<{
 }> {
   if (PRODUCT_MODULE_ENABLED) {
     DEBUG && console.log("PRODUCT_MODULE_ENABLED")
-    const data = await fetch(`${API_BASE_URL}/api/categories/${categoryHandle}`)
+    const data = await fetch(
+      `${API_BASE_URL}/api/categories/${categoryHandle}`,
+      {
+        next: {
+          tags: ["categories"],
+        },
+      }
+    )
       .then((res) => res.json())
       .catch((err) => {
         throw err
@@ -348,9 +355,9 @@ export async function getCategoryByHandle(categoryHandle: string[]): Promise<{
 
   DEBUG && console.log("PRODUCT_MODULE_DISABLED")
 
-  const handles = categoryHandle.map((handle: string, index: number) => {
-    return categoryHandle.slice(0, index + 1).join("/")
-  })
+  const handles = categoryHandle.map((handle: string, index: number) =>
+    categoryHandle.slice(0, index + 1).join("/")
+  )
 
   const product_categories = [] as ProductCategoryWithChildren[]
 
@@ -398,7 +405,12 @@ export async function getProductsByCategoryHandle({
   if (PRODUCT_MODULE_ENABLED) {
     DEBUG && console.log("PRODUCT_MODULE_ENABLED")
     const { response, nextPage } = await fetch(
-      `${API_BASE_URL}/api/categories/${handle}?currency_code=${currencyCode}&page=${pageParam.toString()}`
+      `${API_BASE_URL}/api/categories/${handle}?currency_code=${currencyCode}&page=${pageParam.toString()}`,
+      {
+        next: {
+          tags: ["categories"],
+        },
+      }
     )
       .then((res) => res.json())
       .catch((err) => {

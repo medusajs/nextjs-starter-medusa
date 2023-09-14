@@ -18,11 +18,11 @@ export async function GET(
   const searchParams = Object.fromEntries(request.nextUrl.searchParams)
   const { page, limit } = searchParams
 
-  let { category: categoryHandle } = params
+  let { handle: categoryHandle } = params
 
-  const handle = categoryHandle.map((handle: string, index: number) => {
-    return categoryHandle.slice(0, index + 1).join("/")
-  })
+  const handle = categoryHandle.map((handle: string, index: number) =>
+    categoryHandle.slice(0, index + 1).join("/")
+  )
 
   const product_categories = await productService
     .listCategories(
