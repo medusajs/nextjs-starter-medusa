@@ -15,6 +15,7 @@ import React, { useEffect } from "react"
 import { useInView } from "react-intersection-observer"
 import Link from "next/link"
 import UnderlineLink from "@modules/common/components/underline-link"
+import { notFound } from "next/navigation"
 
 type CategoryTemplateProps = {
   categories: ProductCategoryWithChildren[]
@@ -26,6 +27,8 @@ const CategoryTemplate: React.FC<CategoryTemplateProps> = ({ categories }) => {
 
   const category = categories[categories.length - 1]
   const parents = categories.slice(0, categories.length - 1)
+
+  if (!category) notFound()
 
   const {
     data: infiniteData,
