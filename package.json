@@ -22,11 +22,11 @@
   "dependencies": {
     "@headlessui/react": "^1.6.1",
     "@hookform/error-message": "^2.0.0",
+    "@medusajs/link-modules": "^0.1.1",
     "@medusajs/medusa-js": "^6.0.3",
-    "@medusajs/link-modules": "0.1.1-snapshot-20230913073011",
-    "@medusajs/modules-sdk": "1.11.0-snapshot-20230913073011",
-    "@medusajs/pricing": "0.0.3-snapshot-20230913073011",
-    "@medusajs/product": "latest",
+    "@medusajs/modules-sdk": "^1.11.0",
+    "@medusajs/pricing": "^0.0.3",
+    "@medusajs/product": "^0.2.0",
     "@meilisearch/instant-meilisearch": "^0.7.1",
     "@paypal/paypal-js": "^5.0.6",
     "@paypal/react-paypal-js": "^7.8.1",
@@ -43,7 +43,8 @@
     "react-hook-form": "^7.30.0",
     "react-instantsearch-hooks-web": "^6.29.0",
     "react-intersection-observer": "^9.3.4",
-    "sharp": "^0.30.7"
+    "sharp": "^0.30.7",
+    "webpack": "^5"
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",
