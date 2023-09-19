@@ -53,49 +53,49 @@ async function getProducts(params: Record<string, any>) {
   const productsQuery = `#graphql
     query($filters: Record, $id: String, $take: Int, $skip: Int) {
       products(filters: $filters, id: $id, take: $take, skip: $skip) {
-            id
-            title
-            handle
-            tags
-            status
-            collection
-            collection_id
-            thumbnail
-            images {
-                url
-                alt_text
-                id
-            }
-            options {
-                id
-                value
-                title
-            }
-            variants {
-                id
-                title
-                created_at
-                updated_at
-                thumbnail
-                inventory_quantity
-                material
-                weight
-                length
-                height
-                width
-                options {
-                    id
-                    value
-                    title
-                }
-                price {
-                  price_set {
-                    id
-                  }
-                }
-            }
+        id
+        title
+        handle
+        tags
+        status
+        collection
+        collection_id
+        thumbnail
+        images {
+          url
+          alt_text
+          id
         }
-  }`
+        options {
+          id
+          value
+          title
+        }
+        variants {
+          id
+          title
+          created_at
+          updated_at
+          thumbnail
+          inventory_quantity
+          material
+          weight
+          length
+          height
+          width
+          options {
+            id
+            value
+            title
+          }
+          price {
+            price_set {
+              id
+            }
+          }
+        }
+      }
+    }`
 
   const {
     rows: products,

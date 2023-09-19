@@ -116,36 +116,36 @@ async function getProductsByCollectionId(
         collection_id
         thumbnail
         images {
-            url
-            alt_text
-            id
+          url
+          alt_text
+          id
         }
         options {
+          id
+          value
+          title
+        }
+        variants {
+          id
+          title
+          created_at
+          updated_at
+          thumbnail
+          inventory_quantity
+          material
+          weight
+          length
+          height
+          width
+          options {
             id
             value
             title
-        }
-        variants {
-            id
-            title
-            created_at
-            updated_at
-            thumbnail
-            inventory_quantity
-            material
-            weight
-            length
-            height
-            width
-            options {
-                id
-                value
-                title
+          }
+          price {
+            price_set {
+              id
             }
-            price {
-              price_set {
-                id
-              }
           }
         }
       }
