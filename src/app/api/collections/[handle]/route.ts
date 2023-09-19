@@ -4,6 +4,8 @@ import { notFound } from "next/navigation"
 import { initialize as initializeProductModule } from "@medusajs/product"
 import { MedusaApp, Modules } from "@medusajs/modules-sdk"
 import { ProductCollectionDTO, ProductDTO } from "@medusajs/types/dist/product"
+import { IPricingModuleService } from "@medusajs/types"
+import { getPricesByPriceSetId } from "@lib/util/get-prices-by-price-set-id"
 
 /**
  * This endpoint uses the serverless Product Module to retrieve a collection and its products by handle.
@@ -14,38 +16,47 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Record<string, any> }
 ) {
+  // Initialize the Product Module
   const productService = await initializeProductModule()
 
+  // Extract the query parameters
   const { handle } = params
 
   const searchParams = Object.fromEntries(request.nextUrl.searchParams)
   const { page, limit } = searchParams
 
+  // Fetch the collections
   const collections = await productService.listCollections()
 
+  // Create a map of collections by handle
   const collectionsByHandle = new Map<string, ProductCollectionDTO>()
 
   for (const collection of collections) {
     collectionsByHandle.set(collection.handle, collection)
   }
 
+  // Fetch the collection by handle
   const collection = collectionsByHandle.get(handle)
 
   if (!collection) {
     return notFound()
   }
 
+  // Fetch the products by collection id
   const {
     rows: products,
     metadata: { count },
   } = await getProductsByCollectionId(collection.id, searchParams)
 
+  // Filter out unpublished products
   const publishedProducts: ProductDTO[] = products.filter(
     (product) => product.status === "published"
   )
 
+  // Calculate the next page
   const nextPage = parseInt(page) + parseInt(limit)
 
+  // Return the response
   return NextResponse.json({
     collections: [collection],
     response: {
@@ -56,6 +67,12 @@ export async function GET(
   })
 }
 
+/**
+ * This endpoint uses the serverless Product and Pricing Modules to retrieve a product list.
+ * @param collection_id The collection id to filter by
+ * @param params The query parameters
+ * @returns The products and metadata
+ */
 async function getProductsByCollectionId(
   collection_id: string,
   params: Record<string, any>
@@ -65,22 +82,18 @@ async function getProductsByCollectionId(
 
   currency_code = currency_code && currency_code.toUpperCase()
 
+  // Initialize Remote Query with the Product and Pricing Modules
   const { query, modules } = await MedusaApp({
-    modulesConfig: [
-      {
-        module: Modules.PRODUCT,
-        path: "@medusajs/product",
-      },
-      {
-        module: Modules.PRICING,
-        path: "@medusajs/pricing",
-      },
-    ],
+    modulesConfig: {
+      [Modules.PRODUCT]: true,
+      [Modules.PRICING]: true,
+    },
     sharedResourcesConfig: {
       database: { clientUrl: process.env.POSTGRES_URL },
     },
   })
 
+  // Set the filters for the query
   const filters = {
     take: parseInt(params.limit) || 100,
     skip: parseInt(params.offset) || 0,
@@ -90,6 +103,7 @@ async function getProductsByCollectionId(
     currency_code,
   }
 
+  // Set the GraphQL query
   const productsQuery = `#graphql
     query($filters: Record, $take: Int, $skip: Int) {
       products(filters: $filters, take: $take, skip: $skip) {
@@ -137,33 +151,19 @@ async function getProductsByCollectionId(
       }
     }`
 
+  // Run the query
   const { rows, metadata } = await query(productsQuery, filters)
 
-  for (const product of rows) {
-    for (const variant of product.variants) {
-      const priceSetIds = variant.price.map((price) => price.price_set.id)
+  // Calculate prices
+  const productsWithPrices = await getPricesByPriceSetId({
+    products: rows,
+    currency_code,
+    pricingService: modules.pricingService as unknown as IPricingModuleService,
+  })
 
-      const prices = await modules.pricingService.calculatePrices(
-        { id: priceSetIds },
-        {
-          context: { currency_code },
-        }
-      )
-
-      const price = prices.find(
-        (price) => price.currency_code === currency_code
-      )
-
-      if (!price) continue
-
-      delete variant.price
-      variant.price = price
-      variant.calculated_price = price.amount
-    }
-  }
-
+  // Return the response
   return {
-    rows,
+    rows: productsWithPrices,
     metadata,
   }
 }

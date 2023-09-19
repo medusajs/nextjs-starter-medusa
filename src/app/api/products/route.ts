@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server"
 import { notFound } from "next/navigation"
 
 import { MedusaApp, Modules } from "@medusajs/modules-sdk"
+import { getPricesByPriceSetId } from "@lib/util/get-prices-by-price-set-id"
+import { IPricingModuleService } from "@medusajs/types"
 
 /**
  * This endpoint uses the serverless Product and Pricing Modules to retrieve a product list.
@@ -28,27 +30,15 @@ async function getProducts(params: Record<string, any>) {
   limit = limit && parseInt(limit)
   currency_code = currency_code && currency_code.toUpperCase()
 
-  // configure the modules for Remote Query
-  const modulesConfig = [
-    {
-      module: Modules.PRODUCT,
-      path: "@medusajs/product",
-    },
-    {
-      module: Modules.PRICING,
-      path: "@medusajs/pricing",
-    },
-  ]
-
-  // configure the shared resources for Remote Query
-  const sharedResourcesConfig = {
-    database: { clientUrl: process.env.POSTGRES_URL },
-  }
-
   // Initialize Remote Query with the Product and Pricing Modules
   const { query, modules } = await MedusaApp({
-    modulesConfig,
-    sharedResourcesConfig,
+    modulesConfig: {
+      [Modules.PRODUCT]: true,
+      [Modules.PRICING]: true,
+    },
+    sharedResourcesConfig: {
+      database: { clientUrl: process.env.POSTGRES_URL },
+    },
   })
 
   // Set the filters for the query
@@ -112,35 +102,19 @@ async function getProducts(params: Record<string, any>) {
     metadata: { count },
   } = await query(productsQuery, filters)
 
-  for (const product of products) {
-    for (const variant of product.variants) {
-      const priceSetIds = variant.price.map((price) => price.price_set.id)
-
-      const prices = await modules.pricingService.calculatePrices(
-        { id: priceSetIds },
-        {
-          context: { currency_code },
-        }
-      )
-
-      const price = prices.find(
-        (price) => price.currency_code === currency_code
-      )
-
-      if (!price) continue
-
-      delete variant.price
-      variant.price = price
-      variant.calculated_price = price.amount
-    }
-  }
+  // Calculate prices
+  const productsWithPrices = await getPricesByPriceSetId({
+    products,
+    currency_code,
+    pricingService: modules.pricingService as unknown as IPricingModuleService,
+  })
 
   // Calculate the next page
   const nextPage = offset + limit
 
   // Return the response
   return {
-    products,
+    products: productsWithPrices,
     count: count,
     nextPage: count > nextPage ? nextPage : null,
   }
