@@ -35,7 +35,6 @@ export async function getPricesByPriceSetId({
 
       variant.price = price
       variant.calculated_price = price.amount
-      console.log({ variant })
     }
   }
   return products

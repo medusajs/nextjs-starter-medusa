@@ -26,9 +26,6 @@ const PRODUCT_MODULE_ENABLED =
 // The API_BASE_URL is set in the .env file. It is the base URL of your Next.js app.
 const API_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000"
 
-// Set DEBUG to true to console.log where the data is coming from.
-const DEBUG = false
-
 /**
  * Fetches a product by handle, using the Medusa API or the Medusa Product Module, depending on the feature flag.
  * @param handle (string) - The handle of the product to retrieve
@@ -38,7 +35,6 @@ export async function getProductByHandle(
   handle: string
 ): Promise<{ products: PricedProduct[] }> {
   if (PRODUCT_MODULE_ENABLED) {
-    DEBUG && console.log("PRODUCT_MODULE_ENABLED")
     const data = await fetch(`${API_BASE_URL}/api/products/${handle}`)
       .then((res) => res.json())
       .catch((err) => {
@@ -48,7 +44,6 @@ export async function getProductByHandle(
     return data
   }
 
-  DEBUG && console.log("PRODUCT_MODULE_DISABLED")
   const { products } = await medusaRequest("GET", "/products", {
     query: {
       handle,
@@ -84,7 +79,6 @@ export async function getProductsList({
   const limit = queryParams.limit || 12
 
   if (PRODUCT_MODULE_ENABLED) {
-    DEBUG && console.log("PRODUCT_MODULE_ENABLED")
     const params = new URLSearchParams(queryParams as Record<string, string>)
 
     const { products, count, nextPage } = await fetch(
@@ -102,7 +96,6 @@ export async function getProductsList({
     }
   }
 
-  DEBUG && console.log("PRODUCT_MODULE_DISABLED")
   const { products, count, nextPage } = await medusaRequest(
     "GET",
     "/products",
@@ -135,7 +128,6 @@ export async function getCollectionsList(
   offset: number = 0
 ): Promise<{ collections: ProductCollection[]; count: number }> {
   if (PRODUCT_MODULE_ENABLED) {
-    DEBUG && console.log("PRODUCT_MODULE_ENABLED")
     const { collections, count } = await fetch(
       `${API_BASE_URL}/api/collections?offset=${offset}`,
       {
@@ -155,7 +147,6 @@ export async function getCollectionsList(
     }
   }
 
-  DEBUG && console.log("PRODUCT_MODULE_DISABLED")
   const { collections, count } = await medusaRequest("GET", "/collections", {
     query: {
       offset,
@@ -185,7 +176,6 @@ export async function getCollectionByHandle(handle: string): Promise<{
   nextPage: number
 }> {
   if (PRODUCT_MODULE_ENABLED) {
-    DEBUG && console.log("PRODUCT_MODULE_ENABLED")
     const data = await fetch(`${API_BASE_URL}/api/collections/${handle}`)
       .then((res) => res.json())
       .catch((err) => {
@@ -195,7 +185,6 @@ export async function getCollectionByHandle(handle: string): Promise<{
     return data
   }
 
-  DEBUG && console.log("PRODUCT_MODULE_DISABLED")
   const data = await medusaRequest("GET", "/collections", {
     query: {
       handle: [handle],
@@ -232,7 +221,6 @@ export async function getProductsByCollectionHandle({
   nextPage: number
 }> {
   if (PRODUCT_MODULE_ENABLED) {
-    DEBUG && console.log("PRODUCT_MODULE_ENABLED")
     const { response, nextPage } = await fetch(
       `${API_BASE_URL}/api/collections/${handle}?currency_code=${currencyCode}&page=${pageParam.toString()}`
     )
@@ -247,7 +235,6 @@ export async function getProductsByCollectionHandle({
     }
   }
 
-  DEBUG && console.log("PRODUCT_MODULE_DISABLED")
   const { id } = await getCollectionByHandle(handle).then(
     (res) => res.collections[0]
   )
@@ -283,7 +270,6 @@ export async function getCategoriesList(
   count: number
 }> {
   if (PRODUCT_MODULE_ENABLED) {
-    DEBUG && console.log("PRODUCT_MODULE_ENABLED")
     const { product_categories, count } = await fetch(
       `${API_BASE_URL}/api/categories?offset=${offset}&limit=${limit}`,
       {
@@ -303,7 +289,6 @@ export async function getCategoriesList(
     }
   }
 
-  DEBUG && console.log("PRODUCT_MODULE_DISABLED")
   const { product_categories, count } = await medusaRequest(
     "GET",
     "/product-categories",
@@ -336,7 +321,6 @@ export async function getCategoryByHandle(categoryHandle: string[]): Promise<{
   product_categories: ProductCategoryWithChildren[]
 }> {
   if (PRODUCT_MODULE_ENABLED) {
-    DEBUG && console.log("PRODUCT_MODULE_ENABLED")
     const data = await fetch(
       `${API_BASE_URL}/api/categories/${categoryHandle}`,
       {
@@ -352,8 +336,6 @@ export async function getCategoryByHandle(categoryHandle: string[]): Promise<{
 
     return data
   }
-
-  DEBUG && console.log("PRODUCT_MODULE_DISABLED")
 
   const handles = categoryHandle.map((handle: string, index: number) =>
     categoryHandle.slice(0, index + 1).join("/")
@@ -403,7 +385,6 @@ export async function getProductsByCategoryHandle({
   nextPage: number
 }> {
   if (PRODUCT_MODULE_ENABLED) {
-    DEBUG && console.log("PRODUCT_MODULE_ENABLED")
     const { response, nextPage } = await fetch(
       `${API_BASE_URL}/api/categories/${handle}?currency_code=${currencyCode}&page=${pageParam.toString()}`,
       {
@@ -423,7 +404,6 @@ export async function getProductsByCategoryHandle({
     }
   }
 
-  DEBUG && console.log("PRODUCT_MODULE_DISABLED")
   const { id } = await getCategoryByHandle([handle]).then(
     (res) => res.product_categories[0]
   )
