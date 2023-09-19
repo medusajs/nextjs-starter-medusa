@@ -1,33 +1,17 @@
-import { NextResponse, NextRequest } from "next/server"
-import getPrices from "@lib/util/get-product-prices"
-import filterProductsByStatus from "@lib/util/filter-products-by-status"
-
-import { initialize as initializeProductModule } from "@medusajs/product"
-import {
-  FilterableProductProps,
-  ProductDTO,
-} from "@medusajs/types/dist/product/common"
+import { NextRequest, NextResponse } from "next/server"
 import { notFound } from "next/navigation"
 
+import { MedusaApp, Modules } from "@medusajs/modules-sdk"
+import { getPricesByPriceSetId } from "@lib/util/get-prices-by-price-set-id"
+import { IPricingModuleService } from "@medusajs/types"
+
 /**
- * This endpoint uses the serverless Product Module to retrieve a list of products.
- * The module connects directly to your Medusa database to retrieve and manipulate data, without the need for a dedicated server.
+ * This endpoint uses the serverless Product and Pricing Modules to retrieve a product list.
+ * The modules connect directly to your Medusa database to retrieve and manipulate data, without the need for a dedicated server.
  * Read more about the Product Module here: https://docs.medusajs.com/modules/products/serverless-module
  */
 export async function GET(request: NextRequest) {
   const queryParams = Object.fromEntries(request.nextUrl.searchParams)
-
-  const { collection_id } = queryParams
-
-  if (collection_id) {
-    const response = await getProductsByCollectionId(queryParams)
-
-    if (!response) {
-      return notFound()
-    }
-
-    return NextResponse.json(response)
-  }
 
   const response = await getProducts(queryParams)
 
@@ -38,75 +22,100 @@ export async function GET(request: NextRequest) {
   return NextResponse.json(response)
 }
 
-async function getProductsByCollectionId(queryParams: Record<string, any>) {
-  const productService = await initializeProductModule()
-
-  const { limit, offset, cart_id, collection_id } = queryParams
-
-  const collectionIds = collection_id.split(",")
-
-  const data = await productService.listCollections(
-    { id: collectionIds },
-    {
-      relations: [
-        "products",
-        "products.variants",
-        "products.tags",
-        "products.status",
-        "products.collection",
-      ],
-    }
-  )
-
-  const products = data.map((c) => c.products).flat() as ProductDTO[]
-
-  const publishedProducts = filterProductsByStatus(products, "published")
-
-  const count = publishedProducts.length
-
-  const page = publishedProducts.slice(
-    parseInt(offset),
-    parseInt(offset) + parseInt(limit)
-  )
-
-  const productsWithPrices = await getPrices(page, cart_id)
-
-  const nextPage = parseInt(offset) + parseInt(limit)
-
-  return {
-    products: productsWithPrices,
-    count,
-    nextPage: count > nextPage ? nextPage : null,
-  }
-}
-
 async function getProducts(params: Record<string, any>) {
-  const productService = await initializeProductModule()
+  // Extract the query parameters
+  let { id, limit, offset, currency_code } = params
 
-  const { id, limit, offset, cart_id } = params
+  offset = offset && parseInt(offset)
+  limit = limit && parseInt(limit)
+  currency_code = currency_code && currency_code.toUpperCase()
 
-  const filters = {} as FilterableProductProps
-
-  if (id) {
-    filters.id = id.split(",")
-  }
-
-  const [data, count] = await productService.listAndCount(filters, {
-    relations: ["variants", "variants", "tags", "status", "collection"],
-    take: parseInt(limit) || 100,
-    skip: parseInt(offset) || 0,
-    withDeleted: false,
+  // Initialize Remote Query with the Product and Pricing Modules
+  const { query, modules } = await MedusaApp({
+    modulesConfig: {
+      [Modules.PRODUCT]: true,
+      [Modules.PRICING]: true,
+    },
+    sharedResourcesConfig: {
+      database: { clientUrl: process.env.POSTGRES_URL },
+    },
   })
 
-  const publishedProducts = filterProductsByStatus(data, "published")
+  // Set the filters for the query
+  const filters = {
+    take: limit || 12,
+    skip: offset || 0,
+    id: id ? [id] : undefined,
+    context: { currency_code },
+  }
 
-  const productsWithPrices = await getPrices(publishedProducts, cart_id)
+  // Set the GraphQL query
+  const productsQuery = `#graphql
+    query($filters: Record, $id: String, $take: Int, $skip: Int) {
+      products(filters: $filters, id: $id, take: $take, skip: $skip) {
+        id
+        title
+        handle
+        tags
+        status
+        collection
+        collection_id
+        thumbnail
+        images {
+          url
+          alt_text
+          id
+        }
+        options {
+          id
+          value
+          title
+        }
+        variants {
+          id
+          title
+          created_at
+          updated_at
+          thumbnail
+          inventory_quantity
+          material
+          weight
+          length
+          height
+          width
+          options {
+            id
+            value
+            title
+          }
+          price {
+            price_set {
+              id
+            }
+          }
+        }
+      }
+    }`
 
-  const nextPage = parseInt(offset) + parseInt(limit)
+  const {
+    rows: products,
+    metadata: { count },
+  } = await query(productsQuery, filters)
 
+  // Calculate prices
+  const productsWithPrices = await getPricesByPriceSetId({
+    products,
+    currency_code,
+    pricingService: modules.pricingService as unknown as IPricingModuleService,
+  })
+
+  // Calculate the next page
+  const nextPage = offset + limit
+
+  // Return the response
   return {
     products: productsWithPrices,
-    count,
+    count: count,
     nextPage: count > nextPage ? nextPage : null,
   }
 }

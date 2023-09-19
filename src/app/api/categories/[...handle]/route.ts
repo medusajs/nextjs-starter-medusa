@@ -1,15 +1,14 @@
 import { NextRequest, NextResponse } from "next/server"
-import { notFound } from "next/navigation"
-
 import { initialize as initializeProductModule } from "@medusajs/product"
-import { MedusaApp, Modules } from "@medusajs/modules-sdk"
-import { ProductCollectionDTO, ProductDTO } from "@medusajs/types/dist/product"
+import { ProductDTO } from "@medusajs/types/dist/product"
 import { IPricingModuleService } from "@medusajs/types"
+import { notFound } from "next/navigation"
+import { MedusaApp, Modules } from "@medusajs/modules-sdk"
 import { getPricesByPriceSetId } from "@lib/util/get-prices-by-price-set-id"
 
 /**
- * This endpoint uses the serverless Product Module to retrieve a collection and its products by handle.
- * The module connects directly to your Medusa database to retrieve and manipulate data, without the need for a dedicated server.
+ * This endpoint uses the serverless Product and Pricing Modules to retrieve a category and its products by handle.
+ * The module connects directly to you Medusa database to retrieve and manipulate data, without the need for a dedicated server.
  * Read more about the Product Module here: https://docs.medusajs.com/modules/products/serverless-module
  */
 export async function GET(
@@ -20,33 +19,42 @@ export async function GET(
   const productService = await initializeProductModule()
 
   // Extract the query parameters
-  const { handle } = params
-
   const searchParams = Object.fromEntries(request.nextUrl.searchParams)
   const { page, limit } = searchParams
 
-  // Fetch the collections
-  const collections = await productService.listCollections()
+  let { handle: categoryHandle } = params
 
-  // Create a map of collections by handle
-  const collectionsByHandle = new Map<string, ProductCollectionDTO>()
+  const handle = categoryHandle.map((handle: string, index: number) =>
+    categoryHandle.slice(0, index + 1).join("/")
+  )
 
-  for (const collection of collections) {
-    collectionsByHandle.set(collection.handle, collection)
-  }
+  // Fetch the category by handle
+  const product_categories = await productService
+    .listCategories(
+      {
+        handle,
+      },
+      {
+        select: ["id", "handle", "name", "description"],
+        relations: ["category_children"],
+        take: handle.length,
+      }
+    )
+    .catch((e) => {
+      return notFound()
+    })
 
-  // Fetch the collection by handle
-  const collection = collectionsByHandle.get(handle)
+  const category = product_categories[0]
 
-  if (!collection) {
+  if (!category) {
     return notFound()
   }
 
-  // Fetch the products by collection id
+  // Fetch the products by category id
   const {
     rows: products,
     metadata: { count },
-  } = await getProductsByCollectionId(collection.id, searchParams)
+  } = await getProductsByCategoryId(category.id, searchParams)
 
   // Filter out unpublished products
   const publishedProducts: ProductDTO[] = products.filter(
@@ -58,7 +66,7 @@ export async function GET(
 
   // Return the response
   return NextResponse.json({
-    collections: [collection],
+    product_categories: Object.values(product_categories),
     response: {
       products: publishedProducts,
       count,
@@ -68,13 +76,13 @@ export async function GET(
 }
 
 /**
- * This endpoint uses the serverless Product and Pricing Modules to retrieve a product list.
- * @param collection_id The collection id to filter by
+ * This function uses the serverless Product and Pricing Modules to retrieve products by category id.
+ * @param category_id The category id
  * @param params The query parameters
  * @returns The products and metadata
  */
-async function getProductsByCollectionId(
-  collection_id: string,
+async function getProductsByCategoryId(
+  category_id: string,
   params: Record<string, any>
 ): Promise<{ rows: ProductDTO[]; metadata: Record<string, any> }> {
   // Extract the query parameters
@@ -98,7 +106,7 @@ async function getProductsByCollectionId(
     take: parseInt(params.limit) || 100,
     skip: parseInt(params.offset) || 0,
     filters: {
-      collection_id: [collection_id],
+      category_id: [category_id],
     },
     currency_code,
   }

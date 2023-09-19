@@ -10,7 +10,7 @@ import { notFound } from "next/navigation"
 export async function GET(request: NextRequest) {
   const productService = await initializeProductModule()
 
-  const { offset } = Object.fromEntries(request.nextUrl.searchParams)
+  const { offset, limit } = Object.fromEntries(request.nextUrl.searchParams)
 
   const [product_categories, count] = await productService
     .listAndCountCategories(
@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
         select: ["id", "handle", "name", "description", "parent_category"],
         relations: ["category_children"],
         skip: parseInt(offset) || 0,
-        take: 100,
+        take: parseInt(limit) || 100,
       }
     )
     .catch((e) => {

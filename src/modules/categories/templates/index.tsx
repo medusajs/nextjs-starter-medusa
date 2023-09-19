@@ -1,7 +1,10 @@
 "use client"
 
 import usePreviews from "@lib/hooks/use-previews"
-import { getProductsByCategoryHandle } from "@lib/data"
+import {
+  ProductCategoryWithChildren,
+  getProductsByCategoryHandle,
+} from "@lib/data"
 import getNumberOfSkeletons from "@lib/util/get-number-of-skeletons"
 import repeat from "@lib/util/repeat"
 import ProductPreview from "@modules/products/components/product-preview"
@@ -12,31 +15,20 @@ import React, { useEffect } from "react"
 import { useInView } from "react-intersection-observer"
 import Link from "next/link"
 import UnderlineLink from "@modules/common/components/underline-link"
+import { notFound } from "next/navigation"
 
 type CategoryTemplateProps = {
-  category: {
-    handle: string
-    name: string
-    id: string
-    description?: string
-    category_children?: {
-      name: string
-      handle: string
-      id: string
-    }[]
-  }
-  parent?: {
-    handle: string
-    name: string
-  }
+  categories: ProductCategoryWithChildren[]
 }
 
-const CategoryTemplate: React.FC<CategoryTemplateProps> = ({
-  category,
-  parent,
-}) => {
+const CategoryTemplate: React.FC<CategoryTemplateProps> = ({ categories }) => {
   const { cart } = useCart()
   const { ref, inView } = useInView()
+
+  const category = categories[categories.length - 1]
+  const parents = categories.slice(0, categories.length - 1)
+
+  if (!category) notFound()
 
   const {
     data: infiniteData,
@@ -49,8 +41,9 @@ const CategoryTemplate: React.FC<CategoryTemplateProps> = ({
     ({ pageParam }) =>
       getProductsByCategoryHandle({
         pageParam,
-        handle: category.handle,
+        handle: category.handle!,
         cartId: cart?.id,
+        currencyCode: cart?.region?.currency_code,
       }),
     {
       getNextPageParam: (lastPage) => lastPage.nextPage,
@@ -78,9 +71,9 @@ const CategoryTemplate: React.FC<CategoryTemplateProps> = ({
   return (
     <div className="content-container py-6">
       <div className="flex flex-row mb-8 text-2xl-semi gap-4">
-        {parent && (
-          <>
-            <span className="text-gray-500">
+        {parents &&
+          parents.map((parent) => (
+            <span key={parent.id} className="text-gray-500">
               <Link
                 className="mr-4 hover:text-black"
                 href={`/${parent.handle}`}
@@ -89,8 +82,7 @@ const CategoryTemplate: React.FC<CategoryTemplateProps> = ({
               </Link>
               /
             </span>
-          </>
-        )}
+          ))}
         <h1>{category.name}</h1>
       </div>
       {category.description && (

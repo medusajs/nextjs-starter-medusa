@@ -26,13 +26,17 @@ const InfiniteProducts = ({ params }: InfiniteProductsType) => {
       p.cart_id = cart.id
     }
 
+    if (cart?.region?.currency_code) {
+      p.currency_code = cart.region.currency_code
+    }
+
     p.is_giftcard = false
 
     return {
       ...p,
       ...params,
     }
-  }, [cart?.id, params])
+  }, [cart?.id, cart?.region, params])
 
   const { data, hasNextPage, fetchNextPage, isLoading, isFetchingNextPage } =
     useInfiniteQuery(

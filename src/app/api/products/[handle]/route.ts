@@ -1,6 +1,4 @@
 import { NextResponse, NextRequest } from "next/server"
-import getPrices from "@lib/util/get-product-prices"
-
 import { initialize as initializeProductModule } from "@medusajs/product"
 
 /**
@@ -12,13 +10,14 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Record<string, any> }
 ) {
+  // Extract the query parameters
   const { handle } = params
-  const { cart_id, region_id } = Object.fromEntries(
-    request.nextUrl.searchParams
-  )
+
+  // Initialize the Product Module
   const productService = await initializeProductModule()
 
-  const data = await productService.list(
+  // Run the query
+  const products = await productService.list(
     { handle },
     {
       relations: [
@@ -36,7 +35,6 @@ export async function GET(
     }
   )
 
-  const productsWithPrices = await getPrices(data, cart_id, region_id)
-
-  return NextResponse.json({ products: productsWithPrices })
+  // Return the response
+  return NextResponse.json({ products })
 }

@@ -4,7 +4,10 @@ const store = require("./store.config.json")
 module.exports = withStoreConfig({
   experimental: {
     serverActions: true,
-    serverComponentsExternalPackages: ["@medusajs/product"],
+    serverComponentsExternalPackages: [
+      "@medusajs/product",
+      "@medusajs/modules-sdk",
+    ],
   },
   features: store.features,
   reactStrictMode: true,

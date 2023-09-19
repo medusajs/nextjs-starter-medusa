@@ -52,11 +52,12 @@ const fetchFeaturedProducts = async (
   region: Region
 ): Promise<ProductPreviewType[]> => {
   const products: PricedProduct[] = await getProductsList({
-    pageParam: 4,
+    pageParam: 0,
     queryParams: {
       limit: 4,
       cart_id: cartId,
       region_id: region.id,
+      currency_code: region.currency_code,
     },
   })
     .then((res) => res.response)
