@@ -125,6 +125,8 @@ Done! All product and collection data should now be coming from the module. The 
 
 To opt out of using the product module, simply set the `productModule` feature flag to `false` and restart the server.
 
+If you're not planning on using the serverless modules and what to deploy to Vercel, you can safely delete or exclude the src/app/api folder before deploying. The API routes are only used by the serverless modules.
+
 # Payment integrations
 
 By default this starter supports the following payment integrations
