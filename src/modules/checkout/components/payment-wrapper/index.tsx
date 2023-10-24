@@ -25,7 +25,8 @@ const Wrapper: React.FC<WrapperProps> = ({ paymentSession, children }) => {
   }
 }
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY || "")
+const stripeKey = process.env.NEXT_PUBLIC_STRIPE_KEY
+const stripePromise = stripeKey ? loadStripe(stripeKey) : null
 
 const StripeWrapper: React.FC<WrapperProps> = ({
   paymentSession,
@@ -33,6 +34,10 @@ const StripeWrapper: React.FC<WrapperProps> = ({
 }) => {
   const options: StripeElementsOptions = {
     clientSecret: paymentSession!.data.client_secret as string | undefined,
+  }
+
+  if (!stripePromise) {
+    return <div>{children}</div>
   }
 
   return (
