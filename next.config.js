@@ -3,7 +3,6 @@ const store = require("./store.config.json")
 
 module.exports = withStoreConfig({
   experimental: {
-    serverActions: true,
     serverComponentsExternalPackages: [
       "@medusajs/product",
       "@medusajs/modules-sdk",
@@ -12,10 +11,19 @@ module.exports = withStoreConfig({
   features: store.features,
   reactStrictMode: true,
   images: {
-    domains: [
-      "medusa-public-images.s3.eu-west-1.amazonaws.com",
-      "localhost",
-      "medusa-server-testing.s3.amazonaws.com",
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "localhost",
+      },
+      {
+        protocol: "https",
+        hostname: "medusa-public-images.s3.eu-west-1.amazonaws.com",
+      },
+      {
+        protocol: "https",
+        hostname: "medusa-server-testing.s3.amazonaws.com",
+      },
     ],
   },
 })

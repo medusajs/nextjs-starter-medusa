@@ -13,7 +13,7 @@
 </h1>
 
 <p align="center">
-Combine Medusa's modules for your commerce backend with the newest Next.js 13 features for a performant storefront.</p>
+Combine Medusa's modules for your commerce backend with the newest Next.js 14 features for a performant storefront.</p>
 
 <p align="center">
   <a href="https://github.com/medusajs/medusa/blob/master/CONTRIBUTING.md">
@@ -53,7 +53,7 @@ Features include:
   - Checkout with PayPal and Stripe
   - User Accounts
   - Order Details
-- Next.js 13
+- Next.js 14
 - Full App Router support with [Dynamic Routes](https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes) and [Route Groups](https://nextjs.org/docs/app/building-your-application/routing/route-groups)
 - [Product Module](https://docs.medusajs.com/modules/products/serverless-module) support (beta)
 
