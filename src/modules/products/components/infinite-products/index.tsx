@@ -9,12 +9,15 @@ import { useCart } from "medusa-react"
 import { useEffect, useMemo } from "react"
 import { useInView } from "react-intersection-observer"
 import { useInfiniteQuery } from "@tanstack/react-query"
+import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
+import sortProducts from "@lib/util/sort-products"
 
-type InfiniteProductsType = {
+export type InfiniteProductsType = {
   params: StoreGetProductsParams
+  sortBy?: SortOptions
 }
 
-const InfiniteProducts = ({ params }: InfiniteProductsType) => {
+const InfiniteProducts = ({ params, sortBy }: InfiniteProductsType) => {
   const { cart } = useCart()
 
   const { ref, inView } = useInView()
@@ -47,7 +50,14 @@ const InfiniteProducts = ({ params }: InfiniteProductsType) => {
       }
     )
 
-  const previews = usePreviews({ pages: data?.pages, region: cart?.region })
+  let previews = usePreviews({ pages: data?.pages, region: cart?.region })
+
+  if (sortBy) {
+    previews = useMemo(
+      () => sortProducts(previews, sortBy, params.collection_id),
+      [previews, sortBy]
+    )
+  }
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -58,7 +68,7 @@ const InfiniteProducts = ({ params }: InfiniteProductsType) => {
 
   return (
     <div className="flex-1 content-container">
-      <ul className="grid grid-cols-2 small:grid-cols-3 medium:grid-cols-4 gap-x-4 gap-y-8 flex-1">
+      <ul className="grid grid-cols-2 small:grid-cols-3 medium:grid-cols-3 gap-x-6 gap-y-8 flex-1">
         {previews.map((p) => (
           <li key={p.id}>
             <ProductPreview {...p} />

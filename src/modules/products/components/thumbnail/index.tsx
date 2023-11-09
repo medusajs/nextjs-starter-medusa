@@ -39,7 +39,7 @@ const ImageOrPlaceholder = ({
   return image ? (
     <Container
       key={image}
-      className="relative aspect-[9/16] w-full overflow-hidden p-4"
+      className="relative aspect-[9/16] w-full overflow-hidden p-4 bg-ui-bg-subtle"
     >
       <Image
         src={image}
@@ -55,7 +55,7 @@ const ImageOrPlaceholder = ({
       />
     </Container>
   ) : (
-    <Container className="w-full h-full absolute inset-0 bg-gray-100 flex items-center justify-center">
+    <Container className="w-full h-full absolute inset-0 bg-ui-bg-subtle flex items-center justify-center">
       <PlaceholderImage size={size === "small" ? 16 : 24} />
     </Container>
   )

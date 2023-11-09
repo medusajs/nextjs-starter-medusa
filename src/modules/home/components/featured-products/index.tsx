@@ -20,7 +20,7 @@ const FeaturedProducts = () => {
           </p>
           <UnderlineLink href="/store">Explore products</UnderlineLink>
         </div>
-        <ul className="grid grid-cols-2 small:grid-cols-4 gap-x-4 gap-y-8">
+        <ul className="grid grid-cols-2 small:grid-cols-4 gap-x-6 gap-y-8">
           {data
             ? data.map((product) => (
                 <li key={product.id}>
