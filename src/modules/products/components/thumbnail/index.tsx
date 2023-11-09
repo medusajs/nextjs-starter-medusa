@@ -1,4 +1,5 @@
 import { Image as MedusaImage } from "@medusajs/medusa"
+import { Container } from "@medusajs/ui"
 import PlaceholderImage from "@modules/common/icons/placeholder-image"
 import clsx from "clsx"
 import Image from "next/image"
@@ -19,7 +20,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
 
   return (
     <div
-      className={clsx("relative aspect-[29/34]", {
+      className={clsx("relative aspect-[9/16]", {
         "w-[180px]": size === "small",
         "w-[290px]": size === "medium",
         "w-[440px]": size === "large",
@@ -36,22 +37,27 @@ const ImageOrPlaceholder = ({
   size,
 }: Pick<ThumbnailProps, "size"> & { image?: string }) => {
   return image ? (
-    <Image
-      src={image}
-      alt="Thumbnail"
-      className="absolute inset-0"
-      draggable={false}
-      fill
-      sizes="100vw"
-      style={{
-        objectFit: "cover",
-        objectPosition: "center",
-      }}
-    />
+    <Container
+      key={image}
+      className="relative aspect-[9/16] w-full overflow-hidden p-4"
+    >
+      <Image
+        src={image}
+        alt="Thumbnail"
+        className="absolute inset-0"
+        draggable={false}
+        fill
+        sizes="100vw"
+        style={{
+          objectFit: "cover",
+          objectPosition: "center",
+        }}
+      />
+    </Container>
   ) : (
-    <div className="w-full h-full absolute inset-0 bg-gray-100 flex items-center justify-center">
+    <Container className="w-full h-full absolute inset-0 bg-gray-100 flex items-center justify-center">
       <PlaceholderImage size={size === "small" ? 16 : 24} />
-    </div>
+    </Container>
   )
 }
 
