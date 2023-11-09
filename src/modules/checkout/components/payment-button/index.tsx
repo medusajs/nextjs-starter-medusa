@@ -1,6 +1,6 @@
 import { useCheckout } from "@lib/context/checkout-context"
 import { PaymentSession } from "@medusajs/medusa"
-import Button from "@modules/common/components/button"
+import { Button } from "@medusajs/ui"
 import Spinner from "@modules/common/icons/spinner"
 import { OnApproveActions, OnApproveData } from "@paypal/paypal-js"
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js"

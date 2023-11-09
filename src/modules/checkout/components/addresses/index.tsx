@@ -1,5 +1,5 @@
 import { useCheckout } from "@lib/context/checkout-context"
-import Button from "@modules/common/components/button"
+import { Button } from "@medusajs/ui"
 import Checkbox from "@modules/common/components/checkbox"
 import Spinner from "@modules/common/icons/spinner"
 import BillingAddress from "../billing_address"

@@ -1,4 +1,4 @@
-import Button from "@modules/common/components/button"
+import { Button } from "@medusajs/ui"
 
 const OnboardingCta = ({ orderId }: { orderId: string }) => {
   const resetOnboarding = () => {
