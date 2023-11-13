@@ -5,8 +5,6 @@ const stripCurrency = (price: string) => {
   return parseFloat(price.replace(/[^0-9.]/g, ""))
 }
 
-const shuffle = (products: ProductPreviewType[]) => {}
-
 // relevance is now decided randomly, you can implement your own (personalization) logic
 let relevanceCache = new Map<string[], ProductPreviewType[]>()
 
@@ -16,8 +14,8 @@ const sortProducts = (
   collectionIds: string[] = []
 ) => {
   if (sortBy === "relevance") {
-    const cache = relevanceCache.get(collectionIds)
-    if (cache) return cache
+    if (relevanceCache.has(collectionIds))
+      return relevanceCache.get(collectionIds)!
 
     for (let i = products.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1))

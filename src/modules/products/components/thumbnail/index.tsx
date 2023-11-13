@@ -9,55 +9,62 @@ type ThumbnailProps = {
   thumbnail?: string | null
   images?: MedusaImage[] | null
   size?: "small" | "medium" | "large" | "full"
+  isFeatured?: boolean
 }
 
 const Thumbnail: React.FC<ThumbnailProps> = ({
   thumbnail,
   images,
   size = "small",
+  isFeatured,
 }) => {
   const initialImage = thumbnail || images?.[0]?.url
 
   return (
-    <div
-      className={clsx("relative aspect-[9/16]", {
-        "w-[180px]": size === "small",
-        "w-[290px]": size === "medium",
-        "w-[440px]": size === "large",
-        "w-full": size === "full",
-      })}
+    <Container
+      className={clsx(
+        "relative w-full overflow-hidden p-4 bg-ui-bg-subtle shadow-elevation-card-rest rounder-rounded group-hover:shadow-elevation-card-hover transition-shadow ease-in-out duration-150",
+        {
+          "aspect-[11/14]": isFeatured,
+          "aspect-[9/16]": !isFeatured,
+          "w-[180px]": size === "small",
+          "w-[290px]": size === "medium",
+          "w-[440px]": size === "large",
+          "w-full": size === "full",
+        }
+      )}
     >
-      <ImageOrPlaceholder image={initialImage} size={size} />
-    </div>
+      <ImageOrPlaceholder
+        image={initialImage}
+        size={size}
+        isFeatured={isFeatured}
+      />
+    </Container>
   )
 }
 
 const ImageOrPlaceholder = ({
   image,
   size,
-}: Pick<ThumbnailProps, "size"> & { image?: string }) => {
+  isFeatured,
+}: Pick<ThumbnailProps, "size" | "isFeatured"> & { image?: string }) => {
   return image ? (
-    <Container
-      key={image}
-      className="relative aspect-[9/16] w-full overflow-hidden p-4 bg-ui-bg-subtle"
-    >
-      <Image
-        src={image}
-        alt="Thumbnail"
-        className="absolute inset-0"
-        draggable={false}
-        fill
-        sizes="100vw"
-        style={{
-          objectFit: "cover",
-          objectPosition: "center",
-        }}
-      />
-    </Container>
+    <Image
+      src={image}
+      alt="Thumbnail"
+      className="absolute inset-0"
+      draggable={false}
+      fill
+      sizes="100vw"
+      style={{
+        objectFit: "cover",
+        objectPosition: "center",
+      }}
+    />
   ) : (
-    <Container className="w-full h-full absolute inset-0 bg-ui-bg-subtle flex items-center justify-center">
+    <div className="w-full h-full absolute inset-0 flex items-center justify-center">
       <PlaceholderImage size={size === "small" ? 16 : 24} />
-    </Container>
+    </div>
   )
 }
 

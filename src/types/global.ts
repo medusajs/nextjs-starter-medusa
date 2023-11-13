@@ -60,6 +60,7 @@ export type ProductPreviewType = {
     difference: string
     price_type: "default" | "sale"
   }
+  isFeatured?: boolean
 }
 
 export type InfiniteProductPage = {

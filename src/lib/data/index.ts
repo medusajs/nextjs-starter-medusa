@@ -125,11 +125,12 @@ export async function getProductsList({
  * @returns count (number) - The total number of collections
  */
 export async function getCollectionsList(
-  offset: number = 0
+  offset: number = 0,
+  limit: number = 100
 ): Promise<{ collections: ProductCollection[]; count: number }> {
   if (PRODUCT_MODULE_ENABLED) {
     const { collections, count } = await fetch(
-      `${API_BASE_URL}/api/collections?offset=${offset}`,
+      `${API_BASE_URL}/api/collections?offset=${offset}&limit=${limit}`,
       {
         next: {
           tags: ["collections"],
@@ -150,6 +151,7 @@ export async function getCollectionsList(
   const { collections, count } = await medusaRequest("GET", "/collections", {
     query: {
       offset,
+      limit,
     },
   })
     .then((res) => res.body)
@@ -208,12 +210,14 @@ export async function getCollectionByHandle(handle: string): Promise<{
  */
 export async function getProductsByCollectionHandle({
   pageParam = 0,
+  limit = 100,
   handle,
   cartId,
   currencyCode,
 }: {
   pageParam?: number
   handle: string
+  limit?: number
   cartId?: string
   currencyCode?: string
 }): Promise<{
@@ -222,7 +226,7 @@ export async function getProductsByCollectionHandle({
 }> {
   if (PRODUCT_MODULE_ENABLED) {
     const { response, nextPage } = await fetch(
-      `${API_BASE_URL}/api/collections/${handle}?currency_code=${currencyCode}&page=${pageParam.toString()}`
+      `${API_BASE_URL}/api/collections/${handle}?currency_code=${currencyCode}&page=${pageParam.toString()}&limit=${limit}`
     )
       .then((res) => res.json())
       .catch((err) => {
@@ -241,7 +245,7 @@ export async function getProductsByCollectionHandle({
 
   const { response, nextPage } = await getProductsList({
     pageParam,
-    queryParams: { collection_id: [id], cart_id: cartId },
+    queryParams: { collection_id: [id], cart_id: cartId, limit },
   })
     .then((res) => res)
     .catch((err) => {
@@ -421,4 +425,31 @@ export async function getProductsByCategoryHandle({
     response,
     nextPage,
   }
+}
+
+export async function getHomepageProducts({
+  collectionHandles,
+  currencyCode,
+}: {
+  collectionHandles?: string[]
+  currencyCode: string
+}) {
+  const collectionProductsMap = new Map<string, PricedProduct[]>()
+
+  const { collections } = await getCollectionsList(0, 3)
+
+  if (!collectionHandles) {
+    collectionHandles = collections.map((collection) => collection.handle)
+  }
+
+  for (const handle of collectionHandles) {
+    const products = await getProductsByCollectionHandle({
+      handle,
+      currencyCode,
+      limit: 3,
+    })
+    collectionProductsMap.set(handle, products.response.products)
+  }
+
+  return collectionProductsMap
 }

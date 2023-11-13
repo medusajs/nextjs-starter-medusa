@@ -9,10 +9,11 @@ const ProductPreview = ({
   handle,
   thumbnail,
   price,
+  isFeatured,
 }: ProductPreviewType) => (
-  <Link href={`/products/${handle}`}>
+  <Link href={`/products/${handle}`} className="group">
     <div>
-      <Thumbnail thumbnail={thumbnail} size="full" />
+      <Thumbnail thumbnail={thumbnail} size="full" isFeatured={isFeatured} />
       <div className="flex txt-compact-medium mt-2 justify-between">
         <Text className="text-ui-fg-subtle">{title}</Text>
         <div className="flex items-center gap-x-2">
