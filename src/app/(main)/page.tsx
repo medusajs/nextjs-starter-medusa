@@ -1,5 +1,4 @@
 import { getCollectionsList } from "@lib/data"
-import { Product, ProductCollection } from "@medusajs/product"
 import FeaturedProducts from "@modules/home/components/featured-products"
 import Hero from "@modules/home/components/hero"
 import SkeletonHomepageProducts from "@modules/skeletons/components/skeleton-homepage-products"

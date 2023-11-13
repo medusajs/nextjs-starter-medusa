@@ -2,25 +2,27 @@
 
 import clsx from "clsx"
 import { useCollections, useProductCategories } from "medusa-react"
+import { Text } from "@medusajs/ui"
 import Link from "next/link"
 import CountrySelect from "../country-select"
+import MedusaCTA from "../medusa-cta"
 
 const FooterNav = () => {
   const { collections } = useCollections()
   const { product_categories } = useProductCategories()
 
   return (
-    <div className="content-container flex flex-col gap-y-8 pt-16 pb-8">
+    <div className="content-container flex flex-col gap-y-40 pt-16 pb-8">
       <div className="flex flex-col gap-y-6 xsmall:flex-row items-start justify-between">
         <div>
-          <Link href="/" className="text-xl-semi uppercase">
+          <Link href="/" className="txt-compact-xlarge-plus uppercase">
             Acme
           </Link>
         </div>
         <div className="text-small-regular grid grid-cols-3 gap-x-10 md:gap-x-16">
           {product_categories && (
             <div className="flex flex-col gap-y-2">
-              <span className="text-base-semi">Categories</span>
+              <span className="txt-small-plus txt-ui-fg-base">Categories</span>
               <ul className="grid grid-cols-1 gap-2">
                 {product_categories?.slice(0, 6).map((c) => {
                   if (c.parent_category) {
@@ -35,9 +37,12 @@ const FooterNav = () => {
                     })) || null
 
                   return (
-                    <li className="flex flex-col gap-2" key={c.id}>
+                    <li
+                      className="flex flex-col gap-2 text-ui-fg-subtle txt-small"
+                      key={c.id}
+                    >
                       <Link
-                        className={clsx(children && "text-small-semi")}
+                        className={clsx(children && "txt-small-plus")}
                         href={`/${c.handle}`}
                       >
                         {c.name}
@@ -62,11 +67,14 @@ const FooterNav = () => {
           )}
           {collections && (
             <div className="flex flex-col gap-y-2">
-              <span className="text-base-semi">Collections</span>
+              <span className="txt-small-plus txt-ui-fg-base">Collections</span>
               <ul
-                className={clsx("grid grid-cols-1 gap-2", {
-                  "grid-cols-2": (collections?.length || 0) > 3,
-                })}
+                className={clsx(
+                  "grid grid-cols-1 gap-2 text-ui-fg-subtle txt-small",
+                  {
+                    "grid-cols-2": (collections?.length || 0) > 3,
+                  }
+                )}
               >
                 {collections?.slice(0, 6).map((c) => (
                   <li key={c.id}>
@@ -77,8 +85,8 @@ const FooterNav = () => {
             </div>
           )}
           <div className="flex flex-col gap-y-2">
-            <span className="text-base-semi">Medusa</span>
-            <ul className="grid grid-cols-1 gap-y-2">
+            <span className="txt-small-plus txt-ui-fg-base">Medusa</span>
+            <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
               <li>
                 <a
                   href="https://github.com/medusajs"
@@ -110,13 +118,11 @@ const FooterNav = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col-reverse gap-y-4 justify-center xsmall:items-center xsmall:flex-row xsmall:items-end xsmall:justify-between">
-        <span className="text-xsmall-regular text-gray-500">
-          © Copyright 2022 ACME
-        </span>
-        <div className="min-w-[316px] flex xsmall:justify-end">
-          <CountrySelect />
-        </div>
+      <div className="flex w-full gap-y-4 justify-between text-ui-fg-muted">
+        <Text className="txt-compact-small">
+          © {new Date().getFullYear()} ACME. All rights reserved.
+        </Text>
+        <MedusaCTA />
       </div>
     </div>
   )
