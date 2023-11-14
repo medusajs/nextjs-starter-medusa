@@ -1,6 +1,6 @@
 "use client"
 
-import DiscountCode from "@modules/checkout/components/discount-code"
+import DiscountCode from "@modules/checkout/components/discount-code/DiscountCode"
 import GiftCard from "@modules/checkout/components/gift-card"
 import PaymentButton from "@modules/checkout/components/payment-button"
 import CartTotals from "@modules/common/components/cart-totals"

@@ -1,5 +1,6 @@
 import { Cart } from "@medusajs/medusa"
-import { Button } from "@medusajs/ui"
+import { Button, Heading } from "@medusajs/ui"
+import DiscountCode from "@modules/checkout/components/discount-code"
 import CartTotals from "@modules/common/components/cart-totals"
 import Link from "next/link"
 
@@ -9,10 +10,14 @@ type SummaryProps = {
 
 const Summary = ({ cart }: SummaryProps) => {
   return (
-    <div className="grid grid-cols-1 gap-y-6">
+    <div className="flex flex-col gap-y-4 w-full">
+      <Heading level="h2" className="text-[2rem] leading-[2.75rem]">
+        Summary
+      </Heading>
+      <DiscountCode cart={cart} />
       <CartTotals cart={cart} />
       <Link href="/checkout">
-        <Button>Go to checkout</Button>
+        <Button className="w-full h-10">Go to checkout</Button>
       </Link>
     </div>
   )

@@ -20,7 +20,7 @@ const Item = ({ item, region }: ItemProps) => {
 
   return (
     <Table.Row className="w-full m-4">
-      <Table.Cell className="p-4 w-24">
+      <Table.Cell className="!pl-0 p-4 w-24">
         <Link href={`/products/${handle}`} className="flex w-24">
           <Thumbnail thumbnail={item.thumbnail} size="square" />
         </Link>
@@ -75,7 +75,7 @@ const Item = ({ item, region }: ItemProps) => {
         <LineItemUnitPrice item={item} region={region} />
       </Table.Cell>
 
-      <Table.Cell className="text-right">
+      <Table.Cell className="!pr-0 text-right">
         <LineItemPrice item={item} region={region} />
       </Table.Cell>
     </Table.Row>

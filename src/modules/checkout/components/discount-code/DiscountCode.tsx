@@ -1,23 +1,14 @@
-import React, { useMemo } from "react"
 import { medusaClient } from "@lib/config"
-import { Cart } from "@medusajs/medusa"
-import { Button, Label, Tooltip } from "@medusajs/ui"
-import { InformationCircleSolid } from "@medusajs/icons"
-import Input from "@modules/common/components/input"
+import Button from "@modules/common/components/button"
+import { Input } from "@medusajs/ui"
 import Trash from "@modules/common/icons/trash"
 import { formatAmount, useCart, useUpdateCart } from "medusa-react"
+import React, { useMemo } from "react"
 import { useForm } from "react-hook-form"
 import { useMutation } from "@tanstack/react-query"
+import { DiscountCodeProps, DiscountFormValues } from "."
 
-type DiscountFormValues = {
-  discount_code: string
-}
-
-type DiscountCodeProps = {
-  cart: Omit<Cart, "refundable_amount" | "refunded_total">
-}
-
-const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
+export const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
   const { id, discounts, region } = cart
   const { mutate, isLoading } = useUpdateCart(id)
   const { setCart } = useCart()
@@ -91,7 +82,10 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
 
   return (
     <div className="w-full bg-white flex flex-col">
-      <div className="text-small-regular txt-compact-medium-plus">
+      <div className="mb-4">
+        <h3 className="text-base-semi">Discount</h3>
+      </div>
+      <div className="text-small-regular">
         {appliedDiscount ? (
           <div className="flex items-center justify-between">
             <div>
@@ -111,36 +105,26 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
           </div>
         ) : (
           <form onSubmit={handleSubmit(onApply)} className="w-full">
-            <Label className="flex gap-x-1 mb-2">
-              Gift card, voucher, or campaign code?
-              <Tooltip content="The quick brown fox jumps over the lazy dog.">
-                <InformationCircleSolid color="var(--fg-muted)" />
-              </Tooltip>
-            </Label>
-            <div className="flex w-full gap-x-2 items-center">
+            <div className="grid grid-cols-[1fr_80px] gap-x-2">
+              <Label></Label>
               <Input
-                label="Please enter code"
+                // label="Code"
                 {...register("discount_code", {
                   required: "Code is required",
                 })}
-                errors={errors}
               />
-
-              <Button
-                type="submit"
-                variant="secondary"
-                className="!min-h-[0] h-10"
-                isLoading={isLoading}
-              >
-                Apply
-              </Button>
+              <div>
+                <Button
+                  className="!min-h-[0] h-[46px] w-[80px]"
+                  isLoading={isLoading}
+                >
+                  Apply
+                </Button>
+              </div>
             </div>
           </form>
         )}
       </div>
-      <div className="h-px w-full border-b border-gray-200 mt-4" />
     </div>
   )
 }
-
-export default DiscountCode
