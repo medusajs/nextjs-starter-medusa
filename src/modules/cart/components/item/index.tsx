@@ -1,10 +1,13 @@
 import { useStore } from "@lib/context/store-context"
 import { LineItem, Region } from "@medusajs/medusa"
+import { Table, Text } from "@medusajs/ui"
 import LineItemOptions from "@modules/common/components/line-item-options"
 import LineItemPrice from "@modules/common/components/line-item-price"
+import LineItemUnitPrice from "@modules/common/components/line-item-unit-price"
 import NativeSelect from "@modules/common/components/native-select"
 import Trash from "@modules/common/icons/trash"
 import Thumbnail from "@modules/products/components/thumbnail"
+import Link from "next/link"
 
 type ItemProps = {
   item: Omit<LineItem, "beforeInsert">
@@ -13,18 +16,29 @@ type ItemProps = {
 
 const Item = ({ item, region }: ItemProps) => {
   const { updateItem, deleteItem } = useStore()
+  const { handle } = item.variant.product
 
   return (
-    <div className="grid grid-cols-[122px_1fr] gap-x-4">
-      <div className="w-[122px]">
-        <Thumbnail thumbnail={item.thumbnail} size="full" />
-      </div>
-      <div className="text-base-regular flex flex-col gap-y-8">
-        <div className="flex items-start justify-between">
-          <div className="flex flex-col">
-            <span>{item.title}</span>
-            <LineItemOptions variant={item.variant} />
-          </div>
+    <Table.Row className="w-full m-4">
+      <Table.Cell className="p-4 w-24">
+        <Link href={`/products/${handle}`} className="flex w-24">
+          <Thumbnail thumbnail={item.thumbnail} size="square" />
+        </Link>
+      </Table.Cell>
+
+      <Table.Cell className="text-left">
+        <Text className="txt-medium-plus text-ui-fg-base">{item.title}</Text>
+        <LineItemOptions variant={item.variant} />
+      </Table.Cell>
+
+      <Table.Cell>
+        <div className="flex gap-2">
+          <button
+            className="flex items-center gap-x-"
+            onClick={() => deleteItem(item.id)}
+          >
+            <Trash size={18} />
+          </button>
           <NativeSelect
             value={item.quantity}
             onChange={(value) =>
@@ -33,7 +47,7 @@ const Item = ({ item, region }: ItemProps) => {
                 quantity: parseInt(value.target.value),
               })
             }
-            className="max-h-[35px] w-[75px]"
+            className="w-14 h-10 p-4"
           >
             {Array.from(
               [
@@ -55,22 +69,16 @@ const Item = ({ item, region }: ItemProps) => {
               })}
           </NativeSelect>
         </div>
-        <div className="flex items-end justify-between text-small-regular flex-1">
-          <div>
-            <button
-              className="flex items-center gap-x-1 text-gray-500"
-              onClick={() => deleteItem(item.id)}
-            >
-              <Trash size={14} />
-              <span>Remove</span>
-            </button>
-          </div>
-          <div>
-            <LineItemPrice item={item} region={region} />
-          </div>
-        </div>
-      </div>
-    </div>
+      </Table.Cell>
+
+      <Table.Cell>
+        <LineItemUnitPrice item={item} region={region} />
+      </Table.Cell>
+
+      <Table.Cell className="text-right">
+        <LineItemPrice item={item} region={region} />
+      </Table.Cell>
+    </Table.Row>
   )
 }
 

@@ -1,4 +1,5 @@
 import { LineItem, Region } from "@medusajs/medusa"
+import { Heading, Table } from "@medusajs/ui"
 import Item from "@modules/cart/components/item"
 import SkeletonLineItem from "@modules/skeletons/components/skeleton-line-item"
 
@@ -10,10 +11,19 @@ type ItemsTemplateProps = {
 const ItemsTemplate = ({ items, region }: ItemsTemplateProps) => {
   return (
     <div>
-      <div className="border-b border-gray-200 pb-3 flex items-center">
-        <h1 className="text-xl-semi">Shopping Bag</h1>
+      <div className="pb-3 flex items-center">
+        <Heading className="txt-xxl">Cart</Heading>
       </div>
-      <div className="grid grid-cols-1 gap-y-8 py-8">
+      <Table>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>Item</Table.HeaderCell>
+            <Table.HeaderCell></Table.HeaderCell>
+            <Table.HeaderCell>Quantity</Table.HeaderCell>
+            <Table.HeaderCell>Price</Table.HeaderCell>
+            <Table.HeaderCell className="text-right">Total</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
         {items && region
           ? items
               .sort((a, b) => {
@@ -25,7 +35,7 @@ const ItemsTemplate = ({ items, region }: ItemsTemplateProps) => {
           : Array.from(Array(5).keys()).map((i) => {
               return <SkeletonLineItem key={i} />
             })}
-      </div>
+      </Table>
     </div>
   )
 }

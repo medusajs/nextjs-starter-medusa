@@ -4,7 +4,6 @@ import clsx from "clsx"
 import { useCollections, useProductCategories } from "medusa-react"
 import { Text } from "@medusajs/ui"
 import Link from "next/link"
-import CountrySelect from "../country-select"
 import MedusaCTA from "../medusa-cta"
 
 const FooterNav = () => {
@@ -15,7 +14,10 @@ const FooterNav = () => {
     <div className="content-container flex flex-col gap-y-40 pt-16 pb-8">
       <div className="flex flex-col gap-y-6 xsmall:flex-row items-start justify-between">
         <div>
-          <Link href="/" className="txt-compact-xlarge-plus uppercase">
+          <Link
+            href="/"
+            className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase"
+          >
             Acme
           </Link>
         </div>
@@ -42,7 +44,10 @@ const FooterNav = () => {
                       key={c.id}
                     >
                       <Link
-                        className={clsx(children && "txt-small-plus")}
+                        className={clsx(
+                          "hover:text-ui-fg-base",
+                          children && "txt-small-plus"
+                        )}
                         href={`/${c.handle}`}
                       >
                         {c.name}
@@ -52,7 +57,10 @@ const FooterNav = () => {
                           {children &&
                             children.map((child) => (
                               <li key={child.id}>
-                                <Link href={`/${child.handle}`}>
+                                <Link
+                                  className="hover:text-ui-fg-base"
+                                  href={`/${child.handle}`}
+                                >
                                   {child.name}
                                 </Link>
                               </li>
@@ -78,7 +86,12 @@ const FooterNav = () => {
               >
                 {collections?.slice(0, 6).map((c) => (
                   <li key={c.id}>
-                    <Link href={`/collections/${c.handle}`}>{c.title}</Link>
+                    <Link
+                      className="hover:text-ui-fg-base"
+                      href={`/collections/${c.handle}`}
+                    >
+                      {c.title}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -92,6 +105,7 @@ const FooterNav = () => {
                   href="https://github.com/medusajs"
                   target="_blank"
                   rel="noreferrer"
+                  className="hover:text-ui-fg-base"
                 >
                   GitHub
                 </a>
@@ -101,6 +115,7 @@ const FooterNav = () => {
                   href="https://docs.medusajs.com"
                   target="_blank"
                   rel="noreferrer"
+                  className="hover:text-ui-fg-base"
                 >
                   Documentation
                 </a>
@@ -110,6 +125,7 @@ const FooterNav = () => {
                   href="https://github.com/medusajs/nextjs-starter-medusa"
                   target="_blank"
                   rel="noreferrer"
+                  className="hover:text-ui-fg-base"
                 >
                   Source code
                 </a>

@@ -8,7 +8,7 @@ import React from "react"
 type ThumbnailProps = {
   thumbnail?: string | null
   images?: MedusaImage[] | null
-  size?: "small" | "medium" | "large" | "full"
+  size?: "small" | "medium" | "large" | "full" | "square"
   isFeatured?: boolean
 }
 
@@ -26,7 +26,8 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
         "relative w-full overflow-hidden p-4 bg-ui-bg-subtle shadow-elevation-card-rest rounder-rounded group-hover:shadow-elevation-card-hover transition-shadow ease-in-out duration-150",
         {
           "aspect-[11/14]": isFeatured,
-          "aspect-[9/16]": !isFeatured,
+          "aspect-[9/16]": !isFeatured && size !== "square",
+          "aspect-[1/1]": size === "square",
           "w-[180px]": size === "small",
           "w-[290px]": size === "medium",
           "w-[440px]": size === "large",
@@ -46,7 +47,6 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
 const ImageOrPlaceholder = ({
   image,
   size,
-  isFeatured,
 }: Pick<ThumbnailProps, "size" | "isFeatured"> & { image?: string }) => {
   return image ? (
     <Image

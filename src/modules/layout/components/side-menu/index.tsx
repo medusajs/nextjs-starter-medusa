@@ -3,7 +3,6 @@ import { Fragment } from "react"
 import { Popover, Transition } from "@headlessui/react"
 import { XMark, ArrowRightMini } from "@medusajs/icons"
 import { Text } from "@medusajs/ui"
-import clsx from "clsx"
 import CountrySelect from "../country-select"
 
 const SideMenuItems = {
@@ -22,7 +21,7 @@ const SideMenu = () => {
           {({ open, close }) => (
             <>
               <div className="relative flex h-full">
-                <Popover.Button className="relative h-full flex items-center transition-all ease-out duration-200 focus:outline-none">
+                <Popover.Button className="relative h-full flex items-center transition-all ease-out duration-200 focus:outline-none hover:text-ui-fg-base">
                   Menu
                 </Popover.Button>
               </div>
@@ -37,7 +36,7 @@ const SideMenu = () => {
                 leaveFrom="opacity-100 backdrop-blur-2xl"
                 leaveTo="opacity-0"
               >
-                <Popover.Panel className="flex flex-col absolute w-1/3 h-[calc(100vh-2rem)] z-30 inset-x-0 text-sm text-ui-fg-on-color m-4 backdrop-blur-2xl">
+                <Popover.Panel className="flex flex-col absolute w-1/3 2xl:w-1/4 h-[calc(100vh-2rem)] z-30 inset-x-0 text-sm text-ui-fg-on-color m-4 backdrop-blur-2xl">
                   <div className="flex flex-col h-full bg-[rgba(3,7,18,0.5)] rounded-rounded justify-between p-6">
                     <div className="flex justify-end" id="xmark">
                       <button onClick={close}>
