@@ -2,6 +2,7 @@
 
 import Addresses from "@modules/checkout/components/addresses"
 import Payment from "@modules/checkout/components/payment"
+import Review from "@modules/checkout/components/review"
 import Shipping from "@modules/checkout/components/shipping"
 import { useCart } from "medusa-react"
 
@@ -25,6 +26,10 @@ const CheckoutForm = () => {
 
         <div>
           <Payment />
+        </div>
+
+        <div>
+          <Review />
         </div>
       </div>
     </div>

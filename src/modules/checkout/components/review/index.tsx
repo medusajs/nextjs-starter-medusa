@@ -1,0 +1,94 @@
+import { useCheckout } from "@lib/context/checkout-context"
+import Spinner from "@modules/common/icons/spinner"
+import { useEffect } from "react"
+import PaymentContainer from "../payment-container"
+import { Button, Heading, IconButton, Text, clx } from "@medusajs/ui"
+import { RadioGroup } from "@headlessui/react"
+import PaymentStripe from "../payment-stripe"
+import Divider from "@modules/common/components/divider"
+import { useForm } from "react-hook-form"
+import { useCart, useSetPaymentSession } from "medusa-react"
+import { ErrorMessage } from "@hookform/error-message"
+import { Apple, CreditCard, CheckCircleSolid } from "@medusajs/icons"
+import PaymentButton from "../payment-button"
+
+const Payment = () => {
+  const {
+    cart,
+    initPayment,
+    editPayment: { state: isEditPayment, toggle: setEditPayment },
+    editAddresses: { state: isEditAddresses, toggle: setEditAddresses },
+    editShipping: { state: isEditShipping, toggle: setEditShipping },
+    selectedPaymentOptionId,
+  } = useCheckout()
+
+  const previousStepsCompleted =
+    !!cart?.shipping_address &&
+    !!cart.shipping_methods?.[0]?.shipping_option.id &&
+    !!cart?.payment_sessions
+
+  const editingOtherSteps = isEditAddresses || isEditShipping || isEditPayment
+
+  const handleSubmit = () => {
+    if (!selectedPaymentOptionId) {
+      return
+    }
+  }
+
+  /**
+   * Fallback if the payment session are not loaded properly we
+   * retry to load them after a 5 second delay.
+   */
+  useEffect(() => {
+    let timeout: NodeJS.Timeout | null = null
+
+    if (cart?.shipping_address && cart?.payment_sessions) {
+      timeout = setTimeout(() => {
+        initPayment()
+      }, 5000)
+    }
+
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout)
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cart])
+
+  return (
+    <div className="bg-white px-8">
+      <div className="flex flex-row items-center justify-between mb-6">
+        <Heading
+          level="h2"
+          className={clx(
+            "flex flex-row text-3xl-regular gap-x-2 items-baseline",
+            {
+              "opacity-50 pointer-events-none select-none":
+                editingOtherSteps && !previousStepsCompleted,
+            }
+          )}
+        >
+          Review
+        </Heading>
+      </div>
+      {!editingOtherSteps && previousStepsCompleted && (
+        <>
+          <div className="flex items-start gap-x-1 w-full mb-6">
+            <div className="w-full">
+              <Text className="txt-medium-plus text-ui-fg-base mb-1">
+                By clicking the Place Order button, you confirm that you have
+                read, understand and accept our Terms of Use, Terms of Sale and
+                Returns Policy and acknowledge that you have read ACME's Privacy
+                Policy.
+              </Text>
+            </div>
+          </div>
+          <PaymentButton paymentSession={cart?.payment_session} />
+        </>
+      )}
+    </div>
+  )
+}
+
+export default Payment

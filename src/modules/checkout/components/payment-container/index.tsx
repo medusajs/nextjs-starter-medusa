@@ -1,93 +1,53 @@
 import { PaymentSession } from "@medusajs/medusa"
 import Radio from "@modules/common/components/radio"
-import clsx from "clsx"
 import React from "react"
-import PaymentStripe from "../payment-stripe"
 import PaymentTest from "../payment-test"
+import { Text, clx } from "@medusajs/ui"
+import { RadioGroup } from "@headlessui/react"
 
 type PaymentContainerProps = {
   paymentSession: PaymentSession
-  selected: boolean
-  setSelected: () => void
+  selectedPaymentOptionId: string | null
   disabled?: boolean
-}
-
-const PaymentInfoMap: Record<string, { title: string; description: string }> = {
-  stripe: {
-    title: "Credit card",
-    description: "Secure payment with credit card",
-  },
-  "stripe-ideal": {
-    title: "iDEAL",
-    description: "Secure payment with iDEAL",
-  },
-  paypal: {
-    title: "PayPal",
-    description: "Secure payment with PayPal",
-  },
-  manual: {
-    title: "Test payment",
-    description: "Test payment using medusa-payment-manual",
-  },
+  paymentInfoMap: Record<string, { title: string; icon: JSX.Element }>
 }
 
 const PaymentContainer: React.FC<PaymentContainerProps> = ({
   paymentSession,
-  selected,
-  setSelected,
+  selectedPaymentOptionId,
+  paymentInfoMap,
   disabled = false,
 }) => {
   return (
-    <div
-      className={clsx(
-        "flex flex-col gap-y-4 border-b border-gray-200 last:border-b-0",
-        {
-          "bg-gray-50": selected,
-        }
-      )}
-    >
-      <button
-        className={"grid grid-cols-[12px_1fr] gap-x-4 py-4 px-8"}
-        onClick={setSelected}
+    <>
+      <RadioGroup.Option
+        key={paymentSession.id}
+        value={paymentSession.provider_id}
         disabled={disabled}
+        className={clx(
+          "flex items-center justify-between text-small-regular cursor-pointer py-4 border rounded-rounded px-8 mb-2 hover:shadow-borders-interactive-with-active",
+          {
+            "border-ui-border-interactive":
+              selectedPaymentOptionId === paymentSession.provider_id,
+          }
+        )}
       >
-        <Radio checked={selected} />
-        <div className="flex flex-col text-left">
-          <h3 className="text-base-semi leading-none text-gray-900">
-            {PaymentInfoMap[paymentSession.provider_id].title}
-          </h3>
-          <span className="text-gray-700 text-small-regular mt-2">
-            {PaymentInfoMap[paymentSession.provider_id].description}
-          </span>
-          {selected && (
-            <div className="w-full mt-4">
-              <PaymentElement paymentSession={paymentSession} />
-            </div>
-          )}
+        <div className="flex items-center gap-x-4">
+          <Radio
+            checked={selectedPaymentOptionId === paymentSession.provider_id}
+          />
+          <Text className="text-base-regular">
+            {paymentInfoMap[paymentSession.provider_id]?.title || "Unknown"}
+          </Text>
+          {paymentSession.provider_id === "manual" &&
+            process.env.NODE_ENV === "development" && <PaymentTest />}
         </div>
-      </button>
-    </div>
+        <span className="justify-self-end text-gray-700">
+          {paymentInfoMap[paymentSession.provider_id]?.icon}
+        </span>
+      </RadioGroup.Option>
+    </>
   )
-}
-
-const PaymentElement = ({
-  paymentSession,
-}: {
-  paymentSession: PaymentSession
-}) => {
-  switch (paymentSession.provider_id) {
-    case "stripe":
-      return (
-        <div className="pt-8 pr-7">
-          <PaymentStripe />
-        </div>
-      )
-    case "manual":
-      // We only display the test payment form if we are in a development environment
-      return process.env.NODE_ENV === "development" ? <PaymentTest /> : null
-    default:
-      return null
-  }
 }
 
 export default PaymentContainer

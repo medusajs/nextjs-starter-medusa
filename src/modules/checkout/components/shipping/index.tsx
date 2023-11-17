@@ -1,14 +1,15 @@
-import { RadioGroup } from "@headlessui/react"
-import { ErrorMessage } from "@hookform/error-message"
 import { useCheckout } from "@lib/context/checkout-context"
-import { Cart } from "@medusajs/medusa"
-import Radio from "@modules/common/components/radio"
+import { Button, Heading, Text, clx } from "@medusajs/ui"
+import { CheckCircleSolid } from "@medusajs/icons"
 import Spinner from "@modules/common/icons/spinner"
-import clsx from "clsx"
+import Divider from "@modules/common/components/divider"
+import { useForm } from "react-hook-form"
+import { RadioGroup } from "@headlessui/react"
+import Radio from "@modules/common/components/radio"
+import { ErrorMessage } from "@hookform/error-message"
 import { formatAmount, useCart, useCartShippingOptions } from "medusa-react"
-import React, { useEffect, useMemo } from "react"
-import { Controller, useForm } from "react-hook-form"
-import StepContainer from "../step-container"
+import { useEffect, useMemo, useState } from "react"
+import { Cart } from "@medusajs/medusa"
 
 type ShippingOption = {
   value?: string
@@ -20,21 +21,28 @@ type ShippingProps = {
   cart: Omit<Cart, "refundable_amount" | "refunded_total">
 }
 
-type ShippingFormProps = {
-  soId: string
-}
-
 const Shipping: React.FC<ShippingProps> = ({ cart }) => {
-  const { addShippingMethod, setCart } = useCart()
   const {
-    control,
+    editAddresses: { state: isAddressesEdit, toggle: setAddressesEdit },
+    editShipping: { state: isEdit, toggle: setEdit },
+    editPayment: { state: isPaymentEdit, toggle: setPaymentEdit },
+    addressReady,
+    shippingReady,
+    paymentReady,
+  } = useCheckout()
+
+  const currentShippingOption = cart.shipping_methods?.[0]?.shipping_option.id
+
+  const [shippingOptionId, setShippingOptionId] = useState(
+    currentShippingOption
+  )
+
+  const { addShippingMethod, setCart } = useCart()
+
+  const {
     setError,
     formState: { errors },
-  } = useForm<ShippingFormProps>({
-    defaultValues: {
-      soId: cart.shipping_methods?.[0]?.shipping_option_id,
-    },
-  })
+  } = useForm()
 
   // Fetch shipping options
   const { shipping_options, refetch } = useCartShippingOptions(cart.id, {
@@ -54,7 +62,11 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
     addShippingMethod.mutate(
       { option_id: soId },
       {
-        onSuccess: ({ cart }) => setCart(cart),
+        onSuccess: ({ cart }) => {
+          setCart(cart)
+          setEdit()
+          !paymentReady && setPaymentEdit()
+        },
         onError: () =>
           setError(
             "soId",
@@ -69,10 +81,17 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
     )
   }
 
-  const handleChange = (value: string, fn: (value: string) => void) => {
-    submitShippingOption(value)
-    fn(value)
+  const handleChange = (value: string) => {
+    setShippingOptionId(value)
   }
+
+  const handleEdit = () => {
+    setEdit()
+    isAddressesEdit && setAddressesEdit()
+    isPaymentEdit && setPaymentEdit()
+  }
+
+  const editingOtherSteps = isAddressesEdit || isPaymentEdit
 
   // Memoized shipping method options
   const shippingMethods: ShippingOption[] = useMemo(() => {
@@ -90,77 +109,115 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
     return []
   }, [shipping_options, cart])
 
-  const {
-    sameAsBilling: { state: sameBilling },
-  } = useCheckout()
-
   return (
-    <StepContainer
-      index={sameBilling ? 2 : 3}
-      title="Delivery"
-      closedState={
-        <div className="px-8 pb-8 text-small-regular">
-          <p>Enter your address to see available delivery options.</p>
-        </div>
-      }
-    >
-      <Controller
-        name="soId"
-        control={control}
-        render={({ field: { value, onChange } }) => {
-          return (
-            <div>
-              <RadioGroup
-                value={value}
-                onChange={(value: string) => handleChange(value, onChange)}
-              >
-                {shippingMethods && shippingMethods.length ? (
-                  shippingMethods.map((option) => {
-                    return (
-                      <RadioGroup.Option
-                        key={option.value}
-                        value={option.value}
-                        className={clsx(
-                          "flex items-center justify-between text-small-regular cursor-pointer py-4 border-b border-gray-200 last:border-b-0 px-8",
-                          {
-                            "bg-gray-50": option.value === value,
-                          }
-                        )}
-                      >
-                        <div className="flex items-center gap-x-4">
-                          <Radio checked={value === option.value} />
-                          <span className="text-base-regular">
-                            {option.label}
-                          </span>
-                        </div>
-                        <span className="justify-self-end text-gray-700">
-                          {option.price}
-                        </span>
-                      </RadioGroup.Option>
-                    )
-                  })
-                ) : (
-                  <div className="flex flex-col items-center justify-center px-4 py-8 text-gray-900">
-                    <Spinner />
-                  </div>
-                )}
-              </RadioGroup>
-              <ErrorMessage
-                errors={errors}
-                name="soId"
-                render={({ message }) => {
+    <div className="bg-white px-8">
+      <div className="flex flex-row items-center justify-between mb-6">
+        <Heading
+          level="h2"
+          className={clx(
+            "flex flex-row text-3xl-regular gap-x-2 items-baseline",
+            {
+              "opacity-50 pointer-events-none select-none":
+                editingOtherSteps && !shippingReady,
+            }
+          )}
+        >
+          Delivery
+          {!isEdit && currentShippingOption && <CheckCircleSolid />}
+        </Heading>
+        {!isEdit && addressReady && (
+          <Text>
+            <button onClick={handleEdit} className="text-ui-fg-interactive">
+              Edit
+            </button>
+          </Text>
+        )}
+      </div>
+      {!editingOtherSteps && isEdit ? (
+        <div className="pb-8">
+          <div>
+            <RadioGroup
+              value={shippingOptionId}
+              onChange={(value: string) => handleChange(value)}
+            >
+              {shippingMethods && shippingMethods.length ? (
+                shippingMethods.map((option) => {
                   return (
-                    <div className="pt-2 text-rose-500 text-small-regular">
-                      <span>{message}</span>
-                    </div>
+                    <RadioGroup.Option
+                      key={option.value}
+                      value={option.value}
+                      className={clx(
+                        "flex items-center justify-between text-small-regular cursor-pointer py-4 border rounded-rounded px-8 mb-2 hover:shadow-borders-interactive-with-active",
+                        {
+                          "border-ui-border-interactive":
+                            option.value === shippingOptionId,
+                        }
+                      )}
+                    >
+                      <div className="flex items-center gap-x-4">
+                        <Radio checked={shippingOptionId === option.value} />
+                        <span className="text-base-regular">
+                          {option.label}
+                        </span>
+                      </div>
+                      <span className="justify-self-end text-gray-700">
+                        {option.price}
+                      </span>
+                    </RadioGroup.Option>
                   )
-                }}
-              />
-            </div>
-          )
-        }}
-      />
-    </StepContainer>
+                })
+              ) : (
+                <div className="flex flex-col items-center justify-center px-4 py-8 text-gray-900">
+                  <Spinner />
+                </div>
+              )}
+            </RadioGroup>
+            <ErrorMessage
+              errors={errors}
+              name="soId"
+              render={({ message }) => {
+                return (
+                  <div className="pt-2 text-rose-500 text-small-regular">
+                    <span>{message}</span>
+                  </div>
+                )
+              }}
+            />
+          </div>
+
+          <Button
+            size="large"
+            className="mt-6"
+            onClick={() => submitShippingOption(shippingOptionId)}
+          >
+            Continue to payment
+          </Button>
+        </div>
+      ) : (
+        <div>
+          <div className="text-small-regular">
+            {cart && shippingReady && (
+              <div className="flex flex-col w-1/3">
+                <Text className="txt-medium-plus text-ui-fg-base mb-1">
+                  Method
+                </Text>
+                <Text className="txt-medium text-ui-fg-subtle">
+                  {cart.shipping_methods[0].shipping_option.name} (
+                  {formatAmount({
+                    amount: cart.shipping_methods[0].price,
+                    region: cart.region,
+                  })
+                    .replace(/,/g, "")
+                    .replace(/\./g, ",")}
+                  )
+                </Text>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+      <Divider className="mt-8" />
+    </div>
   )
 }
 

@@ -6,7 +6,7 @@ type LineItemOptionsProps = { variant: ProductVariant }
 const LineItemOptions = ({ variant }: LineItemOptionsProps) => {
   return (
     <>
-      {variant.options.map((option) => {
+      {variant.options?.map((option) => {
         const optionName =
           variant.product.options.find((opt) => opt.id === option.option_id)
             ?.title || "Option"

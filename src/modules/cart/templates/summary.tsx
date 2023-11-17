@@ -2,6 +2,7 @@ import { Cart } from "@medusajs/medusa"
 import { Button, Heading } from "@medusajs/ui"
 import DiscountCode from "@modules/checkout/components/discount-code"
 import CartTotals from "@modules/common/components/cart-totals"
+import Divider from "@modules/common/components/divider"
 import Link from "next/link"
 
 type SummaryProps = {
@@ -15,6 +16,7 @@ const Summary = ({ cart }: SummaryProps) => {
         Summary
       </Heading>
       <DiscountCode cart={cart} />
+      <Divider />
       <CartTotals cart={cart} />
       <Link href="/checkout">
         <Button className="w-full h-10">Go to checkout</Button>

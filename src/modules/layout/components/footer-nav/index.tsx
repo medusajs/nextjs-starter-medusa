@@ -11,7 +11,7 @@ const FooterNav = () => {
   const { product_categories } = useProductCategories()
 
   return (
-    <div className="border-t border-ui-border-base w-[100vw]">
+    <div className="border-t border-ui-border-base w-screen">
       <div className="content-container flex flex-col">
         <div className="flex flex-col gap-y-6 xsmall:flex-row items-start justify-between py-40">
           <div>
@@ -139,7 +139,7 @@ const FooterNav = () => {
             </div>
           </div>
         </div>
-        <div className="flex w-full gap-y-4 justify-between text-ui-fg-muted">
+        <div className="flex w-full mb-16 justify-between text-ui-fg-muted">
           <Text className="txt-compact-small">
             © {new Date().getFullYear()} ACME. All rights reserved.
           </Text>

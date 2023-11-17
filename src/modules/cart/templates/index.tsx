@@ -7,6 +7,7 @@ import EmptyCartMessage from "../components/empty-cart-message"
 import SignInPrompt from "../components/sign-in-prompt"
 import ItemsTemplate from "./items"
 import Summary from "./summary"
+import Divider from "@modules/common/components/divider"
 
 const CartTemplate = () => {
   const { cart } = useCart()
@@ -23,7 +24,13 @@ const CartTemplate = () => {
         {cart.items.length ? (
           <div className="grid grid-cols-1 small:grid-cols-[1fr_360px] gap-x-40">
             <div className="flex flex-col bg-white p-6 gap-y-6">
-              {!customer && <SignInPrompt />}
+              {!customer && (
+                <>
+                  <SignInPrompt />
+                  <Divider />
+                </>
+              )}
+
               <ItemsTemplate region={cart?.region} items={items} />
             </div>
             <div className="relative">
@@ -40,7 +47,6 @@ const CartTemplate = () => {
           </div>
         ) : (
           <div>
-            {!customer && <SignInPrompt />}
             <EmptyCartMessage />
           </div>
         )}

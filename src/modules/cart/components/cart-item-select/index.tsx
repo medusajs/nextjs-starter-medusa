@@ -1,5 +1,6 @@
 import { ErrorMessage } from "@hookform/error-message"
-import { ChevronUpDown } from "@medusajs/icons"
+import { IconBadge } from "@medusajs/ui"
+import ChevronDown from "@modules/common/icons/chevron-down"
 import clsx from "clsx"
 import {
   forwardRef,
@@ -15,9 +16,9 @@ export type NativeSelectProps = {
   placeholder?: string
   errors?: Record<string, unknown>
   touched?: Record<string, unknown>
-} & SelectHTMLAttributes<HTMLSelectElement>
+} & Omit<SelectHTMLAttributes<HTMLSelectElement>, "size">
 
-const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
+const CartItemSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
   (
     {
       placeholder = "Select...",
@@ -51,29 +52,29 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
 
     return (
       <div>
-        <div
+        <IconBadge
           onFocus={() => innerRef.current?.focus()}
           onBlur={() => innerRef.current?.blur()}
           className={clsx(
-            "relative flex items-center text-base-regular border border-ui-border-base bg-ui-bg-subtle rounded-md hover:bg-ui-bg-field-hover",
+            "relative flex items-center txt-compact-small border text-ui-fg-base group",
             className,
             {
-              "text-ui-fg-muted": isPlaceholder,
+              "text-ui-fg-subtle": isPlaceholder,
             }
           )}
         >
           <select
             ref={innerRef}
             {...props}
-            className="appearance-none flex-1 bg-transparent border-none px-4 py-2.5 transition-colors duration-150 outline-none "
+            className="appearance-none bg-transparent border-none px-4 transition-colors duration-150 focus:border-gray-700 outline-none w-16 h-16 items-center justify-center"
           >
             <option value="">{placeholder}</option>
             {children}
           </select>
-          <span className="absolute right-4 inset-y-0 flex items-center pointer-events-none ">
-            <ChevronUpDown />
+          <span className="absolute flex pointer-events-none justify-end w-8 group-hover:animate-pulse">
+            <ChevronDown />
           </span>
-        </div>
+        </IconBadge>
         {hasError && props.name && (
           <ErrorMessage
             errors={errors}
@@ -92,6 +93,6 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
   }
 )
 
-NativeSelect.displayName = "NativeSelect"
+CartItemSelect.displayName = "CartItemSelect"
 
-export default NativeSelect
+export default CartItemSelect

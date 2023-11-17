@@ -103,10 +103,10 @@
   }
 
   .text-3xl-regular {
-    @apply text-[36px] leading-[48px] font-normal;
+    @apply text-[32px] leading-[44px] font-normal;
   }
 
   .text-3xl-semi {
-    @apply text-[36px] leading-[48px] font-semibold;
+    @apply text-[32px] leading-[44px] font-semibold;
   }
 }

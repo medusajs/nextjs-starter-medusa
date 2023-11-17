@@ -1,9 +1,10 @@
 "use client"
 
-import DiscountCode from "@modules/checkout/components/discount-code/DiscountCode"
-import GiftCard from "@modules/checkout/components/gift-card"
-import PaymentButton from "@modules/checkout/components/payment-button"
+import { Heading } from "@medusajs/ui"
+import ItemsPreviewTemplate from "@modules/cart/templates/preview"
+import DiscountCode from "@modules/checkout/components/discount-code"
 import CartTotals from "@modules/common/components/cart-totals"
+import Divider from "@modules/common/components/divider"
 import { useCart } from "medusa-react"
 
 const CheckoutSummary = () => {
@@ -15,14 +16,20 @@ const CheckoutSummary = () => {
 
   return (
     <div className="sticky top-0 flex flex-col-reverse small:flex-col gap-y-8">
-      <div className="w-full bg-white p-6 flex flex-col gap-y-6">
+      <div className="w-full bg-white flex flex-col">
+        <Heading
+          level="h2"
+          className="flex flex-row text-3xl-regular items-baseline"
+        >
+          In your Cart
+        </Heading>
+        <Divider className="my-6" />
         <CartTotals cart={cart} />
-        <PaymentButton paymentSession={cart?.payment_session} />
+        <ItemsPreviewTemplate region={cart?.region} items={cart?.items} />
+        <div className="my-6">
+          <DiscountCode cart={cart} />
+        </div>
       </div>
-      <div className="p-6 bg-white">
-        <DiscountCode cart={cart} />
-      </div>
-      <GiftCard cart={cart} />
     </div>
   )
 }

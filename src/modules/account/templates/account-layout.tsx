@@ -1,7 +1,7 @@
 "use client"
 
 import { useAccount } from "@lib/context/account-context"
-import UnderlineLink from "@modules/common/components/underline-link"
+import UnderlineLink from "@modules/common/components/interactive-link"
 import Spinner from "@modules/common/icons/spinner"
 import React, { useEffect } from "react"
 import AccountNav from "../components/account-nav"

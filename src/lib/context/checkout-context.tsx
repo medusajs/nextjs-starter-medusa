@@ -20,7 +20,13 @@ import {
   useUpdateCart,
 } from "medusa-react"
 import { useRouter } from "next/navigation"
-import React, { createContext, useContext, useEffect, useMemo } from "react"
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react"
 import { FormProvider, useForm, useFormContext } from "react-hook-form"
 import { useStore } from "./store-context"
 
@@ -47,14 +53,21 @@ interface CheckoutContext {
   cart?: Omit<Cart, "refundable_amount" | "refunded_total">
   shippingMethods: { label?: string; value?: string; price: string }[]
   isLoading: boolean
+  addressReady: boolean
+  shippingReady: boolean
+  paymentReady: boolean
   readyToComplete: boolean
   sameAsBilling: StateType
   editAddresses: StateType
+  editShipping: StateType
+  editPayment: StateType
+  selectedPaymentOptionId: string | null
   initPayment: () => Promise<void>
   setAddresses: (addresses: CheckoutFormValues) => void
   setSavedAddress: (address: Address) => void
   setShippingOption: (soId: string) => void
   setPaymentSession: (providerId: string) => void
+  setSelectedPaymentOptionId: (providerId: string) => void
   onPaymentCompleted: () => void
 }
 
@@ -110,6 +123,13 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
       : true
   )
 
+  const editShipping = useToggleState()
+  const editPayment = useToggleState()
+
+  const [selectedPaymentOptionId, setSelectedPaymentOptionId] = useState<
+    string | null
+  >(cart?.payment_session?.provider_id || null)
+
   /**
    * Boolean that indicates if a part of the checkout is loading.
    */
@@ -131,16 +151,24 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
    * Boolean that indicates if the checkout is ready to be completed. A checkout is ready to be completed if
    * the user has supplied a email, shipping address, billing address, shipping method, and a method of payment.
    */
-  const readyToComplete = useMemo(() => {
-    return (
-      !!cart &&
-      !!cart.email &&
-      !!cart.shipping_address &&
-      !!cart.billing_address &&
-      !!cart.payment_session &&
-      cart.shipping_methods?.length > 0
-    )
-  }, [cart])
+  const { addressReady, shippingReady, paymentReady, readyToComplete } =
+    useMemo(() => {
+      const addressReady =
+        !!cart?.shipping_address && !!cart?.billing_address && !!cart?.email
+
+      const shippingReady = !!cart?.shipping_methods?.length
+
+      const paymentReady = !!cart?.payment_session
+
+      const readyToComplete = addressReady && shippingReady && paymentReady
+
+      return {
+        addressReady,
+        shippingReady,
+        paymentReady,
+        readyToComplete,
+      }
+    }, [cart])
 
   const shippingMethods = useMemo(() => {
     if (shipping_options && cart?.region) {
@@ -316,8 +344,8 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   const onPaymentCompleted = () => {
     complete(undefined, {
       onSuccess: ({ data }) => {
-        resetCart()
         push(`/order/confirmed/${data.id}`)
+        resetCart()
       },
     })
   }
@@ -329,18 +357,30 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
           cart,
           shippingMethods,
           isLoading,
+          addressReady,
+          shippingReady,
+          paymentReady,
           readyToComplete,
           sameAsBilling,
           editAddresses,
+          editShipping,
+          editPayment,
+          selectedPaymentOptionId,
           initPayment,
           setAddresses,
           setSavedAddress,
           setShippingOption,
           setPaymentSession,
+          setSelectedPaymentOptionId,
           onPaymentCompleted,
         }}
       >
-        <Wrapper paymentSession={cart?.payment_session}>{children}</Wrapper>
+        <Wrapper
+          selectedProviderId={selectedPaymentOptionId}
+          paymentSession={cart?.payment_session}
+        >
+          {children}
+        </Wrapper>
       </CheckoutContext.Provider>
     </FormProvider>
   )

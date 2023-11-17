@@ -1,7 +1,6 @@
 import { useCheckout } from "@lib/context/checkout-context"
 import { PaymentSession } from "@medusajs/medusa"
 import { Button } from "@medusajs/ui"
-import Spinner from "@modules/common/icons/spinner"
 import { OnApproveActions, OnApproveData } from "@paypal/paypal-js"
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js"
 import { useElements, useStripe } from "@stripe/react-stripe-js"
@@ -148,10 +147,12 @@ const StripePaymentButton = ({
   return (
     <>
       <Button
-        disabled={submitting || disabled || notReady}
+        disabled={disabled || notReady}
         onClick={handlePayment}
+        size="large"
+        isLoading={submitting}
       >
-        {submitting ? <Spinner /> : "Checkout"}
+        Place order
       </Button>
       {errorMessage && (
         <div className="text-red-500 text-small-regular mt-2">
@@ -234,8 +235,13 @@ const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
   }
 
   return (
-    <Button disabled={submitting || notReady} onClick={handlePayment}>
-      {submitting ? <Spinner /> : "Checkout"}
+    <Button
+      disabled={notReady}
+      isLoading={submitting}
+      onClick={handlePayment}
+      size="large"
+    >
+      Place order
     </Button>
   )
 }

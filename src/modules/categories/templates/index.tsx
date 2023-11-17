@@ -14,7 +14,7 @@ import { useCart } from "medusa-react"
 import React, { useEffect } from "react"
 import { useInView } from "react-intersection-observer"
 import Link from "next/link"
-import UnderlineLink from "@modules/common/components/underline-link"
+import UnderlineLink from "@modules/common/components/interactive-link"
 import { notFound } from "next/navigation"
 
 type CategoryTemplateProps = {
