@@ -128,7 +128,10 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
           <div className="flex flex-col mb-4">
             <Heading className="txt-medium">Gift card(s) applied:</Heading>
             {gift_cards?.map((gc) => (
-              <div className="flex items-center justify-between txt-small-plus">
+              <div
+                className="flex items-center justify-between txt-small-plus"
+                key={gc.id}
+              >
                 <Text className="flex gap-x-1 items-baseline">
                   <span>Code: </span>
                   <span className="truncate">{gc.code}</span>

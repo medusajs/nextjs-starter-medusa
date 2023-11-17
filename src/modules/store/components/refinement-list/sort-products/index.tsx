@@ -1,11 +1,7 @@
 import FilterRadioGroup from "@modules/common/components/filter-radio-group"
 import { ChangeEvent } from "react"
 
-export type SortOptions =
-  | "relevance"
-  | "price_asc"
-  | "price_desc"
-  | "created_at"
+export type SortOptions = "price_asc" | "price_desc" | "created_at"
 
 type SortProductsProps = {
   sortBy: SortOptions
@@ -14,12 +10,8 @@ type SortProductsProps = {
 
 const sortOptions = [
   {
-    value: "relevance",
-    label: "Relevance",
-  },
-  {
     value: "created_at",
-    label: "Latest arrivals",
+    label: "Latest Arrivals",
   },
   {
     value: "price_asc",

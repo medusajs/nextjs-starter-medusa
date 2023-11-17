@@ -10,7 +10,6 @@ import { useEffect, useMemo } from "react"
 import { useInView } from "react-intersection-observer"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
-import sortProducts from "@lib/util/sort-products"
 
 export type InfiniteProductsType = {
   params: StoreGetProductsParams
@@ -50,14 +49,11 @@ const InfiniteProducts = ({ params, sortBy }: InfiniteProductsType) => {
       }
     )
 
-  let previews = usePreviews({ pages: data?.pages, region: cart?.region })
-
-  if (sortBy) {
-    previews = useMemo(
-      () => sortProducts(previews, sortBy, params.collection_id),
-      [previews, sortBy]
-    )
-  }
+  const previews = usePreviews({
+    pages: data?.pages,
+    region: cart?.region,
+    sortBy,
+  })
 
   useEffect(() => {
     if (inView && hasNextPage) {

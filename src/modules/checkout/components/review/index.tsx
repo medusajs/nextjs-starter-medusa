@@ -1,15 +1,6 @@
 import { useCheckout } from "@lib/context/checkout-context"
-import Spinner from "@modules/common/icons/spinner"
 import { useEffect } from "react"
-import PaymentContainer from "../payment-container"
-import { Button, Heading, IconButton, Text, clx } from "@medusajs/ui"
-import { RadioGroup } from "@headlessui/react"
-import PaymentStripe from "../payment-stripe"
-import Divider from "@modules/common/components/divider"
-import { useForm } from "react-hook-form"
-import { useCart, useSetPaymentSession } from "medusa-react"
-import { ErrorMessage } from "@hookform/error-message"
-import { Apple, CreditCard, CheckCircleSolid } from "@medusajs/icons"
+import { Heading, Text, clx } from "@medusajs/ui"
 import PaymentButton from "../payment-button"
 
 const Payment = () => {
@@ -79,8 +70,8 @@ const Payment = () => {
               <Text className="txt-medium-plus text-ui-fg-base mb-1">
                 By clicking the Place Order button, you confirm that you have
                 read, understand and accept our Terms of Use, Terms of Sale and
-                Returns Policy and acknowledge that you have read ACME's Privacy
-                Policy.
+                Returns Policy and acknowledge that you have read ACME&apos;s
+                Privacy Policy.
               </Text>
             </div>
           </div>

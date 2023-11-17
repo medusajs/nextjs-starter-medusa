@@ -8,7 +8,7 @@ import { SortOptions } from "../components/refinement-list/sort-products"
 
 const StoreTemplate = () => {
   const [params, setParams] = useState<StoreGetProductsParams>({})
-  const [sortBy, setSortBy] = useState<SortOptions>("relevance")
+  const [sortBy, setSortBy] = useState<SortOptions>("created_at")
 
   return (
     <div className="flex flex-col small:flex-row small:items-start py-6">
