@@ -1,7 +1,6 @@
 import repeat from "@lib/util/repeat"
 import Divider from "@modules/common/components/divider"
 import SkeletonButton from "@modules/skeletons/components/skeleton-button"
-import SkeletonProductTabs from "@modules/skeletons/components/skeleton-product-tabs"
 
 const SkeletonProductPage = () => {
   return (

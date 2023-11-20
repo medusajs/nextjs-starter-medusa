@@ -10,6 +10,7 @@ type ThumbnailProps = {
   images?: MedusaImage[] | null
   size?: "small" | "medium" | "large" | "full" | "square"
   isFeatured?: boolean
+  className?: string
 }
 
 const Thumbnail: React.FC<ThumbnailProps> = ({
@@ -17,6 +18,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
   images,
   size = "small",
   isFeatured,
+  className,
 }) => {
   const initialImage = thumbnail || images?.[0]?.url
 
@@ -24,6 +26,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
     <Container
       className={clsx(
         "relative w-full overflow-hidden p-4 bg-ui-bg-subtle shadow-elevation-card-rest rounded-large group-hover:shadow-elevation-card-hover transition-shadow ease-in-out duration-150",
+        className,
         {
           "aspect-[11/14]": isFeatured,
           "aspect-[9/16]": !isFeatured && size !== "square",

@@ -16,6 +16,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const category = product_categories[0]
 
+  if (!category) {
+    notFound()
+  }
+
   return {
     title: `${category.name} | Acme Store`,
     description: `${category.name} category`,

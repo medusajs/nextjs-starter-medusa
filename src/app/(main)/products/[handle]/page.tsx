@@ -33,9 +33,5 @@ export default async function ProductPage({ params }: Props) {
     notFound()
   })
 
-  return params.handle === "sweatshirt" ? (
-    <SkeletonProductPage />
-  ) : (
-    <ProductTemplate product={products[0]} />
-  )
+  return <ProductTemplate product={products[0]} />
 }
