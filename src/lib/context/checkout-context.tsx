@@ -98,6 +98,8 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     reValidateMode: "onChange",
   })
 
+  useEffect(() => console.log({ cart }), [cart])
+
   const {
     mutate: setPaymentSessionMutation,
     isLoading: settingPaymentSession,
@@ -156,7 +158,9 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
       const addressReady =
         !!cart?.shipping_address && !!cart?.billing_address && !!cart?.email
 
-      const shippingReady = !!cart?.shipping_methods?.length
+      const shippingReady = !!(
+        cart?.shipping_methods && cart.shipping_methods.length > 0
+      )
 
       const paymentReady = !!cart?.payment_session
 

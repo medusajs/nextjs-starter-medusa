@@ -5,7 +5,6 @@ import Spinner from "@modules/common/icons/spinner"
 import BillingAddress from "../billing_address"
 import ShippingAddress from "../shipping-address"
 import Divider from "@modules/common/components/divider"
-import { useState } from "react"
 
 const Addresses = () => {
   const {
@@ -20,8 +19,8 @@ const Addresses = () => {
 
   const handleEdit = () => {
     setEdit()
-    isEditShipping && setEditShipping()
-    isPaymentEdit && setPaymentEdit()
+    setEditShipping()
+    // isPaymentEdit && setPaymentEdit()
   }
 
   return (

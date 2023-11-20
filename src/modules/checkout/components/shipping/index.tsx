@@ -65,7 +65,7 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
         onSuccess: ({ cart }) => {
           setCart(cart)
           setEdit()
-          !paymentReady && setPaymentEdit()
+          setPaymentEdit()
         },
         onError: () =>
           setError(
