@@ -68,6 +68,8 @@ interface CheckoutContext {
   setShippingOption: (soId: string) => void
   setPaymentSession: (providerId: string) => void
   setSelectedPaymentOptionId: (providerId: string) => void
+  setShippingConfirmed: (value: boolean) => void
+  setPaymentConfirmed: (value: boolean) => void
   onPaymentCompleted: () => void
 }
 
@@ -149,6 +151,9 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     updatingCart,
   ])
 
+  const [shippingConfirmed, setShippingConfirmed] = useState(false)
+  const [paymentConfirmed, setPaymentConfirmed] = useState(false)
+
   /**
    * Boolean that indicates if the checkout is ready to be completed. A checkout is ready to be completed if
    * the user has supplied a email, shipping address, billing address, shipping method, and a method of payment.
@@ -158,11 +163,13 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
       const addressReady =
         !!cart?.shipping_address && !!cart?.billing_address && !!cart?.email
 
-      const shippingReady = !!(
-        cart?.shipping_methods && cart.shipping_methods.length > 0
-      )
+      const shippingReady =
+        addressReady &&
+        !!(cart?.shipping_methods && cart.shipping_methods.length > 0) &&
+        shippingConfirmed
 
-      const paymentReady = !!cart?.payment_session
+      const paymentReady =
+        shippingReady && !!cart?.payment_session && paymentConfirmed
 
       const readyToComplete = addressReady && shippingReady && paymentReady
 
@@ -376,6 +383,8 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
           setShippingOption,
           setPaymentSession,
           setSelectedPaymentOptionId,
+          setShippingConfirmed,
+          setPaymentConfirmed,
           onPaymentCompleted,
         }}
       >

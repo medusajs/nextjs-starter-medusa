@@ -28,7 +28,7 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
     editPayment: { state: isPaymentEdit, toggle: setPaymentEdit },
     addressReady,
     shippingReady,
-    paymentReady,
+    setShippingConfirmed,
   } = useCheckout()
 
   const currentShippingOption = cart.shipping_methods?.[0]?.shipping_option.id
@@ -65,6 +65,7 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
         onSuccess: ({ cart }) => {
           setCart(cart)
           setEdit()
+          setShippingConfirmed(true)
           setPaymentEdit()
         },
         onError: () =>

@@ -44,6 +44,7 @@ const Payment = () => {
     paymentReady,
     selectedPaymentOptionId,
     setSelectedPaymentOptionId,
+    setPaymentConfirmed,
   } = useCheckout()
 
   const { setCart } = useCart()
@@ -86,6 +87,7 @@ const Payment = () => {
         {
           onSuccess: ({ cart }) => {
             setCart(cart)
+            setPaymentConfirmed(true)
           },
           onError: () =>
             setError(
