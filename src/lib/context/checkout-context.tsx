@@ -9,7 +9,7 @@ import {
   StorePostCartsCartReq,
 } from "@medusajs/medusa"
 import Wrapper from "@modules/checkout/components/payment-wrapper"
-import { isEqual } from "lodash"
+import { add, isEqual } from "lodash"
 import {
   formatAmount,
   useCart,
@@ -68,8 +68,6 @@ interface CheckoutContext {
   setShippingOption: (soId: string) => void
   setPaymentSession: (providerId: string) => void
   setSelectedPaymentOptionId: (providerId: string) => void
-  setShippingConfirmed: (value: boolean) => void
-  setPaymentConfirmed: (value: boolean) => void
   onPaymentCompleted: () => void
 }
 
@@ -99,8 +97,6 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     defaultValues: mapFormValues(customer, cart, countryCode),
     reValidateMode: "onChange",
   })
-
-  useEffect(() => console.log({ cart }), [cart])
 
   const {
     mutate: setPaymentSessionMutation,
@@ -151,9 +147,6 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     updatingCart,
   ])
 
-  const [shippingConfirmed, setShippingConfirmed] = useState(false)
-  const [paymentConfirmed, setPaymentConfirmed] = useState(false)
-
   /**
    * Boolean that indicates if the checkout is ready to be completed. A checkout is ready to be completed if
    * the user has supplied a email, shipping address, billing address, shipping method, and a method of payment.
@@ -165,11 +158,13 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
 
       const shippingReady =
         addressReady &&
-        !!(cart?.shipping_methods && cart.shipping_methods.length > 0) &&
-        shippingConfirmed
+        !!(
+          cart?.shipping_methods &&
+          cart.shipping_methods.length > 0 &&
+          cart.shipping_methods[0].shipping_option
+        )
 
-      const paymentReady =
-        shippingReady && !!cart?.payment_session && paymentConfirmed
+      const paymentReady = shippingReady && !!cart?.payment_session
 
       const readyToComplete = addressReady && shippingReady && paymentReady
 
@@ -180,6 +175,12 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
         readyToComplete,
       }
     }, [cart])
+
+  useEffect(() => {
+    if (addressReady && !shippingReady) {
+      editShipping.open()
+    }
+  }, [addressReady, shippingReady, editShipping])
 
   const shippingMethods = useMemo(() => {
     if (shipping_options && cart?.region) {
@@ -383,8 +384,6 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
           setShippingOption,
           setPaymentSession,
           setSelectedPaymentOptionId,
-          setShippingConfirmed,
-          setPaymentConfirmed,
           onPaymentCompleted,
         }}
       >

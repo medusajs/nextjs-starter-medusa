@@ -9,16 +9,18 @@ import Divider from "@modules/common/components/divider"
 const Addresses = () => {
   const {
     sameAsBilling: { state: checked, toggle: onChange },
-    editAddresses: { state: isEdit, toggle: setEdit },
-    editShipping: { state: isEditShipping, toggle: setEditShipping },
+    editAddresses: { state: isOpen, toggle, open, close },
+    editShipping: { close: closeShipping },
+    editPayment: { close: closePayment },
     setAddresses,
     handleSubmit,
     cart,
   } = useCheckout()
 
   const handleEdit = () => {
-    setEdit()
-    setEditShipping()
+    open()
+    closeShipping()
+    closePayment()
   }
 
   return (
@@ -29,9 +31,9 @@ const Addresses = () => {
           className="flex flex-row text-3xl-regular gap-x-2 items-baseline"
         >
           Address
-          {!isEdit && <CheckCircleSolid />}
+          {!isOpen && <CheckCircleSolid />}
         </Heading>
-        {!isEdit && (
+        {!isOpen && (
           <Text>
             <button onClick={handleEdit} className="text-ui-fg-interactive">
               Edit
@@ -39,7 +41,7 @@ const Addresses = () => {
           </Text>
         )}
       </div>
-      {isEdit ? (
+      {isOpen ? (
         <div className="pb-8">
           <ShippingAddress checked={checked} onChange={onChange} />
 

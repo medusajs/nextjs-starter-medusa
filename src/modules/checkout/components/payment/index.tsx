@@ -36,15 +36,24 @@ const Payment = () => {
   const {
     cart,
     initPayment,
-    editPayment: { state: isEdit, toggle: setEdit },
-    editAddresses: { state: isEditAddresses, toggle: setEditAddresses },
-    editShipping: { state: isEditShipping, toggle: setEditShipping },
+    editPayment: { state: isOpen, toggle, open, close },
+    editAddresses: {
+      state: addressesIsOpen,
+      toggle: toggleAddresses,
+      open: openAddresses,
+      close: closeAddresses,
+    },
+    editShipping: {
+      state: shippingIsOpen,
+      toggle: toggleShipping,
+      open: openShipping,
+      close: closeShipping,
+    },
     addressReady,
     shippingReady,
     paymentReady,
     selectedPaymentOptionId,
     setSelectedPaymentOptionId,
-    setPaymentConfirmed,
   } = useCheckout()
 
   const { setCart } = useCart()
@@ -57,20 +66,19 @@ const Payment = () => {
   const currentPaymentOption = cart?.payment_session?.provider_id
 
   const handleEdit = () => {
-    setEdit()
-    isEditAddresses && setEditAddresses()
-    isEditShipping && setEditShipping()
+    open()
+    closeAddresses()
+    closeShipping()
   }
 
-  const editingOtherSteps = isEditAddresses || isEditShipping
+  const editingOtherSteps = addressesIsOpen || shippingIsOpen
 
   const handleSubmit = () => {
     if (!selectedPaymentOptionId) {
       return
     }
     setPaymentSession(selectedPaymentOptionId!)
-
-    setEdit()
+    close()
   }
 
   const {
@@ -87,7 +95,6 @@ const Payment = () => {
         {
           onSuccess: ({ cart }) => {
             setCart(cart)
-            setPaymentConfirmed(true)
           },
           onError: () =>
             setError(
@@ -134,14 +141,14 @@ const Payment = () => {
             "flex flex-row text-3xl-regular gap-x-2 items-baseline",
             {
               "opacity-50 pointer-events-none select-none":
-                editingOtherSteps && !paymentReady,
+                !isOpen && !paymentReady,
             }
           )}
         >
           Payment
-          {!isEdit && paymentReady && <CheckCircleSolid />}
+          {!isOpen && paymentReady && <CheckCircleSolid />}
         </Heading>
-        {!isEdit && addressReady && shippingReady && (
+        {!isOpen && addressReady && shippingReady && (
           <Text>
             <button onClick={handleEdit} className="text-ui-fg-interactive">
               Edit
@@ -150,7 +157,7 @@ const Payment = () => {
         )}
       </div>
       <div>
-        {!editingOtherSteps && isEdit ? (
+        {!editingOtherSteps && isOpen ? (
           cart?.payment_sessions?.length ? (
             <>
               <RadioGroup

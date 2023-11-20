@@ -23,12 +23,21 @@ type ShippingProps = {
 
 const Shipping: React.FC<ShippingProps> = ({ cart }) => {
   const {
-    editAddresses: { state: isAddressesEdit, toggle: setAddressesEdit },
-    editShipping: { state: isEdit, toggle: setEdit },
-    editPayment: { state: isPaymentEdit, toggle: setPaymentEdit },
+    editAddresses: {
+      state: isAddressesOpen,
+      toggle: toggleAddressesEdit,
+      open: openAddresses,
+      close: closeAddresses,
+    },
+    editShipping: { state: isOpen, toggle, open, close },
+    editPayment: {
+      state: isPaymentOpen,
+      toggle: togglePaymentEdit,
+      open: openPayment,
+      close: closePayment,
+    },
     addressReady,
     shippingReady,
-    setShippingConfirmed,
   } = useCheckout()
 
   const currentShippingOption = cart.shipping_methods?.[0]?.shipping_option.id
@@ -64,9 +73,8 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
       {
         onSuccess: ({ cart }) => {
           setCart(cart)
-          setEdit()
-          setShippingConfirmed(true)
-          setPaymentEdit()
+          close()
+          openPayment()
         },
         onError: () =>
           setError(
@@ -87,12 +95,12 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
   }
 
   const handleEdit = () => {
-    setEdit()
-    isAddressesEdit && setAddressesEdit()
-    isPaymentEdit && setPaymentEdit()
+    open()
+    closeAddresses()
+    closePayment()
   }
 
-  const editingOtherSteps = isAddressesEdit || isPaymentEdit
+  const editingOtherSteps = isAddressesOpen || isPaymentOpen
 
   // Memoized shipping method options
   const shippingMethods: ShippingOption[] = useMemo(() => {
@@ -124,9 +132,11 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
           )}
         >
           Delivery
-          {!isEdit && currentShippingOption && <CheckCircleSolid />}
+          {!isOpen && currentShippingOption && shippingReady && (
+            <CheckCircleSolid />
+          )}
         </Heading>
-        {!isEdit && addressReady && (
+        {!isOpen && addressReady && (
           <Text>
             <button onClick={handleEdit} className="text-ui-fg-interactive">
               Edit
@@ -134,7 +144,7 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
           </Text>
         )}
       </div>
-      {!editingOtherSteps && isEdit ? (
+      {!editingOtherSteps && isOpen ? (
         <div className="pb-8">
           <div>
             <RadioGroup
