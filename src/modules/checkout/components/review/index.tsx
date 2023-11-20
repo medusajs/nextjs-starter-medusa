@@ -7,9 +7,9 @@ const Payment = () => {
   const {
     cart,
     initPayment,
-    editPayment: { state: isEditPayment, toggle: setEditPayment },
-    editAddresses: { state: isEditAddresses, toggle: setEditAddresses },
-    editShipping: { state: isEditShipping, toggle: setEditShipping },
+    editPayment: { state: isEditPayment },
+    editAddresses: { state: isEditAddresses },
+    editShipping: { state: isEditShipping },
     selectedPaymentOptionId,
   } = useCheckout()
 
@@ -48,7 +48,7 @@ const Payment = () => {
   }, [cart])
 
   return (
-    <div className="bg-white px-8">
+    <div className="bg-white px-4 small:px-8">
       <div className="flex flex-row items-center justify-between mb-6">
         <Heading
           level="h2"

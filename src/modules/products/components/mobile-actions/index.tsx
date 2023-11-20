@@ -2,12 +2,11 @@ import { Dialog, Transition } from "@headlessui/react"
 import { useProductActions } from "@lib/context/product-context"
 import useProductPrice from "@lib/hooks/use-product-price"
 import useToggleState from "@lib/hooks/use-toggle-state"
-import Button from "@modules/common/components/button"
+import { Button } from "@medusajs/ui"
 import ChevronDown from "@modules/common/icons/chevron-down"
 import X from "@modules/common/icons/x"
 import clsx from "clsx"
 import React, { Fragment, useMemo } from "react"
-import { Product } from "types/medusa"
 import OptionSelect from "../option-select"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 
@@ -61,7 +60,8 @@ const MobileActions: React.FC<MobileActionsProps> = ({ product, show }) => {
                   )}
                   <span
                     className={clsx({
-                      "text-rose-600": selectedPrice.price_type === "sale",
+                      "text-ui-fg-interactive":
+                        selectedPrice.price_type === "sale",
                     })}
                   >
                     {selectedPrice.calculated_price}
@@ -72,7 +72,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({ product, show }) => {
               )}
             </div>
             <div className="grid grid-cols-2 w-full gap-x-4">
-              <Button onClick={open} variant="secondary">
+              <Button onClick={open} variant="secondary" className="w-full">
                 <div className="flex items-center justify-between w-full">
                   <span>
                     {variant
@@ -82,7 +82,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({ product, show }) => {
                   <ChevronDown />
                 </div>
               </Button>
-              <Button onClick={addToCart}>
+              <Button onClick={addToCart} className="w-full">
                 {!inStock ? "Out of stock" : "Add to cart"}
               </Button>
             </div>

@@ -15,8 +15,9 @@ const CheckoutSummary = () => {
   }
 
   return (
-    <div className="sticky top-0 flex flex-col-reverse small:flex-col gap-y-8">
+    <div className="sticky top-0 flex flex-col-reverse small:flex-col gap-y-8 py-8 px-4 small:py-0 small:pr-8 ">
       <div className="w-full bg-white flex flex-col">
+        <Divider className="my-6 small:hidden" />
         <Heading
           level="h2"
           className="flex flex-row text-3xl-regular items-baseline"

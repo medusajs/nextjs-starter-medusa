@@ -19,7 +19,7 @@ const FilterRadioGroup = ({
   handleChange,
 }: FilterRadioGroupProps) => {
   return (
-    <div className="flex gap-x-3 small:flex-col small:gap-y-3">
+    <div className="flex gap-x-3 flex-col gap-y-3">
       <Text className="txt-compact-small-plus text-ui-fg-muted">{title}</Text>
       <RadioGroup>
         {items?.map((i) => (

@@ -31,10 +31,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product }) => {
   return (
     <ProductProvider product={product}>
       <div className="content-container flex flex-col small:flex-row small:items-start py-6 relative">
-        <div
-          className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-6"
-          ref={infoRef}
-        >
+        <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-6">
           {isOnboarding && <ProductOnboardingCta />}
           <ProductInfo product={product} />
           <ProductTabs product={product} />
@@ -42,7 +39,10 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product }) => {
         <div className="block w-full relative">
           <ImageGallery images={product?.images || []} />
         </div>
-        <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-12">
+        <div
+          className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-12"
+          ref={infoRef}
+        >
           <ProductActions product={product} />
         </div>
       </div>

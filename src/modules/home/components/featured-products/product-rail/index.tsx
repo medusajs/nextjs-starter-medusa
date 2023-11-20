@@ -2,15 +2,13 @@ import { useFeaturedProductsQuery } from "@lib/hooks/use-layout-data"
 import { ProductCollection } from "@medusajs/medusa"
 import ProductPreview from "@modules/products/components/product-preview"
 import { Text } from "@medusajs/ui"
-import { ArrowUpRightMini } from "@medusajs/icons"
-import Link from "next/link"
 import InteractiveLink from "@modules/common/components/interactive-link"
 
 const ProductRail = ({ collection }: { collection: ProductCollection }) => {
   const { data } = useFeaturedProductsQuery(collection.id)
 
   return (
-    <div className="py-12">
+    <div className="small:py-12">
       <div className="content-container py-12">
         <div className="flex justify-between mb-8">
           <Text className="txt-xlarge">{collection.title}</Text>

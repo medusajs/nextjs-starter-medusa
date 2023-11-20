@@ -27,7 +27,7 @@ const Item = ({ item, region, type = "full" }: ItemProps) => {
           href={`/products/${handle}`}
           className={clx("flex", {
             "w-16": type === "preview",
-            "w-24": type === "full",
+            "small:w-24 w-12": type === "full",
           })}
         >
           <Thumbnail thumbnail={item.thumbnail} size="square" />
@@ -82,7 +82,7 @@ const Item = ({ item, region, type = "full" }: ItemProps) => {
       )}
 
       {type === "full" && (
-        <Table.Cell>
+        <Table.Cell className="hidden small:block">
           <LineItemUnitPrice item={item} region={region} style="tight" />
         </Table.Cell>
       )}
