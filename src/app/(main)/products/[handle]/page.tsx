@@ -1,5 +1,6 @@
 import { getProductByHandle } from "@lib/data"
 import ProductTemplate from "@modules/products/templates"
+import SkeletonProductPage from "@modules/skeletons/templates/skeleton-product-page"
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
@@ -32,5 +33,9 @@ export default async function ProductPage({ params }: Props) {
     notFound()
   })
 
-  return <ProductTemplate product={products[0]} />
+  return params.handle === "sweatshirt" ? (
+    <SkeletonProductPage />
+  ) : (
+    <ProductTemplate product={products[0]} />
+  )
 }

@@ -5,6 +5,7 @@ import {
 import useProductPrice from "@lib/hooks/use-product-price"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 import { Button } from "@medusajs/ui"
+import Divider from "@modules/common/components/divider"
 import OptionSelect from "@modules/products/components/option-select"
 import clsx from "clsx"
 import React, { useMemo } from "react"
@@ -27,9 +28,9 @@ const ProductActionsInner: React.FC<ProductActionsProps> = ({ product }) => {
 
   return (
     <div className="flex flex-col gap-y-2">
-      <div className="">
+      <div>
         {product.variants.length > 1 && (
-          <div className="flex flex-col gap-y-4 pb-4 border-b border-ui-border-base">
+          <div className="flex flex-col gap-y-4">
             {(product.options || []).map((option) => {
               return (
                 <div key={option.id}>
@@ -42,12 +43,13 @@ const ProductActionsInner: React.FC<ProductActionsProps> = ({ product }) => {
                 </div>
               )
             })}
+            <Divider />
           </div>
         )}
       </div>
 
       {selectedPrice ? (
-        <div className="flex flex-col text-gray-700">
+        <div className="flex flex-col text-ui-fg-base">
           <span
             className={clsx("text-xl-semi", {
               "text-rose-600": selectedPrice.price_type === "sale",
@@ -58,12 +60,12 @@ const ProductActionsInner: React.FC<ProductActionsProps> = ({ product }) => {
           {selectedPrice.price_type === "sale" && (
             <>
               <p>
-                <span className="text-gray-500">Original: </span>
+                <span className="text-ui-fg-subtle">Original: </span>
                 <span className="line-through">
                   {selectedPrice.original_price}
                 </span>
               </p>
-              <span className="text-rose-600">
+              <span className="text-ui-fg-interactive">
                 -{selectedPrice.percentage_diff}%
               </span>
             </>

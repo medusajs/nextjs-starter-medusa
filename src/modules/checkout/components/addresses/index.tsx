@@ -11,7 +11,6 @@ const Addresses = () => {
     sameAsBilling: { state: checked, toggle: onChange },
     editAddresses: { state: isEdit, toggle: setEdit },
     editShipping: { state: isEditShipping, toggle: setEditShipping },
-    editPayment: { state: isPaymentEdit, toggle: setPaymentEdit },
     setAddresses,
     handleSubmit,
     cart,
@@ -20,7 +19,6 @@ const Addresses = () => {
   const handleEdit = () => {
     setEdit()
     setEditShipping()
-    // isPaymentEdit && setPaymentEdit()
   }
 
   return (
