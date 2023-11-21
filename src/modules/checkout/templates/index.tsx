@@ -30,7 +30,7 @@ const CheckoutTemplate = () => {
               href="/"
               className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase"
             >
-              ACME
+              Medusa Store
             </Link>
             <div className="flex-1 basis-0" />
           </nav>

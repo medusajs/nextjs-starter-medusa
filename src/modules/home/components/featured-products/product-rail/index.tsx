@@ -1,3 +1,5 @@
+"use client"
+
 import { useFeaturedProductsQuery } from "@lib/hooks/use-layout-data"
 import { ProductCollection } from "@medusajs/medusa"
 import ProductPreview from "@modules/products/components/product-preview"

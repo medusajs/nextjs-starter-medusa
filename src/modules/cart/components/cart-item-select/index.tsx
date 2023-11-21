@@ -68,7 +68,9 @@ const CartItemSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
             {...props}
             className="appearance-none bg-transparent border-none px-4 transition-colors duration-150 focus:border-gray-700 outline-none w-16 h-16 items-center justify-center"
           >
-            <option value="">{placeholder}</option>
+            <option disabled value="">
+              {placeholder}
+            </option>
             {children}
           </select>
           <span className="absolute flex pointer-events-none justify-end w-8 group-hover:animate-pulse">

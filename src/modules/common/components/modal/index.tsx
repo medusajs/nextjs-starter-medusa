@@ -29,7 +29,7 @@ const Modal: React.FC<ModalProps> & {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-opacity-75 backdrop-blur-sm h-screen" />
+          <div className="fixed inset-0 bg-opacity-75 backdrop-blur-md  h-screen" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-hidden">

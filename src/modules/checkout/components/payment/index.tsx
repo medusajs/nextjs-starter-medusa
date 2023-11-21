@@ -31,7 +31,7 @@ export const paymentInfoMap: Record<
   },
   manual: {
     title: "Test payment",
-    icon: <Apple />,
+    icon: <CreditCard />,
   },
 }
 

@@ -40,5 +40,5 @@ const CountrySelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
     )
   }
 )
-CountrySelect.displayName = "CountrySelect"
+
 export default CountrySelect

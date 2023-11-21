@@ -1,5 +1,3 @@
-"use client"
-
 import { ProductCollection } from "@medusajs/medusa"
 import ProductRail from "./product-rail"
 
