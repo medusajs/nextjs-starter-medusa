@@ -136,12 +136,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
    */
   const isLoading = useMemo(() => {
     return addingShippingMethod || settingPaymentSession || updatingCart
-  }, [
-    addingShippingMethod,
-    completingCheckout,
-    settingPaymentSession,
-    updatingCart,
-  ])
+  }, [addingShippingMethod, settingPaymentSession, updatingCart])
 
   /**
    * Boolean that indicates if the checkout is ready to be completed. A checkout is ready to be completed if

@@ -37,7 +37,7 @@ const DesktopSearchModal = ({
               </div>
 
               <div className="flex-1 mt-6 min-h-full">
-                <DesktopHits hitComponent={DesktopHit} />
+                <DesktopHits hitComponent={DesktopHit} close={close} />
               </div>
             </div>
           </InstantSearch>
