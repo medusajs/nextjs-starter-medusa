@@ -1,6 +1,10 @@
 import clsx from "clsx"
 import React from "react"
-import { useHits, UseHitsProps } from "react-instantsearch-hooks-web"
+import {
+  useHits,
+  UseHitsProps,
+  useSearchBox,
+} from "react-instantsearch-hooks-web"
 import { ProductHit } from "../hit"
 import ShowAll from "../show-all"
 
@@ -14,6 +18,7 @@ const DesktopHits = ({
   className,
   ...props
 }: HitsProps<ProductHit>) => {
+  const { query } = useSearchBox()
   const { hits } = useHits(props)
 
   return (
@@ -22,8 +27,8 @@ const DesktopHits = ({
         "transition-[height,max-height,opacity] duration-300 ease-in-out overflow-y-scroll w-[50vw] mb-1 p-px",
         className,
         {
-          "max-h-full opacity-100": !!hits.length,
-          "max-h-0 opacity-0": !hits.length,
+          "max-h-full opacity-100": !!query,
+          "max-h-0 opacity-0": !query && !hits.length,
         }
       )}
     >

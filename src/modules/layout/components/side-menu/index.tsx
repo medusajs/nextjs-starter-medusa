@@ -8,12 +8,17 @@ import CountrySelect from "../country-select"
 const SideMenuItems = {
   Home: "/",
   Store: "/store",
-  Search: "/search",
+  Search: "",
   Account: "/account",
   Cart: "/cart",
 }
 
-const SideMenu = () => {
+const SideMenu = ({ searchModalOpen }: { searchModalOpen: () => void }) => {
+  const handleSearchClick = (close: () => void) => {
+    searchModalOpen()
+    close()
+  }
+
   return (
     <div className="h-full">
       <div className="flex items-center h-full">
@@ -44,17 +49,34 @@ const SideMenu = () => {
                       </button>
                     </div>
                     <ul className="flex flex-col gap-6 items-start justify-start">
-                      {Object.entries(SideMenuItems).map(([name, href]) => (
-                        <li key={name}>
-                          <Link
-                            href={href}
-                            className="text-3xl leading-10 hover:text-ui-fg-disabled"
-                            onClick={close}
-                          >
-                            {name}
-                          </Link>
-                        </li>
-                      ))}
+                      {Object.entries(SideMenuItems).map(([name, href]) => {
+                        if (
+                          name === "Search" &&
+                          process.env.FEATURE_SEARCH_ENABLED
+                        ) {
+                          return (
+                            <li key={name}>
+                              <button
+                                className="text-3xl leading-10 hover:text-ui-fg-disabled"
+                                onClick={() => handleSearchClick(close)}
+                              >
+                                {name}
+                              </button>
+                            </li>
+                          )
+                        }
+                        return (
+                          <li key={name}>
+                            <Link
+                              href={href}
+                              className="text-3xl leading-10 hover:text-ui-fg-disabled"
+                              onClick={close}
+                            >
+                              {name}
+                            </Link>
+                          </li>
+                        )
+                      })}
                     </ul>
                     <div className="flex flex-col gap-y-6">
                       <div className="flex justify-between">
