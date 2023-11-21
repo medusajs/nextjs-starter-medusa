@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation"
 import {
   ChangeEvent,
   FormEvent,
@@ -14,6 +15,7 @@ export type ControlledSearchBoxProps = React.ComponentProps<"div"> & {
   onChange(event: ChangeEvent): void
   onReset(event: FormEvent): void
   onSubmit?(event: FormEvent): void
+  close: () => void
   placeholder?: string
   value: string
 }
@@ -39,12 +41,20 @@ const SearchBoxWrapper = ({
   const [value, setValue] = useState(query)
   const inputRef = useRef<HTMLInputElement>(null)
 
+  const router = useRouter()
+
   const onReset = () => {
     setValue("")
   }
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValue(event.currentTarget.value)
+  }
+
+  const onSubmit = () => {
+    if (value) {
+      router.replace(`/search/${value}`)
+    }
   }
 
   useEffect(() => {
@@ -76,6 +86,7 @@ const SearchBoxWrapper = ({
     inputRef,
     isSearchStalled,
     onChange,
+    onSubmit,
     onReset,
     placeholder,
   }

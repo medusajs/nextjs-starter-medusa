@@ -11,11 +11,13 @@ import ShowAll from "../show-all"
 type HitsProps<THit> = React.ComponentProps<"div"> &
   UseHitsProps & {
     hitComponent: (props: { hit: THit }) => JSX.Element
+    close: () => void
   }
 
 const DesktopHits = ({
   hitComponent: Hit,
   className,
+  close,
   ...props
 }: HitsProps<ProductHit>) => {
   const { query } = useSearchBox()
@@ -39,7 +41,7 @@ const DesktopHits = ({
           </li>
         ))}
       </div>
-      <ShowAll />
+      <ShowAll close={close} />
     </div>
   )
 }

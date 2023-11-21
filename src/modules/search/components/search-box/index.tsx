@@ -12,6 +12,7 @@ const ControlledSearchBox = ({
   onSubmit,
   placeholder,
   value,
+  close,
   ...props
 }: ControlledSearchBoxProps) => {
   const handleSubmit = (event: FormEvent) => {
@@ -20,6 +21,7 @@ const ControlledSearchBox = ({
 
     if (onSubmit) {
       onSubmit(event)
+      close()
     }
 
     if (inputRef.current) {
@@ -52,13 +54,13 @@ const ControlledSearchBox = ({
             type="search"
             value={value}
             onChange={onChange}
-            className="txt-compact-large h-6 placeholder:text-ui-fg-on-color placeholder:transition-colors focus:outline-none flex-1 bg-transparent"
+            className="txt-compact-large h-6 placeholder:text-ui-fg-on-color placeholder:transition-colors focus:outline-none flex-1 bg-transparent "
           />
           {value && (
             <button
               onClick={handleReset}
               type="button"
-              className="flex items-center justify-center text-ui-fg-on-color focus:outline-none gap-x-2 px-2 txt-compact-large"
+              className="items-center justify-center text-ui-fg-on-color focus:outline-none gap-x-2 px-2 txt-compact-large hidden sm:flex"
             >
               <XMarkMini />
               Cancel
@@ -70,13 +72,13 @@ const ControlledSearchBox = ({
   )
 }
 
-const SearchBox = () => {
+const SearchBox = ({ close }: { close: () => void }) => {
   return (
     <SearchBoxWrapper>
       {(props) => {
         return (
           <>
-            <ControlledSearchBox {...props} />
+            <ControlledSearchBox close={close} {...props} />
           </>
         )
       }}

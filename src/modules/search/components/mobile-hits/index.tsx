@@ -5,6 +5,8 @@ import {
   UseHitsProps,
   useSearchBox,
 } from "react-instantsearch-hooks-web"
+import ShowAll from "../show-all"
+import { useMobileMenu } from "@lib/context/mobile-menu-context"
 
 type HitsProps<THit> = React.ComponentProps<"div"> &
   UseHitsProps & {
@@ -18,6 +20,7 @@ const MobileHits = ({
 }: HitsProps<ProductHit>) => {
   const { hits } = useHits(props)
   const { query } = useSearchBox()
+  const { close } = useMobileMenu()
 
   // If the query is empty, we don't want to show the initial hits
   if (!!query === false || !hits.length) {
@@ -29,13 +32,14 @@ const MobileHits = ({
       <span className="text-small-regular uppercase text-gray-700">
         Results
       </span>
-      <div className="grid grid-cols-1 py-4">
+      <div className="flex flex-col gap-6 py-4">
         {hits.map((hit, index) => (
           <li key={index} className="list-none">
             <Hit hit={hit as unknown as ProductHit} />
           </li>
         ))}
       </div>
+      <ShowAll close={close} />
     </div>
   )
 }
