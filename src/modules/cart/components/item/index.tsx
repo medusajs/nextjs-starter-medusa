@@ -81,7 +81,7 @@ const Item = ({ item, region, type = "full" }: ItemProps) => {
       )}
 
       {type === "full" && (
-        <Table.Cell className="hidden small:block">
+        <Table.Cell className="hidden small:table-cell">
           <LineItemUnitPrice item={item} region={region} style="tight" />
         </Table.Cell>
       )}

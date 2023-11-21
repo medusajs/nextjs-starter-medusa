@@ -1,8 +1,8 @@
 import { medusaClient } from "@lib/config"
 import { LOGIN_VIEW, useAccount } from "@lib/context/account-context"
-import Button from "@modules/common/components/button"
+import { Button } from "@medusajs/ui"
 import Input from "@modules/common/components/input"
-import Spinner from "@modules/common/icons/spinner"
+import { Spinner } from "@medusajs/icons"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -46,7 +46,7 @@ const Register = () => {
     <div className="max-w-sm flex flex-col items-center mt-12">
       {isSubmitting && (
         <div className="z-10 fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center">
-          <Spinner size={24} />
+          <Spinner />
         </div>
       )}
       <h1 className="text-large-semi uppercase mb-6">Become a Acme Member</h1>
@@ -108,7 +108,9 @@ const Register = () => {
           </Link>
           .
         </span>
-        <Button className="mt-6">Join</Button>
+        <Button className="mt-6 w-full" size="xlarge">
+          Join
+        </Button>
       </form>
       <span className="text-center text-gray-700 text-small-regular mt-6">
         Already a member?{" "}

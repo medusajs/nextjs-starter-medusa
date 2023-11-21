@@ -8,7 +8,7 @@ type ModalProps = {
   isOpen: boolean
   close: () => void
   size?: "small" | "medium" | "large"
-  transparent?: boolean
+  search?: boolean
 }
 
 const Modal: React.FC<ModalProps> & {
@@ -16,7 +16,7 @@ const Modal: React.FC<ModalProps> & {
   Description: React.FC
   Body: React.FC
   Footer: React.FC
-} = ({ isOpen, close, size = "medium", transparent = false, children }) => {
+} = ({ isOpen, close, size = "medium", search = false, children }) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-[75]" onClose={close}>
@@ -33,7 +33,15 @@ const Modal: React.FC<ModalProps> & {
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-hidden">
-          <div className="flex min-h-full h-full items-start justify-center p-4 text-center">
+          <div
+            className={clsx(
+              "flex min-h-full h-full justify-center p-4 text-center",
+              {
+                "items-center": !search,
+                "items-start": search,
+              }
+            )}
+          >
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -45,13 +53,13 @@ const Modal: React.FC<ModalProps> & {
             >
               <Dialog.Panel
                 className={clsx(
-                  "flex flex-col justify-start w-full transform p-5 text-left align-middle transition-all max-h-[65vh] h-fit",
+                  "flex flex-col justify-start w-full transform p-5 text-left align-middle transition-all max-h-[75vh] h-fit",
                   {
                     "max-w-md": size === "small",
                     "max-w-xl": size === "medium",
                     "max-w-3xl": size === "large",
-                    "bg-transparent shadow-none": transparent,
-                    "bg-white shadow-xl": !transparent,
+                    "bg-transparent shadow-none": search,
+                    "bg-white shadow-xl border rounded-rounded": !search,
                   }
                 )}
               >

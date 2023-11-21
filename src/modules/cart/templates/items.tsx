@@ -20,7 +20,7 @@ const ItemsTemplate = ({ items, region }: ItemsTemplateProps) => {
             <Table.HeaderCell className="!pl-0">Item</Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>
             <Table.HeaderCell>Quantity</Table.HeaderCell>
-            <Table.HeaderCell className="hidden small:block">
+            <Table.HeaderCell className="hidden small:table-cell">
               Price
             </Table.HeaderCell>
             <Table.HeaderCell className="!pr-0 text-right">

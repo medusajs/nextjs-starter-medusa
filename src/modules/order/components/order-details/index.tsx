@@ -17,13 +17,6 @@ const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
 
   return (
     <div>
-      <Heading
-        level="h1"
-        className="flex flex-col gap-y-2 text-ui-fg-base text-3xl"
-      >
-        <span>Thank you!</span>
-        <span>Your order was placed successfully.</span>
-      </Heading>
       <Text className="mt-8">
         We have sent the order confirmation details to{" "}
         <span className="text-ui-fg-medium-plus font-semibold">
@@ -38,11 +31,21 @@ const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
         Order number: {order.display_id}
       </Text>
 
-      <div className="flex items-center text-gray-700 text-small-regular gap-x-4 mt-4">
+      <div className="flex items-center text-compact-small gap-x-4 mt-4">
         {showStatus && (
           <>
-            <span>{formatStatus(order.fulfillment_status)}</span>
-            <span>{formatStatus(order.payment_status)}</span>
+            <Text>
+              Order status:{" "}
+              <span className="text-ui-fg-subtle ">
+                {formatStatus(order.fulfillment_status)}
+              </span>
+            </Text>
+            <Text>
+              Payment status:{" "}
+              <span className="text-ui-fg-subtle ">
+                {formatStatus(order.payment_status)}
+              </span>
+            </Text>
           </>
         )}
       </div>

@@ -70,7 +70,10 @@ const ProfileName: React.FC<MyInformationProps> = ({ customer }) => {
   }
 
   return (
-    <form onSubmit={handleSubmit(updateName)} className="w-full">
+    <form
+      onSubmit={handleSubmit(updateName)}
+      className="w-full overflow-visible"
+    >
       <AccountInfo
         label="Name"
         currentInfo={`${customer.first_name} ${customer.last_name}`}

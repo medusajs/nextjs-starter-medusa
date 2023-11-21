@@ -23,7 +23,7 @@ const DesktopSearchModal = ({
         Search
       </button>
 
-      <Modal isOpen={state} close={close} size="large" transparent={true}>
+      <Modal isOpen={state} close={close} size="large" search>
         <Modal.Body>
           <InstantSearch
             indexName={SEARCH_INDEX_NAME}

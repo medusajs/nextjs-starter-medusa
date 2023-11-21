@@ -115,7 +115,9 @@ const CartDropdown = () => {
                     </span>
                   </div>
                   <Link href="/cart" passHref>
-                    <Button>Go to cart</Button>
+                    <Button className="w-full" size="large">
+                      Go to cart
+                    </Button>
                   </Link>
                 </div>
               </>

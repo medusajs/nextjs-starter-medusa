@@ -20,7 +20,7 @@ const LineItemUnitPrice = ({
   const reducedPrice = (item.total || 0) / item.quantity!
 
   return (
-    <div className="flex flex-col text-ui-fg-muted">
+    <div className="flex flex-col text-ui-fg-muted justify-center h-full">
       {hasReducedPrice && (
         <>
           <p>
