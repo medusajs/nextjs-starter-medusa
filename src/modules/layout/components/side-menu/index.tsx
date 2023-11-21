@@ -2,7 +2,7 @@ import Link from "next/link"
 import { Fragment } from "react"
 import { Popover, Transition } from "@headlessui/react"
 import { XMark, ArrowRightMini } from "@medusajs/icons"
-import { Text } from "@medusajs/ui"
+import { Text, clx, useToggleState } from "@medusajs/ui"
 import CountrySelect from "../country-select"
 
 const SideMenuItems = {
@@ -18,6 +18,8 @@ const SideMenu = ({ searchModalOpen }: { searchModalOpen: () => void }) => {
     searchModalOpen()
     close()
   }
+
+  const toggleState = useToggleState()
 
   return (
     <div className="h-full">
@@ -79,16 +81,18 @@ const SideMenu = ({ searchModalOpen }: { searchModalOpen: () => void }) => {
                       })}
                     </ul>
                     <div className="flex flex-col gap-y-6">
-                      <div className="flex justify-between">
-                        <Text className="txt-compact-small">
-                          Currency:{" "}
-                          <span className="txt-compact-small-plus">€</span>
-                        </Text>
-                        <ArrowRightMini />
-                      </div>
-                      <div className="flex justify-between">
-                        <CountrySelect />
-                        <ArrowRightMini />
+                      <div
+                        className="flex justify-between"
+                        onMouseEnter={toggleState.open}
+                        onMouseLeave={toggleState.close}
+                      >
+                        <CountrySelect toggleState={toggleState} />
+                        <ArrowRightMini
+                          className={clx(
+                            "transition-transform duration-150",
+                            toggleState.state ? "-rotate-90" : ""
+                          )}
+                        />
                       </div>
                       <Text className="flex justify-between txt-compact-small">
                         © {new Date().getFullYear()} ACME. All rights reserved.
