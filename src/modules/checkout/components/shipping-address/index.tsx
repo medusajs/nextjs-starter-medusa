@@ -10,19 +10,12 @@ import Checkbox from "@modules/common/components/checkbox"
 const ShippingAddress = ({
   checked,
   onChange,
-  isSameAsBilling,
-  notSameAsBilling,
 }: {
   checked: boolean
   onChange: () => void
-  isSameAsBilling: () => void
-  notSameAsBilling: () => void
 }) => {
   const { customer } = useMeCustomer()
 
-  const handleCheckbox = () => {
-    checked ? isSameAsBilling() : notSameAsBilling()
-  }
   return (
     <div>
       {customer && (customer.shipping_addresses?.length || 0) > 0 && (
@@ -115,7 +108,7 @@ const ShippingAddress = ({
               <Checkbox
                 label="Same as billing address"
                 checked={checked}
-                onChange={handleCheckbox}
+                onChange={onChange}
               />
             </div>
             <div className="grid grid-cols-2 gap-4 mb-4">
