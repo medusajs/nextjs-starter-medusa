@@ -9,7 +9,7 @@ import {
   StorePostCartsCartReq,
 } from "@medusajs/medusa"
 import Wrapper from "@modules/checkout/components/payment-wrapper"
-import { add, isEqual } from "lodash"
+import { add, isEqual, set } from "lodash"
 import {
   formatAmount,
   useCart,
@@ -61,6 +61,7 @@ interface CheckoutContext {
   editAddresses: StateType
   editShipping: StateType
   editPayment: StateType
+  isCompleting: StateType
   selectedPaymentOptionId: string | null
   initPayment: () => Promise<void>
   setAddresses: (addresses: CheckoutFormValues) => void
@@ -134,12 +135,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
    * Boolean that indicates if a part of the checkout is loading.
    */
   const isLoading = useMemo(() => {
-    return (
-      addingShippingMethod ||
-      settingPaymentSession ||
-      updatingCart ||
-      completingCheckout
-    )
+    return addingShippingMethod || settingPaymentSession || updatingCart
   }, [
     addingShippingMethod,
     completingCheckout,
@@ -327,9 +323,6 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   const setAddresses = (data: CheckoutFormValues) => {
     const { shipping_address, billing_address, email } = data
 
-    console.log({ data })
-    console.log({ state: sameAsBilling.state })
-
     const payload: StorePostCartsCartReq = {
       shipping_address,
       email,
@@ -345,27 +338,28 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
       payload.billing_address = billing_address
     }
 
-    console.log({ payload })
-
     updateCart(payload, {
       onSuccess: ({ cart }) => {
         setCart(cart)
         prepareFinalSteps()
-        console.log({ cart })
       },
     })
   }
+
+  const isCompleting = useToggleState()
 
   /**
    * Method to complete the checkout process. This is called when the user clicks the "Complete Checkout" button.
    */
   const onPaymentCompleted = () => {
+    isCompleting.open()
     complete(undefined, {
       onSuccess: ({ data }) => {
         push(`/order/confirmed/${data.id}`)
         resetCart()
       },
     })
+    isCompleting.close()
   }
 
   return (
@@ -383,6 +377,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
           editAddresses,
           editShipping,
           editPayment,
+          isCompleting,
           selectedPaymentOptionId,
           initPayment,
           setAddresses,

@@ -24,10 +24,7 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
             cartId={order.cart_id}
           />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-10 border-b border-gray-200">
-            <ShippingDetails
-              shippingMethods={order.shipping_methods}
-              address={order.shipping_address}
-            />
+            <ShippingDetails order={order} />
             <OrderSummary order={order} />
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-10">

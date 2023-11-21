@@ -5,11 +5,13 @@ import Link from "next/link"
 import CheckoutLoader from "../components/checkout-loader"
 import CheckoutForm from "./checkout-form"
 import CheckoutSummary from "./checkout-summary"
+import SubmitSpinner from "../components/submit-spinner"
 
 const CheckoutTemplate = () => {
   return (
     <CheckoutProvider>
       <div className="bg-white relative small:min-h-screen">
+        <SubmitSpinner />
         <div className="h-16 bg-white">
           <nav className="flex items-center h-full justify-between content-container border-b">
             <Link
