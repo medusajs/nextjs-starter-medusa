@@ -23,16 +23,10 @@ type ShippingProps = {
 
 const Shipping: React.FC<ShippingProps> = ({ cart }) => {
   const {
-    editAddresses: {
-      state: isAddressesOpen,
-      toggle: toggleAddressesEdit,
-      open: openAddresses,
-      close: closeAddresses,
-    },
-    editShipping: { state: isOpen, toggle, open, close },
+    editAddresses: { state: isAddressesOpen, close: closeAddresses },
+    editShipping: { state: isOpen, open, close },
     editPayment: {
       state: isPaymentOpen,
-      toggle: togglePaymentEdit,
       open: openPayment,
       close: closePayment,
     },

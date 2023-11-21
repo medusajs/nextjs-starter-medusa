@@ -284,9 +284,9 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   const prepareFinalSteps = () => {
     initPayment()
 
-    if (shippingMethods?.length && shippingMethods?.[0]?.value) {
-      setShippingOption(shippingMethods[0].value)
-    }
+    // if (shippingMethods?.length && shippingMethods?.[0]?.value) {
+    //   setShippingOption(shippingMethods[0].value)
+    // }
   }
 
   const setSavedAddress = (address: Address) => {
@@ -327,6 +327,9 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   const setAddresses = (data: CheckoutFormValues) => {
     const { shipping_address, billing_address, email } = data
 
+    console.log({ data })
+    console.log({ state: sameAsBilling.state })
+
     const payload: StorePostCartsCartReq = {
       shipping_address,
       email,
@@ -342,10 +345,13 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
       payload.billing_address = billing_address
     }
 
+    console.log({ payload })
+
     updateCart(payload, {
       onSuccess: ({ cart }) => {
         setCart(cart)
         prepareFinalSteps()
+        console.log({ cart })
       },
     })
   }

@@ -1,4 +1,5 @@
 import { Order } from "@medusajs/medusa"
+import { Heading, Text } from "@medusajs/ui"
 
 type OrderDetailsProps = {
   order: Order
@@ -15,15 +16,29 @@ const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
   }
 
   return (
-    <div className="p-10 border-b border.gray-200">
-      <span className="text-gray-700 text-small-regular uppercase">
-        Thank you, your order was successfully placed
-      </span>
-      <h1 className="mt-2 uppercase text-2xl-semi">#{order.display_id}</h1>
-      <span>{order.id.split("order_")[1]}</span>
+    <div>
+      <Heading
+        level="h1"
+        className="flex flex-col gap-y-2 text-ui-fg-base text-3xl"
+      >
+        <span>Thank you!</span>
+        <span>Your order was placed successfully.</span>
+      </Heading>
+      <Text className="mt-8">
+        We have sent the order confirmation details to{" "}
+        <span className="text-ui-fg-medium-plus font-semibold">
+          {order.email}
+        </span>
+        .
+      </Text>
+      <Text className="mt-2">
+        Order date: {new Date(order.created_at).toDateString()}
+      </Text>
+      <Text className="mt-2 text-ui-fg-interactive">
+        Order number: {order.display_id}
+      </Text>
+
       <div className="flex items-center text-gray-700 text-small-regular gap-x-4 mt-4">
-        <span>{new Date(order.created_at).toDateString()}</span>
-        <span>{`${items} ${items !== 1 ? "items" : "item"}`}</span>
         {showStatus && (
           <>
             <span>{formatStatus(order.fulfillment_status)}</span>

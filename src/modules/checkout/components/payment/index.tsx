@@ -13,7 +13,10 @@ import { Apple, CreditCard, CheckCircleSolid } from "@medusajs/icons"
 import Ideal from "@modules/common/icons/ideal"
 import Bancontact from "@modules/common/icons/bancontact"
 
-const paymentInfoMap: Record<string, { title: string; icon: JSX.Element }> = {
+export const paymentInfoMap: Record<
+  string,
+  { title: string; icon: JSX.Element }
+> = {
   stripe: {
     title: "Credit card",
     icon: <CreditCard />,
@@ -62,8 +65,6 @@ const Payment = () => {
     mutate: setPaymentSessionMutation,
     isLoading: settingPaymentSession,
   } = useSetPaymentSession(cart?.id!)
-
-  const currentPaymentOption = cart?.payment_session?.provider_id
 
   const handleEdit = () => {
     open()
@@ -227,16 +228,16 @@ const Payment = () => {
                   <Text className="txt-medium-plus text-ui-fg-base mb-1">
                     Payment details
                   </Text>
-                  <Text className="flex gap-2 txt-medium text-ui-fg-subtle items-center">
+                  <div className="flex gap-2 txt-medium text-ui-fg-subtle items-center">
                     <Container className="flex items-center h-7 w-fit p-2 bg-ui-button-neutral-hover">
                       {paymentInfoMap[cart.payment_session.provider_id].icon}
                     </Container>
-                    <span>
+                    <Text>
                       {cart.payment_session.provider_id === "stripe"
                         ? `**** **** **** ${cart.payment_session.data.card_last4}`
                         : "Another step will appear"}
-                    </span>
-                  </Text>
+                    </Text>
+                  </div>
                 </div>
               </div>
             )}

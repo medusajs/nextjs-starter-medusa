@@ -8,7 +8,6 @@ import CartItemSelect from "@modules/cart/components/cart-item-select"
 import Trash from "@modules/common/icons/trash"
 import Thumbnail from "@modules/products/components/thumbnail"
 import Link from "next/link"
-import { type } from "os"
 
 type ItemProps = {
   item: Omit<LineItem, "beforeInsert">

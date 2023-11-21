@@ -1,14 +1,14 @@
-import { Cart } from "@medusajs/medusa"
+import { Cart, Order } from "@medusajs/medusa"
 import { Tooltip } from "@medusajs/ui"
 import { InformationCircleSolid } from "@medusajs/icons"
 import { formatAmount } from "medusa-react"
 import React from "react"
 
 type CartTotalsProps = {
-  cart: Omit<Cart, "refundable_amount" | "refunded_total">
+  data: Omit<Cart, "refundable_amount" | "refunded_total"> | Order
 }
 
-const CartTotals: React.FC<CartTotalsProps> = ({ cart }) => {
+const CartTotals: React.FC<CartTotalsProps> = ({ data }) => {
   const {
     subtotal,
     discount_total,
@@ -16,12 +16,12 @@ const CartTotals: React.FC<CartTotalsProps> = ({ cart }) => {
     tax_total,
     shipping_total,
     total,
-  } = cart
+  } = data
 
   const getAmount = (amount: number | null | undefined) => {
     return formatAmount({
       amount: amount || 0,
-      region: cart.region,
+      region: data.region,
       includeTaxes: false,
     })
   }

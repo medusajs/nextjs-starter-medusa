@@ -17,7 +17,7 @@ const Summary = ({ cart }: SummaryProps) => {
       </Heading>
       <DiscountCode cart={cart} />
       <Divider />
-      <CartTotals cart={cart} />
+      <CartTotals data={cart} />
       <Link href="/checkout">
         <Button className="w-full h-10">Go to checkout</Button>
       </Link>

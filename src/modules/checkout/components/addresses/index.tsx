@@ -8,8 +8,13 @@ import Divider from "@modules/common/components/divider"
 
 const Addresses = () => {
   const {
-    sameAsBilling: { state: checked, toggle: onChange },
-    editAddresses: { state: isOpen, toggle, open, close },
+    sameAsBilling: {
+      state: checked,
+      toggle: onChange,
+      open: isSameAsBilling,
+      close: notSameAsBilling,
+    },
+    editAddresses: { state: isOpen, open },
     editShipping: { close: closeShipping },
     editPayment: { close: closePayment },
     setAddresses,
@@ -43,7 +48,12 @@ const Addresses = () => {
       </div>
       {isOpen ? (
         <div className="pb-8">
-          <ShippingAddress checked={checked} onChange={onChange} />
+          <ShippingAddress
+            checked={checked}
+            onChange={onChange}
+            isSameAsBilling={isSameAsBilling}
+            notSameAsBilling={notSameAsBilling}
+          />
 
           {!checked && (
             <div>
