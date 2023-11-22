@@ -40,7 +40,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
                 fill
                 sizes="100vw"
                 style={{
-                  objectFit: "cover",
+                  objectFit: "contain",
                 }}
               />
             </button>
@@ -64,7 +64,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
                 fill
                 sizes="100vw"
                 style={{
-                  objectFit: "cover",
+                  objectFit: "contain",
                 }}
               />
             </div>
