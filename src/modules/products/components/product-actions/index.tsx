@@ -52,7 +52,7 @@ const ProductActionsInner: React.FC<ProductActionsProps> = ({ product }) => {
         <div className="flex flex-col text-ui-fg-base">
           <span
             className={clsx("text-xl-semi", {
-              "text-rose-600": selectedPrice.price_type === "sale",
+              "text-ui-fg-interactive": selectedPrice.price_type === "sale",
             })}
           >
             {selectedPrice.calculated_price}
