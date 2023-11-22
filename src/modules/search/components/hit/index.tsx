@@ -22,7 +22,7 @@ const Hit = ({ hit }: HitProps) => {
   return (
     <Container
       key={hit.id}
-      className="grid grid-cols-[1fr] gap-2 w-full p-4 shadow-elevation-card-hover items-center justify-center"
+      className="grid grid-cols-[1fr] gap-2 w-full p-4 shadow-elevation-card-rest hover:shadow-elevation-card-hover     items-center justify-center"
     >
       <Thumbnail thumbnail={hit.thumbnail} size="square" className="group" />
       <div className="flex flex-col justify-between group">
@@ -35,9 +35,7 @@ const Hit = ({ hit }: HitProps) => {
               {hit.collection_handle}
             </Link>
           )}
-          <Heading level="h3" className="txt-medium group">
-            {hit.title}
-          </Heading>
+          <Text className="text-ui-fg-subtle">{hit.title}</Text>
         </div>
       </div>
     </Container>
