@@ -6,41 +6,17 @@ import { OnApproveActions, OnApproveData } from "@paypal/paypal-js"
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js"
 import { useElements, useStripe } from "@stripe/react-stripe-js"
 import { useCart } from "medusa-react"
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 
 type PaymentButtonProps = {
   paymentSession?: PaymentSession | null
 }
 
 const PaymentButton: React.FC<PaymentButtonProps> = ({ paymentSession }) => {
-  const [notReady, setNotReady] = useState(true)
   const { cart } = useCart()
-
-  useEffect(() => {
-    setNotReady(true)
-
-    if (!cart) {
-      return
-    }
-
-    if (!cart.shipping_address) {
-      return
-    }
-
-    if (!cart.billing_address) {
-      return
-    }
-
-    if (!cart.email) {
-      return
-    }
-
-    if (cart.shipping_methods.length < 1) {
-      return
-    }
-
-    setNotReady(false)
-  }, [cart])
+  const notReady = (cart && cart.shipping_address && cart.billing_address && cart.email && !(cart.shipping_methods.length < 1))
+    ? false
+    : true
 
   switch (paymentSession?.provider_id) {
     case "stripe":

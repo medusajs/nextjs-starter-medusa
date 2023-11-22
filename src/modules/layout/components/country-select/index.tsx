@@ -5,7 +5,7 @@ import { useStore } from "@lib/context/store-context"
 import useToggleState from "@lib/hooks/use-toggle-state"
 import { revalidateTags } from "app/actions"
 import { useRegions } from "medusa-react"
-import { Fragment, useEffect, useMemo, useState } from "react"
+import { Fragment, useMemo, useState } from "react"
 import ReactCountryFlag from "react-country-flag"
 
 type CountryOption = {
@@ -17,27 +17,23 @@ type CountryOption = {
 const CountrySelect = () => {
   const { countryCode, setRegion } = useStore()
   const { regions } = useRegions()
-  const [current, setCurrent] = useState<CountryOption | undefined>(undefined)
   const { state, open, close } = useToggleState()
-
+  
   const options: CountryOption[] | undefined = useMemo(() => {
     return regions
-      ?.map((r) => {
-        return r.countries.map((c) => ({
-          country: c.iso_2,
-          region: r.id,
-          label: c.display_name,
-        }))
-      })
-      .flat()
+    ?.map((r) => {
+      return r.countries.map((c) => ({
+        country: c.iso_2,
+        region: r.id,
+        label: c.display_name,
+      }))
+    })
+    .flat()
   }, [regions])
-
-  useEffect(() => {
-    if (countryCode) {
-      const option = options?.find((o) => o.country === countryCode)
-      setCurrent(option)
-    }
-  }, [countryCode, options])
+  
+  const current = countryCode
+    ? options?.find((o) => o.country === countryCode)
+    : undefined
 
   const handleChange = (option: CountryOption) => {
     revalidateTags(["medusa_request", "products", "collections"])
