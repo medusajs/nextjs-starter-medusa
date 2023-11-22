@@ -14,7 +14,7 @@ const ProductPreview = ({
   <Link href={`/products/${handle}`} className="group">
     <div>
       <Thumbnail thumbnail={thumbnail} size="full" isFeatured={isFeatured} />
-      <div className="flex txt-compact-medium mt-2 justify-between">
+      <div className="flex txt-compact-medium mt-4 justify-between">
         <Text className="text-ui-fg-subtle">{title}</Text>
         <div className="flex items-center gap-x-2">
           {price ? (
