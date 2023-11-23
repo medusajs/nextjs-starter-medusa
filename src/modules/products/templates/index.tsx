@@ -32,7 +32,6 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product }) => {
     <ProductProvider product={product}>
       <div className="content-container flex flex-col small:flex-row small:items-start py-6 relative">
         <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-6">
-          {isOnboarding && <ProductOnboardingCta />}
           <ProductInfo product={product} />
           <ProductTabs product={product} />
         </div>
@@ -43,6 +42,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product }) => {
           className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-12"
           ref={infoRef}
         >
+          {isOnboarding && <ProductOnboardingCta />}
           <ProductActions product={product} />
         </div>
       </div>
