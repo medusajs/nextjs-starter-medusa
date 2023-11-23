@@ -1,7 +1,7 @@
 "use client"
 
 import { useAccount } from "@lib/context/account-context"
-import UnderlineLink from "@modules/common/components/underline-link"
+import UnderlineLink from "@modules/common/components/interactive-link"
 import Spinner from "@modules/common/icons/spinner"
 import React, { useEffect } from "react"
 import AccountNav from "../components/account-nav"
@@ -22,7 +22,7 @@ const AccountLayout: React.FC = ({ children }) => {
   }
 
   return (
-    <div className="flex-1 small:py-12 small:bg-gray-50">
+    <div className="flex-1 small:py-12">
       <div className="flex-1 h-full max-w-5xl mx-auto bg-white flex flex-col">
         <div className="grid grid-cols-1 small:grid-cols-[240px_1fr] small:px-8 py-6 small:py-12 ">
           <div>

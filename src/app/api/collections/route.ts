@@ -10,14 +10,14 @@ import { notFound } from "next/navigation"
 export async function GET(request: NextRequest) {
   const productService = await initializeProductModule()
 
-  const { offset } = Object.fromEntries(request.nextUrl.searchParams)
+  const { offset, limit } = Object.fromEntries(request.nextUrl.searchParams)
 
   const [collections, count] = await productService
     .listAndCountCollections(
       {},
       {
         skip: parseInt(offset) || 0,
-        take: 100,
+        take: parseInt(limit) || 100,
       }
     )
     .catch((e) => {

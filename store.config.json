@@ -1,6 +1,5 @@
 {
   "features": {
-    "search": false,
-    "productModule": false
+    "search": true
   }
 }

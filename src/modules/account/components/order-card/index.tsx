@@ -1,5 +1,5 @@
 import { Order } from "@medusajs/medusa"
-import Button from "@modules/common/components/button"
+import { Button } from "@medusajs/ui"
 import Thumbnail from "@modules/products/components/thumbnail"
 import { formatAmount } from "medusa-react"
 import Link from "next/link"

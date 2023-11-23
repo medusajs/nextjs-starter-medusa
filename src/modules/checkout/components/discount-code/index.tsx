@@ -1,10 +1,11 @@
+import React, { useMemo } from "react"
 import { medusaClient } from "@lib/config"
 import { Cart } from "@medusajs/medusa"
-import Button from "@modules/common/components/button"
+import { Button, Label, Tooltip, Text, Heading } from "@medusajs/ui"
+import { InformationCircleSolid } from "@medusajs/icons"
 import Input from "@modules/common/components/input"
 import Trash from "@modules/common/icons/trash"
 import { formatAmount, useCart, useUpdateCart } from "medusa-react"
-import React, { useMemo } from "react"
 import { useForm } from "react-hook-form"
 import { useMutation } from "@tanstack/react-query"
 
@@ -17,7 +18,7 @@ type DiscountCodeProps = {
 }
 
 const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
-  const { id, discounts, region } = cart
+  const { id, discounts, gift_cards, region } = cart
   const { mutate, isLoading } = useUpdateCart(id)
   const { setCart } = useCart()
 
@@ -63,6 +64,23 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
       {
         onSuccess: ({ cart }) => setCart(cart),
         onError: () => {
+          checkGiftCard(data.discount_code)
+        },
+      }
+    )
+  }
+
+  const checkGiftCard = (code: string) => {
+    mutate(
+      {
+        gift_cards: [
+          { code: code },
+          ...gift_cards.map((gc) => ({ code: gc.code })),
+        ],
+      },
+      {
+        onSuccess: ({ cart }) => setCart(cart),
+        onError: () => {
           setError(
             "discount_code",
             {
@@ -72,6 +90,21 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
               shouldFocus: true,
             }
           )
+        },
+      }
+    )
+  }
+
+  const removeGiftCard = (code: string) => {
+    mutate(
+      {
+        gift_cards: [...gift_cards]
+          .filter((gc) => gc.code !== code)
+          .map((gc) => ({ code: gc.code })),
+      },
+      {
+        onSuccess: ({ cart }) => {
+          setCart(cart)
         },
       }
     )
@@ -90,46 +123,83 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
 
   return (
     <div className="w-full bg-white flex flex-col">
-      <div className="mb-4">
-        <h3 className="text-base-semi">Discount</h3>
-      </div>
-      <div className="text-small-regular">
-        {appliedDiscount ? (
-          <div className="flex items-center justify-between">
-            <div>
-              <span>Code: </span>
-              <span className="font-semibold">{appliedDiscount}</span>
-            </div>
-            <div>
-              <button
-                className="flex items-center gap-x-2"
-                onClick={onRemove}
-                disabled={isLoading}
+      <div className="txt-medium">
+        {gift_cards.length > 0 && (
+          <div className="flex flex-col mb-4">
+            <Heading className="txt-medium">Gift card(s) applied:</Heading>
+            {gift_cards?.map((gc) => (
+              <div
+                className="flex items-center justify-between txt-small-plus"
+                key={gc.id}
               >
-                <Trash size={16} />
-                <span className="sr-only">Remove gift card from order</span>
-              </button>
+                <Text className="flex gap-x-1 items-baseline">
+                  <span>Code: </span>
+                  <span className="truncate">{gc.code}</span>
+                </Text>
+                <Text className="font-semibold">
+                  {formatAmount({ region: region, amount: gc.balance })}
+                </Text>
+                <button
+                  className="flex items-center gap-x-2 !background-transparent !border-none"
+                  onClick={() => removeGiftCard(gc.code)}
+                  disabled={isLoading}
+                >
+                  <Trash size={14} />
+                  <span className="sr-only">Remove gift card from order</span>
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {appliedDiscount ? (
+          <div className="w-full flex items-center">
+            <div className="flex flex-col w-full">
+              <Heading className="txt-medium">Discount applied:</Heading>
+              <div className="flex items-center justify-between w-full max-w-full">
+                <Text className="flex gap-x-1 items-baseline txt-small-plus w-4/5 pr-1">
+                  <span>Code:</span>
+                  <span className="truncate">{discounts[0].code}</span>
+                  <span className="min-w-fit">({appliedDiscount})</span>
+                </Text>
+                <button
+                  className="flex items-center"
+                  onClick={onRemove}
+                  disabled={isLoading}
+                >
+                  <Trash size={14} />
+                  <span className="sr-only">
+                    Remove discount code from order
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
         ) : (
           <form onSubmit={handleSubmit(onApply)} className="w-full">
-            <div className="grid grid-cols-[1fr_80px] gap-x-2">
+            <Label className="flex gap-x-1 mb-2">
+              Gift card or discount code?
+              <Tooltip content="You can add multiple gift cards, but only one discount code.">
+                <InformationCircleSolid color="var(--fg-muted)" />
+              </Tooltip>
+            </Label>
+            <div className="flex w-full gap-x-2 items-center">
               <Input
-                label="Code"
+                label="Please enter code"
                 {...register("discount_code", {
                   required: "Code is required",
                 })}
                 errors={errors}
               />
-              <div>
-                <Button
-                  className="!min-h-[0] h-[46px] w-[80px]"
-                  disabled={isLoading}
-                  isLoading={isLoading}
-                >
-                  Apply
-                </Button>
-              </div>
+
+              <Button
+                type="submit"
+                variant="secondary"
+                className="!min-h-[0] h-10"
+                isLoading={isLoading}
+              >
+                Apply
+              </Button>
             </div>
           </form>
         )}

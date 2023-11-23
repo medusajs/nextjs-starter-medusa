@@ -1,4 +1,5 @@
 import { Customer, Order } from "@medusajs/medusa"
+import { Container } from "@medusajs/ui"
 import ChevronDown from "@modules/common/icons/chevron-down"
 import MapPin from "@modules/common/icons/map-pin"
 import Package from "@modules/common/icons/package"
@@ -112,7 +113,7 @@ const Overview = ({ orders, customer }: OverviewProps) => {
                     return (
                       <li key={order.id}>
                         <Link href={`/order/details/${order.id}`}>
-                          <div className="bg-gray-50 flex justify-between items-center p-4">
+                          <Container className="bg-gray-50 flex justify-between items-center p-4">
                             <div className="grid grid-cols-3 grid-rows-2 text-small-regular gap-x-4 flex-1">
                               <span className="font-semibold">Date placed</span>
                               <span className="font-semibold">
@@ -142,7 +143,7 @@ const Overview = ({ orders, customer }: OverviewProps) => {
                               </span>
                               <ChevronDown className="-rotate-90" />
                             </button>
-                          </div>
+                          </Container>
                         </Link>
                       </li>
                     )

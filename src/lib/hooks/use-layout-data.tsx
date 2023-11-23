@@ -49,15 +49,17 @@ export const useNavigationCollections = () => {
 
 const fetchFeaturedProducts = async (
   cartId: string,
-  region: Region
+  region: Region,
+  collectionId?: string
 ): Promise<ProductPreviewType[]> => {
   const products: PricedProduct[] = await getProductsList({
     pageParam: 0,
     queryParams: {
-      limit: 4,
+      limit: 3,
       cart_id: cartId,
       region_id: region.id,
       currency_code: region.currency_code,
+      collection_id: collectionId ? [collectionId] : [],
     },
   })
     .then((res) => res.response)
@@ -109,12 +111,17 @@ const fetchFeaturedProducts = async (
     })
 }
 
-export const useFeaturedProductsQuery = () => {
+export const useFeaturedProductsQuery = (collectionId?: string) => {
   const { cart } = useCart()
 
   const queryResults = useQuery(
-    ["layout_featured_products", cart?.id, cart?.region],
-    () => fetchFeaturedProducts(cart?.id!, cart?.region!),
+    ["layout_featured_products", cart?.id, cart?.region, collectionId],
+    () =>
+      fetchFeaturedProducts(
+        cart?.id!,
+        cart?.region!,
+        collectionId && collectionId
+      ),
     {
       enabled: !!cart?.id && !!cart?.region,
       staleTime: Infinity,

@@ -1,4 +1,5 @@
 import React from "react"
+import { Checkbox, Label } from "@medusajs/ui"
 
 type CheckboxProps = {
   checked?: boolean
@@ -6,29 +7,25 @@ type CheckboxProps = {
   label: string
 }
 
-const Checkbox: React.FC<CheckboxProps> = ({
-  checked = false,
+const CheckboxWithLabel: React.FC<CheckboxProps> = ({
+  checked = true,
   onChange,
   label,
 }) => {
   return (
-    <button
-      className="text-base-regular flex items-center gap-x-2"
-      role="checkbox"
-      type="button"
-      aria-checked={checked}
-      onClick={onChange}
-    >
-      <div
+    <div className="flex items-center space-x-2">
+      <Checkbox
+        className="text-base-regular flex items-center gap-x-2"
+        id="checkbox"
         role="checkbox"
+        type="button"
+        checked={checked}
         aria-checked={checked}
-        className="border border-gray-900 w-5 h-5 flex items-center justify-center"
-      >
-        {checked ? "✓" : null}
-      </div>
-      <span>{label}</span>
-    </button>
+        onClick={onChange}
+      />
+      <Label htmlFor="checkbox">{label}</Label>
+    </div>
   )
 }
 
-export default Checkbox
+export default CheckboxWithLabel

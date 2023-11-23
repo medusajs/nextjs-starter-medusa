@@ -1,4 +1,5 @@
 import { ProductVariant } from "@medusajs/medusa"
+import { Container, Heading, Text } from "@medusajs/ui"
 import Thumbnail from "@modules/products/components/thumbnail"
 import Link from "next/link"
 
@@ -19,25 +20,25 @@ export type HitProps = {
 
 const Hit = ({ hit }: HitProps) => {
   return (
-    <div key={hit.id} className="grid grid-cols-[86px_1fr] gap-4 w-full">
-      <Thumbnail thumbnail={hit.thumbnail} size="full" />
-      <div className="flex flex-col justify-between">
+    <Container
+      key={hit.id}
+      className="grid grid-cols-[1fr] gap-2 w-full p-4 shadow-elevation-card-rest hover:shadow-elevation-card-hover     items-center justify-center"
+    >
+      <Thumbnail thumbnail={hit.thumbnail} size="square" className="group" />
+      <div className="flex flex-col justify-between group">
         <div className="flex flex-col">
           {hit.collection_id && (
             <Link
               href={`/collections/${hit.collection_handle}`}
-              className="text-small-regular text-gray-500"
+              className="text-ui-fg-on-color hover:text-ui-fg-subtle"
             >
               {hit.collection_handle}
             </Link>
           )}
-          <span className="text-base-regular">{hit.title}</span>
-          <span className="text-small-regular text-gray-700">
-            {hit.description}
-          </span>
+          <Text className="text-ui-fg-subtle">{hit.title}</Text>
         </div>
       </div>
-    </div>
+    </Container>
   )
 }
 

@@ -2,8 +2,8 @@ import CartTemplate from "@modules/cart/templates"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Shopping Bag",
-  description: "View your shopping bag",
+  title: "Cart",
+  description: "View your cart",
 }
 
 export default function Cart() {

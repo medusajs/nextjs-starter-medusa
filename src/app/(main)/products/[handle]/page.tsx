@@ -1,5 +1,6 @@
 import { getProductByHandle } from "@lib/data"
 import ProductTemplate from "@modules/products/templates"
+import SkeletonProductPage from "@modules/skeletons/templates/skeleton-product-page"
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
@@ -17,10 +18,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: `${product.title} | Acme Store`,
+    title: `${product.title} | Medusa Store Store`,
     description: `${product.title}`,
     openGraph: {
-      title: `${product.title} | Acme Store`,
+      title: `${product.title} | Medusa Store Store`,
       description: `${product.title}`,
       images: product.thumbnail ? [product.thumbnail] : [],
     },

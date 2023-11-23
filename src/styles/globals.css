@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 @layer utilities {
   /* Chrome, Safari and Opera */
@@ -19,7 +19,7 @@
 
   input:focus ~ label,
   input:not(:placeholder-shown) ~ label {
-    @apply -translate-y-2 text-xsmall-regular; 
+    @apply -translate-y-2 text-xsmall-regular;
   }
 
   input:focus ~ label {
@@ -51,7 +51,7 @@
 
 @layer components {
   .content-container {
-    @apply max-w-[1440px] w-full mx-auto px-8
+    @apply max-w-[1440px] w-full mx-auto px-4;
   }
 
   .contrast-btn {
@@ -103,10 +103,10 @@
   }
 
   .text-3xl-regular {
-    @apply text-[36px] leading-[48px] font-normal;
+    @apply text-[32px] leading-[44px] font-normal;
   }
 
   .text-3xl-semi {
-    @apply text-[36px] leading-[48px] font-semibold;
+    @apply text-[32px] leading-[44px] font-semibold;
   }
 }

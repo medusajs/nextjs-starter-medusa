@@ -1,5 +1,6 @@
 import medusaRequest from "@lib/medusa-fetch"
-import OrderCompletedTemplate from "@modules/order/templates/order-completed-template"
+import OrderDetailsTemplate from "@modules/order/templates/order-details-template"
+
 import { Metadata } from "next"
 
 type Props = {
@@ -28,5 +29,5 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function CollectionPage({ params }: Props) {
   const { order } = await getOrder(params.id)
 
-  return <OrderCompletedTemplate order={order} />
+  return <OrderDetailsTemplate order={order} />
 }

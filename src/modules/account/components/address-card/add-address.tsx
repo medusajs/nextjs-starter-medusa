@@ -2,11 +2,11 @@ import { medusaClient } from "@lib/config"
 import { useAccount } from "@lib/context/account-context"
 import useToggleState from "@lib/hooks/use-toggle-state"
 import CountrySelect from "@modules/checkout/components/country-select"
-import Button from "@modules/common/components/button"
+import { Button, Heading } from "@medusajs/ui"
 import Input from "@modules/common/components/input"
 import Modal from "@modules/common/components/modal"
-import Plus from "@modules/common/icons/plus"
-import Spinner from "@modules/common/icons/spinner"
+import { Plus } from "@medusajs/icons"
+import { Spinner } from "@medusajs/icons"
 import React, { useState } from "react"
 import { useForm } from "react-hook-form"
 
@@ -86,17 +86,19 @@ const AddAddress: React.FC = () => {
   return (
     <>
       <button
-        className="border border-gray-200 p-5 min-h-[220px] h-full w-full flex flex-col justify-between"
+        className="border border-ui-border-base rounded-rounded p-5 min-h-[220px] h-full w-full flex flex-col justify-between"
         onClick={open}
       >
         <span className="text-base-semi">New address</span>
-        <Plus size={24} />
+        <Plus />
       </button>
 
       <Modal isOpen={state} close={handleClose}>
-        <Modal.Title>Add address</Modal.Title>
+        <Modal.Title>
+          <Heading className="mb-2">Add address</Heading>
+        </Modal.Title>
         <Modal.Body>
-          <div className="grid grid-cols-1 gap-y-2">
+          <div className="flex flex-col gap-y-2">
             <div className="grid grid-cols-2 gap-x-2">
               <Input
                 label="First name"
@@ -175,16 +177,18 @@ const AddAddress: React.FC = () => {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button
-            className="!bg-gray-200 !text-gray-900 !border-gray-200 min-h-0"
-            onClick={handleClose}
-          >
-            Cancel
-          </Button>
-          <Button className="min-h-0" onClick={submit} disabled={submitting}>
-            Save
-            {submitting && <Spinner />}
-          </Button>
+          <div className="flex gap-3 mt-4">
+            <Button
+              variant="secondary"
+              onClick={handleClose}
+              disabled={submitting}
+            >
+              Cancel
+            </Button>
+            <Button className="min-h-0" onClick={submit} isLoading={submitting}>
+              Save
+            </Button>
+          </div>
         </Modal.Footer>
       </Modal>
     </>

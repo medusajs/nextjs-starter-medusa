@@ -1,36 +1,62 @@
-import { Address, ShippingMethod } from "@medusajs/medusa"
+import { Order } from "@medusajs/medusa"
+import { Heading, Text } from "@medusajs/ui"
+import Divider from "@modules/common/components/divider"
+import { formatAmount } from "medusa-react"
 
 type ShippingDetailsProps = {
-  address: Address
-  shippingMethods: ShippingMethod[]
+  order: Order
 }
 
-const ShippingDetails = ({
-  address,
-  shippingMethods,
-}: ShippingDetailsProps) => {
+const ShippingDetails = ({ order }: ShippingDetailsProps) => {
   return (
-    <div className="text-base-regular">
-      <h2 className="text-base-semi">Delivery</h2>
-      <div className="my-2">
-        <h3 className="text-small-regular text-gray-700">Address</h3>
-        <div className="flex flex-col">
-          <span>{`${address.first_name} ${address.last_name}`}</span>
-          <span>{`${address.address_1}${
-            address.address_2 && ", " + address.address_2
-          }`}</span>
-          <span>{`${address.city}, ${address.province} ${address.postal_code}`}</span>
-          <span>{address.country_code?.toUpperCase()}</span>
+    <div>
+      <Heading level="h2" className="flex flex-row text-3xl-regular my-6">
+        Delivery
+      </Heading>
+      <div className="flex items-start gap-x-8">
+        <div className="flex flex-col w-1/3">
+          <Text className="txt-medium-plus text-ui-fg-base mb-1">
+            Shipping Address
+          </Text>
+          <Text className="txt-medium text-ui-fg-subtle">
+            {order.shipping_address.first_name}{" "}
+            {order.shipping_address.last_name}
+          </Text>
+          <Text className="txt-medium text-ui-fg-subtle">
+            {order.shipping_address.address_1}{" "}
+            {order.shipping_address.address_2}
+          </Text>
+          <Text className="txt-medium text-ui-fg-subtle">
+            {order.shipping_address.postal_code}, {order.shipping_address.city}
+          </Text>
+          <Text className="txt-medium text-ui-fg-subtle">
+            {order.shipping_address.country_code?.toUpperCase()}
+          </Text>
+        </div>
+
+        <div className="flex flex-col w-1/3 ">
+          <Text className="txt-medium-plus text-ui-fg-base mb-1">Contact</Text>
+          <Text className="txt-medium text-ui-fg-subtle">
+            {order.shipping_address.phone}
+          </Text>
+          <Text className="txt-medium text-ui-fg-subtle">{order.email}</Text>
+        </div>
+
+        <div className="flex flex-col w-1/3">
+          <Text className="txt-medium-plus text-ui-fg-base mb-1">Method</Text>
+          <Text className="txt-medium text-ui-fg-subtle">
+            {order.shipping_methods[0].shipping_option.name} (
+            {formatAmount({
+              amount: order.shipping_methods[0].price,
+              region: order.region,
+            })
+              .replace(/,/g, "")
+              .replace(/\./g, ",")}
+            )
+          </Text>
         </div>
       </div>
-      <div className="my-2">
-        <h3 className="text-small-regular text-gray-700">Delivery method</h3>
-        <div>
-          {shippingMethods.map((sm) => {
-            return <div key={sm.id}>{sm.shipping_option.name}</div>
-          })}
-        </div>
-      </div>
+      <Divider className="mt-8" />
     </div>
   )
 }

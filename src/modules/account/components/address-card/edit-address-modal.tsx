@@ -3,12 +3,11 @@ import { useAccount } from "@lib/context/account-context"
 import useToggleState from "@lib/hooks/use-toggle-state"
 import { Address } from "@medusajs/medusa"
 import CountrySelect from "@modules/checkout/components/country-select"
-import Button from "@modules/common/components/button"
+import { Button, Heading, Text } from "@medusajs/ui"
+import { PencilSquare as Edit, Trash } from "@medusajs/icons"
 import Input from "@modules/common/components/input"
 import Modal from "@modules/common/components/modal"
-import Edit from "@modules/common/icons/edit"
 import Spinner from "@modules/common/icons/spinner"
-import Trash from "@modules/common/icons/trash"
 import clsx from "clsx"
 import React, { useState } from "react"
 import { useForm } from "react-hook-form"
@@ -100,22 +99,22 @@ const EditAddress: React.FC<EditAddressProps> = ({
     <>
       <div
         className={clsx(
-          "border border-gray-200 p-5 min-h-[220px] h-full w-full flex flex-col justify-between transition-colors",
+          "border rounded-rounded p-5 min-h-[220px] h-full w-full flex flex-col justify-between transition-colors",
           {
             "border-gray-900": isActive,
           }
         )}
       >
         <div className="flex flex-col">
-          <span className="text-left text-base-semi">
+          <Heading className="text-left text-base-semi">
             {address.first_name} {address.last_name}
-          </span>
+          </Heading>
           {address.company && (
-            <span className="text-small-regular text-gray-700">
+            <Text className="txt-compact-small text-gray-700">
               {address.company}
-            </span>
+            </Text>
           )}
-          <div className="flex flex-col text-left text-base-regular mt-2">
+          <Text className="flex flex-col text-left text-base-regular mt-2">
             <span>
               {address.address_1}
               {address.address_2 && <span>, {address.address_2}</span>}
@@ -127,14 +126,14 @@ const EditAddress: React.FC<EditAddressProps> = ({
               {address.province && `${address.province}, `}
               {address.country_code?.toUpperCase()}
             </span>
-          </div>
+          </Text>
         </div>
         <div className="flex items-center gap-x-4">
           <button
             className="text-small-regular text-gray-700 flex items-center gap-x-2"
             onClick={open}
           >
-            <Edit size={16} />
+            <Edit />
             Edit
           </button>
           <button
@@ -148,7 +147,9 @@ const EditAddress: React.FC<EditAddressProps> = ({
       </div>
 
       <Modal isOpen={state} close={close}>
-        <Modal.Title>Edit address</Modal.Title>
+        <Modal.Title>
+          <Heading className="mb-2">Edit address</Heading>
+        </Modal.Title>
         <Modal.Body>
           <div className="grid grid-cols-1 gap-y-2">
             <div className="grid grid-cols-2 gap-x-2">
@@ -229,13 +230,14 @@ const EditAddress: React.FC<EditAddressProps> = ({
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={close}>
-            Cancel
-          </Button>
-          <Button onClick={submit} disabled={submitting}>
-            Save
-            {submitting && <Spinner />}
-          </Button>
+          <div className="flex gap-3 mt-4">
+            <Button variant="secondary" onClick={close} disabled={submitting}>
+              Cancel
+            </Button>
+            <Button className="min-h-0" onClick={submit} isLoading={submitting}>
+              Save
+            </Button>
+          </div>
         </Modal.Footer>
       </Modal>
     </>

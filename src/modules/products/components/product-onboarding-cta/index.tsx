@@ -1,20 +1,20 @@
-import Button from "@modules/common/components/button"
+import { Button, Container, Text } from "@medusajs/ui"
 
 const ProductOnboardingCta = () => {
   return (
-    <div className="max-w-4xl h-full bg-gray-100 w-full mb-4 p-8">
-      <div className="flex flex-col gap-y-6 center">
-        <span className="text-gray-700 text-xl">
+    <Container className="max-w-4xl h-full bg-ui-bg-subtle w-full p-8">
+      <div className="flex flex-col gap-y-4 center">
+        <Text className="text-ui-fg-base text-xl">
           Your demo product was successfully created! 🎉
-        </span>
-        <span className="text-gray-700 text-small-regular">
+        </Text>
+        <Text className="text-ui-fg-subtle text-small-regular">
           You can now continue setting up your store in the admin.
-        </span>
+        </Text>
         <a href="http://localhost:7001/a/orders?onboarding_step=create_order_nextjs">
-          <Button className="md:w-80">Continue setup in admin</Button>
+          <Button className="w-full">Continue setup in admin</Button>
         </a>
       </div>
-    </div>
+    </Container>
   )
 }
 

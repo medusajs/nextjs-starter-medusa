@@ -1,6 +1,7 @@
 import { Disclosure } from "@headlessui/react"
 import useToggleState from "@lib/hooks/use-toggle-state"
-import Button from "@modules/common/components/button"
+import { Badge } from "@medusajs/ui"
+import { Button } from "@medusajs/ui"
 import clsx from "clsx"
 import { useEffect } from "react"
 
@@ -75,9 +76,9 @@ const AccountInfo = ({
             }
           )}
         >
-          <div className="bg-green-100 text-green-500 p-4 my-4">
+          <Badge className="p-2 my-4" color="green">
             <span>{label} updated succesfully</span>
-          </div>
+          </Badge>
         </Disclosure.Panel>
       </Disclosure>
 
@@ -93,9 +94,9 @@ const AccountInfo = ({
             }
           )}
         >
-          <div className="bg-rose-100 text-rose-500 p-4 mt-4">
+          <Badge className="p-2 my-4" color="red">
             <span>{errorMessage}</span>
-          </div>
+          </Badge>
         </Disclosure.Panel>
       </Disclosure>
 
@@ -103,7 +104,7 @@ const AccountInfo = ({
         <Disclosure.Panel
           static
           className={clsx(
-            "transition-[max-height,opacity] duration-300 ease-in-out overflow-hidden",
+            "transition-[max-height,opacity] duration-300 ease-in-out overflow-visible",
             {
               "max-h-[1000px] opacity-100": state,
               "max-h-0 opacity-0": !state,

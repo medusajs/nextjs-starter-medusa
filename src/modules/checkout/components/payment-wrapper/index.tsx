@@ -5,24 +5,33 @@ import React from "react"
 
 type WrapperProps = {
   paymentSession?: PaymentSession | null
+  selectedProviderId: string | null
 }
 
-const Wrapper: React.FC<WrapperProps> = ({ paymentSession, children }) => {
-  if (!paymentSession) {
+const Wrapper: React.FC<WrapperProps> = ({
+  selectedProviderId,
+  paymentSession,
+  children,
+}) => {
+  if (!selectedProviderId || !paymentSession) {
     return <div>{children}</div>
   }
 
-  switch (paymentSession.provider_id) {
-    case "stripe":
-      return (
-        <StripeWrapper paymentSession={paymentSession}>
-          {children}
-        </StripeWrapper>
-      )
-
-    default:
-      return <div>{children}</div>
+  if (
+    paymentSession?.provider_id === "stripe" ||
+    selectedProviderId === "stripe"
+  ) {
+    return (
+      <StripeWrapper
+        selectedProviderId={selectedProviderId}
+        paymentSession={paymentSession}
+      >
+        {children}
+      </StripeWrapper>
+    )
   }
+
+  return <div>{children}</div>
 }
 
 const stripeKey = process.env.NEXT_PUBLIC_STRIPE_KEY
@@ -33,7 +42,7 @@ const StripeWrapper: React.FC<WrapperProps> = ({
   children,
 }) => {
   const options: StripeElementsOptions = {
-    clientSecret: paymentSession!.data.client_secret as string | undefined,
+    clientSecret: paymentSession!.data?.client_secret as string | undefined,
   }
 
   if (!stripePromise) {

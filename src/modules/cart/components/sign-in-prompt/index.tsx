@@ -1,18 +1,22 @@
-import Button from "@modules/common/components/button"
+import { Button, Heading, Text } from "@medusajs/ui"
 import Link from "next/link"
 
 const SignInPrompt = () => {
   return (
-    <div className="bg-white flex items-start justify-between">
+    <div className="bg-white flex items-center justify-between">
       <div>
-        <h2 className="text-xl-semi">Already have an account?</h2>
-        <p className="text-base-regular text-gray-700 mt-2">
+        <Heading level="h2" className="txt-xlarge">
+          Already have an account?
+        </Heading>
+        <Text className="txt-medium text-ui-fg-subtle mt-2">
           Sign in for a better experience.
-        </p>
+        </Text>
       </div>
       <div>
         <Link href="/account/login">
-          <Button variant="secondary">Sign in</Button>
+          <Button variant="secondary" className="h-10">
+            Sign in
+          </Button>
         </Link>
       </div>
     </div>

@@ -39,6 +39,7 @@ async function getProducts(params: Record<string, any>) {
     sharedResourcesConfig: {
       database: { clientUrl: process.env.POSTGRES_URL },
     },
+    injectedDependencies: {},
   })
 
   // Set the filters for the query
