@@ -28,22 +28,27 @@ Combine Medusa's modules for your commerce backend with the newest Next.js 14 fe
 </p>
 
 ### Prerequisites
+
 To use the [Next.js Starter Template](https://medusajs.com/nextjs-commerce/), you should have a Medusa server running locally on port 9000.
-For a quick setup, run: 
+For a quick setup, run:
+
 ```shell
 npx create-medusa-app@latest
 ```
+
 Check out [create-medusa-app docs](https://docs.medusajs.com/create-medusa-app) for more details and troubleshooting.
 
 # Overview
 
 The Medusa Next.js Starter is built with:
+
 - [Next.js](https://nextjs.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Typescript](https://www.typescriptlang.org/)
 - [Medusa](https://medusajs.com/)
 
 Features include:
+
 - Full ecommerce support:
   - Product Detail Page
   - Product Overview Page
@@ -61,8 +66,8 @@ Features include:
 
 ## Deploy
 
-
 ### Deploy with Vercel
+
 To get started, click the "Deploy with Vercel" button below.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fmedusajs%2Fnextjs-starter-medusa&env=NEXT_PUBLIC_MEDUSA_BACKEND_URL&envDescription=The%20URL%20of%20your%20Medusa%20server&envLink=https%3A%2F%2Fdocs.medusajs.com%2Fdeployments%2Fserver%2F&demo-title=Medusa%20Next.js%20Starter&demo-description=A%20fully-fledged%20e-commerce%20store%20with%20Next.js%20and%20Medusa&demo-url=https%3A%2F%2Fnext.medusajs.com&demo-image=https%3A%2F%2Fmedusa-server-testing.s3.amazonaws.com%2FCleanShot%2B2023-06-22%2Bat%2B09.00.53%25402x-1687417264472.png&skippable-integrations=1)
@@ -98,34 +103,32 @@ Your site is now running at http://localhost:8000!
 
 Edit `/pages/index.tsx` to see your site update in real-time!
 
-# Product Module
-> The Product Module is currently in beta. You can learn more about it [here](https://docs.medusajs.com/modules/products/serverless-module). In addition, the product module in the Next.js storefront can't be used without the Medusa backend running at the moment.
+# Serverless Modules
 
-This starter has full support for our new serverless [Product Module](https://docs.medusajs.com/modules/products/serverless-module) for retrieving and manipulating product data directly from a serverless function. This keeps your product logic close to the frontend, making it easy to customize or extend Medusa's core functionality from within your Next.js project.
+> Serverless Modules are currently in beta. You can learn more about it [here](https://docs.medusajs.com/modules/products/serverless-module). In addition, the Serverless Modules in the Next.js storefront can't be used without the Medusa backend running at the moment.
 
-By default, this starter uses the standard Medusa API for product and collection retrieval. To enable the Product Module, first, make sure to set the following environment variables:
+This starter has full support for our new experimental [Product Module](https://docs.medusajs.com/modules/products/serverless-module) and Pricing Module for retrieving and manipulating product and pricing data directly from a serverless function. This keeps your product logic close to the frontend, making it easy to customize or extend Medusa's core functionality from within your Next.js project.
 
-- `PRODUCT_POSTGRES_URL`: the URL of your PostgreSQL databsae.
+By default, this starter uses the standard Medusa API for product and collection retrieval.
+
+To enable the new modules, first, make sure to set the following environment variables in your Next.js storefront project:
+
+> WARNING: This is a one way process. Once you opt in to these features and update your database, there's no way back. Proceed with caution.
+
+- `POSTGRES_URL`: the URL of your PostgreSQL databsae.
 - `NEXT_PUBLIC_BASE_URL`: the URL of your storefront's base URL. If you're running it locally, it should be http://localhost:8000.
 
-Then, enable the productModule feature flag in `./store.config.json`:
+Then, add the following environment variable to **both your Next.js storefront and Medusa backend** to enable the feature flag:
 
-```javascript
-{
-  "features": {
-    // other features...
-    "productModule": true
-  }
-}
-```
+- `MEDUSA_FF_MEDUSA_V2=true`
+
+Finally, run the migration script to prepare your database for the new modules. //to do: add link
 
 Make sure the Medusa backend is running, then start (or restart) your Next.js storefront.
 
 Done! All product and collection data should now be coming from the module. The Product Module routes are all in `src/app/api` for you to edit and play around with.
 
-To opt out of using the product module, simply set the `productModule` feature flag to `false` and restart the server.
-
-Deploying to Vercel? If you're not planning on using the serverless modules, you might encounter errors when deploying to Vercel. You can safely delete or exclude the `src/app/api` folder before deploying. The API routes are only used by the serverless modules.
+> Deploying to Vercel? If you're not planning on using the serverless modules, you might encounter errors when deploying to Vercel. You can safely delete or exclude the `src/app/api` folder before deploying. The API routes are only used by the serverless modules.
 
 # Payment integrations
 
