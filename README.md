@@ -101,8 +101,6 @@ yarn dev
 
 Your site is now running at http://localhost:8000!
 
-Edit `/pages/index.tsx` to see your site update in real-time!
-
 # Serverless Modules
 
 > Serverless Modules are currently in beta. You can learn more about it [here](https://docs.medusajs.com/modules/products/serverless-module). In addition, the Serverless Modules in the Next.js storefront can't be used without the Medusa backend running at the moment.
