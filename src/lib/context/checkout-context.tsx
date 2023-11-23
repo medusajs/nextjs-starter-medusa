@@ -9,7 +9,7 @@ import {
   StorePostCartsCartReq,
 } from "@medusajs/medusa"
 import Wrapper from "@modules/checkout/components/payment-wrapper"
-import { add, isEqual, set } from "lodash"
+import { isEqual } from "lodash"
 import {
   formatAmount,
   useCart,
@@ -229,28 +229,14 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   /**
    * Method to create the payment sessions available for the cart. Uses a idempotency key to prevent duplicate requests.
    */
-  const createPaymentSession = async (cartId: string) => {
-    return medusaClient.carts
-      .createPaymentSessions(cartId, {
-        "Idempotency-Key": IDEMPOTENCY_KEY,
-      })
-      .then(({ cart }) => cart)
-      .catch(() => null)
-  }
-
-  /**
-   * Method that calls the createPaymentSession method and updates the cart with the payment session.
-   */
   const initPayment = async () => {
     if (cart?.id && !cart.payment_sessions?.length && cart?.items?.length) {
-      const paymentSession = await createPaymentSession(cart.id)
-
-      if (!paymentSession) {
-        setTimeout(initPayment, 500)
-      } else {
-        setCart(paymentSession)
-        return
-      }
+      return medusaClient.carts
+        .createPaymentSessions(cart.id, {
+          "Idempotency-Key": IDEMPOTENCY_KEY,
+        })
+        .then(({ cart }) => cart && setCart(cart))
+        .catch((err) => err)
     }
   }
 
@@ -270,14 +256,6 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
         }
       )
     }
-  }
-
-  const prepareFinalSteps = () => {
-    initPayment()
-
-    // if (shippingMethods?.length && shippingMethods?.[0]?.value) {
-    //   setShippingOption(shippingMethods[0].value)
-    // }
   }
 
   const setSavedAddress = (address: Address) => {
@@ -336,7 +314,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     updateCart(payload, {
       onSuccess: ({ cart }) => {
         setCart(cart)
-        prepareFinalSteps()
+        initPayment()
       },
     })
   }
