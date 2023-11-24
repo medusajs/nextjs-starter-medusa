@@ -8,9 +8,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" data-mode="light">
-      <body>
+      <body className="h-screen">
         <Providers>
-          <main className="relative">{children}</main>
+          <main className="relative h-screen">{children}</main>
         </Providers>
       </body>
     </html>
