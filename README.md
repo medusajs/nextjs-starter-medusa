@@ -155,6 +155,25 @@ export const SEARCH_INDEX_NAME =
   process.env.NEXT_PUBLIC_INDEX_NAME || "products"
 ```
 
+Then, in `src/app/(main)/search/actions.ts`, remove the MeiliSearch code (line 10-16) and uncomment the Algolia code.
+
+```ts
+"use server"
+
+import { searchClient, SEARCH_INDEX_NAME } from "@lib/search-client"
+
+/**
+ * Uses MeiliSearch or Algolia to search for a query
+ * @param {string} query - search query
+ */
+export async function search(query: string) {
+  const index = searchClient.initIndex(SEARCH_INDEX_NAME)
+  const { hits } = await index.search(query)
+
+  return hits
+}
+```
+
 After this you will need to set up Algolia with your Medusa server, and then you should be good to go. For a more thorough walkthrough of using Algolia with Medusa – [see our documentation](https://docs.medusajs.com/add-plugins/algolia), and the [documentation for using `react-instantsearch-hooks-web`](https://www.algolia.com/doc/guides/building-search-ui/getting-started/react-hooks/).
 
 # Serverless Modules
