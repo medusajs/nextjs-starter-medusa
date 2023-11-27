@@ -195,7 +195,11 @@ Then, add the following environment variable to **both your Next.js storefront a
 
 - `MEDUSA_FF_MEDUSA_V2=true`
 
-Finally, run the migration script to prepare your database for the new modules. [Coming soon]
+Finally, run migrations to prepare your database for the new modules.
+
+```
+npx medusa migrations run
+```
 
 Make sure the Medusa backend is running, then start (or restart) your Next.js storefront.
 
