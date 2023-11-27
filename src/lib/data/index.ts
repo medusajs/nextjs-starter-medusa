@@ -5,7 +5,6 @@ import {
   ProductCategory,
   ProductCollection,
 } from "@medusajs/medusa"
-import { MedusaV2Flag } from "@medusajs/utils/dist/feature-flags"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 
 export type ProductCategoryWithChildren = Omit<
@@ -21,7 +20,11 @@ export type ProductCategoryWithChildren = Omit<
  */
 
 // The MEDUSA_FF_MEDUSA_V2 flag is set in the .env file of both the storefront and the server. It is used to determine whether to use the Medusa API or the Medusa V2 Modules.
-const MEDUSA_V2_ENABLED = process.env[MedusaV2Flag.env_key] || false
+let MEDUSA_V2_ENABLED = false
+
+if (process.env.MEDUSA_FF_MEDUSA_V2) {
+  MEDUSA_V2_ENABLED = process.env.MEDUSA_FF_MEDUSA_V2 === "true"
+}
 
 // The API_BASE_URL is set in the .env file. It is the base URL of your Next.js app.
 const API_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000"
