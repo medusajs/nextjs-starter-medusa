@@ -97,7 +97,7 @@ const Description: React.FC = ({ children }) => {
 }
 
 const Body: React.FC = ({ children }) => {
-  return <div className="flex-1">{children}</div>
+  return <div className="flex justify-center">{children}</div>
 }
 
 const Footer: React.FC = ({ children }) => {
