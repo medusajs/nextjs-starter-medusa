@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default async function StorePage({
   params,
 }: {
-  params: Record<string, any>
+  params: { query: string }
 }) {
   const { query } = params
   const hits = await search(query)

@@ -19,7 +19,7 @@ const SearchResultsTemplate = ({ query, hits }: SearchResultsTemplateProps) => {
 
   useEffect(() => {
     setParams({
-      id: hits.map((h) => h.objectID),
+      id: hits.map((h) => (h.hasOwnProperty("objectID") ? h.objectID : h.id)),
     })
   }, [hits])
 
@@ -40,14 +40,20 @@ const SearchResultsTemplate = ({ query, hits }: SearchResultsTemplateProps) => {
         </Link>
       </div>
       <div className="flex flex-col small:flex-row small:items-start py-6">
-        <RefinementList
-          refinementList={params}
-          setRefinementList={setParams}
-          sortBy={sortBy}
-          setSortBy={setSortBy}
-          search
-        />
-        <InfiniteProducts params={params} sortBy={sortBy} />
+        {hits.length > 0 ? (
+          <>
+            <RefinementList
+              refinementList={params}
+              setRefinementList={setParams}
+              sortBy={sortBy}
+              setSortBy={setSortBy}
+              search
+            />
+            <InfiniteProducts params={params} sortBy={sortBy} />
+          </>
+        ) : (
+          <Text className="ml-8 small:ml-14 mt-3">No results.</Text>
+        )}
       </div>
     </div>
   )
