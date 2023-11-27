@@ -29,6 +29,7 @@ import React, {
 } from "react"
 import { FormProvider, useForm, useFormContext } from "react-hook-form"
 import { useStore } from "./store-context"
+import Spinner from "@modules/common/icons/spinner"
 
 type AddressValues = {
   first_name: string
@@ -137,6 +138,12 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   const isLoading = useMemo(() => {
     return addingShippingMethod || settingPaymentSession || updatingCart
   }, [addingShippingMethod, settingPaymentSession, updatingCart])
+
+  useMemo(() => {
+    if (cart?.payment_session?.provider_id) {
+      setSelectedPaymentOptionId(cart.payment_session.provider_id)
+    }
+  }, [cart?.payment_session?.provider_id])
 
   /**
    * Boolean that indicates if the checkout is ready to be completed. A checkout is ready to be completed if
@@ -361,12 +368,20 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
           onPaymentCompleted,
         }}
       >
-        <Wrapper
-          selectedProviderId={selectedPaymentOptionId}
-          paymentSession={cart?.payment_session}
-        >
-          {children}
-        </Wrapper>
+        {isLoading && cart?.id === "" ? (
+          <div className="flex justify-center items-center h-screen">
+            <div className="w-auto">
+              <Spinner size={40} />
+            </div>
+          </div>
+        ) : (
+          <Wrapper
+            selectedProviderId={selectedPaymentOptionId}
+            paymentSession={cart?.payment_session}
+          >
+            {children}
+          </Wrapper>
+        )}
       </CheckoutContext.Provider>
     </FormProvider>
   )
