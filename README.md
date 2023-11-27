@@ -178,9 +178,9 @@ After this you will need to set up Algolia with your Medusa server, and then you
 
 # Serverless Modules
 
-> Serverless Modules are currently in beta. You can learn more about it [here](https://docs.medusajs.com/modules/products/serverless-module). In addition, the Serverless Modules in the Next.js storefront can't be used without the Medusa backend running at the moment.
+> Serverless Modules are currently in beta. You can learn more about them [here](https://docs.medusajs.com/experimental). In addition, the Serverless Modules in the Next.js storefront can't be used without the Medusa backend running at the moment.
 
-This starter has full support for our new experimental [Product Module](https://docs.medusajs.com/modules/products/serverless-module) and Pricing Module for retrieving and manipulating product and pricing data directly from a serverless function. This keeps your product logic close to the frontend, making it easy to customize or extend Medusa's core functionality from within your Next.js project.
+This starter has full support for our new experimental [Product Module](https://docs.medusajs.com/experimental/product/overview) and [Pricing Module ](https://docs.medusajs.com/experimental/pricing/overview)for retrieving and manipulating product and pricing data directly from a serverless function. This keeps your product logic close to the frontend, making it easy to customize or extend Medusa's core functionality from within your Next.js project.
 
 By default, this starter uses the standard Medusa API for product and collection retrieval.
 
