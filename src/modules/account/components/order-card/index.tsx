@@ -42,11 +42,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
         {order.items.slice(0, 3).map((i) => {
           return (
             <div key={i.id} className="flex flex-col gap-y-2">
-              <Thumbnail
-                thumbnail={order.items[0].thumbnail}
-                images={[]}
-                size="full"
-              />
+              <Thumbnail thumbnail={i.thumbnail} images={[]} size="full" />
               <div className="flex items-center text-small-regular text-gray-700">
                 <span className="text-gray-900 font-semibold">{i.title}</span>
                 <span className="ml-2">x</span>
