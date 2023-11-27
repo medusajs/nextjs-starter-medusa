@@ -19,7 +19,7 @@ const SearchResultsTemplate = ({ query, hits }: SearchResultsTemplateProps) => {
 
   useEffect(() => {
     setParams({
-      id: hits.map((h) => h.objectID),
+      id: hits.map((h) => (h.hasOwnProperty("objectId") ? h.objectID : h.id)),
     })
   }, [hits])
 
