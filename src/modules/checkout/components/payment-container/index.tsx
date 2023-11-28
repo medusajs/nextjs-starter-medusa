@@ -2,7 +2,8 @@ import { PaymentSession } from "@medusajs/medusa"
 import Radio from "@modules/common/components/radio"
 import React from "react"
 import PaymentTest from "../payment-test"
-import { Text, clx } from "@medusajs/ui"
+import { Text, Tooltip, clx } from "@medusajs/ui"
+import { InformationCircleSolid } from "@medusajs/icons"
 import { RadioGroup } from "@headlessui/react"
 
 type PaymentContainerProps = {
@@ -40,8 +41,19 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
               checked={selectedPaymentOptionId === paymentSession.provider_id}
             />
             <Text className="text-base-regular">
-              {paymentInfoMap[paymentSession.provider_id]?.title || "Unknown"}
+              {paymentInfoMap[paymentSession.provider_id]?.title ||
+                paymentSession.provider_id}
             </Text>
+            {process.env.NODE_ENV === "development" &&
+              !Object.hasOwn(paymentInfoMap, paymentSession.provider_id) && (
+                <Tooltip
+                  content="You can add a user-friendly name and icon for this payment provider in 'src/modules/checkout/components/payment/index.tsx'"
+                  className="min-w-fit"
+                >
+                  <InformationCircleSolid color="var(--fg-muted)" />
+                </Tooltip>
+              )}
+
             {paymentSession.provider_id === "manual" && isDevelopment && (
               <PaymentTest className="hidden small:block" />
             )}
