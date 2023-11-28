@@ -204,24 +204,16 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   /**
    * Method to set the selected shipping method for the cart. This is called when the user selects a shipping method, such as UPS, FedEx, etc.
    */
-  const setShippingOption = (soId: string) => {
+  const setShippingOption = async (soId: string) => {
     if (cart) {
       setShippingMethod(
         { option_id: soId },
         {
-          onSuccess: async ({ cart }) => {
-            setCart(cart)
-            await initPayment()
-          },
+          onSuccess: ({ cart }) => setCart(cart),
         }
       )
     }
   }
-
-  useEffect(() => {
-    // initialize payment session
-    initPayment()
-  }, [cart])
 
   /**
    * Method to create the payment sessions available for the cart. Uses a idempotency key to prevent duplicate requests.
@@ -236,6 +228,14 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
         .catch((err) => err)
     }
   }
+
+  useEffect(() => {
+    // initialize payment session
+    const start = async () => {
+      await initPayment()
+    }
+    start()
+  }, [cart?.region, cart?.id, cart?.items])
 
   /**
    * Method to set the selected payment session for the cart. This is called when the user selects a payment provider, such as Stripe, PayPal, etc.
@@ -292,6 +292,8 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
    */
   const setAddresses = (data: CheckoutFormValues) => {
     const { shipping_address, billing_address, email } = data
+
+    validateRegion(shipping_address.country_code)
 
     const payload: StorePostCartsCartReq = {
       shipping_address,

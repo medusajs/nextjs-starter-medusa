@@ -191,7 +191,11 @@ const Payment = () => {
               type="submit"
               size="large"
               className="mt-6"
-              disabled={!cart.payment_session?.provider_id || !cardFormComplete}
+              disabled={
+                !cart.payment_session?.provider_id ||
+                (cart.payment_session?.provider_id === "stripe" &&
+                  !cardFormComplete)
+              }
               isLoading={settingPaymentSession}
             >
               Continue to review
