@@ -11,6 +11,7 @@ import {
 } from "@stripe/stripe-js"
 import React, { useMemo } from "react"
 import { FieldValues, UseFormReturn } from "react-hook-form"
+import { CheckCircleMiniSolid } from "@medusajs/icons"
 
 type PaymentStripeProps = StateProps & {
   useFormState: UseFormReturn<FieldValues, any, undefined>
@@ -91,7 +92,6 @@ const CardNumber = ({
     setError,
     formState: { errors },
     clearErrors,
-    register,
   } = useFormState
 
   const handleChange = (event: any) => {
@@ -112,23 +112,17 @@ const CardNumber = ({
 
   return (
     <div className="py-2 relative">
-      <span className="absolute -top-6 text-gray-700 text-base-regular">
+      <span className="flex items-center gap-x-1 absolute -top-6 txt-medium text-ui-fg-base">
         Card number
+        {state.cardNumberComplete && <CheckCircleMiniSolid />}
       </span>
-      <CardNumberElement
-        options={options}
-        {...(register("cardNumber"),
-        {
-          required: "Card number is required",
-        })}
-        onChange={handleChange}
-      />
+      <CardNumberElement options={options} onChange={handleChange} />
       <ErrorMessage
         errors={errors}
         name="cardNumber"
         render={({ message }) => {
           return (
-            <div className="pt-2 text-rose-500 text-small-regular">
+            <div className="pt-2 text-rose-500 txt-compact-small">
               <span>{message}</span>
             </div>
           )
@@ -173,8 +167,9 @@ const CardExpiry = ({
 
   return (
     <div className="w-full py-2 relative">
-      <span className="absolute -top-6 text-gray-700 text-base-regular">
+      <span className="flex items-center gap-x-1 absolute -top-6 txt-medium text-ui-fg-base">
         Expiration date
+        {state.cardExpiryComplete && <CheckCircleMiniSolid />}
       </span>
       <CardExpiryElement options={options} onChange={handleChange} />
       <ErrorMessage
@@ -182,7 +177,7 @@ const CardExpiry = ({
         name="cardExpiry"
         render={({ message }) => {
           return (
-            <div className="pt-2 text-rose-500 text-small-regular">
+            <div className="pt-2 text-rose-500 txt-compact-small">
               <span>{message}</span>
             </div>
           )
@@ -227,8 +222,9 @@ const CardCVC = ({
 
   return (
     <div className="w-full py-2 relative">
-      <span className="absolute -top-6 text-gray-700 text-base-regular">
+      <span className="flex items-center gap-x-1 absolute -top-6 txt-medium text-ui-fg-base">
         CVC
+        {state.cardCvcComplete && <CheckCircleMiniSolid />}
       </span>
       <CardCvcElement
         options={{ ...options, placeholder: "123" }}
@@ -239,7 +235,7 @@ const CardCVC = ({
         name="cardCvc"
         render={({ message }) => {
           return (
-            <div className="pt-2 text-rose-500 text-small-regular">
+            <div className="pt-2 text-rose-500 txt-compact-small">
               <span>{message}</span>
             </div>
           )
