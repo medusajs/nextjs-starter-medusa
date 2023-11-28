@@ -1,8 +1,8 @@
+import { ErrorMessage } from "@hookform/error-message"
 import {
   CardCvcElement,
   CardExpiryElement,
   CardNumberElement,
-  Elements,
 } from "@stripe/react-stripe-js"
 import {
   StripeCardCvcElementOptions,
@@ -10,8 +10,26 @@ import {
   StripeCardNumberElementOptions,
 } from "@stripe/stripe-js"
 import React, { useMemo } from "react"
+import { FieldValues, UseFormReturn } from "react-hook-form"
 
-const PaymentStripe: React.FC = () => {
+type PaymentStripeProps = StateProps & {
+  useFormState: UseFormReturn<FieldValues, any, undefined>
+}
+
+type StateProps = {
+  state: {
+    cardNumberComplete: boolean
+    cardExpiryComplete: boolean
+    cardCvcComplete: boolean
+  }
+  setState: (state: PaymentStripeProps["state"]) => void
+}
+
+const PaymentStripe: React.FC<PaymentStripeProps> = ({
+  useFormState,
+  setState,
+  state,
+}) => {
   const useOptions:
     | StripeCardNumberElementOptions
     | StripeCardExpiryElementOptions
@@ -34,52 +52,199 @@ const PaymentStripe: React.FC = () => {
 
   return (
     <div className="flex flex-col relative w-full pb-6">
-      <CardNumber options={useOptions as StripeCardNumberElementOptions} />
-      <div className="flex items-center mt-12 relative gap-x-4">
-        <CardExpiry options={useOptions as StripeCardExpiryElementOptions} />
-        <CardCVC options={useOptions as StripeCardCvcElementOptions} />
+      <CardNumber
+        options={useOptions as StripeCardNumberElementOptions}
+        useFormState={useFormState}
+        setState={setState}
+        state={state}
+      />
+      <div className="flex items-start mt-12 relative gap-x-4">
+        <CardExpiry
+          options={useOptions as StripeCardExpiryElementOptions}
+          useFormState={useFormState}
+          setState={setState}
+          state={state}
+        />
+        <CardCVC
+          options={useOptions as StripeCardCvcElementOptions}
+          useFormState={useFormState}
+          setState={setState}
+          state={state}
+        />
       </div>
     </div>
   )
 }
 
 const CardNumber = ({
+  useFormState,
   options,
+  state,
+  setState,
 }: {
+  useFormState: UseFormReturn<FieldValues, any, undefined>
   options: StripeCardNumberElementOptions
+  state: StateProps["state"]
+  setState: StateProps["setState"]
 }) => {
+  const {
+    setError,
+    formState: { errors },
+    clearErrors,
+    register,
+  } = useFormState
+
+  const handleChange = (event: any) => {
+    clearErrors("cardNumber")
+    setState({ ...state, cardNumberComplete: false })
+
+    if (event.complete) {
+      setState({ ...state, cardNumberComplete: true })
+    }
+
+    if (event.error) {
+      setError("cardNumber", {
+        type: "stripe",
+        message: event.error.message,
+      })
+    }
+  }
+
   return (
     <div className="py-2 relative">
       <span className="absolute -top-6 text-gray-700 text-base-regular">
         Card number
       </span>
-      <CardNumberElement options={options} />
+      <CardNumberElement
+        options={options}
+        {...(register("cardNumber"),
+        {
+          required: "Card number is required",
+        })}
+        onChange={handleChange}
+      />
+      <ErrorMessage
+        errors={errors}
+        name="cardNumber"
+        render={({ message }) => {
+          return (
+            <div className="pt-2 text-rose-500 text-small-regular">
+              <span>{message}</span>
+            </div>
+          )
+        }}
+      />
     </div>
   )
 }
 
 const CardExpiry = ({
+  useFormState,
   options,
+  state,
+  setState,
 }: {
+  useFormState: UseFormReturn<FieldValues, any, undefined>
   options: StripeCardExpiryElementOptions
+  state: StateProps["state"]
+  setState: StateProps["setState"]
 }) => {
+  const {
+    setError,
+    formState: { errors },
+    clearErrors,
+  } = useFormState
+
+  const handleChange = (event: any) => {
+    clearErrors("cardExpiry")
+    setState({ ...state, cardExpiryComplete: false })
+
+    if (event.complete) {
+      setState({ ...state, cardExpiryComplete: true })
+    }
+
+    if (event.error) {
+      setError("cardExpiry", {
+        type: "stripe",
+        message: event.error.message,
+      })
+    }
+  }
+
   return (
     <div className="w-full py-2 relative">
       <span className="absolute -top-6 text-gray-700 text-base-regular">
         Expiration date
       </span>
-      <CardExpiryElement options={options} />
+      <CardExpiryElement options={options} onChange={handleChange} />
+      <ErrorMessage
+        errors={errors}
+        name="cardExpiry"
+        render={({ message }) => {
+          return (
+            <div className="pt-2 text-rose-500 text-small-regular">
+              <span>{message}</span>
+            </div>
+          )
+        }}
+      />
     </div>
   )
 }
 
-const CardCVC = ({ options }: { options: StripeCardCvcElementOptions }) => {
+const CardCVC = ({
+  useFormState,
+  options,
+  state,
+  setState,
+}: {
+  useFormState: UseFormReturn<FieldValues, any, undefined>
+  options: StripeCardCvcElementOptions
+  state: StateProps["state"]
+  setState: StateProps["setState"]
+}) => {
+  const {
+    setError,
+    formState: { errors },
+    clearErrors,
+  } = useFormState
+
+  const handleChange = (event: any) => {
+    clearErrors("cardCvc")
+    setState({ ...state, cardCvcComplete: false })
+
+    if (event.complete) {
+      setState({ ...state, cardCvcComplete: true })
+    }
+
+    if (event.error) {
+      setError("cardCvc", {
+        type: "stripe",
+        message: event.error.message,
+      })
+    }
+  }
+
   return (
     <div className="w-full py-2 relative">
       <span className="absolute -top-6 text-gray-700 text-base-regular">
         CVC
       </span>
-      <CardCvcElement options={{ ...options, placeholder: "123" }} />
+      <CardCvcElement
+        options={{ ...options, placeholder: "123" }}
+        onChange={handleChange}
+      />
+      <ErrorMessage
+        errors={errors}
+        name="cardCvc"
+        render={({ message }) => {
+          return (
+            <div className="pt-2 text-rose-500 text-small-regular">
+              <span>{message}</span>
+            </div>
+          )
+        }}
+      />
     </div>
   )
 }

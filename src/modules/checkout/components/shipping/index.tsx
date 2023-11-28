@@ -34,7 +34,8 @@ const Shipping: React.FC<ShippingProps> = ({ cart }) => {
     shippingReady,
   } = useCheckout()
 
-  const currentShippingOption = cart.shipping_methods?.[0]?.shipping_option.id
+  const currentShippingOption =
+    cart.shipping_methods?.[0]?.shipping_option.id || ""
 
   const [shippingOptionId, setShippingOptionId] = useState(
     currentShippingOption

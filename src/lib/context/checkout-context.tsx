@@ -20,13 +20,7 @@ import {
   useUpdateCart,
 } from "medusa-react"
 import { useRouter } from "next/navigation"
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react"
+import React, { createContext, useContext, useEffect, useMemo } from "react"
 import { FormProvider, useForm, useFormContext } from "react-hook-form"
 import { useStore } from "./store-context"
 import Spinner from "@modules/common/icons/spinner"
@@ -63,13 +57,11 @@ interface CheckoutContext {
   editShipping: StateType
   editPayment: StateType
   isCompleting: StateType
-  selectedPaymentOptionId: string | null
   initPayment: () => Promise<void>
   setAddresses: (addresses: CheckoutFormValues) => void
   setSavedAddress: (address: Address) => void
   setShippingOption: (soId: string) => void
   setPaymentSession: (providerId: string) => void
-  setSelectedPaymentOptionId: (providerId: string) => void
   onPaymentCompleted: () => void
 }
 
@@ -128,22 +120,12 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   const editShipping = useToggleState()
   const editPayment = useToggleState()
 
-  const [selectedPaymentOptionId, setSelectedPaymentOptionId] = useState<
-    string | null
-  >(cart?.payment_session?.provider_id || null)
-
   /**
    * Boolean that indicates if a part of the checkout is loading.
    */
   const isLoading = useMemo(() => {
     return addingShippingMethod || settingPaymentSession || updatingCart
   }, [addingShippingMethod, settingPaymentSession, updatingCart])
-
-  useMemo(() => {
-    if (cart?.payment_session?.provider_id) {
-      setSelectedPaymentOptionId(cart.payment_session.provider_id)
-    }
-  }, [cart?.payment_session?.provider_id])
 
   /**
    * Boolean that indicates if the checkout is ready to be completed. A checkout is ready to be completed if
@@ -227,11 +209,19 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
       setShippingMethod(
         { option_id: soId },
         {
-          onSuccess: ({ cart }) => setCart(cart),
+          onSuccess: async ({ cart }) => {
+            setCart(cart)
+            await initPayment()
+          },
         }
       )
     }
   }
+
+  useEffect(() => {
+    // initialize payment session
+    initPayment()
+  }, [cart])
 
   /**
    * Method to create the payment sessions available for the cart. Uses a idempotency key to prevent duplicate requests.
@@ -319,10 +309,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     }
 
     updateCart(payload, {
-      onSuccess: ({ cart }) => {
-        setCart(cart)
-        initPayment()
-      },
+      onSuccess: ({ cart }) => setCart(cart),
     })
   }
 
@@ -358,13 +345,11 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
           editShipping,
           editPayment,
           isCompleting,
-          selectedPaymentOptionId,
           initPayment,
           setAddresses,
           setSavedAddress,
           setShippingOption,
           setPaymentSession,
-          setSelectedPaymentOptionId,
           onPaymentCompleted,
         }}
       >
@@ -375,12 +360,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
             </div>
           </div>
         ) : (
-          <Wrapper
-            selectedProviderId={selectedPaymentOptionId}
-            paymentSession={cart?.payment_session}
-          >
-            {children}
-          </Wrapper>
+          <Wrapper paymentSession={cart?.payment_session}>{children}</Wrapper>
         )}
       </CheckoutContext.Provider>
     </FormProvider>
