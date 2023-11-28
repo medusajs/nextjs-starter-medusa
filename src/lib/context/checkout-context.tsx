@@ -81,7 +81,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
       mutate: setShippingMethod,
       isLoading: addingShippingMethod,
     },
-    completeCheckout: { mutate: complete, isLoading: completingCheckout },
+    completeCheckout: { mutate: complete },
   } = useCart()
 
   const { customer } = useMeCustomer()
