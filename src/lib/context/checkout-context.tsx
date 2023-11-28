@@ -20,15 +20,10 @@ import {
   useUpdateCart,
 } from "medusa-react"
 import { useRouter } from "next/navigation"
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react"
+import React, { createContext, useContext, useEffect, useMemo } from "react"
 import { FormProvider, useForm, useFormContext } from "react-hook-form"
 import { useStore } from "./store-context"
+import Spinner from "@modules/common/icons/spinner"
 
 type AddressValues = {
   first_name: string
@@ -62,13 +57,11 @@ interface CheckoutContext {
   editShipping: StateType
   editPayment: StateType
   isCompleting: StateType
-  selectedPaymentOptionId: string | null
   initPayment: () => Promise<void>
   setAddresses: (addresses: CheckoutFormValues) => void
   setSavedAddress: (address: Address) => void
   setShippingOption: (soId: string) => void
   setPaymentSession: (providerId: string) => void
-  setSelectedPaymentOptionId: (providerId: string) => void
   onPaymentCompleted: () => void
 }
 
@@ -88,7 +81,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
       mutate: setShippingMethod,
       isLoading: addingShippingMethod,
     },
-    completeCheckout: { mutate: complete, isLoading: completingCheckout },
+    completeCheckout: { mutate: complete },
   } = useCart()
 
   const { customer } = useMeCustomer()
@@ -126,10 +119,6 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
 
   const editShipping = useToggleState()
   const editPayment = useToggleState()
-
-  const [selectedPaymentOptionId, setSelectedPaymentOptionId] = useState<
-    string | null
-  >(cart?.payment_session?.provider_id || null)
 
   /**
    * Boolean that indicates if a part of the checkout is loading.
@@ -215,7 +204,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   /**
    * Method to set the selected shipping method for the cart. This is called when the user selects a shipping method, such as UPS, FedEx, etc.
    */
-  const setShippingOption = (soId: string) => {
+  const setShippingOption = async (soId: string) => {
     if (cart) {
       setShippingMethod(
         { option_id: soId },
@@ -239,6 +228,14 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
         .catch((err) => err)
     }
   }
+
+  useEffect(() => {
+    // initialize payment session
+    const start = async () => {
+      await initPayment()
+    }
+    start()
+  }, [cart?.region, cart?.id, cart?.items])
 
   /**
    * Method to set the selected payment session for the cart. This is called when the user selects a payment provider, such as Stripe, PayPal, etc.
@@ -296,6 +293,8 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   const setAddresses = (data: CheckoutFormValues) => {
     const { shipping_address, billing_address, email } = data
 
+    validateRegion(shipping_address.country_code)
+
     const payload: StorePostCartsCartReq = {
       shipping_address,
       email,
@@ -312,10 +311,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     }
 
     updateCart(payload, {
-      onSuccess: ({ cart }) => {
-        setCart(cart)
-        initPayment()
-      },
+      onSuccess: ({ cart }) => setCart(cart),
     })
   }
 
@@ -351,22 +347,23 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
           editShipping,
           editPayment,
           isCompleting,
-          selectedPaymentOptionId,
           initPayment,
           setAddresses,
           setSavedAddress,
           setShippingOption,
           setPaymentSession,
-          setSelectedPaymentOptionId,
           onPaymentCompleted,
         }}
       >
-        <Wrapper
-          selectedProviderId={selectedPaymentOptionId}
-          paymentSession={cart?.payment_session}
-        >
-          {children}
-        </Wrapper>
+        {isLoading && cart?.id === "" ? (
+          <div className="flex justify-center items-center h-screen">
+            <div className="w-auto">
+              <Spinner size={40} />
+            </div>
+          </div>
+        ) : (
+          <Wrapper paymentSession={cart?.payment_session}>{children}</Wrapper>
+        )}
       </CheckoutContext.Provider>
     </FormProvider>
   )
