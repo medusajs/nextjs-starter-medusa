@@ -2,11 +2,11 @@
 
 import { StoreGetProductsParams } from "@medusajs/medusa"
 import InfiniteProducts from "@modules/products/components/infinite-products"
-import RefinementList from "@modules/store/components/refinement-list"
+import RefinementList from "@modules/shop/components/refinement-list"
 import { useState } from "react"
 import { SortOptions } from "../components/refinement-list/sort-products"
 
-const StoreTemplate = () => {
+const ShopTemplate = () => {
   const [params, setParams] = useState<StoreGetProductsParams>({})
   const [sortBy, setSortBy] = useState<SortOptions>("created_at")
 
@@ -23,4 +23,4 @@ const StoreTemplate = () => {
   )
 }
 
-export default StoreTemplate
+export default ShopTemplate

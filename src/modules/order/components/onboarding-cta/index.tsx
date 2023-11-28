@@ -12,7 +12,7 @@ const OnboardingCta = ({ orderId }: { orderId: string }) => {
           Your test order was successfully created! 🎉
         </Text>
         <Text className="text-ui-fg-subtle text-small-regular">
-          You can now complete setting up your store in the admin.
+          You can now complete setting up your shop in the admin.
         </Text>
         <a
           href={`http://localhost:7001/a/orders/${orderId}`}

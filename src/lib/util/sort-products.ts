@@ -1,4 +1,4 @@
-import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
+import { SortOptions } from "@modules/shop/components/refinement-list/sort-products"
 import { ProductPreviewType } from "types/global"
 
 const stripCurrency = (price: string) => {

@@ -21,14 +21,14 @@ export type StoreNavData = {
   featuredProducts: PricedProduct[]
 }
 
-// page props for store pages (products and collection pages)
+// page props for shop pages (products and collection pages)
 export type StoreProps<T extends unknown> = {
   page: {
     data: T
   }
 }
 
-// page props for non-store pages (home, about, contact, etc)
+// page props for non-shop pages (home, about, contact, etc)
 export type SiteProps = {
   site: {
     navData: StoreNavData

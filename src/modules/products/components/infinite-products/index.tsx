@@ -9,7 +9,7 @@ import { useCart } from "medusa-react"
 import { useEffect, useMemo } from "react"
 import { useInView } from "react-intersection-observer"
 import { useInfiniteQuery } from "@tanstack/react-query"
-import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
+import { SortOptions } from "@modules/shop/components/refinement-list/sort-products"
 
 export type InfiniteProductsType = {
   params: StoreGetProductsParams

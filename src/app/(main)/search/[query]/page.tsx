@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: "Explore all of our products.",
 }
 
-export default async function StorePage({
+export default async function ShopPage({
   params,
 }: {
   params: { query: string }

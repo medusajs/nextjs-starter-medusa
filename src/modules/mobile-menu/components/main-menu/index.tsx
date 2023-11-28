@@ -37,7 +37,7 @@ const MainMenu = () => {
         </div>
 
         <Heading className="txt-compact-xlarge-plus text-ui-fg-subtle uppercase">
-          Medusa Store
+          Medusa
         </Heading>
 
         <div className="flex-1 basis-0 flex justify-end">
@@ -63,13 +63,13 @@ const MainMenu = () => {
         <div className="flex flex-col flex-1 text-large-regular text-gray-900">
           <ul className="flex flex-col gap-y-2">
             <li className="bg-gray-50 p-4 rounded-rounded">
-              <Link href="/store">
+              <Link href="/shop">
                 <button
                   className="flex items-center justify-between w-full"
                   onClick={close}
                 >
-                  <span className="sr-only">Go to Store</span>
-                  <span>Store</span>
+                  <span className="sr-only">Go to Shop</span>
+                  <span>Shop</span>
                   <ChevronDown className="-rotate-90" />
                 </button>
               </Link>

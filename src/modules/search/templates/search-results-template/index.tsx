@@ -3,8 +3,8 @@
 import { StoreGetProductsParams } from "@medusajs/medusa"
 import { Heading, Text } from "@medusajs/ui"
 import InfiniteProducts from "@modules/products/components/infinite-products"
-import RefinementList from "@modules/store/components/refinement-list"
-import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
+import RefinementList from "@modules/shop/components/refinement-list"
+import { SortOptions } from "@modules/shop/components/refinement-list/sort-products"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 
@@ -33,7 +33,7 @@ const SearchResultsTemplate = ({ query, hits }: SearchResultsTemplateProps) => {
           </Heading>
         </div>
         <Link
-          href="/store"
+          href="/shop"
           className="txt-medium text-ui-fg-subtle hover:text-ui-fg-base"
         >
           Clear

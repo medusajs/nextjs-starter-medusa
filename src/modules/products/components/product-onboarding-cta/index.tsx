@@ -8,7 +8,7 @@ const ProductOnboardingCta = () => {
           Your demo product was successfully created! 🎉
         </Text>
         <Text className="text-ui-fg-subtle text-small-regular">
-          You can now continue setting up your store in the admin.
+          You can now continue setting up your shop in the admin.
         </Text>
         <a href="http://localhost:7001/a/orders?onboarding_step=create_order_nextjs">
           <Button className="w-full">Continue setup in admin</Button>

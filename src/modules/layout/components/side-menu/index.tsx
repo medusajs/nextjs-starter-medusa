@@ -7,7 +7,7 @@ import CountrySelect from "../country-select"
 
 const SideMenuItems = {
   Home: "/",
-  Store: "/store",
+  Shop: "/shop",
   Search: "",
   Account: "/account",
   Cart: "/cart",
@@ -95,7 +95,7 @@ const SideMenu = ({ searchModalOpen }: { searchModalOpen: () => void }) => {
                         />
                       </div>
                       <Text className="flex justify-between txt-compact-small">
-                        © {new Date().getFullYear()} Medusa Store. All rights
+                        © {new Date().getFullYear()} Medusa. All rights
                         reserved.
                       </Text>
                     </div>
