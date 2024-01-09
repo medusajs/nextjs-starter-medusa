@@ -53,6 +53,7 @@ const CountrySelect = ({ toggleState }: CountrySelectProps) => {
   return (
     <div>
       <Listbox
+        as="span"
         onChange={handleChange}
         defaultValue={
           countryCode
