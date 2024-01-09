@@ -5,12 +5,6 @@ const store = require("./store.config.json")
  * @type {import('next').NextConfig}
  */
 const nextConfig = withStoreConfig({
-  experimental: {
-    serverComponentsExternalPackages: [
-      "@medusajs/product",
-      "@medusajs/modules-sdk",
-    ],
-  },
   features: store.features,
   reactStrictMode: true,
   images: {
