@@ -8,6 +8,7 @@ import ProductTabs from "@modules/products/components/product-tabs"
 import RelatedProducts from "@modules/products/components/related-products"
 import ProductInfo from "@modules/products/templates/product-info"
 import SkeletonProductActions from "@modules/skeletons/templates/skeleton-product-actions"
+import SkeletonRelatedProducts from "@modules/skeletons/templates/skeleton-related-products"
 
 type ProductTemplateProps = {
   product: PricedProduct
@@ -32,7 +33,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product }) => {
         </div>
       </div>
       <div className="content-container my-16 px-6 small:px-8 small:my-32">
-        <Suspense fallback={<></>}>
+        <Suspense fallback={<SkeletonRelatedProducts />}>
           <RelatedProducts product={product} />
         </Suspense>
       </div>

@@ -20,7 +20,7 @@ export default async function RelatedProducts({
     return null
   }
 
-  // define your related products logic here
+  // edit this function to define your related products logic
   const setQueryParams = (): StoreGetProductsParams => {
     const params: StoreGetProductsParams = {}
 
