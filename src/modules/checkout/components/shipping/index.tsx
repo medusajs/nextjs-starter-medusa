@@ -13,7 +13,7 @@ import Spinner from "@modules/common/icons/spinner"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import { setShippingMethod } from "@modules/checkout/actions"
 import { useRouter, useSearchParams, usePathname } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 type ShippingProps = {
   cart: Omit<Cart, "refundable_amount" | "refunded_total">
@@ -24,7 +24,7 @@ const Shipping: React.FC<ShippingProps> = ({
   cart,
   availableShippingMethods,
 }) => {
-  const [settingShippingMethod, setSettingShippingMethod] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const searchParams = useSearchParams()
@@ -38,24 +38,30 @@ const Shipping: React.FC<ShippingProps> = ({
   }
 
   const handleSubmit = () => {
+    setIsLoading(true)
     router.push(pathname + "?step=payment", { scroll: false })
   }
 
   const set = async (id: string) => {
-    setSettingShippingMethod(true)
+    setIsLoading(true)
     await setShippingMethod(id)
       .then(() => {
-        setSettingShippingMethod(false)
+        setIsLoading(false)
       })
       .catch((err) => {
         setError(err.toString())
-        setSettingShippingMethod(false)
+        setIsLoading(false)
       })
   }
 
   const handleChange = (value: string) => {
     set(value)
   }
+
+  useEffect(() => {
+    setIsLoading(false)
+    setError(null)
+  }, [isOpen])
 
   return (
     <div className="bg-white p-4 small:px-8">
@@ -139,7 +145,7 @@ const Shipping: React.FC<ShippingProps> = ({
             size="large"
             className="mt-6"
             onClick={handleSubmit}
-            isLoading={settingShippingMethod}
+            isLoading={isLoading}
             disabled={!cart.shipping_methods[0]}
           >
             Continue to payment

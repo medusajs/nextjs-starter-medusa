@@ -1,18 +1,10 @@
 "use client"
 
-import { RadioGroup, Transition } from "@headlessui/react"
+import { RadioGroup } from "@headlessui/react"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import { CheckCircleSolid, CreditCard } from "@medusajs/icons"
-import {
-  Button,
-  Container,
-  Heading,
-  Label,
-  Text,
-  Tooltip,
-  clx,
-} from "@medusajs/ui"
-import { useCallback, useMemo, useState } from "react"
+import { Button, Container, Heading, Text, Tooltip, clx } from "@medusajs/ui"
+import { useCallback, useEffect, useMemo, useState } from "react"
 
 import Divider from "@modules/common/components/divider"
 import Bancontact from "@modules/common/icons/bancontact"
@@ -60,7 +52,7 @@ const Payment = ({
 }: {
   cart: Omit<Cart, "refundable_amount" | "refunded_total"> | null
 }) => {
-  const [settingPaymentSession, setSettingPaymentSession] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [cardBrand, setCardBrand] = useState<string | null>(null)
   const [cardComplete, setCardComplete] = useState(false)
@@ -104,11 +96,12 @@ const Payment = ({
   )
 
   const set = async (providerId: string) => {
-    setSettingPaymentSession(true)
+    setIsLoading(true)
     await setPaymentMethod(providerId)
       .catch((err) => setError(err.toString()))
       .finally(() => {
-        setSettingPaymentSession(false)
+        if (providerId === "paypal") return
+        setIsLoading(false)
       })
   }
 
@@ -124,10 +117,16 @@ const Payment = ({
   }
 
   const handleSubmit = () => {
+    setIsLoading(true)
     router.push(pathname + "?" + createQueryString("step", "review"), {
       scroll: false,
     })
   }
+
+  useEffect(() => {
+    setIsLoading(false)
+    setError(null)
+  }, [isOpen])
 
   return (
     <div className="bg-white px-4 small:px-8">
@@ -204,7 +203,7 @@ const Payment = ({
               size="large"
               className="mt-6"
               onClick={handleSubmit}
-              isLoading={settingPaymentSession}
+              isLoading={isLoading}
               disabled={(isStripe && !cardComplete) || !cart.payment_session}
             >
               Continue to review
