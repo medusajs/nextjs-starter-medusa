@@ -655,7 +655,7 @@
   resolved "https://registry.yarnpkg.com/@medusajs/client-types/-/client-types-0.2.5.tgz#8baa26ca34232970a37eebd36fca93c018c447a7"
   integrity sha512-jB43v+OWNSVo+9jv4EWShDKy+JGEx/LYRdcC0iS8HQx9eXNqSIsP27R8sRetdxschsuE+bd6K2Lj130DFiOICw==
 
-"@medusajs/icons@*":
+"@medusajs/icons@*", "@medusajs/icons@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@medusajs/icons/-/icons-1.1.0.tgz#eeb8d5aa0ffbea7546d962b38fcf7593a50e2866"
   integrity sha512-90+nCmUq9W4KHgg8XuyiZcp41yRleTqT1Y/OZW+Th8FkCvFd8981ugwu7DYZjnaUvXnBCpsGDQ0zYuJ7sU4QIA==
@@ -850,6 +850,11 @@
   version "1.11.7"
   resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-1.11.7.tgz#b54c86ab96974cb9dd5158188d22517a5b5b9fd9"
   integrity sha512-KkNJd4pxu5zoiv09nsG2ARtrC17LxsDD941uX35IMfvNeWYRk31kQ59EipYE59SBvGpvatoaBHzTxSAsrebzTQ==
+
+"@medusajs/types@^1.11.9":
+  version "1.11.9"
+  resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-1.11.9.tgz#feea5d9f71fae32bb0f817baef4b72b427c295e5"
+  integrity sha512-848jBTQeefQnvKY3t5OvR3onbfCes/xAGoECyjhn813BcniizN+q02hgv0gZVhB0EyWeJCYDoExz3Sx0ye4Zjg==
 
 "@medusajs/ui-preset@^1.0.2":
   version "1.0.2"
