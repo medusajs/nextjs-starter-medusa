@@ -1,6 +1,20 @@
+"use client"
+
 import { Button, Container, Text } from "@medusajs/ui"
+import { useEffect, useState } from "react"
 
 const ProductOnboardingCta = () => {
+  const [isOnboarding, setIsOnboarding] = useState<boolean>(false)
+
+  useEffect(() => {
+    const onboarding = window.sessionStorage.getItem("onboarding")
+    setIsOnboarding(onboarding === "true")
+  }, [])
+
+  if (!isOnboarding) {
+    return null
+  }
+
   return (
     <Container className="max-w-4xl h-full bg-ui-bg-subtle w-full p-8">
       <div className="flex flex-col gap-y-4 center">

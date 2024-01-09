@@ -1,24 +1,34 @@
-"use client"
+import { Suspense } from "react"
 
-import { StoreGetProductsParams } from "@medusajs/medusa"
-import InfiniteProducts from "@modules/products/components/infinite-products"
+import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-grid"
 import RefinementList from "@modules/store/components/refinement-list"
-import { useState } from "react"
-import { SortOptions } from "../components/refinement-list/sort-products"
+import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 
-const StoreTemplate = () => {
-  const [params, setParams] = useState<StoreGetProductsParams>({})
-  const [sortBy, setSortBy] = useState<SortOptions>("created_at")
+import PaginatedProducts from "./paginated-products"
+
+const StoreTemplate = ({
+  sortBy,
+  page,
+}: {
+  sortBy?: SortOptions
+  page?: string
+}) => {
+  const pageNumber = page ? parseInt(page) : 1
 
   return (
     <div className="flex flex-col small:flex-row small:items-start py-6">
-      <RefinementList
-        refinementList={params}
-        setRefinementList={setParams}
-        sortBy={sortBy}
-        setSortBy={setSortBy}
-      />
-      <InfiniteProducts params={params} sortBy={sortBy} />
+      <RefinementList sortBy={sortBy || "created_at"} />
+      <div className="content-container">
+        <div className="mb-8 text-2xl-semi">
+          <h1>All products</h1>
+        </div>
+        <Suspense fallback={<SkeletonProductGrid />}>
+          <PaginatedProducts
+            sortBy={sortBy || "created_at"}
+            page={pageNumber}
+          />
+        </Suspense>
+      </div>
     </div>
   )
 }

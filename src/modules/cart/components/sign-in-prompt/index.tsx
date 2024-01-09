@@ -13,7 +13,7 @@ const SignInPrompt = () => {
         </Text>
       </div>
       <div>
-        <Link href="/account/login">
+        <Link href="/account">
           <Button variant="secondary" className="h-10">
             Sign in
           </Button>

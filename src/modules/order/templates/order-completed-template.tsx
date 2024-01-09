@@ -1,16 +1,16 @@
 "use client"
 
 import { Order } from "@medusajs/medusa"
+import { Heading } from "@medusajs/ui"
+import React, { useEffect, useState } from "react"
+
+import CartTotals from "@modules/common/components/cart-totals"
 import Help from "@modules/order/components/help"
 import Items from "@modules/order/components/items"
-import OrderDetails from "@modules/order/components/order-details"
-import OrderSummary from "@modules/order/components/order-summary"
-import ShippingDetails from "@modules/order/components/shipping-details"
 import OnboardingCta from "@modules/order/components/onboarding-cta"
-import React, { useEffect, useState } from "react"
-import Divider from "@modules/common/components/divider"
-import CartTotals from "@modules/common/components/cart-totals"
-import { Heading } from "@medusajs/ui"
+import OrderDetails from "@modules/order/components/order-details"
+import ShippingDetails from "@modules/order/components/shipping-details"
+
 import PaymentDetails from "../components/payment-details"
 
 type OrderCompletedTemplateProps = {
@@ -43,11 +43,7 @@ const OrderCompletedTemplate: React.FC<OrderCompletedTemplateProps> = ({
           <Heading level="h2" className="flex flex-row text-3xl-regular">
             Summary
           </Heading>
-          <Items
-            items={order.items}
-            region={order.region}
-            cartId={order.cart_id}
-          />
+          <Items items={order.items} region={order.region} />
           <CartTotals data={order} />
           <ShippingDetails order={order} />
           <PaymentDetails order={order} />

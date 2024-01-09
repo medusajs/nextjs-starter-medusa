@@ -1,58 +1,58 @@
-import { PaymentSession } from "@medusajs/medusa"
-import { Elements } from "@stripe/react-stripe-js"
-import { loadStripe, StripeElementsOptions } from "@stripe/stripe-js"
+"use client"
+
+import { Cart, PaymentSession } from "@medusajs/medusa"
+import { loadStripe } from "@stripe/stripe-js"
 import React from "react"
+import StripeWrapper from "./stripe-wrapper"
+import { PayPalScriptProvider } from "@paypal/react-paypal-js"
 
 type WrapperProps = {
-  paymentSession?: PaymentSession | null
-}
-
-const Wrapper: React.FC<WrapperProps> = ({ paymentSession, children }) => {
-  const isStripe = paymentSession?.provider_id?.includes("stripe")
-
-  if (isStripe && paymentSession) {
-    return (
-      <StripeWrapper paymentSession={paymentSession}>{children}</StripeWrapper>
-    )
-  }
-
-  return <div>{children}</div>
+  cart: Omit<Cart, "refundable_amount" | "refunded_total">
+  children: React.ReactNode
 }
 
 const stripeKey = process.env.NEXT_PUBLIC_STRIPE_KEY
 const stripePromise = stripeKey ? loadStripe(stripeKey) : null
 
-const StripeWrapper: React.FC<WrapperProps> = ({
-  paymentSession,
-  children,
-}) => {
-  const options: StripeElementsOptions = {
-    clientSecret: paymentSession!.data?.client_secret as string | undefined,
-  }
+const paypalClientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID
 
-  if (!stripeKey) {
-    throw new Error(
-      "Stripe key is missing. Set NEXT_PUBLIC_STRIPE_KEY environment variable."
+const Wrapper: React.FC<WrapperProps> = ({ cart, children }) => {
+  const paymentSession = cart.payment_session as PaymentSession
+
+  const isStripe = paymentSession?.provider_id?.includes("stripe")
+
+  if (isStripe && paymentSession && stripePromise) {
+    return (
+      <StripeWrapper
+        paymentSession={paymentSession}
+        stripeKey={stripeKey}
+        stripePromise={stripePromise}
+      >
+        {children}
+      </StripeWrapper>
     )
   }
 
-  if (!stripePromise) {
-    throw new Error(
-      "Stripe promise is missing. Make sure you have provided a valid Stripe key."
+  if (
+    paymentSession?.provider_id === "paypal" &&
+    paypalClientId !== undefined &&
+    cart
+  ) {
+    return (
+      <PayPalScriptProvider
+        options={{
+          "client-id": "test",
+          currency: cart?.region.currency_code.toUpperCase(),
+          intent: "authorize",
+          components: "buttons",
+        }}
+      >
+        {children}
+      </PayPalScriptProvider>
     )
   }
 
-  if (!paymentSession?.data?.client_secret) {
-    throw new Error(
-      "Stripe client secret is missing. Cannot initialize Stripe."
-    )
-  }
-
-  return (
-    <Elements options={options} stripe={stripePromise}>
-      {children}
-    </Elements>
-  )
+  return <div>{children}</div>
 }
 
 export default Wrapper

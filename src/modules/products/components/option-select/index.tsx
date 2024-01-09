@@ -1,7 +1,8 @@
-import { onlyUnique } from "@lib/util/only-unique"
 import { ProductOption } from "@medusajs/medusa"
-import clsx from "clsx"
+import { clx } from "@medusajs/ui"
 import React from "react"
+
+import { onlyUnique } from "@lib/util/only-unique"
 
 type OptionSelectProps = {
   option: ProductOption
@@ -27,7 +28,7 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
             <button
               onClick={() => updateOption({ [option.id]: v })}
               key={v}
-              className={clsx(
+              className={clx(
                 "border-ui-border-base bg-ui-bg-subtle border text-small-regular h-10 rounded-rounded p-2 flex-1 ",
                 {
                   "border-ui-border-interactive": v === current,

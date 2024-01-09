@@ -1,4 +1,4 @@
-export const SkeletonCodeForm = () => {
+const SkeletonCodeForm = () => {
   return (
     <div className="w-full flex flex-col">
       <div className="bg-gray-100 h-7 w-24 mb-4"></div>

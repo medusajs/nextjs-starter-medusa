@@ -1,4 +1,5 @@
 import React from "react"
+
 import { IconProps } from "types/icon"
 
 const X: React.FC<IconProps> = ({
