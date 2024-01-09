@@ -10,6 +10,7 @@ export async function middleware(request: NextRequest) {
   if (request.cookies.get("region")?.value) return NextResponse.next()
 
   try {
+    // Fetch regions from Medusa. We can't use the JS client here because middleware is running on Edge and the client needs a Node environment.
     const res = await fetch(`${BACKEND_URL}/store/regions`, {
       next: {
         revalidate: 3600,
