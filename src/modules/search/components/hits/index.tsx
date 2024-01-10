@@ -14,7 +14,7 @@ type HitsProps<THit> = React.ComponentProps<"div"> &
     hitComponent: (props: { hit: THit }) => JSX.Element
   }
 
-const DesktopHits = ({
+const Hits = ({
   hitComponent: Hit,
   className,
   ...props
@@ -50,4 +50,4 @@ const DesktopHits = ({
   )
 }
 
-export default DesktopHits
+export default Hits

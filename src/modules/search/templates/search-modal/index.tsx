@@ -68,7 +68,7 @@ export default function SearchModal() {
                 <MagnifyingGlassMini />
                 <SearchBox />
               </div>
-              <div className="flex-1 mt-6 min-h-full">
+              <div className="flex-1 mt-6">
                 <Hits hitComponent={Hit} />
               </div>
             </div>
