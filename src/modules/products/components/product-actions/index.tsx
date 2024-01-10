@@ -92,9 +92,7 @@ const ProductActionsInner: React.FC<ProductActionsProps> = ({ product }) => {
 }
 
 const ProductActions: React.FC<ProductActionsProps> = ({ product }) => (
-  <ProductProvider product={product}>
     <ProductActionsInner product={product} />
-  </ProductProvider>
 )
 
 export default ProductActions
