@@ -74,23 +74,20 @@ const Item = ({ item, region, type = "full" }: ItemProps) => {
               className="w-14 h-10 p-4"
             >
               {Array.from(
-                [
-                  ...Array(
+                {
+                  length: Math.min(
                     item.variant.inventory_quantity > 0
                       ? item.variant.inventory_quantity
-                      : 10
+                      : 10,
+                    10
                   ),
-                ].keys()
-              )
-                .slice(0, 10)
-                .map((i) => {
-                  const value = i + 1
-                  return (
-                    <option value={value} key={i}>
-                      {value}
-                    </option>
-                  )
-                })}
+                },
+                (_, i) => (
+                  <option value={i + 1} key={i}>
+                    {i + 1}
+                  </option>
+                )
+              )}
             </CartItemSelect>
             {updating && <Spinner />}
           </div>
