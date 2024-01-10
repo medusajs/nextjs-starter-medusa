@@ -61,6 +61,7 @@ const CountrySelect = ({
   return (
     <div>
       <Listbox
+        as="span"
         onChange={handleChange}
         defaultValue={
           countryCode

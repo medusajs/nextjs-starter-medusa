@@ -1,15 +1,8 @@
-"use client"
-
 import { Button, Container, Text } from "@medusajs/ui"
-import { useEffect, useState } from "react"
+import { cookies } from "next/headers"
 
 const ProductOnboardingCta = () => {
-  const [isOnboarding, setIsOnboarding] = useState<boolean>(false)
-
-  useEffect(() => {
-    const onboarding = window.sessionStorage.getItem("onboarding")
-    setIsOnboarding(onboarding === "true")
-  }, [])
+  const isOnboarding = cookies().get("_medusa_onboarding")?.value === "true"
 
   if (!isOnboarding) {
     return null

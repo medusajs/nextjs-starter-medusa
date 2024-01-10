@@ -14,7 +14,7 @@ import { redirect } from "next/navigation"
 import { GiftCard, StorePostCartsCartReq } from "@medusajs/medusa"
 
 export async function cartUpdate(data: StorePostCartsCartReq) {
-  const cartId = cookies().get("cartId")?.value
+  const cartId = cookies().get("_medusa_cart_id")?.value
 
   if (!cartId) return "No cartId cookie found"
 
@@ -27,7 +27,7 @@ export async function cartUpdate(data: StorePostCartsCartReq) {
 }
 
 export async function applyDiscount(code: string) {
-  const cartId = cookies().get("cartId")?.value
+  const cartId = cookies().get("_medusa_cart_id")?.value
 
   if (!cartId) return "No cartId cookie found"
 
@@ -41,7 +41,7 @@ export async function applyDiscount(code: string) {
 }
 
 export async function applyGiftCard(code: string) {
-  const cartId = cookies().get("cartId")?.value
+  const cartId = cookies().get("_medusa_cart_id")?.value
 
   if (!cartId) return "No cartId cookie found"
 
@@ -55,7 +55,7 @@ export async function applyGiftCard(code: string) {
 }
 
 export async function removeDiscount(code: string) {
-  const cartId = cookies().get("cartId")?.value
+  const cartId = cookies().get("_medusa_cart_id")?.value
 
   if (!cartId) return "No cartId cookie found"
 
@@ -71,7 +71,7 @@ export async function removeGiftCard(
   codeToRemove: string,
   giftCards: GiftCard[]
 ) {
-  const cartId = cookies().get("cartId")?.value
+  const cartId = cookies().get("_medusa_cart_id")?.value
 
   if (!cartId) return "No cartId cookie found"
 
@@ -107,7 +107,7 @@ export async function submitDiscountForm(
 export async function setAddresses(currentState: unknown, formData: FormData) {
   if (!formData) return "No form data received"
 
-  const cartId = cookies().get("cartId")?.value
+  const cartId = cookies().get("_medusa_cart_id")?.value
 
   if (!cartId) return { message: "No cartId cookie found" }
 
@@ -156,7 +156,7 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
 }
 
 export async function setShippingMethod(shippingMethodId: string) {
-  const cartId = cookies().get("cartId")?.value
+  const cartId = cookies().get("_medusa_cart_id")?.value
 
   if (!cartId) throw new Error("No cartId cookie found")
 
@@ -169,7 +169,7 @@ export async function setShippingMethod(shippingMethodId: string) {
 }
 
 export async function setPaymentMethod(providerId: string) {
-  const cartId = cookies().get("cartId")?.value
+  const cartId = cookies().get("_medusa_cart_id")?.value
 
   if (!cartId) throw new Error("No cartId cookie found")
 
@@ -183,7 +183,7 @@ export async function setPaymentMethod(providerId: string) {
 }
 
 export async function placeOrder() {
-  const cartId = cookies().get("cartId")?.value
+  const cartId = cookies().get("_medusa_cart_id")?.value
 
   if (!cartId) throw new Error("No cartId cookie found")
 
@@ -197,7 +197,7 @@ export async function placeOrder() {
   }
 
   if (cart?.type === "order") {
-    cookies().set("cartId", "", { maxAge: -1 })
+    cookies().set("_medusa_cart_id", "", { maxAge: -1 })
     redirect("/order/confirmed/" + cart?.data.id)
   }
 

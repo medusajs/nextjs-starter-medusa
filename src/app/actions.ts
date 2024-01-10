@@ -2,6 +2,7 @@
 
 import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
+import { redirect } from "next/navigation"
 
 import { retrieveRegion } from "@lib/data"
 
@@ -11,7 +12,7 @@ import { updateCartRegion } from "@modules/cart/actions"
  * Retrieves the region based on the regionId cookie
  */
 export async function getRegion() {
-  const regionCookie = cookies().get("region")?.value
+  const regionCookie = cookies().get("_medusa_region")?.value
 
   if (!regionCookie) {
     console.log("No region cookie")
@@ -43,4 +44,9 @@ export async function updateRegion(regionId: string, countryCode: string) {
   cookies().set("region", JSON.stringify({ regionId, countryCode }))
   revalidateTag("regions")
   await updateCartRegion(regionId)
+}
+
+export async function resetOnboardingState(orderId: string) {
+  cookies().set("onboarding", "false", { maxAge: -1 })
+  redirect(`http://localhost:7001/a/orders/${orderId}`)
 }

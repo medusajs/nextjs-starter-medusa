@@ -23,19 +23,19 @@ import {
  * const cart = await getOrSetCart()
  */
 export async function getOrSetCart() {
-  const cartId = cookies().get("cartId")?.value
+  const cartId = cookies().get("_medusa_cart_id")?.value
   let cart
 
   if (cartId) {
     cart = await getCart(cartId).then((cart) => cart)
   }
 
-  const regionCookie = cookies().get("region")?.value
+  const regionCookie = cookies().get("_medusa_region")?.value
   const { regionId } = regionCookie && JSON.parse(regionCookie)
 
   if (!cart) {
     cart = await createCart({ region_id: regionId }).then((res) => res)
-    cart && cookies().set("cartId", cart.id)
+    cart && cookies().set("_medusa_cart_id", cart.id)
     revalidateTag("cart")
   }
 
@@ -47,7 +47,7 @@ export async function getOrSetCart() {
  * @param regionId
  */
 export async function updateCartRegion(regionId: string) {
-  const cartId = cookies().get("cartId")?.value
+  const cartId = cookies().get("_medusa_cart_id")?.value
 
   if (!cartId) {
     return "Missing cart ID"
@@ -62,7 +62,7 @@ export async function updateCartRegion(regionId: string) {
 }
 
 export async function retrieveCart() {
-  const cartId = cookies().get("cartId")?.value
+  const cartId = cookies().get("_medusa_cart_id")?.value
 
   if (!cartId) {
     return null
@@ -109,7 +109,7 @@ export async function updateLineItem({
   lineId: string
   quantity: number
 }) {
-  const cartId = cookies().get("cartId")?.value
+  const cartId = cookies().get("_medusa_cart_id")?.value
 
   if (!cartId) {
     return "Missing cart ID"
@@ -132,7 +132,7 @@ export async function updateLineItem({
 }
 
 export async function deleteLineItem(lineId: string) {
-  const cartId = cookies().get("cartId")?.value
+  const cartId = cookies().get("_medusa_cart_id")?.value
 
   if (!cartId) {
     return "Missing cart ID"

@@ -1,51 +1,20 @@
 "use client"
 
+import { useCallback, useEffect, useMemo, useState } from "react"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { RadioGroup } from "@headlessui/react"
 import ErrorMessage from "@modules/checkout/components/error-message"
+import { Cart } from "@medusajs/medusa"
 import { CheckCircleSolid, CreditCard } from "@medusajs/icons"
 import { Button, Container, Heading, Text, Tooltip, clx } from "@medusajs/ui"
-import { useCallback, useEffect, useMemo, useState } from "react"
-
-import Divider from "@modules/common/components/divider"
-import Bancontact from "@modules/common/icons/bancontact"
-import Ideal from "@modules/common/icons/ideal"
-import Spinner from "@modules/common/icons/spinner"
-
-import PaymentContainer from "../payment-container"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
-import { Cart } from "@medusajs/medusa"
-import { setPaymentMethod } from "@modules/checkout/actions"
 import { CardElement } from "@stripe/react-stripe-js"
 import { StripeCardElementOptions } from "@stripe/stripe-js"
-import PayPal from "@modules/common/icons/paypal"
 
-/* Map of payment provider_id to their title and icon. Add in any payment providers you want to use. */
-export const paymentInfoMap: Record<
-  string,
-  { title: string; icon: JSX.Element }
-> = {
-  stripe: {
-    title: "Credit card",
-    icon: <CreditCard />,
-  },
-  "stripe-ideal": {
-    title: "iDeal",
-    icon: <Ideal />,
-  },
-  "stripe-bancontact": {
-    title: "Bancontact",
-    icon: <Bancontact />,
-  },
-  paypal: {
-    title: "PayPal",
-    icon: <PayPal />,
-  },
-  manual: {
-    title: "Test payment",
-    icon: <CreditCard />,
-  },
-  // Add more payment providers here
-}
+import Divider from "@modules/common/components/divider"
+import Spinner from "@modules/common/icons/spinner"
+import PaymentContainer from "@modules/checkout/components/payment-container"
+import { setPaymentMethod } from "@modules/checkout/actions"
+import { paymentInfoMap } from "@lib/constants"
 
 const Payment = ({
   cart,

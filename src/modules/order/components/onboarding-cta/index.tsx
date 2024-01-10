@@ -1,10 +1,9 @@
+"use client"
+
 import { Button, Container, Text } from "@medusajs/ui"
+import { resetOnboardingState } from "app/actions"
 
 const OnboardingCta = ({ orderId }: { orderId: string }) => {
-  const resetOnboarding = () => {
-    window.sessionStorage.setItem("onboarding", "false")
-  }
-
   return (
     <Container className="max-w-4xl h-full bg-ui-bg-subtle w-full">
       <div className="flex flex-col gap-y-4 center p-4 md:items-center">
@@ -14,12 +13,13 @@ const OnboardingCta = ({ orderId }: { orderId: string }) => {
         <Text className="text-ui-fg-subtle text-small-regular">
           You can now complete setting up your store in the admin.
         </Text>
-        <a
-          href={`http://localhost:7001/a/orders/${orderId}`}
-          onClick={resetOnboarding}
+        <Button
+          className="w-fit"
+          size="xlarge"
+          onClick={() => resetOnboardingState(orderId)}
         >
-          <Button className="w-full">Complete setup in admin</Button>
-        </a>
+          Complete setup in admin
+        </Button>
       </div>
     </Container>
   )

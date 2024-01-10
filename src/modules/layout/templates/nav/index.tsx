@@ -8,7 +8,7 @@ import SideMenu from "@modules/layout/components/side-menu"
 
 export default async function Nav() {
   const regions = await listRegions().then((regions) => regions)
-  const regionCookie = cookies().get("region")?.value
+  const regionCookie = cookies().get("_medusa_region")?.value
   const currentRegion = regionCookie && JSON.parse(regionCookie)
 
   return (

@@ -24,7 +24,7 @@ const fetchCart = async () => {
 }
 
 export default async function Checkout() {
-  const cartId = cookies().get("cartId")?.value
+  const cartId = cookies().get("_medusa_cart_id")?.value
 
   if (!cartId) {
     return notFound()

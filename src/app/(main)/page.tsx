@@ -57,7 +57,7 @@ export default async function Home() {
   return (
     <>
       <Hero />
-      <div className="py-12">
+      <div className="py-12 px-4">
         <ul className="flex flex-col gap-x-6">
           <FeaturedProducts collections={collections} />
         </ul>

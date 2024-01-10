@@ -2,7 +2,7 @@ import { Order } from "@medusajs/medusa"
 import { Container, Heading, Text } from "@medusajs/ui"
 import { formatAmount } from "@lib/util/prices"
 
-import { paymentInfoMap } from "@modules/checkout/components/payment"
+import { paymentInfoMap } from "@lib/constants"
 import Divider from "@modules/common/components/divider"
 
 type PaymentDetailsProps = {
@@ -42,9 +42,7 @@ const PaymentDetails = ({ order }: PaymentDetailsProps) => {
                         amount: payment.amount,
                         region: order.region,
                         includeTaxes: false,
-                      })} paid at ${new Date(
-                        payment.created_at
-                      ).toLocaleString()}`}
+                      })} paid at ${new Date(payment.created_at).toString()}`}
                 </Text>
               </div>
             </div>

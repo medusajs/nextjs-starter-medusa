@@ -12,9 +12,9 @@ import { CartWithCheckoutStep } from "types/global"
 import { getCheckoutStep } from "@lib/util/get-checkout-step"
 
 export default async function CheckoutForm() {
-  const cartId = cookies().get("cartId")?.value
+  const cartId = cookies().get("_medusa_cart_id")?.value
 
-  const region = cookies().get("region")?.value
+  const region = cookies().get("_medusa_region")?.value
   const { countryCode } = region && JSON.parse(region)
 
   if (!cartId) {
