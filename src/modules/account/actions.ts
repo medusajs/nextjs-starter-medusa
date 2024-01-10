@@ -36,7 +36,6 @@ export async function signUp(_currentState: unknown, formData: FormData) {
         revalidateTag("customer")
       }
     )
-    redirect("/account")
   } catch (error: any) {
     return error.toString()
   }
@@ -53,7 +52,6 @@ export async function logCustomerIn(
     await getToken({ email, password }).then(() => {
       revalidateTag("customer")
     })
-    redirect("/account")
   } catch (error: any) {
     return error.toString()
   }
@@ -270,5 +268,4 @@ export async function signOut() {
   })
   revalidateTag("auth")
   revalidateTag("customer")
-  redirect("/")
 }
