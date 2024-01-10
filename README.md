@@ -52,15 +52,20 @@ Features include:
 - Full ecommerce support:
   - Product Detail Page
   - Product Overview Page
-  - Search with Algolia
+  - Search with Algolia / MeiliSearch
   - Product Collections
   - Cart
   - Checkout with PayPal and Stripe
   - User Accounts
   - Order Details
-- Next.js 14
-- Full App Router support with [Dynamic Routes](https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes) and [Route Groups](https://nextjs.org/docs/app/building-your-application/routing/route-groups)
-- [Product Module](https://docs.medusajs.com/modules/products/serverless-module) support (beta)
+- Full Next.js 14 support:
+  - App Router
+  - Next fetching/caching
+  - Server Components
+  - Server Actions
+  - Streaming
+  - Static Pre-Rendering
+
 
 # Quickstart
 
@@ -167,39 +172,6 @@ export async function search(query: string) {
 ```
 
 After this you will need to set up Algolia with your Medusa server, and then you should be good to go. For a more thorough walkthrough of using Algolia with Medusa – [see our documentation](https://docs.medusajs.com/add-plugins/algolia), and the [documentation for using `react-instantsearch-hooks-web`](https://www.algolia.com/doc/guides/building-search-ui/getting-started/react-hooks/).
-
-# Serverless Modules
-
-> Serverless Modules are currently in beta. You can learn more about them [here](https://docs.medusajs.com/experimental). In addition, the Serverless Modules in the Next.js storefront can't be used without the Medusa backend running at the moment.
-
-This starter has full support for our new experimental [Product Module](https://docs.medusajs.com/experimental/product/overview) and [Pricing Module](https://docs.medusajs.com/experimental/pricing/overview) for retrieving and manipulating product and pricing data directly from a serverless function. This keeps your product logic close to the frontend, making it easy to customize or extend Medusa's core functionality from within your Next.js project.
-
-By default, this starter uses the standard Medusa API for product and collection retrieval.
-
-To enable the new modules on your server, refer to their [docs](https://docs.medusajs.com/experimental).
-
-Then, make sure to set the following environment variables in your Next.js storefront project:
-
-> WARNING: This is a one way process. Once you opt in to these features and update your database, there's no way back. Proceed with caution.
-
-- `POSTGRES_URL`: the URL of your PostgreSQL databsae.
-- `NEXT_PUBLIC_BASE_URL`: the URL of your storefront's base URL. If you're running it locally, it should be http://localhost:8000.
-
-After that, add the following environment variable to **both your Next.js storefront and Medusa backend** to enable the feature flag:
-
-- `MEDUSA_FF_MEDUSA_V2=true`
-
-Finally, run migrations in your Medusa backend to prepare your database for the new modules.
-
-```shell
-npx medusa migrations run
-```
-
-Make sure the Medusa backend is running, then start (or restart) your Next.js storefront.
-
-Done! All product and collection data should now be coming from the module. The Product Module routes are all in `src/app/api` for you to edit and play around with.
-
-> Deploying to Vercel? If you're not planning on using the serverless modules, you might encounter errors when deploying to Vercel. You can safely delete or exclude the `src/app/api` folder before deploying. The API routes are only used by the serverless modules.
 
 # Resources
 
