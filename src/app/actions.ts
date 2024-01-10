@@ -41,12 +41,12 @@ export async function getRegion() {
  * @param countryCode
  */
 export async function updateRegion(regionId: string, countryCode: string) {
-  cookies().set("region", JSON.stringify({ regionId, countryCode }))
+  cookies().set("_medusa_region", JSON.stringify({ regionId, countryCode }))
   revalidateTag("regions")
   await updateCartRegion(regionId)
 }
 
 export async function resetOnboardingState(orderId: string) {
-  cookies().set("onboarding", "false", { maxAge: -1 })
+  cookies().set("_medusa_onboarding", "false", { maxAge: -1 })
   redirect(`http://localhost:7001/a/orders/${orderId}`)
 }

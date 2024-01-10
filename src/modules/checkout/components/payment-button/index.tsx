@@ -49,13 +49,10 @@ const StripePaymentButton = ({
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const onPaymentCompleted = async () => {
-    await placeOrder()
-      .catch(() => {
-        setErrorMessage("An error occurred, please try again.")
-      })
-      .finally(() => {
-        setSubmitting(false)
-      })
+    await placeOrder().catch(() => {
+      setErrorMessage("An error occurred, please try again.")
+      setSubmitting(false)
+    })
   }
 
   const stripe = useStripe()
@@ -148,13 +145,10 @@ const PayPalPaymentButton = ({
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const onPaymentCompleted = async () => {
-    await placeOrder()
-      .catch(() => {
-        setErrorMessage("An error occurred, please try again.")
-      })
-      .finally(() => {
-        setSubmitting(false)
-      })
+    await placeOrder().catch(() => {
+      setErrorMessage("An error occurred, please try again.")
+      setSubmitting(false)
+    })
   }
 
   const session = cart.payment_session as PaymentSession
@@ -204,13 +198,10 @@ const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const onPaymentCompleted = async () => {
-    await placeOrder()
-      .catch((err) => {
-        setErrorMessage(err.toString())
-      })
-      .finally(() => {
-        setSubmitting(false)
-      })
+    await placeOrder().catch((err) => {
+      setErrorMessage(err.toString())
+      setSubmitting(false)
+    })
   }
 
   const handlePayment = () => {

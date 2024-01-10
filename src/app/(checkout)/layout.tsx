@@ -8,9 +8,9 @@ export default function CheckoutLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="bg-white relative small:min-h-screen">
-      <div className="h-16 bg-white">
-        <nav className="flex items-center h-full justify-between border-b px-8">
+    <div className="w-full bg-white relative small:min-h-screen">
+      <div className="h-16 bg-white border-b ">
+        <nav className="flex h-full items-center content-container justify-between">
           <Link
             href="/cart"
             className="text-small-semi text-ui-fg-base flex items-center gap-x-2 uppercase flex-1 basis-0"
