@@ -1,16 +1,9 @@
-import { ProductCollection } from "@medusajs/medusa"
 import { Text, clx } from "@medusajs/ui"
 import Link from "next/link"
 
 import { getCategoriesList, getCollectionsList } from "@lib/data"
-import { ProductCategoryWithChildren } from "types/global"
 
 import MedusaCTA from "../../components/medusa-cta"
-
-type FooterNavProps = {
-  productCollections?: ProductCollection[]
-  productCategories?: ProductCategoryWithChildren[]
-}
 
 const fetchCollections = async () => {
   const { collections } = await getCollectionsList()
