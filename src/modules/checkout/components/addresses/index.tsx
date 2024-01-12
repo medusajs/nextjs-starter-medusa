@@ -55,7 +55,10 @@ const Addresses = ({
         </Heading>
         {!isOpen && cart?.shipping_address && (
           <Text>
-            <button onClick={handleEdit} className="text-ui-fg-interactive">
+            <button
+              onClick={handleEdit}
+              className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
+            >
               Edit
             </button>
           </Text>
