@@ -1,13 +1,10 @@
 const { withStoreConfig } = require("./store-config")
 const store = require("./store.config.json")
 
-module.exports = withStoreConfig({
-  experimental: {
-    serverComponentsExternalPackages: [
-      "@medusajs/product",
-      "@medusajs/modules-sdk",
-    ],
-  },
+/**
+ * @type {import('next').NextConfig}
+ */
+const nextConfig = withStoreConfig({
   features: store.features,
   reactStrictMode: true,
   images: {
@@ -33,3 +30,5 @@ module.exports = withStoreConfig({
 })
 
 console.log("next.config.js", JSON.stringify(module.exports, null, 2))
+
+module.exports = nextConfig

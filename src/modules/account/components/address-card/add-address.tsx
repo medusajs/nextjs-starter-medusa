@@ -1,87 +1,44 @@
-import { medusaClient } from "@lib/config"
-import { useAccount } from "@lib/context/account-context"
+"use client"
+
+import { Region } from "@medusajs/medusa"
+import { Plus } from "@medusajs/icons"
+import { Button, Heading } from "@medusajs/ui"
+import { useEffect, useState } from "react"
+import { useFormState } from "react-dom"
+
 import useToggleState from "@lib/hooks/use-toggle-state"
 import CountrySelect from "@modules/checkout/components/country-select"
-import { Button, Heading } from "@medusajs/ui"
 import Input from "@modules/common/components/input"
 import Modal from "@modules/common/components/modal"
-import { Plus } from "@medusajs/icons"
-import { Spinner } from "@medusajs/icons"
-import React, { useState } from "react"
-import { useForm } from "react-hook-form"
+import { SubmitButton } from "@modules/checkout/components/submit-button"
+import { addCustomerShippingAddress } from "@modules/account/actions"
 
-type FormValues = {
-  first_name: string
-  last_name: string
-  city: string
-  country_code: string
-  postal_code: string
-  province?: string
-  address_1: string
-  address_2?: string
-  phone?: string
-  company?: string
-}
+const AddAddress = ({ region }: { region: Region }) => {
+  const [successState, setSuccessState] = useState(false)
+  const { state, open, close: closeModal } = useToggleState(false)
 
-const AddAddress: React.FC = () => {
-  const { state, open, close } = useToggleState(false)
-  const [submitting, setSubmitting] = useState(false)
-  const [error, setError] = useState<string | undefined>(undefined)
+  const [formState, formAction] = useFormState(addCustomerShippingAddress, {
+    success: false,
+    error: null,
+  })
 
-  const { refetchCustomer } = useAccount()
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<FormValues>()
-
-  const handleClose = () => {
-    reset({
-      first_name: "",
-      last_name: "",
-      city: "",
-      country_code: "",
-      postal_code: "",
-      address_1: "",
-      address_2: "",
-      company: "",
-      phone: "",
-      province: "",
-    })
-    close()
+  const close = () => {
+    setSuccessState(false)
+    closeModal()
   }
 
-  const submit = handleSubmit(async (data: FormValues) => {
-    setSubmitting(true)
-    setError(undefined)
-
-    const payload = {
-      first_name: data.first_name,
-      last_name: data.last_name,
-      company: data.company || "",
-      address_1: data.address_1,
-      address_2: data.address_2 || "",
-      city: data.city,
-      country_code: data.country_code,
-      province: data.province || "",
-      postal_code: data.postal_code,
-      phone: data.phone || "",
-      metadata: {},
+  useEffect(() => {
+    if (successState) {
+      close()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [successState])
 
-    medusaClient.customers.addresses
-      .addAddress({ address: payload })
-      .then(() => {
-        setSubmitting(false)
-        refetchCustomer()
-        handleClose()
-      })
-      .catch(() => {
-        setSubmitting(false)
-        setError("Failed to add address, please try again.")
-      })
-  })
+  useEffect(() => {
+    if (formState.success) {
+      setSuccessState(true)
+    }
+  }, [formState])
 
   return (
     <>
@@ -93,103 +50,90 @@ const AddAddress: React.FC = () => {
         <Plus />
       </button>
 
-      <Modal isOpen={state} close={handleClose}>
+      <Modal isOpen={state} close={close}>
         <Modal.Title>
           <Heading className="mb-2">Add address</Heading>
         </Modal.Title>
-        <Modal.Body>
-          <div className="flex flex-col gap-y-2">
-            <div className="grid grid-cols-2 gap-x-2">
+        <form action={formAction}>
+          <Modal.Body>
+            <div className="flex flex-col gap-y-2">
+              <div className="grid grid-cols-2 gap-x-2">
+                <Input
+                  label="First name"
+                  name="first_name"
+                  required
+                  autoComplete="given-name"
+                />
+                <Input
+                  label="Last name"
+                  name="last_name"
+                  required
+                  autoComplete="family-name"
+                />
+              </div>
               <Input
-                label="First name"
-                {...register("first_name", {
-                  required: "First name is required",
-                })}
-                required
-                errors={errors}
-                autoComplete="given-name"
+                label="Company"
+                name="company"
+                autoComplete="organization"
               />
               <Input
-                label="Last name"
-                {...register("last_name", {
-                  required: "Last name is required",
-                })}
+                label="Address"
+                name="address_1"
                 required
-                errors={errors}
-                autoComplete="family-name"
+                autoComplete="address-line1"
               />
+              <Input
+                label="Apartment, suite, etc."
+                name="address_2"
+                autoComplete="address-line2"
+              />
+              <div className="grid grid-cols-[144px_1fr] gap-x-2">
+                <Input
+                  label="Postal code"
+                  name="postal_code"
+                  required
+                  autoComplete="postal-code"
+                />
+                <Input
+                  label="City"
+                  name="city"
+                  required
+                  autoComplete="locality"
+                />
+              </div>
+              <Input
+                label="Province / State"
+                name="province"
+                autoComplete="address-level1"
+              />
+              <CountrySelect
+                region={region}
+                name="country_code"
+                required
+                autoComplete="country"
+              />
+              <Input label="Phone" name="phone" autoComplete="phone" />
             </div>
-            <Input label="Company" {...register("company")} errors={errors} />
-            <Input
-              label="Address"
-              {...register("address_1", {
-                required: "Address is required",
-              })}
-              required
-              errors={errors}
-              autoComplete="address-line1"
-            />
-            <Input
-              label="Apartment, suite, etc."
-              {...register("address_2")}
-              errors={errors}
-              autoComplete="address-line2"
-            />
-            <div className="grid grid-cols-[144px_1fr] gap-x-2">
-              <Input
-                label="Postal code"
-                {...register("postal_code", {
-                  required: "Postal code is required",
-                })}
-                required
-                errors={errors}
-                autoComplete="postal-code"
-              />
-              <Input
-                label="City"
-                {...register("city", {
-                  required: "City is required",
-                })}
-                errors={errors}
-                required
-                autoComplete="locality"
-              />
+            {formState.error && (
+              <div className="text-rose-500 text-small-regular py-2">
+                {formState.error}
+              </div>
+            )}
+          </Modal.Body>
+          <Modal.Footer>
+            <div className="flex gap-3 mt-6">
+              <Button
+                type="reset"
+                variant="secondary"
+                onClick={close}
+                className="h-10"
+              >
+                Cancel
+              </Button>
+              <SubmitButton>Save</SubmitButton>
             </div>
-            <Input
-              label="Province / State"
-              {...register("province")}
-              errors={errors}
-              autoComplete="address-level1"
-            />
-            <CountrySelect
-              {...register("country_code", { required: true })}
-              autoComplete="country"
-            />
-            <Input
-              label="Phone"
-              {...register("phone")}
-              errors={errors}
-              autoComplete="phone"
-            />
-          </div>
-          {error && (
-            <div className="text-rose-500 text-small-regular py-2">{error}</div>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <div className="flex gap-3 mt-4">
-            <Button
-              variant="secondary"
-              onClick={handleClose}
-              disabled={submitting}
-            >
-              Cancel
-            </Button>
-            <Button className="min-h-0" onClick={submit} isLoading={submitting}>
-              Save
-            </Button>
-          </div>
-        </Modal.Footer>
+          </Modal.Footer>
+        </form>
       </Modal>
     </>
   )

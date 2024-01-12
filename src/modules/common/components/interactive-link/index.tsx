@@ -1,6 +1,6 @@
-import Link from "next/link"
 import { ArrowUpRightMini } from "@medusajs/icons"
 import { Text } from "@medusajs/ui"
+import Link from "next/link"
 
 type InteractiveLinkProps = {
   href: string

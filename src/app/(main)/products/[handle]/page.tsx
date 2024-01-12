@@ -1,17 +1,29 @@
-import { getProductByHandle } from "@lib/data"
-import ProductTemplate from "@modules/products/templates"
-import SkeletonProductPage from "@modules/skeletons/templates/skeleton-product-page"
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
+
+import { getProductByHandle, getProductsList } from "@lib/data"
+import ProductTemplate from "@modules/products/templates"
 
 type Props = {
   params: { handle: string }
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const data = await getProductByHandle(params.handle)
+export async function generateStaticParams() {
+  const {
+    response: { products },
+  } = await getProductsList({})
 
-  const product = data.products[0]
+  return products.map((product) => ({
+    handle: product.handle,
+  }))
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { handle } = params
+
+  const { product } = await getProductByHandle(handle).then(
+    (product) => product
+  )
 
   if (!product) {
     notFound()
@@ -29,9 +41,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ProductPage({ params }: Props) {
-  const { products } = await getProductByHandle(params.handle).catch((err) => {
+  const { product } = await getProductByHandle(params.handle).catch((err) => {
     notFound()
   })
 
-  return <ProductTemplate product={products[0]} />
+  return <ProductTemplate product={product} />
 }
