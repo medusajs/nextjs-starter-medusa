@@ -268,4 +268,5 @@ export async function signOut() {
   })
   revalidateTag("auth")
   revalidateTag("customer")
+  redirect("/account")
 }

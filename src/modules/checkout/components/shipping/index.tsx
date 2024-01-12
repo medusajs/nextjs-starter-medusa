@@ -84,7 +84,10 @@ const Shipping: React.FC<ShippingProps> = ({
           cart?.billing_address &&
           cart?.email && (
             <Text>
-              <button onClick={handleEdit} className="text-ui-fg-interactive">
+              <button
+                onClick={handleEdit}
+                className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
+              >
                 Edit
               </button>
             </Text>

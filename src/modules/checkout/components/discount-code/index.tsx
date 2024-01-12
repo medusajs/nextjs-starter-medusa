@@ -4,17 +4,17 @@ import { InformationCircleSolid } from "@medusajs/icons"
 import { Cart } from "@medusajs/medusa"
 import { Heading, Label, Text, Tooltip } from "@medusajs/ui"
 import React, { useMemo } from "react"
+import { useFormState } from "react-dom"
 
 import Input from "@modules/common/components/input"
 import Trash from "@modules/common/icons/trash"
+import ErrorMessage from "@modules/checkout/components/error-message"
+import { SubmitButton } from "@modules/checkout/components/submit-button"
 import {
   removeDiscount,
   removeGiftCard,
   submitDiscountForm,
 } from "@modules/checkout/actions"
-import { SubmitButton } from "../submit-button"
-import { useFormState } from "react-dom"
-import ErrorMessage from "../error-message"
 import { formatAmount } from "@lib/util/prices"
 
 type DiscountCodeProps = {
@@ -22,6 +22,8 @@ type DiscountCodeProps = {
 }
 
 const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
+  const [isOpen, setIsOpen] = React.useState(false)
+
   const { discounts, gift_cards, region } = cart
 
   const appliedDiscount = useMemo(() => {
@@ -112,16 +114,31 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
         ) : (
           <form action={formAction} className="w-full">
             <Label className="flex gap-x-1 my-2 items-center">
-              Gift card or discount code?
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                type="button"
+                className="txt-medium text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
+              >
+                Add gift card or discount code
+              </button>
               <Tooltip content="You can add multiple gift cards, but only one discount code.">
                 <InformationCircleSolid color="var(--fg-muted)" />
               </Tooltip>
             </Label>
-            <div className="flex w-full gap-x-2 items-center">
-              <Input label="Please enter code" name="code" type="text" />
-              <SubmitButton variant="secondary">Apply</SubmitButton>
-            </div>
-            <ErrorMessage error={message} />
+            {isOpen && (
+              <>
+                <div className="flex w-full gap-x-2 items-center">
+                  <Input
+                    label="Please enter code"
+                    name="code"
+                    type="text"
+                    autoFocus={false}
+                  />
+                  <SubmitButton variant="secondary">Apply</SubmitButton>
+                </div>
+                <ErrorMessage error={message} />
+              </>
+            )}
           </form>
         )}
       </div>
