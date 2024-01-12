@@ -1,5 +1,6 @@
+import { Table } from "@medusajs/ui"
+
 import repeat from "@lib/util/repeat"
-import { Heading, Table } from "@medusajs/ui"
 import SkeletonCartItem from "@modules/skeletons/components/skeleton-cart-item"
 import SkeletonCodeForm from "@modules/skeletons/components/skeleton-code-form"
 import SkeletonOrderSummary from "@modules/skeletons/components/skeleton-order-summary"

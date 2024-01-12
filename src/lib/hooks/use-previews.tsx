@@ -1,10 +1,11 @@
-import transformProductPreview from "@lib/util/transform-product-preview"
 import { Region } from "@medusajs/medusa"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 import { useMemo } from "react"
-import { InfiniteProductPage, ProductPreviewType } from "types/global"
+
 import sortProducts from "@lib/util/sort-products"
+import transformProductPreview from "@lib/util/transform-product-preview"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
+import { InfiniteProductPage, ProductPreviewType } from "types/global"
 
 type UsePreviewProps<T> = {
   pages?: T[]

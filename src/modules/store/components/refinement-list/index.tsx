@@ -1,31 +1,38 @@
-import { StoreGetProductsParams } from "@medusajs/medusa"
+"use client"
+
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useCallback } from "react"
+
 import SortProducts, { SortOptions } from "./sort-products"
-import CollectionFilter from "./collection-filter"
 
 type RefinementListProps = {
-  refinementList: StoreGetProductsParams
-  setRefinementList: (refinementList: StoreGetProductsParams) => void
   sortBy: SortOptions
-  setSortBy: (...args: any[]) => void
   search?: boolean
 }
 
-const RefinementList = ({
-  refinementList,
-  setRefinementList,
-  sortBy,
-  setSortBy,
-  search = false,
-}: RefinementListProps) => {
+const RefinementList = ({ sortBy }: RefinementListProps) => {
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams)
+      params.set(name, value)
+
+      return params.toString()
+    },
+    [searchParams]
+  )
+
+  const setQueryParams = (name: string, value: string) => {
+    const query = createQueryString(name, value)
+    router.push(`${pathname}?${query}`)
+  }
+
   return (
-    <div className="flex small:flex-col gap-12 px-8 py-4 mb-8 small:pr-0 small:pl-8 small:min-w-[250px] small:ml-[1.675rem]">
-      <SortProducts sortBy={sortBy} setSortBy={setSortBy} />
-      {!search && (
-        <CollectionFilter
-          refinementList={refinementList}
-          setRefinementList={setRefinementList}
-        />
-      )}
+    <div className="flex small:flex-col gap-12 py-4 mb-8 small:px-0 pl-6 small:min-w-[250px] small:ml-[1.675rem]">
+      <SortProducts sortBy={sortBy} setQueryParams={setQueryParams} />
     </div>
   )
 }

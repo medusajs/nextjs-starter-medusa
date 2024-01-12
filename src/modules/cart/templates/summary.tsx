@@ -1,12 +1,15 @@
-import { Cart } from "@medusajs/medusa"
+"use client"
+
 import { Button, Heading } from "@medusajs/ui"
-import DiscountCode from "@modules/checkout/components/discount-code"
-import CartTotals from "@modules/common/components/cart-totals"
-import Divider from "@modules/common/components/divider"
 import Link from "next/link"
 
+import CartTotals from "@modules/common/components/cart-totals"
+import Divider from "@modules/common/components/divider"
+import { CartWithCheckoutStep } from "types/global"
+import DiscountCode from "@modules/checkout/components/discount-code"
+
 type SummaryProps = {
-  cart: Omit<Cart, "refundable_amount" | "refunded_total">
+  cart: CartWithCheckoutStep
 }
 
 const Summary = ({ cart }: SummaryProps) => {
@@ -18,7 +21,7 @@ const Summary = ({ cart }: SummaryProps) => {
       <DiscountCode cart={cart} />
       <Divider />
       <CartTotals data={cart} />
-      <Link href="/checkout">
+      <Link href={"/checkout?step=" + cart.checkout_step}>
         <Button className="w-full h-10">Go to checkout</Button>
       </Link>
     </div>
