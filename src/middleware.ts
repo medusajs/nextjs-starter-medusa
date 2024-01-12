@@ -5,6 +5,17 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
 const DEFAULT_REGION = "us"
 
 /**
+ * Checks if the request is from a crawler.
+ * @param request
+ * @returns {boolean}
+ */
+function isCrawler(request: NextRequest): boolean {
+  const userAgent = request.headers.get("user-agent") || ""
+  const crawlers = ["bot", "spider", "crawler", "preview"]
+  return crawlers.some((crawler) => userAgent.toLowerCase().includes(crawler))
+}
+
+/**
  * Fetches regions from Medusa and sets the region cookie.
  * @param request
  * @param response
@@ -71,6 +82,9 @@ export async function middleware(request: NextRequest) {
   // If we have a region cookie and we're not onboarding, we can skip this middleware entirely.
   if (regionCookie && (!isOnboarding || onboardingCookie))
     return NextResponse.next()
+
+  // If the request is from a crawler, we can skip this middleware entirely.
+  if (isCrawler(request)) return NextResponse.next()
 
   // Create a response object that we'll use to set cookies and redirect.
   const response = NextResponse.redirect(request.url, 307)
