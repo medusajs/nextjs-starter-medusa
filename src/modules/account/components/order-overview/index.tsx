@@ -1,11 +1,10 @@
 "use client"
 
-import Link from "next/link"
-
 import { Order } from "@medusajs/medusa"
 import { Button } from "@medusajs/ui"
 
 import OrderCard from "../order-card"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 const OrderOverview = ({ orders }: { orders: Order[] }) => {
   if (orders?.length) {
@@ -30,9 +29,9 @@ const OrderOverview = ({ orders }: { orders: Order[] }) => {
         You don&apos;t have any orders yet, let us change that {":)"}
       </p>
       <div className="mt-4">
-        <Link href="/" passHref>
+        <LocalizedClientLink href="/" passHref>
           <Button>Continue shopping</Button>
-        </Link>
+        </LocalizedClientLink>
       </div>
     </div>
   )

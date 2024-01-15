@@ -1,6 +1,6 @@
+import { formatAmount } from "@lib/util/prices"
 import { LineItem, Region } from "@medusajs/medusa"
 import { clx } from "@medusajs/ui"
-import { formatAmount } from "@lib/util/prices"
 
 import { getPercentageDiff } from "@lib/util/get-precentage-diff"
 import { CalculatedVariant } from "types/medusa"

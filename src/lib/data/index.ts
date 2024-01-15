@@ -1,3 +1,5 @@
+"use server"
+
 import {
   ProductCategory,
   ProductCollection,
@@ -343,10 +345,8 @@ export async function listCustomerOrders(
 
 // Region actions
 export async function listRegions() {
-  const headers = getMedusaHeaders(["regions"])
-
   return medusaClient.regions
-    .list(headers)
+    .list()
     .then(({ regions }) => regions)
     .catch((err) => {
       console.log(err)
@@ -418,21 +418,30 @@ export async function getProductByHandle(
 export async function getProductsList({
   pageParam = 0,
   queryParams,
+  countryCode,
 }: {
   pageParam?: number
   queryParams?: StoreGetProductsParams
+  countryCode: string
 }): Promise<{
-  response: { products: PricedProduct[]; count: number }
+  response: { products: ProductPreviewType[]; count: number }
   nextPage: number | null
   queryParams?: StoreGetProductsParams
 }> {
   const limit = queryParams?.limit || 12
+
+  const region = await getRegion(countryCode)
+
+  if (!region) {
+    return emptyResponse
+  }
 
   const { products, count } = await medusaClient.products
     .list(
       {
         limit,
         offset: pageParam,
+        region_id: region.id,
         ...queryParams,
       },
       { next: { tags: ["products"] } }
@@ -442,10 +451,14 @@ export async function getProductsList({
       throw err
     })
 
+  const transformedProducts = products.map((product) => {
+    return transformProductPreview(product, region!)
+  })
+
   const nextPage = count > pageParam + 1 ? pageParam + 1 : null
 
   return {
-    response: { products, count },
+    response: { products: transformedProducts, count },
     nextPage,
     queryParams,
   }
@@ -455,21 +468,17 @@ export async function getProductsListWithSort({
   page = 0,
   queryParams,
   sortBy = "created_at",
+  countryCode,
 }: {
   page?: number
   queryParams?: StoreGetProductsParams
   sortBy?: SortOptions
+  countryCode: string
 }): Promise<{
   response: { products: ProductPreviewType[]; count: number }
   nextPage: number | null
   queryParams?: StoreGetProductsParams
 }> {
-  const region = await getRegion().then((region) => region)
-
-  if (!region) {
-    return emptyResponse
-  }
-
   const limit = queryParams?.limit || 12
 
   const {
@@ -479,15 +488,11 @@ export async function getProductsListWithSort({
     queryParams: {
       ...queryParams,
       limit: 100,
-      region_id: region!.id,
     },
+    countryCode,
   })
 
-  const transformedProducts = products.map((product) => {
-    return transformProductPreview(product, region!)
-  })
-
-  const sortedProducts = sortProducts(transformedProducts, sortBy)
+  const sortedProducts = sortProducts(products, sortBy)
 
   const pageParam = (page - 1) * limit
 
@@ -508,11 +513,13 @@ export async function getProductsListWithSort({
 export async function getHomepageProducts({
   collectionHandles,
   currencyCode,
+  countryCode,
 }: {
   collectionHandles?: string[]
   currencyCode: string
+  countryCode: string
 }) {
-  const collectionProductsMap = new Map<string, PricedProduct[]>()
+  const collectionProductsMap = new Map<string, ProductPreviewType[]>()
 
   const { collections } = await getCollectionsList(0, 3)
 
@@ -524,6 +531,7 @@ export async function getHomepageProducts({
     const products = await getProductsByCollectionHandle({
       handle,
       currencyCode,
+      countryCode,
       limit: 3,
     })
     collectionProductsMap.set(handle, products.response.products)
@@ -582,15 +590,15 @@ export async function getProductsByCollectionHandle({
   pageParam = 0,
   limit = 100,
   handle,
-  regionId,
+  countryCode,
 }: {
   pageParam?: number
   handle: string
   limit?: number
-  regionId?: string
+  countryCode: string
   currencyCode?: string
 }): Promise<{
-  response: { products: PricedProduct[]; count: number }
+  response: { products: ProductPreviewType[]; count: number }
   nextPage: number | null
 }> {
   const { id } = await getCollectionByHandle(handle).then(
@@ -599,7 +607,8 @@ export async function getProductsByCollectionHandle({
 
   const { response, nextPage } = await getProductsList({
     pageParam,
-    queryParams: { collection_id: [id], region_id: regionId, limit },
+    queryParams: { collection_id: [id], limit },
+    countryCode,
   })
     .then((res) => res)
     .catch((err) => {
@@ -684,14 +693,14 @@ export async function getCategoryByHandle(categoryHandle: string[]): Promise<{
 export async function getProductsByCategoryHandle({
   pageParam = 0,
   handle,
-  cartId,
+  countryCode,
 }: {
   pageParam?: number
   handle: string
-  cartId?: string
+  countryCode: string
   currencyCode?: string
 }): Promise<{
-  response: { products: PricedProduct[]; count: number }
+  response: { products: ProductPreviewType[]; count: number }
   nextPage: number | null
 }> {
   const { id } = await getCategoryByHandle([handle]).then(
@@ -700,7 +709,8 @@ export async function getProductsByCategoryHandle({
 
   const { response, nextPage } = await getProductsList({
     pageParam,
-    queryParams: { category_id: [id], cart_id: cartId },
+    queryParams: { category_id: [id] },
+    countryCode,
   })
     .then((res) => res)
     .catch((err) => {

@@ -2,7 +2,6 @@
 
 import { LineItem, Region } from "@medusajs/medusa"
 import { Table, Text, clx } from "@medusajs/ui"
-import Link from "next/link"
 
 import CartItemSelect from "@modules/cart/components/cart-item-select"
 import DeleteButton from "@modules/common/components/delete-button"
@@ -14,6 +13,7 @@ import { updateLineItem } from "@modules/cart/actions"
 import Spinner from "@modules/common/icons/spinner"
 import { useState } from "react"
 import ErrorMessage from "@modules/checkout/components/error-message"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 type ItemProps = {
   item: Omit<LineItem, "beforeInsert">
@@ -48,7 +48,7 @@ const Item = ({ item, region, type = "full" }: ItemProps) => {
   return (
     <Table.Row className="w-full">
       <Table.Cell className="!pl-0 p-4 w-24">
-        <Link
+        <LocalizedClientLink
           href={`/products/${handle}`}
           className={clx("flex", {
             "w-16": type === "preview",
@@ -56,7 +56,7 @@ const Item = ({ item, region, type = "full" }: ItemProps) => {
           })}
         >
           <Thumbnail thumbnail={item.thumbnail} size="square" />
-        </Link>
+        </LocalizedClientLink>
       </Table.Cell>
 
       <Table.Cell className="text-left">

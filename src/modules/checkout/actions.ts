@@ -5,13 +5,13 @@ import { cookies } from "next/headers"
 import {
   addShippingMethod,
   completeCart,
-  setPaymentSession,
   deleteDiscount,
+  setPaymentSession,
   updateCart,
 } from "@lib/data"
+import { GiftCard, StorePostCartsCartReq } from "@medusajs/medusa"
 import { revalidateTag } from "next/cache"
 import { redirect } from "next/navigation"
-import { GiftCard, StorePostCartsCartReq } from "@medusajs/medusa"
 
 export async function cartUpdate(data: StorePostCartsCartReq) {
   const cartId = cookies().get("_medusa_cart_id")?.value
@@ -152,7 +152,9 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
     return error.toString()
   }
 
-  redirect("/checkout?step=delivery")
+  redirect(
+    `/${formData.get("shipping_address.country_code")}/checkout?step=delivery`
+  )
 }
 
 export async function setShippingMethod(shippingMethodId: string) {
@@ -197,8 +199,9 @@ export async function placeOrder() {
   }
 
   if (cart?.type === "order") {
+    const countryCode = cart.data.shipping_address?.country_code?.toLowerCase()
     cookies().set("_medusa_cart_id", "", { maxAge: -1 })
-    redirect("/order/confirmed/" + cart?.data.id)
+    redirect(`/${countryCode}/order/confirmed/${cart?.data.id}`)
   }
 
   return cart
