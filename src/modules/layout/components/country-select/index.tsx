@@ -38,7 +38,8 @@ const CountrySelect = ({ toggleState, regions }: CountrySelectProps) => {
         }))
       })
       .flat()
-  }, [regions])
+      .sort((a, b) => a.label.localeCompare(b.label))
+  }, [])
 
   useEffect(() => {
     if (countryCode) {
