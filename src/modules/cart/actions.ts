@@ -3,7 +3,7 @@
 import { LineItem } from "@medusajs/medusa"
 import { omit } from "lodash"
 import { revalidateTag } from "next/cache"
-import { cookies, headers } from "next/headers"
+import { cookies } from "next/headers"
 
 import {
   addItem,

@@ -1,4 +1,4 @@
-import { ProductCollection, Region } from "@medusajs/medusa"
+import { Region } from "@medusajs/medusa"
 import { Text } from "@medusajs/ui"
 
 import InteractiveLink from "@modules/common/components/interactive-link"

@@ -1,10 +1,10 @@
 import { Metadata } from "next"
 
+import ProfilePhone from "@modules/account//components/profile-phone"
+import ProfileBillingAddress from "@modules/account/components/profile-billing-address"
 import ProfileEmail from "@modules/account/components/profile-email"
 import ProfileName from "@modules/account/components/profile-name"
 import ProfilePassword from "@modules/account/components/profile-password"
-import ProfileBillingAddress from "@modules/account/components/profile-billing-address"
-import ProfilePhone from "@modules/account//components/profile-phone"
 
 import { getCustomer, listRegions } from "@lib/data"
 import { notFound } from "next/navigation"

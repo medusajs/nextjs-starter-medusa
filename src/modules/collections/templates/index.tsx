@@ -1,5 +1,5 @@
 import { ProductCollection } from "@medusajs/medusa"
-import React, { Suspense } from "react"
+import { Suspense } from "react"
 
 import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-grid"
 import RefinementList from "@modules/store/components/refinement-list"

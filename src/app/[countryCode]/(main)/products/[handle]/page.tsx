@@ -9,9 +9,9 @@ import {
   listRegions,
   retrievePricedProductById,
 } from "@lib/data"
+import { Region } from "@medusajs/medusa"
 import ProductTemplate from "@modules/products/templates"
 import { getRegion } from "app/actions"
-import { Region } from "@medusajs/medusa"
 
 type Props = {
   params: { countryCode: string; handle: string }

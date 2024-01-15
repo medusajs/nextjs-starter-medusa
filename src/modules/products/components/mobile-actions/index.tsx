@@ -10,9 +10,9 @@ import useToggleState from "@lib/hooks/use-toggle-state"
 import ChevronDown from "@modules/common/icons/chevron-down"
 import X from "@modules/common/icons/x"
 
-import OptionSelect from "../option-select"
 import { getProductPrice } from "@lib/util/get-product-price"
 import { Region } from "@medusajs/medusa"
+import OptionSelect from "../option-select"
 
 type MobileActionsProps = {
   product: PricedProduct

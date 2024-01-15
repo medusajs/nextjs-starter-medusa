@@ -1,16 +1,13 @@
-import { Suspense } from "react"
 import { headers } from "next/headers"
+import { Suspense } from "react"
 
 import { listRegions } from "@lib/data"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import CartButton from "@modules/layout/components/cart-button"
 import SideMenu from "@modules/layout/components/side-menu"
-import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 export default async function Nav() {
   const regions = await listRegions().then((regions) => regions)
-
-  const nextHeaders = headers()
-  const countryCode = nextHeaders.get("next-url")?.split("/")[1] || ""
 
   return (
     <div className="sticky top-0 inset-x-0 z-50 group">

@@ -1,3 +1,4 @@
+import { Region } from "@medusajs/medusa"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 import React, { Suspense } from "react"
 
@@ -7,11 +8,7 @@ import ProductOnboardingCta from "@modules/products/components/product-onboardin
 import ProductTabs from "@modules/products/components/product-tabs"
 import RelatedProducts from "@modules/products/components/related-products"
 import ProductInfo from "@modules/products/templates/product-info"
-import SkeletonProductActions from "@modules/skeletons/templates/skeleton-product-actions"
 import SkeletonRelatedProducts from "@modules/skeletons/templates/skeleton-related-products"
-import transformProductPreview from "@lib/util/transform-product-preview"
-import { PriceType } from "../components/product-actions"
-import { Region } from "@medusajs/medusa"
 
 type ProductTemplateProps = {
   product: PricedProduct

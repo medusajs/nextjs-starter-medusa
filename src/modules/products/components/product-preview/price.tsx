@@ -1,12 +1,6 @@
-import { Region } from "@medusajs/medusa"
 import { Text, clx } from "@medusajs/ui"
 
-import { retrievePricedProductById } from "@lib/data"
-import { getProductPrice } from "@lib/util/get-product-price"
-import { getRegion } from "app/actions"
-
 import { PriceType } from "../product-actions"
-import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 
 export default async function PreviewPrice({ price }: { price: PriceType }) {
   return (

@@ -2,8 +2,8 @@ import { Text, clx } from "@medusajs/ui"
 
 import { getCategoriesList, getCollectionsList } from "@lib/data"
 
-import MedusaCTA from "../../components/medusa-cta"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import MedusaCTA from "../../components/medusa-cta"
 
 const fetchCollections = async () => {
   const { collections } = await getCollectionsList()

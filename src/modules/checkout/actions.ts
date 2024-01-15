@@ -5,13 +5,13 @@ import { cookies } from "next/headers"
 import {
   addShippingMethod,
   completeCart,
-  setPaymentSession,
   deleteDiscount,
+  setPaymentSession,
   updateCart,
 } from "@lib/data"
+import { GiftCard, StorePostCartsCartReq } from "@medusajs/medusa"
 import { revalidateTag } from "next/cache"
 import { redirect } from "next/navigation"
-import { GiftCard, StorePostCartsCartReq } from "@medusajs/medusa"
 
 export async function cartUpdate(data: StorePostCartsCartReq) {
   const cartId = cookies().get("_medusa_cart_id")?.value

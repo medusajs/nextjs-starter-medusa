@@ -1,14 +1,13 @@
 import { Text } from "@medusajs/ui"
-import { Suspense } from "react"
 
 import { ProductPreviewType } from "types/global"
 
-import PreviewPrice from "./price"
-import Thumbnail from "../thumbnail"
-import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import { getProductPrice } from "@lib/util/get-product-price"
 import { retrievePricedProductById } from "@lib/data"
+import { getProductPrice } from "@lib/util/get-product-price"
 import { Region } from "@medusajs/medusa"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import Thumbnail from "../thumbnail"
+import PreviewPrice from "./price"
 
 export default async function ProductPreview({
   productPreview,
