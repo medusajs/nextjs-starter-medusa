@@ -152,7 +152,9 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
     return error.toString()
   }
 
-  redirect("/checkout?step=delivery")
+  redirect(
+    `/${formData.get("shipping_address.country_code")}/checkout?step=delivery`
+  )
 }
 
 export async function setShippingMethod(shippingMethodId: string) {
@@ -197,8 +199,9 @@ export async function placeOrder() {
   }
 
   if (cart?.type === "order") {
+    const countryCode = cart.data.shipping_address?.country_code?.toLowerCase()
     cookies().set("_medusa_cart_id", "", { maxAge: -1 })
-    redirect("/order/confirmed/" + cart?.data.id)
+    redirect(`/${countryCode}/order/confirmed/${cart?.data.id}`)
   }
 
   return cart

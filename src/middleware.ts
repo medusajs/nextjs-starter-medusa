@@ -75,6 +75,7 @@ async function listCountries() {
 export async function middleware(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
   const isOnboarding = searchParams.get("onboarding") === "true"
+  const onboardingCookie = request.cookies.get("_medusa_onboarding")
 
   const regionMap = await listCountries()
 
@@ -84,7 +85,7 @@ export async function middleware(request: NextRequest) {
     countryCode && request.nextUrl.pathname.split("/")[1].includes(countryCode)
 
   // check if one of the country codes is in the url
-  if (urlHasCountryCode && !isOnboarding) {
+  if (urlHasCountryCode && (!isOnboarding || onboardingCookie)) {
     return NextResponse.next()
   }
 
