@@ -15,7 +15,7 @@ export default function CollectionTemplate({
   sortBy?: SortOptions
   collection: ProductCollection
   page?: string
-  countryCode?: string
+  countryCode: string
 }) {
   const pageNumber = page ? parseInt(page) : 1
 

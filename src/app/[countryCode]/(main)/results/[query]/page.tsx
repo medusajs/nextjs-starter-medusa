@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 }
 
 type Params = {
-  params: { query: string; countryCode?: string }
+  params: { query: string; countryCode: string }
   searchParams: {
     sortBy?: SortOptions
     page?: string

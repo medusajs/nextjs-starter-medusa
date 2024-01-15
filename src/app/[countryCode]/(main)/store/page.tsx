@@ -14,7 +14,7 @@ type Params = {
     page?: string
   }
   params: {
-    countryCode?: string
+    countryCode: string
   }
 }
 

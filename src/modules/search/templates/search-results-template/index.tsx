@@ -11,7 +11,7 @@ type SearchResultsTemplateProps = {
   ids: string[]
   sortBy?: SortOptions
   page?: string
-  countryCode?: string
+  countryCode: string
 }
 
 const SearchResultsTemplate = ({

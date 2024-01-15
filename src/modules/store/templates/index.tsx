@@ -13,7 +13,7 @@ const StoreTemplate = ({
 }: {
   sortBy?: SortOptions
   page?: string
-  countryCode?: string
+  countryCode: string
 }) => {
   const pageNumber = page ? parseInt(page) : 1
 
