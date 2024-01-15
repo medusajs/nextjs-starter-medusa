@@ -11,7 +11,7 @@ import {
 } from "@lib/data"
 import { revalidateTag } from "next/cache"
 import { redirect } from "next/navigation"
-import { cookies } from "next/headers"
+import { cookies, headers } from "next/headers"
 import {
   Customer,
   StorePostCustomersCustomerAddressesAddressReq,
@@ -266,7 +266,8 @@ export async function signOut() {
   cookies().set("_medusa_jwt", "", {
     maxAge: -1,
   })
+  const countryCode = headers().get("next-url")?.split("/")[1] || ""
   revalidateTag("auth")
   revalidateTag("customer")
-  redirect("/account")
+  redirect(`/${countryCode}/account`)
 }

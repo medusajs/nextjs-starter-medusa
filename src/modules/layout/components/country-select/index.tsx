@@ -7,6 +7,7 @@ import ReactCountryFlag from "react-country-flag"
 
 import { StateType } from "@lib/hooks/use-toggle-state"
 import { updateRegion } from "app/actions"
+import { useParams, usePathname } from "next/navigation"
 
 type CountryOption = {
   country: string
@@ -17,22 +18,15 @@ type CountryOption = {
 type CountrySelectProps = {
   toggleState: StateType
   regions: Region[]
-  currentRegion: {
-    regionId: string
-    countryCode: string
-  }
 }
 
-const CountrySelect = ({
-  toggleState,
-  regions,
-  currentRegion,
-}: CountrySelectProps) => {
+const CountrySelect = ({ toggleState, regions }: CountrySelectProps) => {
   const [current, setCurrent] = useState<CountryOption | undefined>(undefined)
 
-  const { state, close } = toggleState
+  const { countryCode } = useParams()
+  const currentPath = usePathname().split(`/${countryCode}`)[1]
 
-  const { regionId, countryCode } = currentRegion && currentRegion
+  const { state, close } = toggleState
 
   const options: CountryOption[] | undefined = useMemo(() => {
     return regions
@@ -47,14 +41,14 @@ const CountrySelect = ({
   }, [regions])
 
   useEffect(() => {
-    if (regionId) {
+    if (countryCode) {
       const option = options?.find((o) => o.country === countryCode)
       setCurrent(option)
     }
-  }, [regionId, options, countryCode])
+  }, [options, countryCode])
 
   const handleChange = (option: CountryOption) => {
-    updateRegion(option.region, option.country)
+    updateRegion(option.country, currentPath)
     close()
   }
 

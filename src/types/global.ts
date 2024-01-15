@@ -1,5 +1,6 @@
 import { Cart, ProductCategory, ProductVariant, Region } from "@medusajs/medusa"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
+import { ProductCollection } from "@medusajs/product"
 
 export type FeaturedProduct = {
   id: string
@@ -21,6 +22,13 @@ export type ProductPreviewType = {
     price_type: "default" | "sale"
   }
   isFeatured?: boolean
+}
+
+export type ProductCollectionWithPreviews = Omit<
+  ProductCollection,
+  "products"
+> & {
+  products: ProductPreviewType[]
 }
 
 export type InfiniteProductPage = {

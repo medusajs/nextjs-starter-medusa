@@ -1,6 +1,11 @@
 "use client"
 
-import { useSearchParams, useRouter, usePathname } from "next/navigation"
+import {
+  useSearchParams,
+  useRouter,
+  usePathname,
+  useParams,
+} from "next/navigation"
 import { Cart, Customer } from "@medusajs/medusa"
 import { CheckCircleSolid } from "@medusajs/icons"
 import { Heading, Text, useToggleState } from "@medusajs/ui"
@@ -18,16 +23,17 @@ import compareAddresses from "@lib/util/compare-addresses"
 
 const Addresses = ({
   cart,
-  countryCode,
   customer,
 }: {
   cart: Omit<Cart, "refundable_amount" | "refunded_total"> | null
-  countryCode: string
   customer: Omit<Customer, "password_hash"> | null
 }) => {
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
+  const params = useParams()
+
+  const countryCode = params.countryCode as string
 
   const isOpen = searchParams.get("step") === "address"
 

@@ -1,12 +1,12 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
-import { getCategoryByHandle, listCategories } from "@lib/data"
+import { getCategoryByHandle, listCategories, listRegions } from "@lib/data"
 import CategoryTemplate from "@modules/categories/templates"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 
 type Props = {
-  params: { category: string[] }
+  params: { category: string[]; countryCode: string }
   searchParams: {
     sortBy?: SortOptions
     page?: string
@@ -20,11 +20,22 @@ export async function generateStaticParams() {
     return []
   }
 
+  const countryCodes = await listRegions().then((regions) =>
+    regions?.map((r) => r.countries.map((c) => c.iso_2)).flat()
+  )
+
   const categoryHandles = product_categories.map((category) => category.handle)
 
-  return categoryHandles.map((handle) => ({
-    category: [handle],
-  }))
+  const staticParams = countryCodes
+    ?.map((countryCode) =>
+      categoryHandles.map((handle) => ({
+        countryCode,
+        category: [handle],
+      }))
+    )
+    .flat()
+
+  return staticParams
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -69,6 +80,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
       categories={product_categories}
       sortBy={sortBy}
       page={page}
+      countryCode={params.countryCode}
     />
   )
 }

@@ -3,7 +3,7 @@
 import { LineItem } from "@medusajs/medusa"
 import { omit } from "lodash"
 import { revalidateTag } from "next/cache"
-import { cookies } from "next/headers"
+import { cookies, headers } from "next/headers"
 
 import {
   addItem,
@@ -14,6 +14,7 @@ import {
   updateCart,
   updateItem,
 } from "@lib/data"
+import { getRegion } from "app/actions"
 
 /**
  * Retrieves the cart based on the cartId cookie
@@ -22,7 +23,7 @@ import {
  * @example
  * const cart = await getOrSetCart()
  */
-export async function getOrSetCart() {
+export async function getOrSetCart(countryCode: string) {
   const cartId = cookies().get("_medusa_cart_id")?.value
   let cart
 
@@ -30,35 +31,26 @@ export async function getOrSetCart() {
     cart = await getCart(cartId).then((cart) => cart)
   }
 
-  const regionCookie = cookies().get("_medusa_region")?.value
-  const { regionId } = regionCookie && JSON.parse(regionCookie)
+  const region = await getRegion(countryCode)
+
+  if (!region) {
+    return null
+  }
+
+  const region_id = region.id
 
   if (!cart) {
-    cart = await createCart({ region_id: regionId }).then((res) => res)
+    cart = await createCart({ region_id }).then((res) => res)
     cart && cookies().set("_medusa_cart_id", cart.id)
     revalidateTag("cart")
   }
 
-  return cart
-}
-
-/**
- * Updates the cart region
- * @param regionId
- */
-export async function updateCartRegion(regionId: string) {
-  const cartId = cookies().get("_medusa_cart_id")?.value
-
-  if (!cartId) {
-    return "Missing cart ID"
-  }
-
-  try {
-    await updateCart(cartId, { region_id: regionId })
+  if (cart && cart?.region_id !== region_id) {
+    await updateCart(cart.id, { region_id })
     revalidateTag("cart")
-  } catch (e) {
-    return "Error updating cart region"
   }
+
+  return cart
 }
 
 export async function retrieveCart() {
@@ -80,11 +72,13 @@ export async function retrieveCart() {
 export async function addToCart({
   variantId,
   quantity,
+  countryCode,
 }: {
   variantId: string
   quantity: number
+  countryCode: string
 }) {
-  const cart = await getOrSetCart().then((cart) => cart)
+  const cart = await getOrSetCart(countryCode).then((cart) => cart)
 
   if (!cart) {
     return "Missing cart ID"

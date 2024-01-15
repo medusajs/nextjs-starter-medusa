@@ -1,13 +1,16 @@
-import { ProductCollection } from "@medusajs/medusa"
+import { ProductCollection, Region } from "@medusajs/medusa"
 import { Text } from "@medusajs/ui"
 
 import InteractiveLink from "@modules/common/components/interactive-link"
 import ProductPreview from "@modules/products/components/product-preview"
+import { ProductCollectionWithPreviews } from "types/global"
 
 export default function ProductRail({
   collection,
+  region,
 }: {
-  collection: ProductCollection
+  collection: ProductCollectionWithPreviews
+  region: Region
 }) {
   const { products } = collection
 
@@ -27,7 +30,11 @@ export default function ProductRail({
         {products &&
           products.map((product) => (
             <li key={product.id}>
-              <ProductPreview isFeatured {...product} />
+              <ProductPreview
+                productPreview={product}
+                region={region}
+                isFeatured
+              />
             </li>
           ))}
       </ul>

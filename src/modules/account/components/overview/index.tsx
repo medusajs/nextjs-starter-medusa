@@ -1,9 +1,9 @@
 import { Customer, Order } from "@medusajs/medusa"
 import { Container } from "@medusajs/ui"
 import { formatAmount } from "@lib/util/prices"
-import Link from "next/link"
 
 import ChevronDown from "@modules/common/icons/chevron-down"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 type OverviewProps = {
   customer: Omit<Customer, "password_hash"> | null
@@ -58,7 +58,9 @@ const Overview = ({ customer, orders }: OverviewProps) => {
                   orders.slice(0, 5).map((order) => {
                     return (
                       <li key={order.id}>
-                        <Link href={`/account/orders/details/${order.id}`}>
+                        <LocalizedClientLink
+                          href={`/account/orders/details/${order.id}`}
+                        >
                           <Container className="bg-gray-50 flex justify-between items-center p-4">
                             <div className="grid grid-cols-3 grid-rows-2 text-small-regular gap-x-4 flex-1">
                               <span className="font-semibold">Date placed</span>
@@ -87,7 +89,7 @@ const Overview = ({ customer, orders }: OverviewProps) => {
                               <ChevronDown className="-rotate-90" />
                             </button>
                           </Container>
-                        </Link>
+                        </LocalizedClientLink>
                       </li>
                     )
                   })

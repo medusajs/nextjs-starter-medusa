@@ -4,10 +4,10 @@ import { Popover, Transition } from "@headlessui/react"
 import { ArrowRightMini, XMark } from "@medusajs/icons"
 import { Region } from "@medusajs/medusa"
 import { Text, clx, useToggleState } from "@medusajs/ui"
-import Link from "next/link"
 import { Fragment } from "react"
 
 import CountrySelect from "../country-select"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 const SideMenuItems = {
   Home: "/",
@@ -17,16 +17,7 @@ const SideMenuItems = {
   Cart: "/cart",
 }
 
-const SideMenu = ({
-  regions,
-  currentRegion,
-}: {
-  regions: Region[] | null
-  currentRegion?: {
-    regionId: string
-    countryCode: string
-  }
-}) => {
+const SideMenu = ({ regions }: { regions: Region[] | null }) => {
   const toggleState = useToggleState()
 
   return (
@@ -62,13 +53,13 @@ const SideMenu = ({
                       {Object.entries(SideMenuItems).map(([name, href]) => {
                         return (
                           <li key={name}>
-                            <Link
+                            <LocalizedClientLink
                               href={href}
                               className="text-3xl leading-10 hover:text-ui-fg-disabled"
                               onClick={close}
                             >
                               {name}
-                            </Link>
+                            </LocalizedClientLink>
                           </li>
                         )
                       })}
@@ -79,11 +70,10 @@ const SideMenu = ({
                         onMouseEnter={toggleState.open}
                         onMouseLeave={toggleState.close}
                       >
-                        {regions && currentRegion && (
+                        {regions && (
                           <CountrySelect
                             toggleState={toggleState}
                             regions={regions}
-                            currentRegion={currentRegion}
                           />
                         )}
                         <ArrowRightMini
