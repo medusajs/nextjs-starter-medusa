@@ -1,4 +1,3 @@
-import Link from "next/link"
 import { notFound } from "next/navigation"
 import { Suspense } from "react"
 
@@ -8,22 +7,25 @@ import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-g
 import RefinementList from "@modules/store/components/refinement-list"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import PaginatedProducts from "@modules/store/templates/paginated-products"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 export default function CategoryTemplate({
   categories,
   sortBy,
   page,
+  countryCode,
 }: {
   categories: ProductCategoryWithChildren[]
   sortBy?: SortOptions
   page?: string
+  countryCode: string
 }) {
   const pageNumber = page ? parseInt(page) : 1
 
   const category = categories[categories.length - 1]
   const parents = categories.slice(0, categories.length - 1)
 
-  if (!category) notFound()
+  if (!category || !countryCode) notFound()
 
   return (
     <div className="flex flex-col small:flex-row small:items-start py-6 content-container">
@@ -33,12 +35,12 @@ export default function CategoryTemplate({
           {parents &&
             parents.map((parent) => (
               <span key={parent.id} className="text-ui-fg-subtle">
-                <Link
+                <LocalizedClientLink
                   className="mr-4 hover:text-black"
                   href={`/categories/${parent.handle}`}
                 >
                   {parent.name}
-                </Link>
+                </LocalizedClientLink>
                 /
               </span>
             ))}
@@ -67,6 +69,7 @@ export default function CategoryTemplate({
             sortBy={sortBy || "created_at"}
             page={pageNumber}
             categoryId={category.id}
+            countryCode={countryCode}
           />
         </Suspense>
       </div>

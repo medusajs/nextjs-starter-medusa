@@ -3,18 +3,19 @@ import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 
 import { getProductsList } from "@lib/data"
 
-import ProductPreview from "../product-preview"
 import { getRegion } from "app/actions"
-import transformProductPreview from "@lib/util/transform-product-preview"
+import ProductPreview from "../product-preview"
 
 type RelatedProductsProps = {
   product: PricedProduct
+  countryCode: string
 }
 
 export default async function RelatedProducts({
   product,
+  countryCode,
 }: RelatedProductsProps) {
-  const region = await getRegion()
+  const region = await getRegion(countryCode)
 
   if (!region) {
     return null
@@ -47,13 +48,16 @@ export default async function RelatedProducts({
 
   const queryParams = setQueryParams()
 
-  const products = await getProductsList({ queryParams }).then(({ response }) =>
-    response.products
-      .map((product) => transformProductPreview(product, region))
-      .filter((p) => p.id !== product.id)
+  const productPreviews = await getProductsList({
+    queryParams,
+    countryCode,
+  }).then(({ response }) =>
+    response.products.filter(
+      (productPreview) => productPreview.id !== product.id
+    )
   )
 
-  if (!products.length) {
+  if (!productPreviews.length) {
     return null
   }
 
@@ -69,9 +73,9 @@ export default async function RelatedProducts({
       </div>
 
       <ul className="grid grid-cols-2 small:grid-cols-3 medium:grid-cols-4 gap-x-6 gap-y-8">
-        {products.map((p) => (
-          <li key={p.id}>
-            <ProductPreview {...p} />
+        {productPreviews.map((productPreview) => (
+          <li key={productPreview.id}>
+            <ProductPreview region={region} productPreview={productPreview} />
           </li>
         ))}
       </ul>

@@ -14,9 +14,6 @@ import { getCheckoutStep } from "@lib/util/get-checkout-step"
 export default async function CheckoutForm() {
   const cartId = cookies().get("_medusa_cart_id")?.value
 
-  const region = cookies().get("_medusa_region")?.value
-  const { countryCode } = region && JSON.parse(region)
-
   if (!cartId) {
     return null
   }
@@ -48,11 +45,7 @@ export default async function CheckoutForm() {
     <div>
       <div className="w-full grid grid-cols-1 gap-y-8">
         <div>
-          <Addresses
-            cart={cart}
-            countryCode={countryCode}
-            customer={customer}
-          />
+          <Addresses cart={cart} customer={customer} />
         </div>
 
         <div>

@@ -1,3 +1,4 @@
+import { Region } from "@medusajs/medusa"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 import React, { Suspense } from "react"
 
@@ -7,14 +8,19 @@ import ProductOnboardingCta from "@modules/products/components/product-onboardin
 import ProductTabs from "@modules/products/components/product-tabs"
 import RelatedProducts from "@modules/products/components/related-products"
 import ProductInfo from "@modules/products/templates/product-info"
-import SkeletonProductActions from "@modules/skeletons/templates/skeleton-product-actions"
 import SkeletonRelatedProducts from "@modules/skeletons/templates/skeleton-related-products"
 
 type ProductTemplateProps = {
   product: PricedProduct
+  region: Region
+  countryCode: string
 }
 
-const ProductTemplate: React.FC<ProductTemplateProps> = ({ product }) => {
+const ProductTemplate: React.FC<ProductTemplateProps> = ({
+  product,
+  region,
+  countryCode,
+}) => {
   return (
     <>
       <div className="content-container flex flex-col small:flex-row small:items-start py-6 relative">
@@ -27,14 +33,12 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({ product }) => {
         </div>
         <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-12">
           <ProductOnboardingCta />
-          <Suspense fallback={<SkeletonProductActions product={product} />}>
-            <ProductActions product={product} />
-          </Suspense>
+          <ProductActions product={product} region={region} />
         </div>
       </div>
       <div className="content-container my-16 small:my-32">
         <Suspense fallback={<SkeletonRelatedProducts />}>
-          <RelatedProducts product={product} />
+          <RelatedProducts product={product} countryCode={countryCode} />
         </Suspense>
       </div>
     </>

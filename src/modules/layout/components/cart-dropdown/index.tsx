@@ -3,14 +3,14 @@
 import { Popover, Transition } from "@headlessui/react"
 import { Cart } from "@medusajs/medusa"
 import { Button } from "@medusajs/ui"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { useParams, usePathname } from "next/navigation"
 import { Fragment, useEffect, useRef, useState } from "react"
 
 import { formatAmount } from "@lib/util/prices"
 import DeleteButton from "@modules/common/components/delete-button"
 import LineItemOptions from "@modules/common/components/line-item-options"
 import LineItemPrice from "@modules/common/components/line-item-price"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import Thumbnail from "@modules/products/components/thumbnail"
 
 const CartDropdown = ({
@@ -22,6 +22,8 @@ const CartDropdown = ({
     undefined
   )
   const [cartDropdownOpen, setCartDropdownOpen] = useState(false)
+
+  const { countryCode } = useParams()
 
   const open = () => setCartDropdownOpen(true)
   const close = () => setCartDropdownOpen(false)
@@ -62,7 +64,7 @@ const CartDropdown = ({
 
   // open cart dropdown when modifying the cart items, but only if we're not on the cart page
   useEffect(() => {
-    if (itemRef.current !== totalItems && pathname !== "/cart") {
+    if (itemRef.current !== totalItems && !pathname.includes("/cart")) {
       timedOpen()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -76,10 +78,10 @@ const CartDropdown = ({
     >
       <Popover className="relative h-full">
         <Popover.Button className="h-full">
-          <Link
+          <LocalizedClientLink
             className="hover:text-ui-fg-base"
             href="/cart"
-          >{`Cart (${totalItems})`}</Link>
+          >{`Cart (${totalItems})`}</LocalizedClientLink>
         </Popover.Button>
         <Transition
           show={cartDropdownOpen}
@@ -110,22 +112,22 @@ const CartDropdown = ({
                         className="grid grid-cols-[122px_1fr] gap-x-4"
                         key={item.id}
                       >
-                        <Link
+                        <LocalizedClientLink
                           href={`/products/${item.variant.product.handle}`}
                           className="w-24"
                         >
                           <Thumbnail thumbnail={item.thumbnail} size="square" />
-                        </Link>
+                        </LocalizedClientLink>
                         <div className="flex flex-col justify-between flex-1">
                           <div className="flex flex-col flex-1">
                             <div className="flex items-start justify-between">
                               <div className="flex flex-col overflow-ellipsis whitespace-nowrap mr-4 w-[180px]">
                                 <h3 className="text-base-regular overflow-hidden text-ellipsis">
-                                  <Link
+                                  <LocalizedClientLink
                                     href={`/products/${item.variant.product.handle}`}
                                   >
                                     {item.title}
-                                  </Link>
+                                  </LocalizedClientLink>
                                 </h3>
                                 <LineItemOptions variant={item.variant} />
                                 <span>Quantity: {item.quantity}</span>
@@ -160,11 +162,11 @@ const CartDropdown = ({
                       })}
                     </span>
                   </div>
-                  <Link href="/cart" passHref>
+                  <LocalizedClientLink href="/cart" passHref>
                     <Button className="w-full" size="large">
                       Go to cart
                     </Button>
-                  </Link>
+                  </LocalizedClientLink>
                 </div>
               </>
             ) : (
@@ -175,12 +177,12 @@ const CartDropdown = ({
                   </div>
                   <span>Your shopping bag is empty.</span>
                   <div>
-                    <Link href="/store">
+                    <LocalizedClientLink href="store">
                       <>
                         <span className="sr-only">Go to all products page</span>
                         <Button onClick={close}>Explore products</Button>
                       </>
-                    </Link>
+                    </LocalizedClientLink>
                   </div>
                 </div>
               </div>

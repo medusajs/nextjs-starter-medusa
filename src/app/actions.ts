@@ -1,33 +1,36 @@
 "use server"
 
 import { revalidateTag } from "next/cache"
-import { cookies } from "next/headers"
+import { cookies, headers } from "next/headers"
 import { redirect } from "next/navigation"
 
-import { retrieveRegion } from "@lib/data"
+import { listRegions, updateCart } from "@lib/data"
 
-import { updateCartRegion } from "@modules/cart/actions"
+import { Region } from "@medusajs/medusa"
 
 /**
- * Retrieves the region based on the regionId cookie
+ * Retrieves the region based on the countryCode path param
  */
-export async function getRegion() {
-  const regionCookie = cookies().get("_medusa_region")?.value
-
-  if (!regionCookie) {
-    console.log("No region cookie")
-    return null
-  }
-
-  const { regionId } = JSON.parse(regionCookie)
-
-  if (!regionId) {
-    console.log("No region ID")
-    return null
-  }
-
+export async function getRegion(countryCode: string) {
   try {
-    const region = await retrieveRegion(regionId).then((region) => region)
+    const regions = await listRegions()
+
+    if (!regions) {
+      return null
+    }
+
+    const regionMap = new Map<string, Region>()
+
+    regions.forEach((region) => {
+      region.countries.forEach((c) => {
+        regionMap.set(c.iso_2, region)
+      })
+    })
+
+    const region = countryCode
+      ? regionMap.get(countryCode)
+      : regionMap.get("us")
+
     return region
   } catch (e: any) {
     console.log(e.toString())
@@ -40,10 +43,27 @@ export async function getRegion() {
  * @param regionId
  * @param countryCode
  */
-export async function updateRegion(regionId: string, countryCode: string) {
-  cookies().set("_medusa_region", JSON.stringify({ regionId, countryCode }))
-  revalidateTag("regions")
-  await updateCartRegion(regionId)
+export async function updateRegion(countryCode: string, currentPath: string) {
+  const cartId = cookies().get("_medusa_cart_id")?.value
+  const region = await getRegion(countryCode)
+
+  if (!region) {
+    return null
+  }
+
+  try {
+    if (cartId) {
+      await updateCart(cartId, { region_id: region.id })
+      revalidateTag("cart")
+    }
+
+    revalidateTag("regions")
+    revalidateTag("products")
+  } catch (e) {
+    return "Error updating region"
+  }
+
+  redirect(`/${countryCode}${currentPath}`)
 }
 
 export async function resetOnboardingState(orderId: string) {
