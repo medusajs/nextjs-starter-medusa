@@ -29,7 +29,7 @@ const SearchResultsTemplate = ({
         <div className="flex flex-col items-start">
           <Text className="text-ui-fg-muted">Search Results for:</Text>
           <Heading>
-            {query} ({ids.length})
+            {decodeURI(query)} ({ids.length})
           </Heading>
         </div>
         <LocalizedClientLink
