@@ -10,11 +10,11 @@ import {
   createCart,
   getCart,
   getProductsById,
+  getRegion,
   removeItem,
   updateCart,
   updateItem,
 } from "@lib/data"
-import { getRegion } from "app/actions"
 
 /**
  * Retrieves the cart based on the cartId cookie
@@ -54,6 +54,7 @@ export async function getOrSetCart(countryCode: string) {
 }
 
 export async function retrieveCart() {
+  console.log("retrieveCart server action called")
   const cartId = cookies().get("_medusa_cart_id")?.value
 
   if (!cartId) {

@@ -6,12 +6,12 @@ import { notFound } from "next/navigation"
 import {
   getProductByHandle,
   getProductsList,
+  getRegion,
   listRegions,
   retrievePricedProductById,
 } from "@lib/data"
 import { Region } from "@medusajs/medusa"
 import ProductTemplate from "@modules/products/templates"
-import { getRegion } from "app/actions"
 
 type Props = {
   params: { countryCode: string; handle: string }

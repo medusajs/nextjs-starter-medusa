@@ -3,9 +3,8 @@ import { notFound } from "next/navigation"
 
 import AddressBook from "@modules/account/components/address-book"
 
-import { getCustomer } from "@lib/data"
+import { getCustomer, getRegion } from "@lib/data"
 
-import { getRegion } from "app/actions"
 import { headers } from "next/headers"
 
 export const metadata: Metadata = {

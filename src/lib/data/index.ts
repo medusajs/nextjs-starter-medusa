@@ -3,6 +3,7 @@
 import {
   ProductCategory,
   ProductCollection,
+  Region,
   StoreGetProductsParams,
   StorePostAuthReq,
   StorePostCartsCartReq,
@@ -17,7 +18,6 @@ import { cache } from "react"
 import sortProducts from "@lib/util/sort-products"
 import transformProductPreview from "@lib/util/transform-product-preview"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
-import { getRegion } from "app/actions"
 import { ProductCategoryWithChildren, ProductPreviewType } from "types/global"
 
 import { medusaClient } from "../config"
@@ -73,7 +73,8 @@ export async function updateCart(cartId: string, data: StorePostCartsCartReq) {
     .catch((error) => medusaError(error))
 }
 
-export async function getCart(cartId: string) {
+export const getCart = cache(async function (cartId: string) {
+  console.log("getCart lib function called")
   const headers = getMedusaHeaders(["cart"])
 
   return medusaClient.carts
@@ -83,7 +84,7 @@ export async function getCart(cartId: string) {
       console.log(err)
       return null
     })
-}
+})
 
 export async function addItem({
   cartId,
@@ -345,7 +346,7 @@ export const listCustomerOrders = cache(async function (
 })
 
 // Region actions
-export async function listRegions() {
+export const listRegions = cache(async function () {
   return medusaClient.regions
     .list()
     .then(({ regions }) => regions)
@@ -353,7 +354,7 @@ export async function listRegions() {
       console.log(err)
       return null
     })
-}
+})
 
 export const retrieveRegion = cache(async function (id: string) {
   const headers = getMedusaHeaders(["regions"])
@@ -362,6 +363,37 @@ export const retrieveRegion = cache(async function (id: string) {
     .retrieve(id, headers)
     .then(({ region }) => region)
     .catch((err) => medusaError(err))
+})
+
+const regionMap = new Map<string, Region>()
+
+export const getRegion = cache(async function (countryCode: string) {
+  try {
+    if (regionMap.has(countryCode)) {
+      return regionMap.get(countryCode)
+    }
+
+    const regions = await listRegions()
+
+    if (!regions) {
+      return null
+    }
+
+    regions.forEach((region) => {
+      region.countries.forEach((c) => {
+        regionMap.set(c.iso_2, region)
+      })
+    })
+
+    const region = countryCode
+      ? regionMap.get(countryCode)
+      : regionMap.get("us")
+
+    return region
+  } catch (e: any) {
+    console.log(e.toString())
+    return null
+  }
 })
 
 // Product actions
