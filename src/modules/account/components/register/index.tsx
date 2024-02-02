@@ -17,7 +17,7 @@ const Register = ({ setCurrentView }: Props) => {
   const [message, formAction] = useFormState(signUp, null)
 
   return (
-    <div className="max-w-sm flex flex-col items-center">
+    <div className="max-w-sm flex flex-col items-center" data-testid="register-page">
       <h1 className="text-large-semi uppercase mb-6">
         Become a Medusa Store Member
       </h1>
@@ -32,12 +32,14 @@ const Register = ({ setCurrentView }: Props) => {
             name="first_name"
             required
             autoComplete="given-name"
+            data-testid="first-name-input"
           />
           <Input
             label="Last name"
             name="last_name"
             required
             autoComplete="family-name"
+            data-testid="last-name-input"
           />
           <Input
             label="Email"
@@ -45,17 +47,19 @@ const Register = ({ setCurrentView }: Props) => {
             required
             type="email"
             autoComplete="email"
+            data-testid="email-input"
           />
-          <Input label="Phone" name="phone" type="tel" autoComplete="tel" />
+          <Input label="Phone" name="phone" type="tel" autoComplete="tel" data-testid="phone-input" />
           <Input
             label="Password"
             name="password"
             required
             type="password"
             autoComplete="new-password"
+            data-testid="password-input"
           />
         </div>
-        <ErrorMessage error={message} />
+        <ErrorMessage error={message} data-testid="register-error" />
         <span className="text-center text-ui-fg-base text-small-regular mt-6">
           By creating an account, you agree to Medusa Store&apos;s{" "}
           <LocalizedClientLink
@@ -73,7 +77,7 @@ const Register = ({ setCurrentView }: Props) => {
           </LocalizedClientLink>
           .
         </span>
-        <SubmitButton className="w-full mt-6">Join</SubmitButton>
+        <SubmitButton className="w-full mt-6" data-testid="register-button">Join</SubmitButton>
       </form>
       <span className="text-center text-ui-fg-base text-small-regular mt-6">
         Already a member?{" "}
