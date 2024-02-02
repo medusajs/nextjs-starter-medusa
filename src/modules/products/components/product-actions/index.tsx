@@ -134,6 +134,7 @@ export default function ProductActions({
                       current={options[option.id]}
                       updateOption={updateOptions}
                       title={option.title}
+                      data-testid="product-options"
                     />
                   </div>
                 )
@@ -151,6 +152,7 @@ export default function ProductActions({
           variant="primary"
           className="w-full h-10"
           isLoading={isAdding}
+          data-testid="add-product-button"
         >
           {!variant
             ? "Select variant"
