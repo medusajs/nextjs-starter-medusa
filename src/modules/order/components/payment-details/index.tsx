@@ -23,7 +23,7 @@ const PaymentDetails = ({ order }: PaymentDetailsProps) => {
               <Text className="txt-medium-plus text-ui-fg-base mb-1">
                 Payment method
               </Text>
-              <Text className="txt-medium text-ui-fg-subtle">
+              <Text className="txt-medium text-ui-fg-subtle" data-testid="payment-method">
                 {paymentInfoMap[payment.provider_id].title}
               </Text>
             </div>
@@ -35,7 +35,7 @@ const PaymentDetails = ({ order }: PaymentDetailsProps) => {
                 <Container className="flex items-center h-7 w-fit p-2 bg-ui-button-neutral-hover">
                   {paymentInfoMap[payment.provider_id].icon}
                 </Container>
-                <Text>
+                <Text data-testid="payment-amount">
                   {payment.provider_id === "stripe" && payment.data.card_last4
                     ? `**** **** **** ${payment.data.card_last4}`
                     : `${formatAmount({
