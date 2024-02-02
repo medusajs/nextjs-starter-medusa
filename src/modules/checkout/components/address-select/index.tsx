@@ -39,7 +39,9 @@ const AddressSelect = ({ addresses, cart }: AddressSelectProps) => {
   return (
     <Listbox onChange={handleSelect} value={selectedAddress?.id}>
       <div className="relative">
-        <Listbox.Button className="relative w-full flex justify-between items-center px-4 py-[10px] text-left bg-white cursor-default focus:outline-none border rounded-rounded focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-gray-300 focus-visible:ring-offset-2 focus-visible:border-gray-300 text-base-regular">
+        <Listbox.Button
+          className="relative w-full flex justify-between items-center px-4 py-[10px] text-left bg-white cursor-default focus:outline-none border rounded-rounded focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-gray-300 focus-visible:ring-offset-2 focus-visible:border-gray-300 text-base-regular"
+          data-testid="shipping-address-select">
           {({ open }) => (
             <>
               <span className="block truncate">
@@ -61,16 +63,19 @@ const AddressSelect = ({ addresses, cart }: AddressSelectProps) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute z-20 w-full overflow-auto text-small-regular bg-white border border-top-0 max-h-60 focus:outline-none sm:text-sm">
+          <Listbox.Options
+            className="absolute z-20 w-full overflow-auto text-small-regular bg-white border border-top-0 max-h-60 focus:outline-none sm:text-sm"
+            data-testid="shipping-options">
             {addresses.map((address) => {
               return (
                 <Listbox.Option
                   key={address.id}
                   value={address.id}
                   className="cursor-default select-none relative pl-6 pr-10 hover:bg-gray-50 py-4"
+                  data-testid="shipping-option"
                 >
                   <div className="flex gap-x-4 items-start">
-                    <Radio checked={selectedAddress?.id === address.id} />
+                    <Radio checked={selectedAddress?.id === address.id} data-testid="shipping-address-radio" />
                     <div className="flex flex-col">
                       <span className="text-left text-base-semi">
                         {address.first_name} {address.last_name}
