@@ -15,10 +15,10 @@ const Overview = ({ customer, orders }: OverviewProps) => {
     <div>
       <div className="hidden small:block">
         <div className="text-xl-semi flex justify-between items-center mb-4">
-          <span>Hello {customer?.first_name}</span>
+          <span data-testid="welcome-message" data-value={customer?.first_name}>Hello {customer?.first_name}</span>
           <span className="text-small-regular text-ui-fg-base">
             Signed in as:{" "}
-            <span className="font-semibold">{customer?.email}</span>
+            <span className="font-semibold" data-testid="customer-email" data-value={customer?.email}>{customer?.email}</span>
           </span>
         </div>
         <div className="flex flex-col py-8 border-t border-gray-200">
@@ -27,7 +27,7 @@ const Overview = ({ customer, orders }: OverviewProps) => {
               <div className="flex flex-col gap-y-4">
                 <h3 className="text-large-semi">Profile</h3>
                 <div className="flex items-end gap-x-2">
-                  <span className="text-3xl-semi leading-none">
+                  <span className="text-3xl-semi leading-none" data-testid="customer-profile-completion" data-value={getProfileCompletion(customer)}>
                     {getProfileCompletion(customer)}%
                   </span>
                   <span className="uppercase text-base-regular text-ui-fg-subtle">
@@ -39,7 +39,7 @@ const Overview = ({ customer, orders }: OverviewProps) => {
               <div className="flex flex-col gap-y-4">
                 <h3 className="text-large-semi">Addresses</h3>
                 <div className="flex items-end gap-x-2">
-                  <span className="text-3xl-semi leading-none">
+                  <span className="text-3xl-semi leading-none" data-testid="addresses-count" data-value={customer?.shipping_addresses?.length || 0}>
                     {customer?.shipping_addresses?.length || 0}
                   </span>
                   <span className="uppercase text-base-regular text-ui-fg-subtle">
@@ -53,11 +53,11 @@ const Overview = ({ customer, orders }: OverviewProps) => {
               <div className="flex items-center gap-x-2">
                 <h3 className="text-large-semi">Recent orders</h3>
               </div>
-              <ul className="flex flex-col gap-y-4">
+              <ul className="flex flex-col gap-y-4" data-testid="orders-wrapper">
                 {orders && orders.length > 0 ? (
                   orders.slice(0, 5).map((order) => {
                     return (
-                      <li key={order.id}>
+                      <li key={order.id} data-testid="order-wrapper" data-value={order.id}>
                         <LocalizedClientLink
                           href={`/account/orders/details/${order.id}`}
                         >
@@ -70,11 +70,11 @@ const Overview = ({ customer, orders }: OverviewProps) => {
                               <span className="font-semibold">
                                 Total amount
                               </span>
-                              <span>
+                              <span data-testid="order-created-date">
                                 {new Date(order.created_at).toDateString()}
                               </span>
-                              <span>#{order.display_id}</span>
-                              <span>
+                              <span data-testid="order-id" data-value={order.display_id}>#{order.display_id}</span>
+                              <span data-testid="order-amount">
                                 {formatAmount({
                                   amount: order.total,
                                   region: order.region,
@@ -82,7 +82,7 @@ const Overview = ({ customer, orders }: OverviewProps) => {
                                 })}
                               </span>
                             </div>
-                            <button className="flex items-center justify-between">
+                            <button className="flex items-center justify-between" data-testid="open-order-button">
                               <span className="sr-only">
                                 Go to order #{order.display_id}
                               </span>
@@ -94,7 +94,7 @@ const Overview = ({ customer, orders }: OverviewProps) => {
                     )
                   })
                 ) : (
-                  <span>No recent orders</span>
+                  <span data-testid="no-orders-message">No recent orders</span>
                 )}
               </ul>
             </div>
