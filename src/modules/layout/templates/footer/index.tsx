@@ -40,7 +40,7 @@ export default async function Footer() {
                 <span className="txt-small-plus txt-ui-fg-base">
                   Categories
                 </span>
-                <ul className="grid grid-cols-1 gap-2">
+                <ul className="grid grid-cols-1 gap-2" data-testid="footer-categories">
                   {productCategories?.slice(0, 6).map((c) => {
                     if (c.parent_category) {
                       return
@@ -64,6 +64,7 @@ export default async function Footer() {
                             children && "txt-small-plus"
                           )}
                           href={`/categories/${c.handle}`}
+                          data-testid="category-link"
                         >
                           {c.name}
                         </LocalizedClientLink>
@@ -75,6 +76,7 @@ export default async function Footer() {
                                   <LocalizedClientLink
                                     className="hover:text-ui-fg-base"
                                     href={`/categories/${child.handle}`}
+                                    data-testid="category-link"
                                   >
                                     {child.name}
                                   </LocalizedClientLink>
