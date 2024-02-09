@@ -20,7 +20,7 @@ import transformProductPreview from "@lib/util/transform-product-preview"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import { ProductCategoryWithChildren, ProductPreviewType } from "types/global"
 
-import { medusaClient } from "../config"
+import { medusaClient } from "@lib/config"
 import medusaError from "@lib/util/medusa-error"
 import { cookies } from "next/headers"
 
@@ -74,7 +74,6 @@ export async function updateCart(cartId: string, data: StorePostCartsCartReq) {
 }
 
 export const getCart = cache(async function (cartId: string) {
-  console.log("getCart lib function called")
   const headers = getMedusaHeaders(["cart"])
 
   return medusaClient.carts
