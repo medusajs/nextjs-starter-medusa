@@ -1,15 +1,22 @@
 import { Region } from "@medusajs/medusa"
+import { notFound } from "next/navigation"
 import { NextRequest, NextResponse } from "next/server"
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
-const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "us"
+const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "nl"
 
-const regionMapCache = new Map<string, Region | number>()
+const regionMapCache = {
+  regionMap: new Map<string, Region>(),
+  regionMapUpdated: Date.now(),
+}
 
 async function getRegionMap() {
-  const regionMapUpdated = regionMapCache.get("updated_at") as number
+  const { regionMap, regionMapUpdated } = regionMapCache
 
-  if (!regionMapUpdated || regionMapUpdated < Date.now() - 3600 * 1000) {
+  if (
+    !regionMap.keys().next().value ||
+    regionMapUpdated < Date.now() - 3600 * 1000
+  ) {
     // Fetch regions from Medusa. We can't use the JS client here because middleware is running on Edge and the client needs a Node environment.
     const { regions } = await fetch(`${BACKEND_URL}/store/regions`, {
       next: {
@@ -18,17 +25,21 @@ async function getRegionMap() {
       },
     }).then((res) => res.json())
 
+    if (!regions) {
+      notFound()
+    }
+
     // Create a map of country codes to regions.
     regions.forEach((region: Region) => {
       region.countries.forEach((c) => {
-        regionMapCache.set(c.iso_2, region)
+        regionMapCache.regionMap.set(c.iso_2, region)
       })
     })
 
-    regionMapCache.set("updated_at", Date.now())
+    regionMapCache.regionMapUpdated = Date.now()
   }
 
-  return regionMapCache
+  return regionMapCache.regionMap
 }
 
 /**
