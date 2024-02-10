@@ -1,5 +1,8 @@
 {
   "features": {
     "search": false
+  },
+  "store": {
+    "name": "Medusa Store"
   }
 }

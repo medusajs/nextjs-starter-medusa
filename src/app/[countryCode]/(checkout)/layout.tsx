@@ -1,6 +1,7 @@
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import ChevronDown from "@modules/common/icons/chevron-down"
 import MedusaCTA from "@modules/layout/components/medusa-cta"
+import { store } from "@config"
 
 export default function CheckoutLayout({
   children,
@@ -27,7 +28,7 @@ export default function CheckoutLayout({
             href="/"
             className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase"
           >
-            Medusa Store
+            {store.name}
           </LocalizedClientLink>
           <div className="flex-1 basis-0" />
         </nav>

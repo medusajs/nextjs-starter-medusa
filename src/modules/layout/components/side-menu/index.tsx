@@ -5,6 +5,7 @@ import { ArrowRightMini, XMark } from "@medusajs/icons"
 import { Region } from "@medusajs/medusa"
 import { Text, clx, useToggleState } from "@medusajs/ui"
 import { Fragment } from "react"
+import { store } from "@config"
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import CountrySelect from "../country-select"
@@ -84,7 +85,7 @@ const SideMenu = ({ regions }: { regions: Region[] | null }) => {
                         />
                       </div>
                       <Text className="flex justify-between txt-compact-small">
-                        © {new Date().getFullYear()} Medusa Store. All rights
+                        © {new Date().getFullYear()} {store.name}. All rights
                         reserved.
                       </Text>
                     </div>
