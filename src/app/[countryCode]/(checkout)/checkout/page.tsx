@@ -9,8 +9,6 @@ import CheckoutForm from "@modules/checkout/templates/checkout-form"
 import CheckoutSummary from "@modules/checkout/templates/checkout-summary"
 import { getCart } from "@lib/data"
 
-export const dynamic = "force-dynamic"
-
 export const metadata: Metadata = {
   title: "Checkout",
 }
