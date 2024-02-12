@@ -1,8 +1,46 @@
 import { Region } from "@medusajs/medusa"
+import { notFound } from "next/navigation"
 import { NextRequest, NextResponse } from "next/server"
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
-const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "us"
+const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "nl"
+
+const regionMapCache = {
+  regionMap: new Map<string, Region>(),
+  regionMapUpdated: Date.now(),
+}
+
+async function getRegionMap() {
+  const { regionMap, regionMapUpdated } = regionMapCache
+
+  if (
+    !regionMap.keys().next().value ||
+    regionMapUpdated < Date.now() - 3600 * 1000
+  ) {
+    // Fetch regions from Medusa. We can't use the JS client here because middleware is running on Edge and the client needs a Node environment.
+    const { regions } = await fetch(`${BACKEND_URL}/store/regions`, {
+      next: {
+        revalidate: 3600,
+        tags: ["regions"],
+      },
+    }).then((res) => res.json())
+
+    if (!regions) {
+      notFound()
+    }
+
+    // Create a map of country codes to regions.
+    regions.forEach((region: Region) => {
+      region.countries.forEach((c) => {
+        regionMapCache.regionMap.set(c.iso_2, region)
+      })
+    })
+
+    regionMapCache.regionMapUpdated = Date.now()
+  }
+
+  return regionMapCache.regionMap
+}
 
 /**
  * Fetches regions from Medusa and sets the region cookie.
@@ -11,7 +49,7 @@ const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "us"
  */
 async function getCountryCode(
   request: NextRequest,
-  regionMap: Map<string, Region>
+  regionMap: Map<string, Region | number>
 ) {
   try {
     let countryCode
@@ -42,35 +80,6 @@ async function getCountryCode(
   }
 }
 
-async function listCountries() {
-  try {
-    // Fetch regions from Medusa. We can't use the JS client here because middleware is running on Edge and the client needs a Node environment.
-    const { regions } = await fetch(`${BACKEND_URL}/store/regions`, {
-      next: {
-        revalidate: 3600,
-        tags: ["regions"],
-      },
-    }).then((res) => res.json())
-
-    // Create a map of country codes to regions.
-    const regionMap = new Map<string, Region>()
-
-    regions.forEach((region: Region) => {
-      region.countries.forEach((c) => {
-        regionMap.set(c.iso_2, region)
-      })
-    })
-
-    return regionMap
-  } catch (error) {
-    if (process.env.NODE_ENV === "development") {
-      console.error(
-        "Middleware.ts: Error fetching regions. Did you set up regions in your Medusa Admin and define a NEXT_PUBLIC_MEDUSA_BACKEND_URL environment variable?"
-      )
-    }
-  }
-}
-
 /**
  * Middleware to handle region selection and onboarding status.
  */
@@ -79,7 +88,7 @@ export async function middleware(request: NextRequest) {
   const isOnboarding = searchParams.get("onboarding") === "true"
   const onboardingCookie = request.cookies.get("_medusa_onboarding")
 
-  const regionMap = await listCountries()
+  const regionMap = await getRegionMap()
 
   const countryCode = regionMap && (await getCountryCode(request, regionMap))
 

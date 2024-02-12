@@ -10,11 +10,11 @@ import {
   createCart,
   getCart,
   getProductsById,
+  getRegion,
   removeItem,
   updateCart,
   updateItem,
 } from "@lib/data"
-import { getRegion } from "app/actions"
 
 /**
  * Retrieves the cart based on the cartId cookie

@@ -3,17 +3,24 @@ import { cookies } from "next/headers"
 import { notFound } from "next/navigation"
 import { LineItem } from "@medusajs/medusa"
 
-import { enrichLineItems, retrieveCart } from "@modules/cart/actions"
+import { enrichLineItems } from "@modules/cart/actions"
 import Wrapper from "@modules/checkout/components/payment-wrapper"
 import CheckoutForm from "@modules/checkout/templates/checkout-form"
 import CheckoutSummary from "@modules/checkout/templates/checkout-summary"
+import { getCart } from "@lib/data"
 
 export const metadata: Metadata = {
   title: "Checkout",
 }
 
 const fetchCart = async () => {
-  const cart = await retrieveCart()
+  const cartId = cookies().get("_medusa_cart_id")?.value
+
+  if (!cartId) {
+    return notFound()
+  }
+
+  const cart = await getCart(cartId).then((cart) => cart)
 
   if (cart?.items.length) {
     const enrichedItems = await enrichLineItems(cart?.items, cart?.region_id)
@@ -24,12 +31,6 @@ const fetchCart = async () => {
 }
 
 export default async function Checkout() {
-  const cartId = cookies().get("_medusa_cart_id")?.value
-
-  if (!cartId) {
-    return notFound()
-  }
-
   const cart = await fetchCart()
 
   if (!cart) {
