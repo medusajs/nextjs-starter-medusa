@@ -10,6 +10,6 @@ if (process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL) {
 
 export const medusaClient = new Medusa({
   baseUrl: MEDUSA_BACKEND_URL,
-  adapter: fetchAdapter,
+  axiosAdapter: fetchAdapter,
   maxRetries: 3,
 })
