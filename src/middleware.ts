@@ -3,7 +3,7 @@ import { notFound } from "next/navigation"
 import { NextRequest, NextResponse } from "next/server"
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
-const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "nl"
+const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "us"
 
 const regionMapCache = {
   regionMap: new Map<string, Region>(),
