@@ -710,7 +710,7 @@
     retry-axios "^2.6.0"
     uuid "^9.0.0"
 
-"@medusajs/medusa-js@6.1.7":
+"@medusajs/medusa-js@^6.1.7":
   version "6.1.7"
   resolved "https://registry.yarnpkg.com/@medusajs/medusa-js/-/medusa-js-6.1.7.tgz#c04d62a6dcd554dae1f467f46bb74c1627b15e07"
   integrity sha512-WJf6pZCTf1aKw64NkwrtsCPcYXZzTO3XaETbHLucWuPDf9kHzzCTcHvsshnW3dDRzKIn4Vn48HygzzkvhoN+HA==
