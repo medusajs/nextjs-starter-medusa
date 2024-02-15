@@ -1,4 +1,4 @@
-import { publicTest as test, expect } from "../index"
+import { test, expect } from "../../index"
 
 test.describe("Login Page functionality", async () => {
   test("access login page from nav menu and submit (partially) empty form", async ({
@@ -45,6 +45,6 @@ test.describe("Login Page functionality", async () => {
     await loginPage.emailInput.fill("test@example.com")
     await loginPage.passwordInput.fill("password")
     await loginPage.signInButton.click()
-    await expect(accountOverviewPage.container).toBeVisible()
+    await expect(accountOverviewPage.welcomeMessage).toBeVisible()
   })
 })

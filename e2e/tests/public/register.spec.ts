@@ -1,4 +1,4 @@
-import { publicTest as test, expect } from "../index"
+import { test, expect } from "../../index"
 
 test.describe("User registration functionality", async () => {
   test("registration with existing user shows error message", async ({
@@ -43,7 +43,8 @@ test.describe("User registration functionality", async () => {
     await expect(registerPage.passwordInput).toBeFocused()
     await registerPage.passwordInput.fill("password")
 
-    await expect(accountOverviewPage.container).toBeVisible()
+    await registerPage.registerButton.click()
+    await expect(accountOverviewPage.welcomeMessage).toBeVisible()
   })
 
   test("successful registration and navigation to account overview", async ({
@@ -61,6 +62,6 @@ test.describe("User registration functionality", async () => {
     await registerPage.passwordInput.fill("password")
     await registerPage.registerButton.click()
 
-    await expect(accountOverviewPage.container).toBeVisible()
+    await expect(accountOverviewPage.welcomeMessage).toBeVisible()
   })
 })
