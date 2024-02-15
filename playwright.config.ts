@@ -1,14 +1,9 @@
 import { defineConfig, devices } from "@playwright/test"
+import path from "path"
+import "dotenv/config.js"
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// require('dotenv').config();
+export const STORAGE_STATE = path.join(__dirname, "playwright/.auth/user.json")
 
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
 export default defineConfig({
   testDir: "./e2e",
   /* Run tests in files in parallel */
@@ -33,10 +28,34 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: "chromium",
+      name: "setup",
+      testMatch: /global\/setup\.ts/,
+      teardown: "cleanup test database",
+    },
+    {
+      name: "public setup",
+      testMatch: /global\/public-setup\.ts/,
+      teardown: "cleanup test database",
+    },
+    {
+      name: "cleanup test database",
+      testMatch: /global\/teardown\.ts/,
+    },
+    {
+      name: "chromium auth",
+      dependencies: ["setup"],
+      testIgnore: "public/*.spec.ts",
+      use: { ...devices["Desktop Chrome"], storageState: STORAGE_STATE },
+    },
+
+    {
+      name: "chromium public",
+      dependencies: ["public setup"],
+      testMatch: "public/*.spec.ts",
       use: { ...devices["Desktop Chrome"] },
     },
 
+    /*
     {
       name: "firefox",
       use: { ...devices["Desktop Firefox"] },
@@ -46,26 +65,7 @@ export default defineConfig({
       name: "webkit",
       use: { ...devices["Desktop Safari"] },
     },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
+    */
   ],
 
   /* Run your local dev server before starting the tests */

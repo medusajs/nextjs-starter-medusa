@@ -18,4 +18,9 @@ export class LoginPage extends BasePage {
     this.registerButton = this.container.getByTestId("register-button")
     this.errorMessage = this.container.getByTestId("login-error-message")
   }
+
+  async goto() {
+    await this.page.goto("/account")
+    await this.container.waitFor({ state: "visible" })
+  }
 }
