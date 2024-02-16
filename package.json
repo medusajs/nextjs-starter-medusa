@@ -33,7 +33,6 @@
     "@paypal/react-paypal-js": "^7.8.1",
     "@stripe/react-stripe-js": "^1.7.2",
     "@stripe/stripe-js": "^1.29.0",
-    "@vespaiach/axios-fetch-adapter": "^0.3.1",
     "algoliasearch": "^4.20.0",
     "lodash": "^4.17.21",
     "medusa-react": "^9.0.0",
