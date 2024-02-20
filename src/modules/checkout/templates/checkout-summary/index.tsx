@@ -4,10 +4,17 @@ import ItemsPreviewTemplate from "@modules/cart/templates/preview"
 import DiscountCode from "@modules/checkout/components/discount-code"
 import CartTotals from "@modules/common/components/cart-totals"
 import Divider from "@modules/common/components/divider"
-import { retrieveCart } from "@modules/cart/actions"
+import { cookies } from "next/headers"
+import { getCart } from "@lib/data"
 
 const CheckoutSummary = async () => {
-  const cart = await retrieveCart().then((cart) => cart)
+  const cartId = cookies().get("_medusa_cart_id")?.value
+
+  if (!cartId) {
+    return null
+  }
+
+  const cart = await getCart(cartId).then((cart) => cart)
 
   if (!cart) {
     return null

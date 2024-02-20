@@ -23,7 +23,7 @@
     "@headlessui/react": "^1.6.1",
     "@hookform/error-message": "^2.0.0",
     "@medusajs/link-modules": "^0.2.3",
-    "@medusajs/medusa-js": "^6.1.4",
+    "@medusajs/medusa-js": "^6.1.7",
     "@medusajs/modules-sdk": "^1.12.3",
     "@medusajs/pricing": "^0.1.4",
     "@medusajs/product": "^0.3.4",

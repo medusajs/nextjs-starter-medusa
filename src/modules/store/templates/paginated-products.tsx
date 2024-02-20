@@ -1,8 +1,7 @@
-import { getProductsListWithSort } from "@lib/data"
+import { getProductsListWithSort, getRegion } from "@lib/data"
 import ProductPreview from "@modules/products/components/product-preview"
 import { Pagination } from "@modules/store/components/pagination"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
-import { getRegion } from "app/actions"
 
 const PRODUCT_LIMIT = 12
 

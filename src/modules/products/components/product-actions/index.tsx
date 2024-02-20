@@ -30,7 +30,7 @@ export type PriceType = {
 export default function ProductActions({
   product,
   region,
-}: ProductActionsProps): JSX.Element {
+}: ProductActionsProps) {
   const [options, setOptions] = useState<Record<string, string>>({})
   const [isAdding, setIsAdding] = useState(false)
 
@@ -110,13 +110,16 @@ export default function ProductActions({
 
   // add the selected variant to the cart
   const handleAddToCart = async () => {
-    if (!variant?.id) return
+    if (!variant?.id) return null
+
     setIsAdding(true)
+
     await addToCart({
       variantId: variant.id,
       quantity: 1,
-      countryCode: countryCode,
+      countryCode,
     })
+
     setIsAdding(false)
   }
 
