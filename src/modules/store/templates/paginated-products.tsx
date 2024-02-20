@@ -10,10 +10,12 @@ type PaginatedProductsParams = {
   collection_id?: string[]
   category_id?: string[]
   id?: string[]
+  vehicle_id?: string[]
 }
 
 export default async function PaginatedProducts({
   sortBy,
+  vehicleId,
   page,
   collectionId,
   categoryId,
@@ -21,6 +23,7 @@ export default async function PaginatedProducts({
   countryCode,
 }: {
   sortBy?: SortOptions
+  vehicleId?: string
   page: number
   collectionId?: string
   categoryId?: string
@@ -47,6 +50,11 @@ export default async function PaginatedProducts({
 
   if (productsIds) {
     queryParams["id"] = productsIds
+  }
+
+  if (vehicleId) {
+    const vehicleIdArray = vehicleId.split(",")
+    queryParams["vehicle_id"] = vehicleIdArray
   }
 
   const {

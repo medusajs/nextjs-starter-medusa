@@ -514,32 +514,39 @@ export const getProductsListWithSort = cache(
   }> {
     const limit = queryParams?.limit || 12
 
-    const {
-      response: { products, count },
-    } = await getProductsList({
-      pageParam: 0,
-      queryParams: {
-        ...queryParams,
-        limit: 100,
-      },
-      countryCode,
-    })
+    try {
+      const {
+        response: { products, count },
+      } = await getProductsList({
+        pageParam: 0,
+        queryParams: {
+          ...queryParams,
+          limit: 100,
+        },
+        countryCode,
+      })
 
-    const sortedProducts = sortProducts(products, sortBy)
+      const sortedProducts = sortProducts(products, sortBy)
 
-    const pageParam = (page - 1) * limit
+      const pageParam = (page - 1) * limit
 
-    const nextPage = count > pageParam + limit ? pageParam + limit : null
+      const nextPage = count > pageParam + limit ? pageParam + limit : null
 
-    const paginatedProducts = sortedProducts.slice(pageParam, pageParam + limit)
+      const paginatedProducts = sortedProducts.slice(
+        pageParam,
+        pageParam + limit
+      )
 
-    return {
-      response: {
-        products: paginatedProducts,
-        count,
-      },
-      nextPage,
-      queryParams,
+      return {
+        response: {
+          products: paginatedProducts,
+          count,
+        },
+        nextPage,
+        queryParams,
+      }
+    } catch (e: any) {
+      return emptyResponse
     }
   }
 )

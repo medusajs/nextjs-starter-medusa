@@ -56,3 +56,10 @@ export type ProductCategoryWithChildren = Omit<
   category_children: ProductCategory[]
   category_parent?: ProductCategory
 }
+
+export type VehicleDTO = {
+  id: string
+  brand: string
+  model: string
+  year: number
+}

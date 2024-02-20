@@ -3,12 +3,13 @@
 import { ChangeEvent } from "react"
 
 import FilterRadioGroup from "@modules/common/components/filter-radio-group"
+import { QueryParam } from ".."
 
 export type SortOptions = "price_asc" | "price_desc" | "created_at"
 
 type SortProductsProps = {
   sortBy: SortOptions
-  setQueryParams: (name: string, value: SortOptions) => void
+  setQueryParams: (param: QueryParam) => void
 }
 
 const sortOptions = [
@@ -29,7 +30,10 @@ const sortOptions = [
 const SortProducts = ({ sortBy, setQueryParams }: SortProductsProps) => {
   const handleChange = (e: ChangeEvent<HTMLButtonElement>) => {
     const newSortBy = e.target.value as SortOptions
-    setQueryParams("sortBy", newSortBy)
+    setQueryParams({
+      name: "sortBy",
+      value: newSortBy,
+    })
   }
 
   return (
