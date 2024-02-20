@@ -56,7 +56,7 @@ const Addresses = ({
           level="h2"
           className="flex flex-row text-3xl-regular gap-x-2 items-baseline"
         >
-          Address
+          Shipping Address
           {!isOpen && <CheckCircleSolid />}
         </Heading>
         {!isOpen && cart?.shipping_address && (
