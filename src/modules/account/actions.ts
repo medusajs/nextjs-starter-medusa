@@ -266,8 +266,11 @@ export async function signOut() {
   cookies().set("_medusa_jwt", "", {
     maxAge: -1,
   })
-  const countryCode = headers().get("next-url")?.split("/")[1] || ""
+  const nextUrl = headers().get("next-url")
+  const countryCode = nextUrl?.split("/")[1] || ""
   revalidateTag("auth")
   revalidateTag("customer")
-  redirect(`/${countryCode}/account`)
+  if (nextUrl) {
+    redirect(`/${countryCode}/account`)
+  }
 }

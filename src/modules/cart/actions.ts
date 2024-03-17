@@ -10,11 +10,11 @@ import {
   createCart,
   getCart,
   getProductsById,
+  getRegion,
   removeItem,
   updateCart,
   updateItem,
 } from "@lib/data"
-import { getRegion } from "app/actions"
 
 /**
  * Retrieves the cart based on the cartId cookie
@@ -41,7 +41,13 @@ export async function getOrSetCart(countryCode: string) {
 
   if (!cart) {
     cart = await createCart({ region_id }).then((res) => res)
-    cart && cookies().set("_medusa_cart_id", cart.id)
+    cart &&
+      cookies().set("_medusa_cart_id", cart.id, {
+        maxAge: 60 * 60 * 24 * 7,
+        httpOnly: true,
+        sameSite: "strict",
+        secure: process.env.NODE_ENV === "production",
+      })
     revalidateTag("cart")
   }
 

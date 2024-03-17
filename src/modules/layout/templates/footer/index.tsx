@@ -3,25 +3,12 @@ import { Text, clx } from "@medusajs/ui"
 import { getCategoriesList, getCollectionsList } from "@lib/data"
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import MedusaCTA from "../../components/medusa-cta"
-
-const fetchCollections = async () => {
-  const { collections } = await getCollectionsList()
-  return collections
-}
-
-const fetchCategories = async () => {
-  const { product_categories } = await getCategoriesList()
-  return product_categories
-}
+import MedusaCTA from "@modules/layout/components/medusa-cta"
 
 export default async function Footer() {
-  const productCollections = await fetchCollections().then(
-    (collections) => collections
-  )
-  const productCategories = await fetchCategories().then(
-    (categories) => categories
-  )
+  const { collections } = await getCollectionsList(0, 6)
+  const { product_categories } = await getCategoriesList(0, 6)
+
   return (
     <footer className="border-t border-ui-border-base w-full">
       <div className="content-container flex flex-col w-full">
@@ -35,13 +22,13 @@ export default async function Footer() {
             </LocalizedClientLink>
           </div>
           <div className="text-small-regular gap-10 md:gap-x-16 grid grid-cols-2 sm:grid-cols-3">
-            {productCategories && productCategories?.length > 0 && (
+            {product_categories && product_categories?.length > 0 && (
               <div className="flex flex-col gap-y-2">
                 <span className="txt-small-plus txt-ui-fg-base">
                   Categories
                 </span>
                 <ul className="grid grid-cols-1 gap-2">
-                  {productCategories?.slice(0, 6).map((c) => {
+                  {product_categories?.slice(0, 6).map((c) => {
                     if (c.parent_category) {
                       return
                     }
@@ -88,7 +75,7 @@ export default async function Footer() {
                 </ul>
               </div>
             )}
-            {productCollections && productCollections.length > 0 && (
+            {collections && collections.length > 0 && (
               <div className="flex flex-col gap-y-2">
                 <span className="txt-small-plus txt-ui-fg-base">
                   Collections
@@ -97,11 +84,11 @@ export default async function Footer() {
                   className={clx(
                     "grid grid-cols-1 gap-2 text-ui-fg-subtle txt-small",
                     {
-                      "grid-cols-2": (productCollections?.length || 0) > 3,
+                      "grid-cols-2": (collections?.length || 0) > 3,
                     }
                   )}
                 >
-                  {productCollections?.slice(0, 6).map((c) => (
+                  {collections?.slice(0, 6).map((c) => (
                     <li key={c.id}>
                       <LocalizedClientLink
                         className="hover:text-ui-fg-base"
