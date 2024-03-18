@@ -49,6 +49,36 @@ const getMedusaHeaders = (tags: string[] = []) => {
   return headers
 }
 
+// Auction actions
+export async function listAuctions(productId: string) {
+  const headers = getMedusaHeaders(["auctions"])
+
+  return fetch(
+    `http://localhost:9000/store/auctions?product_id=${productId}&status=active`,
+    {
+      headers,
+    }
+  )
+    .then((response) => response.json())
+    .catch((err) => medusaError(err))
+}
+
+export async function createBid(
+  auctionId: string,
+  amount: number,
+  customerId: string
+) {
+  const headers = getMedusaHeaders(["auctions"])
+
+  return fetch(`http://localhost:9000/store/auctions/${auctionId}/bids`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ amount, customer_id: customerId }),
+  })
+    .then((response) => response.json())
+    .catch((err) => medusaError(err))
+}
+
 // Cart actions
 export async function createCart(data = {}) {
   const headers = getMedusaHeaders(["cart"])

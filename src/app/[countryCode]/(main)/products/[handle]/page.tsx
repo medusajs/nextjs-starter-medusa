@@ -2,14 +2,22 @@ import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import {
+  getCustomer,
   getProductByHandle,
   getProductsList,
   getRegion,
+  listAuctions,
   listRegions,
   retrievePricedProductById,
 } from "@lib/data"
 import { Region } from "@medusajs/medusa"
-import ProductTemplate from "@modules/products/templates"
+import AuctionsActions from "@modules/products/components/auction-actions"
+import ImageGallery from "@modules/products/components/image-gallery"
+import ProductTabs from "@modules/products/components/product-tabs"
+import RelatedProducts from "@modules/products/components/related-products"
+import ProductInfo from "@modules/products/templates/product-info"
+import SkeletonRelatedProducts from "@modules/skeletons/templates/skeleton-related-products"
+import { Suspense } from "react"
 
 type Props = {
   params: { countryCode: string; handle: string }
@@ -84,6 +92,10 @@ const getPricedProductByHandle = async (handle: string, region: Region) => {
 }
 
 export default async function ProductPage({ params }: Props) {
+  const { product } = await getProductByHandle(params.handle).then(
+    (product) => product
+  )
+
   const region = await getRegion(params.countryCode)
 
   if (!region) {
@@ -92,15 +104,38 @@ export default async function ProductPage({ params }: Props) {
 
   const pricedProduct = await getPricedProductByHandle(params.handle, region)
 
-  if (!pricedProduct) {
+  if (!pricedProduct || !pricedProduct.id) {
     notFound()
   }
 
+  const customer = await getCustomer()
+
+  const {
+    auctions: { [0]: auction },
+  } = await listAuctions(pricedProduct.id)
+
   return (
-    <ProductTemplate
-      product={pricedProduct}
-      region={region}
-      countryCode={params.countryCode}
-    />
+    <>
+      <div className="content-container flex flex-col small:flex-row small:items-start py-6 relative">
+        <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-6">
+          <ProductInfo product={product} />
+          <ProductTabs product={product} />
+        </div>
+        <div className="block w-full relative">
+          <ImageGallery images={product?.images || []} />
+        </div>
+        <AuctionsActions
+          product={product}
+          region={region}
+          auction={auction}
+          customer={customer}
+        />
+      </div>
+      <div className="content-container my-16 small:my-32">
+        <Suspense fallback={<SkeletonRelatedProducts />}>
+          <RelatedProducts product={product} countryCode={params.countryCode} />
+        </Suspense>
+      </div>
+    </>
   )
 }

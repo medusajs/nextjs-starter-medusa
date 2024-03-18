@@ -56,3 +56,21 @@ export type ProductCategoryWithChildren = Omit<
   category_children: ProductCategory[]
   category_parent?: ProductCategory
 }
+
+export type Auction = {
+  id: string
+  starting_price: number
+  starts_at: Date
+  ends_at: Date
+  product_id: string
+  region_id: string
+  bids: Bid[]
+}
+
+export type Bid = {
+  id: string
+  amount: number
+  auction_id: string
+  customer_id: string
+  created_at: Date
+}
