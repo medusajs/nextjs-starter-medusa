@@ -2,16 +2,16 @@
 
 import { Customer, Region } from "@medusajs/medusa"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
-import { Button, Heading, Input, Text } from "@medusajs/ui"
-import { FormEvent, useRef, useState } from "react"
+import { Button, Input, Text } from "@medusajs/ui"
+import { FormEvent, Suspense, useRef, useState } from "react"
 
+import { formatAmount } from "@lib/util/prices"
 import Divider from "@modules/common/components/divider"
 import { placeBid } from "@modules/products/actions"
-import { formatAmount } from "@lib/util/prices"
 import { Auction } from "types/global"
+import AuctionBids from "../auction-bids"
 import AuctionCountdown from "../auction-countdown"
-import User from "@modules/common/icons/user"
-import AuctionTimeAgo from "../auction-time-ago"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 type AuctionsActionsProps = {
   product: PricedProduct
@@ -36,17 +36,21 @@ export default function AuctionsActions({
   const [isloading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const maxBid = auction.bids?.reduce((a, b) => {
-    return Math.max(a, b.amount)
-  }, 0)
+  const maxBid =
+    auction?.bids.length > 0
+      ? auction?.bids?.reduce((a, b) => {
+          if (a.amount > b.amount) return a
+          return b
+        })
+      : { amount: auction?.starting_price, customer_id: "" }
 
   const currentBid = formatAmount({
-    amount: maxBid || auction.starting_price,
+    amount: maxBid?.amount,
     region,
   })
 
   const minNextBid = formatAmount({
-    amount: maxBid + 500 || auction.starting_price + 500,
+    amount: maxBid ? maxBid?.amount + 500 : auction?.starting_price + 500,
     region,
   })
 
@@ -70,9 +74,9 @@ export default function AuctionsActions({
       return
     }
 
-    if (amount * 100 < (maxBid || auction.starting_price)) {
+    if (amount * 100 < (maxBid?.amount + 500 || auction.starting_price + 500)) {
       setIsLoading(false)
-      setError("Please enter an amount higher than the current bid")
+      setError("Please enter an amount higher than " + minNextBid)
       return
     }
 
@@ -80,93 +84,111 @@ export default function AuctionsActions({
       auctionId: auction.id,
       amount: amount * 100 || 0,
       customerId: customer.id,
-    }).catch((e) => {
-      setError(e)
     })
+      .then((res) => {
+        if (res.message && res.highestBid) {
+          const message =
+            "Please enter an amount higher than " +
+            formatAmount({ amount: res.highestBid, region })
+          setError(message)
+        }
+      })
+      .catch((e) => {
+        setError(e)
+      })
 
     setAmount(undefined)
     formRef.current?.reset()
     setIsLoading(false)
   }
 
-  if (!customer)
-    return (
-      <div>
-        <p>Sign in to place a bid</p>
-      </div>
-    )
-
   return (
     <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-10">
-      <div className="flex flex-col gap-2">
-        <AuctionCountdown targetDate={new Date(auction.ends_at)} />
+      {!auction && <p>No active auction. </p>}
 
-        <Divider />
-      </div>
-      <div className="txt-compact-small flex flex-col gap-y-3">
-        <span className="text-ui-fg-subtle">Current bid:</span>
-        <span className=" text-3xl ">{currentBid}</span>
-      </div>
-      <form
-        className="flex flex-col gap-4"
-        onSubmit={handlePlaceBid}
-        ref={formRef}
-      >
-        <div>
-          <Input
-            min={currentBid || auction.starting_price}
-            type="number"
-            placeholder={`Enter your bid (min: ${minNextBid})`}
-            value={amount}
-            onChange={(e) => setAmount(parseFloat(e.target.value))}
-          />
+      {auction && (
+        <>
+          <div className="flex flex-col gap-2">
+            <Suspense>
+              <AuctionCountdown targetDate={new Date(auction.ends_at)} />
+            </Suspense>
 
-          {error && <Text className="text-ui-fg-error">{error}</Text>}
-        </div>
-        <Button
-          type="submit"
-          variant="primary"
-          className="w-full h-10"
-          isLoading={isloading}
-        >
-          Place bid
-        </Button>
-      </form>
-
-      <div className="flex flex-col gap-y-2">
-        <div>
-          <div className="flex flex-col gap-y-4">
             <Divider />
-            <Heading>
-              {auction.bids.length ? "All bids" : "No bids yet"}
-            </Heading>
-            <div>
-              {auction.bids?.map((bid, idx) => {
-                const bidder = bid.customer_id.slice(-4)
-                return (
-                  <Text
-                    key={idx}
-                    className="flex justify-between text-ui-fg-subtle"
-                  >
-                    <span className="flex justify-between text-ui-fg-subtle items-center gap-1">
-                      <User /> {bidder}
-                    </span>
-                    <span className="w-16 jusitfy-end text-right">
-                      {formatAmount({ amount: bid.amount, region })}
-                    </span>
-                    <AuctionTimeAgo bid={bid} />
-                  </Text>
-                )
-              })}
-            </div>
           </div>
-        </div>
-        <div>
-          <Text className="text-ui-fg-muted text-right">
-            Ends at: {new Date(auction.ends_at).toDateString()}
-          </Text>
-        </div>
-      </div>
+          <div className="flex flex-col gap-y-3">
+            <Text as="span" className="txt-compact-small text-ui-fg-subtle">
+              Current bid:
+            </Text>
+            <Text as="span" className="text-3xl ">
+              {currentBid}
+            </Text>
+            {maxBid.customer_id === customer?.id && (
+              <Text className="text-ui-fg-subtle txt-compact-xsmall">
+                You are the highest bidder!
+              </Text>
+            )}
+          </div>
+          {!customer ? (
+            <Text className="text-ui-fg-subtle txt-compact-medium">
+              <LocalizedClientLink
+                href="/account"
+                className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
+              >
+                Sign in
+              </LocalizedClientLink>{" "}
+              to place a bid
+            </Text>
+          ) : (
+            <form
+              className="flex flex-col gap-4"
+              onSubmit={handlePlaceBid}
+              ref={formRef}
+            >
+              <div>
+                <Input
+                  min={minNextBid}
+                  type="number"
+                  placeholder={`Enter your bid (min: ${minNextBid})`}
+                  value={amount}
+                  onChange={(e) => setAmount(parseFloat(e.target.value))}
+                />
+
+                {error && <Text className="text-ui-fg-error">{error}</Text>}
+              </div>
+              <Button
+                type="submit"
+                variant="primary"
+                className="w-full h-10"
+                isLoading={isloading}
+              >
+                Place bid
+              </Button>
+            </form>
+          )}
+          <div className="flex flex-col gap-y-2">
+            <div>
+              <div className="flex flex-col gap-y-4">
+                <Divider />
+                <Suspense>
+                  <AuctionBids
+                    bids={auction.bids}
+                    region={region}
+                    customer={customer}
+                  />
+                </Suspense>
+              </div>
+            </div>
+            <Suspense>
+              <Text
+                className="text-ui-fg-muted text-right"
+                suppressHydrationWarning
+              >
+                Ends at: {new Date(auction.ends_at).toDateString()}
+              </Text>
+            </Suspense>
+          </div>
+        </>
+      )}
     </div>
   )
 }

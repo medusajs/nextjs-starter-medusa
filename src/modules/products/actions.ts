@@ -13,8 +13,9 @@ export async function placeBid({
   customerId: string
 }) {
   try {
-    await createBid(auctionId, amount, customerId)
+    const res = await createBid(auctionId, amount, customerId)
     revalidateTag("auctions")
+    return res
   } catch (error: any) {
     return error.toString()
   }

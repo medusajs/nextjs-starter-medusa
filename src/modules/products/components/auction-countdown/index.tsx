@@ -1,13 +1,9 @@
 "use client"
 
 import { Text } from "@medusajs/ui"
-import React, { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 
-interface Props {
-  targetDate: Date
-}
-
-const AuctionCountdown: React.FC<Props> = ({ targetDate }) => {
+const AuctionCountdown = ({ targetDate }: { targetDate: Date }) => {
   const calculateTimeLeft = () => {
     const difference = targetDate.getTime() - new Date().getTime()
     let timeLeft = {}
@@ -42,7 +38,7 @@ const AuctionCountdown: React.FC<Props> = ({ targetDate }) => {
     }
 
     timerComponents.push(
-      <span key={interval}>
+      <span key={interval} suppressHydrationWarning>
         {timeLeft[interval as keyof typeof timeLeft]}
         {interval}{" "}
       </span>

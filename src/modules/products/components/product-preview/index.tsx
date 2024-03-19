@@ -2,12 +2,13 @@ import { Text } from "@medusajs/ui"
 
 import { ProductPreviewType } from "types/global"
 
-import { retrievePricedProductById } from "@lib/data"
+import { listAuctions, retrievePricedProductById } from "@lib/data"
 import { getProductPrice } from "@lib/util/get-product-price"
 import { Region } from "@medusajs/medusa"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import Thumbnail from "../thumbnail"
 import PreviewPrice from "./price"
+import { formatAmount } from "@lib/util/prices"
 
 export default async function ProductPreview({
   productPreview,
@@ -27,10 +28,20 @@ export default async function ProductPreview({
     return null
   }
 
-  const { cheapestPrice } = getProductPrice({
-    product: pricedProduct,
-    region,
-  })
+  const auction = await listAuctions(pricedProduct.id!).then(
+    ({ auctions }) => auctions[0]
+  )
+
+  const maxBid = auction?.bids?.reduce((a, b) => {
+    return Math.max(a, b.amount)
+  }, 0)
+
+  const currentBid = maxBid
+    ? formatAmount({
+        amount: maxBid || auction?.starting_price,
+        region,
+      })
+    : "No active auction"
 
   return (
     <LocalizedClientLink
@@ -46,7 +57,7 @@ export default async function ProductPreview({
         <div className="flex txt-compact-medium mt-4 justify-between">
           <Text className="text-ui-fg-subtle">{productPreview.title}</Text>
           <div className="flex items-center gap-x-2">
-            {cheapestPrice && <PreviewPrice price={cheapestPrice} />}
+            <Text className="text-ui-fg-muted">{currentBid}</Text>
           </div>
         </div>
       </div>
