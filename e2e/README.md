@@ -21,7 +21,7 @@ and configuring the `.env` file from there. There are more details below about w
 In order to run these tests, make sure playwright and a playwright-enabled browser is installed. You can do this by running
 
 ```sh
-npx playwrite install
+npx playwright install
 ```
 
 ## Database
