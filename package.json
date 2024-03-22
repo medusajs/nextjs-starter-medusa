@@ -13,7 +13,8 @@
     "start": "next start -p 8000",
     "lint": "next lint",
     "cypress": "cypress open",
-    "analyze": "ANALYZE=true next build"
+    "analyze": "ANALYZE=true next build",
+    "test-e2e": "playwright test e2e"
   },
   "resolutions": {
     "webpack": "^5",
