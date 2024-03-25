@@ -11,7 +11,7 @@ This test suite was built off of using the [medusa-starter-default](https://gith
 These tests have a number of dependent environment variables, with an example found in `.env.example`. You can setup your local environment by copying the example environment file
 
 ```sh
-cp .env.example .env
+cat e2e/.env.example >> .env
 ```
 
 and configuring the `.env` file from there. There are more details below about what the test values correspond to and how to set them. But we mention that
