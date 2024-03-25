@@ -13,7 +13,8 @@
     "start": "next start -p 8000",
     "lint": "next lint",
     "cypress": "cypress open",
-    "analyze": "ANALYZE=true next build"
+    "analyze": "ANALYZE=true next build",
+    "test-e2e": "playwright test e2e"
   },
   "resolutions": {
     "webpack": "^5",
@@ -34,9 +35,11 @@
     "@stripe/react-stripe-js": "^1.7.2",
     "@stripe/stripe-js": "^1.29.0",
     "algoliasearch": "^4.20.0",
+    "axios": "^1.6.7",
     "lodash": "^4.17.21",
     "medusa-react": "^9.0.0",
     "next": "^14.0.0",
+    "pg": "^8.11.3",
     "react": "^18.2.0",
     "react-country-flag": "^3.0.2",
     "react-dom": "^18.2.0",
@@ -50,8 +53,10 @@
     "@medusajs/client-types": "^0.2.2",
     "@medusajs/medusa": "^1.18.0",
     "@medusajs/ui-preset": "^1.0.2",
+    "@playwright/test": "^1.41.1",
     "@types/lodash": "^4.14.195",
     "@types/node": "17.0.21",
+    "@types/pg": "^8.11.0",
     "@types/react": "^18.2.42",
     "@types/react-dom": "^18.2.18",
     "@types/react-instantsearch-dom": "^6.12.3",

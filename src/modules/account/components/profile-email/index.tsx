@@ -47,6 +47,7 @@ const ProfileEmail: React.FC<MyInformationProps> = ({ customer }) => {
             autoComplete="email"
             required
             defaultValue={customer.email}
+            data-testid="email-input"
           />
         </div>
       </AccountInfo>

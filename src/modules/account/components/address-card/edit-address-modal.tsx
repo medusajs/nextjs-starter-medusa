@@ -72,24 +72,24 @@ const EditAddress: React.FC<EditAddressProps> = ({
           }
         )}
       >
-        <div className="flex flex-col">
-          <Heading className="text-left text-base-semi">
+        <div className="flex flex-col" data-testid="address-container">
+          <Heading className="text-left text-base-semi" data-testid="address-name">
             {address.first_name} {address.last_name}
           </Heading>
           {address.company && (
-            <Text className="txt-compact-small text-ui-fg-base">
+            <Text className="txt-compact-small text-ui-fg-base" data-testid="address-company">
               {address.company}
             </Text>
           )}
           <Text className="flex flex-col text-left text-base-regular mt-2">
-            <span>
+            <span data-testid="address-address">
               {address.address_1}
               {address.address_2 && <span>, {address.address_2}</span>}
             </span>
-            <span>
+            <span data-testid="address-postal-city">
               {address.postal_code}, {address.city}
             </span>
-            <span>
+            <span data-testid="address-province-country">
               {address.province && `${address.province}, `}
               {address.country_code?.toUpperCase()}
             </span>
@@ -99,6 +99,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
           <button
             className="text-small-regular text-ui-fg-base flex items-center gap-x-2"
             onClick={open}
+            data-testid="address-edit-button"
           >
             <Edit />
             Edit
@@ -106,6 +107,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
           <button
             className="text-small-regular text-ui-fg-base flex items-center gap-x-2"
             onClick={removeAddress}
+            data-testid="address-delete-button"
           >
             {removing ? <Spinner /> : <Trash />}
             Remove
