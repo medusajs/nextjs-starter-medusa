@@ -1,6 +1,6 @@
 import { Text, clx } from "@medusajs/ui"
 
-import { PriceType } from "../product-actions"
+import { PriceType } from "../auction-actions"
 
 export default async function PreviewPrice({ price }: { price: PriceType }) {
   return (

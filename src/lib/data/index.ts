@@ -16,7 +16,11 @@ import { cache } from "react"
 import sortProducts from "@lib/util/sort-products"
 import transformProductPreview from "@lib/util/transform-product-preview"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
-import { ProductCategoryWithChildren, ProductPreviewType } from "types/global"
+import {
+  Auction,
+  ProductCategoryWithChildren,
+  ProductPreviewType,
+} from "types/global"
 
 import { medusaClient } from "@lib/config"
 import medusaError from "@lib/util/medusa-error"
@@ -49,6 +53,38 @@ const getMedusaHeaders = (tags: string[] = []) => {
   }
 
   return headers
+}
+
+// Auction actions
+export async function listAuctions(
+  productId: string
+): Promise<{ auctions: Auction[] }> {
+  const headers = getMedusaHeaders(["auctions"])
+
+  return fetch(
+    `http://localhost:9000/store/auctions?product_id=${productId}&status=active`,
+    {
+      headers,
+    }
+  )
+    .then((response) => response.json())
+    .catch((err) => medusaError(err))
+}
+
+export async function createBid(
+  auctionId: string,
+  amount: number,
+  customerId: string
+) {
+  const headers = getMedusaHeaders(["auctions"])
+
+  return fetch(`http://localhost:9000/store/auctions/${auctionId}/bids`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ amount, customer_id: customerId }),
+  })
+    .then((response) => response.json())
+    .catch((err) => medusaError(err))
 }
 
 // Cart actions
