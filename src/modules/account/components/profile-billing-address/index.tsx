@@ -95,29 +95,34 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({
               name="billing_address.first_name"
               defaultValue={customer.billing_address?.first_name || undefined}
               required
+              data-testid="billing-first-name-input"
             />
             <Input
               label="Last name"
               name="billing_address.last_name"
               defaultValue={customer.billing_address?.last_name || undefined}
               required
+              data-testid="billing-last-name-input"
             />
           </div>
           <Input
             label="Company"
             name="billing_address.company"
             defaultValue={customer.billing_address?.company || undefined}
+            data-testid="billing-company-input"
           />
           <Input
             label="Address"
             name="billing_address.address_1"
             defaultValue={customer.billing_address?.address_1 || undefined}
             required
+            data-testid="billing-address-1-input"
           />
           <Input
             label="Apartment, suite, etc."
             name="billing_address.address_2"
             defaultValue={customer.billing_address?.address_2 || undefined}
+            data-testid="billing-address-2-input"
           />
           <div className="grid grid-cols-[144px_1fr] gap-x-2">
             <Input
@@ -125,23 +130,27 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({
               name="billing_address.postal_code"
               defaultValue={customer.billing_address?.postal_code || undefined}
               required
+              data-testid="billing-postcal-code-input"
             />
             <Input
               label="City"
               name="billing_address.city"
               defaultValue={customer.billing_address?.city || undefined}
               required
+              data-testid="billing-city-input"
             />
           </div>
           <Input
             label="Province"
             name="billing_address.province"
             defaultValue={customer.billing_address?.province || undefined}
+            data-testid="billing-province-input"
           />
           <NativeSelect
             name="billing_address.country_code"
             defaultValue={customer.billing_address?.country_code || undefined}
             required
+            data-testid="billing-country-code-select"
           >
             <option value="">-</option>
             {regionOptions.map((option, i) => {

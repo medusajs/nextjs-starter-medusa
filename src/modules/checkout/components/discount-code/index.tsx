@@ -65,12 +65,13 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
               <div
                 className="flex items-center justify-between txt-small-plus"
                 key={gc.id}
+                data-testid="gift-card"
               >
                 <Text className="flex gap-x-1 items-baseline">
                   <span>Code: </span>
-                  <span className="truncate">{gc.code}</span>
+                  <span className="truncate" data-testid="gift-card-code">{gc.code}</span>
                 </Text>
-                <Text className="font-semibold">
+                <Text className="font-semibold" data-testid="gift-card-amount">
                   {formatAmount({
                     region: region,
                     amount: gc.balance,
@@ -80,6 +81,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                 <button
                   className="flex items-center gap-x-2 !background-transparent !border-none"
                   onClick={() => removeGiftCardCode(gc.code)}
+                  data-testid="remove-gift-card-button"
                 >
                   <Trash size={14} />
                   <span className="sr-only">Remove gift card from order</span>
@@ -118,6 +120,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                 onClick={() => setIsOpen(!isOpen)}
                 type="button"
                 className="txt-medium text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
+                data-testid="add-discount-button"
               >
                 Add gift card or discount code
               </button>
@@ -133,10 +136,11 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                     name="code"
                     type="text"
                     autoFocus={false}
+                    data-testid="discount-input"
                   />
-                  <SubmitButton variant="secondary">Apply</SubmitButton>
+                  <SubmitButton variant="secondary" data-testid="discount-apply-button">Apply</SubmitButton>
                 </div>
-                <ErrorMessage error={message} />
+                <ErrorMessage error={message} data-testid="discount-error-message" />
               </>
             )}
           </form>

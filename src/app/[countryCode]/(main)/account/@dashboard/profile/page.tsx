@@ -32,7 +32,7 @@ export default async function Profile() {
           your password.
         </p>
       </div>
-      <div className="flex flex-col gap-y-8 w-full">
+      <div className="flex flex-col gap-y-8 w-full" data-testid="profile-wrapper">
         <ProfileName customer={customer} />
         <Divider />
         <ProfileEmail customer={customer} />

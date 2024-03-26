@@ -28,8 +28,8 @@ export default function CategoryTemplate({
   if (!category || !countryCode) notFound()
 
   return (
-    <div className="flex flex-col small:flex-row small:items-start py-6 content-container">
-      <RefinementList sortBy={sortBy || "created_at"} />
+    <div className="flex flex-col small:flex-row small:items-start py-6 content-container" data-testid="category-container">
+      <RefinementList sortBy={sortBy || "created_at"} data-testid="sort-by-container" />
       <div className="w-full">
         <div className="flex flex-row mb-8 text-2xl-semi gap-4">
           {parents &&
@@ -38,6 +38,7 @@ export default function CategoryTemplate({
                 <LocalizedClientLink
                   className="mr-4 hover:text-black"
                   href={`/categories/${parent.handle}`}
+                  data-testid="sort-by-link"
                 >
                   {parent.name}
                 </LocalizedClientLink>

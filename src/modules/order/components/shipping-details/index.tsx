@@ -15,7 +15,7 @@ const ShippingDetails = ({ order }: ShippingDetailsProps) => {
         Delivery
       </Heading>
       <div className="flex items-start gap-x-8">
-        <div className="flex flex-col w-1/3">
+        <div className="flex flex-col w-1/3" data-testid="shipping-address-summary">
           <Text className="txt-medium-plus text-ui-fg-base mb-1">
             Shipping Address
           </Text>
@@ -35,7 +35,7 @@ const ShippingDetails = ({ order }: ShippingDetailsProps) => {
           </Text>
         </div>
 
-        <div className="flex flex-col w-1/3 ">
+        <div className="flex flex-col w-1/3 " data-testid="shipping-contact-summary">
           <Text className="txt-medium-plus text-ui-fg-base mb-1">Contact</Text>
           <Text className="txt-medium text-ui-fg-subtle">
             {order.shipping_address.phone}
@@ -43,7 +43,7 @@ const ShippingDetails = ({ order }: ShippingDetailsProps) => {
           <Text className="txt-medium text-ui-fg-subtle">{order.email}</Text>
         </div>
 
-        <div className="flex flex-col w-1/3">
+        <div className="flex flex-col w-1/3" data-testid="shipping-method-summary">
           <Text className="txt-medium-plus text-ui-fg-base mb-1">Method</Text>
           <Text className="txt-medium text-ui-fg-subtle">
             {order.shipping_methods[0].shipping_option?.name} (

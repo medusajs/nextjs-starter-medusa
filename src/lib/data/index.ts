@@ -48,6 +48,8 @@ const getMedusaHeaders = (tags: string[] = []) => {
 
   if (token) {
     headers.authorization = `Bearer ${token}`
+  } else {
+    headers.authorization = ""
   }
 
   return headers
