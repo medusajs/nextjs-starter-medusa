@@ -222,6 +222,21 @@ export const listShippingMethods = cache(async function listShippingMethods(
     })
 })
 
+/**
+ * List the available shipping methods using the cart id
+ * @param cartId The Cart ID
+ * @returns
+ */
+export async function listCartShippingMethods(cartId: string) {
+  return medusaClient.shippingOptions
+    .listCartOptions(cartId)
+    .then(({ shipping_options }) => shipping_options)
+    .catch((err) => {
+      console.log(err)
+      return null
+    })
+}
+
 export async function addShippingMethod({
   cartId,
   shippingMethodId,
