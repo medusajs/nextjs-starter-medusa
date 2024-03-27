@@ -47,4 +47,24 @@ test.describe("Login Page functionality", async () => {
     await loginPage.signInButton.click()
     await expect(accountOverviewPage.welcomeMessage).toBeVisible()
   })
+
+  test("logging out works correctly", async ({
+    page,
+    accountOverviewPage,
+    loginPage,
+  }) => {
+    await loginPage.accountLink.click()
+    await loginPage.container.waitFor({ state: "visible" })
+    await loginPage.emailInput.fill("test@example.com")
+    await loginPage.passwordInput.fill("password")
+    await loginPage.signInButton.click()
+    await expect(accountOverviewPage.welcomeMessage).toBeVisible()
+
+    await accountOverviewPage.logoutLink.highlight()
+    await accountOverviewPage.logoutLink.click()
+    await loginPage.container.waitFor({ state: "visible" })
+
+    await loginPage.accountLink.click()
+    await loginPage.container.waitFor({ state: "visible" })
+  })
 })
