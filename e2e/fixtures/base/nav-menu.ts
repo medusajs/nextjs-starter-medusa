@@ -4,6 +4,7 @@ export class NavMenu {
   page: Page
   navMenuButton: Locator
   navMenu: Locator
+  navAccountLink: Locator
   homeLink: Locator
   storeLink: Locator
   searchLink: Locator
@@ -17,6 +18,7 @@ export class NavMenu {
     this.page = page
     this.navMenuButton = page.getByTestId("nav-menu-button")
     this.navMenu = page.getByTestId("nav-menu-popup")
+    this.navAccountLink = page.getByTestId("nav-account-link")
     this.homeLink = this.navMenu.getByTestId("home-link")
     this.storeLink = this.navMenu.getByTestId("store-link")
     this.searchLink = this.navMenu.getByTestId("search-link")

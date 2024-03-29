@@ -58,7 +58,7 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({
       )?.label || customer.billing_address.country_code?.toUpperCase()
 
     return (
-      <div className="flex flex-col font-semibold">
+      <div className="flex flex-col font-semibold" data-testid="current-info">
         <span>
           {customer.billing_address.first_name}{" "}
           {customer.billing_address.last_name}
@@ -87,6 +87,7 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({
         isSuccess={successState}
         isError={!!state.error}
         clearState={clearState}
+        data-testid="account-billing-address-editor"
       >
         <div className="grid grid-cols-1 gap-y-2">
           <div className="grid grid-cols-2 gap-x-2">

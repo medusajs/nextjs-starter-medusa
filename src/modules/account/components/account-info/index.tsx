@@ -98,6 +98,7 @@ const AccountInfo = ({
               "max-h-0 opacity-0": !isError,
             }
           )}
+          data-testid="error-message"
         >
           <Badge className="p-2 my-4" color="red">
             <span>{errorMessage}</span>

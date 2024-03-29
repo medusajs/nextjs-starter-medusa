@@ -41,6 +41,7 @@ const ProfileName: React.FC<MyInformationProps> = ({ customer }) => {
         isError={!!state.error}
         errorMessage={state.error}
         clearState={clearState}
+        data-testid="account-password-editor"
       >
         <div className="grid grid-cols-2 gap-4">
           <Input
