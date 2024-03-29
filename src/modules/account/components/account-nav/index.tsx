@@ -18,10 +18,10 @@ const AccountNav = ({
   customer: Omit<Customer, "password_hash"> | null
 }) => {
   const route = usePathname()
-  const { countryCode } = useParams()
+  const { countryCode } = useParams() as { countryCode: string }
 
   const handleLogout = async () => {
-    await signOut()
+    await signOut(countryCode)
   }
 
   return (
@@ -114,27 +114,47 @@ const AccountNav = ({
           <div className="text-base-regular">
             <ul className="flex mb-0 justify-start items-start flex-col gap-y-4">
               <li>
-                <AccountNavLink href="/account" route={route!} data-testid="overview-link">
+                <AccountNavLink
+                  href="/account"
+                  route={route!}
+                  data-testid="overview-link"
+                >
                   Overview
                 </AccountNavLink>
               </li>
               <li>
-                <AccountNavLink href="/account/profile" route={route!} data-testid="profile-link">
+                <AccountNavLink
+                  href="/account/profile"
+                  route={route!}
+                  data-testid="profile-link"
+                >
                   Profile
                 </AccountNavLink>
               </li>
               <li>
-                <AccountNavLink href="/account/addresses" route={route!} data-testid="addresses-link">
+                <AccountNavLink
+                  href="/account/addresses"
+                  route={route!}
+                  data-testid="addresses-link"
+                >
                   Addresses
                 </AccountNavLink>
               </li>
               <li>
-                <AccountNavLink href="/account/orders" route={route!} data-testid="orders-link">
+                <AccountNavLink
+                  href="/account/orders"
+                  route={route!}
+                  data-testid="orders-link"
+                >
                   Orders
                 </AccountNavLink>
               </li>
               <li className="text-grey-700">
-                <button type="button" onClick={handleLogout}  data-testid="logout-button">
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  data-testid="logout-button"
+                >
                   Log out
                 </button>
               </li>
