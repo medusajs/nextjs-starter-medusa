@@ -47,4 +47,9 @@ export class NavMenu {
     })
     await countryLink.click()
   }
+
+  async open() {
+    await this.navMenuButton.click()
+    await this.navMenu.waitFor({ state: "visible" })
+  }
 }
