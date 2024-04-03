@@ -3,6 +3,7 @@ import { AccountPage } from "./account-page"
 import { camelCase } from "lodash"
 
 export class ProfilePage extends AccountPage {
+  profileWrapper: Locator
   accountNameEditor: Locator
   accountEmailEditor: Locator
   accountPhoneEditor: Locator
@@ -20,6 +21,24 @@ export class ProfilePage extends AccountPage {
   phoneSaveButton: Locator
   passwordSaveButton: Locator
   billingAddressSaveButton: Locator
+
+  savedName: Locator
+  savedEmail: Locator
+  savedPhone: Locator
+  savedPassword: Locator
+  savedBillingAddress: Locator
+
+  nameSuccessMessage: Locator
+  emailSuccessMessage: Locator
+  phoneSuccessMessage: Locator
+  passwordSuccessMessage: Locator
+  billingAddressSuccessMessage: Locator
+
+  nameErrorMessage: Locator
+  emailErrorMessage: Locator
+  phoneErrorMessage: Locator
+  passwordErrorMessage: Locator
+  billingAddressErrorMessage: Locator
 
   emailInput: Locator
   firstNameInput: Locator
@@ -43,6 +62,7 @@ export class ProfilePage extends AccountPage {
 
   constructor(page: Page) {
     super(page)
+    this.profileWrapper = page.getByTestId("profile-page-wrapper")
     this.accountNameEditor = this.container.getByTestId("account-name-editor")
     this.accountEmailEditor = this.container.getByTestId("account-email-editor")
     this.accountPhoneEditor = this.container.getByTestId("account-phone-editor")
@@ -68,6 +88,32 @@ export class ProfilePage extends AccountPage {
       this.accountPasswordEditor.getByTestId("save-button")
     this.billingAddressSaveButton =
       this.accountBillingAddressEditor.getByTestId("save-button")
+
+    this.savedName = this.accountNameEditor.getByTestId("current-info")
+    this.savedEmail = this.accountEmailEditor.getByTestId("current-info")
+    this.savedPhone = this.accountPhoneEditor.getByTestId("current-info")
+    this.savedPassword = this.accountPasswordEditor.getByTestId("current-info")
+    this.savedBillingAddress =
+      this.accountBillingAddressEditor.getByTestId("current-info")
+    this.nameSuccessMessage =
+      this.accountNameEditor.getByTestId("success-message")
+    this.emailSuccessMessage =
+      this.accountEmailEditor.getByTestId("success-message")
+    this.phoneSuccessMessage =
+      this.accountPhoneEditor.getByTestId("success-message")
+    this.passwordSuccessMessage =
+      this.accountPasswordEditor.getByTestId("success-message")
+    this.billingAddressSuccessMessage =
+      this.accountBillingAddressEditor.getByTestId("success-message")
+    this.nameErrorMessage = this.accountNameEditor.getByTestId("error-message")
+    this.emailErrorMessage =
+      this.accountEmailEditor.getByTestId("error-message")
+    this.phoneErrorMessage =
+      this.accountPhoneEditor.getByTestId("error-message")
+    this.passwordErrorMessage =
+      this.accountPasswordEditor.getByTestId("error-message")
+    this.billingAddressErrorMessage =
+      this.accountBillingAddressEditor.getByTestId("error-message")
 
     this.firstNameInput = page.getByTestId("first-name-input")
     this.lastNameInput = page.getByTestId("last-name-input")
@@ -110,5 +156,11 @@ export class ProfilePage extends AccountPage {
       o[key] = input
     }
     return o
+  }
+
+  async goto() {
+    super.goto()
+    await this.profileLink.click()
+    await this.profileWrapper.waitFor({ state: "visible" })
   }
 }

@@ -9,10 +9,12 @@ export class OverviewPage extends AccountPage {
   noOrdersMessage: Locator
   ordersWrapper: Locator
   orderWrapper: Locator
+  overviewWrapper: Locator
 
   constructor(page: Page) {
     super(page)
-    this.welcomeMessage = this.container.getByTestId("welcome-message") // getAttribute("name")
+    this.overviewWrapper = this.container.getByTestId("overview-page-wrapper")
+    this.welcomeMessage = this.container.getByTestId("welcome-message")
     this.customerEmail = this.container.getByTestId("customer-email")
     this.profileCompletion = this.container.getByTestId(
       "customer-profile-completion"
@@ -35,5 +37,10 @@ export class OverviewPage extends AccountPage {
       amount: await order.getByTestId("order-amount").textContent(),
       openButton: order.getByTestId("open-order-button"),
     }
+  }
+
+  async goto() {
+    await this.navMenu.navAccountLink.click()
+    await this.container.waitFor({ state: "visible" })
   }
 }

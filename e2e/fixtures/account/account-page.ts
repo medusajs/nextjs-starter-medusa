@@ -4,7 +4,7 @@ import { BasePage } from "../base/base-page"
 export class AccountPage extends BasePage {
   container: Locator
   accountNav: Locator
-  
+
   overviewLink: Locator
   profileLink: Locator
   addressesLink: Locator

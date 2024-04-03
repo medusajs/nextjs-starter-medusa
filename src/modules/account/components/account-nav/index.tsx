@@ -31,6 +31,7 @@ const AccountNav = ({
           <LocalizedClientLink
             href="/account"
             className="flex items-center gap-x-2 text-small-regular py-2"
+            data-testid="account-main-link"
           >
             <>
               <ChevronDown className="transform rotate-90" />
@@ -170,9 +171,10 @@ type AccountNavLinkProps = {
   href: string
   route: string
   children: React.ReactNode
+  'data-testid'?: string
 }
 
-const AccountNavLink = ({ href, route, children }: AccountNavLinkProps) => {
+const AccountNavLink = ({ href, route, children, 'data-testid': dataTestId }: AccountNavLinkProps) => {
   const { countryCode }: { countryCode: string } = useParams()
 
   const active = route.split(countryCode)[1] === href
@@ -182,6 +184,7 @@ const AccountNavLink = ({ href, route, children }: AccountNavLinkProps) => {
       className={clx("text-ui-fg-subtle hover:text-ui-fg-base", {
         "text-ui-fg-base font-semibold": active,
       })}
+      data-testid={dataTestId}
     >
       {children}
     </LocalizedClientLink>
