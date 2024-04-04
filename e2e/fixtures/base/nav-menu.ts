@@ -23,7 +23,7 @@ export class NavMenu {
     this.storeLink = this.navMenu.getByTestId("store-link")
     this.searchLink = this.navMenu.getByTestId("search-link")
     this.accountLink = this.navMenu.getByTestId("account-link")
-    this.cartLink = this.navMenu.getByTestId("cart-link")
+    this.cartLink = this.navMenu.getByTestId("nav-cart-link")
     this.closeButton = this.navMenu.getByTestId("close-menu-button")
     this.shippingToLink = this.navMenu.getByTestId("shipping-to-button")
     this.shippingToMenu = this.navMenu.getByTestId("shipping-to-choices")

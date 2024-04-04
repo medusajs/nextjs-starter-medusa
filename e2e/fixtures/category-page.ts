@@ -5,6 +5,7 @@ export class CategoryPage extends BasePage {
   container: Locator
   sortByContainer: Locator
 
+  pageTitle: Locator
   pagination: Locator
   productsListLoader: Locator
   productsList: Locator
@@ -13,6 +14,7 @@ export class CategoryPage extends BasePage {
   constructor(page: Page) {
     super(page)
     this.container = page.getByTestId("category-container")
+    this.pageTitle = page.getByTestId("category-page-title")
     this.sortByContainer = page.getByTestId("sort-by-container")
     this.productsListLoader = this.container.getByTestId("products-list-loader")
     this.productsList = this.container.getByTestId("products-list")
@@ -21,14 +23,9 @@ export class CategoryPage extends BasePage {
   }
 
   async getProduct(name: string) {
-    const productTitle = await this.container
-      .getByTestId("product-title")
-      .filter({
-        hasText: name,
-      })
-    const product = this.productWrapper.filter({ has: productTitle })
+    const product = this.productWrapper.filter({ hasText: name })
     return {
-      product,
+      locator: product,
       title: product.getByTestId("product-title"),
       price: product.getByTestId("price"),
       originalPrice: product.getByTestId("original-price"),

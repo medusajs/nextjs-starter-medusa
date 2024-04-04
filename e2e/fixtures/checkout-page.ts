@@ -21,9 +21,9 @@ export class CheckoutPage extends BasePage {
   billingPhoneInput: Locator
   billingPostalInput: Locator
   billingProvinceInput: Locator
-  shippingAddress2Input: Locator
   shippingAddressInput: Locator
   shippingCityInput: Locator
+  shippingCompanyInput: Locator
   shippingFirstNameInput: Locator
   shippingLastNameInput: Locator
   shippingPhoneInput: Locator
@@ -114,13 +114,11 @@ export class CheckoutPage extends BasePage {
     this.billingProvinceInput = this.container.getByTestId(
       "billing-province-input"
     )
-    this.shippingAddress2Input = this.container.getByTestId(
-      "shipping-address-2-input"
-    )
     this.shippingAddressInput = this.container.getByTestId(
       "shipping-address-input"
     )
     this.shippingCityInput = this.container.getByTestId("shipping-city-input")
+    this.shippingCompanyInput = this.container.getByTestId("shipping-company-input")
     this.shippingFirstNameInput = this.container.getByTestId(
       "shipping-first-name-input"
     )
@@ -237,15 +235,15 @@ export class CheckoutPage extends BasePage {
       hasText: address,
     })
     await addressOption.getByTestId("shipping-address-radio").click()
-    const addressText = (await addressOption.getAttribute("value")) || ""
+
     const selectHandle = await this.shippingAddressSelect.elementHandle()
     await this.page.waitForFunction(
       (opts) => {
         const select = opts[0]
         const choice = opts[1]
-        return select.textContent === choice
+        return (select.textContent||"").includes(choice)
       },
-      [selectHandle, addressText] as [ElementHandle, string]
+      [selectHandle, address] as [ElementHandle, string]
     )
   }
 

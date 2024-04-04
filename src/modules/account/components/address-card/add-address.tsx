@@ -120,6 +120,7 @@ const AddAddress = ({ region }: { region: Region }) => {
                 name="country_code"
                 required
                 autoComplete="country"
+                data-testid="country-select"
               />
               <Input label="Phone" name="phone" autoComplete="phone" data-testid="phone-input" />
             </div>
