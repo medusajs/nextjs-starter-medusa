@@ -5,6 +5,7 @@ import { CategoryPage } from "./category-page"
 import { CheckoutPage } from "./checkout-page"
 import { OrderPage } from "./order-page"
 import { ProductPage } from "./product-page"
+import { StorePage } from "./store-page"
 
 export const fixtures = base.extend<{
   resetDatabaseFixture: void
@@ -13,6 +14,7 @@ export const fixtures = base.extend<{
   checkoutPage: CheckoutPage
   orderPage: OrderPage
   productPage: ProductPage
+  storePage: StorePage
 }>({
   page: async ({ page }, use) => {
     await page.goto("/")
@@ -44,5 +46,9 @@ export const fixtures = base.extend<{
   productPage: async ({ page }, use) => {
     const productPage = new ProductPage(page)
     await use(productPage)
+  },
+  storePage: async ({ page }, use) => {
+    const storePage = new StorePage(page)
+    await use(storePage)
   },
 })
