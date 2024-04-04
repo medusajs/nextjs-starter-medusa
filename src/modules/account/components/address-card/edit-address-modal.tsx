@@ -71,8 +71,9 @@ const EditAddress: React.FC<EditAddressProps> = ({
             "border-gray-900": isActive,
           }
         )}
+        data-testid="address-container"
       >
-        <div className="flex flex-col" data-testid="address-container">
+        <div className="flex flex-col">
           <Heading className="text-left text-base-semi" data-testid="address-name">
             {address.first_name} {address.last_name}
           </Heading>
@@ -115,7 +116,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
         </div>
       </div>
 
-      <Modal isOpen={state} close={close}>
+      <Modal isOpen={state} close={close} data-testid="edit-address-modal">
         <Modal.Title>
           <Heading className="mb-2">Edit address</Heading>
         </Modal.Title>
@@ -129,6 +130,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
                   required
                   autoComplete="given-name"
                   defaultValue={address.first_name || undefined}
+                  data-testid="first-name-input"
                 />
                 <Input
                   label="Last name"
@@ -136,6 +138,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
                   required
                   autoComplete="family-name"
                   defaultValue={address.last_name || undefined}
+                  data-testid="last-name-input"
                 />
               </div>
               <Input
@@ -143,6 +146,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
                 name="company"
                 autoComplete="organization"
                 defaultValue={address.company || undefined}
+                data-testid="company-input"
               />
               <Input
                 label="Address"
@@ -150,12 +154,14 @@ const EditAddress: React.FC<EditAddressProps> = ({
                 required
                 autoComplete="address-line1"
                 defaultValue={address.address_1 || undefined}
+                data-testid="address-1-input"
               />
               <Input
                 label="Apartment, suite, etc."
                 name="address_2"
                 autoComplete="address-line2"
                 defaultValue={address.address_2 || undefined}
+                data-testid="address-2-input"
               />
               <div className="grid grid-cols-[144px_1fr] gap-x-2">
                 <Input
@@ -164,6 +170,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
                   required
                   autoComplete="postal-code"
                   defaultValue={address.postal_code || undefined}
+                  data-testid="postal-code-input"
                 />
                 <Input
                   label="City"
@@ -171,6 +178,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
                   required
                   autoComplete="locality"
                   defaultValue={address.city || undefined}
+                  data-testid="city-input"
                 />
               </div>
               <Input
@@ -178,6 +186,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
                 name="province"
                 autoComplete="address-level1"
                 defaultValue={address.province || undefined}
+                data-testid="state-input"
               />
               <CountrySelect
                 name="country_code"
@@ -185,12 +194,14 @@ const EditAddress: React.FC<EditAddressProps> = ({
                 required
                 autoComplete="country"
                 defaultValue={address.country_code || undefined}
+                data-testid="country-select"
               />
               <Input
                 label="Phone"
                 name="phone"
                 autoComplete="phone"
                 defaultValue={address.phone || undefined}
+                data-testid="phone-input"
               />
             </div>
             {formState.error && (
@@ -206,10 +217,11 @@ const EditAddress: React.FC<EditAddressProps> = ({
                 variant="secondary"
                 onClick={close}
                 className="h-10"
+                data-testid="cancel-button"
               >
                 Cancel
               </Button>
-              <SubmitButton>Save</SubmitButton>
+              <SubmitButton data-testid="save-button">Save</SubmitButton>
             </div>
           </Modal.Footer>
         </form>
