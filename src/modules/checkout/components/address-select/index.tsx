@@ -65,14 +65,14 @@ const AddressSelect = ({ addresses, cart }: AddressSelectProps) => {
         >
           <Listbox.Options
             className="absolute z-20 w-full overflow-auto text-small-regular bg-white border border-top-0 max-h-60 focus:outline-none sm:text-sm"
-            data-testid="shipping-options">
+            data-testid="shipping-address-options">
             {addresses.map((address) => {
               return (
                 <Listbox.Option
                   key={address.id}
                   value={address.id}
                   className="cursor-default select-none relative pl-6 pr-10 hover:bg-gray-50 py-4"
-                  data-testid="shipping-option"
+                  data-testid="shipping-address-option"
                 >
                   <div className="flex gap-x-4 items-start">
                     <Radio checked={selectedAddress?.id === address.id} data-testid="shipping-address-radio" />

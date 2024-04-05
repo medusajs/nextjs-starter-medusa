@@ -1,8 +1,8 @@
 import { Page, Locator } from "@playwright/test"
 import { BaseModal } from "../../base/base-modal"
 
-export class AddAddressModal extends BaseModal {
-  addAddressButton: Locator
+export class AddressModal extends BaseModal {
+  saveButton: Locator
   cancelButton: Locator
 
   firstNameInput: Locator
@@ -16,10 +16,14 @@ export class AddAddressModal extends BaseModal {
   countrySelect: Locator
   phoneInput: Locator
 
-  constructor(page: Page) {
-    super(page, page.getByTestId("add-address-modal"))
+  constructor(page: Page, modalType: "add" | "edit") {
+    if (modalType === "add") {
+      super(page, page.getByTestId("add-address-modal"))
+    } else {
+      super(page, page.getByTestId("edit-address-modal"))
+    }
 
-    this.addAddressButton = this.container.getByTestId("add-address-button")
+    this.saveButton = this.container.getByTestId("save-button")
     this.cancelButton = this.container.getByTestId("cancel-button")
 
     this.firstNameInput = this.container.getByTestId("first-name-input")
