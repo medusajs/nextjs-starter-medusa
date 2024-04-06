@@ -9,6 +9,7 @@ export class ProductPage extends BasePage {
   productTitle: Locator
   productDescription: Locator
   productOptions: Locator
+  productPrice: Locator
   addProductButton: Locator
   mobileActionsContainer: Locator
   mobileTitle: Locator
@@ -24,6 +25,7 @@ export class ProductPage extends BasePage {
     this.productTitle = this.container.getByTestId("product-title")
     this.productDescription = this.container.getByTestId("product-description")
     this.productOptions = this.container.getByTestId("product-options")
+    this.productPrice = this.container.getByTestId("product-price")
     this.addProductButton = this.container.getByTestId("add-product-button")
     this.mobileActionsContainer = page.getByTestId("mobile-actions")
     this.mobileTitle = this.mobileActionsContainer.getByTestId("mobile-title")
@@ -35,10 +37,16 @@ export class ProductPage extends BasePage {
     )
   }
 
+  async clickAddProduct() {
+    await this.addProductButton.click()
+    await this.cartDropdown.cartDropdown.waitFor({ state: "visible" })
+  }
+
   async selectOption(option: string) {
+    await this.page.mouse.move(0, 0) // hides the checkout container
     const optionButton = this.productOptions
       .getByTestId("option-button")
       .filter({ hasText: option })
-    await optionButton.click()
+    await optionButton.click({ clickCount: 2 })
   }
 }

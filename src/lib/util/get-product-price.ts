@@ -36,11 +36,13 @@ export function getProductPrice({
     })
 
     return {
+      calculated_price_number: cheapestVariant.calculated_price,
       calculated_price: formatAmount({
         amount: cheapestVariant.calculated_price,
         region,
         includeTaxes: false,
       }),
+      original_price_number: cheapestVariant.original_price,
       original_price: formatAmount({
         amount: cheapestVariant.original_price,
         region,
@@ -68,11 +70,13 @@ export function getProductPrice({
     }
 
     return {
+      calculated_price_number: variant.calculated_price,
       calculated_price: formatAmount({
         amount: variant.calculated_price,
         region,
         includeTaxes: false,
       }),
+      original_price_number: variant.original_price,
       original_price: formatAmount({
         amount: variant.original_price,
         region,
