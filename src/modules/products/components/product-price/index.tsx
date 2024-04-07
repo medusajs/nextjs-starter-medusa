@@ -36,13 +36,24 @@ export default function ProductPrice({
         })}
       >
         {!variant && "From "}
-        {selectedPrice.calculated_price}
+        <span
+          data-testid="product-price"
+          data-value={selectedPrice.calculated_price_number}
+        >
+          {selectedPrice.calculated_price}
+        </span>
       </span>
       {selectedPrice.price_type === "sale" && (
         <>
           <p>
             <span className="text-ui-fg-subtle">Original: </span>
-            <span className="line-through">{selectedPrice.original_price}</span>
+            <span
+              className="line-through"
+              data-testid="original-product-price"
+              data-value={selectedPrice.original_price_number}
+            >
+              {selectedPrice.original_price}
+            </span>
           </p>
           <span className="text-ui-fg-interactive">
             -{selectedPrice.percentage_diff}%

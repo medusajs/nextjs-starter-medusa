@@ -133,8 +133,17 @@ const CartDropdown = ({
                                     {item.title}
                                   </LocalizedClientLink>
                                 </h3>
-                                <LineItemOptions variant={item.variant} data-testid="cart-item-variant" data-value={item.variant} />
-                                <span data-testid="cart-item-quantity" data-value={item.quantity}>Quantity: {item.quantity}</span>
+                                <LineItemOptions
+                                  variant={item.variant}
+                                  data-testid="cart-item-variant"
+                                  data-value={item.variant}
+                                />
+                                <span
+                                  data-testid="cart-item-quantity"
+                                  data-value={item.quantity}
+                                >
+                                  Quantity: {item.quantity}
+                                </span>
                               </div>
                               <div className="flex justify-end">
                                 <LineItemPrice
@@ -145,7 +154,11 @@ const CartDropdown = ({
                               </div>
                             </div>
                           </div>
-                          <DeleteButton id={item.id} className="mt-1" data-testid="cart-item-remove-button">
+                          <DeleteButton
+                            id={item.id}
+                            className="mt-1"
+                            data-testid="cart-item-remove-button"
+                          >
                             Remove
                           </DeleteButton>
                         </div>
@@ -158,7 +171,11 @@ const CartDropdown = ({
                       Subtotal{" "}
                       <span className="font-normal">(excl. taxes)</span>
                     </span>
-                    <span className="text-large-semi" data-testid="cart-subtotal">
+                    <span
+                      className="text-large-semi"
+                      data-testid="cart-subtotal"
+                      data-value={cartState.subtotal || 0}
+                    >
                       {formatAmount({
                         amount: cartState.subtotal || 0,
                         region: cartState.region,
@@ -167,7 +184,11 @@ const CartDropdown = ({
                     </span>
                   </div>
                   <LocalizedClientLink href="/cart" passHref>
-                    <Button className="w-full" size="large" data-testid="go-to-cart-button">
+                    <Button
+                      className="w-full"
+                      size="large"
+                      data-testid="go-to-cart-button"
+                    >
                       Go to cart
                     </Button>
                   </LocalizedClientLink>

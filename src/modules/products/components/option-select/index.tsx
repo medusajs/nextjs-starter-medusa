@@ -9,7 +9,8 @@ type OptionSelectProps = {
   current: string
   updateOption: (option: Record<string, string>) => void
   title: string
-  'data-testid'?: string
+  disabled: boolean
+  "data-testid"?: string
 }
 
 const OptionSelect: React.FC<OptionSelectProps> = ({
@@ -17,14 +18,18 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
   current,
   updateOption,
   title,
-  'data-testid': dataTestId
+  "data-testid": dataTestId,
+  disabled,
 }) => {
   const filteredOptions = option.values.map((v) => v.value).filter(onlyUnique)
 
   return (
     <div className="flex flex-col gap-y-3">
       <span className="text-sm">Select {title}</span>
-      <div className="flex flex-wrap justify-between gap-2" data-testid={dataTestId}>
+      <div
+        className="flex flex-wrap justify-between gap-2"
+        data-testid={dataTestId}
+      >
         {filteredOptions.map((v) => {
           return (
             <button
@@ -38,6 +43,7 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
                     v !== current,
                 }
               )}
+              disabled={disabled}
               data-testid="option-button"
             >
               {v}

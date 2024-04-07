@@ -19,23 +19,33 @@ export class CartDropdown {
     await this.navCartLink.hover()
   }
 
-  async getCartItem(name: string) {
-    const cartItem = this.cartDropdown.getByTestId("cart-item").filter({
-      hasText: name,
-    })
-    const quantity = cartItem
-      .getByTestId("cart-item-quantity")
-      .getAttribute("data-value")
-    const variant = cartItem
-      .getByTestId("cart-item-variant")
-      .getAttribute("data-value")
+  async close() {
+    if (await this.cartDropdown.isVisible()) {
+      const box = await this.cartDropdown.boundingBox()
+      if (!box) {
+        return
+      }
+      await this.page.mouse.move(box.x + box.width / 4, box.y + box.height / 4)
+      await this.page.mouse.move(5, 10)
+    }
+  }
+
+  async getCartItem(name: string, variant: string) {
+    const cartItem = this.cartDropdown
+      .getByTestId("cart-item")
+      .filter({
+        hasText: name,
+      })
+      .filter({
+        hasText: `Variant: ${variant}`,
+      })
     return {
       locator: cartItem,
       productLink: cartItem.getByTestId("product-link"),
       removeButton: cartItem.getByTestId("cart-item-remove-button"),
       name,
-      quantity,
-      variant,
+      quantity: cartItem.getByTestId("cart-item-quantity"),
+      variant: cartItem.getByTestId("cart-item-variant"),
     }
   }
 }

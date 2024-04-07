@@ -23,6 +23,7 @@ export class CartPage extends BasePage {
   cartGiftCardAmount: Locator
   cartShipping: Locator
   cartTaxes: Locator
+  cartTotal: Locator
   checkoutButton: Locator
 
   constructor(page: Page) {
@@ -61,22 +62,23 @@ export class CartPage extends BasePage {
     )
     this.cartShipping = this.container.getByTestId("cart-shipping")
     this.cartTaxes = this.container.getByTestId("cart-taxes")
+    this.cartTotal = this.container.getByTestId("cart-total")
   }
 
   async getProduct(title: string, variant: string) {
     const productRow = this.productRow
       .filter({
-        has: this.productTitle.filter({ hasText: title }),
+        hasText: title,
       })
       .filter({
-        has: this.productVariant.filter({ hasText: variant }),
+        hasText: `Variant: ${variant}`,
       })
     return {
       productRow,
       title: productRow.getByTestId("product-title"),
       variant: productRow.getByTestId("product-variant"),
       deleteButton: productRow.getByTestId("delete-button"),
-      quantitySelect: productRow.getByTestId("quantity-select"),
+      quantitySelect: productRow.getByTestId("product-select-button"),
       price: productRow.getByTestId("product-unit-price"),
       total: productRow.getByTestId("product-price"),
     }
