@@ -2,6 +2,7 @@ import { Locator, Page } from "@playwright/test"
 import { AccountPage } from "./account-page"
 
 export class OrdersPage extends AccountPage {
+  ordersWrapper: Locator
   noOrdersContainer: Locator
   continueShoppingButton: Locator
   orderCard: Locator
@@ -9,6 +10,7 @@ export class OrdersPage extends AccountPage {
 
   constructor(page: Page) {
     super(page)
+    this.ordersWrapper = page.getByTestId("orders-page-wrapper")
     this.noOrdersContainer = page.getByTestId("no-orders-container")
     this.continueShoppingButton = page.getByTestId("continue-shopping-button")
     this.orderCard = page.getByTestId("order-card")
@@ -37,5 +39,11 @@ export class OrdersPage extends AccountPage {
       detailsLink: card.getByTestId("order-details-link"),
       items,
     }
+  }
+
+  async goto() {
+    await super.goto()
+    await this.ordersLink.click()
+    await this.ordersWrapper.waitFor({ state: "visible" })
   }
 }

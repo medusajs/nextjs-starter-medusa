@@ -13,6 +13,7 @@ export class CheckoutPage extends BasePage {
   shippingAddressOptions: Locator
   shippingAddressOption: Locator
 
+  billingAddressCheckbox: Locator
   billingAddressInput: Locator
   billingCityInput: Locator
   billingCompanyInput: Locator
@@ -24,6 +25,7 @@ export class CheckoutPage extends BasePage {
   shippingAddressInput: Locator
   shippingCityInput: Locator
   shippingCompanyInput: Locator
+  shippingEmailInput: Locator
   shippingFirstNameInput: Locator
   shippingLastNameInput: Locator
   shippingPhoneInput: Locator
@@ -67,6 +69,7 @@ export class CheckoutPage extends BasePage {
   cartGiftCardAmount: Locator
   cartShipping: Locator
   cartTaxes: Locator
+  cartTotal: Locator
   itemsTable: Locator
   itemRow: Locator
   itemTitle: Locator
@@ -96,6 +99,9 @@ export class CheckoutPage extends BasePage {
     this.shippingAddressOption = this.container.getByTestId(
       "shipping-address-option"
     )
+    this.billingAddressCheckbox = this.container.getByTestId(
+      "billing-address-checkbox"
+    )
     this.billingAddressInput = this.container.getByTestId(
       "billing-address-input"
     )
@@ -118,7 +124,10 @@ export class CheckoutPage extends BasePage {
       "shipping-address-input"
     )
     this.shippingCityInput = this.container.getByTestId("shipping-city-input")
-    this.shippingCompanyInput = this.container.getByTestId("shipping-company-input")
+    this.shippingCompanyInput = this.container.getByTestId(
+      "shipping-company-input"
+    )
+    this.shippingEmailInput = this.container.getByTestId("shipping-email-input")
     this.shippingFirstNameInput = this.container.getByTestId(
       "shipping-first-name-input"
     )
@@ -158,7 +167,7 @@ export class CheckoutPage extends BasePage {
     )
 
     this.deliveryOptionRadio = this.container.getByTestId(
-      "deliver-option-radio"
+      "delivery-option-radio"
     )
     this.deliveryOptionErrorMessage = this.container.getByTestId(
       "delivery-option-error-message"
@@ -214,6 +223,7 @@ export class CheckoutPage extends BasePage {
     )
     this.cartShipping = this.container.getByTestId("cart-shipping")
     this.cartTaxes = this.container.getByTestId("cart-taxes")
+    this.cartTotal = this.container.getByTestId("cart-total")
     this.itemsTable = this.container.getByTestId("items-table")
     this.itemRow = this.container.getByTestId("item-row")
     this.itemTitle = this.container.getByTestId("item-title")
@@ -241,7 +251,7 @@ export class CheckoutPage extends BasePage {
       (opts) => {
         const select = opts[0]
         const choice = opts[1]
-        return (select.textContent||"").includes(choice)
+        return (select.textContent || "").includes(choice)
       },
       [selectHandle, address] as [ElementHandle, string]
     )

@@ -175,7 +175,7 @@ const ShippingAddress = ({
           value={formData.email}
           onChange={handleChange}
           required
-          dat-testid="shipping-email-input"
+          data-testid="shipping-email-input"
         />
         <Input
           label="Phone"

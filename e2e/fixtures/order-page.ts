@@ -61,17 +61,16 @@ export class OrderPage extends BasePage {
   async getProduct(title: string, variant: string) {
     const productRow = this.productRow
       .filter({
-        has: this.productTitle.filter({ hasText: title }),
+        hasText: title,
       })
       .filter({
-        has: this.productVariant.filter({ hasText: variant }),
+        hasText: `Variant: ${variant}`,
       })
     return {
       productRow,
-      title: productRow.getByTestId("product-title"),
+      name: productRow.getByTestId("product-name"),
       variant: productRow.getByTestId("product-variant"),
-      deleteButton: productRow.getByTestId("delete-button"),
-      quantitySelect: productRow.getByTestId("quantity-select"),
+      quantity: productRow.getByTestId("product-quantity"),
       price: productRow.getByTestId("product-unit-price"),
       total: productRow.getByTestId("product-price"),
     }
