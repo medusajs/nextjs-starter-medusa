@@ -63,7 +63,10 @@ export default function SearchModal() {
             indexName={SEARCH_INDEX_NAME}
             searchClient={searchClient}
           >
-            <div className="flex absolute flex-col h-fit w-full sm:w-fit">
+            <div
+              className="flex absolute flex-col h-fit w-full sm:w-fit"
+              data-testid="search-modal-container"
+            >
               <div className="w-full flex items-center gap-x-2 p-4 bg-[rgba(3,7,18,0.5)] text-ui-fg-on-color backdrop-blur-2xl rounded-rounded">
                 <MagnifyingGlassMini />
                 <SearchBox />
