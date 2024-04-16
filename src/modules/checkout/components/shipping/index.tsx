@@ -95,7 +95,7 @@ const Shipping: React.FC<ShippingProps> = ({
           )}
       </div>
       {isOpen ? (
-        <div>
+        <div data-testid="delivery-options-container">
           <div className="pb-8">
             <RadioGroup
               value={cart.shipping_methods[0]?.shipping_option_id}
@@ -144,7 +144,10 @@ const Shipping: React.FC<ShippingProps> = ({
             </RadioGroup>
           </div>
 
-          <ErrorMessage error={error} data-testid="delivery-option-error-message" />
+          <ErrorMessage
+            error={error}
+            data-testid="delivery-option-error-message"
+          />
 
           <Button
             size="large"
