@@ -23,7 +23,9 @@ const OrderCard = ({ order }: OrderCardProps) => {
 
   return (
     <div className="bg-white flex flex-col" data-testid="order-card">
-      <div className="uppercase text-large-semi mb-1" data-testid="order-display-id">#{order.display_id}</div>
+      <div className="uppercase text-large-semi mb-1">
+        #<span data-testid="order-display-id">{order.display_id}</span>
+      </div>
       <div className="flex items-center divide-x divide-gray-200 text-small-regular text-ui-fg-base">
         <span className="pr-2" data-testid="order-created-at">
           {new Date(order.created_at).toDateString()}
@@ -42,10 +44,19 @@ const OrderCard = ({ order }: OrderCardProps) => {
       <div className="grid grid-cols-2 small:grid-cols-4 gap-4 my-4">
         {order.items.slice(0, 3).map((i) => {
           return (
-            <div key={i.id} className="flex flex-col gap-y-2" data-testid="order-item">
+            <div
+              key={i.id}
+              className="flex flex-col gap-y-2"
+              data-testid="order-item"
+            >
               <Thumbnail thumbnail={i.thumbnail} images={[]} size="full" />
               <div className="flex items-center text-small-regular text-ui-fg-base">
-                <span className="text-ui-fg-base font-semibold" data-testid="item-title">{i.title}</span>
+                <span
+                  className="text-ui-fg-base font-semibold"
+                  data-testid="item-title"
+                >
+                  {i.title}
+                </span>
                 <span className="ml-2">x</span>
                 <span data-testid="item-quantity">{i.quantity}</span>
               </div>
@@ -63,7 +74,9 @@ const OrderCard = ({ order }: OrderCardProps) => {
       </div>
       <div className="flex justify-end">
         <LocalizedClientLink href={`/account/orders/details/${order.id}`}>
-          <Button data-testid="order-details-link" variant="secondary">See details</Button>
+          <Button data-testid="order-details-link" variant="secondary">
+            See details
+          </Button>
         </LocalizedClientLink>
       </div>
     </div>
