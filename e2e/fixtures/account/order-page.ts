@@ -26,7 +26,7 @@ export class OrderPage extends AccountPage {
 
   constructor(page: Page) {
     super(page)
-    this.container = page.getByTestId("order-complete-container")
+    this.container = page.getByTestId("order-details-container")
     this.backToOverviewButton = page.getByTestId("back-to-overview-button")
     this.orderEmail = this.container.getByTestId("order-email")
     this.orderDate = this.container.getByTestId("order-date")
@@ -63,17 +63,16 @@ export class OrderPage extends AccountPage {
   async getProduct(title: string, variant: string) {
     const productRow = this.productRow
       .filter({
-        has: this.productTitle.filter({ hasText: title }),
+        hasText: title,
       })
       .filter({
-        has: this.productVariant.filter({ hasText: variant }),
+        hasText: `Variant: ${variant}`,
       })
     return {
       productRow,
-      title: productRow.getByTestId("product-title"),
+      name: productRow.getByTestId("product-name"),
       variant: productRow.getByTestId("product-variant"),
-      deleteButton: productRow.getByTestId("delete-button"),
-      quantitySelect: productRow.getByTestId("quantity-select"),
+      quantity: productRow.getByTestId("product-quantity"),
       price: productRow.getByTestId("product-unit-price"),
       total: productRow.getByTestId("product-price"),
     }
