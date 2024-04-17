@@ -97,13 +97,15 @@ export default function ProductActions({
 
   // check if the selected variant is in stock
   const inStock = useMemo(() => {
-    if (variant && !variant.inventory_quantity) {
-      return false
-    }
-
-    if (variant && variant.allow_backorder === false) {
+    // If backorder is allowed, product is always "in stock"
+    if (variant && variant.allow_backorder === true) {
       return true
     }
+    // If backorder is not allowed, then product is in stock only if inventory is greater than 0
+    if (variant && variant.inventory_quantity > 0) {
+      return true
+    }
+    return false
   }, [variant])
 
   const actionsRef = useRef<HTMLDivElement>(null)
