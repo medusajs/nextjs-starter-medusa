@@ -54,18 +54,6 @@ const CartTotals: React.FC<CartTotalsProps> = ({ data }) => {
             </span>
           </div>
         )}
-        {!!gift_card_total && (
-          <div className="flex items-center justify-between">
-            <span>Gift card</span>
-            <span
-              className="text-ui-fg-interactive"
-              data-testid="cart-gift-card-amount"
-              data-value={gift_card_total || 0}
-            >
-              - {getAmount(gift_card_total)}
-            </span>
-          </div>
-        )}
         <div className="flex items-center justify-between">
           <span>Shipping</span>
           <span data-testid="cart-shipping" data-value={shipping_total || 0}>
@@ -78,6 +66,18 @@ const CartTotals: React.FC<CartTotalsProps> = ({ data }) => {
             {getAmount(tax_total)}
           </span>
         </div>
+        {!!gift_card_total && (
+          <div className="flex items-center justify-between">
+            <span>Gift card</span>
+            <span
+              className="text-ui-fg-interactive"
+              data-testid="cart-gift-card-amount"
+              data-value={gift_card_total || 0}
+            >
+              - {getAmount(gift_card_total)}
+            </span>
+          </div>
+        )}
       </div>
       <div className="h-px w-full border-b border-gray-200 my-4" />
       <div className="flex items-center justify-between text-ui-fg-base mb-2 txt-medium ">

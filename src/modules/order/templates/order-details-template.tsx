@@ -30,7 +30,10 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
           <XMark /> Back to overview
         </LocalizedClientLink>
       </div>
-      <div className="flex flex-col gap-4 h-full bg-white w-full">
+      <div
+        className="flex flex-col gap-4 h-full bg-white w-full"
+        data-testid="order-details-container"
+      >
         <OrderDetails order={order} showStatus />
         <Items items={order.items} region={order.region} />
         <ShippingDetails order={order} />
