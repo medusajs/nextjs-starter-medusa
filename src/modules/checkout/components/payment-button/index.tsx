@@ -11,11 +11,14 @@ import ErrorMessage from "../error-message"
 import Spinner from "@modules/common/icons/spinner"
 
 type PaymentButtonProps = {
-  cart: Omit<Cart, "refundable_amount" | "refunded_total">,
-  'data-testid': string
+  cart: Omit<Cart, "refundable_amount" | "refunded_total">
+  "data-testid": string
 }
 
-const PaymentButton: React.FC<PaymentButtonProps> = ({ cart, 'data-testid': dataTestId }) => {
+const PaymentButton: React.FC<PaymentButtonProps> = ({
+  cart,
+  "data-testid": dataTestId,
+}) => {
   const notReady =
     !cart ||
     !cart.shipping_address ||
@@ -25,28 +28,64 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({ cart, 'data-testid': data
       ? true
       : false
 
+  const paidByGiftcard =
+    cart?.gift_cards && cart?.gift_cards?.length > 0 && cart?.total === 0
+
+  if (paidByGiftcard) {
+    return <GiftCardPaymentButton />
+  }
+
   const paymentSession = cart.payment_session as PaymentSession
 
   switch (paymentSession.provider_id) {
     case "stripe":
-      return <StripePaymentButton notReady={notReady} cart={cart} data-testid={dataTestId} />
+      return (
+        <StripePaymentButton
+          notReady={notReady}
+          cart={cart}
+          data-testid={dataTestId}
+        />
+      )
     case "manual":
-      return <ManualTestPaymentButton notReady={notReady} data-testid={dataTestId} />
+      return (
+        <ManualTestPaymentButton notReady={notReady} data-testid={dataTestId} />
+      )
     case "paypal":
-      return <PayPalPaymentButton notReady={notReady} cart={cart} data-testid={dataTestId} />
+      return (
+        <PayPalPaymentButton
+          notReady={notReady}
+          cart={cart}
+          data-testid={dataTestId}
+        />
+      )
     default:
       return <Button disabled>Select a payment method</Button>
   }
 }
 
+const GiftCardPaymentButton = () => {
+  const [submitting, setSubmitting] = useState(false)
+
+  const handleOrder = async () => {
+    setSubmitting(true)
+    await placeOrder()
+  }
+
+  return (
+    <Button onClick={handleOrder} isLoading={submitting}>
+      Place order
+    </Button>
+  )
+}
+
 const StripePaymentButton = ({
   cart,
   notReady,
-  'data-testid': dataTestId
+  "data-testid": dataTestId,
 }: {
   cart: Omit<Cart, "refundable_amount" | "refunded_total">
   notReady: boolean
-  'data-testid'?: string
+  "data-testid"?: string
 }) => {
   const [submitting, setSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -133,7 +172,10 @@ const StripePaymentButton = ({
       >
         Place order
       </Button>
-      <ErrorMessage error={errorMessage} data-testid="stripe-payment-error-message" />
+      <ErrorMessage
+        error={errorMessage}
+        data-testid="stripe-payment-error-message"
+      />
     </>
   )
 }
@@ -141,11 +183,11 @@ const StripePaymentButton = ({
 const PayPalPaymentButton = ({
   cart,
   notReady,
-  'data-testid': dataTestId
+  "data-testid": dataTestId,
 }: {
   cart: Omit<Cart, "refundable_amount" | "refunded_total">
   notReady: boolean
-  'data-testid'?: string
+  "data-testid"?: string
 }) => {
   const [submitting, setSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -194,7 +236,10 @@ const PayPalPaymentButton = ({
           disabled={notReady || submitting || isPending}
           data-testid={dataTestId}
         />
-        <ErrorMessage error={errorMessage} data-testid="paypal-payment-error-message" />
+        <ErrorMessage
+          error={errorMessage}
+          data-testid="paypal-payment-error-message"
+        />
       </>
     )
   }
@@ -228,7 +273,10 @@ const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
       >
         Place order
       </Button>
-      <ErrorMessage error={errorMessage} data-testid="manual-payment-error-message" />
+      <ErrorMessage
+        error={errorMessage}
+        data-testid="manual-payment-error-message"
+      />
     </>
   )
 }
