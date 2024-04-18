@@ -29,7 +29,16 @@ env:
   DATABASE_TYPE: "postgres"
   REDIS_URL: redis://localhost:6379
   DATABASE_URL: postgres://test_medusa_user:password@localhost/test_medusa_db
+  MEILISEARCH_HOST: http://localhost:7700
+  MEILISEARCH_API_KEY: meili_api_key
+
   NEXT_PUBLIC_BASE_URL: http://localhost:8000
+  NEXT_PUBLIC_DEFAULT_REGION: us
+  NEXT_PUBLIC_MEDUSA_BACKEND_URL: http://localhost:9000
+  NEXT_PUBLIC_INDEX_NAME: products
+  NEXT_PUBLIC_SEARCH_ENDPOINT: http://127.0.0.1:7700
+  NEXT_PUBLIC_SEARCH_API_KEY: meili_api_key
+  REVALIDATE_SECRET: supersecret
 
 jobs:
   e2e-test-runner:
@@ -53,6 +62,9 @@ jobs:
 
       meilisearch:
         image: getmeili/meilisearch:v1.7
+        env:
+          MEILI_MASTER_KEY: meili_api_key
+          MEILI_ENV: development
         ports:
           - 7700:7700
         options: >-
@@ -100,10 +112,17 @@ jobs:
           --db-database ${{ env.TEST_POSTGRES_DATABASE }} \
           --db-host ${{ env.TEST_POSTGRES_HOST }} \
           --db-port ${{ env.TEST_POSTGREST_PORT }}
-        
+
       - name: Build the backend
         working-directory: ../backend
         run: yarn build:admin
+
+      - name: Setup search in the backend
+        working-directory: ../backend
+        run: yarn add medusa-plugin-meilisearch
+
+      - name: Move custom medusa config to the backend
+        run: cp .github/scripts/medusa-config.js ../backend/medusa-config.js
 
       - name: Seed data from default seed file
         working-directory: ../backend
@@ -118,9 +137,6 @@ jobs:
 
       - name: Install playwright
         run: yarn playwright install --with-deps
-
-      - name: Copy environment
-        run: cp .env.template .env
 
       - name: Setup frontend
         run: yarn build

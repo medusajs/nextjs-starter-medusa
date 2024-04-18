@@ -20,8 +20,14 @@ export class OrdersPage extends AccountPage {
     this.orderDisplayId = page.getByTestId("order-display-id")
   }
 
-  async getOrder(text: string) {
-    const card = this.orderCard.filter({ hasText: "text" }).first()
+  async getOrderById(orderId: string) {
+    const orderIdLocator = this.page
+      .getByTestId("order-display-id")
+      .filter({
+        hasText: orderId,
+      })
+      .first()
+    const card = this.orderCard.filter({ has: orderIdLocator }).first()
     const items = (await card.getByTestId("order-item").all()).map(
       (orderItem) => {
         return {
@@ -35,8 +41,10 @@ export class OrdersPage extends AccountPage {
       card,
       displayId: card.getByTestId("order-display-id"),
       createdAt: card.getByTestId("order-created-at"),
+      orderId: card.getByTestId("order-display-id"),
       amount: card.getByTestId("order-amount"),
       detailsLink: card.getByTestId("order-details-link"),
+      itemsLocator: card.getByTestId("order-item"),
       items,
     }
   }

@@ -42,6 +42,7 @@ export class CheckoutPage extends BasePage {
   submitAddressButton: Locator
   addressErrorMessage: Locator
 
+  deliveryOptionsContainer: Locator
   deliveryOptionRadio: Locator
   deliveryOptionErrorMessage: Locator
   submitDeliveryOptionButton: Locator
@@ -166,6 +167,9 @@ export class CheckoutPage extends BasePage {
       "address-error-message"
     )
 
+    this.deliveryOptionsContainer = this.container.getByTestId(
+      "delivery-options-container"
+    )
     this.deliveryOptionRadio = this.container.getByTestId(
       "delivery-option-radio"
     )

@@ -199,22 +199,11 @@ export const retrieveOrder = cache(async function (id: string) {
 })
 
 // Shipping actions
-export const listShippingMethods = cache(async function listShippingMethods(
-  regionId: string,
-  productIds?: string[]
-) {
+export const listCartShippingMethods = cache(async function (cartId: string) {
   const headers = getMedusaHeaders(["shipping"])
 
-  const product_ids = productIds?.join(",")
-
   return medusaClient.shippingOptions
-    .list(
-      {
-        region_id: regionId,
-        product_ids,
-      },
-      headers
-    )
+    .listCartOptions(cartId, headers)
     .then(({ shipping_options }) => shipping_options)
     .catch((err) => {
       console.log(err)
