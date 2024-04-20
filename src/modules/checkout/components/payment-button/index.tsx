@@ -72,7 +72,11 @@ const GiftCardPaymentButton = () => {
   }
 
   return (
-    <Button onClick={handleOrder} isLoading={submitting}>
+    <Button
+      onClick={handleOrder}
+      isLoading={submitting}
+      data-testid="submit-order-button"
+    >
       Place order
     </Button>
   )
