@@ -9,6 +9,7 @@ export class BasePage {
   cartDropdown: CartDropdown
   searchModal: SearchModal
   accountLink: Locator
+  cartLink: Locator
   searchLink: Locator
   storeLink: Locator
   categoriesList: Locator
@@ -19,6 +20,7 @@ export class BasePage {
     this.cartDropdown = new CartDropdown(page)
     this.searchModal = new SearchModal(page)
     this.accountLink = page.getByTestId("nav-account-link")
+    this.cartLink = page.getByTestId("nav-cart-link")
     this.storeLink = page.getByTestId("nav-store-link")
     this.searchLink = page.getByTestId("nav-search-link")
     this.categoriesList = page.getByTestId("footer-categories")

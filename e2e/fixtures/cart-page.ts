@@ -14,6 +14,7 @@ export class CartPage extends BasePage {
   discountInput: Locator
   discountApplyButton: Locator
   discountErrorMessage: Locator
+  discountRow: Locator
   giftCardRow: Locator
   giftCardCode: Locator
   giftCardAmount: Locator
@@ -49,7 +50,8 @@ export class CartPage extends BasePage {
     this.discountErrorMessage = this.container.getByTestId(
       "discount-error-message"
     )
-    this.giftCardRow = this.container.getByTestId("gift-card-row")
+    this.discountRow = this.container.getByTestId("discount-row")
+    this.giftCardRow = this.container.getByTestId("gift-card")
     this.giftCardCode = this.container.getByTestId("gift-card-code")
     this.giftCardAmount = this.container.getByTestId("gift-card-amount")
     this.giftCardRemoveButton = this.container.getByTestId(
@@ -86,13 +88,32 @@ export class CartPage extends BasePage {
 
   async getGiftCard(code: string) {
     const giftCardRow = this.giftCardRow.filter({
-      has: this.giftCardCode.filter({ hasText: code }),
+      hasText: code,
     })
+    const amount = giftCardRow.getByTestId("gift-card-amount")
     return {
-      giftCardRow,
+      locator: giftCardRow,
       code: giftCardRow.getByTestId("gift-card-code"),
-      amount: giftCardRow.getByTestId("gift-card-amount"),
+      amount,
+      amountValue: await amount.getAttribute("data-value"),
       removeButton: giftCardRow.getByTestId("remove-gift-card-button"),
     }
+  }
+
+  async getDiscount(code: string) {
+    const discount = this.discountRow
+    const amount = discount.getByTestId("discount-amount")
+    return {
+      locator: discount,
+      code: discount.getByTestId("discount-code"),
+      amount,
+      amountValue: await amount.getAttribute("data-value"),
+      removeButton: discount.getByTestId("remove-discount-button"),
+    }
+  }
+
+  async goto() {
+    await this.cartLink.click({ clickCount: 2 })
+    await this.container.waitFor({ state: "visible" })
   }
 }
