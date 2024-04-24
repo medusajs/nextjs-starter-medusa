@@ -12,7 +12,6 @@
     "build": "next build",
     "start": "next start -p 8000",
     "lint": "next lint",
-    "cypress": "cypress open",
     "analyze": "ANALYZE=true next build",
     "test-e2e": "playwright test e2e"
   },
@@ -62,7 +61,6 @@
     "@types/react-instantsearch-dom": "^6.12.3",
     "autoprefixer": "^10.4.2",
     "babel-loader": "^8.2.3",
-    "cypress": "^9.5.2",
     "eslint": "8.10.0",
     "eslint-config-next": "^13.4.5",
     "postcss": "^8.4.8",
