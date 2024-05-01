@@ -1,4 +1,5 @@
-import { getProductsList, getRegion } from "@lib/data"
+import { getProductsList } from "@lib/data/products"
+import { getRegion } from "@lib/data/regions"
 import ProductPreview from "@modules/products/components/product-preview"
 import { Pagination } from "@modules/store/components/pagination"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
@@ -51,6 +52,7 @@ export default async function PaginatedProducts({
   }
 
   if (sortBy) {
+    // TODO: Currently sorting by price doesn't work, fix it
     switch (sortBy) {
       case "price_asc":
         queryParams["order"] = "price"

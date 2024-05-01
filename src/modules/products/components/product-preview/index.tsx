@@ -6,7 +6,7 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import Thumbnail from "../thumbnail"
 import PreviewPrice from "./price"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
-import { getProductsById } from "@lib/data"
+import { getProductsById } from "@lib/data/products"
 
 export default async function ProductPreview({
   product,

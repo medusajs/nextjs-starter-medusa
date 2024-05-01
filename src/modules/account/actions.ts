@@ -11,7 +11,7 @@ import {
 } from "@lib/data"
 import { revalidateTag } from "next/cache"
 import { redirect } from "next/navigation"
-import { cookies, headers } from "next/headers"
+import { cookies } from "next/headers"
 import {
   Customer,
   StorePostCustomersCustomerAddressesAddressReq,

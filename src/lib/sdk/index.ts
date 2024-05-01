@@ -1,5 +1,6 @@
 import qs from "qs"
 
+// TODO: Add debug logging
 export type Config = {
   baseUrl: string
   globalHeaders?: Record<string, string>
@@ -217,6 +218,91 @@ class Store {
         .fetch(`/store/products/${id}`, {
           query: queryParams,
           headers,
+        })
+        .then((resp) => resp.json())
+    },
+  }
+
+  public cart = {
+    create: async (body: any, headers?: Record<string, any>) => {
+      return this.client
+        .fetch(`/store/carts`, {
+          headers,
+          method: "POST",
+          body: JSON.stringify(body),
+        })
+        .then((resp) => resp.json())
+    },
+    update: async (id: string, body: any, headers?: Record<string, any>) => {
+      return this.client
+        .fetch(`/store/carts/${id}`, {
+          headers,
+          method: "POST",
+          body: JSON.stringify(body),
+        })
+        .then((resp) => resp.json())
+    },
+    retrieve: async (
+      id: string,
+      queryParams?: Record<string, any>,
+      headers?: Record<string, any>
+    ) => {
+      return this.client
+        .fetch(`/store/carts/${id}`, {
+          query: queryParams,
+          headers,
+        })
+        .then((resp) => resp.json())
+    },
+    createLineItem: async (
+      cartId: string,
+      body: any,
+      headers?: Record<string, any>
+    ) => {
+      return this.client
+        .fetch(`/store/carts/${cartId}/line-items`, {
+          headers,
+          method: "POST",
+          body: JSON.stringify(body),
+        })
+        .then((resp) => resp.json())
+    },
+    updateLineItem: async (
+      cartId: string,
+      lineItemId: string,
+      body: any,
+      headers?: Record<string, any>
+    ) => {
+      return this.client
+        .fetch(`/store/carts/${cartId}/line-items/${lineItemId}`, {
+          headers,
+          method: "POST",
+          body: JSON.stringify(body),
+        })
+        .then((resp) => resp.json())
+    },
+    deleteLineItem: async (
+      cartId: string,
+      lineItemId: string,
+      headers?: Record<string, any>
+    ) => {
+      return this.client
+        .fetch(`/store/carts/${cartId}/line-items/${lineItemId}`, {
+          headers,
+          method: "DELETE",
+        })
+        .then((resp) => resp.json())
+    },
+    addShippingMethod: async (
+      cartId: string,
+      body: any,
+      headers?: Record<string, any>
+    ) => {
+      return this.client
+        .fetch(`/store/carts/${cartId}/shipping-methods`, {
+          headers,
+          method: "POST",
+          body: JSON.stringify(body),
         })
         .then((resp) => resp.json())
     },

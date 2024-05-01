@@ -4,7 +4,6 @@ import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 import { cache } from "react"
 import { getRegion } from "./regions"
 
-// Product actions
 export const getProductsById = cache(async function ({
   ids,
   regionId,

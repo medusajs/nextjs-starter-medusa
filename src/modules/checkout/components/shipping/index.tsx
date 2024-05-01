@@ -11,9 +11,9 @@ import Divider from "@modules/common/components/divider"
 import Radio from "@modules/common/components/radio"
 import Spinner from "@modules/common/icons/spinner"
 import ErrorMessage from "@modules/checkout/components/error-message"
-import { setShippingMethod } from "@modules/checkout/actions"
 import { useRouter, useSearchParams, usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
+import { setShippingMethod } from "@lib/data/cart"
 
 type ShippingProps = {
   cart: Omit<Cart, "refundable_amount" | "refunded_total">
@@ -44,7 +44,7 @@ const Shipping: React.FC<ShippingProps> = ({
 
   const set = async (id: string) => {
     setIsLoading(true)
-    await setShippingMethod(id)
+    await setShippingMethod({ cartId: cart.id, shippingMethodId: id })
       .then(() => {
         setIsLoading(false)
       })

@@ -1,4 +1,4 @@
-import { getProductsById } from "@lib/data"
+import { getProductsById } from "@lib/data/products"
 import { Region } from "@medusajs/medusa"
 import ProductActions from "@modules/products/components/product-actions"
 

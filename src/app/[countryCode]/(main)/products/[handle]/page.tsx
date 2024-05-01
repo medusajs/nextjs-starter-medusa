@@ -1,13 +1,9 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
-import {
-  getProductByHandle,
-  getProductsList,
-  getRegion,
-  listRegions,
-} from "@lib/data"
 import ProductTemplate from "@modules/products/templates"
+import { getRegion, listRegions } from "@lib/data/regions"
+import { getProductByHandle, getProductsList } from "@lib/data/products"
 
 type Props = {
   params: { countryCode: string; handle: string }

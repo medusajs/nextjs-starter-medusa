@@ -1,8 +1,5 @@
-import {
-  createPaymentSessions,
-  getCustomer,
-  listCartShippingMethods,
-} from "@lib/data"
+import { getCustomer, listCartShippingMethods } from "@lib/data"
+import { createPaymentSessions } from "@lib/data/cart"
 import { getCheckoutStep } from "@lib/util/get-checkout-step"
 import Addresses from "@modules/checkout/components/addresses"
 import Payment from "@modules/checkout/components/payment"

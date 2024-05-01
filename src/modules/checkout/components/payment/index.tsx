@@ -13,9 +13,9 @@ import { StripeCardElementOptions } from "@stripe/stripe-js"
 import Divider from "@modules/common/components/divider"
 import Spinner from "@modules/common/icons/spinner"
 import PaymentContainer from "@modules/checkout/components/payment-container"
-import { setPaymentMethod } from "@modules/checkout/actions"
 import { paymentInfoMap } from "@lib/constants"
 import { StripeContext } from "@modules/checkout/components/payment-wrapper"
+import { setPaymentMethod } from "@lib/data/cart"
 
 const Payment = ({
   cart,

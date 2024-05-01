@@ -2,8 +2,6 @@ import { ProductOption } from "@medusajs/medusa"
 import { clx } from "@medusajs/ui"
 import React from "react"
 
-import { onlyUnique } from "@lib/util/only-unique"
-
 type OptionSelectProps = {
   option: ProductOption
   current: string | undefined
@@ -21,7 +19,7 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
   "data-testid": dataTestId,
   disabled,
 }) => {
-  const filteredOptions = option.values.map((v) => v.value).filter(onlyUnique)
+  const filteredOptions = option.values.map((v) => v.value)
 
   return (
     <div className="flex flex-col gap-y-3">

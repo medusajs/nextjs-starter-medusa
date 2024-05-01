@@ -6,8 +6,8 @@ import { omit } from "lodash"
 import { Fragment, useMemo } from "react"
 
 import Radio from "@modules/common/components/radio"
-import { cartUpdate } from "@modules/checkout/actions"
 import compareAddresses from "@lib/util/compare-addresses"
+import { updateCart } from "@lib/data/cart"
 
 type AddressSelectProps = {
   addresses: Address[]
@@ -18,7 +18,7 @@ const AddressSelect = ({ addresses, cart }: AddressSelectProps) => {
   const handleSelect = (id: string) => {
     const savedAddress = addresses.find((a) => a.id === id)
     if (savedAddress) {
-      cartUpdate({
+      updateCart({
         shipping_address: omit(savedAddress, [
           "id",
           "created_at",
@@ -41,7 +41,8 @@ const AddressSelect = ({ addresses, cart }: AddressSelectProps) => {
       <div className="relative">
         <Listbox.Button
           className="relative w-full flex justify-between items-center px-4 py-[10px] text-left bg-white cursor-default focus:outline-none border rounded-rounded focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-gray-300 focus-visible:ring-offset-2 focus-visible:border-gray-300 text-base-regular"
-          data-testid="shipping-address-select">
+          data-testid="shipping-address-select"
+        >
           {({ open }) => (
             <>
               <span className="block truncate">
@@ -65,7 +66,8 @@ const AddressSelect = ({ addresses, cart }: AddressSelectProps) => {
         >
           <Listbox.Options
             className="absolute z-20 w-full overflow-auto text-small-regular bg-white border border-top-0 max-h-60 focus:outline-none sm:text-sm"
-            data-testid="shipping-address-options">
+            data-testid="shipping-address-options"
+          >
             {addresses.map((address) => {
               return (
                 <Listbox.Option
@@ -75,7 +77,10 @@ const AddressSelect = ({ addresses, cart }: AddressSelectProps) => {
                   data-testid="shipping-address-option"
                 >
                   <div className="flex gap-x-4 items-start">
-                    <Radio checked={selectedAddress?.id === address.id} data-testid="shipping-address-radio" />
+                    <Radio
+                      checked={selectedAddress?.id === address.id}
+                      data-testid="shipping-address-radio"
+                    />
                     <div className="flex flex-col">
                       <span className="text-left text-base-semi">
                         {address.first_name} {address.last_name}

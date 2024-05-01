@@ -1,9 +1,9 @@
 import { StoreGetProductsParams } from "@medusajs/medusa"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 
-import { getProductsList, getRegion } from "@lib/data"
-
 import Product from "../product-preview"
+import { getRegion } from "@lib/data/regions"
+import { getProductsList } from "@lib/data/products"
 
 type RelatedProductsProps = {
   product: PricedProduct

@@ -10,12 +10,12 @@ import Input from "@modules/common/components/input"
 import Trash from "@modules/common/icons/trash"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import { SubmitButton } from "@modules/checkout/components/submit-button"
+import { formatAmount } from "@lib/util/prices"
 import {
   removeDiscount,
   removeGiftCard,
   submitDiscountForm,
-} from "@modules/checkout/actions"
-import { formatAmount } from "@lib/util/prices"
+} from "@lib/data/cart"
 
 type DiscountCodeProps = {
   cart: Omit<Cart, "refundable_amount" | "refunded_total">
@@ -58,7 +58,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
   return (
     <div className="w-full bg-white flex flex-col">
       <div className="txt-medium">
-        {gift_cards.length > 0 && (
+        {gift_cards?.length > 0 && (
           <div className="flex flex-col mb-4">
             <Heading className="txt-medium">Gift card(s) applied:</Heading>
             {gift_cards?.map((gc) => (
