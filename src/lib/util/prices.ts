@@ -5,6 +5,7 @@ import { Region, Variant } from "types/medusa"
 import { isEmpty } from "./isEmpty"
 import { ProductVariantInfo, RegionInfo } from "../../types/global"
 import { noDivisionCurrencies } from "@lib/constants"
+import { convertToLocale } from "./money"
 
 export const findCheapestRegionPrice = (
   variants: Variant[],
@@ -231,29 +232,4 @@ const convertToDecimal = (amount: number, region: RegionInfo) => {
 
 const getTaxRate = (region?: RegionInfo) => {
   return region && !isEmpty(region) ? region?.tax_rate / 100 : 0
-}
-
-const convertToLocale = ({
-  amount,
-  currency_code,
-  minimumFractionDigits,
-  maximumFractionDigits,
-  locale = "en-US",
-}: ConvertToLocaleParams) => {
-  return currency_code && !isEmpty(currency_code)
-    ? new Intl.NumberFormat(locale, {
-        style: "currency",
-        currency: currency_code,
-        minimumFractionDigits,
-        maximumFractionDigits,
-      }).format(amount)
-    : amount.toString()
-}
-
-type ConvertToLocaleParams = {
-  amount: number
-  currency_code: string
-  minimumFractionDigits?: number
-  maximumFractionDigits?: number
-  locale?: string
 }

@@ -1,4 +1,3 @@
-import { Product } from "@medusajs/medusa"
 import { Metadata } from "next"
 
 import { getCollectionsList, getProductsList, getRegion } from "@lib/data"
@@ -25,30 +24,24 @@ const getCollectionsWithProducts = cache(
 
     const collectionIds = collections.map((collection) => collection.id)
 
-    await Promise.all(
-      collectionIds.map((id) =>
-        getProductsList({
-          queryParams: { collection_id: [id] },
-          countryCode,
-        })
+    const { response } = await getProductsList({
+      queryParams: { collection_id: collectionIds },
+      countryCode,
+    })
+
+    response.products.forEach((product) => {
+      const collection = collections.find(
+        (collection) => collection.id === product.collection_id
       )
-    ).then((responses) =>
-      responses.forEach(({ response, queryParams }) => {
-        let collection
 
-        if (collections) {
-          collection = collections.find(
-            (collection) => collection.id === queryParams?.collection_id?.[0]
-          )
+      if (collection) {
+        if (!collection.products) {
+          collection.products = []
         }
 
-        if (!collection) {
-          return
-        }
-
-        collection.products = response.products as unknown as Product[]
-      })
-    )
+        collection.products.push(product as any)
+      }
+    })
 
     return collections as unknown as ProductCollectionWithPreviews[]
   }

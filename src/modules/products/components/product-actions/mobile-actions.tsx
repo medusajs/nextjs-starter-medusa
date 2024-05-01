@@ -12,14 +12,14 @@ import X from "@modules/common/icons/x"
 
 import { getProductPrice } from "@lib/util/get-product-price"
 import { Region } from "@medusajs/medusa"
-import OptionSelect from "../option-select"
+import OptionSelect from "./option-select"
 
 type MobileActionsProps = {
   product: PricedProduct
   variant?: PricedVariant
   region: Region
-  options: Record<string, string>
-  updateOptions: (update: Record<string, string>) => void
+  options: Record<string, string | undefined>
+  updateOptions: (title: string, value: string) => void
   inStock?: boolean
   handleAddToCart: () => void
   isAdding?: boolean
@@ -181,7 +181,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                             <div key={option.id}>
                               <OptionSelect
                                 option={option}
-                                current={options[option.id]}
+                                current={options[option.title]}
                                 updateOption={updateOptions}
                                 title={option.title}
                                 disabled={optionsDisabled}

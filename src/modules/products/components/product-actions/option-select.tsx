@@ -6,8 +6,8 @@ import { onlyUnique } from "@lib/util/only-unique"
 
 type OptionSelectProps = {
   option: ProductOption
-  current: string
-  updateOption: (option: Record<string, string>) => void
+  current: string | undefined
+  updateOption: (title: string, value: string) => void
   title: string
   disabled: boolean
   "data-testid"?: string
@@ -33,7 +33,7 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
         {filteredOptions.map((v) => {
           return (
             <button
-              onClick={() => updateOption({ [option.id]: v })}
+              onClick={() => updateOption(option.title, v)}
               key={v}
               className={clx(
                 "border-ui-border-base bg-ui-bg-subtle border text-small-regular h-10 rounded-rounded p-2 flex-1 ",

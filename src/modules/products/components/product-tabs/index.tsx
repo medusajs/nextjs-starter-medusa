@@ -75,11 +75,6 @@ const ProductInfoTab = ({ product }: ProductTabsProps) => {
           </div>
         </div>
       </div>
-      {product.tags?.length ? (
-        <div>
-          <span className="font-semibold">Tags</span>
-        </div>
-      ) : null}
     </div>
   )
 }
