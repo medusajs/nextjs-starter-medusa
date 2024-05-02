@@ -1,4 +1,4 @@
-import { Cart, ProductCategory, ProductVariant, Region } from "@medusajs/medusa"
+import { ProductCategory, ProductVariant, Region } from "@medusajs/medusa"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 import { ProductCollection } from "@medusajs/medusa"
 
@@ -26,13 +26,6 @@ export type InfiniteProductPage = {
 export type ProductVariantInfo = Pick<ProductVariant, "prices">
 
 export type RegionInfo = Pick<Region, "currency_code" | "tax_code" | "tax_rate">
-
-export type CartWithCheckoutStep = Omit<
-  Cart,
-  "beforeInsert" | "beforeUpdate" | "afterUpdateOrLoad"
-> & {
-  checkout_step: "address" | "delivery" | "payment"
-}
 
 export type ProductCategoryWithChildren = Omit<
   ProductCategory,

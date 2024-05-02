@@ -307,6 +307,21 @@ class Store {
         .then((resp) => resp.json())
     },
   }
+
+  public fulfillment = {
+    listCartOptions: async (
+      cartId: string,
+      queryParams?: Record<string, any>,
+      headers?: Record<string, any>
+    ) => {
+      return this.client
+        .fetch(`/store/shipping-options/${cartId}`, {
+          query: queryParams,
+          headers,
+        })
+        .then((resp) => resp.json())
+    },
+  }
 }
 
 class Medusa {

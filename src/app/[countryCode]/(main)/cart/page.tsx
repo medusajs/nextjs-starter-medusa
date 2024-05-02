@@ -2,7 +2,6 @@ import { LineItem } from "@medusajs/medusa"
 import { Metadata } from "next"
 import CartTemplate from "@modules/cart/templates"
 
-import { getCheckoutStep } from "@lib/util/get-checkout-step"
 import { enrichLineItems, retrieveCart } from "@lib/data/cart"
 import { getCustomer } from "@lib/data"
 
@@ -23,7 +22,6 @@ const fetchCart = async () => {
     cart.items = enrichedItems as LineItem[]
   }
 
-  cart.checkout_step = cart && getCheckoutStep(cart)
   return cart
 }
 

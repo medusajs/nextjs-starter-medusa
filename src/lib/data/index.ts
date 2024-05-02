@@ -45,18 +45,6 @@ export const retrieveOrder = cache(async function (id: string) {
     .catch((err) => medusaError(err))
 })
 
-// Shipping actions
-export const listCartShippingMethods = cache(async function (cartId: string) {
-  const headers = getMedusaHeaders(["shipping"])
-
-  return medusaClient.shippingOptions
-    .listCartOptions(cartId, headers)
-    .then(({ shipping_options }) => shipping_options)
-    .catch(() => {
-      return null
-    })
-})
-
 // Authentication actions
 export async function getToken(credentials: StorePostAuthReq) {
   return medusaClient.auth
