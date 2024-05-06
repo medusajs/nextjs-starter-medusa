@@ -6,7 +6,6 @@ import PaymentButton from "../payment-button"
 import { useSearchParams } from "next/navigation"
 
 const Review = ({ cart }: { cart: any }) => {
-  console.log(cart)
   const searchParams = useSearchParams()
 
   const isOpen = searchParams.get("step") === "review"

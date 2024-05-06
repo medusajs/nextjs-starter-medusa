@@ -21,14 +21,20 @@ const Payment = ({
   cart,
   availablePaymentMethods,
 }: {
-  cart: Omit<Cart, "refundable_amount" | "refunded_total"> | null
+  cart: any
   availablePaymentMethods: any[]
 }) => {
+  const activeSession = cart.payment_collection?.payment_sessions?.find(
+    (paymentSession: any) => paymentSession.status === "pending"
+  )
+
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [cardBrand, setCardBrand] = useState<string | null>(null)
   const [cardComplete, setCardComplete] = useState(false)
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("")
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(
+    activeSession?.provider_id ?? ""
+  )
 
   const searchParams = useSearchParams()
   const router = useRouter()

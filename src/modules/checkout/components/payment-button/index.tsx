@@ -35,7 +35,6 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
     return <GiftCardPaymentButton />
   }
 
-  console.log(cart)
   const paymentSession = cart.payment_collection
     .payment_sessions[0] as PaymentSession
 

@@ -306,6 +306,14 @@ class Store {
         })
         .then((resp) => resp.json())
     },
+    complete: async (cartId: string, headers?: Record<string, any>) => {
+      return this.client
+        .fetch(`/store/carts/${cartId}/complete`, {
+          headers,
+          method: "POST",
+        })
+        .then((resp) => resp.json())
+    },
   }
 
   public fulfillment = {
@@ -340,7 +348,7 @@ class Store {
       body: any,
       headers?: Record<string, any>
     ) => {
-      let paymentCollectionId = (cart as any).payment_collection?.[0].id
+      let paymentCollectionId = (cart as any).payment_collection.id
       if (!paymentCollectionId) {
         const collectionBody = {
           cart_id: cart.id,
