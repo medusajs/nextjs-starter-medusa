@@ -11,7 +11,7 @@ import Spinner from "@modules/common/icons/spinner"
 import { placeOrder } from "@lib/data/cart"
 
 type PaymentButtonProps = {
-  cart: Omit<Cart, "refundable_amount" | "refunded_total">
+  cart: any
   "data-testid": string
 }
 
@@ -35,7 +35,9 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
     return <GiftCardPaymentButton />
   }
 
-  const paymentSession = cart.payment_session as PaymentSession
+  console.log(cart)
+  const paymentSession = cart.payment_collection
+    .payment_sessions[0] as PaymentSession
 
   switch (paymentSession.provider_id) {
     case "stripe":
@@ -47,6 +49,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
         />
       )
     case "manual":
+    case "pp_system_default":
       return (
         <ManualTestPaymentButton notReady={notReady} data-testid={dataTestId} />
       )

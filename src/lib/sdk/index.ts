@@ -310,15 +310,64 @@ class Store {
 
   public fulfillment = {
     listCartOptions: async (
-      cartId: string,
       queryParams?: Record<string, any>,
       headers?: Record<string, any>
     ) => {
       return this.client
-        .fetch(`/store/shipping-options/${cartId}`, {
+        .fetch(`/store/shipping-options`, {
           query: queryParams,
           headers,
         })
+        .then((resp) => resp.json())
+    },
+  }
+
+  public payment = {
+    listPaymentProviders: async (
+      queryParams?: Record<string, any>,
+      headers?: Record<string, any>
+    ) => {
+      return this.client
+        .fetch(`/store/payment-providers`, {
+          query: queryParams,
+          headers,
+        })
+        .then((resp) => resp.json())
+    },
+
+    initiatePaymentSession: async (
+      cart: any,
+      body: any,
+      headers?: Record<string, any>
+    ) => {
+      let paymentCollectionId = (cart as any).payment_collection?.[0].id
+      if (!paymentCollectionId) {
+        const collectionBody = {
+          cart_id: cart.id,
+          region_id: cart.region_id,
+          currency_code: cart.currency_code,
+          amount: cart.total,
+        }
+        paymentCollectionId = (
+          await this.client
+            .fetch(`/store/payment-collections`, {
+              headers,
+              method: "POST",
+              body: JSON.stringify(collectionBody),
+            })
+            .then((resp) => resp.json())
+        ).payment_collection.id
+      }
+
+      return this.client
+        .fetch(
+          `/store/payment-collections/${paymentCollectionId}/payment-sessions`,
+          {
+            headers,
+            method: "POST",
+            body: JSON.stringify(body),
+          }
+        )
         .then((resp) => resp.json())
     },
   }

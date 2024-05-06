@@ -14,6 +14,7 @@ import ErrorMessage from "@modules/checkout/components/error-message"
 import { useRouter, useSearchParams, usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { setShippingMethod } from "@lib/data/cart"
+import { convertToLocale } from "@lib/util/money"
 
 type ShippingProps = {
   cart: Omit<Cart, "refundable_amount" | "refunded_total">
@@ -169,15 +170,12 @@ const Shipping: React.FC<ShippingProps> = ({
                   Method
                 </Text>
                 <Text className="txt-medium text-ui-fg-subtle">
-                  {cart.shipping_methods[0].shipping_option.name} (
-                  {formatAmount({
+                  {/* TODO: These will need to be resolved */}
+                  {/* {cart.shipping_methods[0].shipping_option.name} */}
+                  {/* {convertToLocale({
                     amount: cart.shipping_methods[0].price,
-                    region: cart.region,
-                    includeTaxes: false,
-                  })
-                    .replace(/,/g, "")
-                    .replace(/\./g, ",")}
-                  )
+                    currency_code: cart.region.currency_code,
+                  })} */}
                 </Text>
               </div>
             )}

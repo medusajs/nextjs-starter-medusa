@@ -1,6 +1,7 @@
 import { getCustomer } from "@lib/data"
 import { retrieveCart } from "@lib/data/cart"
 import { listCartShippingMethods } from "@lib/data/fulfillment"
+import { listCartPaymentMethods } from "@lib/data/payment"
 import Addresses from "@modules/checkout/components/addresses"
 import Payment from "@modules/checkout/components/payment"
 import Review from "@modules/checkout/components/review"
@@ -12,11 +13,6 @@ export default async function CheckoutForm() {
     return null
   }
 
-  // create payment sessions and get cart
-  // cart = (await createPaymentSessions(cart.id).then(
-  //   (cart) => cart
-  // )) as CartWithCheckoutStep
-
   // get available shipping methods
   const availableShippingMethods = await listCartShippingMethods(cart.id).then(
     (methods) => {
@@ -24,9 +20,11 @@ export default async function CheckoutForm() {
     }
   )
 
-  if (!availableShippingMethods) {
-    return null
-  }
+  const availablePaymentMethods = await listCartPaymentMethods(
+    cart.region.id
+  ).then((methods) => {
+    return methods?.filter((m: any) => !m.is_return)
+  })
 
   // get customer if logged in
   const customer = await getCustomer()
@@ -46,7 +44,10 @@ export default async function CheckoutForm() {
         </div>
 
         <div>
-          <Payment cart={cart} />
+          <Payment
+            cart={cart}
+            availablePaymentMethods={availablePaymentMethods}
+          />
         </div>
 
         <div>

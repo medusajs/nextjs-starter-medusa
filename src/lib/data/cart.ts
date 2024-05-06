@@ -4,7 +4,7 @@ import { newClient } from "@lib/config"
 import { cookies } from "next/headers"
 import { getRegion } from "./regions"
 import { revalidateTag } from "next/cache"
-import { GiftCard, LineItem } from "@medusajs/medusa"
+import { Cart, GiftCard, LineItem } from "@medusajs/medusa"
 import { getProductsById } from "./products"
 import { omit } from "lodash"
 import medusaError from "@lib/util/medusa-error"
@@ -196,7 +196,9 @@ export async function setShippingMethod({
 }) {
   return newClient.store.cart
     .addShippingMethod(cartId, { option_id: shippingMethodId })
-    .then(({ cart }) => cart)
+    .then(() => {
+      revalidateTag("cart")
+    })
     .catch((err) => medusaError(err))
 }
 
@@ -212,14 +214,21 @@ export async function setShippingMethod({
 //     })
 // }
 
-export async function createPaymentSessions(cartId: string) {
-  // return newClient.store.cart
-  //   .createPaymentSessions(cartId, headers)
-  //   .then(({ cart }) => cart)
-  //   .catch((err) => {
-  //     console.log(err)
-  //     return null
-  //   })
+export async function initiatePaymentSession(
+  cart: any,
+  data: {
+    provider_id: string
+  }
+) {
+  return newClient.store.payment
+    .initiatePaymentSession(cart, data)
+    .then(() => {
+      revalidateTag("cart")
+    })
+    .catch((err) => {
+      console.log(err)
+      return null
+    })
 }
 
 // export async function setPaymentSession({
@@ -360,18 +369,6 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
   redirect(
     `/${formData.get("shipping_address.country_code")}/checkout?step=delivery`
   )
-}
-
-export async function setPaymentMethod(providerId: string) {
-  //   const cartId = cookies().get("_medusa_cart_id")?.value
-  //   if (!cartId) throw new Error("No cartId cookie found")
-  //   try {
-  //     const cart = await setPaymentSession({ cartId, providerId })
-  //     revalidateTag("cart")
-  //     return cart
-  //   } catch (error: any) {
-  //     throw error
-  //   }
 }
 
 export async function placeOrder() {
