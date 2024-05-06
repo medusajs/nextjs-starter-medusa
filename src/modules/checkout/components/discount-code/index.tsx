@@ -10,12 +10,12 @@ import Input from "@modules/common/components/input"
 import Trash from "@modules/common/icons/trash"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import { SubmitButton } from "@modules/checkout/components/submit-button"
-import { formatAmount } from "@lib/util/prices"
 import {
   removeDiscount,
   removeGiftCard,
   submitDiscountForm,
 } from "@lib/data/cart"
+import { convertToLocale } from "@lib/util/money"
 
 type DiscountCodeProps = {
   cart: Omit<Cart, "refundable_amount" | "refunded_total">
@@ -35,9 +35,9 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
       case "percentage":
         return `${discounts[0].rule.value}%`
       case "fixed":
-        return `- ${formatAmount({
+        return `- ${convertToLocale({
           amount: discounts[0].rule.value,
-          region: region,
+          currency_code: region.currency_code,
         })}`
 
       default:
@@ -78,10 +78,9 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                   data-testid="gift-card-amount"
                   data-value={gc.balance}
                 >
-                  {formatAmount({
-                    region: region,
+                  {convertToLocale({
                     amount: gc.balance,
-                    includeTaxes: false,
+                    currency_code: region.currency_code,
                   })}
                 </Text>
                 <button

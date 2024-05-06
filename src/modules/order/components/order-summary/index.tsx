@@ -1,5 +1,5 @@
+import { convertToLocale } from "@lib/util/money"
 import { Order } from "@medusajs/medusa"
-import { formatAmount } from "@lib/util/prices"
 
 type OrderSummaryProps = {
   order: Order
@@ -11,7 +11,10 @@ const OrderSummary = ({ order }: OrderSummaryProps) => {
       return
     }
 
-    return formatAmount({ amount, region: order.region, includeTaxes: false })
+    return convertToLocale({
+      amount,
+      currency_code: order.region.currency_code,
+    })
   }
 
   return (

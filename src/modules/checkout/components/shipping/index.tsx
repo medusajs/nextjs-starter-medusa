@@ -5,7 +5,6 @@ import { CheckCircleSolid } from "@medusajs/icons"
 import { Cart } from "@medusajs/medusa"
 import { PricedShippingOption } from "@medusajs/medusa/dist/types/pricing"
 import { Button, Heading, Text, clx, useToggleState } from "@medusajs/ui"
-import { formatAmount } from "@lib/util/prices"
 
 import Divider from "@modules/common/components/divider"
 import Radio from "@modules/common/components/radio"
@@ -128,10 +127,9 @@ const Shipping: React.FC<ShippingProps> = ({
                         <span className="text-base-regular">{option.name}</span>
                       </div>
                       <span className="justify-self-end text-ui-fg-base">
-                        {formatAmount({
+                        {convertToLocale({
                           amount: option.amount!,
-                          region: cart?.region,
-                          includeTaxes: false,
+                          currency_code: cart?.region?.currency_code,
                         })}
                       </span>
                     </RadioGroup.Option>
