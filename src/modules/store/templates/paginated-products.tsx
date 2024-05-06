@@ -29,12 +29,6 @@ export default async function PaginatedProducts({
   productsIds?: string[]
   countryCode: string
 }) {
-  const region = await getRegion(countryCode)
-
-  if (!region) {
-    return null
-  }
-
   const queryParams: PaginatedProductsParams = {
     limit: PRODUCT_LIMIT,
   }
@@ -64,6 +58,12 @@ export default async function PaginatedProducts({
         queryParams["order"] = "created_at"
         break
     }
+  }
+
+  const region = await getRegion(countryCode)
+
+  if (!region) {
+    return null
   }
 
   const {

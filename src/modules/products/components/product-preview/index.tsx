@@ -28,7 +28,6 @@ export default async function ProductPreview({
 
   const { cheapestPrice } = getProductPrice({
     product: pricedProduct,
-    region,
   })
 
   return (

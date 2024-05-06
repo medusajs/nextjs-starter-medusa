@@ -21,13 +21,6 @@ type ProductActionsProps = {
   disabled?: boolean
 }
 
-export type PriceType = {
-  calculated_price: string
-  original_price?: string
-  price_type?: "sale" | "default"
-  percentage_diff?: string
-}
-
 const optionsAsKeymap = (variantOptions: any) => {
   return variantOptions?.reduce((acc: Record<string, string>, varopt: any) => {
     acc[varopt.option.title] = varopt.value

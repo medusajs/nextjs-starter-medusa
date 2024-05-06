@@ -4,7 +4,7 @@ import { newClient } from "@lib/config"
 import { cookies } from "next/headers"
 import { getRegion } from "./regions"
 import { revalidateTag } from "next/cache"
-import { Cart, GiftCard, LineItem } from "@medusajs/medusa"
+import { GiftCard, LineItem } from "@medusajs/medusa"
 import { getProductsById } from "./products"
 import { omit } from "lodash"
 import medusaError from "@lib/util/medusa-error"
@@ -202,18 +202,6 @@ export async function setShippingMethod({
     .catch((err) => medusaError(err))
 }
 
-// export async function deleteDiscount(cartId: string, code: string) {
-//   const headers = getMedusaHeaders(["cart"])
-
-//   return newClient.carts
-//     .deleteDiscount(cartId, code, headers)
-//     .then(({ cart }) => cart)
-//     .catch((err) => {
-//       console.log(err)
-//       return null
-//     })
-// }
-
 export async function initiatePaymentSession(
   cart: any,
   data: {
@@ -230,28 +218,6 @@ export async function initiatePaymentSession(
       return null
     })
 }
-
-// export async function setPaymentSession({
-//   cartId,
-//   providerId,
-// }: {
-//   cartId: string
-//   providerId: string
-// }) {
-//   const headers = getMedusaHeaders(["cart"])
-
-//   return newClient.carts
-//     .setPaymentSession(cartId, { provider_id: providerId }, headers)
-//     .then(({ cart }) => cart)
-//     .catch((err) => medusaError(err))
-// }
-
-// export async function completeCart(cartId: string) {
-//   return newClient.carts
-//     .complete(cartId, headers)
-//     .then((res) => res)
-//     .catch((err) => medusaError(err))
-// }
 
 export async function applyDiscount(code: string) {
   //   const cartId = cookies().get("_medusa_cart_id")?.value

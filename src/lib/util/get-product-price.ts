@@ -1,24 +1,42 @@
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 
-import { RegionInfo } from "types/global"
 import { getPercentageDiff } from "./get-precentage-diff"
 import { convertToLocale } from "./money"
+
+const getPricesForVariant = (variant: any) => {
+  return {
+    calculated_price_number: variant.calculated_price.calculated_amount,
+    calculated_price: convertToLocale({
+      amount: variant.calculated_price.calculated_amount,
+      currency_code: variant.calculated_price.currency_code,
+    }),
+    original_price_number: variant.calculated_price.original_amount,
+    original_price: convertToLocale({
+      amount: variant.calculated_price.original_amount,
+      currency_code: variant.calculated_price.currency_code,
+    }),
+    currency_code: variant.calculated_price.currency_code,
+    price_type: variant.calculated_price_type,
+    percentage_diff: getPercentageDiff(
+      variant.calculated_price.original_amount,
+      variant.calculated_price.calculated_amount
+    ),
+  }
+}
 
 export function getProductPrice({
   product,
   variantId,
-  region,
 }: {
   product: PricedProduct
   variantId?: string
-  region: RegionInfo
 }) {
   if (!product || !product.id) {
     throw new Error("No product provided")
   }
 
   const cheapestPrice = () => {
-    if (!product || !product.variants?.length || !region) {
+    if (!product || !product.variants?.length) {
       return null
     }
 
@@ -29,28 +47,11 @@ export function getProductPrice({
       )
     })[0]
 
-    return {
-      calculated_price_number:
-        cheapestVariant.calculated_price.calculated_amount,
-      calculated_price: convertToLocale({
-        amount: cheapestVariant.calculated_price.calculated_amount,
-        currency_code: cheapestVariant.calculated_price.currency_code,
-      }),
-      original_price_number: cheapestVariant.calculated_price.original_amount,
-      original_price: convertToLocale({
-        amount: cheapestVariant.calculated_price.original_amount,
-        currency_code: cheapestVariant.calculated_price.currency_code,
-      }),
-      price_type: cheapestVariant.calculated_price_type,
-      percentage_diff: getPercentageDiff(
-        cheapestVariant.calculated_price.original_amount,
-        cheapestVariant.calculated_price.calculated_amount
-      ),
-    }
+    return getPricesForVariant(cheapestVariant)
   }
 
   const variantPrice = () => {
-    if (!product || !variantId || !region) {
+    if (!product || !variantId) {
       return null
     }
 
@@ -62,23 +63,7 @@ export function getProductPrice({
       return null
     }
 
-    return {
-      calculated_price_number: variant.calculated_price.calculated_amount,
-      calculated_price: convertToLocale({
-        amount: variant.calculated_price.calculated_amount,
-        currency_code: variant.calculated_price.currency_code,
-      }),
-      original_price_number: variant.calculated_price.original_amount,
-      original_price: convertToLocale({
-        amount: variant.calculated_price.original_amount,
-        currency_code: variant.calculated_price.currency_code,
-      }),
-      price_type: variant.calculated_price_type,
-      percentage_diff: getPercentageDiff(
-        variant.calculated_price.original_amount,
-        variant.calculated_price.calculated_amount
-      ),
-    }
+    return getPricesForVariant(variant)
   }
 
   return {
