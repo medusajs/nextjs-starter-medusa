@@ -11,13 +11,11 @@ import ChevronDown from "@modules/common/icons/chevron-down"
 import X from "@modules/common/icons/x"
 
 import { getProductPrice } from "@lib/util/get-product-price"
-import { Region } from "@medusajs/medusa"
 import OptionSelect from "./option-select"
 
 type MobileActionsProps = {
   product: PricedProduct
   variant?: PricedVariant
-  region: Region
   options: Record<string, string | undefined>
   updateOptions: (title: string, value: string) => void
   inStock?: boolean
@@ -30,7 +28,6 @@ type MobileActionsProps = {
 const MobileActions: React.FC<MobileActionsProps> = ({
   product,
   variant,
-  region,
   options,
   updateOptions,
   inStock,

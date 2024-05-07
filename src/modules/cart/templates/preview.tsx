@@ -1,6 +1,7 @@
 "use client"
 
-import { LineItem, Region } from "@medusajs/medusa"
+import repeat from "@lib/util/repeat"
+import { LineItem } from "@medusajs/medusa"
 import { Table, clx } from "@medusajs/ui"
 
 import Item from "@modules/cart/components/item"
@@ -8,10 +9,9 @@ import SkeletonLineItem from "@modules/skeletons/components/skeleton-line-item"
 
 type ItemsTemplateProps = {
   items?: Omit<LineItem, "beforeInsert">[]
-  region?: Region
 }
 
-const ItemsPreviewTemplate = ({ items, region }: ItemsTemplateProps) => {
+const ItemsPreviewTemplate = ({ items }: ItemsTemplateProps) => {
   const hasOverflow = items && items.length > 4
 
   return (
@@ -23,22 +23,15 @@ const ItemsPreviewTemplate = ({ items, region }: ItemsTemplateProps) => {
     >
       <Table>
         <Table.Body data-testid="items-table">
-          {items && region
+          {items
             ? items
                 .sort((a, b) => {
                   return a.created_at > b.created_at ? -1 : 1
                 })
                 .map((item) => {
-                  return (
-                    <Item
-                      key={item.id}
-                      item={item}
-                      region={region}
-                      type="preview"
-                    />
-                  )
+                  return <Item key={item.id} item={item} type="preview" />
                 })
-            : Array.from(Array(5).keys()).map((i) => {
+            : repeat(5).map((i) => {
                 return <SkeletonLineItem key={i} />
               })}
         </Table.Body>

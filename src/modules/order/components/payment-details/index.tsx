@@ -43,7 +43,7 @@ const PaymentDetails = ({ order }: PaymentDetailsProps) => {
                     ? `**** **** **** ${payment.data.card_last4}`
                     : `${convertToLocale({
                         amount: payment.amount,
-                        currency_code: order.region.currency_code,
+                        currency_code: order.currency_code,
                       })} paid at ${new Date(payment.created_at).toString()}`}
                 </Text>
               </div>

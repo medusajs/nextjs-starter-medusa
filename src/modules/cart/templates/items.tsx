@@ -1,4 +1,5 @@
-import { LineItem, Region } from "@medusajs/medusa"
+import repeat from "@lib/util/repeat"
+import { LineItem } from "@medusajs/medusa"
 import { Heading, Table } from "@medusajs/ui"
 
 import Item from "@modules/cart/components/item"
@@ -6,10 +7,9 @@ import SkeletonLineItem from "@modules/skeletons/components/skeleton-line-item"
 
 type ItemsTemplateProps = {
   items?: Omit<LineItem, "beforeInsert">[]
-  region?: Region
 }
 
-const ItemsTemplate = ({ items, region }: ItemsTemplateProps) => {
+const ItemsTemplate = ({ items }: ItemsTemplateProps) => {
   return (
     <div>
       <div className="pb-3 flex items-center">
@@ -30,15 +30,15 @@ const ItemsTemplate = ({ items, region }: ItemsTemplateProps) => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {items && region
+          {items
             ? items
                 .sort((a, b) => {
                   return a.created_at > b.created_at ? -1 : 1
                 })
                 .map((item) => {
-                  return <Item key={item.id} item={item} region={region} />
+                  return <Item key={item.id} item={item} />
                 })
-            : Array.from(Array(5).keys()).map((i) => {
+            : repeat(5).map((i) => {
                 return <SkeletonLineItem key={i} />
               })}
         </Table.Body>

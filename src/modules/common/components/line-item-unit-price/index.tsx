@@ -1,23 +1,24 @@
 import { LineItem, Region } from "@medusajs/medusa"
 import { clx } from "@medusajs/ui"
-
-import { getPercentageDiff } from "@lib/util/get-precentage-diff"
-import { convertToLocale } from "@lib/util/money"
+import { getPricesForVariant } from "@lib/util/get-product-price"
 
 type LineItemUnitPriceProps = {
   item: Omit<LineItem, "beforeInsert">
-  region: Region
   style?: "default" | "tight"
 }
 
 const LineItemUnitPrice = ({
   item,
-  region,
   style = "default",
 }: LineItemUnitPriceProps) => {
-  const originalPrice = (item.variant as any).calculated_price.original_amount
-  const currentPrice = (item.variant as any).calculated_price.calculated_amount
-  const hasReducedPrice = currentPrice < originalPrice
+  const {
+    original_price,
+    calculated_price,
+    original_price_number,
+    calculated_price_number,
+    percentage_diff,
+  } = getPricesForVariant(item.variant)
+  const hasReducedPrice = calculated_price_number < original_price_number
 
   return (
     <div className="flex flex-col text-ui-fg-muted justify-center h-full">
@@ -31,16 +32,11 @@ const LineItemUnitPrice = ({
               className="line-through"
               data-testid="product-unit-original-price"
             >
-              {convertToLocale({
-                amount: originalPrice,
-                currency_code: region.currency_code,
-              })}
+              {original_price}
             </span>
           </p>
           {style === "default" && (
-            <span className="text-ui-fg-interactive">
-              -{getPercentageDiff(originalPrice, currentPrice || 0)}%
-            </span>
+            <span className="text-ui-fg-interactive">-{percentage_diff}%</span>
           )}
         </>
       )}
@@ -50,10 +46,7 @@ const LineItemUnitPrice = ({
         })}
         data-testid="product-unit-price"
       >
-        {convertToLocale({
-          amount: currentPrice || item.unit_price || 0,
-          currency_code: region.currency_code,
-        })}
+        {calculated_price}
       </span>
     </div>
   )

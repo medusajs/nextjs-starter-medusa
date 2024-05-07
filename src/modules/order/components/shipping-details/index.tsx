@@ -58,7 +58,7 @@ const ShippingDetails = ({ order }: ShippingDetailsProps) => {
             {order.shipping_methods[0].shipping_option?.name} (
             {convertToLocale({
               amount: order.shipping_methods[0].price,
-              currency_code: order.region.currency_code,
+              currency_code: order.currency_code,
             })
               .replace(/,/g, "")
               .replace(/\./g, ",")}

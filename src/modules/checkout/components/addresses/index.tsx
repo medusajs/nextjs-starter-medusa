@@ -1,11 +1,6 @@
 "use client"
 
-import {
-  useSearchParams,
-  useRouter,
-  usePathname,
-  useParams,
-} from "next/navigation"
+import { useSearchParams, useRouter, usePathname } from "next/navigation"
 import { Cart, Customer } from "@medusajs/medusa"
 import { CheckCircleSolid } from "@medusajs/icons"
 import { Heading, Text, useToggleState } from "@medusajs/ui"
@@ -31,9 +26,6 @@ const Addresses = ({
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
-  const params = useParams()
-
-  const countryCode = params.countryCode as string
 
   const isOpen = searchParams.get("step") === "address"
 
@@ -76,7 +68,6 @@ const Addresses = ({
           <div className="pb-8">
             <ShippingAddress
               customer={customer}
-              countryCode={countryCode}
               checked={sameAsSBilling}
               onChange={toggleSameAsBilling}
               cart={cart}
@@ -91,7 +82,7 @@ const Addresses = ({
                   Billing address
                 </Heading>
 
-                <BillingAddress cart={cart} countryCode={countryCode} />
+                <BillingAddress cart={cart} />
               </div>
             )}
             <SubmitButton className="mt-6" data-testid="submit-address-button">

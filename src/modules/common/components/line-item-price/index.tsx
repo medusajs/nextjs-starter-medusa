@@ -1,24 +1,21 @@
-import { LineItem, Region } from "@medusajs/medusa"
+import { LineItem } from "@medusajs/medusa"
 import { clx } from "@medusajs/ui"
 
 import { getPercentageDiff } from "@lib/util/get-precentage-diff"
 import { convertToLocale } from "@lib/util/money"
+import { getPricesForVariant } from "@lib/util/get-product-price"
 
 type LineItemPriceProps = {
   item: Omit<LineItem, "beforeInsert">
-  region: Region
   style?: "default" | "tight"
 }
 
-const LineItemPrice = ({
-  item,
-  region,
-  style = "default",
-}: LineItemPriceProps) => {
-  const originalPrice =
-    (item.variant as any).calculated_price.original_amount * item.quantity
-  const currentPrice =
-    (item.variant as any).calculated_price.calculated_amount * item.quantity
+const LineItemPrice = ({ item, style = "default" }: LineItemPriceProps) => {
+  const { currency_code, calculated_price_number, original_price_number } =
+    getPricesForVariant(item.variant)
+
+  const originalPrice = original_price_number * item.quantity
+  const currentPrice = calculated_price_number * item.quantity
   const hasReducedPrice = currentPrice < originalPrice
 
   return (
@@ -36,7 +33,7 @@ const LineItemPrice = ({
               >
                 {convertToLocale({
                   amount: originalPrice,
-                  currency_code: region.currency_code,
+                  currency_code,
                 })}
               </span>
             </p>
@@ -55,7 +52,7 @@ const LineItemPrice = ({
         >
           {convertToLocale({
             amount: currentPrice,
-            currency_code: region.currency_code,
+            currency_code,
           })}
         </span>
       </div>

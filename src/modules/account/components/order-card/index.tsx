@@ -33,7 +33,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
         <span className="px-2" data-testid="order-amount">
           {convertToLocale({
             amount: order.total,
-            currency_code: order.region.currency_code,
+            currency_code: order.currency_code,
           })}
         </span>
         <span className="pl-2">{`${numberOfLines} ${
