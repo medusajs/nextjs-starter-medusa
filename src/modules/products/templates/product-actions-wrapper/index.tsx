@@ -12,7 +12,10 @@ export default async function ProductActionsWrapper({
   id: string
   region: Region
 }) {
-  const [product] = await getProductsById({ ids: [id], regionId: region.id })
+  const [product] = await getProductsById({
+    ids: [id],
+    currencyCode: region.currency_code,
+  })
 
   if (!product) {
     return null

@@ -6,16 +6,16 @@ import { getRegion } from "./regions"
 
 export const getProductsById = cache(async function ({
   ids,
-  regionId,
+  currencyCode,
 }: {
   ids: string[]
-  regionId: string
+  currencyCode: string
 }) {
   return newClient.store.product
     .list(
       {
         id: ids,
-        region_id: regionId,
+        currency_code: currencyCode,
         fields: "*variants.calculated_price",
       },
       { next: { tags: ["products"] } }

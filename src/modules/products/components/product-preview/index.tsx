@@ -19,7 +19,7 @@ export default async function ProductPreview({
 }) {
   const [pricedProduct] = await getProductsById({
     ids: [product.id!],
-    regionId: region.id,
+    currencyCode: region.currency_code,
   })
 
   if (!pricedProduct) {
