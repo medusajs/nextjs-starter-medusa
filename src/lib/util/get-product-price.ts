@@ -3,7 +3,7 @@ import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 import { getPercentageDiff } from "./get-precentage-diff"
 import { convertToLocale } from "./money"
 
-const getPricesForVariant = (variant: any) => {
+export const getPricesForVariant = (variant: any) => {
   return {
     calculated_price_number: variant.calculated_price.calculated_amount,
     calculated_price: convertToLocale({

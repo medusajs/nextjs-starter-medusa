@@ -4,11 +4,10 @@ import { RadioGroup } from "@headlessui/react"
 import { CheckCircleSolid } from "@medusajs/icons"
 import { Cart } from "@medusajs/medusa"
 import { PricedShippingOption } from "@medusajs/medusa/dist/types/pricing"
-import { Button, Heading, Text, clx, useToggleState } from "@medusajs/ui"
+import { Button, Heading, Text, clx } from "@medusajs/ui"
 
 import Divider from "@modules/common/components/divider"
 import Radio from "@modules/common/components/radio"
-import Spinner from "@modules/common/icons/spinner"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import { useRouter, useSearchParams, usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -16,7 +15,9 @@ import { setShippingMethod } from "@lib/data/cart"
 import { convertToLocale } from "@lib/util/money"
 
 type ShippingProps = {
-  cart: Omit<Cart, "refundable_amount" | "refunded_total">
+  cart: Omit<Cart, "refundable_amount" | "refunded_total"> & {
+    currency_code: string
+  }
   availableShippingMethods: PricedShippingOption[] | null
 }
 
@@ -33,12 +34,15 @@ const Shipping: React.FC<ShippingProps> = ({
 
   const isOpen = searchParams.get("step") === "delivery"
 
+  const selectedShippingMethod = availableShippingMethods?.find(
+    (method) => method.id === cart.shipping_methods[0]?.shipping_option_id
+  )
+
   const handleEdit = () => {
     router.push(pathname + "?step=delivery", { scroll: false })
   }
 
   const handleSubmit = () => {
-    setIsLoading(true)
     router.push(pathname + "?step=payment", { scroll: false })
   }
 
@@ -50,16 +54,13 @@ const Shipping: React.FC<ShippingProps> = ({
       })
       .catch((err) => {
         setError(err.toString())
+      })
+      .finally(() => {
         setIsLoading(false)
       })
   }
 
-  const handleChange = (value: string) => {
-    set(value)
-  }
-
   useEffect(() => {
-    setIsLoading(false)
     setError(null)
   }, [isOpen])
 
@@ -97,49 +98,36 @@ const Shipping: React.FC<ShippingProps> = ({
       {isOpen ? (
         <div data-testid="delivery-options-container">
           <div className="pb-8">
-            <RadioGroup
-              value={cart.shipping_methods[0]?.shipping_option_id}
-              onChange={(value: string) => handleChange(value)}
-            >
-              {availableShippingMethods ? (
-                availableShippingMethods.map((option) => {
-                  return (
-                    <RadioGroup.Option
-                      key={option.id}
-                      value={option.id}
-                      data-testid="delivery-option-radio"
-                      className={clx(
-                        "flex items-center justify-between text-small-regular cursor-pointer py-4 border rounded-rounded px-8 mb-2 hover:shadow-borders-interactive-with-active",
-                        {
-                          "border-ui-border-interactive":
-                            option.id ===
-                            cart.shipping_methods[0]?.shipping_option_id,
-                        }
-                      )}
-                    >
-                      <div className="flex items-center gap-x-4">
-                        <Radio
-                          checked={
-                            option.id ===
-                            cart.shipping_methods[0]?.shipping_option_id
-                          }
-                        />
-                        <span className="text-base-regular">{option.name}</span>
-                      </div>
-                      <span className="justify-self-end text-ui-fg-base">
-                        {convertToLocale({
-                          amount: option.amount!,
-                          currency_code: cart?.region?.currency_code,
-                        })}
-                      </span>
-                    </RadioGroup.Option>
-                  )
-                })
-              ) : (
-                <div className="flex flex-col items-center justify-center px-4 py-8 text-ui-fg-base">
-                  <Spinner />
-                </div>
-              )}
+            <RadioGroup value={selectedShippingMethod?.id} onChange={set}>
+              {availableShippingMethods?.map((option) => {
+                return (
+                  <RadioGroup.Option
+                    key={option.id}
+                    value={option.id}
+                    data-testid="delivery-option-radio"
+                    className={clx(
+                      "flex items-center justify-between text-small-regular cursor-pointer py-4 border rounded-rounded px-8 mb-2 hover:shadow-borders-interactive-with-active",
+                      {
+                        "border-ui-border-interactive":
+                          option.id === selectedShippingMethod?.id,
+                      }
+                    )}
+                  >
+                    <div className="flex items-center gap-x-4">
+                      <Radio
+                        checked={option.id === selectedShippingMethod?.id}
+                      />
+                      <span className="text-base-regular">{option.name}</span>
+                    </div>
+                    <span className="justify-self-end text-ui-fg-base">
+                      {convertToLocale({
+                        amount: option.amount!,
+                        currency_code: cart?.currency_code,
+                      })}
+                    </span>
+                  </RadioGroup.Option>
+                )
+              })}
             </RadioGroup>
           </div>
 
@@ -168,12 +156,11 @@ const Shipping: React.FC<ShippingProps> = ({
                   Method
                 </Text>
                 <Text className="txt-medium text-ui-fg-subtle">
-                  {/* TODO: These will need to be resolved */}
-                  {/* {cart.shipping_methods[0].shipping_option.name} */}
-                  {/* {convertToLocale({
-                    amount: cart.shipping_methods[0].price,
-                    currency_code: cart.region.currency_code,
-                  })} */}
+                  {selectedShippingMethod?.name}{" "}
+                  {convertToLocale({
+                    amount: selectedShippingMethod?.amount!,
+                    currency_code: cart?.currency_code,
+                  })}
                 </Text>
               </div>
             )}

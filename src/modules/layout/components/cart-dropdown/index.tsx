@@ -16,7 +16,9 @@ import { convertToLocale } from "@lib/util/money"
 const CartDropdown = ({
   cart: cartState,
 }: {
-  cart?: Omit<Cart, "beforeInsert" | "afterLoad"> | null
+  cart?:
+    | (Omit<Cart, "beforeInsert" | "afterLoad"> & { currency_code: string })
+    | null
 }) => {
   const [activeTimer, setActiveTimer] = useState<NodeJS.Timer | undefined>(
     undefined
@@ -31,14 +33,7 @@ const CartDropdown = ({
       return acc + item.quantity
     }, 0) || 0
 
-  const subtotal =
-    cartState?.items.reduce((acc, item) => {
-      return (
-        acc +
-        (item.variant as any).calculated_price.calculated_amount * item.quantity
-      )
-    }, 0) ?? 0
-
+  const subtotal = cartState?.subtotal ?? 0
   const itemRef = useRef<number>(totalItems || 0)
 
   const timedOpen = () => {
@@ -152,11 +147,7 @@ const CartDropdown = ({
                                 </span>
                               </div>
                               <div className="flex justify-end">
-                                <LineItemPrice
-                                  region={cartState.region}
-                                  item={item}
-                                  style="tight"
-                                />
+                                <LineItemPrice item={item} style="tight" />
                               </div>
                             </div>
                           </div>
@@ -184,7 +175,7 @@ const CartDropdown = ({
                     >
                       {convertToLocale({
                         amount: subtotal,
-                        currency_code: cartState.region.currency_code,
+                        currency_code: cartState.currency_code,
                       })}
                     </span>
                   </div>

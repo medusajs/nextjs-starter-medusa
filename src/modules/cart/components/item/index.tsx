@@ -1,6 +1,6 @@
 "use client"
 
-import { LineItem, Region } from "@medusajs/medusa"
+import { LineItem } from "@medusajs/medusa"
 import { Table, Text, clx } from "@medusajs/ui"
 
 import CartItemSelect from "@modules/cart/components/cart-item-select"
@@ -17,11 +17,10 @@ import { updateLineItem } from "@lib/data/cart"
 
 type ItemProps = {
   item: Omit<LineItem, "beforeInsert">
-  region: Region
   type?: "full" | "preview"
 }
 
-const Item = ({ item, region, type = "full" }: ItemProps) => {
+const Item = ({ item, type = "full" }: ItemProps) => {
   const [updating, setUpdating] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -36,13 +35,11 @@ const Item = ({ item, region, type = "full" }: ItemProps) => {
       quantity,
     })
       .catch((err) => {
-        return err.message
+        setError(message)
       })
       .finally(() => {
         setUpdating(false)
       })
-
-    message && setError(message)
   }
 
   return (
@@ -103,7 +100,7 @@ const Item = ({ item, region, type = "full" }: ItemProps) => {
 
       {type === "full" && (
         <Table.Cell className="hidden small:table-cell">
-          <LineItemUnitPrice item={item} region={region} style="tight" />
+          <LineItemUnitPrice item={item} style="tight" />
         </Table.Cell>
       )}
 
@@ -116,10 +113,10 @@ const Item = ({ item, region, type = "full" }: ItemProps) => {
           {type === "preview" && (
             <span className="flex gap-x-1 ">
               <Text className="text-ui-fg-muted">{item.quantity}x </Text>
-              <LineItemUnitPrice item={item} region={region} style="tight" />
+              <LineItemUnitPrice item={item} style="tight" />
             </span>
           )}
-          <LineItemPrice item={item} region={region} style="tight" />
+          <LineItemPrice item={item} style="tight" />
         </span>
       </Table.Cell>
     </Table.Row>

@@ -214,8 +214,7 @@ export async function initiatePaymentSession(
       revalidateTag("cart")
     })
     .catch((err) => {
-      console.log(err)
-      return null
+      medusaError(err)
     })
 }
 
@@ -351,7 +350,7 @@ export async function placeOrder() {
   if (cart?.type === "order") {
     const countryCode = cart.order.shipping_address?.country_code?.toLowerCase()
     cookies().set("_medusa_cart_id", "", { maxAge: -1 })
-    redirect(`/${countryCode}/order/confirmed/${cart?.data.id}`)
+    redirect(`/${countryCode}/order/confirmed/${cart?.order.id}`)
   }
   return cart
 }

@@ -5,20 +5,17 @@ import {
 import { clx } from "@medusajs/ui"
 
 import { getProductPrice } from "@lib/util/get-product-price"
-import { RegionInfo } from "types/global"
 
 export default function ProductPrice({
   product,
   variant,
-  region,
 }: {
   product: PricedProduct
   variant?: PricedVariant
-  region: RegionInfo
 }) {
   const { cheapestPrice, variantPrice } = getProductPrice({
     product,
-    variantId: variant?.id
+    variantId: variant?.id,
   })
 
   const selectedPrice = variant ? variantPrice : cheapestPrice

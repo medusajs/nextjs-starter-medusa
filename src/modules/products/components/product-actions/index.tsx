@@ -132,11 +132,7 @@ export default function ProductActions({
           )}
         </div>
 
-        <ProductPrice
-          product={product}
-          variant={selectedVariant}
-          region={region}
-        />
+        <ProductPrice product={product} variant={selectedVariant} />
 
         <Button
           onClick={handleAddToCart}
@@ -155,7 +151,6 @@ export default function ProductActions({
         <MobileActions
           product={product}
           variant={selectedVariant}
-          region={region}
           options={options}
           updateOptions={setOptionValue}
           inStock={inStock}

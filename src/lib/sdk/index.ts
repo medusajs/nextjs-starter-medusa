@@ -262,6 +262,21 @@ class Store {
     },
   }
 
+  public order = {
+    retrieve: async (
+      id: string,
+      queryParams?: Record<string, any>,
+      headers?: Record<string, any>
+    ) => {
+      return this.client
+        .fetch(`/store/orders/${id}`, {
+          query: queryParams,
+          headers,
+        })
+        .then((resp) => resp.json())
+    },
+  }
+
   public cart = {
     create: async (body: any, headers?: Record<string, any>) => {
       return this.client
@@ -387,7 +402,7 @@ class Store {
       body: any,
       headers?: Record<string, any>
     ) => {
-      let paymentCollectionId = (cart as any).payment_collection.id
+      let paymentCollectionId = (cart as any).payment_collection?.id
       if (!paymentCollectionId) {
         const collectionBody = {
           cart_id: cart.id,

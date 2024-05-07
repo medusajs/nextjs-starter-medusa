@@ -13,20 +13,8 @@ export default async function CheckoutForm() {
     return null
   }
 
-  // get available shipping methods
-  const availableShippingMethods = await listCartShippingMethods(cart.id).then(
-    (methods) => {
-      return methods?.filter((m: any) => !m.is_return)
-    }
-  )
-
-  const availablePaymentMethods = await listCartPaymentMethods(
-    cart.region.id
-  ).then((methods) => {
-    return methods?.filter((m: any) => !m.is_return)
-  })
-
-  // get customer if logged in
+  const availableShippingMethods = await listCartShippingMethods(cart.id)
+  const availablePaymentMethods = await listCartPaymentMethods(cart.region.id)
   const customer = await getCustomer()
 
   return (

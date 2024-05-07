@@ -9,7 +9,7 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import { Cart } from "@medusajs/medusa"
 
 type SummaryProps = {
-  cart: Cart
+  cart: Cart & { currency_code: string }
 }
 
 function getCheckoutStep(
@@ -34,7 +34,7 @@ const Summary = ({ cart }: SummaryProps) => {
       </Heading>
       <DiscountCode cart={cart} />
       <Divider />
-      <CartTotals data={cart} />
+      <CartTotals totals={cart} />
       <LocalizedClientLink
         href={"/checkout?step=" + step}
         data-testid="checkout-button"

@@ -35,16 +35,6 @@ const getMedusaHeaders = (tags: string[] = []) => {
   return headers
 }
 
-// Order actions
-export const retrieveOrder = cache(async function (id: string) {
-  const headers = getMedusaHeaders(["order"])
-
-  return medusaClient.orders
-    .retrieve(id, headers)
-    .then(({ order }) => order)
-    .catch((err) => medusaError(err))
-})
-
 // Authentication actions
 export async function getToken(credentials: StorePostAuthReq) {
   return medusaClient.auth
