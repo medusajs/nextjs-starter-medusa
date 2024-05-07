@@ -44,7 +44,6 @@ const MobileActions: React.FC<MobileActionsProps> = ({
   const price = getProductPrice({
     product: product,
     variantId: variant?.id,
-    region,
   })
 
   const selectedPrice = useMemo(() => {
