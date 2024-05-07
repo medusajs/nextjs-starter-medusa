@@ -13,19 +13,28 @@ import { StripeCardElementOptions } from "@stripe/stripe-js"
 import Divider from "@modules/common/components/divider"
 import Spinner from "@modules/common/icons/spinner"
 import PaymentContainer from "@modules/checkout/components/payment-container"
-import { setPaymentMethod } from "@modules/checkout/actions"
 import { paymentInfoMap } from "@lib/constants"
 import { StripeContext } from "@modules/checkout/components/payment-wrapper"
+import { initiatePaymentSession } from "@lib/data/cart"
 
 const Payment = ({
   cart,
+  availablePaymentMethods,
 }: {
-  cart: Omit<Cart, "refundable_amount" | "refunded_total"> | null
+  cart: any
+  availablePaymentMethods: any[]
 }) => {
+  const activeSession = cart.payment_collection?.payment_sessions?.find(
+    (paymentSession: any) => paymentSession.status === "pending"
+  )
+
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [cardBrand, setCardBrand] = useState<string | null>(null)
   const [cardComplete, setCardComplete] = useState(false)
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(
+    activeSession?.provider_id ?? ""
+  )
 
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -33,15 +42,17 @@ const Payment = ({
 
   const isOpen = searchParams.get("step") === "payment"
 
-  const isStripe = cart?.payment_session?.provider_id === "stripe"
+  // const isStripe = cart?.payment_session?.provider_id === "stripe"
+  const isStripe = false
   const stripeReady = useContext(StripeContext)
 
   const paidByGiftcard =
     cart?.gift_cards && cart?.gift_cards?.length > 0 && cart?.total === 0
 
-  const paymentReady =
-    (cart?.payment_session && cart?.shipping_methods.length !== 0) ||
-    paidByGiftcard
+  // const paymentReady =
+  //   (cart?.payment_session && cart?.shipping_methods.length !== 0) ||
+  //   paidByGiftcard
+  const paymentReady = true
 
   const useOptions: StripeCardElementOptions = useMemo(() => {
     return {
@@ -70,29 +81,18 @@ const Payment = ({
     [searchParams]
   )
 
-  const set = async (providerId: string) => {
-    setIsLoading(true)
-    await setPaymentMethod(providerId)
-      .catch((err) => setError(err.toString()))
-      .finally(() => {
-        if (providerId === "paypal") return
-        setIsLoading(false)
-      })
-  }
-
-  const handleChange = (providerId: string) => {
-    setError(null)
-    set(providerId)
-  }
-
   const handleEdit = () => {
     router.push(pathname + "?" + createQueryString("step", "payment"), {
       scroll: false,
     })
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setIsLoading(true)
+    await initiatePaymentSession(cart, {
+      provider_id: selectedPaymentMethod,
+    })
+    setIsLoading(false)
     router.push(pathname + "?" + createQueryString("step", "review"), {
       scroll: false,
     })
@@ -133,25 +133,23 @@ const Payment = ({
       </div>
       <div>
         <div className={isOpen ? "block" : "hidden"}>
-          {!paidByGiftcard && cart?.payment_sessions?.length ? (
+          {!paidByGiftcard && availablePaymentMethods?.length ? (
             <>
               <RadioGroup
-                value={cart.payment_session?.provider_id || ""}
-                onChange={(value: string) => handleChange(value)}
+                value={selectedPaymentMethod}
+                onChange={(value: string) => setSelectedPaymentMethod(value)}
               >
-                {cart.payment_sessions
+                {availablePaymentMethods
                   .sort((a, b) => {
                     return a.provider_id > b.provider_id ? 1 : -1
                   })
-                  .map((paymentSession) => {
+                  .map((paymentMethod) => {
                     return (
                       <PaymentContainer
                         paymentInfoMap={paymentInfoMap}
-                        paymentSession={paymentSession}
-                        key={paymentSession.id}
-                        selectedPaymentOptionId={
-                          cart.payment_session?.provider_id || null
-                        }
+                        paymentProviderId={paymentMethod.id}
+                        key={paymentMethod.id}
+                        selectedPaymentOptionId={selectedPaymentMethod}
                       />
                     )
                   })}
@@ -206,7 +204,7 @@ const Payment = ({
             isLoading={isLoading}
             disabled={
               (isStripe && !cardComplete) ||
-              (!cart?.payment_session && !paidByGiftcard)
+              (!selectedPaymentMethod && !paidByGiftcard)
             }
             data-testid="submit-payment-button"
           >
@@ -225,14 +223,11 @@ const Payment = ({
                   className="txt-medium text-ui-fg-subtle"
                   data-testid="payment-method-summary"
                 >
-                  {paymentInfoMap[cart.payment_session.provider_id]?.title ||
-                    cart.payment_session.provider_id}
+                  {paymentInfoMap[selectedPaymentMethod]?.title ||
+                    selectedPaymentMethod}
                 </Text>
                 {process.env.NODE_ENV === "development" &&
-                  !Object.hasOwn(
-                    paymentInfoMap,
-                    cart.payment_session.provider_id
-                  ) && (
+                  !Object.hasOwn(paymentInfoMap, selectedPaymentMethod) && (
                     <Tooltip content="You can add a user-friendly name and icon for this payment provider in 'src/modules/checkout/components/payment/index.tsx'" />
                   )}
               </div>
@@ -245,12 +240,12 @@ const Payment = ({
                   data-testid="payment-details-summary"
                 >
                   <Container className="flex items-center h-7 w-fit p-2 bg-ui-button-neutral-hover">
-                    {paymentInfoMap[cart.payment_session.provider_id]?.icon || (
+                    {paymentInfoMap[selectedPaymentMethod]?.icon || (
                       <CreditCard />
                     )}
                   </Container>
                   <Text>
-                    {cart.payment_session.provider_id === "stripe" && cardBrand
+                    {selectedPaymentMethod === "stripe" && cardBrand
                       ? cardBrand
                       : "Another step will appear"}
                   </Text>

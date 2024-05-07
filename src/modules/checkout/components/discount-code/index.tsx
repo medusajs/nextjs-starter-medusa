@@ -14,8 +14,8 @@ import {
   removeDiscount,
   removeGiftCard,
   submitDiscountForm,
-} from "@modules/checkout/actions"
-import { formatAmount } from "@lib/util/prices"
+} from "@lib/data/cart"
+import { convertToLocale } from "@lib/util/money"
 
 type DiscountCodeProps = {
   cart: Omit<Cart, "refundable_amount" | "refunded_total">
@@ -35,9 +35,9 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
       case "percentage":
         return `${discounts[0].rule.value}%`
       case "fixed":
-        return `- ${formatAmount({
+        return `- ${convertToLocale({
           amount: discounts[0].rule.value,
-          region: region,
+          currency_code: region.currency_code,
         })}`
 
       default:
@@ -58,7 +58,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
   return (
     <div className="w-full bg-white flex flex-col">
       <div className="txt-medium">
-        {gift_cards.length > 0 && (
+        {gift_cards?.length > 0 && (
           <div className="flex flex-col mb-4">
             <Heading className="txt-medium">Gift card(s) applied:</Heading>
             {gift_cards?.map((gc) => (
@@ -78,10 +78,9 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                   data-testid="gift-card-amount"
                   data-value={gc.balance}
                 >
-                  {formatAmount({
-                    region: region,
+                  {convertToLocale({
                     amount: gc.balance,
-                    includeTaxes: false,
+                    currency_code: region.currency_code,
                   })}
                 </Text>
                 <button

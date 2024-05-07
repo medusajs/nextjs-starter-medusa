@@ -1,9 +1,8 @@
-import { formatAmount } from "@lib/util/prices"
 import { LineItem, Region } from "@medusajs/medusa"
 import { clx } from "@medusajs/ui"
 
 import { getPercentageDiff } from "@lib/util/get-precentage-diff"
-import { CalculatedVariant } from "types/medusa"
+import { convertToLocale } from "@lib/util/money"
 
 type LineItemUnitPriceProps = {
   item: Omit<LineItem, "beforeInsert">
@@ -16,9 +15,9 @@ const LineItemUnitPrice = ({
   region,
   style = "default",
 }: LineItemUnitPriceProps) => {
-  const originalPrice = (item.variant as CalculatedVariant).original_price
-  const hasReducedPrice = (originalPrice * item.quantity || 0) > item.total!
-  const reducedPrice = (item.total || 0) / item.quantity!
+  const originalPrice = (item.variant as any).calculated_price.original_amount
+  const currentPrice = (item.variant as any).calculated_price.calculated_amount
+  const hasReducedPrice = currentPrice < originalPrice
 
   return (
     <div className="flex flex-col text-ui-fg-muted justify-center h-full">
@@ -28,17 +27,19 @@ const LineItemUnitPrice = ({
             {style === "default" && (
               <span className="text-ui-fg-muted">Original: </span>
             )}
-            <span className="line-through" data-testid="product-unit-original-price">
-              {formatAmount({
+            <span
+              className="line-through"
+              data-testid="product-unit-original-price"
+            >
+              {convertToLocale({
                 amount: originalPrice,
-                region: region,
-                includeTaxes: false,
+                currency_code: region.currency_code,
               })}
             </span>
           </p>
           {style === "default" && (
             <span className="text-ui-fg-interactive">
-              -{getPercentageDiff(originalPrice, reducedPrice || 0)}%
+              -{getPercentageDiff(originalPrice, currentPrice || 0)}%
             </span>
           )}
         </>
@@ -49,10 +50,9 @@ const LineItemUnitPrice = ({
         })}
         data-testid="product-unit-price"
       >
-        {formatAmount({
-          amount: reducedPrice || item.unit_price || 0,
-          region: region,
-          includeTaxes: false,
+        {convertToLocale({
+          amount: currentPrice || item.unit_price || 0,
+          currency_code: region.currency_code,
         })}
       </span>
     </div>

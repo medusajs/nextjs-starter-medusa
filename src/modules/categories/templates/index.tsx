@@ -21,6 +21,7 @@ export default function CategoryTemplate({
   countryCode: string
 }) {
   const pageNumber = page ? parseInt(page) : 1
+  const sort = sortBy || "created_at"
 
   const category = categories[categories.length - 1]
   const parents = categories.slice(0, categories.length - 1)
@@ -28,8 +29,11 @@ export default function CategoryTemplate({
   if (!category || !countryCode) notFound()
 
   return (
-    <div className="flex flex-col small:flex-row small:items-start py-6 content-container" data-testid="category-container">
-      <RefinementList sortBy={sortBy || "created_at"} data-testid="sort-by-container" />
+    <div
+      className="flex flex-col small:flex-row small:items-start py-6 content-container"
+      data-testid="category-container"
+    >
+      <RefinementList sortBy={sort} data-testid="sort-by-container" />
       <div className="w-full">
         <div className="flex flex-row mb-8 text-2xl-semi gap-4">
           {parents &&
@@ -67,7 +71,7 @@ export default function CategoryTemplate({
         )}
         <Suspense fallback={<SkeletonProductGrid />}>
           <PaginatedProducts
-            sortBy={sortBy || "created_at"}
+            sortBy={sort}
             page={pageNumber}
             categoryId={category.id}
             countryCode={countryCode}

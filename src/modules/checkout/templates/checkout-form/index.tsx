@@ -1,42 +1,30 @@
-import {
-  createPaymentSessions,
-  getCustomer,
-  listCartShippingMethods,
-} from "@lib/data"
-import { getCheckoutStep } from "@lib/util/get-checkout-step"
+import { getCustomer } from "@lib/data"
+import { retrieveCart } from "@lib/data/cart"
+import { listCartShippingMethods } from "@lib/data/fulfillment"
+import { listCartPaymentMethods } from "@lib/data/payment"
 import Addresses from "@modules/checkout/components/addresses"
 import Payment from "@modules/checkout/components/payment"
 import Review from "@modules/checkout/components/review"
 import Shipping from "@modules/checkout/components/shipping"
-import { cookies } from "next/headers"
-import { CartWithCheckoutStep } from "types/global"
 
 export default async function CheckoutForm() {
-  const cartId = cookies().get("_medusa_cart_id")?.value
-
-  if (!cartId) {
-    return null
-  }
-
-  // create payment sessions and get cart
-  const cart = (await createPaymentSessions(cartId).then(
-    (cart) => cart
-  )) as CartWithCheckoutStep
-
+  let cart = await retrieveCart()
   if (!cart) {
     return null
   }
 
-  cart.checkout_step = cart && getCheckoutStep(cart)
-
   // get available shipping methods
   const availableShippingMethods = await listCartShippingMethods(cart.id).then(
-    (methods) => methods?.filter((m) => !m.is_return)
+    (methods) => {
+      return methods?.filter((m: any) => !m.is_return)
+    }
   )
 
-  if (!availableShippingMethods) {
-    return null
-  }
+  const availablePaymentMethods = await listCartPaymentMethods(
+    cart.region.id
+  ).then((methods) => {
+    return methods?.filter((m: any) => !m.is_return)
+  })
 
   // get customer if logged in
   const customer = await getCustomer()
@@ -56,7 +44,10 @@ export default async function CheckoutForm() {
         </div>
 
         <div>
-          <Payment cart={cart} />
+          <Payment
+            cart={cart}
+            availablePaymentMethods={availablePaymentMethods}
+          />
         </div>
 
         <div>

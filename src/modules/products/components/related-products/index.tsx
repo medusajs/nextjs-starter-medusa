@@ -1,9 +1,9 @@
 import { StoreGetProductsParams } from "@medusajs/medusa"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 
-import { getProductsList, getRegion } from "@lib/data"
-
-import ProductPreview from "../product-preview"
+import Product from "../product-preview"
+import { getRegion } from "@lib/data/regions"
+import { getProductsList } from "@lib/data/products"
 
 type RelatedProductsProps = {
   product: PricedProduct
@@ -21,42 +21,31 @@ export default async function RelatedProducts({
   }
 
   // edit this function to define your related products logic
-  const setQueryParams = (): StoreGetProductsParams => {
-    const params: StoreGetProductsParams = {}
-
-    if (region?.id) {
-      params.region_id = region.id
-    }
-
-    if (region?.currency_code) {
-      params.currency_code = region.currency_code
-    }
-
-    if (product.collection_id) {
-      params.collection_id = [product.collection_id]
-    }
-
-    if (product.tags) {
-      params.tags = product.tags.map((t) => t.value)
-    }
-
-    params.is_giftcard = false
-
-    return params
+  const queryParams: StoreGetProductsParams = {}
+  if (region?.id) {
+    queryParams.region_id = region.id
   }
+  if (region?.currency_code) {
+    queryParams.currency_code = region.currency_code
+  }
+  if (product.collection_id) {
+    queryParams.collection_id = [product.collection_id]
+  }
+  if (product.tags) {
+    queryParams.tags = product.tags.map((t) => t.value)
+  }
+  queryParams.is_giftcard = false
 
-  const queryParams = setQueryParams()
-
-  const productPreviews = await getProductsList({
+  const products = await getProductsList({
     queryParams,
     countryCode,
-  }).then(({ response }) =>
-    response.products.filter(
-      (productPreview) => productPreview.id !== product.id
+  }).then(({ response }) => {
+    return response.products.filter(
+      (responseProduct) => responseProduct.id !== product.id
     )
-  )
+  })
 
-  if (!productPreviews.length) {
+  if (!products.length) {
     return null
   }
 
@@ -72,9 +61,9 @@ export default async function RelatedProducts({
       </div>
 
       <ul className="grid grid-cols-2 small:grid-cols-3 medium:grid-cols-4 gap-x-6 gap-y-8">
-        {productPreviews.map((productPreview) => (
-          <li key={productPreview.id}>
-            <ProductPreview region={region} productPreview={productPreview} />
+        {products.map((product) => (
+          <li key={product.id}>
+            <Product region={region} product={product} />
           </li>
         ))}
       </ul>

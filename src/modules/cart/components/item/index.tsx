@@ -9,11 +9,11 @@ import LineItemOptions from "@modules/common/components/line-item-options"
 import LineItemPrice from "@modules/common/components/line-item-price"
 import LineItemUnitPrice from "@modules/common/components/line-item-unit-price"
 import Thumbnail from "@modules/products/components/thumbnail"
-import { updateLineItem } from "@modules/cart/actions"
 import Spinner from "@modules/common/icons/spinner"
 import { useState } from "react"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import { updateLineItem } from "@lib/data/cart"
 
 type ItemProps = {
   item: Omit<LineItem, "beforeInsert">
@@ -60,7 +60,12 @@ const Item = ({ item, region, type = "full" }: ItemProps) => {
       </Table.Cell>
 
       <Table.Cell className="text-left">
-        <Text className="txt-medium-plus text-ui-fg-base" data-testid="product-title">{item.title}</Text>
+        <Text
+          className="txt-medium-plus text-ui-fg-base"
+          data-testid="product-title"
+        >
+          {item.title}
+        </Text>
         <LineItemOptions variant={item.variant} data-testid="product-variant" />
       </Table.Cell>
 

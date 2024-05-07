@@ -1,6 +1,6 @@
 import { Suspense } from "react"
 
-import { listRegions } from "@lib/data"
+import { listRegions } from "@lib/data/regions"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import CartButton from "@modules/layout/components/cart-button"
 import SideMenu from "@modules/layout/components/side-menu"

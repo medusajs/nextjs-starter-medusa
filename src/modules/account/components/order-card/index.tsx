@@ -4,7 +4,7 @@ import { useMemo } from "react"
 
 import Thumbnail from "@modules/products/components/thumbnail"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import { formatAmount } from "@lib/util/prices"
+import { convertToLocale } from "@lib/util/money"
 
 type OrderCardProps = {
   order: Omit<Order, "beforeInsert">
@@ -31,10 +31,9 @@ const OrderCard = ({ order }: OrderCardProps) => {
           {new Date(order.created_at).toDateString()}
         </span>
         <span className="px-2" data-testid="order-amount">
-          {formatAmount({
+          {convertToLocale({
             amount: order.total,
-            region: order.region,
-            includeTaxes: false,
+            currency_code: order.region.currency_code,
           })}
         </span>
         <span className="pl-2">{`${numberOfLines} ${

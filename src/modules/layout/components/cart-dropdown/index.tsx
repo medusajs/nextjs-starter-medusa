@@ -3,15 +3,15 @@
 import { Popover, Transition } from "@headlessui/react"
 import { Cart } from "@medusajs/medusa"
 import { Button } from "@medusajs/ui"
-import { useParams, usePathname } from "next/navigation"
+import { usePathname } from "next/navigation"
 import { Fragment, useEffect, useRef, useState } from "react"
 
-import { formatAmount } from "@lib/util/prices"
 import DeleteButton from "@modules/common/components/delete-button"
 import LineItemOptions from "@modules/common/components/line-item-options"
 import LineItemPrice from "@modules/common/components/line-item-price"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import Thumbnail from "@modules/products/components/thumbnail"
+import { convertToLocale } from "@lib/util/money"
 
 const CartDropdown = ({
   cart: cartState,
@@ -23,8 +23,6 @@ const CartDropdown = ({
   )
   const [cartDropdownOpen, setCartDropdownOpen] = useState(false)
 
-  const { countryCode } = useParams()
-
   const open = () => setCartDropdownOpen(true)
   const close = () => setCartDropdownOpen(false)
 
@@ -32,6 +30,14 @@ const CartDropdown = ({
     cartState?.items?.reduce((acc, item) => {
       return acc + item.quantity
     }, 0) || 0
+
+  const subtotal =
+    cartState?.items.reduce((acc, item) => {
+      return (
+        acc +
+        (item.variant as any).calculated_price.calculated_amount * item.quantity
+      )
+    }, 0) ?? 0
 
   const itemRef = useRef<number>(totalItems || 0)
 
@@ -174,12 +180,11 @@ const CartDropdown = ({
                     <span
                       className="text-large-semi"
                       data-testid="cart-subtotal"
-                      data-value={cartState.subtotal || 0}
+                      data-value={subtotal}
                     >
-                      {formatAmount({
-                        amount: cartState.subtotal || 0,
-                        region: cartState.region,
-                        includeTaxes: false,
+                      {convertToLocale({
+                        amount: subtotal,
+                        currency_code: cartState.region.currency_code,
                       })}
                     </span>
                   </div>

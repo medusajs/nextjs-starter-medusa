@@ -1,27 +1,26 @@
 import { Text } from "@medusajs/ui"
 
-import { ProductPreviewType } from "types/global"
-
-import { retrievePricedProductById } from "@lib/data"
 import { getProductPrice } from "@lib/util/get-product-price"
 import { Region } from "@medusajs/medusa"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import Thumbnail from "../thumbnail"
 import PreviewPrice from "./price"
+import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
+import { getProductsById } from "@lib/data/products"
 
 export default async function ProductPreview({
-  productPreview,
+  product,
   isFeatured,
   region,
 }: {
-  productPreview: ProductPreviewType
+  product: PricedProduct
   isFeatured?: boolean
   region: Region
 }) {
-  const pricedProduct = await retrievePricedProductById({
-    id: productPreview.id,
+  const [pricedProduct] = await getProductsById({
+    ids: [product.id!],
     regionId: region.id,
-  }).then((product) => product)
+  })
 
   if (!pricedProduct) {
     return null
@@ -29,22 +28,20 @@ export default async function ProductPreview({
 
   const { cheapestPrice } = getProductPrice({
     product: pricedProduct,
-    region,
   })
 
   return (
-    <LocalizedClientLink
-      href={`/products/${productPreview.handle}`}
-      className="group"
-    >
+    <LocalizedClientLink href={`/products/${product.handle}`} className="group">
       <div data-testid="product-wrapper">
         <Thumbnail
-          thumbnail={productPreview.thumbnail}
+          thumbnail={product.thumbnail}
           size="full"
           isFeatured={isFeatured}
         />
         <div className="flex txt-compact-medium mt-4 justify-between">
-          <Text className="text-ui-fg-subtle" data-testid="product-title">{productPreview.title}</Text>
+          <Text className="text-ui-fg-subtle" data-testid="product-title">
+            {product.title}
+          </Text>
           <div className="flex items-center gap-x-2">
             {cheapestPrice && <PreviewPrice price={cheapestPrice} />}
           </div>

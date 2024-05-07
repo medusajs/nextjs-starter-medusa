@@ -1,6 +1,6 @@
 "use client"
 
-import { formatAmount } from "@lib/util/prices"
+import { convertToLocale } from "@lib/util/money"
 import { InformationCircleSolid } from "@medusajs/icons"
 import { Cart, Order } from "@medusajs/medusa"
 import { Tooltip } from "@medusajs/ui"
@@ -21,10 +21,9 @@ const CartTotals: React.FC<CartTotalsProps> = ({ data }) => {
   } = data
 
   const getAmount = (amount: number | null | undefined) => {
-    return formatAmount({
+    return convertToLocale({
       amount: amount || 0,
-      region: data.region,
-      includeTaxes: false,
+      currency_code: data.region.currency_code,
     })
   }
 

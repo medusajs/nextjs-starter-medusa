@@ -1,4 +1,4 @@
-import { retrievePricedProductById } from "@lib/data"
+import { getProductsById } from "@lib/data/products"
 import { Region } from "@medusajs/medusa"
 import ProductActions from "@modules/products/components/product-actions"
 
@@ -12,7 +12,7 @@ export default async function ProductActionsWrapper({
   id: string
   region: Region
 }) {
-  const product = await retrievePricedProductById({ id, regionId: region.id })
+  const [product] = await getProductsById({ ids: [id], regionId: region.id })
 
   if (!product) {
     return null
