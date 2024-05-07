@@ -25,7 +25,7 @@ async function getRegionMap() {
       },
     }).then((res) => res.json())
 
-    if (!regions) {
+    if (!regions?.length) {
       notFound()
     }
 

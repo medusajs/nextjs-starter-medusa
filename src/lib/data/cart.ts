@@ -146,7 +146,7 @@ export async function deleteLineItem(lineId: string) {
 
 export async function enrichLineItems(
   lineItems: LineItem[],
-  regionId: string
+  currencyCode: string
 ): Promise<
   | Omit<LineItem, "beforeInsert" | "beforeUpdate" | "afterUpdateOrLoad">[]
   | undefined
@@ -154,7 +154,7 @@ export async function enrichLineItems(
   // Prepare query parameters
   const queryParams = {
     ids: lineItems.map((lineItem) => lineItem.product_id!),
-    regionId: regionId,
+    currencyCode: currencyCode,
   }
 
   // Fetch products by their IDs

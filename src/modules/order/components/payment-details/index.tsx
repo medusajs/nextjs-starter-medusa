@@ -10,6 +10,9 @@ type PaymentDetailsProps = {
 }
 
 const PaymentDetails = ({ order }: PaymentDetailsProps) => {
+  // TODO: Currently there is no payment info in the order object, investigate
+  return null
+
   const payment = order.payments[0]
   return (
     <div>
