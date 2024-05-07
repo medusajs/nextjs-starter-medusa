@@ -1,6 +1,12 @@
 import qs from "qs"
 
-// TODO: Add debug logging
+export type Logger = {
+  error: (...messages: string[]) => void
+  warn: (...messages: string[]) => void
+  info: (...messages: string[]) => void
+  debug: (...messages: string[]) => void
+}
+
 export type Config = {
   baseUrl: string
   globalHeaders?: Record<string, string>
@@ -10,6 +16,8 @@ export type Config = {
     storageKey?: string
     storageMethod?: "local" | "session" | "memory"
   }
+  logger?: Logger
+  debug?: boolean
 }
 
 type FetchParams = Parameters<typeof fetch>
@@ -29,14 +37,31 @@ const toBase64 = (str: string) => {
   return Buffer.from(str).toString("base64")
 }
 
+const sanitizeHeaders = (headers: any) => {
+  return { ...headers, Authorization: "<REDACTED>" }
+}
+
 // TODO: Add support for retries and timeouts
 class Client {
   public fetch: ClientFetch
+  private logger: Logger
 
   private DEFAULT_JWT_STORAGE_KEY = "medusa_auth_token"
   private token = ""
 
   constructor(config: Config) {
+    const logger = config.logger || {
+      error: console.error,
+      warn: console.warn,
+      info: console.info,
+      debug: console.debug,
+    }
+
+    this.logger = {
+      ...logger,
+      debug: config.debug ? logger.debug : () => {},
+    }
+
     this.fetch = this.initClient(config)
   }
 
@@ -48,6 +73,11 @@ class Client {
       ...this.getPublishableKeyHeader(config),
       ...config.globalHeaders,
     }
+
+    this.logger.debug(
+      "Initiating Medusa client with default headers:\n",
+      `${JSON.stringify(sanitizeHeaders(defaultHeaders), null, 2)}\n`
+    )
 
     return (
       input: FetchParams[0],
@@ -70,8 +100,17 @@ class Client {
         }
       }
 
+      this.logger.debug(
+        "Performing request to:\n",
+        `URL: ${normalizedInput.toString()}\n`,
+        `Headers: ${JSON.stringify(sanitizeHeaders(headers), null, 2)}\n`
+      )
+
       // TODO: Make response a bit more user friendly (throw errors, return JSON if resp content type is json, etc.)
-      return fetch(normalizedInput, { ...init, headers })
+      return fetch(normalizedInput, { ...init, headers }).then((resp) => {
+        this.logger.debug(`Received response with status ${resp.status}\n`)
+        return resp
+      })
     }
   }
 
