@@ -15,4 +15,5 @@ export const medusaClient = new OldMedusa({
 
 export const newClient = new NewMedusa({
   baseUrl: MEDUSA_BACKEND_URL,
+  debug: process.env.NODE_ENV === "development",
 })
