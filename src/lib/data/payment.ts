@@ -1,9 +1,9 @@
-import { newClient } from "@lib/config"
+import { sdk } from "@lib/config"
 import { cache } from "react"
 
 // Shipping actions
 export const listCartPaymentMethods = cache(async function (regionId: string) {
-  return newClient.store.payment
+  return sdk.store.payment
     .listPaymentProviders(
       { region_id: regionId },
       { next: { tags: ["payment_providers"] } }

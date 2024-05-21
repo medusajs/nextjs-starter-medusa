@@ -1,13 +1,14 @@
-import { Customer, Order } from "@medusajs/medusa"
+import { Customer } from "@medusajs/medusa"
 import { Container } from "@medusajs/ui"
 
 import ChevronDown from "@modules/common/icons/chevron-down"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { convertToLocale } from "@lib/util/money"
+import { HttpTypes } from "@medusajs/types"
 
 type OverviewProps = {
   customer: Omit<Customer, "password_hash"> | null
-  orders: Order[] | null
+  orders: HttpTypes.StoreOrder[] | null
 }
 
 const Overview = ({ customer, orders }: OverviewProps) => {

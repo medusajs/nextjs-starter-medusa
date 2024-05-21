@@ -1,11 +1,11 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { LineItem } from "@medusajs/medusa"
 
 import Wrapper from "@modules/checkout/components/payment-wrapper"
 import CheckoutForm from "@modules/checkout/templates/checkout-form"
 import CheckoutSummary from "@modules/checkout/templates/checkout-summary"
 import { enrichLineItems, retrieveCart } from "@lib/data/cart"
+import { HttpTypes } from "@medusajs/types"
 
 export const metadata: Metadata = {
   title: "Checkout",
@@ -17,12 +17,12 @@ const fetchCart = async () => {
     return notFound()
   }
 
-  if (cart?.items.length) {
+  if (cart?.items?.length) {
     const enrichedItems = await enrichLineItems(
       cart?.items,
       cart?.currency_code
     )
-    cart.items = enrichedItems as LineItem[]
+    cart.items = enrichedItems as HttpTypes.StoreCartLineItem[]
   }
 
   return cart

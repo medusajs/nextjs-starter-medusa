@@ -1,7 +1,6 @@
 "use client"
 
 import { Popover, Transition } from "@headlessui/react"
-import { Cart } from "@medusajs/medusa"
 import { Button } from "@medusajs/ui"
 import { usePathname } from "next/navigation"
 import { Fragment, useEffect, useRef, useState } from "react"
@@ -12,13 +11,12 @@ import LineItemPrice from "@modules/common/components/line-item-price"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import Thumbnail from "@modules/products/components/thumbnail"
 import { convertToLocale } from "@lib/util/money"
+import { HttpTypes } from "@medusajs/types"
 
 const CartDropdown = ({
   cart: cartState,
 }: {
-  cart?:
-    | (Omit<Cart, "beforeInsert" | "afterLoad"> & { currency_code: string })
-    | null
+  cart?: HttpTypes.StoreCart | null
 }) => {
   const [activeTimer, setActiveTimer] = useState<NodeJS.Timer | undefined>(
     undefined
@@ -108,7 +106,9 @@ const CartDropdown = ({
                 <div className="overflow-y-scroll max-h-[402px] px-4 grid grid-cols-1 gap-y-8 no-scrollbar p-px">
                   {cartState.items
                     .sort((a, b) => {
-                      return a.created_at > b.created_at ? -1 : 1
+                      return (a.created_at ?? "") > (b.created_at ?? "")
+                        ? -1
+                        : 1
                     })
                     .map((item) => (
                       <div
@@ -117,7 +117,7 @@ const CartDropdown = ({
                         data-testid="cart-item"
                       >
                         <LocalizedClientLink
-                          href={`/products/${item.variant.product.handle}`}
+                          href={`/products/${item.variant?.product?.handle}`}
                           className="w-24"
                         >
                           <Thumbnail thumbnail={item.thumbnail} size="square" />
@@ -128,7 +128,7 @@ const CartDropdown = ({
                               <div className="flex flex-col overflow-ellipsis whitespace-nowrap mr-4 w-[180px]">
                                 <h3 className="text-base-regular overflow-hidden text-ellipsis">
                                   <LocalizedClientLink
-                                    href={`/products/${item.variant.product.handle}`}
+                                    href={`/products/${item.variant?.product?.handle}`}
                                     data-testid="product-link"
                                   >
                                     {item.title}

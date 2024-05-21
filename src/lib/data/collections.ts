@@ -1,11 +1,11 @@
-import { newClient } from "@lib/config"
-import { ProductCollection } from "@medusajs/medusa"
+import { sdk } from "@lib/config"
 import { cache } from "react"
 import { ProductCollectionWithPreviews } from "types/global"
 import { getProductsList } from "./products"
+import { HttpTypes } from "@medusajs/types"
 
 export const retrieveCollection = cache(async function (id: string) {
-  return newClient.store.collection
+  return sdk.store.collection
     .retrieve(id, {}, { next: { tags: ["collections"] } })
     .then(({ collection }) => collection)
 })
@@ -13,16 +13,16 @@ export const retrieveCollection = cache(async function (id: string) {
 export const getCollectionsList = cache(async function (
   offset: number = 0,
   limit: number = 100
-): Promise<{ collections: ProductCollection[]; count: number }> {
-  return newClient.store.collection
+): Promise<{ collections: HttpTypes.StoreCollection[]; count: number }> {
+  return sdk.store.collection
     .list({ limit, offset: -1 }, { next: { tags: ["collections"] } })
     .then(({ collections }) => ({ collections, count: collections.length }))
 })
 
 export const getCollectionByHandle = cache(async function (
   handle: string
-): Promise<ProductCollection> {
-  return newClient.store.collection
+): Promise<HttpTypes.StoreCollection> {
+  return sdk.store.collection
     .list({ handle }, { next: { tags: ["collections"] } })
     .then(({ collections }) => collections[0])
 })
@@ -37,7 +37,9 @@ export const getCollectionsWithProducts = cache(
       return null
     }
 
-    const collectionIds = collections.map((collection) => collection.id)
+    const collectionIds = collections
+      .map((collection) => collection.id)
+      .filter(Boolean) as string[]
 
     const { response } = await getProductsList({
       queryParams: { collection_id: collectionIds },

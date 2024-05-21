@@ -14,7 +14,9 @@ export default async function CheckoutForm() {
   }
 
   const availableShippingMethods = await listCartShippingMethods(cart.id)
-  const availablePaymentMethods = await listCartPaymentMethods(cart.region.id)
+  const availablePaymentMethods = await listCartPaymentMethods(
+    cart.region?.id ?? ""
+  )
   const customer = await getCustomer()
 
   return (
@@ -34,7 +36,7 @@ export default async function CheckoutForm() {
         <div>
           <Payment
             cart={cart}
-            availablePaymentMethods={availablePaymentMethods}
+            availablePaymentMethods={availablePaymentMethods ?? []}
           />
         </div>
 

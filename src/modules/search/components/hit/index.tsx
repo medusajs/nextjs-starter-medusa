@@ -1,8 +1,8 @@
-import { ProductVariant } from "@medusajs/medusa"
 import { Container, Text } from "@medusajs/ui"
 
 import Thumbnail from "@modules/products/components/thumbnail"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import { HttpTypes } from "@medusajs/types"
 
 export type ProductHit = {
   id: string
@@ -10,7 +10,7 @@ export type ProductHit = {
   handle: string
   description: string | null
   thumbnail: string | null
-  variants: ProductVariant[]
+  variants: HttpTypes.StoreProductVariant[]
   collection_handle: string | null
   collection_id: string | null
 }

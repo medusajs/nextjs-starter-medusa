@@ -1,25 +1,23 @@
-import { newClient } from "@lib/config"
+import { sdk } from "@lib/config"
 import medusaError from "@lib/util/medusa-error"
-import { Region } from "@medusajs/medusa"
 import { cache } from "react"
+import { HttpTypes } from "@medusajs/types"
 
-export const listRegions = cache(async function (): Promise<Region[]> {
-  return newClient.store.region
+export const listRegions = cache(async function () {
+  return sdk.store.region
     .list({}, { next: { tags: ["regions"] } })
     .then(({ regions }) => regions)
     .catch(medusaError)
 })
 
-export const retrieveRegion = cache(async function (
-  id: string
-): Promise<Region> {
-  return newClient.store.region
+export const retrieveRegion = cache(async function (id: string) {
+  return sdk.store.region
     .retrieve(id, {}, { next: { tags: ["regions"] } })
     .then(({ region }) => region)
     .catch(medusaError)
 })
 
-const regionMap = new Map<string, Region>()
+const regionMap = new Map<string, HttpTypes.StoreRegion>()
 
 export const getRegion = cache(async function (countryCode: string) {
   try {
@@ -34,8 +32,8 @@ export const getRegion = cache(async function (countryCode: string) {
     }
 
     regions.forEach((region) => {
-      region.countries.forEach((c) => {
-        regionMap.set(c.iso_2, region)
+      region.countries?.forEach((c) => {
+        regionMap.set(c?.iso_2 ?? "", region)
       })
     })
 

@@ -1,12 +1,10 @@
-import { StoreGetProductsParams } from "@medusajs/medusa"
-import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
-
 import Product from "../product-preview"
 import { getRegion } from "@lib/data/regions"
 import { getProductsList } from "@lib/data/products"
+import { HttpTypes } from "@medusajs/types"
 
 type RelatedProductsProps = {
-  product: PricedProduct
+  product: HttpTypes.StoreProduct
   countryCode: string
 }
 
@@ -21,7 +19,7 @@ export default async function RelatedProducts({
   }
 
   // edit this function to define your related products logic
-  const queryParams: StoreGetProductsParams = {}
+  const queryParams: HttpTypes.StoreProductFilters = {}
   if (region?.id) {
     queryParams.region_id = region.id
   }
@@ -32,7 +30,9 @@ export default async function RelatedProducts({
     queryParams.collection_id = [product.collection_id]
   }
   if (product.tags) {
-    queryParams.tags = product.tags.map((t) => t.value)
+    queryParams.tags = {
+      value: product.tags.map((t) => t.value).filter(Boolean) as string[],
+    }
   }
   queryParams.is_giftcard = false
 

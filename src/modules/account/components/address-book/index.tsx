@@ -1,12 +1,13 @@
-import { Customer, Region } from "@medusajs/medusa"
+import { Customer } from "@medusajs/medusa"
 import React from "react"
 
 import AddAddress from "../address-card/add-address"
 import EditAddress from "../address-card/edit-address-modal"
+import { HttpTypes } from "@medusajs/types"
 
 type AddressBookProps = {
   customer: Omit<Customer, "password_hash">
-  region: Region
+  region: HttpTypes.StoreRegion
 }
 
 const AddressBook: React.FC<AddressBookProps> = ({ customer, region }) => {

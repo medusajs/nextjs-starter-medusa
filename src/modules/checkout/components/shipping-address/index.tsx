@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useMemo } from "react"
-import { Cart, Customer } from "@medusajs/medusa"
+import { Customer } from "@medusajs/medusa"
 import Checkbox from "@modules/common/components/checkbox"
 import Input from "@modules/common/components/input"
 import AddressSelect from "../address-select"
 import CountrySelect from "../country-select"
 import { Container } from "@medusajs/ui"
+import { HttpTypes } from "@medusajs/types"
 
 const ShippingAddress = ({
   customer,
@@ -13,14 +14,14 @@ const ShippingAddress = ({
   onChange,
 }: {
   customer: Omit<Customer, "password_hash"> | null
-  cart: Omit<Cart, "refundable_amount" | "refunded_total"> | null
+  cart: HttpTypes.StoreCart | null
   checked: boolean
   onChange: () => void
 }) => {
   const [formData, setFormData] = useState<any>({})
 
   const countriesInRegion = useMemo(
-    () => cart?.region.countries.map((c) => c.iso_2),
+    () => cart?.region?.countries?.map((c) => c.iso_2),
     [cart?.region]
   )
 

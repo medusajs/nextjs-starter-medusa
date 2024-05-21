@@ -1,9 +1,9 @@
-import { LineItem, Region } from "@medusajs/medusa"
 import { clx } from "@medusajs/ui"
 import { getPricesForVariant } from "@lib/util/get-product-price"
+import { HttpTypes } from "@medusajs/types"
 
 type LineItemUnitPriceProps = {
-  item: Omit<LineItem, "beforeInsert">
+  item: HttpTypes.StoreCartLineItem | HttpTypes.StoreOrderLineItem
   style?: "default" | "tight"
 }
 

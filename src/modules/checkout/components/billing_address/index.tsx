@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react"
 import Input from "@modules/common/components/input"
 import CountrySelect from "../country-select"
-import { Cart } from "@medusajs/medusa"
+import { HttpTypes } from "@medusajs/types"
 
-const BillingAddress = ({
-  cart,
-}: {
-  cart: Omit<Cart, "refundable_amount" | "refunded_total"> | null
-}) => {
+const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
   const [formData, setFormData] = useState<any>({})
 
   useEffect(() => {

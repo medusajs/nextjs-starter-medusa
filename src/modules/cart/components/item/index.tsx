@@ -1,6 +1,5 @@
 "use client"
 
-import { LineItem } from "@medusajs/medusa"
 import { Table, Text, clx } from "@medusajs/ui"
 
 import CartItemSelect from "@modules/cart/components/cart-item-select"
@@ -14,9 +13,10 @@ import { useState } from "react"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { updateLineItem } from "@lib/data/cart"
+import { HttpTypes } from "@medusajs/types"
 
 type ItemProps = {
-  item: Omit<LineItem, "beforeInsert">
+  item: HttpTypes.StoreCartLineItem
   type?: "full" | "preview"
 }
 
@@ -24,7 +24,7 @@ const Item = ({ item, type = "full" }: ItemProps) => {
   const [updating, setUpdating] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const { handle } = item.variant.product
+  const { handle } = item.variant?.product ?? {}
 
   const changeQuantity = async (quantity: number) => {
     setError(null)
@@ -76,7 +76,8 @@ const Item = ({ item, type = "full" }: ItemProps) => {
               className="w-14 h-10 p-4"
               data-testid="product-select-button"
             >
-              {Array.from(
+              {/* TODO: Update this with the v2 way of managing inventory */}
+              {/* {Array.from(
                 {
                   length: Math.min(
                     item.variant.inventory_quantity > 0
@@ -90,7 +91,11 @@ const Item = ({ item, type = "full" }: ItemProps) => {
                     {i + 1}
                   </option>
                 )
-              )}
+              )} */}
+
+              <option value={1} key={1}>
+                1
+              </option>
             </CartItemSelect>
             {updating && <Spinner />}
           </div>

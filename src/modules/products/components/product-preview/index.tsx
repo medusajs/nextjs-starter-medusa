@@ -1,21 +1,20 @@
 import { Text } from "@medusajs/ui"
 
 import { getProductPrice } from "@lib/util/get-product-price"
-import { Region } from "@medusajs/medusa"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import Thumbnail from "../thumbnail"
 import PreviewPrice from "./price"
-import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 import { getProductsById } from "@lib/data/products"
+import { HttpTypes } from "@medusajs/types"
 
 export default async function ProductPreview({
   product,
   isFeatured,
   region,
 }: {
-  product: PricedProduct
+  product: HttpTypes.StoreProduct
   isFeatured?: boolean
-  region: Region
+  region: HttpTypes.StoreRegion
 }) {
   const [pricedProduct] = await getProductsById({
     ids: [product.id!],

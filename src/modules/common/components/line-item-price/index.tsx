@@ -1,12 +1,12 @@
-import { LineItem } from "@medusajs/medusa"
 import { clx } from "@medusajs/ui"
 
 import { getPercentageDiff } from "@lib/util/get-precentage-diff"
 import { convertToLocale } from "@lib/util/money"
 import { getPricesForVariant } from "@lib/util/get-product-price"
+import { HttpTypes } from "@medusajs/types"
 
 type LineItemPriceProps = {
-  item: Omit<LineItem, "beforeInsert">
+  item: HttpTypes.StoreCartLineItem | HttpTypes.StoreOrderLineItem
   style?: "default" | "tight"
 }
 

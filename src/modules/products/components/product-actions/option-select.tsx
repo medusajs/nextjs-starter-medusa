@@ -1,9 +1,9 @@
-import { ProductOption } from "@medusajs/medusa"
+import { HttpTypes } from "@medusajs/types"
 import { clx } from "@medusajs/ui"
 import React from "react"
 
 type OptionSelectProps = {
-  option: ProductOption
+  option: HttpTypes.StoreProductOption
   current: string | undefined
   updateOption: (title: string, value: string) => void
   title: string
@@ -19,7 +19,7 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
   "data-testid": dataTestId,
   disabled,
 }) => {
-  const filteredOptions = option.values.map((v) => v.value)
+  const filteredOptions = option.values?.map((v) => v.value)
 
   return (
     <div className="flex flex-col gap-y-3">
@@ -28,10 +28,10 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
         className="flex flex-wrap justify-between gap-2"
         data-testid={dataTestId}
       >
-        {filteredOptions.map((v) => {
+        {filteredOptions?.map((v) => {
           return (
             <button
-              onClick={() => updateOption(option.title, v)}
+              onClick={() => updateOption(option.title ?? "", v ?? "")}
               key={v}
               className={clx(
                 "border-ui-border-base bg-ui-bg-subtle border text-small-regular h-10 rounded-rounded p-2 flex-1 ",
