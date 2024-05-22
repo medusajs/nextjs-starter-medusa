@@ -1,4 +1,4 @@
-import { Region } from "@medusajs/medusa"
+import { HttpTypes } from "@medusajs/types"
 import { Text } from "@medusajs/ui"
 
 import InteractiveLink from "@modules/common/components/interactive-link"
@@ -10,7 +10,7 @@ export default function ProductRail({
   region,
 }: {
   collection: ProductCollectionWithPreviews
-  region: Region
+  region: HttpTypes.StoreRegion
 }) {
   const { products } = collection
 

@@ -1,12 +1,12 @@
 import repeat from "@lib/util/repeat"
-import { LineItem } from "@medusajs/medusa"
+import { HttpTypes } from "@medusajs/types"
 import { Heading, Table } from "@medusajs/ui"
 
 import Item from "@modules/cart/components/item"
 import SkeletonLineItem from "@modules/skeletons/components/skeleton-line-item"
 
 type ItemsTemplateProps = {
-  items?: Omit<LineItem, "beforeInsert">[]
+  items?: HttpTypes.StoreCartLineItem[]
 }
 
 const ItemsTemplate = ({ items }: ItemsTemplateProps) => {
@@ -33,7 +33,7 @@ const ItemsTemplate = ({ items }: ItemsTemplateProps) => {
           {items
             ? items
                 .sort((a, b) => {
-                  return a.created_at > b.created_at ? -1 : 1
+                  return (a.created_at ?? "") > (b.created_at ?? "") ? -1 : 1
                 })
                 .map((item) => {
                   return <Item key={item.id} item={item} />

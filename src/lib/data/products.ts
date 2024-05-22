@@ -1,8 +1,7 @@
-import { newClient } from "@lib/config"
-import { StoreGetProductsParams } from "@medusajs/medusa"
-import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
+import { sdk } from "@lib/config"
 import { cache } from "react"
 import { getRegion } from "./regions"
+import { HttpTypes } from "@medusajs/types"
 
 export const getProductsById = cache(async function ({
   ids,
@@ -11,7 +10,7 @@ export const getProductsById = cache(async function ({
   ids: string[]
   currencyCode: string
 }) {
-  return newClient.store.product
+  return sdk.store.product
     .list(
       {
         id: ids,
@@ -26,8 +25,8 @@ export const getProductsById = cache(async function ({
 export const getProductByHandle = cache(async function (
   handle: string,
   regionId: string
-): Promise<PricedProduct> {
-  return newClient.store.product
+) {
+  return sdk.store.product
     .list(
       {
         handle,
@@ -45,12 +44,12 @@ export const getProductsList = cache(async function ({
   countryCode,
 }: {
   pageParam?: number
-  queryParams?: StoreGetProductsParams
+  queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductFilters
   countryCode: string
 }): Promise<{
-  response: { products: PricedProduct[]; count: number }
+  response: { products: HttpTypes.StoreProduct[]; count: number }
   nextPage: number | null
-  queryParams?: StoreGetProductsParams
+  queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductFilters
 }> {
   const limit = queryParams?.limit || 12
   const offset = (pageParam - 1) * limit
@@ -62,7 +61,7 @@ export const getProductsList = cache(async function ({
       nextPage: null,
     }
   }
-  return newClient.store.product
+  return sdk.store.product
     .list(
       {
         limit,

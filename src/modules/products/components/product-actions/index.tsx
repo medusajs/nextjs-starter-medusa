@@ -1,7 +1,5 @@
 "use client"
 
-import { Region } from "@medusajs/medusa"
-import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 import { Button } from "@medusajs/ui"
 import { isEqual } from "lodash"
 import { useParams } from "next/navigation"
@@ -14,10 +12,11 @@ import OptionSelect from "@modules/products/components/product-actions/option-se
 import MobileActions from "./mobile-actions"
 import ProductPrice from "../product-price"
 import { addToCart } from "@lib/data/cart"
+import { HttpTypes } from "@medusajs/types"
 
 type ProductActionsProps = {
-  product: PricedProduct
-  region: Region
+  product: HttpTypes.StoreProduct
+  region: HttpTypes.StoreRegion
   disabled?: boolean
 }
 
@@ -39,7 +38,7 @@ export default function ProductActions({
 
   // If there is only 1 variant, preselect the options
   useEffect(() => {
-    if (product.variants.length === 1) {
+    if (product.variants?.length === 1) {
       const variantOptions = optionsAsKeymap(product.variants[0].options)
       setOptions(variantOptions ?? {})
     }
@@ -76,13 +75,14 @@ export default function ProductActions({
       return true
     }
 
-    // If there is inventory available, we can add to cart
-    if (
-      selectedVariant?.inventory_quantity &&
-      selectedVariant.inventory_quantity > 0
-    ) {
-      return true
-    }
+    // TODO: Add inventory checks with the new v2 setup
+    // // If there is inventory available, we can add to cart
+    // if (
+    //   selectedVariant?.inventory_quantity &&
+    //   selectedVariant.inventory_quantity > 0
+    // ) {
+    //   return true
+    // }
 
     // Otherwise, we can't add to cart
     return false
@@ -111,16 +111,16 @@ export default function ProductActions({
     <>
       <div className="flex flex-col gap-y-2" ref={actionsRef}>
         <div>
-          {product.variants.length > 1 && (
+          {(product.variants?.length ?? 0) > 1 && (
             <div className="flex flex-col gap-y-4">
               {(product.options || []).map((option) => {
                 return (
                   <div key={option.id}>
                     <OptionSelect
                       option={option}
-                      current={options[option.title]}
+                      current={options[option.title ?? ""]}
                       updateOption={setOptionValue}
-                      title={option.title}
+                      title={option.title ?? ""}
                       data-testid="product-options"
                       disabled={!!disabled || isAdding}
                     />

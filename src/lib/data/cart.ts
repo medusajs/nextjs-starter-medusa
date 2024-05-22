@@ -1,14 +1,14 @@
 "use server"
 
-import { newClient } from "@lib/config"
+import { sdk } from "@lib/config"
 import { cookies } from "next/headers"
 import { getRegion } from "./regions"
 import { revalidateTag } from "next/cache"
-import { GiftCard, LineItem } from "@medusajs/medusa"
 import { getProductsById } from "./products"
 import { omit } from "lodash"
 import medusaError from "@lib/util/medusa-error"
 import { redirect } from "next/navigation"
+import { HttpTypes } from "@medusajs/types"
 
 export async function retrieveCart() {
   const cartId = cookies().get("_medusa_cart_id")?.value
@@ -18,7 +18,7 @@ export async function retrieveCart() {
   }
 
   try {
-    const { cart } = await newClient.store.cart.retrieve(
+    const { cart } = await sdk.store.cart.retrieve(
       cartId,
       {},
       { next: { tags: ["cart"] } }
@@ -42,7 +42,7 @@ export async function getOrSetCart(countryCode: string) {
   const region_id = region.id
 
   if (!cart) {
-    const cartResp = await newClient.store.cart.create({ region_id: region.id })
+    const cartResp = await sdk.store.cart.create({ region_id: region.id })
     cart = cartResp.cart
     cookies().set("_medusa_cart_id", cart.id, {
       maxAge: 60 * 60 * 24 * 7,
@@ -54,7 +54,7 @@ export async function getOrSetCart(countryCode: string) {
   }
 
   if (cart && cart?.region_id !== region_id) {
-    await newClient.store.cart.update(cart.id, { region_id })
+    await sdk.store.cart.update(cart.id, { region_id })
     revalidateTag("cart")
   }
 
@@ -67,7 +67,7 @@ export async function updateCart(data: any) {
     return "Missing cart ID"
   }
 
-  return newClient.store.cart
+  return sdk.store.cart
     .update(cartId, data)
     .then(({ cart }) => cart)
     .catch((err) => medusaError(err))
@@ -92,7 +92,7 @@ export async function addToCart({
   }
 
   try {
-    await newClient.store.cart.createLineItem(cart.id, {
+    await sdk.store.cart.createLineItem(cart.id, {
       variant_id: variantId,
       quantity,
     })
@@ -119,7 +119,7 @@ export async function updateLineItem({
   }
 
   try {
-    await newClient.store.cart.updateLineItem(cartId, lineId, { quantity })
+    await sdk.store.cart.updateLineItem(cartId, lineId, { quantity })
     revalidateTag("cart")
   } catch (e: any) {
     return e.toString()
@@ -137,7 +137,7 @@ export async function deleteLineItem(lineId: string) {
   }
 
   try {
-    await newClient.store.cart.deleteLineItem(cartId, lineId)
+    await sdk.store.cart.deleteLineItem(cartId, lineId)
     revalidateTag("cart")
   } catch (e) {
     return "Error deleting line item"
@@ -145,12 +145,14 @@ export async function deleteLineItem(lineId: string) {
 }
 
 export async function enrichLineItems(
-  lineItems: LineItem[],
+  lineItems:
+    | HttpTypes.StoreCartLineItem[]
+    | HttpTypes.StoreOrderLineItem[]
+    | null,
   currencyCode: string
-): Promise<
-  | Omit<LineItem, "beforeInsert" | "beforeUpdate" | "afterUpdateOrLoad">[]
-  | undefined
-> {
+) {
+  if (!lineItems) return []
+
   // Prepare query parameters
   const queryParams = {
     ids: lineItems.map((lineItem) => lineItem.product_id!),
@@ -167,7 +169,9 @@ export async function enrichLineItems(
   // Enrich line items with product and variant information
   const enrichedItems = lineItems.map((item) => {
     const product = products.find((p: any) => p.id === item.product_id)
-    const variant = product?.variants.find((v: any) => v.id === item.variant_id)
+    const variant = product?.variants?.find(
+      (v: any) => v.id === item.variant_id
+    )
 
     // If product or variant is not found, return the original item
     if (!product || !variant) {
@@ -182,7 +186,7 @@ export async function enrichLineItems(
         product: omit(product, "variants"),
       },
     }
-  }) as LineItem[]
+  }) as HttpTypes.StoreCartLineItem[]
 
   return enrichedItems
 }
@@ -194,7 +198,7 @@ export async function setShippingMethod({
   cartId: string
   shippingMethodId: string
 }) {
-  return newClient.store.cart
+  return sdk.store.cart
     .addShippingMethod(cartId, { option_id: shippingMethodId })
     .then(() => {
       revalidateTag("cart")
@@ -203,12 +207,12 @@ export async function setShippingMethod({
 }
 
 export async function initiatePaymentSession(
-  cart: any,
+  cart: HttpTypes.StoreCart,
   data: {
     provider_id: string
   }
 ) {
-  return newClient.store.payment
+  return sdk.store.payment
     .initiatePaymentSession(cart, data)
     .then(() => {
       revalidateTag("cart")
@@ -255,7 +259,8 @@ export async function removeDiscount(code: string) {
 
 export async function removeGiftCard(
   codeToRemove: string,
-  giftCards: GiftCard[]
+  giftCards: any[]
+  // giftCards: GiftCard[]
 ) {
   //   const cartId = cookies().get("_medusa_cart_id")?.value
   //   if (!cartId) return "No cartId cookie found"
@@ -341,7 +346,7 @@ export async function placeOrder() {
   if (!cartId) throw new Error("No cartId cookie found")
   let cart
   try {
-    cart = await newClient.store.cart.complete(cartId)
+    cart = await sdk.store.cart.complete(cartId)
     revalidateTag("cart")
   } catch (error: any) {
     throw error

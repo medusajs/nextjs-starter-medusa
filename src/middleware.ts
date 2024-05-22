@@ -1,4 +1,4 @@
-import { Region } from "@medusajs/medusa"
+import { HttpTypes } from "@medusajs/types"
 import { notFound } from "next/navigation"
 import { NextRequest, NextResponse } from "next/server"
 
@@ -6,7 +6,7 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
 const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "us"
 
 const regionMapCache = {
-  regionMap: new Map<string, Region>(),
+  regionMap: new Map<string, HttpTypes.StoreRegion>(),
   regionMapUpdated: Date.now(),
 }
 
@@ -30,9 +30,9 @@ async function getRegionMap() {
     }
 
     // Create a map of country codes to regions.
-    regions.forEach((region: Region) => {
-      region.countries.forEach((c) => {
-        regionMapCache.regionMap.set(c.iso_2, region)
+    regions.forEach((region: HttpTypes.StoreRegion) => {
+      region.countries?.forEach((c) => {
+        regionMapCache.regionMap.set(c.iso_2 ?? "", region)
       })
     })
 
@@ -49,7 +49,7 @@ async function getRegionMap() {
  */
 async function getCountryCode(
   request: NextRequest,
-  regionMap: Map<string, Region | number>
+  regionMap: Map<string, HttpTypes.StoreRegion | number>
 ) {
   try {
     let countryCode

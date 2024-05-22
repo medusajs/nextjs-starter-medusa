@@ -1,6 +1,6 @@
 "use client"
 
-import { Customer, Region } from "@medusajs/medusa"
+import { Customer } from "@medusajs/medusa"
 import React, { useEffect, useMemo } from "react"
 
 import Input from "@modules/common/components/input"
@@ -9,10 +9,11 @@ import NativeSelect from "@modules/common/components/native-select"
 import AccountInfo from "../account-info"
 import { useFormState } from "react-dom"
 import { updateCustomerBillingAddress } from "@modules/account/actions"
+import { HttpTypes } from "@medusajs/types"
 
 type MyInformationProps = {
   customer: Omit<Customer, "password_hash">
-  regions: Region[]
+  regions: HttpTypes.StoreRegion[]
 }
 
 const ProfileBillingAddress: React.FC<MyInformationProps> = ({
@@ -23,7 +24,7 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({
     return (
       regions
         ?.map((region) => {
-          return region.countries.map((country) => ({
+          return region.countries?.map((country) => ({
             value: country.iso_2,
             label: country.display_name,
           }))
@@ -54,7 +55,7 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({
 
     const country =
       regionOptions?.find(
-        (country) => country.value === customer.billing_address.country_code
+        (country) => country?.value === customer.billing_address.country_code
       )?.label || customer.billing_address.country_code?.toUpperCase()
 
     return (
@@ -156,8 +157,8 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({
             <option value="">-</option>
             {regionOptions.map((option, i) => {
               return (
-                <option key={i} value={option.value}>
-                  {option.label}
+                <option key={i} value={option?.value}>
+                  {option?.label}
                 </option>
               )
             })}

@@ -1,17 +1,15 @@
-import { LineItem } from "@medusajs/medusa"
-
 import CartDropdown from "../cart-dropdown"
 import { enrichLineItems, retrieveCart } from "@lib/data/cart"
 
 const fetchCart = async () => {
   const cart = await retrieveCart()
 
-  if (cart?.items.length) {
+  if (cart?.items?.length) {
     const enrichedItems = await enrichLineItems(
       cart?.items,
       cart?.currency_code
     )
-    cart.items = enrichedItems as LineItem[]
+    cart.items = enrichedItems
   }
 
   return cart

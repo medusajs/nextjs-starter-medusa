@@ -3,19 +3,20 @@ import Summary from "./summary"
 import EmptyCartMessage from "../components/empty-cart-message"
 import SignInPrompt from "../components/sign-in-prompt"
 import Divider from "@modules/common/components/divider"
-import { Cart, Customer } from "@medusajs/medusa"
+import { Customer } from "@medusajs/medusa"
+import { HttpTypes } from "@medusajs/types"
 
 const CartTemplate = ({
   cart,
   customer,
 }: {
-  cart: Cart | null
+  cart: HttpTypes.StoreCart | null
   customer: Omit<Customer, "password_hash"> | null
 }) => {
   return (
     <div className="py-12">
       <div className="content-container" data-testid="cart-container">
-        {cart?.items.length ? (
+        {cart?.items?.length ? (
           <div className="grid grid-cols-1 small:grid-cols-[1fr_360px] gap-x-40">
             <div className="flex flex-col bg-white py-6 gap-y-6">
               {!customer && (

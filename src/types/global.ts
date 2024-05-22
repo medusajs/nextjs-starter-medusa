@@ -1,6 +1,4 @@
-import { ProductCategory, ProductVariant, Region } from "@medusajs/medusa"
-import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
-import { ProductCollection } from "@medusajs/medusa"
+import { HttpTypes } from "@medusajs/types"
 
 export type FeaturedProduct = {
   id: string
@@ -19,28 +17,4 @@ export type VariantPrice = {
   percentage_diff: string
 }
 
-export type ProductCollectionWithPreviews = Omit<
-  ProductCollection,
-  "products"
-> & {
-  products: PricedProduct[]
-}
-
-export type InfiniteProductPage = {
-  response: {
-    products: PricedProduct[]
-    count: number
-  }
-}
-
-export type ProductVariantInfo = Pick<ProductVariant, "prices">
-
-export type RegionInfo = Pick<Region, "currency_code" | "tax_code" | "tax_rate">
-
-export type ProductCategoryWithChildren = Omit<
-  ProductCategory,
-  "category_children"
-> & {
-  category_children: ProductCategory[]
-  category_parent?: ProductCategory
-}
+export type ProductCollectionWithPreviews = HttpTypes.StoreCollection

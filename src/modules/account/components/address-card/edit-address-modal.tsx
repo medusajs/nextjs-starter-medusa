@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react"
 import { PencilSquare as Edit, Trash } from "@medusajs/icons"
 import { Button, Heading, Text, clx } from "@medusajs/ui"
-import { Address, Region } from "@medusajs/medusa"
+import { Address } from "@medusajs/medusa"
 
 import useToggleState from "@lib/hooks/use-toggle-state"
 import CountrySelect from "@modules/checkout/components/country-select"
@@ -16,9 +16,10 @@ import {
 import Spinner from "@modules/common/icons/spinner"
 import { useFormState } from "react-dom"
 import { SubmitButton } from "@modules/checkout/components/submit-button"
+import { HttpTypes } from "@medusajs/types"
 
 type EditAddressProps = {
-  region: Region
+  region: HttpTypes.StoreRegion
   address: Address
   isActive?: boolean
 }
@@ -74,11 +75,17 @@ const EditAddress: React.FC<EditAddressProps> = ({
         data-testid="address-container"
       >
         <div className="flex flex-col">
-          <Heading className="text-left text-base-semi" data-testid="address-name">
+          <Heading
+            className="text-left text-base-semi"
+            data-testid="address-name"
+          >
             {address.first_name} {address.last_name}
           </Heading>
           {address.company && (
-            <Text className="txt-compact-small text-ui-fg-base" data-testid="address-company">
+            <Text
+              className="txt-compact-small text-ui-fg-base"
+              data-testid="address-company"
+            >
               {address.company}
             </Text>
           )}

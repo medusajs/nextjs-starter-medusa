@@ -1,12 +1,12 @@
 "use client"
 
-import { Order } from "@medusajs/medusa"
 import { Button } from "@medusajs/ui"
 
 import OrderCard from "../order-card"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import { HttpTypes } from "@medusajs/types"
 
-const OrderOverview = ({ orders }: { orders: Order[] }) => {
+const OrderOverview = ({ orders }: { orders: HttpTypes.StoreOrder[] }) => {
   if (orders?.length) {
     return (
       <div className="flex flex-col gap-y-8 w-full">

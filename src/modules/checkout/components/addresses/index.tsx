@@ -1,7 +1,7 @@
 "use client"
 
 import { useSearchParams, useRouter, usePathname } from "next/navigation"
-import { Cart, Customer } from "@medusajs/medusa"
+import { Customer } from "@medusajs/medusa"
 import { CheckCircleSolid } from "@medusajs/icons"
 import { Heading, Text, useToggleState } from "@medusajs/ui"
 
@@ -15,12 +15,13 @@ import { useFormState } from "react-dom"
 import ErrorMessage from "../error-message"
 import compareAddresses from "@lib/util/compare-addresses"
 import { setAddresses } from "@lib/data/cart"
+import { HttpTypes } from "@medusajs/types"
 
 const Addresses = ({
   cart,
   customer,
 }: {
-  cart: Omit<Cart, "refundable_amount" | "refunded_total"> | null
+  cart: HttpTypes.StoreCart | null
   customer: Omit<Customer, "password_hash"> | null
 }) => {
   const searchParams = useSearchParams()
@@ -151,19 +152,19 @@ const Addresses = ({
                     ) : (
                       <>
                         <Text className="txt-medium text-ui-fg-subtle">
-                          {cart.billing_address.first_name}{" "}
-                          {cart.billing_address.last_name}
+                          {cart.billing_address?.first_name}{" "}
+                          {cart.billing_address?.last_name}
                         </Text>
                         <Text className="txt-medium text-ui-fg-subtle">
-                          {cart.billing_address.address_1}{" "}
-                          {cart.billing_address.address_2}
+                          {cart.billing_address?.address_1}{" "}
+                          {cart.billing_address?.address_2}
                         </Text>
                         <Text className="txt-medium text-ui-fg-subtle">
-                          {cart.billing_address.postal_code},{" "}
-                          {cart.billing_address.city}
+                          {cart.billing_address?.postal_code},{" "}
+                          {cart.billing_address?.city}
                         </Text>
                         <Text className="txt-medium text-ui-fg-subtle">
-                          {cart.billing_address.country_code?.toUpperCase()}
+                          {cart.billing_address?.country_code?.toUpperCase()}
                         </Text>
                       </>
                     )}

@@ -1,5 +1,5 @@
 import { Listbox, Transition } from "@headlessui/react"
-import { Address, AddressPayload, Cart } from "@medusajs/medusa"
+import { Address, AddressPayload } from "@medusajs/medusa"
 import { ChevronUpDown } from "@medusajs/icons"
 import { clx } from "@medusajs/ui"
 import { omit } from "lodash"
@@ -8,10 +8,11 @@ import { Fragment, useMemo } from "react"
 import Radio from "@modules/common/components/radio"
 import compareAddresses from "@lib/util/compare-addresses"
 import { updateCart } from "@lib/data/cart"
+import { HttpTypes } from "@medusajs/types"
 
 type AddressSelectProps = {
   addresses: Address[]
-  cart: Omit<Cart, "refundable_amount" | "refunded_total"> | null
+  cart: HttpTypes.StoreCart | null
 }
 
 const AddressSelect = ({ addresses, cart }: AddressSelectProps) => {
