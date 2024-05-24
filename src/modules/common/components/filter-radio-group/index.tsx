@@ -10,7 +10,7 @@ type FilterRadioGroupProps = {
   }[]
   value: any
   handleChange: (...args: any[]) => void
-  'data-testid'?: string
+  "data-testid"?: string
 }
 
 const FilterRadioGroup = ({
@@ -18,7 +18,7 @@ const FilterRadioGroup = ({
   items,
   value,
   handleChange,
-  'data-testid': dataTestId
+  "data-testid": dataTestId,
 }: FilterRadioGroupProps) => {
   return (
     <div className="flex gap-x-3 flex-col gap-y-3">
@@ -45,7 +45,6 @@ const FilterRadioGroup = ({
               value={i.value}
             />
             <Label
-              placeholder={i.label}
               htmlFor={i.value}
               className={clx(
                 "!txt-compact-small !transform-none text-ui-fg-subtle hover:cursor-pointer",

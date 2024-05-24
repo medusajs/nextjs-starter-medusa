@@ -22,8 +22,8 @@
   "dependencies": {
     "@headlessui/react": "^1.6.1",
     "@hookform/error-message": "^2.0.0",
-    "@medusajs/js-sdk": "0.0.2-snapshot-20240521091842",
-    "@medusajs/types": "1.12.0-snapshot-20240521091842",
+    "@medusajs/js-sdk": "0.0.2-snapshot-20240524111804",
+    "@medusajs/types": "1.12.0-snapshot-20240524111804",
     "@medusajs/ui": "^2.2.0",
     "@meilisearch/instant-meilisearch": "^0.7.1",
     "@paypal/paypal-js": "^5.0.6",
@@ -47,7 +47,6 @@
   "devDependencies": {
     "@babel/core": "^7.17.5",
     "@medusajs/client-types": "^0.2.2",
-    "@medusajs/medusa": "^1.18.0",
     "@medusajs/ui-preset": "^1.0.2",
     "@playwright/test": "^1.41.1",
     "@types/lodash": "^4.14.195",

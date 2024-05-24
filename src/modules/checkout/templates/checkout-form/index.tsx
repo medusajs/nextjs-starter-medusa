@@ -1,5 +1,5 @@
-import { getCustomer } from "@lib/data"
 import { retrieveCart } from "@lib/data/cart"
+import { getCustomer } from "@lib/data/customer"
 import { listCartShippingMethods } from "@lib/data/fulfillment"
 import { listCartPaymentMethods } from "@lib/data/payment"
 import Addresses from "@modules/checkout/components/addresses"

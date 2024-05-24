@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react"
 import { PencilSquare as Edit, Trash } from "@medusajs/icons"
 import { Button, Heading, Text, clx } from "@medusajs/ui"
-import { Address } from "@medusajs/medusa"
 
 import useToggleState from "@lib/hooks/use-toggle-state"
 import CountrySelect from "@modules/checkout/components/country-select"
@@ -20,7 +19,7 @@ import { HttpTypes } from "@medusajs/types"
 
 type EditAddressProps = {
   region: HttpTypes.StoreRegion
-  address: Address
+  address: HttpTypes.StoreCustomerAddress
   isActive?: boolean
 }
 
