@@ -1,8 +1,8 @@
 import { Metadata } from "next"
 
 import OrderOverview from "@modules/account/components/order-overview"
-import { listCustomerOrders } from "@lib/data"
 import { notFound } from "next/navigation"
+import { listOrders } from "@lib/data/orders"
 
 export const metadata: Metadata = {
   title: "Orders",
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Orders() {
-  const orders = await listCustomerOrders()
+  const orders = await listOrders()
 
   if (!orders) {
     notFound()

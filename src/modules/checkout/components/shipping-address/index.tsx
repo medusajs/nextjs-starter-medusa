@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from "react"
-import { Customer } from "@medusajs/medusa"
 import Checkbox from "@modules/common/components/checkbox"
 import Input from "@modules/common/components/input"
 import AddressSelect from "../address-select"
@@ -13,7 +12,7 @@ const ShippingAddress = ({
   checked,
   onChange,
 }: {
-  customer: Omit<Customer, "password_hash"> | null
+  customer: HttpTypes.StoreCustomer | null
   cart: HttpTypes.StoreCart | null
   checked: boolean
   onChange: () => void
@@ -28,10 +27,10 @@ const ShippingAddress = ({
   // check if customer has saved addresses that are in the current region
   const addressesInRegion = useMemo(
     () =>
-      customer?.shipping_addresses.filter(
+      customer?.addresses.filter(
         (a) => a.country_code && countriesInRegion?.includes(a.country_code)
       ),
-    [customer?.shipping_addresses, countriesInRegion]
+    [customer?.addresses, countriesInRegion]
   )
 
   useEffect(() => {
@@ -68,7 +67,7 @@ const ShippingAddress = ({
           <p className="text-small-regular">
             {`Hi ${customer.first_name}, do you want to use one of your saved addresses?`}
           </p>
-          <AddressSelect addresses={customer.shipping_addresses} cart={cart} />
+          <AddressSelect addresses={customer.addresses} cart={cart} />
         </Container>
       )}
       <div className="grid grid-cols-2 gap-4">

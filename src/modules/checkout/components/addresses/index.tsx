@@ -1,7 +1,6 @@
 "use client"
 
 import { useSearchParams, useRouter, usePathname } from "next/navigation"
-import { Customer } from "@medusajs/medusa"
 import { CheckCircleSolid } from "@medusajs/icons"
 import { Heading, Text, useToggleState } from "@medusajs/ui"
 
@@ -22,7 +21,7 @@ const Addresses = ({
   customer,
 }: {
   cart: HttpTypes.StoreCart | null
-  customer: Omit<Customer, "password_hash"> | null
+  customer: HttpTypes.StoreCustomer | null
 }) => {
   const searchParams = useSearchParams()
   const router = useRouter()

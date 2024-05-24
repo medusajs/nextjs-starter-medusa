@@ -1,4 +1,3 @@
-import { Customer } from "@medusajs/medusa"
 import { Container } from "@medusajs/ui"
 
 import ChevronDown from "@modules/common/icons/chevron-down"
@@ -7,7 +6,7 @@ import { convertToLocale } from "@lib/util/money"
 import { HttpTypes } from "@medusajs/types"
 
 type OverviewProps = {
-  customer: Omit<Customer, "password_hash"> | null
+  customer: HttpTypes.StoreCustomer | null
   orders: HttpTypes.StoreOrder[] | null
 }
 
@@ -55,9 +54,9 @@ const Overview = ({ customer, orders }: OverviewProps) => {
                   <span
                     className="text-3xl-semi leading-none"
                     data-testid="addresses-count"
-                    data-value={customer?.shipping_addresses?.length || 0}
+                    data-value={customer?.addresses?.length || 0}
                   >
-                    {customer?.shipping_addresses?.length || 0}
+                    {customer?.addresses?.length || 0}
                   </span>
                   <span className="uppercase text-base-regular text-ui-fg-subtle">
                     Saved
@@ -136,9 +135,7 @@ const Overview = ({ customer, orders }: OverviewProps) => {
   )
 }
 
-const getProfileCompletion = (
-  customer: Omit<Customer, "password_hash"> | null
-) => {
+const getProfileCompletion = (customer: HttpTypes.StoreCustomer | null) => {
   let count = 0
 
   if (!customer) {
@@ -157,7 +154,7 @@ const getProfileCompletion = (
     count++
   }
 
-  if (customer.billing_address) {
+  if ((customer as any).billing_address) {
     count++
   }
 

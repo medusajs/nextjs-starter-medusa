@@ -9,6 +9,7 @@ import { omit } from "lodash"
 import medusaError from "@lib/util/medusa-error"
 import { redirect } from "next/navigation"
 import { HttpTypes } from "@medusajs/types"
+import { getAuthHeaders } from "./customer"
 
 export async function retrieveCart() {
   const cartId = cookies().get("_medusa_cart_id")?.value
@@ -21,7 +22,7 @@ export async function retrieveCart() {
     const { cart } = await sdk.store.cart.retrieve(
       cartId,
       {},
-      { next: { tags: ["cart"] } }
+      { next: { tags: ["cart"] }, ...(await getAuthHeaders()) }
     )
 
     return cart
@@ -54,7 +55,12 @@ export async function getOrSetCart(countryCode: string) {
   }
 
   if (cart && cart?.region_id !== region_id) {
-    await sdk.store.cart.update(cart.id, { region_id })
+    await sdk.store.cart.update(
+      cart.id,
+      { region_id },
+      {},
+      await getAuthHeaders()
+    )
     revalidateTag("cart")
   }
 
@@ -68,7 +74,7 @@ export async function updateCart(data: any) {
   }
 
   return sdk.store.cart
-    .update(cartId, data)
+    .update(cartId, data, {}, await getAuthHeaders())
     .then(({ cart }) => cart)
     .catch((err) => medusaError(err))
 }
@@ -92,10 +98,15 @@ export async function addToCart({
   }
 
   try {
-    await sdk.store.cart.createLineItem(cart.id, {
-      variant_id: variantId,
-      quantity,
-    })
+    await sdk.store.cart.createLineItem(
+      cart.id,
+      {
+        variant_id: variantId,
+        quantity,
+      },
+      {},
+      await getAuthHeaders()
+    )
     revalidateTag("cart")
   } catch (e) {
     return "Error adding item to cart"
@@ -119,7 +130,13 @@ export async function updateLineItem({
   }
 
   try {
-    await sdk.store.cart.updateLineItem(cartId, lineId, { quantity })
+    await sdk.store.cart.updateLineItem(
+      cartId,
+      lineId,
+      { quantity },
+      {},
+      await getAuthHeaders()
+    )
     revalidateTag("cart")
   } catch (e: any) {
     return e.toString()
@@ -137,7 +154,7 @@ export async function deleteLineItem(lineId: string) {
   }
 
   try {
-    await sdk.store.cart.deleteLineItem(cartId, lineId)
+    await sdk.store.cart.deleteLineItem(cartId, lineId, await getAuthHeaders())
     revalidateTag("cart")
   } catch (e) {
     return "Error deleting line item"
@@ -199,7 +216,12 @@ export async function setShippingMethod({
   shippingMethodId: string
 }) {
   return sdk.store.cart
-    .addShippingMethod(cartId, { option_id: shippingMethodId })
+    .addShippingMethod(
+      cartId,
+      { option_id: shippingMethodId },
+      {},
+      await getAuthHeaders()
+    )
     .then(() => {
       revalidateTag("cart")
     })
@@ -213,7 +235,7 @@ export async function initiatePaymentSession(
   }
 ) {
   return sdk.store.payment
-    .initiatePaymentSession(cart, data)
+    .initiatePaymentSession(cart, data, {}, await getAuthHeaders())
     .then(() => {
       revalidateTag("cart")
     })
@@ -346,7 +368,7 @@ export async function placeOrder() {
   if (!cartId) throw new Error("No cartId cookie found")
   let cart
   try {
-    cart = await sdk.store.cart.complete(cartId)
+    cart = await sdk.store.cart.complete(cartId, {}, await getAuthHeaders())
     revalidateTag("cart")
   } catch (error: any) {
     throw error

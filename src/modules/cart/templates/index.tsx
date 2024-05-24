@@ -3,7 +3,6 @@ import Summary from "./summary"
 import EmptyCartMessage from "../components/empty-cart-message"
 import SignInPrompt from "../components/sign-in-prompt"
 import Divider from "@modules/common/components/divider"
-import { Customer } from "@medusajs/medusa"
 import { HttpTypes } from "@medusajs/types"
 
 const CartTemplate = ({
@@ -11,7 +10,7 @@ const CartTemplate = ({
   customer,
 }: {
   cart: HttpTypes.StoreCart | null
-  customer: Omit<Customer, "password_hash"> | null
+  customer: HttpTypes.StoreCustomer | null
 }) => {
   return (
     <div className="py-12">

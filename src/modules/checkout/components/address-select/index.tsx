@@ -1,5 +1,4 @@
 import { Listbox, Transition } from "@headlessui/react"
-import { Address, AddressPayload } from "@medusajs/medusa"
 import { ChevronUpDown } from "@medusajs/icons"
 import { clx } from "@medusajs/ui"
 import { omit } from "lodash"
@@ -11,7 +10,7 @@ import { updateCart } from "@lib/data/cart"
 import { HttpTypes } from "@medusajs/types"
 
 type AddressSelectProps = {
-  addresses: Address[]
+  addresses: HttpTypes.StoreCustomerAddress[]
   cart: HttpTypes.StoreCart | null
 }
 
@@ -28,7 +27,7 @@ const AddressSelect = ({ addresses, cart }: AddressSelectProps) => {
           "deleted_at",
           "metadata",
           "customer_id",
-        ]) as AddressPayload,
+        ]) as HttpTypes.StoreCustomerAddress,
       })
     }
   }
