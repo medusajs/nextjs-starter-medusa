@@ -23,10 +23,12 @@ const AddressSelect = ({ addresses, cart }: AddressSelectProps) => {
           "id",
           "created_at",
           "updated_at",
-          "country",
           "deleted_at",
           "metadata",
           "customer_id",
+          "is_default_billing",
+          "is_default_shipping",
+          "address_name",
         ]) as HttpTypes.StoreCustomerAddress,
       })
     }

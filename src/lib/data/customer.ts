@@ -111,3 +111,75 @@ export async function signout(countryCode: string) {
   revalidateTag("customer")
   redirect(`/${countryCode}/account`)
 }
+
+export const addCustomerAddress = async (
+  _currentState: unknown,
+  formData: FormData
+): Promise<any> => {
+  const address = {
+    first_name: formData.get("first_name") as string,
+    last_name: formData.get("last_name") as string,
+    company: formData.get("company") as string,
+    address_1: formData.get("address_1") as string,
+    address_2: formData.get("address_2") as string,
+    city: formData.get("city") as string,
+    postal_code: formData.get("postal_code") as string,
+    province: formData.get("province") as string,
+    country_code: formData.get("country_code") as string,
+    phone: formData.get("phone") as string,
+  }
+
+  return sdk.store.customer
+    .createAddress(address, {}, await getAuthHeaders())
+    .then(({ customer }) => {
+      revalidateTag("customer")
+      return { success: true, error: null }
+    })
+    .catch((err) => {
+      return { success: false, error: err.toString() }
+    })
+}
+
+export const deleteCustomerAddress = async (
+  addressId: string
+): Promise<void> => {
+  await sdk.store.customer
+    .deleteAddress(addressId, await getAuthHeaders())
+    .then(() => {
+      revalidateTag("customer")
+      return { success: true, error: null }
+    })
+    .catch((err) => {
+      return { success: false, error: err.toString() }
+    })
+}
+
+export const updateCustomerAddress = async (
+  currentState: Record<string, unknown>,
+  formData: FormData
+): Promise<any> => {
+  const addressId = currentState.addressId as string
+
+  const address = {
+    first_name: formData.get("first_name") as string,
+    last_name: formData.get("last_name") as string,
+    company: formData.get("company") as string,
+    address_1: formData.get("address_1") as string,
+    address_2: formData.get("address_2") as string,
+    city: formData.get("city") as string,
+    postal_code: formData.get("postal_code") as string,
+    province: formData.get("province") as string,
+    country_code: formData.get("country_code") as string,
+    phone: formData.get("phone") as string,
+  }
+
+  return sdk.store.customer
+    .updateAddress(addressId, address, {}, await getAuthHeaders())
+    .then(() => {
+      revalidateTag("customer")
+      return { success: true, error: null }
+    })
+    .catch((err) => {
+      return { success: false, error: err.toString() }
+    })
+}

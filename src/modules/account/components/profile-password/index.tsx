@@ -5,7 +5,6 @@ import React, { useEffect } from "react"
 import Input from "@modules/common/components/input"
 
 import AccountInfo from "../account-info"
-import { updateCustomerPassword } from "@modules/account/actions"
 import { useFormState } from "react-dom"
 import { HttpTypes } from "@medusajs/types"
 
@@ -16,7 +15,8 @@ type MyInformationProps = {
 const ProfileName: React.FC<MyInformationProps> = ({ customer }) => {
   const [successState, setSuccessState] = React.useState(false)
 
-  const [state, formAction] = useFormState(updateCustomerPassword as any, {
+  // TODO: Add support for password updates
+  const [state, formAction] = useFormState((() => {}) as any, {
     customer,
     success: false,
     error: null,

@@ -22,8 +22,8 @@
   "dependencies": {
     "@headlessui/react": "^1.6.1",
     "@hookform/error-message": "^2.0.0",
-    "@medusajs/js-sdk": "0.0.2-snapshot-20240524111804",
-    "@medusajs/types": "1.12.0-snapshot-20240524111804",
+    "@medusajs/js-sdk": "file:../medusa/packages/core/js-sdk",
+    "@medusajs/types": "file:../medusa/packages/core/types",
     "@medusajs/ui": "^2.2.0",
     "@meilisearch/instant-meilisearch": "^0.7.1",
     "@paypal/paypal-js": "^5.0.6",
