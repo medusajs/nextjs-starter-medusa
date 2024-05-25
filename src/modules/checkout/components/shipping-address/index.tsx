@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useMemo } from "react"
+import React, { useState, useEffect, useMemo, useCallback } from "react"
 import Checkbox from "@modules/common/components/checkbox"
 import Input from "@modules/common/components/input"
 import AddressSelect from "../address-select"
 import CountrySelect from "../country-select"
 import { Container } from "@medusajs/ui"
 import { HttpTypes } from "@medusajs/types"
+import { mapKeys } from "lodash"
 
 const ShippingAddress = ({
   customer,
@@ -33,21 +34,43 @@ const ShippingAddress = ({
     [customer?.addresses, countriesInRegion]
   )
 
+  const setFormAddress = useCallback(
+    (address?: HttpTypes.StoreCartAddress, email?: string) => {
+      setFormData({
+        "shipping_address.first_name": address?.first_name || "",
+        "shipping_address.last_name": address?.last_name || "",
+        "shipping_address.address_1": address?.address_1 || "",
+        "shipping_address.company": address?.company || "",
+        "shipping_address.postal_code": address?.postal_code || "",
+        "shipping_address.city": address?.city || "",
+        "shipping_address.country_code": address?.country_code || "",
+        "shipping_address.province": address?.province || "",
+        email: email || "",
+        "shipping_address.phone": address?.phone || "",
+      })
+    },
+    []
+  )
+
   useEffect(() => {
-    setFormData({
-      "shipping_address.first_name": cart?.shipping_address?.first_name || "",
-      "shipping_address.last_name": cart?.shipping_address?.last_name || "",
-      "shipping_address.address_1": cart?.shipping_address?.address_1 || "",
-      "shipping_address.company": cart?.shipping_address?.company || "",
-      "shipping_address.postal_code": cart?.shipping_address?.postal_code || "",
-      "shipping_address.city": cart?.shipping_address?.city || "",
-      "shipping_address.country_code":
-        cart?.shipping_address?.country_code || "",
-      "shipping_address.province": cart?.shipping_address?.province || "",
-      email: cart?.email || "",
-      "shipping_address.phone": cart?.shipping_address?.phone || "",
-    })
-  }, [cart?.shipping_address, cart?.email])
+    setFormAddress(cart?.shipping_address, cart?.email)
+  }, [setFormAddress, cart?.shipping_address, cart?.email])
+
+  useEffect(() => {
+    if (!formData.email && customer?.email) {
+      return setFormData({
+        ...formData,
+        email: customer.email,
+      })
+    }
+
+    if (!formData.email && cart?.email) {
+      return setFormData({
+        ...formData,
+        email: cart.email,
+      })
+    }
+  }, [formData, customer?.email, cart?.email])
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -67,7 +90,15 @@ const ShippingAddress = ({
           <p className="text-small-regular">
             {`Hi ${customer.first_name}, do you want to use one of your saved addresses?`}
           </p>
-          <AddressSelect addresses={customer.addresses} cart={cart} />
+          <AddressSelect
+            addresses={customer.addresses}
+            addressInput={
+              mapKeys(formData, (_, key) =>
+                key.replace("shipping_address.", "")
+              ) as HttpTypes.StoreCartAddress
+            }
+            onSelect={setFormAddress}
+          />
         </Container>
       )}
       <div className="grid grid-cols-2 gap-4">

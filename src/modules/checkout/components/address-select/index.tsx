@@ -1,42 +1,36 @@
 import { Listbox, Transition } from "@headlessui/react"
 import { ChevronUpDown } from "@medusajs/icons"
 import { clx } from "@medusajs/ui"
-import { omit } from "lodash"
 import { Fragment, useMemo } from "react"
 
 import Radio from "@modules/common/components/radio"
 import compareAddresses from "@lib/util/compare-addresses"
-import { updateCart } from "@lib/data/cart"
 import { HttpTypes } from "@medusajs/types"
 
 type AddressSelectProps = {
   addresses: HttpTypes.StoreCustomerAddress[]
-  cart: HttpTypes.StoreCart | null
+  addressInput: HttpTypes.StoreCartAddress | null
+  onSelect: (
+    address: HttpTypes.StoreCartAddress | undefined,
+    email?: string
+  ) => void
 }
 
-const AddressSelect = ({ addresses, cart }: AddressSelectProps) => {
+const AddressSelect = ({
+  addresses,
+  addressInput,
+  onSelect,
+}: AddressSelectProps) => {
   const handleSelect = (id: string) => {
     const savedAddress = addresses.find((a) => a.id === id)
     if (savedAddress) {
-      updateCart({
-        shipping_address: omit(savedAddress, [
-          "id",
-          "created_at",
-          "updated_at",
-          "deleted_at",
-          "metadata",
-          "customer_id",
-          "is_default_billing",
-          "is_default_shipping",
-          "address_name",
-        ]) as HttpTypes.StoreCustomerAddress,
-      })
+      onSelect(savedAddress as HttpTypes.StoreCartAddress)
     }
   }
 
   const selectedAddress = useMemo(() => {
-    return addresses.find((a) => compareAddresses(a, cart?.shipping_address))
-  }, [addresses, cart?.shipping_address])
+    return addresses.find((a) => compareAddresses(a, addressInput))
+  }, [addresses, addressInput])
 
   return (
     <Listbox onChange={handleSelect} value={selectedAddress?.id}>
