@@ -1,6 +1,5 @@
 import { sdk } from "@lib/config"
 import { cache } from "react"
-import { ProductCollectionWithPreviews } from "types/global"
 import { getProductsList } from "./products"
 import { HttpTypes } from "@medusajs/types"
 
@@ -28,9 +27,7 @@ export const getCollectionByHandle = cache(async function (
 })
 
 export const getCollectionsWithProducts = cache(
-  async (
-    countryCode: string
-  ): Promise<ProductCollectionWithPreviews[] | null> => {
+  async (countryCode: string): Promise<HttpTypes.StoreCollection[] | null> => {
     const { collections } = await getCollectionsList(0, 3)
 
     if (!collections) {
@@ -60,6 +57,6 @@ export const getCollectionsWithProducts = cache(
       }
     })
 
-    return collections as unknown as ProductCollectionWithPreviews[]
+    return collections as unknown as HttpTypes.StoreCollection[]
   }
 )

@@ -1,7 +1,6 @@
 "use server"
 
 import { sdk } from "@lib/config"
-import { cookies } from "next/headers"
 import { getRegion } from "./regions"
 import { revalidateTag } from "next/cache"
 import { getProductsById } from "./products"
@@ -9,10 +8,10 @@ import { omit } from "lodash"
 import medusaError from "@lib/util/medusa-error"
 import { redirect } from "next/navigation"
 import { HttpTypes } from "@medusajs/types"
-import { getAuthHeaders } from "./customer"
+import { getAuthHeaders, getCartId, removeCartId, setCartId } from "./cookies"
 
 export async function retrieveCart() {
-  const cartId = cookies().get("_medusa_cart_id")?.value
+  const cartId = getCartId()
 
   if (!cartId) {
     return null
@@ -22,7 +21,7 @@ export async function retrieveCart() {
     const { cart } = await sdk.store.cart.retrieve(
       cartId,
       {},
-      { next: { tags: ["cart"] }, ...(await getAuthHeaders()) }
+      { next: { tags: ["cart"] }, ...getAuthHeaders() }
     )
 
     return cart
@@ -45,22 +44,12 @@ export async function getOrSetCart(countryCode: string) {
   if (!cart) {
     const cartResp = await sdk.store.cart.create({ region_id: region.id })
     cart = cartResp.cart
-    cookies().set("_medusa_cart_id", cart.id, {
-      maxAge: 60 * 60 * 24 * 7,
-      httpOnly: true,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV === "production",
-    })
+    setCartId(cart.id)
     revalidateTag("cart")
   }
 
   if (cart && cart?.region_id !== region_id) {
-    await sdk.store.cart.update(
-      cart.id,
-      { region_id },
-      {},
-      await getAuthHeaders()
-    )
+    await sdk.store.cart.update(cart.id, { region_id }, {}, getAuthHeaders())
     revalidateTag("cart")
   }
 
@@ -68,13 +57,13 @@ export async function getOrSetCart(countryCode: string) {
 }
 
 export async function updateCart(data: any) {
-  const cartId = cookies().get("_medusa_cart_id")?.value
+  const cartId = getCartId()
   if (!cartId) {
     return "Missing cart ID"
   }
 
   return sdk.store.cart
-    .update(cartId, data, {}, await getAuthHeaders())
+    .update(cartId, data, {}, getAuthHeaders())
     .then(({ cart }) => cart)
     .catch((err) => medusaError(err))
 }
@@ -105,7 +94,7 @@ export async function addToCart({
         quantity,
       },
       {},
-      await getAuthHeaders()
+      getAuthHeaders()
     )
     revalidateTag("cart")
   } catch (e) {
@@ -124,7 +113,7 @@ export async function updateLineItem({
     return "Missing lineItem ID"
   }
 
-  const cartId = cookies().get("_medusa_cart_id")?.value
+  const cartId = getCartId()
   if (!cartId) {
     return "Missing cart ID"
   }
@@ -135,7 +124,7 @@ export async function updateLineItem({
       lineId,
       { quantity },
       {},
-      await getAuthHeaders()
+      getAuthHeaders()
     )
     revalidateTag("cart")
   } catch (e: any) {
@@ -148,13 +137,13 @@ export async function deleteLineItem(lineId: string) {
     return "Missing lineItem ID"
   }
 
-  const cartId = cookies().get("_medusa_cart_id")?.value
+  const cartId = getCartId()
   if (!cartId) {
     return "Missing cart ID"
   }
 
   try {
-    await sdk.store.cart.deleteLineItem(cartId, lineId, await getAuthHeaders())
+    await sdk.store.cart.deleteLineItem(cartId, lineId, getAuthHeaders())
     revalidateTag("cart")
   } catch (e) {
     return "Error deleting line item"
@@ -220,7 +209,7 @@ export async function setShippingMethod({
       cartId,
       { option_id: shippingMethodId },
       {},
-      await getAuthHeaders()
+      getAuthHeaders()
     )
     .then(() => {
       revalidateTag("cart")
@@ -235,7 +224,7 @@ export async function initiatePaymentSession(
   }
 ) {
   return sdk.store.payment
-    .initiatePaymentSession(cart, data, {}, await getAuthHeaders())
+    .initiatePaymentSession(cart, data, {}, getAuthHeaders())
     .then(() => {
       revalidateTag("cart")
     })
@@ -245,7 +234,7 @@ export async function initiatePaymentSession(
 }
 
 export async function applyDiscount(code: string) {
-  //   const cartId = cookies().get("_medusa_cart_id")?.value
+  //   const cartId = getCartId()
   //   if (!cartId) return "No cartId cookie found"
   //   try {
   //     await updateCart(cartId, { discounts: [{ code }] }).then(() => {
@@ -257,7 +246,7 @@ export async function applyDiscount(code: string) {
 }
 
 export async function applyGiftCard(code: string) {
-  //   const cartId = cookies().get("_medusa_cart_id")?.value
+  //   const cartId = getCartId()
   //   if (!cartId) return "No cartId cookie found"
   //   try {
   //     await updateCart(cartId, { gift_cards: [{ code }] }).then(() => {
@@ -269,7 +258,7 @@ export async function applyGiftCard(code: string) {
 }
 
 export async function removeDiscount(code: string) {
-  // const cartId = cookies().get("_medusa_cart_id")?.value
+  // const cartId = getCartId()
   // if (!cartId) return "No cartId cookie found"
   // try {
   //   await deleteDiscount(cartId, code)
@@ -284,7 +273,7 @@ export async function removeGiftCard(
   giftCards: any[]
   // giftCards: GiftCard[]
 ) {
-  //   const cartId = cookies().get("_medusa_cart_id")?.value
+  //   const cartId = getCartId()
   //   if (!cartId) return "No cartId cookie found"
   //   try {
   //     await updateCart(cartId, {
@@ -317,7 +306,7 @@ export async function submitDiscountForm(
 // TODO: Pass a POJO instead of a form entity here
 export async function setAddresses(currentState: unknown, formData: FormData) {
   if (!formData) return "No form data received"
-  const cartId = cookies().get("_medusa_cart_id")?.value
+  const cartId = getCartId()
   if (!cartId) return { message: "No cartId cookie found" }
 
   const data = {
@@ -364,11 +353,11 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
 }
 
 export async function placeOrder() {
-  const cartId = cookies().get("_medusa_cart_id")?.value
+  const cartId = getCartId()
   if (!cartId) throw new Error("No cartId cookie found")
   let cart
   try {
-    cart = await sdk.store.cart.complete(cartId, {}, await getAuthHeaders())
+    cart = await sdk.store.cart.complete(cartId, {}, getAuthHeaders())
     revalidateTag("cart")
   } catch (error: any) {
     throw error
@@ -376,7 +365,7 @@ export async function placeOrder() {
 
   if (cart?.type === "order") {
     const countryCode = cart.order.shipping_address?.country_code?.toLowerCase()
-    cookies().set("_medusa_cart_id", "", { maxAge: -1 })
+    removeCartId()
     redirect(`/${countryCode}/order/confirmed/${cart?.order.id}`)
   }
   return cart
@@ -388,7 +377,7 @@ export async function placeOrder() {
  * @param countryCode
  */
 export async function updateRegion(countryCode: string, currentPath: string) {
-  const cartId = cookies().get("_medusa_cart_id")?.value
+  const cartId = getCartId()
   const region = await getRegion(countryCode)
 
   if (!region) {

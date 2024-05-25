@@ -4,24 +4,13 @@ import { sdk } from "@lib/config"
 import medusaError from "@lib/util/medusa-error"
 import { HttpTypes } from "@medusajs/types"
 import { revalidateTag } from "next/cache"
-import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 import { cache } from "react"
-
-// Note: For some weird reason the response is SOMETIMES a promise here... does it get called like a server action? Investigate.
-export const getAuthHeaders = (): { authorization: string } | {} => {
-  const token = cookies().get("_medusa_jwt")?.value
-
-  if (token) {
-    return { authorization: `Bearer ${token}` }
-  }
-
-  return {}
-}
+import { getAuthHeaders, removeAuthToken, setAuthToken } from "./cookies"
 
 export const getCustomer = cache(async function () {
   return await sdk.store.customer
-    .retrieve({}, { next: { tags: ["customer"] }, ...(await getAuthHeaders()) })
+    .retrieve({}, { next: { tags: ["customer"] }, ...getAuthHeaders() })
     .then(({ customer }) => customer)
     .catch(medusaError)
 })
@@ -30,7 +19,7 @@ export const updateCustomer = cache(async function (
   body: HttpTypes.StoreUpdateCustomer
 ) {
   const updateRes = await sdk.store.customer
-    .update(body, {}, await getAuthHeaders())
+    .update(body, {}, getAuthHeaders())
     .then(({ customer }) => customer)
     .catch(medusaError)
 
@@ -65,12 +54,7 @@ export async function signup(_currentState: unknown, formData: FormData) {
       password,
     })
 
-    cookies().set("_medusa_jwt", loginToken, {
-      maxAge: 60 * 60 * 24 * 7,
-      httpOnly: true,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV === "production",
-    })
+    setAuthToken(loginToken)
 
     revalidateTag("customer")
     return createdCustomer
@@ -87,13 +71,7 @@ export async function login(_currentState: unknown, formData: FormData) {
     await sdk.auth
       .login("customer", "emailpass", { email, password })
       .then((token) => {
-        cookies().set("_medusa_jwt", token, {
-          maxAge: 60 * 60 * 24 * 7,
-          httpOnly: true,
-          sameSite: "strict",
-          secure: process.env.NODE_ENV === "production",
-        })
-
+        setAuthToken(token)
         revalidateTag("customer")
       })
   } catch (error: any) {
@@ -103,10 +81,7 @@ export async function login(_currentState: unknown, formData: FormData) {
 
 export async function signout(countryCode: string) {
   await sdk.auth.logout()
-  cookies().set("_medusa_jwt", "", {
-    maxAge: -1,
-  })
-
+  removeAuthToken()
   revalidateTag("auth")
   revalidateTag("customer")
   redirect(`/${countryCode}/account`)
@@ -130,7 +105,7 @@ export const addCustomerAddress = async (
   }
 
   return sdk.store.customer
-    .createAddress(address, {}, await getAuthHeaders())
+    .createAddress(address, {}, getAuthHeaders())
     .then(({ customer }) => {
       revalidateTag("customer")
       return { success: true, error: null }
@@ -144,7 +119,7 @@ export const deleteCustomerAddress = async (
   addressId: string
 ): Promise<void> => {
   await sdk.store.customer
-    .deleteAddress(addressId, await getAuthHeaders())
+    .deleteAddress(addressId, getAuthHeaders())
     .then(() => {
       revalidateTag("customer")
       return { success: true, error: null }
@@ -174,7 +149,7 @@ export const updateCustomerAddress = async (
   }
 
   return sdk.store.customer
-    .updateAddress(addressId, address, {}, await getAuthHeaders())
+    .updateAddress(addressId, address, {}, getAuthHeaders())
     .then(() => {
       revalidateTag("customer")
       return { success: true, error: null }

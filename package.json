@@ -22,8 +22,8 @@
   "dependencies": {
     "@headlessui/react": "^1.6.1",
     "@hookform/error-message": "^2.0.0",
-    "@medusajs/js-sdk": "file:../medusa/packages/core/js-sdk",
-    "@medusajs/types": "file:../medusa/packages/core/types",
+    "@medusajs/js-sdk": "0.0.2-snapshot-20240525075223",
+    "@medusajs/types": "1.12.0-snapshot-20240525075223",
     "@medusajs/ui": "^2.2.0",
     "@meilisearch/instant-meilisearch": "^0.7.1",
     "@paypal/paypal-js": "^5.0.6",
@@ -41,6 +41,7 @@
     "react-dom": "^18.2.0",
     "react-instantsearch-hooks-web": "^6.29.0",
     "react-intersection-observer": "^9.3.4",
+    "server-only": "^0.0.1",
     "tailwindcss-radix": "^2.8.0",
     "webpack": "^5"
   },

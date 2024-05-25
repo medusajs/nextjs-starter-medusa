@@ -1,5 +1,3 @@
-import { HttpTypes } from "@medusajs/types"
-
 export type FeaturedProduct = {
   id: string
   title: string
@@ -16,5 +14,3 @@ export type VariantPrice = {
   price_type: string
   percentage_diff: string
 }
-
-export type ProductCollectionWithPreviews = HttpTypes.StoreCollection
