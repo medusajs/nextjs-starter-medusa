@@ -15,7 +15,7 @@ import { HttpTypes } from "@medusajs/types"
 
 type ShippingProps = {
   cart: HttpTypes.StoreCart
-  availableShippingMethods: HttpTypes.StoreCartShippingMethod[] | null
+  availableShippingMethods: HttpTypes.StoreCartShippingOption[] | null
 }
 
 const Shipping: React.FC<ShippingProps> = ({

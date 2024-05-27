@@ -3,13 +3,12 @@ import { Text } from "@medusajs/ui"
 
 import InteractiveLink from "@modules/common/components/interactive-link"
 import ProductPreview from "@modules/products/components/product-preview"
-import { ProductCollectionWithPreviews } from "types/global"
 
 export default function ProductRail({
   collection,
   region,
 }: {
-  collection: ProductCollectionWithPreviews
+  collection: HttpTypes.StoreCollection
   region: HttpTypes.StoreRegion
 }) {
   const { products } = collection
