@@ -12,7 +12,7 @@ export const getCustomer = cache(async function () {
   return await sdk.store.customer
     .retrieve({}, { next: { tags: ["customer"] }, ...getAuthHeaders() })
     .then(({ customer }) => customer)
-    .catch(medusaError)
+    .catch(() => null)
 })
 
 export const updateCustomer = cache(async function (
