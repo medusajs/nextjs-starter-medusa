@@ -1,23 +1,39 @@
+"use client"
+
 import { retrieveCart } from "@lib/data/cart"
 import { getCustomer } from "@lib/data/customer"
 import { listCartShippingMethods } from "@lib/data/fulfillment"
 import { listCartPaymentMethods } from "@lib/data/payment"
+import { StoreCart, StoreCustomer } from "@medusajs/types"
 import Addresses from "@modules/checkout/components/addresses"
 import Payment from "@modules/checkout/components/payment"
 import Review from "@modules/checkout/components/review"
 import Shipping from "@modules/checkout/components/shipping"
+import { useState } from "react"
 
-export default async function CheckoutForm() {
-  let cart = await retrieveCart()
+export default function CheckoutForm() {
+  const [cart, setCart] = useState<StoreCart | null>(null)
+  const [customer, setCustomer] = useState<StoreCustomer | null>(null)
+  const [shippingMethods, setAvailableShippingMethods] = useState([])
+  const [paymentMethods, setPaymentMethods] = useState([])
+
+  if (!cart) {
+    retrieveCart().then((cart) => setCart(cart))
+  }
+
   if (!cart) {
     return null
   }
 
-  const availableShippingMethods = await listCartShippingMethods(cart.id)
-  const availablePaymentMethods = await listCartPaymentMethods(
-    cart.region?.id ?? ""
+  listCartShippingMethods(cart.id).then((methods: any) =>
+    setAvailableShippingMethods(methods)
   )
-  const customer = await getCustomer()
+
+  listCartPaymentMethods(cart.region?.id ?? "").then((payments: any) =>
+    setPaymentMethods(payments)
+  )
+
+  getCustomer().then((customer: any) => setCustomer(customer))
 
   return (
     <div>
@@ -27,17 +43,11 @@ export default async function CheckoutForm() {
         </div>
 
         <div>
-          <Shipping
-            cart={cart}
-            availableShippingMethods={availableShippingMethods}
-          />
+          <Shipping cart={cart} availableShippingMethods={shippingMethods} />
         </div>
 
         <div>
-          <Payment
-            cart={cart}
-            availablePaymentMethods={availablePaymentMethods ?? []}
-          />
+          <Payment cart={cart} availablePaymentMethods={paymentMethods} />
         </div>
 
         <div>
