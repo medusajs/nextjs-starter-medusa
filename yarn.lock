@@ -540,18 +540,18 @@
   resolved "https://registry.yarnpkg.com/@medusajs/icons/-/icons-1.2.1.tgz#0ba1115455b81c12050fdcbb7e66c9d4f11966ae"
   integrity sha512-jlV2uWn+kHhYqfNUA0m2xx7Gck/+YKYhLruaQhTSmVifjFk3SUNzC3bFMPoYvLvCKg5vbxq7SCur5hDgrKkW+w==
 
-"@medusajs/js-sdk@0.0.2-snapshot-20240525075223":
-  version "0.0.2-snapshot-20240525075223"
-  resolved "https://registry.yarnpkg.com/@medusajs/js-sdk/-/js-sdk-0.0.2-snapshot-20240525075223.tgz#8d06386242d0fcc663008544bed05a035f96565c"
-  integrity sha512-aZ6OFD8GnZJOExK/Pmiv26bN0B3jaAwpayZhJB1QuCnz1X6L25VTBRvc6JigLX8JFsHxsc7lyMqFaPwpd/5kLA==
+"@medusajs/js-sdk@0.0.2-snapshot-20240528082138":
+  version "0.0.2-snapshot-20240528082138"
+  resolved "https://registry.yarnpkg.com/@medusajs/js-sdk/-/js-sdk-0.0.2-snapshot-20240528082138.tgz#5f40f3a264b7ec5f7118937dc31b6745fa63ccd7"
+  integrity sha512-3x7faCF4C66GGI/MSN3XZTUdWrPh0MU9ZLUCIyGPrVHGoUJ9PBggajhcQJxaP0d9OvapdsG42VKyT4n3678a0g==
   dependencies:
-    "@medusajs/types" "1.12.0-snapshot-20240525075223"
+    "@medusajs/types" "1.12.0-snapshot-20240528082138"
     qs "^6.12.1"
 
-"@medusajs/types@1.12.0-snapshot-20240525075223":
-  version "1.12.0-snapshot-20240525075223"
-  resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-1.12.0-snapshot-20240525075223.tgz#425a24d0aa30fdc2c11c8503211f149f6e4ad2c1"
-  integrity sha512-teAWesk6Z18s8hIJOk1Kxr6Pj6xpcSfsN0BRs0cuXim6ksFK/DdPxbtSjP07YXKvmvoSjMVcQrOWRBwSB5EImQ==
+"@medusajs/types@1.12.0-snapshot-20240528082138":
+  version "1.12.0-snapshot-20240528082138"
+  resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-1.12.0-snapshot-20240528082138.tgz#4c452fa30080f1a4ab9deeead50855bb6717413e"
+  integrity sha512-psLr6hnfxvIowgrQj8+5POqDQwBOZKhR8axjOH5SSxliMUpjWnvhcswkuarwrIStP5ITdBKQ3g2lPIXdj4zThg==
 
 "@medusajs/ui-preset@^1.0.2":
   version "1.1.3"
