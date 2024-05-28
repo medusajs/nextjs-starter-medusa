@@ -1,14 +1,14 @@
 "use server"
 
 import { sdk } from "@lib/config"
-import { cookies } from "next/headers"
-import { getRegion } from "./regions"
-import { revalidateTag } from "next/cache"
-import { getProductsById } from "./products"
-import { omit } from "lodash"
 import medusaError from "@lib/util/medusa-error"
-import { redirect } from "next/navigation"
 import { HttpTypes } from "@medusajs/types"
+import { omit } from "lodash"
+import { revalidateTag } from "next/cache"
+import { cookies } from "next/headers"
+import { redirect } from "next/navigation"
+import { getProductsById } from "./products"
+import { getRegion } from "./regions"
 
 export async function retrieveCart() {
   const cartId = cookies().get("_medusa_cart_id")?.value
@@ -222,16 +222,16 @@ export async function initiatePaymentSession(
     })
 }
 
-export async function applyDiscount(code: string) {
-  //   const cartId = cookies().get("_medusa_cart_id")?.value
-  //   if (!cartId) return "No cartId cookie found"
-  //   try {
-  //     await updateCart(cartId, { discounts: [{ code }] }).then(() => {
-  //       revalidateTag("cart")
-  //     })
-  //   } catch (error: any) {
-  //     throw error
-  //   }
+export async function applyPromotions(codes: string[]) {
+  const cartId = cookies().get("_medusa_cart_id")?.value
+  if (!cartId) return "No cartId cookie found"
+  try {
+    await updateCart({ promo_codes: codes }).then(() => {
+      revalidateTag("cart")
+    })
+  } catch (error: any) {
+    throw error
+  }
 }
 
 export async function applyGiftCard(code: string) {
@@ -277,15 +277,14 @@ export async function removeGiftCard(
   //   }
 }
 
-export async function submitDiscountForm(
+export async function submitPromotionForm(
   currentState: unknown,
   formData: FormData
 ) {
   const code = formData.get("code") as string
   try {
-    await applyDiscount(code).catch(async (err) => {
-      await applyGiftCard(code)
-    })
+    await applyPromotions([code])
+
     return null
   } catch (error: any) {
     return error.toString()
@@ -332,6 +331,7 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
     }
   try {
     await updateCart(data)
+
     revalidateTag("cart")
   } catch (error: any) {
     return error.toString()

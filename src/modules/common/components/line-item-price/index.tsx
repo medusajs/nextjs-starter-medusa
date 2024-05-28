@@ -1,8 +1,8 @@
 import { clx } from "@medusajs/ui"
 
 import { getPercentageDiff } from "@lib/util/get-precentage-diff"
-import { convertToLocale } from "@lib/util/money"
 import { getPricesForVariant } from "@lib/util/get-product-price"
+import { convertToLocale } from "@lib/util/money"
 import { HttpTypes } from "@medusajs/types"
 
 type LineItemPriceProps = {
@@ -14,8 +14,13 @@ const LineItemPrice = ({ item, style = "default" }: LineItemPriceProps) => {
   const { currency_code, calculated_price_number, original_price_number } =
     getPricesForVariant(item.variant)
 
+  const adjustmentsSum = (item.adjustments || []).reduce(
+    (acc, adjustment) => adjustment.amount + acc,
+    0
+  )
+
   const originalPrice = original_price_number * item.quantity
-  const currentPrice = calculated_price_number * item.quantity
+  const currentPrice = calculated_price_number * item.quantity - adjustmentsSum
   const hasReducedPrice = currentPrice < originalPrice
 
   return (
