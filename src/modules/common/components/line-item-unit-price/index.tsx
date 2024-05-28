@@ -1,6 +1,6 @@
-import { clx } from "@medusajs/ui"
 import { getPricesForVariant } from "@lib/util/get-product-price"
 import { HttpTypes } from "@medusajs/types"
+import { clx } from "@medusajs/ui"
 
 type LineItemUnitPriceProps = {
   item: HttpTypes.StoreCartLineItem | HttpTypes.StoreOrderLineItem

@@ -1,20 +1,20 @@
 "use client"
 
-import { useSearchParams, useRouter, usePathname } from "next/navigation"
 import { CheckCircleSolid } from "@medusajs/icons"
 import { Heading, Text, useToggleState } from "@medusajs/ui"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 import Divider from "@modules/common/components/divider"
 import Spinner from "@modules/common/icons/spinner"
 
+import { setAddresses } from "@lib/data/cart"
+import compareAddresses from "@lib/util/compare-addresses"
+import { HttpTypes } from "@medusajs/types"
+import { useFormState } from "react-dom"
 import BillingAddress from "../billing_address"
+import ErrorMessage from "../error-message"
 import ShippingAddress from "../shipping-address"
 import { SubmitButton } from "../submit-button"
-import { useFormState } from "react-dom"
-import ErrorMessage from "../error-message"
-import compareAddresses from "@lib/util/compare-addresses"
-import { setAddresses } from "@lib/data/cart"
-import { HttpTypes } from "@medusajs/types"
 
 const Addresses = ({
   cart,
