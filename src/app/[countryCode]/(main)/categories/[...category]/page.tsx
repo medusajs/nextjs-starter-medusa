@@ -31,7 +31,7 @@ export async function generateStaticParams() {
   )
 
   const staticParams = countryCodes
-    ?.map((countryCode: string) =>
+    ?.map((countryCode: string | undefined) =>
       categoryHandles.map((handle: any) => ({
         countryCode,
         category: [handle],
@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
     const { product_categories } = await getCategoryByHandle(
       params.category
-    ).then((product_categories: StoreProductCategory[]) => product_categories)
+    )
 
     const title = product_categories
       .map((category: StoreProductCategory) => category.name)
@@ -73,7 +73,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
 
   const { product_categories } = await getCategoryByHandle(
     params.category
-  ).then((product_categories: StoreProductCategory[]) => product_categories)
+  )
 
   if (!product_categories) {
     notFound()
