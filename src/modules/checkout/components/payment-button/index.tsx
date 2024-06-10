@@ -39,7 +39,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
   const paymentSession = cart.payment_collection?.payment_sessions?.[0]
 
   switch (paymentSession?.provider_id) {
-    case "stripe":
+    case "pp_stripe_stripe":
       return (
         <StripePaymentButton
           notReady={notReady}
