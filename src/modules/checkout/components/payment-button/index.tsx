@@ -38,8 +38,8 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
 
   const paymentSession = cart.payment_collection?.payment_sessions?.[0]
 
-  switch (paymentSession?.provider_id) {
-    case "pp_stripe_stripe":
+  switch (true) {
+    case paymentSession?.provider_id.startsWith("pp_stripe"):
       return (
         <StripePaymentButton
           notReady={notReady}
@@ -47,12 +47,12 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
           data-testid={dataTestId}
         />
       )
-    case "manual":
-    case "pp_system_default":
+    case paymentSession?.provider_id.startsWith("manual"):
+    case paymentSession?.provider_id.startsWith("pp_system_default"):
       return (
         <ManualTestPaymentButton notReady={notReady} data-testid={dataTestId} />
       )
-    case "paypal":
+    case paymentSession?.provider_id.startsWith("pp_paypal"):
       return (
         <PayPalPaymentButton
           notReady={notReady}
