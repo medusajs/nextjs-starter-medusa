@@ -23,9 +23,6 @@ export default async function RelatedProducts({
   if (region?.id) {
     queryParams.region_id = region.id
   }
-  if (region?.currency_code) {
-    queryParams.currency_code = region.currency_code
-  }
   if (product.collection_id) {
     queryParams.collection_id = [product.collection_id]
   }

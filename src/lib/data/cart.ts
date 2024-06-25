@@ -150,14 +150,14 @@ export async function enrichLineItems(
     | HttpTypes.StoreCartLineItem[]
     | HttpTypes.StoreOrderLineItem[]
     | null,
-  currencyCode: string
+  regionId: string
 ) {
   if (!lineItems) return []
 
   // Prepare query parameters
   const queryParams = {
     ids: lineItems.map((lineItem) => lineItem.product_id!),
-    currencyCode: currencyCode,
+    regionId: regionId,
   }
 
   // Fetch products by their IDs

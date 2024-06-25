@@ -10,10 +10,7 @@ const fetchCart = async () => {
   }
 
   if (cart?.items?.length) {
-    const enrichedItems = await enrichLineItems(
-      cart?.items,
-      cart?.currency_code
-    )
+    const enrichedItems = await enrichLineItems(cart.items, cart.region_id!)
     cart.items = enrichedItems
   }
 

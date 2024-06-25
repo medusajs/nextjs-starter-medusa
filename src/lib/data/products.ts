@@ -5,16 +5,16 @@ import { HttpTypes } from "@medusajs/types"
 
 export const getProductsById = cache(async function ({
   ids,
-  currencyCode,
+  regionId,
 }: {
   ids: string[]
-  currencyCode: string
+  regionId: string
 }) {
   return sdk.store.product
     .list(
       {
         id: ids,
-        currency_code: currencyCode,
+        region_id: regionId,
         fields: "*variants.calculated_price",
       },
       { next: { tags: ["products"] } }
