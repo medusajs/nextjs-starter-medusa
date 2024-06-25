@@ -30,12 +30,12 @@ const Item = ({ item, type = "full" }: ItemProps) => {
     setError(null)
     setUpdating(true)
 
-    const message = await updateLineItem({
+    await updateLineItem({
       lineId: item.id,
       quantity,
     })
       .catch((err) => {
-        setError(message)
+        setError(err.message)
       })
       .finally(() => {
         setUpdating(false)
