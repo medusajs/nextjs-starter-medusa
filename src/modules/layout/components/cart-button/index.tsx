@@ -6,7 +6,7 @@ const fetchCart = async () => {
   const cart = await retrieveCart()
 
   if (!cart) {
-    return notFound()
+    return null
   }
 
   if (cart?.items?.length) {

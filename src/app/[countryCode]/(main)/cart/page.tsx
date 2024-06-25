@@ -4,7 +4,6 @@ import CartTemplate from "@modules/cart/templates"
 import { enrichLineItems, retrieveCart } from "@lib/data/cart"
 import { HttpTypes } from "@medusajs/types"
 import { getCustomer } from "@lib/data/customer"
-import { notFound } from "next/navigation"
 
 export const metadata: Metadata = {
   title: "Cart",
@@ -15,7 +14,7 @@ const fetchCart = async () => {
   const cart = await retrieveCart()
 
   if (!cart) {
-    return notFound()
+    return null
   }
 
   if (cart?.items?.length) {
