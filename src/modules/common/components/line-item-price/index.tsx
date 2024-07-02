@@ -12,7 +12,7 @@ type LineItemPriceProps = {
 
 const LineItemPrice = ({ item, style = "default" }: LineItemPriceProps) => {
   const { currency_code, calculated_price_number, original_price_number } =
-    getPricesForVariant(item.variant)
+    getPricesForVariant(item.variant) ?? {}
 
   const adjustmentsSum = (item.adjustments || []).reduce(
     (acc, adjustment) => adjustment.amount + acc,

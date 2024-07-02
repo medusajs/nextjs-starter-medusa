@@ -3,6 +3,10 @@ import { getPercentageDiff } from "./get-precentage-diff"
 import { convertToLocale } from "./money"
 
 export const getPricesForVariant = (variant: any) => {
+  if (!variant.calculated_price?.calculated_amount) {
+    return null
+  }
+
   return {
     calculated_price_number: variant.calculated_price.calculated_amount,
     calculated_price: convertToLocale({
@@ -39,12 +43,14 @@ export function getProductPrice({
       return null
     }
 
-    const cheapestVariant: any = product.variants.sort((a: any, b: any) => {
-      return (
-        a.calculated_price.calculated_amount -
-        b.calculated_price.calculated_amount
-      )
-    })[0]
+    const cheapestVariant: any = product.variants
+      .filter((v: any) => !!v.calculated_price)
+      .sort((a: any, b: any) => {
+        return (
+          a.calculated_price.calculated_amount -
+          b.calculated_price.calculated_amount
+        )
+      })[0]
 
     return getPricesForVariant(cheapestVariant)
   }

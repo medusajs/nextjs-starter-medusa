@@ -17,7 +17,7 @@ async function getOrder(id: string) {
     return
   }
 
-  const enrichedItems = await enrichLineItems(order.items, order.currency_code)
+  const enrichedItems = await enrichLineItems(order.items, order.region_id!)
 
   return {
     ...order,

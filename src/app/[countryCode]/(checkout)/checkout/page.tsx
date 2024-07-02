@@ -6,6 +6,7 @@ import CheckoutForm from "@modules/checkout/templates/checkout-form"
 import CheckoutSummary from "@modules/checkout/templates/checkout-summary"
 import { enrichLineItems, retrieveCart } from "@lib/data/cart"
 import { HttpTypes } from "@medusajs/types"
+import { getCustomer } from "@lib/data/customer"
 
 export const metadata: Metadata = {
   title: "Checkout",
@@ -18,10 +19,7 @@ const fetchCart = async () => {
   }
 
   if (cart?.items?.length) {
-    const enrichedItems = await enrichLineItems(
-      cart?.items,
-      cart?.currency_code
-    )
+    const enrichedItems = await enrichLineItems(cart?.items, cart?.region_id!)
     cart.items = enrichedItems as HttpTypes.StoreCartLineItem[]
   }
 
@@ -30,15 +28,12 @@ const fetchCart = async () => {
 
 export default async function Checkout() {
   const cart = await fetchCart()
-
-  if (!cart) {
-    return notFound()
-  }
+  const customer = await getCustomer()
 
   return (
     <div className="grid grid-cols-1 small:grid-cols-[1fr_416px] content-container gap-x-40 py-12">
       <Wrapper cart={cart}>
-        <CheckoutForm />
+        <CheckoutForm cart={cart} customer={customer} />
       </Wrapper>
       <CheckoutSummary cart={cart} />
     </div>

@@ -92,7 +92,7 @@ const Payment = ({
         scroll: false,
       })
     } catch (err: any) {
-      setError(err.toString())
+      setError(err.message)
     } finally {
       setIsLoading(false)
     }

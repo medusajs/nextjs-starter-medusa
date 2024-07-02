@@ -14,7 +14,7 @@ export default async function ProductActionsWrapper({
 }) {
   const [product] = await getProductsById({
     ids: [id],
-    currencyCode: region.currency_code,
+    regionId: region.id,
   })
 
   if (!product) {

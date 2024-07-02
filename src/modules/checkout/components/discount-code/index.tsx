@@ -28,9 +28,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
     )
 
     await applyPromotions(
-      validPromotions
-      .filter((p) => p.code === undefined)
-      .map((p) => p.code!)
+      validPromotions.filter((p) => p.code === undefined).map((p) => p.code!)
     )
   }
 
@@ -77,6 +75,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
             <>
               <div className="flex w-full gap-x-2">
                 <Input
+                  className="size-full"
                   id="promotion-input"
                   name="code"
                   type="text"
@@ -122,18 +121,21 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                           {promotion.code}
                         </Badge>{" "}
                         (
-                        {promotion.application_method?.value !== undefined && 
-                          promotion.application_method.currency_code !== undefined && (
-                          <>
-                            {promotion.application_method.type === "percentage"
-                            ? `${promotion.application_method.value}%`
-                            : convertToLocale({
-                                amount: promotion.application_method.value,
-                                currency_code:
-                                  promotion.application_method.currency_code,
-                              })}
-                          </>
-                        )}
+                        {promotion.application_method?.value !== undefined &&
+                          promotion.application_method.currency_code !==
+                            undefined && (
+                            <>
+                              {promotion.application_method.type ===
+                              "percentage"
+                                ? `${promotion.application_method.value}%`
+                                : convertToLocale({
+                                    amount: promotion.application_method.value,
+                                    currency_code:
+                                      promotion.application_method
+                                        .currency_code,
+                                  })}
+                            </>
+                          )}
                         )
                         {promotion.is_automatic && (
                           <Tooltip content="This promotion is automatically applied">
