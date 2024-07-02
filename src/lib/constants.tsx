@@ -30,6 +30,10 @@ export const paymentInfoMap: Record<
     title: "Test payment",
     icon: <CreditCard />,
   },
+  pp_system_default: {
+    title: "Manual Payment",
+    icon: <CreditCard />,
+  },
   // Add more payment providers here
 }
 

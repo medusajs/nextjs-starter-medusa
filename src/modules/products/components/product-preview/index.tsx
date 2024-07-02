@@ -34,6 +34,7 @@ export default async function ProductPreview({
       <div data-testid="product-wrapper">
         <Thumbnail
           thumbnail={product.thumbnail}
+          images={product.images}
           size="full"
           isFeatured={isFeatured}
         />

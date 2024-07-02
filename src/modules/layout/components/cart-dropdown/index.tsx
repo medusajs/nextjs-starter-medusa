@@ -122,6 +122,7 @@ const CartDropdown = ({
                         >
                           <Thumbnail
                             thumbnail={item.variant?.product?.thumbnail}
+                            images={item.variant?.product?.images}
                             size="square"
                           />
                         </LocalizedClientLink>

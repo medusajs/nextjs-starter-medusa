@@ -30,7 +30,7 @@ const Item = ({ item, type = "full" }: ItemProps) => {
     setError(null)
     setUpdating(true)
 
-    await updateLineItem({
+    const message = await updateLineItem({
       lineId: item.id,
       quantity,
     })
@@ -58,6 +58,7 @@ const Item = ({ item, type = "full" }: ItemProps) => {
         >
           <Thumbnail
             thumbnail={item.variant?.product?.thumbnail}
+            images={item.variant?.product?.images}
             size="square"
           />
         </LocalizedClientLink>
