@@ -7,7 +7,11 @@ import { getAuthHeaders } from "./cookies"
 
 export const retrieveOrder = cache(async function (id: string) {
   return sdk.store.order
-    .retrieve(id, {}, { next: { tags: ["order"] }, ...getAuthHeaders() })
+    .retrieve(
+      id,
+      { fields: "*payment_collections.payments" },
+      { next: { tags: ["order"] }, ...getAuthHeaders() }
+    )
     .then(({ order }) => order)
     .catch((err) => medusaError(err))
 })

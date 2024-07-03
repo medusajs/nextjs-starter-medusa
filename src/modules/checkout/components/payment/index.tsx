@@ -85,12 +85,23 @@ const Payment = ({
   const handleSubmit = async () => {
     setIsLoading(true)
     try {
-      await initiatePaymentSession(cart, {
-        provider_id: selectedPaymentMethod,
-      })
-      router.push(pathname + "?" + createQueryString("step", "review"), {
-        scroll: false,
-      })
+      const shouldInputCard =
+        isStripeFunc(selectedPaymentMethod) && !activeSession
+
+      if (!activeSession) {
+        await initiatePaymentSession(cart, {
+          provider_id: selectedPaymentMethod,
+        })
+      }
+
+      if (!shouldInputCard) {
+        return router.push(
+          pathname + "?" + createQueryString("step", "review"),
+          {
+            scroll: false,
+          }
+        )
+      }
     } catch (err: any) {
       setError(err.message)
     } finally {
@@ -205,7 +216,9 @@ const Payment = ({
             }
             data-testid="submit-payment-button"
           >
-            Continue to review
+            {!activeSession && isStripeFunc(selectedPaymentMethod)
+              ? " Enter card details"
+              : "Continue to review"}
           </Button>
         </div>
 
@@ -223,10 +236,6 @@ const Payment = ({
                   {paymentInfoMap[selectedPaymentMethod]?.title ||
                     selectedPaymentMethod}
                 </Text>
-                {process.env.NODE_ENV === "development" &&
-                  !Object.hasOwn(paymentInfoMap, selectedPaymentMethod) && (
-                    <Tooltip content="You can add a user-friendly name and icon for this payment provider in 'src/modules/checkout/components/payment/index.tsx'" />
-                  )}
               </div>
               <div className="flex flex-col w-1/3">
                 <Text className="txt-medium-plus text-ui-fg-base mb-1">
