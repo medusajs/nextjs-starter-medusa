@@ -43,16 +43,6 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
             <Text className="text-base-regular">
               {paymentInfoMap[paymentProviderId]?.title || paymentProviderId}
             </Text>
-            {process.env.NODE_ENV === "development" &&
-              !Object.hasOwn(paymentInfoMap, paymentProviderId) && (
-                <Tooltip
-                  content="You can add a user-friendly name and icon for this payment provider in 'src/modules/checkout/components/payment/index.tsx'"
-                  className="min-w-fit"
-                >
-                  <InformationCircleSolid color="var(--fg-muted)" />
-                </Tooltip>
-              )}
-
             {isManual(paymentProviderId) && isDevelopment && (
               <PaymentTest className="hidden small:block" />
             )}
