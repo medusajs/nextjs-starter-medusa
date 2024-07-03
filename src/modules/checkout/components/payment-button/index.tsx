@@ -9,6 +9,7 @@ import ErrorMessage from "../error-message"
 import Spinner from "@modules/common/icons/spinner"
 import { placeOrder } from "@lib/data/cart"
 import { HttpTypes } from "@medusajs/types"
+import { isManual, isPaypal, isStripe } from "@lib/constants"
 
 type PaymentButtonProps = {
   cart: HttpTypes.StoreCart
@@ -25,8 +26,6 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
     !cart.billing_address ||
     !cart.email ||
     (cart.shipping_methods?.length ?? 0) < 1
-      ? true
-      : false
 
   // TODO: Add this once gift cards are implemented
   // const paidByGiftcard =
@@ -39,7 +38,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
   const paymentSession = cart.payment_collection?.payment_sessions?.[0]
 
   switch (true) {
-    case paymentSession?.provider_id.startsWith("pp_stripe_"):
+    case isStripe(paymentSession?.provider_id):
       return (
         <StripePaymentButton
           notReady={notReady}
@@ -47,12 +46,11 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
           data-testid={dataTestId}
         />
       )
-    case paymentSession?.provider_id.startsWith("manual"):
-    case paymentSession?.provider_id.startsWith("pp_system_default"):
+    case isManual(paymentSession?.provider_id):
       return (
         <ManualTestPaymentButton notReady={notReady} data-testid={dataTestId} />
       )
-    case paymentSession?.provider_id.startsWith("pp_paypal"):
+    case isPaypal(paymentSession?.provider_id):
       return (
         <PayPalPaymentButton
           notReady={notReady}

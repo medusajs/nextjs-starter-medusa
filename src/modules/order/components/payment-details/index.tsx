@@ -1,6 +1,6 @@
 import { Container, Heading, Text } from "@medusajs/ui"
 
-import { paymentInfoMap } from "@lib/constants"
+import { isStripe, paymentInfoMap } from "@lib/constants"
 import Divider from "@modules/common/components/divider"
 import { convertToLocale } from "@lib/util/money"
 import { HttpTypes } from "@medusajs/types"
@@ -10,7 +10,8 @@ type PaymentDetailsProps = {
 }
 
 const PaymentDetails = ({ order }: PaymentDetailsProps) => {
-  const payment = order.payment_collection?.payments?.[0]
+  const payment = order.payment_collections?.[0].payments?.[0]
+
   return (
     <div>
       <Heading level="h2" className="flex flex-row text-3xl-regular my-6">
@@ -39,14 +40,14 @@ const PaymentDetails = ({ order }: PaymentDetailsProps) => {
                   {paymentInfoMap[payment.provider_id].icon}
                 </Container>
                 <Text data-testid="payment-amount">
-                  {payment.provider_id === "stripe" && payment.data?.card_last4
+                  {isStripe(payment.provider_id) && payment.data?.card_last4
                     ? `**** **** **** ${payment.data.card_last4}`
                     : `${convertToLocale({
                         amount: payment.amount,
                         currency_code: order.currency_code,
                       })} paid at ${new Date(
                         payment.created_at ?? ""
-                      ).toString()}`}
+                      ).toLocaleString()}`}
                 </Text>
               </div>
             </div>
