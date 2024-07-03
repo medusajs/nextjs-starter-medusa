@@ -1,7 +1,7 @@
 import { sdk } from "@lib/config"
+import { HttpTypes } from "@medusajs/types"
 import { cache } from "react"
 import { getRegion } from "./regions"
-import { HttpTypes } from "@medusajs/types"
 
 export const getProductsById = cache(async function ({
   ids,
@@ -44,12 +44,12 @@ export const getProductsList = cache(async function ({
   countryCode,
 }: {
   pageParam?: number
-  queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductFilters
+  queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams
   countryCode: string
 }): Promise<{
   response: { products: HttpTypes.StoreProduct[]; count: number }
   nextPage: number | null
-  queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductFilters
+  queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams
 }> {
   const limit = queryParams?.limit || 12
   const offset = (pageParam - 1) * limit
