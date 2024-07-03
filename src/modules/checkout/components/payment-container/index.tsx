@@ -6,6 +6,7 @@ import React from "react"
 import Radio from "@modules/common/components/radio"
 
 import PaymentTest from "../payment-test"
+import { isManual } from "@lib/constants"
 
 type PaymentContainerProps = {
   paymentProviderId: string
@@ -52,7 +53,7 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
                 </Tooltip>
               )}
 
-            {paymentProviderId === "manual" && isDevelopment && (
+            {isManual(paymentProviderId) && isDevelopment && (
               <PaymentTest className="hidden small:block" />
             )}
           </div>
@@ -60,7 +61,7 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
             {paymentInfoMap[paymentProviderId]?.icon}
           </span>
         </div>
-        {paymentProviderId === "manual" && isDevelopment && (
+        {isManual(paymentProviderId) && isDevelopment && (
           <PaymentTest className="small:hidden text-[10px]" />
         )}
       </RadioGroup.Option>
