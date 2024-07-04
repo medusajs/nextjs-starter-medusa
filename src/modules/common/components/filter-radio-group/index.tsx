@@ -1,6 +1,5 @@
 import { EllipseMiniSolid } from "@medusajs/icons"
 import { Label, RadioGroup, Text, clx } from "@medusajs/ui"
-import { ChangeEvent, MouseEventHandler } from "react"
 
 type FilterRadioGroupProps = {
   title: string
