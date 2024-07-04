@@ -102,6 +102,7 @@ const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
           autoComplete="address-level1"
           value={formData["billing_address.province"]}
           onChange={handleChange}
+          required
           data-testid="billing-province-input"
         />
         <Input
