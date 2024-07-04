@@ -32,7 +32,8 @@ const Shipping: React.FC<ShippingProps> = ({
   const isOpen = searchParams.get("step") === "delivery"
 
   const selectedShippingMethod = availableShippingMethods?.find(
-    (method) => method.id === cart.shipping_methods?.[0]?.shipping_option_id
+    // To do: remove the previously selected shipping method instead of using the last one
+    (method) => method.id === cart.shipping_methods?.at(-1)?.shipping_option_id
   )
 
   const handleEdit = () => {
@@ -52,6 +53,7 @@ const Shipping: React.FC<ShippingProps> = ({
       .finally(() => {
         setIsLoading(false)
       })
+    console.log("setShippingMethod", cart.shipping_methods?.[0])
   }
 
   useEffect(() => {
@@ -126,6 +128,10 @@ const Shipping: React.FC<ShippingProps> = ({
               })}
             </RadioGroup>
           </div>
+
+          <ErrorMessage
+            error={cart.shipping_methods?.map((gc) => gc.id).toString()}
+          />
 
           <ErrorMessage
             error={error}

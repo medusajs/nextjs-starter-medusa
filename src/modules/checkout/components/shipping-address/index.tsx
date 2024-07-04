@@ -1,18 +1,11 @@
-import React, {
-  useState,
-  useEffect,
-  useMemo,
-  useCallback,
-  Dispatch,
-  SetStateAction,
-} from "react"
+import { HttpTypes } from "@medusajs/types"
+import { Container } from "@medusajs/ui"
 import Checkbox from "@modules/common/components/checkbox"
 import Input from "@modules/common/components/input"
+import { mapKeys } from "lodash"
+import React, { useEffect, useMemo, useState } from "react"
 import AddressSelect from "../address-select"
 import CountrySelect from "../country-select"
-import { Container } from "@medusajs/ui"
-import { HttpTypes } from "@medusajs/types"
-import { mapKeys } from "lodash"
 
 const ShippingAddress = ({
   customer,

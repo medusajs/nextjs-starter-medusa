@@ -1,7 +1,8 @@
 import { sdk } from "@lib/config"
+import { cache } from "react"
 
 // Shipping actions
-export const listCartPaymentMethods = async function (regionId: string) {
+export const listCartPaymentMethods = cache(async function (regionId: string) {
   return sdk.store.payment
     .listPaymentProviders(
       { region_id: regionId },
@@ -11,4 +12,4 @@ export const listCartPaymentMethods = async function (regionId: string) {
     .catch(() => {
       return null
     })
-}
+})
