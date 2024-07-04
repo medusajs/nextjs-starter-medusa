@@ -30,7 +30,7 @@ export default async function PaginatedProducts({
   countryCode: string
 }) {
   const queryParams: PaginatedProductsParams = {
-    limit: 100,
+    limit: 12,
   }
 
   if (collectionId) {

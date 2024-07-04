@@ -130,10 +130,6 @@ const Shipping: React.FC<ShippingProps> = ({
           </div>
 
           <ErrorMessage
-            error={cart.shipping_methods?.map((gc) => gc.id).toString()}
-          />
-
-          <ErrorMessage
             error={error}
             data-testid="delivery-option-error-message"
           />
