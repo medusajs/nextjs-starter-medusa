@@ -216,12 +216,14 @@ export async function initiatePaymentSession(
   cart: HttpTypes.StoreCart,
   data: {
     provider_id: string
+    context?: Record<string, unknown>
   }
 ) {
   return sdk.store.payment
     .initiatePaymentSession(cart, data, {}, getAuthHeaders())
-    .then(() => {
+    .then((resp) => {
       revalidateTag("cart")
+      return resp
     })
     .catch(medusaError)
 }
