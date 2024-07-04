@@ -1,15 +1,13 @@
 "use client"
 
-import { retrieveCart } from "@lib/data/cart"
-import { getCustomer } from "@lib/data/customer"
 import { listCartShippingMethods } from "@lib/data/fulfillment"
 import { listCartPaymentMethods } from "@lib/data/payment"
-import { HttpTypes, StoreCart, StoreCustomer } from "@medusajs/types"
+import { HttpTypes } from "@medusajs/types"
 import Addresses from "@modules/checkout/components/addresses"
 import Payment from "@modules/checkout/components/payment"
 import Review from "@modules/checkout/components/review"
 import Shipping from "@modules/checkout/components/shipping"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function CheckoutForm({
   cart,
@@ -25,13 +23,17 @@ export default function CheckoutForm({
     return null
   }
 
-  listCartShippingMethods(cart.id).then((methods: any) =>
-    setAvailableShippingMethods(methods)
-  )
+  useEffect(() => {
+    listCartShippingMethods(cart.id).then((methods: any) =>
+      setAvailableShippingMethods(methods)
+    )
+  }, [])
 
-  listCartPaymentMethods(cart.region?.id ?? "").then((payments: any) =>
-    setPaymentMethods(payments)
-  )
+  useEffect(() => {
+    listCartPaymentMethods(cart.region?.id ?? "").then((payments: any) =>
+      setPaymentMethods(payments)
+    )
+  }, [])
 
   return (
     <div>
