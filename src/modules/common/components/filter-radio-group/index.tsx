@@ -28,17 +28,14 @@ const FilterRadioGroup = ({
           <div
             key={i.value}
             className={clx("flex gap-x-2 items-center", {
-              "ml-[-1.75rem]": i.value === value,
+              "ml-[-23px]": i.value === value,
             })}
           >
             {i.value === value && <EllipseMiniSolid />}
             <RadioGroup.Item
               checked={i.value === value}
-              onClick={(e) =>
-                handleChange(
-                  e as unknown as ChangeEvent<HTMLButtonElement>,
-                  i.value
-                )
+              onClick={(e: ChangeEvent<HTMLButtonElement>) =>
+                handleChange(e, i.value)
               }
               className="hidden peer"
               id={i.value}
