@@ -115,10 +115,6 @@ jobs:
           --db-host ${{ env.TEST_POSTGRES_HOST }} \
           --db-port ${{ env.TEST_POSTGREST_PORT }}
 
-      - name: Build the backend
-        working-directory: ../backend
-        run: yarn build:admin
-
       - name: Setup search in the backend
         working-directory: ../backend
         run: yarn add medusa-plugin-meilisearch
@@ -132,7 +128,7 @@ jobs:
 
       - name: Run backend server
         working-directory: ../backend
-        run: medusa develop &
+        run: medusa develop
 
       - name: Install packages
         run: yarn install -y
