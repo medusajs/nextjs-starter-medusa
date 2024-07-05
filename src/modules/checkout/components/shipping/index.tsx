@@ -53,7 +53,6 @@ const Shipping: React.FC<ShippingProps> = ({
       .finally(() => {
         setIsLoading(false)
       })
-    console.log("setShippingMethod", cart.shipping_methods?.[0])
   }
 
   useEffect(() => {
