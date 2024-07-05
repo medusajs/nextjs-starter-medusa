@@ -102,8 +102,10 @@ jobs:
         working-directory: ../
         # https://docs.medusajs.com/cli/reference#options
         run: |
-          medusa new backend \
+          medusa new cli-test \
           -y \
+          --v2 \
+          --branch feat/v2 \
           --skip-db \
           --skip-migrations \
           --skip-env \
