@@ -97,12 +97,12 @@ jobs:
           psql -h localhost -U postgres -d test -c "CREATE DATABASE ${{ env.TEST_POSTGRES_DATABASE }} OWNER ${{ env.TEST_POSTGRES_USER }};"
 
       - name: Install Medusa CLI
-        run: npm install @medusajs/medusa-cli -g
+        run: npm install @medusajs/medusa-cli@preview -g
       - name: Setup medusa backend server
         working-directory: ../
         # https://docs.medusajs.com/cli/reference#options
         run: |
-          medusa new cli-test \
+          medusa new backend \
           -y \
           --v2 \
           --branch feat/v2 \
