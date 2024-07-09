@@ -538,37 +538,37 @@
   resolved "https://registry.yarnpkg.com/@medusajs/client-types/-/client-types-0.2.12-preview-20240505115807.tgz#5090e140d4ade84668eedc81222ab35366088831"
   integrity sha512-f7T/7WUAGOFfsNsjdCcVoWLlAqryaQB+hF0v/Dzst2hv+PdJGqHfHwTNdeK3ZYhUwzSQ8YdnCYsj9OEJR9SPiQ==
 
-"@medusajs/icons@1.2.2-preview-20240703120635":
-  version "1.2.2-preview-20240703120635"
-  resolved "https://registry.yarnpkg.com/@medusajs/icons/-/icons-1.2.2-preview-20240703120635.tgz#0af56888a4c8d847eb3c6407976dc68234f1c245"
-  integrity sha512-TloJclvm9Zg/PDZYJQIQ80+hsBJqNTQe+g5qdve/uuyMdjUyKICrHJ5s9vgBjWqaolgSpnaoFKcDW8IMHsXmjg==
+"@medusajs/icons@1.2.2-preview-20240704090504":
+  version "1.2.2-preview-20240704090504"
+  resolved "https://registry.yarnpkg.com/@medusajs/icons/-/icons-1.2.2-preview-20240704090504.tgz#7919b28f370b4b88f0b37d681b598a20d4ae79b4"
+  integrity sha512-iqwPVbIUUuUy9F2OUuHI7tpXbBz7Go9OD40NP4CzN0/zoWzplxxiUKShya2lmKcTY1DO93nz4naUb8uBm/r/Zg==
 
 "@medusajs/js-sdk@preview":
-  version "0.0.2-preview-20240703120635"
-  resolved "https://registry.yarnpkg.com/@medusajs/js-sdk/-/js-sdk-0.0.2-preview-20240703120635.tgz#d3728ee36cd40a8f618fd83daa4d10d70f25793b"
-  integrity sha512-FyhRKwf51Rm1oc5exUNoU/egLd2zrmY5q5LN5fCz/sMJQd7+6jiAMlGnEZ8FbsMfqRh9XIfISj7bjVQiDfxtBw==
+  version "0.0.2-preview-20240704090504"
+  resolved "https://registry.yarnpkg.com/@medusajs/js-sdk/-/js-sdk-0.0.2-preview-20240704090504.tgz#30b3ad7fbed4dbdd34efb7c62e3f0158ffa659f7"
+  integrity sha512-P2S7soZLCxkTLrbjeKhZO6KH/cvN9LSyLWOg5/HhaF6+pF/l95gC+4fY0uIhCc3PGa/IJ0bwXxFHhJaw/8xJfQ==
   dependencies:
     qs "^6.12.1"
 
 "@medusajs/types@preview":
-  version "1.12.0-preview-20240703120635"
-  resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-1.12.0-preview-20240703120635.tgz#1cf315e20ede52399ec74fe29eee8173978a4896"
-  integrity sha512-Sy+K2mtbNAjjGdALdZK9Cm1J8askcTN2VPL1A+kichfTnDZkGNsJ+ngf8V83e03QtNw3QjqKs1YxwfRK/9OYXg==
+  version "1.12.0-preview-20240704090504"
+  resolved "https://registry.yarnpkg.com/@medusajs/types/-/types-1.12.0-preview-20240704090504.tgz#18876ef1fd177fbae2de4711219c21dd6e0d3685"
+  integrity sha512-OGbhOf8urxXzqNz+Sxl4/4LvD8+pW6kb4S7pGySJpcJOQwg+E7kHSfIbEdkkv9EPI2JDSCrvny/y0dBpG0eA2g==
 
 "@medusajs/ui-preset@preview":
-  version "1.1.4-preview-20240703120635"
-  resolved "https://registry.yarnpkg.com/@medusajs/ui-preset/-/ui-preset-1.1.4-preview-20240703120635.tgz#c5d0ab18cfdbff7911e86638c9b112aebe77815d"
-  integrity sha512-o0JD/ZEkHvSk2VyK6mYR/8oK+HoNMuqyo9OIqs4kT0WrKe5yQWjGgsKJlWR35BTLNR6XkIWUHQnDn5sFIg9hvg==
+  version "1.1.4-preview-20240704090504"
+  resolved "https://registry.yarnpkg.com/@medusajs/ui-preset/-/ui-preset-1.1.4-preview-20240704090504.tgz#c246b4fc4b5daba053a6347a54117eeaa11c06a2"
+  integrity sha512-yZzDMHYk3zDsubzzUFL0LvlJtkliYa526WOT1Be2hnVSk5czZowvBpddu2O6X6/PON7F/ddjeorUmd0bzjlBOA==
   dependencies:
     "@tailwindcss/forms" "^0.5.3"
     tailwindcss-animate "^1.0.6"
 
 "@medusajs/ui@preview":
-  version "3.0.1-preview-20240703120635"
-  resolved "https://registry.yarnpkg.com/@medusajs/ui/-/ui-3.0.1-preview-20240703120635.tgz#6752df071f13e0e69a194864c5d2e874d1a10f4a"
-  integrity sha512-TAFKgvjLvC+pmjcFESenTyq4sQrUTer5cLxTng6r9zxMpn/mHg4b3wbCPr1bGG1o1bPMp7TydrDDLonMP1ZxIQ==
+  version "3.0.1-preview-20240704090504"
+  resolved "https://registry.yarnpkg.com/@medusajs/ui/-/ui-3.0.1-preview-20240704090504.tgz#7950a19b9575951e1fe86d45630c88decd244dea"
+  integrity sha512-ppGxvAXsr4qe4jsLGNxIqwGOBwPBO2JUkrBRlmiwyOVKbaGGyvEnqdVAiuwtYhqM8CtTcWHWVWb1N38vbCM4UQ==
   dependencies:
-    "@medusajs/icons" "1.2.2-preview-20240703120635"
+    "@medusajs/icons" "1.2.2-preview-20240704090504"
     "@radix-ui/react-accordion" "1.2.0"
     "@radix-ui/react-alert-dialog" "1.1.1"
     "@radix-ui/react-avatar" "1.1.0"

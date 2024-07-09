@@ -1,4 +1,4 @@
-import { getProductsList } from "@lib/data/products"
+import { getProductsListWithSort } from "@lib/data/products"
 import { getRegion } from "@lib/data/regions"
 import ProductPreview from "@modules/products/components/product-preview"
 import { Pagination } from "@modules/store/components/pagination"
@@ -30,7 +30,7 @@ export default async function PaginatedProducts({
   countryCode: string
 }) {
   const queryParams: PaginatedProductsParams = {
-    limit: PRODUCT_LIMIT,
+    limit: 12,
   }
 
   if (collectionId) {
@@ -45,19 +45,8 @@ export default async function PaginatedProducts({
     queryParams["id"] = productsIds
   }
 
-  if (sortBy) {
-    // TODO: Currently sorting by price doesn't work, fix it
-    switch (sortBy) {
-      case "price_asc":
-        queryParams["order"] = "price"
-        break
-      case "price_desc":
-        queryParams["order"] = "-price"
-        break
-      case "created_at":
-        queryParams["order"] = "created_at"
-        break
-    }
+  if (sortBy === "created_at") {
+    queryParams["order"] = "created_at"
   }
 
   const region = await getRegion(countryCode)
@@ -66,11 +55,12 @@ export default async function PaginatedProducts({
     return null
   }
 
-  const {
+  let {
     response: { products, count },
-  } = await getProductsList({
-    pageParam: page,
+  } = await getProductsListWithSort({
+    page,
     queryParams,
+    sortBy,
     countryCode,
   })
 

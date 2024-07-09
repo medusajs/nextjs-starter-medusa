@@ -29,7 +29,7 @@ const Addresses = ({
 
   const isOpen = searchParams.get("step") === "address"
 
-  const { state: sameAsSBilling, toggle: toggleSameAsBilling } = useToggleState(
+  const { state: sameAsBilling, toggle: toggleSameAsBilling } = useToggleState(
     cart?.shipping_address && cart?.billing_address
       ? compareAddresses(cart?.shipping_address, cart?.billing_address)
       : true
@@ -68,12 +68,12 @@ const Addresses = ({
           <div className="pb-8">
             <ShippingAddress
               customer={customer}
-              checked={sameAsSBilling}
+              checked={sameAsBilling}
               onChange={toggleSameAsBilling}
               cart={cart}
             />
 
-            {!sameAsSBilling && (
+            {!sameAsBilling && (
               <div>
                 <Heading
                   level="h2"
@@ -144,7 +144,7 @@ const Addresses = ({
                       Billing Address
                     </Text>
 
-                    {sameAsSBilling ? (
+                    {sameAsBilling ? (
                       <Text className="txt-medium text-ui-fg-subtle">
                         Billing- and delivery address are the same.
                       </Text>
