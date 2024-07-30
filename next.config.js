@@ -1,3 +1,4 @@
+const { PathnameContext } = require("next/dist/shared/lib/hooks-client-context.shared-runtime")
 const { withStoreConfig } = require("./store-config")
 const store = require("./store.config.json")
 
@@ -15,7 +16,8 @@ const nextConfig = withStoreConfig({
       },
       {
         protocol: "https",
-        hostname: "medusa-public-images.s3.eu-west-1.amazonaws.com",
+        hostname: "storage.googleapis.com",
+        pathname: "/cs-medusa-images-demo/**" /** This needs to be an env variable */
       },
       {
         protocol: "https",

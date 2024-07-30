@@ -48,12 +48,12 @@ export default async function CheckoutForm() {
           <Addresses cart={cart} customer={customer} />
         </div>
 
-        <div>
+        {/* <div>
           <Shipping
             cart={cart}
             availableShippingMethods={availableShippingMethods}
           />
-        </div>
+        </div> */}
 
         <div>
           <Payment cart={cart} />
