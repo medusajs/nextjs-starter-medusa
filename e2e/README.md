@@ -16,7 +16,7 @@ cat e2e/.env.example >> .env
 
 and configuring the `.env` file from there. There are more details below about what the test values correspond to and how to set them. But we mention that
 
-* `CLIENT_SERVER` - is the server the next server is listening on
+- `CLIENT_SERVER` - is the server the next server is listening on
 
 ## Playwright
 
@@ -41,11 +41,11 @@ Note that **these tests drop and reset the database** after each test run. This 
 
 in addition, there are environment variables for connecting to the database as a superuser, so we can efficiently reset the database.
 
-* `PGHOST` - host for the postgres instance
-* `PGPORT` - port for the postgres instance
-* `PGUSER` - superuser for the postgres instance
-* `PGPASSWORD` - superuser password for the postgres instance
-* `PGDATABASE` - database we connect to while updating the other databases
+- `PGHOST` - host for the postgres instance
+- `PGPORT` - port for the postgres instance
+- `PGUSER` - superuser for the postgres instance
+- `PGPASSWORD` - superuser password for the postgres instance
+- `PGDATABASE` - database we connect to while updating the other databases
 
 ### Test Database Failsafes
 

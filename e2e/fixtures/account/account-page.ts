@@ -12,12 +12,12 @@ export class AccountPage extends BasePage {
   logoutLink: Locator
 
   mobileAccountNav: Locator
-  mobileAccountMainLink : Locator
-  mobileOverviewLink : Locator
-  mobileProfileLink : Locator
-  mobileAddressesLink : Locator
-  mobileOrdersLink : Locator
-  mobileLogoutLink : Locator
+  mobileAccountMainLink: Locator
+  mobileOverviewLink: Locator
+  mobileProfileLink: Locator
+  mobileAddressesLink: Locator
+  mobileOrdersLink: Locator
+  mobileLogoutLink: Locator
 
   constructor(page: Page) {
     super(page)
@@ -30,10 +30,12 @@ export class AccountPage extends BasePage {
     this.logoutLink = this.accountNav.getByTestId("logout-button")
 
     this.mobileAccountNav = this.container.getByTestId("mobile-account-nav")
-    this.mobileAccountMainLink = this.mobileAccountNav.getByTestId("account-main-link")
+    this.mobileAccountMainLink =
+      this.mobileAccountNav.getByTestId("account-main-link")
     this.mobileOverviewLink = this.mobileAccountNav.getByTestId("overview-link")
     this.mobileProfileLink = this.mobileAccountNav.getByTestId("profile-link")
-    this.mobileAddressesLink = this.mobileAccountNav.getByTestId("addresses-link")
+    this.mobileAddressesLink =
+      this.mobileAccountNav.getByTestId("addresses-link")
     this.mobileOrdersLink = this.mobileAccountNav.getByTestId("orders-link")
     this.mobileLogoutLink = this.mobileAccountNav.getByTestId("logout-button")
   }

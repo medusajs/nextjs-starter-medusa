@@ -1,6 +1,6 @@
 import React from "react"
 
-import { IconProps } from "types/icon"
+import { IconProps } from "@/types/icon"
 
 const MapPin: React.FC<IconProps> = ({
   size = "20",

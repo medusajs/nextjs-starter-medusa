@@ -2,8 +2,8 @@
 
 import { useState } from "react"
 
-import Register from "@modules/account/components/register"
-import Login from "@modules/account/components/login"
+import Register from "@/modules/account/components/register"
+import Login from "@/modules/account/components/login"
 
 export enum LOGIN_VIEW {
   SIGN_IN = "sign-in",

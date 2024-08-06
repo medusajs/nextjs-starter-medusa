@@ -1,4 +1,4 @@
-import { sdk } from "@lib/config"
+import { sdk } from "@/lib/config"
 import { cache } from "react"
 import { getProductsList } from "./products"
 import { HttpTypes } from "@medusajs/types"

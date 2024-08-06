@@ -10,7 +10,7 @@ import {
   useState,
 } from "react"
 
-import ChevronDown from "@modules/common/icons/chevron-down"
+import ChevronDown from "@/modules/common/icons/chevron-down"
 
 type NativeSelectProps = {
   placeholder?: string

@@ -6,10 +6,10 @@ import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js"
 import { useElements, useStripe } from "@stripe/react-stripe-js"
 import React, { useState } from "react"
 import ErrorMessage from "../error-message"
-import Spinner from "@modules/common/icons/spinner"
-import { placeOrder } from "@lib/data/cart"
+import Spinner from "@/modules/common/icons/spinner"
+import { placeOrder } from "@/lib/data/cart"
 import { HttpTypes } from "@medusajs/types"
-import { isManual, isPaypal, isStripe } from "@lib/constants"
+import { isManual, isPaypal, isStripe } from "@/lib/constants"
 
 type PaymentButtonProps = {
   cart: HttpTypes.StoreCart

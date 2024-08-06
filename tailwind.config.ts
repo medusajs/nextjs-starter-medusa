@@ -1,17 +1,22 @@
-const path = require("path")
+import type { Config } from "tailwindcss"
 
-module.exports = {
+const config: Config = {
   darkMode: "class",
   presets: [require("@medusajs/ui-preset")],
   content: [
-    "./src/app/**/*.{js,ts,jsx,tsx}",
-    "./src/pages/**/*.{js,ts,jsx,tsx}",
-    "./src/components/**/*.{js,ts,jsx,tsx}",
-    "./src/modules/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/@medusajs/ui/dist/**/*.{js,jsx,ts,tsx}",
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/modules/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/@medusajs/ui/dist/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "gradient-conic":
+          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      },
       transitionProperty: {
         width: "width margin",
         height: "height",
@@ -22,16 +27,16 @@ module.exports = {
       },
       colors: {
         grey: {
-          0: "#FFFFFF",
-          5: "#F9FAFB",
-          10: "#F3F4F6",
-          20: "#E5E7EB",
-          30: "#D1D5DB",
-          40: "#9CA3AF",
-          50: "#6B7280",
-          60: "#4B5563",
+          0: "#ffffff",
+          5: "#f9fafb",
+          10: "#f3f4f6",
+          20: "#e5e7eb",
+          30: "#d1d5db",
+          40: "#9ca3af",
+          50: "#6b7280",
+          60: "#4b5563",
           70: "#374151",
-          80: "#1F2937",
+          80: "#1f2937",
           90: "#111827",
         },
       },
@@ -129,12 +134,12 @@ module.exports = {
           },
         },
         enter: {
-          "0%": { transform: "scale(0.9)", opacity: 0 },
-          "100%": { transform: "scale(1)", opacity: 1 },
+          "0%": { transform: "scale(0.9)", opacity: "0" },
+          "100%": { transform: "scale(1)", opacity: "1" },
         },
         leave: {
-          "0%": { transform: "scale(1)", opacity: 1 },
-          "100%": { transform: "scale(0.9)", opacity: 0 },
+          "0%": { transform: "scale(1)", opacity: "1" },
+          "100%": { transform: "scale(0.9)", opacity: "0" },
         },
         "slide-in": {
           "0%": { transform: "translateY(-100%)" },
@@ -160,3 +165,5 @@ module.exports = {
   },
   plugins: [require("tailwindcss-radix")()],
 }
+
+export default config

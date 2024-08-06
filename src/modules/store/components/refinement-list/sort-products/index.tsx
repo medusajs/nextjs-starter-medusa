@@ -1,6 +1,6 @@
 "use client"
 
-import FilterRadioGroup from "@modules/common/components/filter-radio-group"
+import FilterRadioGroup from "@/modules/common/components/filter-radio-group"
 
 export type SortOptions = "price_asc" | "price_desc" | "created_at"
 

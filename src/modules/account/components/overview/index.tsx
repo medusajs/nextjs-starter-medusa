@@ -1,8 +1,8 @@
 import { Container } from "@medusajs/ui"
 
-import ChevronDown from "@modules/common/icons/chevron-down"
-import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import { convertToLocale } from "@lib/util/money"
+import ChevronDown from "@/modules/common/icons/chevron-down"
+import LocalizedClientLink from "@/modules/common/components/localized-client-link"
+import { convertToLocale } from "@/lib/util/money"
 import { HttpTypes } from "@medusajs/types"
 
 type OverviewProps = {

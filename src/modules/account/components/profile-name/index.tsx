@@ -3,11 +3,11 @@
 import React, { useEffect } from "react"
 import { useFormState } from "react-dom"
 
-import Input from "@modules/common/components/input"
+import Input from "@/modules/common/components/input"
 
 import AccountInfo from "../account-info"
 import { HttpTypes } from "@medusajs/types"
-import { updateCustomer } from "@lib/data/customer"
+import { updateCustomer } from "@/lib/data/customer"
 
 type MyInformationProps = {
   customer: HttpTypes.StoreCustomer

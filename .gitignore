@@ -1,13 +1,10 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# IDEs
-.idea
-.vscode
-
 # dependencies
 /node_modules
 /.pnp
 .pnp.js
+.yarn/install-state.gz
 
 # testing
 /coverage
@@ -27,31 +24,18 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
 
 # local env files
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env*.local
 
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
-node_modules
+next-env.d.ts
 
-.yarn
-.swc
-dump.rdb
+# playwright
 /test-results/
 /playwright-report/
-/blob-report/
 /playwright/.cache/
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
-/playwright/.auth

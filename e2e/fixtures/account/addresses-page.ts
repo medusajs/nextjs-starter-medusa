@@ -24,7 +24,7 @@ export class AddressesPage extends AccountPage {
       .filter({ hasText: text })
     return {
       container,
-      editButton: container.getByTestId('address-edit-button'),
+      editButton: container.getByTestId("address-edit-button"),
       deleteButton: container.getByTestId("address-delete-button"),
       name: container.getByTestId("address-name"),
       company: container.getByTestId("address-company"),

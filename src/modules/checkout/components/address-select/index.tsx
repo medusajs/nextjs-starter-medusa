@@ -3,8 +3,8 @@ import { ChevronUpDown } from "@medusajs/icons"
 import { clx } from "@medusajs/ui"
 import { Fragment, useMemo } from "react"
 
-import Radio from "@modules/common/components/radio"
-import compareAddresses from "@lib/util/compare-addresses"
+import Radio from "@/modules/common/components/radio"
+import compareAddresses from "@/lib/util/compare-addresses"
 import { HttpTypes } from "@medusajs/types"
 
 type AddressSelectProps = {

@@ -1,6 +1,6 @@
 import React from "react"
 
-import { IconProps } from "types/icon"
+import { IconProps } from "@/types/icon"
 
 const Medusa: React.FC<IconProps> = ({
   size = "20",

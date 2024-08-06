@@ -3,10 +3,10 @@ import { InformationCircleSolid } from "@medusajs/icons"
 import { Text, Tooltip, clx } from "@medusajs/ui"
 import React from "react"
 
-import Radio from "@modules/common/components/radio"
+import Radio from "@/modules/common/components/radio"
 
 import PaymentTest from "../payment-test"
-import { isManual } from "@lib/constants"
+import { isManual } from "@/lib/constants"
 
 type PaymentContainerProps = {
   paymentProviderId: string

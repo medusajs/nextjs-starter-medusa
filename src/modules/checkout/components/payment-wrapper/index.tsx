@@ -6,7 +6,7 @@ import StripeWrapper from "./stripe-wrapper"
 import { PayPalScriptProvider } from "@paypal/react-paypal-js"
 import { createContext } from "react"
 import { HttpTypes } from "@medusajs/types"
-import { isPaypal, isStripe } from "@lib/constants"
+import { isPaypal, isStripe } from "@/lib/constants"
 
 type WrapperProps = {
   cart: HttpTypes.StoreCart

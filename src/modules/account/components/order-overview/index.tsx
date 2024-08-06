@@ -3,7 +3,7 @@
 import { Button } from "@medusajs/ui"
 
 import OrderCard from "../order-card"
-import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import LocalizedClientLink from "@/modules/common/components/localized-client-link"
 import { HttpTypes } from "@medusajs/types"
 
 const OrderOverview = ({ orders }: { orders: HttpTypes.StoreOrder[] }) => {

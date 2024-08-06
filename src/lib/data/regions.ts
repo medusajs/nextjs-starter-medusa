@@ -1,5 +1,5 @@
-import { sdk } from "@lib/config"
-import medusaError from "@lib/util/medusa-error"
+import { sdk } from "@/lib/config"
+import medusaError from "@/lib/util/medusa-error"
 import { cache } from "react"
 import { HttpTypes } from "@medusajs/types"
 

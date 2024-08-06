@@ -1,6 +1,6 @@
 "use client"
 
-import { convertToLocale } from "@lib/util/money"
+import { convertToLocale } from "@/lib/util/money"
 import { InformationCircleSolid } from "@medusajs/icons"
 import { Tooltip } from "@medusajs/ui"
 import React from "react"

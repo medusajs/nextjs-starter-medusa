@@ -5,13 +5,13 @@ import { isEqual } from "lodash"
 import { useParams } from "next/navigation"
 import { useEffect, useMemo, useRef, useState } from "react"
 
-import { useIntersection } from "@lib/hooks/use-in-view"
-import Divider from "@modules/common/components/divider"
-import OptionSelect from "@modules/products/components/product-actions/option-select"
+import { useIntersection } from "@/lib/hooks/use-in-view"
+import Divider from "@/modules/common/components/divider"
+import OptionSelect from "@/modules/products/components/product-actions/option-select"
 
 import MobileActions from "./mobile-actions"
 import ProductPrice from "../product-price"
-import { addToCart } from "@lib/data/cart"
+import { addToCart } from "@/lib/data/cart"
 import { HttpTypes } from "@medusajs/types"
 
 type ProductActionsProps = {

@@ -13,7 +13,9 @@ test.describe("Addresses tests", () => {
     await test.step("Navigate to the new address modal", async () => {
       await addressesPage.goto()
       await addressesPage.newAddressButton.click()
-      await addressesPage.addAddressModal.container.waitFor({ state: "visible" })
+      await addressesPage.addAddressModal.container.waitFor({
+        state: "visible",
+      })
     })
 
     await test.step("Inputs and saves the new address", async () => {
@@ -75,7 +77,9 @@ test.describe("Addresses tests", () => {
     await test.step("Navigate to the new address modal", async () => {
       await addressesPage.goto()
       await addressesPage.newAddressButton.click()
-      await addressesPage.addAddressModal.container.waitFor({ state: "visible" })
+      await addressesPage.addAddressModal.container.waitFor({
+        state: "visible",
+      })
     })
 
     await test.step("Input and save a new address", async () => {
@@ -88,7 +92,9 @@ test.describe("Addresses tests", () => {
       await addAddressModal.postalCodeInput.fill("80010")
       await addAddressModal.cityInput.fill("Denver")
       await addAddressModal.stateInput.fill("Colorado")
-      await addAddressModal.countrySelect.selectOption({ label: "United States" })
+      await addAddressModal.countrySelect.selectOption({
+        label: "United States",
+      })
       await addAddressModal.phoneInput.fill("3031112222")
       await addAddressModal.saveButton.click()
       await addAddressModal.container.waitFor({ state: "hidden" })
@@ -102,7 +108,9 @@ test.describe("Addresses tests", () => {
       await expect(addressContainer.address).toContainText("123 Fake Street")
       await expect(addressContainer.address).toContainText("Apt 1")
       await expect(addressContainer.postalCity).toContainText("80010, Denver")
-      await expect(addressContainer.provinceCountry).toContainText("Colorado, US")
+      await expect(addressContainer.provinceCountry).toContainText(
+        "Colorado, US"
+      )
     })
 
     await test.step("Refresh the page and assert address was saved", async () => {
@@ -113,16 +121,22 @@ test.describe("Addresses tests", () => {
       await expect(addressContainer.address).toContainText("123 Fake Street")
       await expect(addressContainer.address).toContainText("Apt 1")
       await expect(addressContainer.postalCity).toContainText("80010, Denver")
-      await expect(addressContainer.provinceCountry).toContainText("Colorado, US")
+      await expect(addressContainer.provinceCountry).toContainText(
+        "Colorado, US"
+      )
     })
 
     await test.step("Edit the address", async () => {
       await addressContainer.editButton.click()
-      await addressesPage.editAddressModal.container.waitFor({ state: "visible" })
+      await addressesPage.editAddressModal.container.waitFor({
+        state: "visible",
+      })
       await addressesPage.editAddressModal.firstNameInput.fill("Second")
       await addressesPage.editAddressModal.lastNameInput.fill("Final")
       await addressesPage.editAddressModal.companyInput.fill("MeCorp")
-      await addressesPage.editAddressModal.address1Input.fill("123 Spark Street")
+      await addressesPage.editAddressModal.address1Input.fill(
+        "123 Spark Street"
+      )
       await addressesPage.editAddressModal.address2Input.fill("Unit 3")
       await addressesPage.editAddressModal.postalCodeInput.fill("80011")
       await addressesPage.editAddressModal.cityInput.fill("Broomfield")
@@ -132,15 +146,21 @@ test.describe("Addresses tests", () => {
       })
       await addressesPage.editAddressModal.phoneInput.fill("3032223333")
       await addressesPage.editAddressModal.saveButton.click()
-      await addressesPage.editAddressModal.container.waitFor({ state: "hidden" })
+      await addressesPage.editAddressModal.container.waitFor({
+        state: "hidden",
+      })
     })
 
     await test.step("Make sure edits were saved on the addressContainer", async () => {
       addressContainer = addressesPage.getAddressContainer("Second Final")
       await expect(addressContainer.name).toContainText("Second Final")
       await expect(addressContainer.company).toContainText("MeCorp")
-      await expect(addressContainer.address).toContainText("123 Spark Street, Unit 3")
-      await expect(addressContainer.postalCity).toContainText("80011, Broomfield")
+      await expect(addressContainer.address).toContainText(
+        "123 Spark Street, Unit 3"
+      )
+      await expect(addressContainer.postalCity).toContainText(
+        "80011, Broomfield"
+      )
       await expect(addressContainer.provinceCountry).toContainText("CO, CA")
     })
 
@@ -148,8 +168,12 @@ test.describe("Addresses tests", () => {
       await addressesPage.page.reload()
       await expect(addressContainer.name).toContainText("Second Final")
       await expect(addressContainer.company).toContainText("MeCorp")
-      await expect(addressContainer.address).toContainText("123 Spark Street, Unit 3")
-      await expect(addressContainer.postalCity).toContainText("80011, Broomfield")
+      await expect(addressContainer.address).toContainText(
+        "123 Spark Street, Unit 3"
+      )
+      await expect(addressContainer.postalCity).toContainText(
+        "80011, Broomfield"
+      )
       await expect(addressContainer.provinceCountry).toContainText("CO, CA")
     })
 
@@ -167,12 +191,14 @@ test.describe("Addresses tests", () => {
   })
 
   test.skip("Attempt to create duplicate addresses on the address page", async ({
-    accountAddressesPage: addressesPage
+    accountAddressesPage: addressesPage,
   }) => {
     await test.step("navigate to the new address modal", async () => {
       await addressesPage.goto()
       await addressesPage.newAddressButton.click()
-      await addressesPage.addAddressModal.container.waitFor({ state: "visible" })
+      await addressesPage.addAddressModal.container.waitFor({
+        state: "visible",
+      })
     })
 
     await test.step("Input and save a new address", async () => {
@@ -194,7 +220,9 @@ test.describe("Addresses tests", () => {
 
     await test.step("Attempt to create the same address", async () => {
       await addressesPage.newAddressButton.click()
-      await addressesPage.addAddressModal.container.waitFor({ state: "visible" })
+      await addressesPage.addAddressModal.container.waitFor({
+        state: "visible",
+      })
       await addressesPage.addAddressModal.firstNameInput.fill("First")
       await addressesPage.addAddressModal.lastNameInput.fill("Last")
       await addressesPage.addAddressModal.companyInput.fill("MyCorp")
@@ -210,9 +238,7 @@ test.describe("Addresses tests", () => {
       await addressesPage.addAddressModal.saveButton.click()
     })
 
-    await test.step("Validate error state", async () => {
-
-    })
+    await test.step("Validate error state", async () => {})
   })
 
   test("Creating multiple tests works correctly", async ({
@@ -227,7 +253,9 @@ test.describe("Addresses tests", () => {
     for (let i = 0; i < 10; i++) {
       await test.step("Open up the new address modal", async () => {
         await addressesPage.newAddressButton.click()
-        await addressesPage.addAddressModal.container.waitFor({ state: "visible" })
+        await addressesPage.addAddressModal.container.waitFor({
+          state: "visible",
+        })
       })
       await test.step("Input and save a new address", async () => {
         const { addAddressModal } = addressesPage
@@ -239,19 +267,27 @@ test.describe("Addresses tests", () => {
         await addAddressModal.postalCodeInput.fill("80010")
         await addAddressModal.cityInput.fill("Denver")
         await addAddressModal.stateInput.fill("Colorado")
-        await addAddressModal.countrySelect.selectOption({ label: "United States" })
+        await addAddressModal.countrySelect.selectOption({
+          label: "United States",
+        })
         await addAddressModal.phoneInput.fill("3031112222")
         await addAddressModal.saveButton.click()
         await addAddressModal.container.waitFor({ state: "hidden" })
       })
       await test.step("Make sure the address container was appended to the page", async () => {
-        addressContainer = addressesPage.getAddressContainer(`First-${i} Last-${i}`)
+        addressContainer = addressesPage.getAddressContainer(
+          `First-${i} Last-${i}`
+        )
         await expect(addressContainer.name).toHaveText(`First-${i} Last-${i}`)
         await expect(addressContainer.company).toHaveText(`MyCorp-${i}`)
-        await expect(addressContainer.address).toContainText(`123 Fake Street-${i}`)
+        await expect(addressContainer.address).toContainText(
+          `123 Fake Street-${i}`
+        )
         await expect(addressContainer.address).toContainText("Apt 1")
         await expect(addressContainer.postalCity).toContainText("80010, Denver")
-        await expect(addressContainer.provinceCountry).toContainText("Colorado, US")
+        await expect(addressContainer.provinceCountry).toContainText(
+          "Colorado, US"
+        )
       })
     }
   })

@@ -3,17 +3,17 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { RadioGroup } from "@headlessui/react"
-import ErrorMessage from "@modules/checkout/components/error-message"
+import ErrorMessage from "@/modules/checkout/components/error-message"
 import { CheckCircleSolid, CreditCard } from "@medusajs/icons"
 import { Button, Container, Heading, Text, Tooltip, clx } from "@medusajs/ui"
 import { CardElement } from "@stripe/react-stripe-js"
 import { StripeCardElementOptions } from "@stripe/stripe-js"
 
-import Divider from "@modules/common/components/divider"
-import PaymentContainer from "@modules/checkout/components/payment-container"
-import { isStripe as isStripeFunc, paymentInfoMap } from "@lib/constants"
-import { StripeContext } from "@modules/checkout/components/payment-wrapper"
-import { initiatePaymentSession } from "@lib/data/cart"
+import Divider from "@/modules/common/components/divider"
+import PaymentContainer from "@/modules/checkout/components/payment-container"
+import { isStripe as isStripeFunc, paymentInfoMap } from "@/lib/constants"
+import { StripeContext } from "@/modules/checkout/components/payment-wrapper"
+import { initiatePaymentSession } from "@/lib/data/cart"
 
 const Payment = ({
   cart,

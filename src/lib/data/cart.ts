@@ -1,7 +1,7 @@
 "use server"
 
-import { sdk } from "@lib/config"
-import medusaError from "@lib/util/medusa-error"
+import { sdk } from "@/lib/config"
+import medusaError from "@/lib/util/medusa-error"
 import { HttpTypes } from "@medusajs/types"
 import { omit } from "lodash"
 import { revalidateTag } from "next/cache"

@@ -1,8 +1,8 @@
 import { clx } from "@medusajs/ui"
 
-import { getPercentageDiff } from "@lib/util/get-precentage-diff"
-import { getPricesForVariant } from "@lib/util/get-product-price"
-import { convertToLocale } from "@lib/util/money"
+import { getPercentageDiff } from "@/lib/util/get-precentage-diff"
+import { getPricesForVariant } from "@/lib/util/get-product-price"
+import { convertToLocale } from "@/lib/util/money"
 import { HttpTypes } from "@medusajs/types"
 
 type LineItemPriceProps = {
