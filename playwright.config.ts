@@ -1,6 +1,5 @@
 import { defineConfig, devices } from "@playwright/test"
 import path from "path"
-import "dotenv/config.js"
 
 export const STORAGE_STATE = path.join(__dirname, "playwright/.auth/user.json")
 
@@ -13,7 +12,7 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: 1,
+  workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: "html",
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -47,31 +46,18 @@ export default defineConfig({
       testIgnore: "public/*.spec.ts",
       use: { ...devices["Desktop Chrome"], storageState: STORAGE_STATE },
     },
-
     {
       name: "chromium public",
       dependencies: ["public setup"],
       testMatch: "public/*.spec.ts",
       use: { ...devices["Desktop Chrome"] },
     },
-
-    /*
-    {
-      name: "firefox",
-      use: { ...devices["Desktop Firefox"] },
-    },
-
-    {
-      name: "webkit",
-      use: { ...devices["Desktop Safari"] },
-    },
-    */
   ],
 
   /* Run your local dev server before starting the tests */
   webServer: {
     command: "yarn start",
     url: process.env.NEXT_PUBLIC_BASE_URL,
-    //   reuseExistingServer: !process.env.CI,
+    // reuseExistingServer: !process.env.CI,
   },
 })

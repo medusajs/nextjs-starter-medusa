@@ -15,13 +15,8 @@
     "analyze": "cross-env ANALYZE=true next build",
     "test-e2e": "playwright test e2e"
   },
-  "resolutions": {
-    "webpack": "^5",
-    "@types/react": "17.0.40"
-  },
   "dependencies": {
     "@headlessui/react": "^1.6.1",
-    "@hookform/error-message": "^2.0.0",
     "@medusajs/js-sdk": "preview",
     "@medusajs/types": "preview",
     "@medusajs/ui": "preview",
@@ -41,14 +36,12 @@
     "react": "^18.2.0",
     "react-country-flag": "^3.0.2",
     "react-dom": "^18.2.0",
-    "react-instantsearch-hooks-web": "^6.29.0",
+    "react-instantsearch": "^7.12.4",
     "react-intersection-observer": "^9.3.4",
     "server-only": "^0.0.1",
-    "tailwindcss-radix": "^2.8.0",
-    "webpack": "^5"
+    "tailwindcss-radix": "^2.8.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.5",
     "@medusajs/client-types": "preview",
     "@medusajs/ui-preset": "preview",
     "@playwright/test": "^1.41.1",
@@ -59,7 +52,6 @@
     "@types/react-dom": "^18.2.18",
     "@types/react-instantsearch-dom": "^6.12.3",
     "autoprefixer": "^10.4.2",
-    "babel-loader": "^8.2.3",
     "eslint": "8.10.0",
     "eslint-config-next": "^13.4.5",
     "postcss": "^8.4.8",
