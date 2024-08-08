@@ -14,14 +14,20 @@ const Review = ({
   const searchParams = useSearchParams()
 
   const isOpen = searchParams.get("step") === "review"
+  console.log(isOpen)
 
   const paidByGiftcard =
     cart?.gift_cards && cart?.gift_cards?.length > 0 && cart?.total === 0
 
-  const previousStepsCompleted =
-    cart.shipping_address &&
-    cart.shipping_methods.length > 0 &&
-    (cart.payment_session || paidByGiftcard)
+  // const previousStepsCompleted =
+  //   cart.shipping_address &&
+  //   cart.shipping_methods.length > 0 &&
+  //   (cart.payment_session || paidByGiftcard)
+
+  // returns true if payment session is not null. !! used to convert payment session object to a boolean
+    const previousStepsCompleted = !!cart.payment_session
+    console.log(previousStepsCompleted, "previousStepsCompleted", cart.payment_session , cart);
+    
 
   return (
     <div className="bg-white">
@@ -40,9 +46,9 @@ const Review = ({
       </div>
       {isOpen && previousStepsCompleted && (
         <>
-          <div className="flex items-start gap-x-1 w-full mb-6">
+          <div className="flex items-start w-full mb-6 gap-x-1">
             <div className="w-full">
-              <Text className="txt-medium-plus text-ui-fg-base mb-1">
+              <Text className="mb-1 txt-medium-plus text-ui-fg-base">
                 By clicking the Place Order button, you confirm that you have
                 read, understand and accept our Terms of Use, Terms of Sale and
                 Returns Policy and acknowledge that you have read Medusa
