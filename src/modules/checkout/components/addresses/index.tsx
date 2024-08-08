@@ -105,9 +105,6 @@ const Addresses = ({
               <div className="flex items-start gap-x-8">
                 <div className="flex items-start w-full gap-x-1">
                   <div className="flex flex-col w-1/3" data-testid="shipping-address-summary">
-                    <Text className="mb-1 txt-medium-plus text-ui-fg-base">
-                      Shipping Address
-                    </Text>
                     <Text className="txt-medium text-ui-fg-subtle">
                       {cart.shipping_address.first_name}{" "}
                       {cart.shipping_address.last_name}
@@ -126,9 +123,6 @@ const Addresses = ({
                   </div>
 
                   <div className="flex flex-col w-1/3 " data-testid="shipping-contact-summary">
-                    <Text className="mb-1 txt-medium-plus text-ui-fg-base">
-                      Contact
-                    </Text>
                     <Text className="txt-medium text-ui-fg-subtle">
                       {cart.shipping_address.phone}
                     </Text>
