@@ -26,8 +26,8 @@ const ShippingAddress = ({
     // "shipping_address.company": cart?.shipping_address?.company || "",
     "shipping_address.postal_code": cart?.shipping_address?.postal_code || "",
     "shipping_address.city": cart?.shipping_address?.city || "",
-    // "shipping_address.country_code":
-    //   cart?.shipping_address?.country_code || countryCode || "",
+    "shipping_address.country_code":
+      cart?.shipping_address?.country_code || "",
     // "shipping_address.province": cart?.shipping_address?.province || "",
     email: cart?.email || "",
     "shipping_address.phone": cart?.shipping_address?.phone || "",
@@ -56,8 +56,8 @@ const ShippingAddress = ({
       // "shipping_address.company": cart?.shipping_address?.company || "",
       "shipping_address.postal_code": cart?.shipping_address?.postal_code || "",
       "shipping_address.city": cart?.shipping_address?.city || "",
-      // "shipping_address.country_code":
-      //   cart?.shipping_address?.country_code || "",
+      "shipping_address.country_code":
+        cart?.shipping_address?.country_code || "",
       // "shipping_address.province": cart?.shipping_address?.province || "",
       email: cart?.email || "",
       "shipping_address.phone": cart?.shipping_address?.phone || "",
@@ -159,7 +159,7 @@ const ShippingAddress = ({
           required
           data-testid="shipping-city-input"
         />
-        {/* <CountrySelect
+        <CountrySelect
           name="shipping_address.country_code"
           autoComplete="country"
           region={cart?.region}
@@ -168,7 +168,7 @@ const ShippingAddress = ({
           required
           data-testid="shipping-country-select"
         />
-        <Input
+        {/* <Input
           label="State / Province"
           name="shipping_address.province"
           autoComplete="address-level1"
