@@ -77,14 +77,15 @@ const ShippingAddress = ({
 
   return (
     <>
-      {customer && (addressesInRegion?.length || 0) > 0 && (
+    {/* TODO I have commented out the section asking a customer to use a saved address for the pilot in case we need it later down the track */}
+      {/* {customer && (addressesInRegion?.length || 0) > 0 && (
         <Container className="flex flex-col p-5 mb-6 gap-y-4">
           <p className="text-small-regular">
             {`Hi ${customer.first_name}, do you want to use one of your saved addresses?`}
           </p>
           <AddressSelect addresses={customer.shipping_addresses} cart={cart} />
         </Container>
-      )}
+      )} */}
       <div className="grid grid-cols-2 gap-4">
         <Input
           label="First name"
@@ -176,15 +177,15 @@ const ShippingAddress = ({
           data-testid="shipping-province-input"
         /> */}
       </div>
-      {/* <div className="my-8">
+      <div className="hidden my-8">
         <Checkbox
           label="Billing address same as shipping address"
           name="same_as_billing"
-          checked={checked}
+          checked={true}
           onChange={onChange}
           data-testid="billing-address-checkbox"
         />
-      </div> */}
+      </div>
       {/* <div className="grid grid-cols-2 gap-4 mb-4">
         <Input
           label="Email"
