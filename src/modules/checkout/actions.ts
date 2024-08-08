@@ -104,7 +104,10 @@ export async function submitDiscountForm(
   }
 }
 
+// this action is called when setting the address in the checkout form
+// it updates the cart with the address and contact data and then redirects to the next step
 export async function setAddresses(currentState: unknown, formData: FormData) {
+  console.log('hello!')
   if (!formData) return "No form data received"
 
   const cartId = cookies().get("_medusa_cart_id")?.value
@@ -115,19 +118,20 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
     shipping_address: {
       first_name: formData.get("shipping_address.first_name"),
       last_name: formData.get("shipping_address.last_name"),
-      address_1: formData.get("shipping_address.address_1"),
-      address_2: "",
-      company: formData.get("shipping_address.company"),
+      // address_1: formData.get("shipping_address.address_1"),
+      // address_2: "",
+      // company: formData.get("shipping_address.company"),
       postal_code: formData.get("shipping_address.postal_code"),
       city: formData.get("shipping_address.city"),
-      country_code: formData.get("shipping_address.country_code"),
-      province: formData.get("shipping_address.province"),
+      country_code: "nz",
+      // province: formData.get("shipping_address.province"),
       phone: formData.get("shipping_address.phone"),
     },
     email: formData.get("email"),
   } as StorePostCartsCartReq
 
   const sameAsBilling = formData.get("same_as_billing")
+  console.log(sameAsBilling)
 
   if (sameAsBilling === "on") data.billing_address = data.shipping_address
 
@@ -153,7 +157,7 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
   }
 
   redirect(
-    `/${formData.get("shipping_address.country_code")}/checkout?step=delivery`
+    `/${formData.get("shipping_address.country_code")}/checkout?step=payment`
   )
 }
 
