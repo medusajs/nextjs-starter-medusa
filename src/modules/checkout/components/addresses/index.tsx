@@ -137,7 +137,8 @@ const Addresses = ({
                     </Text>
                   </div>
 
-                  <div className="flex flex-col w-1/3" data-testid="billing-address-summary">
+                    {/* TODO delete or bring back depending on whether we want to include addresses in the checkout workflow */}
+                  {/* <div className="flex flex-col w-1/3" data-testid="billing-address-summary">
                     <Text className="mb-1 txt-medium-plus text-ui-fg-base">
                       Billing Address
                     </Text>
@@ -165,7 +166,7 @@ const Addresses = ({
                         </Text>
                       </>
                     )}
-                  </div>
+                  </div> */}
                 </div>
               </div>
             ) : (
