@@ -41,7 +41,7 @@ const PaymentDetails = ({ order }: PaymentDetailsProps) => {
                     : `${formatAmount({
                         amount: payment.amount,
                         region: order.region,
-                        includeTaxes: false,
+                        includeTaxes: true,
                       })} paid at ${new Date(payment.created_at).toString()}`}
                 </Text>
               </div>
