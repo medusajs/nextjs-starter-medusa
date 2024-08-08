@@ -22,13 +22,13 @@ const ShippingAddress = ({
   const [formData, setFormData] = useState({
     "shipping_address.first_name": cart?.shipping_address?.first_name || "",
     "shipping_address.last_name": cart?.shipping_address?.last_name || "",
-    "shipping_address.address_1": cart?.shipping_address?.address_1 || "",
-    "shipping_address.company": cart?.shipping_address?.company || "",
+    // "shipping_address.address_1": cart?.shipping_address?.address_1 || "",
+    // "shipping_address.company": cart?.shipping_address?.company || "",
     "shipping_address.postal_code": cart?.shipping_address?.postal_code || "",
     "shipping_address.city": cart?.shipping_address?.city || "",
-    "shipping_address.country_code":
-      cart?.shipping_address?.country_code || countryCode || "",
-    "shipping_address.province": cart?.shipping_address?.province || "",
+    // "shipping_address.country_code":
+    //   cart?.shipping_address?.country_code || countryCode || "",
+    // "shipping_address.province": cart?.shipping_address?.province || "",
     email: cart?.email || "",
     "shipping_address.phone": cart?.shipping_address?.phone || "",
   })
@@ -39,6 +39,7 @@ const ShippingAddress = ({
   )
 
   // check if customer has saved addresses that are in the current region
+  // TODO comment out this function dfor now as during the pilot we are not creating customer accountds so the customer object is not available
   const addressesInRegion = useMemo(
     () =>
       customer?.shipping_addresses.filter(
@@ -51,13 +52,13 @@ const ShippingAddress = ({
     setFormData({
       "shipping_address.first_name": cart?.shipping_address?.first_name || "",
       "shipping_address.last_name": cart?.shipping_address?.last_name || "",
-      "shipping_address.address_1": cart?.shipping_address?.address_1 || "",
-      "shipping_address.company": cart?.shipping_address?.company || "",
+      // "shipping_address.address_1": cart?.shipping_address?.address_1 || "",
+      // "shipping_address.company": cart?.shipping_address?.company || "",
       "shipping_address.postal_code": cart?.shipping_address?.postal_code || "",
       "shipping_address.city": cart?.shipping_address?.city || "",
-      "shipping_address.country_code":
-        cart?.shipping_address?.country_code || "",
-      "shipping_address.province": cart?.shipping_address?.province || "",
+      // "shipping_address.country_code":
+      //   cart?.shipping_address?.country_code || "",
+      // "shipping_address.province": cart?.shipping_address?.province || "",
       email: cart?.email || "",
       "shipping_address.phone": cart?.shipping_address?.phone || "",
     })
@@ -77,7 +78,7 @@ const ShippingAddress = ({
   return (
     <>
       {customer && (addressesInRegion?.length || 0) > 0 && (
-        <Container className="mb-6 flex flex-col gap-y-4 p-5">
+        <Container className="flex flex-col p-5 mb-6 gap-y-4">
           <p className="text-small-regular">
             {`Hi ${customer.first_name}, do you want to use one of your saved addresses?`}
           </p>
@@ -103,7 +104,7 @@ const ShippingAddress = ({
           required
           data-testid="shipping-last-name-input"
         />
-        <Input
+        {/* <Input
           label="Address"
           name="shipping_address.address_1"
           autoComplete="address-line1"
@@ -111,15 +112,15 @@ const ShippingAddress = ({
           onChange={handleChange}
           required
           data-testid="shipping-address-input"
-        />
-        <Input
+        /> */}
+        {/* <Input
           label="Company"
           name="shipping_address.company"
           value={formData["shipping_address.company"]}
           onChange={handleChange}
           autoComplete="organization"
           data-testid="shipping-company-input"
-        />
+        /> */}
         <Input
           label="Postal code"
           name="shipping_address.postal_code"
@@ -138,7 +139,7 @@ const ShippingAddress = ({
           required
           data-testid="shipping-city-input"
         />
-        <CountrySelect
+        {/* <CountrySelect
           name="shipping_address.country_code"
           autoComplete="country"
           region={cart?.region}
@@ -154,9 +155,9 @@ const ShippingAddress = ({
           value={formData["shipping_address.province"]}
           onChange={handleChange}
           data-testid="shipping-province-input"
-        />
+        /> */}
       </div>
-      <div className="my-8">
+      {/* <div className="my-8">
         <Checkbox
           label="Billing address same as shipping address"
           name="same_as_billing"
@@ -164,7 +165,8 @@ const ShippingAddress = ({
           onChange={onChange}
           data-testid="billing-address-checkbox"
         />
-      </div>
+      </div> */}
+      {/* TODO fix gap here */}
       <div className="grid grid-cols-2 gap-4 mb-4">
         <Input
           label="Email"
