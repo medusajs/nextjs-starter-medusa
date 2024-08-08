@@ -177,6 +177,7 @@ const ShippingAddress = ({
           data-testid="shipping-province-input"
         /> */}
       </div>
+      {/* TODO can remove the checkbox if it won't impact logic in the order flow but waiting to do more testing  */}
       <div className="hidden my-8">
         <Checkbox
           label="Billing address same as shipping address"
