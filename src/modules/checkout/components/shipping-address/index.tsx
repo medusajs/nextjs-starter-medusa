@@ -104,6 +104,25 @@ const ShippingAddress = ({
           required
           data-testid="shipping-last-name-input"
         />
+        <Input
+          label="Email"
+          name="email"
+          type="email"
+          title="Enter a valid email address."
+          autoComplete="email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+          data-testid="shipping-email-input"
+        />
+        <Input
+          label="Phone"
+          name="shipping_address.phone"
+          autoComplete="tel"
+          value={formData["shipping_address.phone"]}
+          onChange={handleChange}
+          data-testid="shipping-phone-input"
+        />
         {/* <Input
           label="Address"
           name="shipping_address.address_1"
@@ -166,8 +185,7 @@ const ShippingAddress = ({
           data-testid="billing-address-checkbox"
         />
       </div> */}
-      {/* TODO fix gap here */}
-      <div className="grid grid-cols-2 gap-4 mb-4">
+      {/* <div className="grid grid-cols-2 gap-4 mb-4">
         <Input
           label="Email"
           name="email"
@@ -187,7 +205,7 @@ const ShippingAddress = ({
           onChange={handleChange}
           data-testid="shipping-phone-input"
         />
-      </div>
+      </div> */}
     </>
   )
 }
