@@ -19,6 +19,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
   cart,
   "data-testid": dataTestId,
 }) => {
+  // TODO tidy up this logic by deleting comments if confirmed data is not needed
   const notReady =
     !cart ||
     // !cart.shipping_address ||
