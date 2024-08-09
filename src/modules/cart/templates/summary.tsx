@@ -18,7 +18,7 @@ const Summary = ({ cart }: SummaryProps) => {
       <Heading level="h2" className="text-[2rem] leading-[2.75rem]">
         Summary
       </Heading>
-      <DiscountCode cart={cart} />
+      {/* <DiscountCode cart={cart} /> */}
       <Divider />
       <CartTotals data={cart} />
       <LocalizedClientLink href={"/checkout?step=" + cart.checkout_step} data-testid="checkout-button">
