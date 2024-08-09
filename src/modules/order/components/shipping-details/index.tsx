@@ -13,12 +13,12 @@ const ShippingDetails = ({ order }: ShippingDetailsProps) => {
   return (
     <div>
       <Heading level="h2" className="flex flex-row my-6 text-3xl-regular">
-        Delivery
+        Order details
       </Heading>
       <div className="flex items-start gap-x-8">
         <div className="flex flex-col w-1/3" data-testid="shipping-address-summary">
           <Text className="mb-1 txt-medium-plus text-ui-fg-base">
-            Shipping Address
+            Personal details
           </Text>
           <Text className="txt-medium text-ui-fg-subtle">
             {order.shipping_address.first_name}{" "}
@@ -45,8 +45,9 @@ const ShippingDetails = ({ order }: ShippingDetailsProps) => {
         </div>
 
         <div className="flex flex-col w-1/3" data-testid="shipping-method-summary">
-          <Text className="mb-1 txt-medium-plus text-ui-fg-base">Method</Text>
-          <Text className="txt-medium text-ui-fg-subtle">
+          <Text className="mb-1 txt-medium-plus text-ui-fg-base">Pick up</Text>
+          {/* TODO get the pick up method from the order */}
+          {/* <Text className="txt-medium text-ui-fg-subtle">
             {order.shipping_methods[0].shipping_option?.name} (
             {formatAmount({
               amount: order.shipping_methods[0].price,
@@ -56,7 +57,7 @@ const ShippingDetails = ({ order }: ShippingDetailsProps) => {
               .replace(/,/g, "")
               .replace(/\./g, ",")}
             )
-          </Text>
+          </Text> */}
         </div>
       </div>
       <Divider className="mt-8" />
