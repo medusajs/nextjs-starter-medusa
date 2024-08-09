@@ -38,7 +38,6 @@ const Payment = ({
   const isStripe = cart?.payment_session?.provider_id === "stripe"
   // checks if the stripe context is ready
   const stripeReady = useContext(StripeContext)
-  console.log("stripeReady", stripeReady)
 
   // TODO delete paidByGiftCard
   const paidByGiftcard =
@@ -50,7 +49,6 @@ const Payment = ({
   //   (cart?.payment_session && cart?.shipping_methods.length !== 0) ||
   //   paidByGiftcard
     const paymentReady = cart?.payment_session 
-    console.log("paymentReady", paymentReady) 
 
   const useOptions: StripeCardElementOptions = useMemo(() => {
     return {
@@ -111,10 +109,6 @@ const Payment = ({
     setIsLoading(false)
     setError(null)
   }, [isOpen])
-
-  // TODO delete test logging
-  console.log("cart", cart)
-  console.log(process.env.NODE_ENV === "development")
 
   return (
     <div className="bg-white">

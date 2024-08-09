@@ -11,6 +11,7 @@ import Shipping from "@modules/checkout/components/shipping"
 import { cookies } from "next/headers"
 import { CartWithCheckoutStep } from "types/global"
 
+
 export default async function CheckoutForm() {
   const cartId = cookies().get("_medusa_cart_id")?.value
 
@@ -36,7 +37,7 @@ export default async function CheckoutForm() {
 
   if (!availableShippingMethods) {
     return null
-  }
+}
 
   // get customer if logged in
   const customer = await getCustomer()
@@ -48,12 +49,12 @@ export default async function CheckoutForm() {
           <Addresses cart={cart} customer={customer} />
         </div>
 
-        <div>
+        {/* <div>
           <Shipping
             cart={cart}
             availableShippingMethods={availableShippingMethods}
           />
-        </div>
+        </div> */}
 
         <div>
           <Payment cart={cart} />

@@ -155,10 +155,9 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
     return error.toString()
   }
 
-  console.log(`/${formData.get("shipping_address.country_code")}/checkout?step=payment`)
-  // redirect(
-  //   `/${formData.get("shipping_address.country_code")}/checkout?step=payment`
-  // )
+  redirect(
+    `/${formData.get("shipping_address.country_code")}/checkout?step=payment`
+  )
 }
 
 export async function setShippingMethod(shippingMethodId: string) {
@@ -199,7 +198,6 @@ export async function placeOrder() {
   try {
     // completeCart is a Medusa API endpoint that will finalise the cart and create an order or throw an error if the cart is not ready to be completed
     cart = await completeCart(cartId)
-    console.log(cart)
     revalidateTag("cart")
   } catch (error: any) {
     throw error
