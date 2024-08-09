@@ -24,6 +24,7 @@ const Shipping: React.FC<ShippingProps> = ({
   cart,
   availableShippingMethods,
 }) => {
+  console.log(availableShippingMethods, "availableShippingMethods")
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -165,7 +166,7 @@ const Shipping: React.FC<ShippingProps> = ({
           <div className="text-small-regular">
             {cart && cart.shipping_methods.length > 0 && (
               <div className="flex flex-col w-1/3">
-                <Text className="txt-medium-plus text-ui-fg-base mb-1">
+                <Text className="mb-1 txt-medium-plus text-ui-fg-base">
                   Method
                 </Text>
                 <Text className="txt-medium text-ui-fg-subtle">
