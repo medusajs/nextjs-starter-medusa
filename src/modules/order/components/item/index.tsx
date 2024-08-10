@@ -22,7 +22,7 @@ const Item = ({ item, region }: ItemProps) => {
 
       <Table.Cell className="text-left">
         <Text className="txt-medium-plus text-ui-fg-base" data-testid="product-name">{item.title}</Text>
-        <LineItemOptions variant={item.variant} data-testid="product-variant" />
+        <LineItemOptions variant={item.variant} data-testid="product-variant" isHidden />
       </Table.Cell>
 
       <Table.Cell className="!pr-0">
