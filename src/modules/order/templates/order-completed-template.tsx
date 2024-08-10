@@ -7,6 +7,7 @@ import Help from "@modules/order/components/help"
 import Items from "@modules/order/components/items"
 import OnboardingCta from "@modules/order/components/onboarding-cta"
 import OrderDetails from "@modules/order/components/order-details"
+import PickUpInfo from "../components/pick-up-info"
 import ShippingDetails from "@modules/order/components/shipping-details"
 import PaymentDetails from "@modules/order/components/payment-details"
 
@@ -32,6 +33,7 @@ export default function OrderCompletedTemplate({
             <span>Your order was placed successfully.</span>
           </Heading>
           <OrderDetails order={order} />
+          <PickUpInfo order={order} />
           <Heading level="h2" className="flex flex-row text-3xl-regular">
             Summary
           </Heading>
