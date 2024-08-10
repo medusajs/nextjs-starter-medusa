@@ -29,6 +29,7 @@ const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
         Order #<span data-testid="order-id">{order.display_id}</span>
       </Text>
 
+{/* TODO check if we want to pass the showStatus prop to show the customer order status or payment status details? */}
       <div className="flex items-center mt-4 text-compact-small gap-x-4">
         {showStatus && (
           <>
