@@ -35,14 +35,18 @@ const PaymentDetails = ({ order }: PaymentDetailsProps) => {
                 <Container className="flex items-center p-2 h-7 w-fit bg-ui-button-neutral-hover">
                   {paymentInfoMap[payment.provider_id].icon}
                 </Container>
+                {/* TODO check if we need the option to show the last four digits of stripe card - looks like we never get here with stripe payments anyway? */}
                 <Text data-testid="payment-amount">
-                  {payment.provider_id === "stripe" && payment.data.card_last4
-                    ? `**** **** **** ${payment.data.card_last4}`
-                    : `${formatAmount({
+                  {payment.provider_id === "manual" ?
+                    `Awaiting bank transfer`
+                    : payment.provider_id === "stripe" && payment.data.card_last4
+                      ? `**** **** **** ${payment.data.card_last4}`
+                      : `${formatAmount({
                         amount: payment.amount,
                         region: order.region,
                         includeTaxes: true,
-                      })} paid at ${new Date(payment.created_at).toString()}`}
+                      })} paid at ${new Date(payment.created_at).toString()}`
+                  }
                 </Text>
               </div>
             </div>
