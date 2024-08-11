@@ -9,13 +9,13 @@ const PickUpInfo = ({ order }: PickUpInfoProps) => {
 
   return (
     <div>
-      <div className="flex flex-col gap-y-4">
-        <Heading level="h2" className="flex flex-row text-3xl-regular">
+      <div className="flex flex-col gap-y-3">
+        <Heading level="h2" className="flex flex-row mt-4 text-2xl-regular">
           Pick up instructions
         </Heading>
 
         <Text>Thanks for ordering at your local food Coop! Your food bag(s) will be ready for you to pick up on:</Text>
-        <div className="flex flex-col items-center sm:items-start">
+        <div className="flex flex-col items-center sm:items-start gap-y-2">
           <Text weight="plus">Thursday 25 July </Text>
           <Text weight="plus">Between 9:00am - 2:30pm</Text>
           <Text weight="plus">At the Karori Community Centre</Text>
