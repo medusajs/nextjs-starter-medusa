@@ -39,12 +39,12 @@ if (isManualPayment) {
     <>
       <Heading
             level="h1"
-            className="flex flex-col mb-4 text-3xl gap-y-3 text-ui-fg-base"
+            className="flex flex-col mb-3 text-3xl gap-y-3 text-ui-fg-base"
           >
             <span>Almost there!</span>
             <span>😊 🥦</span>
           </Heading>
-          <Heading level="h3" className="flex flex-row text-3xl-regular">
+          <Heading level="h2" className="text-2xl-regular">
             Bank payment instructions
           </Heading>
           <Text>
@@ -55,15 +55,15 @@ if (isManualPayment) {
           <Text>
           </Text>
           <div className="flex flex-col space-y-2">
-            <Text weight={"plus"} className="underline">Payment details</Text>
+            <Heading level="h3" className="text-xl-regular">Payment details</Heading>
             <Text><span className="font-semibold">Bank account name:</span> CoShop</Text>
             <Text><span className="font-semibold">Account number:</span> 1234 5678 9012</Text>
             <Text><span className="font-semibold">Reference:</span> {order.display_id}</Text>
             {/* TODO format the total amount */}
             <Text><span className="font-semibold">Amount due (incl tax):</span> {order.total}</Text> 
-          </div>
           <Text>NOTE: Your order is not ready until you have paid the amount due.</Text>
-          <Text>If you have any questions or feedback, reach out to Orders@coshop.nz</Text>
+          <Text>If you have any questions or feedback, reach out to <a className="underline" href="mailto:orders@coshop.nz">orders@coshop.nz</a></Text>
+          </div>
     </>
   );
 }
