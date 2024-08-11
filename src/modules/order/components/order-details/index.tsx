@@ -26,7 +26,7 @@ const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
         Order date: <span data-testid="order-date">{new Date(order.created_at).toDateString()}</span>
       </Text>
       <Text className="mt-2 text-ui-fg-interactive">
-        Order #<span data-testid="order-id">{order.display_id}</span>
+        Order number <span data-testid="order-id">{order.display_id}</span>
       </Text>
 
 {/* TODO check if we want to pass the showStatus prop to show the customer order status or payment status details? */}

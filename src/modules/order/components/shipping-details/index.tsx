@@ -9,7 +9,6 @@ type ShippingDetailsProps = {
 }
 
 const ShippingDetails = ({ order }: ShippingDetailsProps) => {
-  console.log("order", order)
   return (
     <div>
       <Heading level="h2" className="flex flex-row my-6 text-3xl-regular">
