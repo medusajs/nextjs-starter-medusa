@@ -2,6 +2,7 @@
 import { Order } from "@medusajs/medusa"
 import { Heading, Text } from "@medusajs/ui"
 import OrderDetails from "../order-details"
+import PickUpInfo from "../pick-up-info"
 
 import { useEffect, useState } from "react"
 
@@ -9,28 +10,29 @@ type OrderConfirmedProps = {
   order: Order
 }
 
-
-const isManual = (order: Order) => {
-  console.log('provider_id:', order.payments[0].provider_id);
-  console.log('Condition result:', order.payments[0].provider_id !== "manual");
-  return order.payments[0].provider_id === "manual";
-}
-
 const OrderConfirmed = ({ order}: OrderConfirmedProps) => {
   
-  const [isManualPayment, setIsManualPayment] = useState(false);
+  const [isManualPayment, setIsManualPayment] = useState<boolean | undefined>(undefined);
+  // const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     setIsManualPayment(order.payments[0].provider_id === "manual");
+    // setIsLoading(false)
   }, [order.payments]);
 
-  if (isManualPayment === undefined) {
-    return null; // or a loading indicator if necessary
-  }
 
-  console.log('provider_id:', order.payments[0].provider_id);
+console.log('provider_id:', order.payments[0].provider_id);
 console.log('Condition result:', order.payments[0].provider_id !== "manual");
 console.log('isManualPayment:', isManualPayment);
+// console.log(isLoading)
+
+if (isManualPayment === undefined) {
+  return (
+    <div className="flex items-center justify-center min-h-[200px]">
+      <div className="loader">Processing...</div>
+    </div>
+  );
+}
 
 if (isManualPayment) {
   return (
@@ -51,7 +53,6 @@ if (isManualPayment) {
           Please put the <span className="font-semibold">order number #<span data-testid="order-id">{order.display_id}</span></span> in the reference field.
           </Text>
           <Text>
-          <Text>NOTE: Your order is not ready until you have paid the amount due.</Text>
           </Text>
           <div className="flex flex-col space-y-2">
             <Text weight={"plus"} className="underline">Payment details</Text>
@@ -61,14 +62,23 @@ if (isManualPayment) {
             {/* TODO format the total amount */}
             <Text><span className="font-semibold">Amount due (incl tax):</span> {order.total}</Text> 
           </div>
+          <Text>NOTE: Your order is not ready until you have paid the amount due.</Text>
+          <Text>If you have any questions or feedback, reach out to Orders@coshop.nz</Text>
     </>
   );
 }
 
 return (
   <div>
-    <h1>Thank you! Your order was placed successfully.</h1>
-    {/* Regular order confirmation */}
+    <Heading
+      level="h1"
+      className="flex flex-col mb-3 text-3xl gap-y-3 text-ui-fg-base"
+    >
+      <span>Thank you!</span>
+      <span className="flex flex-col text-xl text-ui-fg-base">Your order was placed successfully.</span>
+    </Heading>
+    <OrderDetails order={order} />
+    <PickUpInfo order={order} />
   </div>
 );
 }

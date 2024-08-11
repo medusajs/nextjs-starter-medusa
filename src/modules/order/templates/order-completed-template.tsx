@@ -27,30 +27,11 @@ export default function OrderCompletedTemplate({
       <div className="flex flex-col items-center justify-center w-full h-full max-w-4xl content-container gap-y-10">
         {isOnboarding && <OnboardingCta orderId={order.id} />}
         <div className="flex flex-col w-full h-full max-w-4xl gap-4 py-10 bg-white" data-testid="order-complete-container">
-  
-          {/* <div>{order.payments[0].provider_id}</div>
-            <Heading
-              level="h1"
-              className="flex flex-col mb-4 text-3xl gap-y-3 text-ui-fg-base"
-            >
-              <span>Thank you!</span>
-              <span>Your order was placed successfully.</span>
-            </Heading>
-            <OrderDetails order={order} /> */}
+{/* TODO rename component - OrderConfirmationDetails? */}
+          <OrderConfirmed order={order} />
 
-            <OrderConfirmed order={order} />
-
-          {/* if payment NOT complete */}
-          {/* <Heading
-            level="h1"
-            className="flex flex-col mb-4 text-3xl gap-y-3 text-ui-fg-base"
-          >
-            <span>Almost there!</span>
-            <span>😊 🥦</span>
-          </Heading> */}
-          <PickUpInfo order={order} />
-          <Heading level="h2" className="flex flex-row text-3xl-regular">
-            Summary
+          <Heading level="h2" className="flex flex-row mt-4 text-2xl-regular">
+            Order summary
           </Heading>
           <Items items={order.items} region={order.region} />
           <CartTotals data={order} />
