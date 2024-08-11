@@ -13,10 +13,7 @@ type CartTotalsProps = {
 const CartTotals: React.FC<CartTotalsProps> = ({ data }) => {
   const {
     subtotal,
-    discount_total,
-    gift_card_total,
     tax_total,
-    shipping_total,
     total,
   } = data
 
@@ -43,42 +40,12 @@ const CartTotals: React.FC<CartTotalsProps> = ({ data }) => {
             {getAmount(subtotal)}
           </span>
         </div>
-        {/* {!!discount_total && (
-          <div className="flex items-center justify-between">
-            <span>Discount</span>
-            <span
-              className="text-ui-fg-interactive"
-              data-testid="cart-discount"
-              data-value={discount_total || 0}
-            >
-              - {getAmount(discount_total)}
-            </span>
-          </div>
-        )} */}
-        {/* <div className="flex items-center justify-between">
-          <span>Shipping</span>
-          <span data-testid="cart-shipping" data-value={shipping_total || 0}>
-            {getAmount(shipping_total)}
-          </span>
-        </div> */}
         <div className="flex justify-between">
           <span className="flex items-center gap-x-1 ">Taxes</span>
           <span data-testid="cart-taxes" data-value={tax_total || 0}>
             {getAmount(tax_total)}
           </span>
         </div>
-        {/* {!!gift_card_total && (
-          <div className="flex items-center justify-between">
-            <span>Gift card</span>
-            <span
-              className="text-ui-fg-interactive"
-              data-testid="cart-gift-card-amount"
-              data-value={gift_card_total || 0}
-            >
-              - {getAmount(gift_card_total)}
-            </span>
-          </div>
-        )} */}
       </div>
       <div className="w-full h-px my-4 border-b border-gray-200" />
       <div className="flex items-center justify-between mb-2 text-ui-fg-base txt-medium ">
