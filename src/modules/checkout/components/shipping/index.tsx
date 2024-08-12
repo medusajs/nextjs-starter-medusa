@@ -96,7 +96,7 @@ const Shipping: React.FC<ShippingProps> = ({
       </div>
       {isOpen ? (
         <div data-testid="delivery-options-container">
-          <div className="pb-8">
+          <div className="pb-8 bg-red-500">
             <RadioGroup
               value={cart.shipping_methods[0]?.shipping_option_id}
               onChange={(value: string) => handleChange(value)}
@@ -165,7 +165,7 @@ const Shipping: React.FC<ShippingProps> = ({
           <div className="text-small-regular">
             {cart && cart.shipping_methods.length > 0 && (
               <div className="flex flex-col w-1/3">
-                <Text className="txt-medium-plus text-ui-fg-base mb-1">
+                <Text className="mb-1 txt-medium-plus text-ui-fg-base">
                   Method
                 </Text>
                 <Text className="txt-medium text-ui-fg-subtle">

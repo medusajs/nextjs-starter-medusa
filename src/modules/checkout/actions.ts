@@ -104,6 +104,8 @@ export async function submitDiscountForm(
   }
 }
 
+// this action is called when setting the address in the checkout form
+// it updates the cart with the address and contact data and then redirects to the next step
 export async function setAddresses(currentState: unknown, formData: FormData) {
   if (!formData) return "No form data received"
 
@@ -111,17 +113,18 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
 
   if (!cartId) return { message: "No cartId cookie found" }
 
+  // TODO delete commented out data if not being used
   const data = {
     shipping_address: {
       first_name: formData.get("shipping_address.first_name"),
       last_name: formData.get("shipping_address.last_name"),
-      address_1: formData.get("shipping_address.address_1"),
-      address_2: "",
-      company: formData.get("shipping_address.company"),
+      // address_1: formData.get("shipping_address.address_1"),
+      // address_2: "",
+      // company: formData.get("shipping_address.company"),
       postal_code: formData.get("shipping_address.postal_code"),
       city: formData.get("shipping_address.city"),
       country_code: formData.get("shipping_address.country_code"),
-      province: formData.get("shipping_address.province"),
+      // province: formData.get("shipping_address.province"),
       phone: formData.get("shipping_address.phone"),
     },
     email: formData.get("email"),
@@ -153,7 +156,7 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
   }
 
   redirect(
-    `/${formData.get("shipping_address.country_code")}/checkout?step=delivery`
+    `/${formData.get("shipping_address.country_code")}/checkout?step=payment`
   )
 }
 
@@ -184,6 +187,7 @@ export async function setPaymentMethod(providerId: string) {
   }
 }
 
+// this action is called when the user clicks the "Place Order" button to finalise the checkout process and redirect the user to the checkout page
 export async function placeOrder() {
   const cartId = cookies().get("_medusa_cart_id")?.value
 
@@ -192,6 +196,7 @@ export async function placeOrder() {
   let cart
 
   try {
+    // completeCart is a Medusa API endpoint that will finalise the cart and create an order or throw an error if the cart is not ready to be completed
     cart = await completeCart(cartId)
     revalidateTag("cart")
   } catch (error: any) {

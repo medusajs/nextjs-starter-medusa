@@ -1,5 +1,5 @@
 import React from "react"
-import { CreditCard } from "@medusajs/icons"
+import { CreditCard, Cash } from "@medusajs/icons"
 
 import Ideal from "@modules/common/icons/ideal"
 import Bancontact from "@modules/common/icons/bancontact"
@@ -27,8 +27,8 @@ export const paymentInfoMap: Record<
     icon: <PayPal />,
   },
   manual: {
-    title: "Test payment",
-    icon: <CreditCard />,
+    title: "Manual bank transfer",
+    icon: <Cash />,
   },
   // Add more payment providers here
 }

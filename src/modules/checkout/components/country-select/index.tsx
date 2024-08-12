@@ -22,8 +22,8 @@ const CountrySelect = forwardRef<
     if (!region) {
       return []
     }
-
-    return region.countries.map((country) => ({
+    //use filter to only show NZ in the dropdown select, matching the iso_2 value to the display name
+    return region.countries.filter(country => country.iso_2 === 'nz').map((country) => ({
       value: country.iso_2,
       label: country.display_name,
     }))

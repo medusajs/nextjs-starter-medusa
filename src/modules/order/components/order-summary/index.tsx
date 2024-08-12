@@ -6,6 +6,11 @@ type OrderSummaryProps = {
 }
 
 const OrderSummary = ({ order }: OrderSummaryProps) => {
+
+  // this function checks the maount is valid and calls a global function with three params:
+  // - amount to be formatted
+  // - region
+  // - includeTaxes explicitly set to false so the maount returned does not include taxes
   const getAmount = (amount?: number | null) => {
     if (!amount) {
       return
@@ -17,8 +22,8 @@ const OrderSummary = ({ order }: OrderSummaryProps) => {
   return (
     <div>
       <h2 className="text-base-semi">Order Summary</h2>
-      <div className="text-small-regular text-ui-fg-base my-2">
-        <div className="flex items-center justify-between text-base-regular text-ui-fg-base mb-2">
+      <div className="my-2 text-small-regular text-ui-fg-base">
+        <div className="flex items-center justify-between mb-2 text-base-regular text-ui-fg-base">
           <span>Subtotal</span>
           <span>{getAmount(order.subtotal)}</span>
         </div>
@@ -44,8 +49,8 @@ const OrderSummary = ({ order }: OrderSummaryProps) => {
             <span>{getAmount(order.tax_total)}</span>
           </div>
         </div>
-        <div className="h-px w-full border-b border-gray-200 border-dashed my-4" />
-        <div className="flex items-center justify-between text-base-regular text-ui-fg-base mb-2">
+        <div className="w-full h-px my-4 border-b border-gray-200 border-dashed" />
+        <div className="flex items-center justify-between mb-2 text-base-regular text-ui-fg-base">
           <span>Total</span>
           <span>{getAmount(order.total)}</span>
         </div>

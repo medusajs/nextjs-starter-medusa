@@ -22,6 +22,7 @@ const Payment = ({
 }: {
   cart: Omit<Cart, "refundable_amount" | "refunded_total"> | null
 }) => {
+
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [cardBrand, setCardBrand] = useState<string | null>(null)
@@ -31,17 +32,19 @@ const Payment = ({
   const router = useRouter()
   const pathname = usePathname()
 
+  // boolean to check if the payment step is active
   const isOpen = searchParams.get("step") === "payment"
-
+// boolean to check if the payment step is active
   const isStripe = cart?.payment_session?.provider_id === "stripe"
+  // checks if the stripe context is ready
   const stripeReady = useContext(StripeContext)
 
+  // TODO tidy out paidByGiftCard logic
   const paidByGiftcard =
     cart?.gift_cards && cart?.gift_cards?.length > 0 && cart?.total === 0
 
-  const paymentReady =
-    (cart?.payment_session && cart?.shipping_methods.length !== 0) ||
-    paidByGiftcard
+  // determines if the payment step is ready to proceed based on where a payment session exists
+  const paymentReady = cart?.payment_session 
 
   const useOptions: StripeCardElementOptions = useMemo(() => {
     return {
@@ -158,7 +161,7 @@ const Payment = ({
               </RadioGroup>
               {isStripe && stripeReady && (
                 <div className="mt-5 transition-all duration-150 ease-in-out">
-                  <Text className="txt-medium-plus text-ui-fg-base mb-1">
+                  <Text className="mb-1 txt-medium-plus text-ui-fg-base">
                     Enter your card details:
                   </Text>
 
@@ -178,7 +181,7 @@ const Payment = ({
             </>
           ) : paidByGiftcard ? (
             <div className="flex flex-col w-1/3">
-              <Text className="txt-medium-plus text-ui-fg-base mb-1">
+              <Text className="mb-1 txt-medium-plus text-ui-fg-base">
                 Payment method
               </Text>
               <Text
@@ -216,9 +219,9 @@ const Payment = ({
 
         <div className={isOpen ? "hidden" : "block"}>
           {cart && paymentReady && cart.payment_session ? (
-            <div className="flex items-start gap-x-1 w-full">
+            <div className="flex items-start w-full gap-x-1">
               <div className="flex flex-col w-1/3">
-                <Text className="txt-medium-plus text-ui-fg-base mb-1">
+                <Text className="mb-1 font-semibold txt-medium-plus text-ui-fg-base">
                   Payment method
                 </Text>
                 <Text
@@ -237,14 +240,14 @@ const Payment = ({
                   )}
               </div>
               <div className="flex flex-col w-1/3">
-                <Text className="txt-medium-plus text-ui-fg-base mb-1">
+                <Text className="mb-1 font-semibold txt-medium-plus text-ui-fg-base">
                   Payment details
                 </Text>
                 <div
-                  className="flex gap-2 txt-medium text-ui-fg-subtle items-center"
+                  className="flex items-center gap-2 txt-medium text-ui-fg-subtle"
                   data-testid="payment-details-summary"
                 >
-                  <Container className="flex items-center h-7 w-fit p-2 bg-ui-button-neutral-hover">
+                  <Container className="flex items-center p-2 h-7 w-fit bg-ui-button-neutral-hover">
                     {paymentInfoMap[cart.payment_session.provider_id]?.icon || (
                       <CreditCard />
                     )}
@@ -252,14 +255,14 @@ const Payment = ({
                   <Text>
                     {cart.payment_session.provider_id === "stripe" && cardBrand
                       ? cardBrand
-                      : "Another step will appear"}
+                      : "Please see order review for bank payment instructions"}
                   </Text>
                 </div>
               </div>
             </div>
           ) : paidByGiftcard ? (
             <div className="flex flex-col w-1/3">
-              <Text className="txt-medium-plus text-ui-fg-base mb-1">
+              <Text className="mb-1 txt-medium-plus text-ui-fg-base">
                 Payment method
               </Text>
               <Text

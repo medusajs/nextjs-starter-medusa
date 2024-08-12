@@ -19,14 +19,15 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
   cart,
   "data-testid": dataTestId,
 }) => {
+  // TODO tidy up this logic by deleting comments if confirmed data is not needed
   const notReady =
     !cart ||
-    !cart.shipping_address ||
-    !cart.billing_address ||
-    !cart.email ||
-    cart.shipping_methods.length < 1
-      ? true
-      : false
+    // !cart.shipping_address ||
+    // !cart.billing_address ||
+    !cart.email 
+    // cart.shipping_methods.length < 1
+    //   ? true
+    //   : false
 
   const paidByGiftcard =
     cart?.gift_cards && cart?.gift_cards?.length > 0 && cart?.total === 0

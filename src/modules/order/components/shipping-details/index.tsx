@@ -11,14 +11,14 @@ type ShippingDetailsProps = {
 const ShippingDetails = ({ order }: ShippingDetailsProps) => {
   return (
     <div>
-      <Heading level="h2" className="flex flex-row text-3xl-regular my-6">
-        Delivery
+      <Heading level="h3" className="flex flex-row my-6 sr-only text-xl-regular">
+        Order details
       </Heading>
-      <div className="flex items-start gap-x-8">
+      <div className="flex items-start mt-6 gap-x-8">
         <div className="flex flex-col w-1/3" data-testid="shipping-address-summary">
-          <Text className="txt-medium-plus text-ui-fg-base mb-1">
-            Shipping Address
-          </Text>
+          <Heading level="h3" className="mb-1 txt-large-plus text-ui-fg-base">
+            Personal details
+          </Heading>
           <Text className="txt-medium text-ui-fg-subtle">
             {order.shipping_address.first_name}{" "}
             {order.shipping_address.last_name}
@@ -36,26 +36,11 @@ const ShippingDetails = ({ order }: ShippingDetailsProps) => {
         </div>
 
         <div className="flex flex-col w-1/3 " data-testid="shipping-contact-summary">
-          <Text className="txt-medium-plus text-ui-fg-base mb-1">Contact</Text>
+          <Heading level="h3"className="mb-1 txt-large-plus text-ui-fg-base">Contact</Heading>
           <Text className="txt-medium text-ui-fg-subtle">
             {order.shipping_address.phone}
           </Text>
           <Text className="txt-medium text-ui-fg-subtle">{order.email}</Text>
-        </div>
-
-        <div className="flex flex-col w-1/3" data-testid="shipping-method-summary">
-          <Text className="txt-medium-plus text-ui-fg-base mb-1">Method</Text>
-          <Text className="txt-medium text-ui-fg-subtle">
-            {order.shipping_methods[0].shipping_option?.name} (
-            {formatAmount({
-              amount: order.shipping_methods[0].price,
-              region: order.region,
-              includeTaxes: false,
-            })
-              .replace(/,/g, "")
-              .replace(/\./g, ",")}
-            )
-          </Text>
         </div>
       </div>
       <Divider className="mt-8" />
