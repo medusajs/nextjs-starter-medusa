@@ -37,6 +37,7 @@ const Addresses = ({
 
   const isOpen = searchParams.get("step") === "address"
 
+  // TODO tidy out billing address logic from code
   const { state: sameAsSBilling, toggle: toggleSameAsBilling } = useToggleState(
     cart?.shipping_address && cart?.billing_address
       ? compareAddresses(cart?.shipping_address, cart?.billing_address)
@@ -130,37 +131,6 @@ const Addresses = ({
                       {cart.email}
                     </Text>
                   </div>
-
-                    {/* TODO delete or bring back depending on whether we want to include addresses in the checkout workflow */}
-                  {/* <div className="flex flex-col w-1/3" data-testid="billing-address-summary">
-                    <Text className="mb-1 txt-medium-plus text-ui-fg-base">
-                      Billing Address
-                    </Text>
-
-                    {sameAsSBilling ? (
-                      <Text className="txt-medium text-ui-fg-subtle">
-                        Billing- and delivery address are the same.
-                      </Text>
-                    ) : (
-                      <>
-                        <Text className="txt-medium text-ui-fg-subtle">
-                          {cart.billing_address.first_name}{" "}
-                          {cart.billing_address.last_name}
-                        </Text>
-                        <Text className="txt-medium text-ui-fg-subtle">
-                          {cart.billing_address.address_1}{" "}
-                          {cart.billing_address.address_2}
-                        </Text>
-                        <Text className="txt-medium text-ui-fg-subtle">
-                          {cart.billing_address.postal_code},{" "}
-                          {cart.billing_address.city}
-                        </Text>
-                        <Text className="txt-medium text-ui-fg-subtle">
-                          {cart.billing_address.country_code?.toUpperCase()}
-                        </Text>
-                      </>
-                    )}
-                  </div> */}
                 </div>
               </div>
             ) : (

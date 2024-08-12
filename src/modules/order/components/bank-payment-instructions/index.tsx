@@ -14,7 +14,7 @@ const BankPaymentInstructions: React.FC<BankPaymentInstructionsProps> = ({ order
     return formatAmount({
       amount: amount || 0,
       region: order.region,
-      includeTaxes: false, //TODO GST inclusive tax here?!
+      includeTaxes: false,
     })
   }
 
@@ -30,7 +30,6 @@ const BankPaymentInstructions: React.FC<BankPaymentInstructionsProps> = ({ order
       </Text>
     
       <div className="flex flex-col space-y-2">
-        {/* <Heading level="h3" className="text-xl-regular">Transfer details</Heading> */}
         <Text><span className="font-semibold">Bank account name:</span> CoShop</Text>
         <Text><span className="font-semibold">Account number:</span> 1234 5678 9012</Text>
         <Text><span className="font-semibold">Reference:</span> {order.display_id}</Text>

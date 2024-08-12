@@ -3,35 +3,33 @@ import { Order } from "@medusajs/medusa"
 import { Heading, Text } from "@medusajs/ui"
 import OrderDetails from "../order-details"
 import PickUpInfo from "../pick-up-info"
+import Spinner from "@modules/common/icons/spinner"
 
 import { useEffect, useState } from "react"
 import BankPaymentInstructions from "../bank-payment-instructions"
 
-type OrderConfirmedProps = {
+type OrderConfirmationDetailsProps = {
   order: Order
 }
 
-const OrderConfirmed = ({ order}: OrderConfirmedProps) => {
+const OrderConfirmationDetails = ({ order}: OrderConfirmationDetailsProps) => {
   
+  // check if payment is manual or stripe so we can dynamically render the correct components and information to the user
   const [isManualPayment, setIsManualPayment] = useState<boolean | undefined>(undefined);
-
   useEffect(() => {
     setIsManualPayment(order.payments[0].provider_id === "manual");
   }, [order.payments]);
 
 
-console.log('provider_id:', order.payments[0].provider_id);
-console.log('Condition result:', order.payments[0].provider_id !== "manual");
-console.log('isManualPayment:', isManualPayment);
-
 if (isManualPayment === undefined) {
   return (
     <div className="flex items-center justify-center min-h-[200px]">
-      <div className="loader">Processing...</div>
+      <Spinner />
     </div>
   );
 }
 
+// if payment is manual, let customer know how to complete their order via bank transfer
 if (isManualPayment) {
   return (
     <>
@@ -49,6 +47,7 @@ if (isManualPayment) {
   );
 }
 
+// if payment is  stripe, order is succesful, show order details and pick up info
 return (
   <div>
     <Heading
@@ -64,5 +63,5 @@ return (
 );
 }
 
-export default OrderConfirmed
+export default OrderConfirmationDetails
  

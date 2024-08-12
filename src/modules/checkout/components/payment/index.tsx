@@ -39,16 +39,12 @@ const Payment = ({
   // checks if the stripe context is ready
   const stripeReady = useContext(StripeContext)
 
-  // TODO delete paidByGiftCard
+  // TODO tidy out paidByGiftCard logic
   const paidByGiftcard =
     cart?.gift_cards && cart?.gift_cards?.length > 0 && cart?.total === 0
 
-    // determines if the payment step is ready to proceed based on where a payment session exists
-    // TODO delete commented out code - i have removed the shipping methids and gift card check as not relevant for coshop workflow
-  // const paymentReady =
-  //   (cart?.payment_session && cart?.shipping_methods.length !== 0) ||
-  //   paidByGiftcard
-    const paymentReady = cart?.payment_session 
+  // determines if the payment step is ready to proceed based on where a payment session exists
+  const paymentReady = cart?.payment_session 
 
   const useOptions: StripeCardElementOptions = useMemo(() => {
     return {
