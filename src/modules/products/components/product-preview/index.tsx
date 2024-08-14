@@ -3,11 +3,11 @@ import { Text } from "@medusajs/ui"
 import { ProductPreviewType } from "types/global"
 
 import { retrievePricedProductById } from "@lib/data"
-import { getProductPrice } from "@lib/util/get-product-price"
 import { Region } from "@medusajs/medusa"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import Thumbnail from "../thumbnail"
-import PreviewPrice from "./price"
+import { formatAmount } from "@lib/util/prices"
+
 
 export default async function ProductPreview({
   productPreview,
@@ -25,12 +25,20 @@ export default async function ProductPreview({
 
   if (!pricedProduct) {
     return null
+  } 
+
+  // TODO refactor this function somewhere globally as our region will never change and it is duplicated a lot
+  // formats the product price to incl GST
+  const getAmount = (amount: number | null | undefined) => {
+    return formatAmount({
+      amount: amount || 0,
+      region: region,
+      includeTaxes: false,
+    })
   }
 
-  const { cheapestPrice } = getProductPrice({
-    product: pricedProduct,
-    region,
-  })
+    // Store the product price in a variable
+    const priceInclGst = getAmount(pricedProduct.variants[0]?.original_price_incl_tax)
 
   return (
     <LocalizedClientLink
@@ -43,10 +51,10 @@ export default async function ProductPreview({
           size="full"
           isFeatured={isFeatured}
         />
-        <div className="flex txt-compact-medium mt-4 justify-between">
+        <div className="flex justify-between mt-4 txt-compact-medium">
           <Text className="text-ui-fg-subtle" data-testid="product-title">{productPreview.title}</Text>
           <div className="flex items-center gap-x-2">
-            {cheapestPrice && <PreviewPrice price={cheapestPrice} />}
+          {priceInclGst}
           </div>
         </div>
       </div>

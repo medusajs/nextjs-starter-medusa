@@ -22,7 +22,7 @@ const CartTotals: React.FC<CartTotalsProps> = ({ data }) => {
     return formatAmount({
       amount: amount || 0,
       region: data.region,
-      includeTaxes: false, //TODO GST inclusive tax here?!
+      includeTaxes: false, 
     })
   }
 

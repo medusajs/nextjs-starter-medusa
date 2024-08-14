@@ -19,7 +19,6 @@ export default function OrderCompletedTemplate({
 }: OrderCompletedTemplateProps) {
   const isOnboarding = cookies().get("_medusa_onboarding")?.value === "true"
 
-
   return (
     <div className="py-6 min-h-[calc(100vh-64px)]">
       <div className="flex flex-col items-center justify-center w-full h-full max-w-4xl content-container gap-y-10">

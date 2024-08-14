@@ -4,6 +4,7 @@ import { formatAmount } from "@lib/util/prices"
 import { RegionInfo } from "types/global"
 import { CalculatedVariant } from "types/medusa"
 
+
 export function getProductPrice({
   product,
   variantId,
@@ -53,6 +54,12 @@ export function getProductPrice({
         cheapestVariant.original_price,
         cheapestVariant.calculated_price
       ),
+      original_price_incl_tax_number: cheapestVariant.original_price_incl_tax,
+      original_price_incl_tax: formatAmount({
+        amount: cheapestVariant.original_price_incl_tax,
+        region,
+        includeTaxes: false,
+      }),
     }
   }
 
@@ -87,6 +94,12 @@ export function getProductPrice({
         variant.original_price,
         variant.calculated_price
       ),
+      original_price_incl_tax_number: variant.original_price_incl_tax,
+      original_price_incl_tax: formatAmount({
+        amount: variant.original_price_incl_tax,
+        region,
+        includeTaxes: false,
+      }),
     }
   }
 
