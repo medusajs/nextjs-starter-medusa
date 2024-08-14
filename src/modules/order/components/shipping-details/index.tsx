@@ -24,20 +24,6 @@ const ShippingDetails = ({ order }: ShippingDetailsProps) => {
             {order.shipping_address.last_name}
           </Text>
           <Text className="txt-medium text-ui-fg-subtle">
-            {order.shipping_address.address_1}{" "}
-            {order.shipping_address.address_2}
-          </Text>
-          <Text className="txt-medium text-ui-fg-subtle">
-            {order.shipping_address.postal_code}, {order.shipping_address.city}
-          </Text>
-          <Text className="txt-medium text-ui-fg-subtle">
-            {order.shipping_address.country_code?.toUpperCase()}
-          </Text>
-        </div>
-
-        <div className="flex flex-col w-1/3 " data-testid="shipping-contact-summary">
-          <Heading level="h3"className="mb-1 txt-large-plus text-ui-fg-base">Contact</Heading>
-          <Text className="txt-medium text-ui-fg-subtle">
             {order.shipping_address.phone}
           </Text>
           <Text className="txt-medium text-ui-fg-subtle">{order.email}</Text>
