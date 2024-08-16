@@ -13,7 +13,7 @@ export default async function Footer() {
   return (
     <footer className="w-full border-t border-ui-border-base">
       <div className="flex flex-col w-full content-container">
-        <div className="flex flex-col items-start justify-between py-10 gap-y-6 xsmall:flex-row">
+        <div className="flex flex-col items-start justify-between py-10 gap-y-6">
           <div>
             <LocalizedClientLink
               href="/"
@@ -23,12 +23,12 @@ export default async function Footer() {
               <span>Powered by CoShop</span>
             </LocalizedClientLink>
           </div>
-        </div>
         <div className="flex justify-between w-full mb-16 text-ui-fg-muted">
           <Text className="txt-compact-small">
             © {new Date().getFullYear()} CoShop™
           </Text>
           {/* <PoweredByLogos /> */}
+        </div>
         </div>
       </div>
     </footer>
