@@ -15,7 +15,7 @@ const NavLinkLogos = () => (
             </div>
             <span>&</span> */}
             <div className="flex flex-row items-center gap-x-1">
-              <Image src="/coop-img.jpg" alt="" width={20} height={20} />
+              <Image src="/coop-img.jpg" alt="" width={45} height={45} />
               <span>Hauora Kai Karori</span>
             </div>
           </LocalizedClientLink>
