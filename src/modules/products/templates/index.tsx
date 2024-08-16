@@ -30,33 +30,32 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
   return (
     <>
       <div
-        className="content-container flex flex-col small:flex-row small:items-start py-6 relative"
+        className="relative flex flex-col py-10 xsmall:justify-center content-container xsmall:flex-row xsmall:gap-x-8"
         data-testid="product-container"
       >
-        <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-6">
-          <ProductInfo product={product} />
-          <ProductTabs product={product} />
-        </div>
-        <div className="block w-full relative">
+        {/* TODO what happens if more than one image?? Is the formatting weird because i changed the my to mr in ImageGallery component? */}
+        <div className="relative block w-full xsmall:max-w-[400px]">
           <ImageGallery images={product?.images || []} />
         </div>
-        <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-12">
-          <ProductOnboardingCta />
-          <Suspense
-            fallback={
-              <ProductActions
-                disabled={true}
-                product={product}
-                region={region}
-              />
-            }
-          >
-            <ProductActionsWrapper id={product.id} region={region} />
-          </Suspense>
+        <div className="flex flex-col small:sticky xsmall:py-0 xsmall:max-w-[400px] py-8 gap-y-6 w-full">
+            <ProductInfo product={product} />
+            <ProductTabs product={product} /> 
+            <ProductOnboardingCta />
+            <Suspense
+              fallback={
+                <ProductActions
+                  disabled={true}
+                  product={product}
+                  region={region}
+                />
+              }
+            >
+              <ProductActionsWrapper id={product.id} region={region} />
+            </Suspense>
         </div>
       </div>
       <div
-        className="content-container my-16 small:my-32"
+        className="my-16 content-container small:my-32"
         data-testid="related-products-container"
       >
         <Suspense fallback={<SkeletonRelatedProducts />}>
