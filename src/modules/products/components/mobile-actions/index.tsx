@@ -39,8 +39,8 @@ const MobileActions: React.FC<MobileActionsProps> = ({
   show,
   optionsDisabled,
 }) => {
+
   const { state, open, close } = useToggleState()
-  console.log("options", options)
 
   const price = getProductPrice({
     product: product,
@@ -48,6 +48,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({
     region,
   })
 
+  // determines the price to display 
   const selectedPrice = useMemo(() => {
     if (!price) {
       return null
@@ -56,6 +57,15 @@ const MobileActions: React.FC<MobileActionsProps> = ({
 
     return variantPrice || cheapestPrice || null
   }, [price])
+
+  // Check if options are available - eithe rthe product has options or has a variant with options
+  const hasOptions = Object.keys(options).length > 0;
+
+  // If there are no options, don't render the component because all we will see if the same product details 
+  // and add to cart button and an empty drop down to select options
+  if (!hasOptions) {
+    return null;
+  }
 
   return (
     <>
