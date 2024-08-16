@@ -4,7 +4,7 @@ import { listRegions } from "@lib/data"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import CartButton from "@modules/layout/components/cart-button"
 import SideMenu from "@modules/layout/components/side-menu"
-import Image from "next/image"
+import NavLinkLogos from "@modules/common/components/nav-link-logos"
 
 export default async function Nav() {
   const regions = await listRegions().then((regions) => regions)
@@ -20,21 +20,7 @@ export default async function Nav() {
           </div>
 
           <div className="flex items-center h-full">
-            <LocalizedClientLink
-              href="/nz/products/mixed-bag"
-              className="flex flex-row items-center uppercase gap-x-2 txt-compact-xlarge-plus hover:text-ui-fg-base"
-              data-testid="nav-store-link"
-            >
-              <div className="flex flex-row items-center gap-x-2">
-                <Image src="/coshop-logo.png" alt="logo" width={32} height={32} />
-                <span>CoShop</span>
-              </div>
-              <span>&</span>
-              <div className="flex flex-row items-center gap-x-2">
-                <span>Hauora Kai Karori</span>
-                <Image src="/coop-img.jpg" alt="logo" width={32} height={32} />
-              </div>
-            </LocalizedClientLink>            
+          <NavLinkLogos />           
           </div>
 
           <div className="flex items-center justify-end flex-1 h-full gap-x-6 basis-0">
