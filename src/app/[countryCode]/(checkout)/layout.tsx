@@ -1,7 +1,8 @@
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import NavLinkLogos from "@modules/common/components/nav-link-logos"
 import ChevronDown from "@modules/common/icons/chevron-down"
-import MedusaCTA from "@modules/layout/components/medusa-cta"
+import PoweredByLogos from "@modules/layout/components/powered-by-logos"
+import Footer from "@modules/layout/templates/footer"
 
 
 export default function CheckoutLayout({
@@ -31,9 +32,7 @@ export default function CheckoutLayout({
         </nav>
       </div>
       <div className="relative" data-testid="checkout-container">{children}</div>
-      <div className="flex items-center justify-center w-full py-4">
-        <MedusaCTA />
-      </div>
+        <Footer />
     </div>
   )
 }
