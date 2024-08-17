@@ -49,6 +49,7 @@ export default function ProductActions({
     }
 
     setOptions(optionObj)
+
   }, [product])
 
   // memoized record of the product's variants
@@ -116,8 +117,8 @@ export default function ProductActions({
     return false
   }, [variant])
 
-  const actionsRef = useRef<HTMLDivElement>(null)
-
+  const actionsRef = useRef<HTMLDivElement>(null) //references the div element of this component when mouunted
+  // a boolean that indicates whether the `actionsRef` element is currently in view within the viewport and triggers the MobileActions component to render.
   const inView = useIntersection(actionsRef, "0px")
 
   // add the selected variant to the cart
