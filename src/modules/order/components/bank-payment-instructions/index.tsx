@@ -31,7 +31,7 @@ const BankPaymentInstructions: React.FC<BankPaymentInstructionsProps> = ({ order
     
       <div className="flex flex-col space-y-2">
         <Text><span className="font-semibold">Bank account name:</span> CoShop</Text>
-        <Text><span className="font-semibold">Account number:</span> 1234 5678 9012</Text>
+        <Text><span className="font-semibold">Account number:</span> 38-9025-0215033-00</Text>
         <Text><span className="font-semibold">Reference:</span> {order.display_id}</Text>
         <Text><span className="font-semibold">Amount due (incl tax):</span> {getAmount(order.total)}</Text>
       <Text>NOTE: Your order is not ready until you have paid the amount due.</Text>

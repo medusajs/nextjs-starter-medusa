@@ -48,6 +48,7 @@ const Payment = ({
 
   const useOptions: StripeCardElementOptions = useMemo(() => {
     return {
+      hidePostalCode: true, 
       style: {
         base: {
           fontFamily: "Inter, sans-serif",
