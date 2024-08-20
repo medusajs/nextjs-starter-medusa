@@ -4,6 +4,7 @@ import { LineItem } from "@medusajs/medusa"
 import { omit } from "lodash"
 import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
+import { redirect } from "next/navigation"
 
 import {
   addItem,
@@ -100,6 +101,12 @@ export async function addToCart({
   } catch (e) {
     return "Error adding item to cart"
   }
+  
+  // After adding item to cart, redirect to cart page
+  // we do this as there is only one product to add to the cart currently
+  // this workflow may change when more than one product is available to be added to the cart
+    redirect(`/nz/cart`)
+
 }
 
 export async function updateLineItem({
