@@ -42,7 +42,7 @@ const CartTotals: React.FC<CartTotalsProps> = ({ data }) => {
           </span>
         </div>
         <div className="flex justify-between">
-          <span className="flex items-center gap-x-1 ">Taxes</span>
+          <span className="flex items-center gap-x-1 ">GST</span>
           <span data-testid="cart-taxes" data-value={tax_total || 0}>
             {getAmount(tax_total)}
           </span>
