@@ -34,8 +34,6 @@ export function sortProducts(
     // Sort products based on the precomputed minimum prices
     sortedProducts.sort((a, b) => {
       const diff = a._minPrice! - b._minPrice!
-      delete a._minPrice
-      delete b._minPrice
       return sortBy === "price_asc" ? diff : -diff
     })
   }
