@@ -27,9 +27,9 @@ export default async function RelatedProducts({
     queryParams.collection_id = [product.collection_id]
   }
   if (product.tags) {
-    queryParams.tags = {
-      value: product.tags.map((t) => t.value).filter(Boolean) as string[],
-    }
+    queryParams.tags = product.tags
+      .map((t) => t.value)
+      .filter(Boolean) as string[]
   }
   queryParams.is_giftcard = false
 

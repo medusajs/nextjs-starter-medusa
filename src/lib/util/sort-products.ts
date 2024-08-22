@@ -1,15 +1,8 @@
 import { HttpTypes } from "@medusajs/types"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 
-interface PricedVariant extends HttpTypes.StoreProductVariant {
-  calculated_price: {
-    calculated_amount: number
-  }
-}
-
-interface PricedProduct extends HttpTypes.StoreProduct {
-  variants: PricedVariant[]
-  _minPrice: number
+interface MinPricedProduct extends HttpTypes.StoreProduct {
+  _minPrice?: number
 }
 
 /**
@@ -21,8 +14,8 @@ interface PricedProduct extends HttpTypes.StoreProduct {
 export function sortProducts(
   products: HttpTypes.StoreProduct[],
   sortBy: SortOptions
-): PricedProduct[] {
-  let sortedProducts = products as PricedProduct[]
+): HttpTypes.StoreProduct[] {
+  let sortedProducts = products as MinPricedProduct[]
 
   if (["price_asc", "price_desc"].includes(sortBy)) {
     // Precompute the minimum price for each product
@@ -30,7 +23,7 @@ export function sortProducts(
       if (product.variants && product.variants.length > 0) {
         product._minPrice = Math.min(
           ...product.variants.map(
-            (variant) => variant?.calculated_price?.calculated_amount
+            (variant) => variant?.calculated_price?.calculated_amount || 0
           )
         )
       } else {
@@ -40,7 +33,9 @@ export function sortProducts(
 
     // Sort products based on the precomputed minimum prices
     sortedProducts.sort((a, b) => {
-      const diff = a._minPrice - b._minPrice
+      const diff = a._minPrice! - b._minPrice!
+      delete a._minPrice
+      delete b._minPrice
       return sortBy === "price_asc" ? diff : -diff
     })
   }
