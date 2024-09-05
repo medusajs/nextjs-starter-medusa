@@ -116,19 +116,6 @@
     "@algolia/logger-common" "4.20.0"
     "@algolia/requester-common" "4.20.0"
 
-"@algolia/ui-components-highlight-vdom@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.npmjs.org/@algolia/ui-components-highlight-vdom/-/ui-components-highlight-vdom-1.2.1.tgz"
-  integrity sha512-IlYgIaCUEkz9ezNbwugwKv991oOHhveyq6nzL0F1jDzg1p3q5Yj/vO4KpNG910r2dwGCG3nEm5GtChcLnarhFA==
-  dependencies:
-    "@algolia/ui-components-shared" "1.2.1"
-    "@babel/runtime" "^7.0.0"
-
-"@algolia/ui-components-shared@1.2.1", "@algolia/ui-components-shared@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.npmjs.org/@algolia/ui-components-shared/-/ui-components-shared-1.2.1.tgz"
-  integrity sha512-a7mYHf/GVQfhAx/HRiMveKkFvHspQv/REdG+C/FIOosiSmNZxX7QebDwJkrGSmDWdXO12D0Qv1xn3AytFcEDlQ==
-
 "@alloc/quick-lru@^5.2.0":
   version "5.2.0"
   resolved "https://registry.npmjs.org/@alloc/quick-lru/-/quick-lru-5.2.0.tgz"
@@ -337,7 +324,14 @@
     "@babel/helper-split-export-declaration" "^7.22.6"
     globals "^11.1.0"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.13.10", "@babel/runtime@^7.15.4", "@babel/runtime@^7.20.7", "@babel/runtime@^7.21.0", "@babel/runtime@^7.22.10":
+"@babel/runtime@^7.1.2":
+  version "7.25.6"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.25.6.tgz#9afc3289f7184d8d7f98b099884c26317b9264d2"
+  integrity sha512-VBj9MYyDb9tuLq7yzqjgzt6Q+IBQLrGZfdjOekyEirZPHxXWoTSGUTMrpsfi58Up73d13NfYLv8HT9vmznjzhQ==
+  dependencies:
+    regenerator-runtime "^0.14.0"
+
+"@babel/runtime@^7.13.10", "@babel/runtime@^7.15.4", "@babel/runtime@^7.20.7", "@babel/runtime@^7.21.0", "@babel/runtime@^7.22.10":
   version "7.23.2"
   resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.23.2.tgz"
   integrity sha512-mM8eg4yl5D6i3lu2QKPuPH4FArvJ8KhTofbE7jwMUv9KX5mBvwPAqnV3MlyBNqdp9RyRKP6Yck8TrfYrPvX3bg==
@@ -862,12 +856,12 @@
     awilix "^8.0.1"
     ulid "^2.3.0"
 
-"@meilisearch/instant-meilisearch@^0.7.1":
-  version "0.7.1"
-  resolved "https://registry.npmjs.org/@meilisearch/instant-meilisearch/-/instant-meilisearch-0.7.1.tgz"
-  integrity sha512-bUGiGO/da915Y9Dmu2n5fTMFvSlJHC6ABOcL7056OiBSCU1Bx1EvVEkzYmTxac3lqIoIpxZU5t0WXiPeikrg4g==
+"@meilisearch/instant-meilisearch@^0.20.0":
+  version "0.20.0"
+  resolved "https://registry.yarnpkg.com/@meilisearch/instant-meilisearch/-/instant-meilisearch-0.20.0.tgz#a2c0896db65a56849ce8caeffc500865a6bda50e"
+  integrity sha512-RvQ7mSk0Ebw0DOILOdCgIv2ZGimIuPEFVBE7zPnFIwplxa3xcOjJfKCX9jLTyLU14xa3nm9eT/4LQsGC23aUIA==
   dependencies:
-    meilisearch "0.25.1"
+    meilisearch "^0.42.0"
 
 "@mikro-orm/core@5.7.12":
   version "5.7.12"
@@ -1921,7 +1915,7 @@
 
 "@types/dom-speech-recognition@^0.0.1":
   version "0.0.1"
-  resolved "https://registry.npmjs.org/@types/dom-speech-recognition/-/dom-speech-recognition-0.0.1.tgz"
+  resolved "https://registry.yarnpkg.com/@types/dom-speech-recognition/-/dom-speech-recognition-0.0.1.tgz#e326761a04b4a49c0eec2ac7948afc1c6aa12baa"
   integrity sha512-udCxb8DvjcDKfk1WTBzDsxFbLgYxmQGKrE/ricoMqHRNjSlSUCcamVTA5lIQqzY10mY5qCY0QDwBfFEwhfoDPw==
 
 "@types/eslint-scope@^3.7.3":
@@ -1945,15 +1939,15 @@
   resolved "https://registry.npmjs.org/@types/estree/-/estree-1.0.1.tgz"
   integrity sha512-LG4opVs2ANWZ1TJoKc937iMmNstM/d0ae1vNbnBvBhqCSezgVUOzcLCqbI5elV8Vy6WKwKjaqR+zO9VKirBBCA==
 
-"@types/google.maps@^3.45.3":
-  version "3.54.1"
-  resolved "https://registry.npmjs.org/@types/google.maps/-/google.maps-3.54.1.tgz"
-  integrity sha512-zh6333O/yPfcvRxpBTjnNFJjiHiujvy+tTAWwvNj3LMy90Y+VLTom8n9gvmgjXhOHgHvYpgO2Xyz31wYEYN27A==
+"@types/google.maps@^3.55.12":
+  version "3.57.0"
+  resolved "https://registry.yarnpkg.com/@types/google.maps/-/google.maps-3.57.0.tgz#3ed0290126a90fa95587de02babab25b1ab34559"
+  integrity sha512-8X/HqaUXob25aVslslO84p9ESInpOQd3lMxW085IxqZZ1opRuFfwx2/c1JIUFVvCkkK+sCQHFDJ+Kw60Gsi1qA==
 
 "@types/hogan.js@^3.0.0":
-  version "3.0.2"
-  resolved "https://registry.npmjs.org/@types/hogan.js/-/hogan.js-3.0.2.tgz"
-  integrity sha512-M6jOVsZEK31II8HV9QaYI5pg/w7fZb+3aqdCn3M3uofBswvrYBzbaQwSudB6z1UqF2IT3B8vt/3oBoa7XqugFw==
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@types/hogan.js/-/hogan.js-3.0.5.tgz#09f5b916ad88e1975b093ab7a25a37ffc0418be5"
+  integrity sha512-/uRaY3HGPWyLqOyhgvW9Aa43BNnLZrNeQxl2p8wqId4UHMfPKolSB+U7BlZyO1ng7MkLnyEAItsBzCG0SDhqrA==
 
 "@types/json-schema@*", "@types/json-schema@^7.0.5", "@types/json-schema@^7.0.8":
   version "7.0.13"
@@ -1995,9 +1989,9 @@
   integrity sha512-RK/kBbYOQQHLYj9Z95eh7S6t7gq4Ojt/NT8HTk8bWVhA5DaF+5SMnxHKkP4gPNN3wAZkKP+VjAf0ebtYzf+fxg==
 
 "@types/qs@^6.5.3":
-  version "6.9.8"
-  resolved "https://registry.npmjs.org/@types/qs/-/qs-6.9.8.tgz"
-  integrity sha512-u95svzDlTysU5xecFNTgfFG5RUWu1A9P0VzgpcIiGZA9iraHOdSzcxMxQ55DyeRaGCSxQi7LxXDI4rzq/MYfdg==
+  version "6.9.15"
+  resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.9.15.tgz#adde8a060ec9c305a82de1babc1056e73bd64dce"
+  integrity sha512-uXHQKES6DQKKCLh441Xv/dwxOq1TVS3JPUMlEqoEglvlhR6Mxnlew/Xq/LRVHpLyk7iK3zODe1qYHIMltO7XGg==
 
 "@types/react-dom@^18.2.18":
   version "18.2.18"
@@ -2234,7 +2228,7 @@
 
 abbrev@1:
   version "1.1.1"
-  resolved "https://registry.npmjs.org/abbrev/-/abbrev-1.1.1.tgz"
+  resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
   integrity sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==
 
 accepts@~1.3.5, accepts@~1.3.8:
@@ -2287,10 +2281,10 @@ ajv@^6.10.0, ajv@^6.12.4, ajv@^6.12.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-algoliasearch-helper@3.14.0:
-  version "3.14.0"
-  resolved "https://registry.npmjs.org/algoliasearch-helper/-/algoliasearch-helper-3.14.0.tgz"
-  integrity sha512-gXDXzsSS0YANn5dHr71CUXOo84cN4azhHKUbg71vAWnH+1JBiR4jf7to3t3JHXknXkbV0F7f055vUSBKrltHLQ==
+algoliasearch-helper@3.22.4:
+  version "3.22.4"
+  resolved "https://registry.yarnpkg.com/algoliasearch-helper/-/algoliasearch-helper-3.22.4.tgz#a9de9b69a79528c65d0149978c0d5bece7240484"
+  integrity sha512-fvBCywguW9f+939S6awvRMstqMF1XXcd2qs1r1aGqL/PJ1go/DqN06tWmDVmhCDqBJanm++imletrQWf0G2S1g==
   dependencies:
     "@algolia/events" "^4.0.1"
 
@@ -3209,9 +3203,9 @@ cross-env@^5.2.1:
   dependencies:
     cross-spawn "^6.0.5"
 
-cross-fetch@^3.1.5:
+cross-fetch@^3.1.6:
   version "3.1.8"
-  resolved "https://registry.npmjs.org/cross-fetch/-/cross-fetch-3.1.8.tgz"
+  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.8.tgz#0327eba65fd68a7d119f8fb2bf9334a1a7956f82"
   integrity sha512-cvA+JwZoU0Xq+h6WkMvAUqPEYy92Obet6UdKLfW60qn99ftItKjB5T+BkyWOFWe2pUyfQ+IJHmpOTznqk1M6Kg==
   dependencies:
     node-fetch "^2.6.12"
@@ -4409,7 +4403,7 @@ hi-base32@^0.5.0:
 
 hogan.js@^3.0.2:
   version "3.0.2"
-  resolved "https://registry.npmjs.org/hogan.js/-/hogan.js-3.0.2.tgz"
+  resolved "https://registry.yarnpkg.com/hogan.js/-/hogan.js-3.0.2.tgz#4cd9e1abd4294146e7679e41d7898732b02c7bfd"
   integrity sha512-RqGs4wavGYJWE07t35JQccByczmNUXQT0E12ZYV1VKYu5UiAU9lsos/yBAcf840+zrUQQxgVduCR5/B8nNtibg==
   dependencies:
     mkdirp "0.3.0"
@@ -4424,7 +4418,7 @@ hosted-git-info@^4.0.2:
 
 htm@^3.0.0:
   version "3.1.1"
-  resolved "https://registry.npmjs.org/htm/-/htm-3.1.1.tgz"
+  resolved "https://registry.yarnpkg.com/htm/-/htm-3.1.1.tgz#49266582be0dc66ed2235d5ea892307cc0c24b78"
   integrity sha512-983Vyg8NwUE7JkZ6NmOqpCZ+sh1bKv2iYTlUkzlWmA5JD2acKoxd4KVxbMmxX/85mtfdnDmTFoNKcg5DGAvxNQ==
 
 http-errors@2.0.0:
@@ -4517,24 +4511,30 @@ inquirer@^8.0.0:
     through "^2.3.6"
     wrap-ansi "^6.0.1"
 
-instantsearch.js@4.56.8:
-  version "4.56.8"
-  resolved "https://registry.npmjs.org/instantsearch.js/-/instantsearch.js-4.56.8.tgz"
-  integrity sha512-40DJ5l70ZzVzWPK3qrHTKlJLaHGq1PRZpzfL6281P2mz8G19WOHQHKAP4Zh6a4lOZaRtJQUiPjQwqCHSurXZ5g==
+instantsearch-ui-components@0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/instantsearch-ui-components/-/instantsearch-ui-components-0.9.0.tgz#f7ae71fe623d18eff32b73071749f31826cb7b89"
+  integrity sha512-ugQ+XdPx3i3Sxu+woRo6tPE0Fz/kWd4KblTUfZD1TZZBsm/8qFvcbg5dVBDvXX9v7ntoyugXCzC/XCZMzrSkig==
+  dependencies:
+    "@babel/runtime" "^7.1.2"
+
+instantsearch.js@4.74.0:
+  version "4.74.0"
+  resolved "https://registry.yarnpkg.com/instantsearch.js/-/instantsearch.js-4.74.0.tgz#af5205c40c3b49daec29bf977cb30e19893257e0"
+  integrity sha512-IbKAvnQ03cxb1Ni1OpLv6Yuu1W7Cu1zGru77rvgzYyPsurknpjQHdBicszSZlKaK/zND7D5vhSNZoliiz9nuEQ==
   dependencies:
     "@algolia/events" "^4.0.1"
-    "@algolia/ui-components-highlight-vdom" "^1.2.1"
-    "@algolia/ui-components-shared" "^1.2.1"
     "@types/dom-speech-recognition" "^0.0.1"
-    "@types/google.maps" "^3.45.3"
+    "@types/google.maps" "^3.55.12"
     "@types/hogan.js" "^3.0.0"
     "@types/qs" "^6.5.3"
-    algoliasearch-helper "3.14.0"
+    algoliasearch-helper "3.22.4"
     hogan.js "^3.0.2"
     htm "^3.0.0"
+    instantsearch-ui-components "0.9.0"
     preact "^10.10.0"
     qs "^6.5.1 < 6.10"
-    search-insights "^2.6.0"
+    search-insights "^2.15.0"
 
 internal-slot@^1.0.5:
   version "1.0.5"
@@ -5298,12 +5298,12 @@ medusa-test-utils@^1.1.40:
     medusa-core-utils "^1.2.0"
     randomatic "^3.1.1"
 
-meilisearch@0.25.1:
-  version "0.25.1"
-  resolved "https://registry.npmjs.org/meilisearch/-/meilisearch-0.25.1.tgz"
-  integrity sha512-20jO0pK9BhghxHSkOLbdoYn58h/Z0PNL3JQcRq7ipNIeqrxkAetCZZ6ttJC3uxcz0jVglmiFoSXu3Z/lEOLOLQ==
+meilisearch@^0.42.0:
+  version "0.42.0"
+  resolved "https://registry.yarnpkg.com/meilisearch/-/meilisearch-0.42.0.tgz#af52091456baf48b7244ac5a55b2f279a948df38"
+  integrity sha512-pXaOPx/uhVGYVpejNuOcXifQVJlRVSxtvpgrGKb7ygmYo4qSNXkQXPxq1p0Tv+4/RsPJug3W04pcNnYXiqungA==
   dependencies:
-    cross-fetch "^3.1.5"
+    cross-fetch "^3.1.6"
 
 merge-descriptors@1.0.1:
   version "1.0.1"
@@ -5393,7 +5393,7 @@ minimist@^1.2.0, minimist@^1.2.6:
 
 mkdirp@0.3.0:
   version "0.3.0"
-  resolved "https://registry.npmjs.org/mkdirp/-/mkdirp-0.3.0.tgz"
+  resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.3.0.tgz#1bbf5ab1ba827af23575143490426455f481fe1e"
   integrity sha512-OHsdUcVAQ6pOtg5JYWpCBo9W/GySVuwvP9hueRMW7UqshC0tbfzLv8wjySTPm3tfUZ/21CE9E1pJagOA91Pxew==
 
 mkdirp@^0.5.4:
@@ -5541,7 +5541,7 @@ no-case@^3.0.4:
 
 node-fetch@^2.6.12:
   version "2.7.0"
-  resolved "https://registry.npmjs.org/node-fetch/-/node-fetch-2.7.0.tgz"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.7.0.tgz#d0f0fa6e3e2dc1d27efcd8ad99d550bda94d187d"
   integrity sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==
   dependencies:
     whatwg-url "^5.0.0"
@@ -5567,7 +5567,7 @@ node-schedule@^2.1.1:
 
 nopt@1.0.10:
   version "1.0.10"
-  resolved "https://registry.npmjs.org/nopt/-/nopt-1.0.10.tgz"
+  resolved "https://registry.yarnpkg.com/nopt/-/nopt-1.0.10.tgz#6ddd21bd2a31417b92727dd585f8a6f37608ebee"
   integrity sha512-NWmpvLSqUrgrAC9HCuxEvb+PSloHpqVu+FqcO4eeF2h5qYRhA7ev6KvelyQAKtegUbC6RypJnlEOhd8vloNKYg==
   dependencies:
     abbrev "1"
@@ -6150,9 +6150,9 @@ postgres-range@^1.1.1:
   integrity sha512-i/hbxIE9803Alj/6ytL7UHQxRvZkI9O4Sy+J3HGc4F4oo/2eQAjTSNJ0bfxyse3bH0nuVesCk+3IRLaMtG3H6w==
 
 preact@^10.10.0:
-  version "10.17.1"
-  resolved "https://registry.npmjs.org/preact/-/preact-10.17.1.tgz"
-  integrity sha512-X9BODrvQ4Ekwv9GURm9AKAGaomqXmip7NQTZgY7gcNmr7XE83adOMJvd3N42id1tMFU7ojiynRsYnY6/BRFxLA==
+  version "10.23.2"
+  resolved "https://registry.yarnpkg.com/preact/-/preact-10.23.2.tgz#52deec92796ae0f0cc6b034d9c66e0fbc1b837dc"
+  integrity sha512-kKYfePf9rzKnxOAKDpsWhg/ysrHPqT+yQ7UW4JjdnqjFIeNUnNcEJvhuA8fDenxAGWzUqtd51DfVg7xp/8T9NA==
 
 prelude-ls@^1.2.1:
   version "1.2.1"
@@ -6238,7 +6238,7 @@ qs@^6.10.3, qs@^6.11.2:
 
 "qs@^6.5.1 < 6.10":
   version "6.9.7"
-  resolved "https://registry.npmjs.org/qs/-/qs-6.9.7.tgz"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.9.7.tgz#4610846871485e1e048f44ae3b94033f0e675afe"
   integrity sha512-IhMFgUmuNpyRfxA90umL7ByLlgRXu6tIfKPpF5TmcfRLlLCckfP/g3IQmju6jjpu+Hh8rA+2p6A27ZSPOOHdKw==
 
 queue-microtask@^1.2.2:
@@ -6315,24 +6315,25 @@ react-dom@^18.2.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
-react-instantsearch-hooks-web@^6.29.0:
-  version "6.47.3"
-  resolved "https://registry.npmjs.org/react-instantsearch-hooks-web/-/react-instantsearch-hooks-web-6.47.3.tgz"
-  integrity sha512-JTkPm11xwCX9eO4FgeeJ4v4O98wz1L7cAa2LkspgzDD1MPjMLtmiRVzvGxuYnOayQTtfC5+0GOBwuJEN8TDI8A==
+react-instantsearch-core@7.13.0:
+  version "7.13.0"
+  resolved "https://registry.yarnpkg.com/react-instantsearch-core/-/react-instantsearch-core-7.13.0.tgz#1541931fe1ce071cbc8e91a1f30092190500559b"
+  integrity sha512-2LMhGJISWnbC1bbewqKQ1MimF1iGwtd0ezqGeWSNy1Ld6Eh1Dj2r1FAn0Wow30rC91oWkPj6/rLUKz9ibzabrA==
   dependencies:
     "@babel/runtime" "^7.1.2"
-    instantsearch.js "4.56.8"
-    react-instantsearch-hooks "6.47.3"
-
-react-instantsearch-hooks@6.47.3:
-  version "6.47.3"
-  resolved "https://registry.npmjs.org/react-instantsearch-hooks/-/react-instantsearch-hooks-6.47.3.tgz"
-  integrity sha512-QuGSwZ664MHrzvndXGnsyPhpKHywGqyDgqOVorYpEE24Y063OPv5XtmJaZqn27MIvvByUormTb6dbPgbjqkd8w==
-  dependencies:
-    "@babel/runtime" "^7.1.2"
-    algoliasearch-helper "3.14.0"
-    instantsearch.js "4.56.8"
+    algoliasearch-helper "3.22.4"
+    instantsearch.js "4.74.0"
     use-sync-external-store "^1.0.0"
+
+react-instantsearch@^7.13.0:
+  version "7.13.0"
+  resolved "https://registry.yarnpkg.com/react-instantsearch/-/react-instantsearch-7.13.0.tgz#ead207c6a2970704ee7c745e65b41c9d1a595d81"
+  integrity sha512-12auG0AI4oS8yuu2IfA61JjmTNk+pd9KkKvCJukMI+3t6U16sHUJsPMj9/zAHrDm+Zgdgr9ZsszIKtr9/VQ/CQ==
+  dependencies:
+    "@babel/runtime" "^7.1.2"
+    instantsearch-ui-components "0.9.0"
+    instantsearch.js "4.74.0"
+    react-instantsearch-core "7.13.0"
 
 react-intersection-observer@^9.3.4:
   version "9.5.2"
@@ -6682,10 +6683,10 @@ scrypt-kdf@^2.0.1:
   resolved "https://registry.npmjs.org/scrypt-kdf/-/scrypt-kdf-2.0.1.tgz"
   integrity sha512-dMhpgBVJPDWZP5erOCwTjI6oAO9hKhFAjZsdSQ0spaWJYHuA/wFNF2weQQfsyCIk8eNKoLfEDxr3zAtM+gZo0Q==
 
-search-insights@^2.6.0:
-  version "2.8.2"
-  resolved "https://registry.npmjs.org/search-insights/-/search-insights-2.8.2.tgz"
-  integrity sha512-PxA9M5Q2bpBelVvJ3oDZR8nuY00Z6qwOxL53wNpgzV28M/D6u9WUbImDckjLSILBF8F1hn/mgyuUaOPtjow4Qw==
+search-insights@^2.15.0:
+  version "2.17.1"
+  resolved "https://registry.yarnpkg.com/search-insights/-/search-insights-2.17.1.tgz#89caded6cbe596bedd17ef23c2bdd8ccab04c03a"
+  integrity sha512-HHFjYH/0AqXacETlIbe9EYc3UNlQYGNNTY0fZ/sWl6SweX+GDxq9NB5+RVoPLgEFuOtCz7M9dhYxqDnhbbF0eQ==
 
 semver@^5.5.0:
   version "5.7.2"
@@ -7155,7 +7156,7 @@ toidentifier@1.0.1:
 
 tr46@~0.0.3:
   version "0.0.3"
-  resolved "https://registry.npmjs.org/tr46/-/tr46-0.0.3.tgz"
+  resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
   integrity sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==
 
 triple-beam@^1.3.0:
@@ -7366,9 +7367,9 @@ use-sidecar@^1.1.2:
     tslib "^2.0.0"
 
 use-sync-external-store@^1.0.0:
-  version "1.2.0"
-  resolved "https://registry.npmjs.org/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz"
-  integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.2.tgz#c3b6390f3a30eba13200d2302dcdf1e7b57b2ef9"
+  integrity sha512-PElTlVMwpblvbNqQ82d2n6RjStvdSoNe9FG28kNfz3WiXilJm4DdNkEzRhCZuIDwY8U08WVihhGR5iRqAwfDiw==
 
 util-deprecate@^1.0.1, util-deprecate@^1.0.2, util-deprecate@~1.0.1:
   version "1.0.2"
@@ -7427,7 +7428,7 @@ wcwidth@^1.0.1:
 
 webidl-conversions@^3.0.0:
   version "3.0.1"
-  resolved "https://registry.npmjs.org/webidl-conversions/-/webidl-conversions-3.0.1.tgz"
+  resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-3.0.1.tgz#24534275e2a7bc6be7bc86611cc16ae0a5654871"
   integrity sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==
 
 webpack-sources@^3.2.3:
@@ -7467,7 +7468,7 @@ webpack@^5:
 
 whatwg-url@^5.0.0:
   version "5.0.0"
-  resolved "https://registry.npmjs.org/whatwg-url/-/whatwg-url-5.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/whatwg-url/-/whatwg-url-5.0.0.tgz#966454e8765462e37644d3626f6742ce8b70965d"
   integrity sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==
   dependencies:
     tr46 "~0.0.3"

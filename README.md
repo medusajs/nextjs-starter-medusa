@@ -75,7 +75,7 @@ Navigate into your projects directory and get your environment variables ready:
 
 ```shell
 cd nextjs-starter-medusa/
-mv .env.template .env.local
+cp .env.template .env.local
 ```
 
 ### Install dependencies
@@ -129,7 +129,7 @@ This starter is configured to support using the `medusa-search-meilisearch` plug
 
 Before you can search you will need to install the plugin in your Medusa server, for a written guide on how to do this – [see our documentation](https://docs.medusajs.com/add-plugins/meilisearch).
 
-The search components in this starter are developed with Algolia's `react-instant-search-hooks-web` library which should make it possible for you to seemlesly change your search provider to Algolia instead of MeiliSearch.
+The search components in this starter are developed with Algolia's `react-instantsearch` library which should make it possible for you to seemlesly change your search provider to Algolia instead of MeiliSearch.
 
 To do this you will need to add `algoliasearch` to the project, by running
 
@@ -171,7 +171,7 @@ export async function search(query: string) {
 }
 ```
 
-After this you will need to set up Algolia with your Medusa server, and then you should be good to go. For a more thorough walkthrough of using Algolia with Medusa – [see our documentation](https://docs.medusajs.com/add-plugins/algolia), and the [documentation for using `react-instantsearch-hooks-web`](https://www.algolia.com/doc/guides/building-search-ui/getting-started/react-hooks/).
+After this you will need to set up Algolia with your Medusa server, and then you should be good to go. For a more thorough walkthrough of using Algolia with Medusa – [see our documentation](https://docs.medusajs.com/add-plugins/algolia), and the [documentation for using `react-instantsearch`](https://www.algolia.com/doc/guides/building-search-ui/getting-started/react/).
 
 ## App structure
 
