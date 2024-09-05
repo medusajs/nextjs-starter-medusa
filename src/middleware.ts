@@ -25,8 +25,9 @@ async function getRegionMap() {
       },
     }).then((res) => res.json())
 
-    if (!regions) {
-      notFound()
+    if (!Array.isArray(regions) || regions.length <= 0) {
+      // It is not possible to use notfound() in middleware
+      throw new Error("Regions not found")
     }
 
     // Create a map of country codes to regions.
@@ -70,6 +71,10 @@ async function getCountryCode(
       countryCode = regionMap.keys().next().value
     }
 
+    if (!countryCode) {
+      throw new Error("No country code found")
+    }
+
     return countryCode
   } catch (error) {
     if (process.env.NODE_ENV === "development") {
@@ -91,7 +96,13 @@ export async function middleware(request: NextRequest) {
   const onboardingCookie = request.cookies.get("_medusa_onboarding")
   const cartIdCookie = request.cookies.get("_medusa_cart_id")
 
-  const regionMap = await getRegionMap()
+  let regionMap: Awaited<ReturnType<typeof getRegionMap>>
+  try {
+    regionMap = await getRegionMap()
+  } catch (error) {
+    // If no region map is found, we can't continue - send the user to 404
+    return NextResponse.error()
+  }
 
   const countryCode = regionMap && (await getCountryCode(request, regionMap))
 
