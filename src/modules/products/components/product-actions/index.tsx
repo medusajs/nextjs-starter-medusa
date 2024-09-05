@@ -75,14 +75,13 @@ export default function ProductActions({
       return true
     }
 
-    // TODO: Add inventory checks with the new v2 setup
-    // // If there is inventory available, we can add to cart
-    // if (
-    //   selectedVariant?.inventory_quantity &&
-    //   selectedVariant.inventory_quantity > 0
-    // ) {
-    //   return true
-    // }
+    // If there is inventory available, we can add to cart
+    if (
+      selectedVariant?.inventory_items?.[0]?.inventory && // TODO: change this to support inventory kits
+      selectedVariant.inventory_items[0].inventory.stocked_quantity > 0
+    ) {
+      return true
+    }
 
     // Otherwise, we can't add to cart
     return false
