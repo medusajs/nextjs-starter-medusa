@@ -28,7 +28,7 @@
     "@medusajs/pricing": "^0.1.4",
     "@medusajs/product": "^0.3.4",
     "@medusajs/ui": "^2.2.0",
-    "@meilisearch/instant-meilisearch": "^0.7.1",
+    "@meilisearch/instant-meilisearch": "^0.20.0",
     "@paypal/paypal-js": "^5.0.6",
     "@paypal/react-paypal-js": "^7.8.1",
     "@stripe/react-stripe-js": "^1.7.2",
@@ -42,7 +42,7 @@
     "react": "^18.2.0",
     "react-country-flag": "^3.0.2",
     "react-dom": "^18.2.0",
-    "react-instantsearch-hooks-web": "^6.29.0",
+    "react-instantsearch": "^7.13.0",
     "react-intersection-observer": "^9.3.4",
     "tailwindcss-radix": "^2.8.0",
     "webpack": "^5"
