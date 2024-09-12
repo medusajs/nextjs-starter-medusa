@@ -71,14 +71,14 @@ export default function ProductActions({
     }
 
     // If we allow back orders on the variant, we can add to cart
-    if (selectedVariant && selectedVariant.allow_backorder) {
+    if (selectedVariant?.allow_backorder) {
       return true
     }
 
     // If there is inventory available, we can add to cart
     if (
-      selectedVariant?.inventory_items?.[0]?.inventory && // TODO: change this to support inventory kits
-      selectedVariant.inventory_items[0].inventory.stocked_quantity > 0
+      selectedVariant?.manage_inventory &&
+      (selectedVariant?.inventory_quantity || 0) > 0
     ) {
       return true
     }
