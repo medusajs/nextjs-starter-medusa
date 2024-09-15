@@ -1,6 +1,7 @@
 import { ProductOption } from "@medusajs/medusa"
 import { clx } from "@medusajs/ui"
 import React from "react"
+import { useI18n, useScopedI18n, I18nProviderClient } from '../../../../locales/client'
 
 import { onlyUnique } from "@lib/util/only-unique"
 
@@ -13,19 +14,20 @@ type OptionSelectProps = {
   "data-testid"?: string
 }
 
-const OptionSelect: React.FC<OptionSelectProps> = ({
+function OptionSelect({
   option,
   current,
   updateOption,
   title,
   "data-testid": dataTestId,
   disabled,
-}) => {
+}: OptionSelectProps) {
   const filteredOptions = option.values.map((v) => v.value).filter(onlyUnique)
+  const t = useScopedI18n("product")
 
   return (
     <div className="flex flex-col gap-y-3">
-      <span className="text-sm">Select {title}</span>
+      <span className="text-sm">{t("select")} {title}</span>
       <div
         className="flex flex-wrap justify-between gap-2"
         data-testid={dataTestId}
