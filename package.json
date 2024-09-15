@@ -38,6 +38,7 @@
     "lodash": "^4.17.21",
     "medusa-react": "^9.0.0",
     "next": "^14.0.0",
+    "next-international": "^1.2.4",
     "pg": "^8.11.3",
     "react": "^18.2.0",
     "react-country-flag": "^3.0.2",

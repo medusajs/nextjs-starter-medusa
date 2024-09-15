@@ -1,5 +1,6 @@
 import { Suspense } from "react"
 
+import { getI18n } from '../../../../locales/server'
 import { listRegions } from "@lib/data"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import CartButton from "@modules/layout/components/cart-button"
@@ -7,6 +8,8 @@ import SideMenu from "@modules/layout/components/side-menu"
 
 export default async function Nav() {
   const regions = await listRegions().then((regions) => regions)
+
+  const t = await getI18n()
 
   return (
     <div className="sticky top-0 inset-x-0 z-50 group">
@@ -24,7 +27,7 @@ export default async function Nav() {
               className="txt-compact-xlarge-plus hover:text-ui-fg-base uppercase"
               data-testid="nav-store-link"
             >
-              Medusa Store
+              {t("nav.title")}
             </LocalizedClientLink>
           </div>
 
