@@ -6,6 +6,7 @@ import { Button } from "@medusajs/ui"
 import { useParams, usePathname } from "next/navigation"
 import { Fragment, useEffect, useRef, useState } from "react"
 
+import { useI18n, useScopedI18n } from "../../../../locales/client"
 import { formatAmount } from "@lib/util/prices"
 import DeleteButton from "@modules/common/components/delete-button"
 import LineItemOptions from "@modules/common/components/line-item-options"
@@ -13,16 +14,17 @@ import LineItemPrice from "@modules/common/components/line-item-price"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import Thumbnail from "@modules/products/components/thumbnail"
 
-const CartDropdown = ({
+export default function CartDropdown({
   cart: cartState,
 }: {
   cart?: Omit<Cart, "beforeInsert" | "afterLoad"> | null
-}) => {
+}) {
   const [activeTimer, setActiveTimer] = useState<NodeJS.Timer | undefined>(
     undefined
   )
   const [cartDropdownOpen, setCartDropdownOpen] = useState(false)
 
+  const t = useScopedI18n("cart.dropdown")
   const { countryCode } = useParams()
 
   const open = () => setCartDropdownOpen(true)
@@ -82,7 +84,11 @@ const CartDropdown = ({
             className="hover:text-ui-fg-base"
             href="/cart"
             data-testid="nav-cart-link"
-          >{`Cart (${totalItems})`}</LocalizedClientLink>
+          >
+            {t("cart", {
+              count: totalItems,
+            })}
+          </LocalizedClientLink>
         </Popover.Button>
         <Transition
           show={cartDropdownOpen}
@@ -142,7 +148,7 @@ const CartDropdown = ({
                                   data-testid="cart-item-quantity"
                                   data-value={item.quantity}
                                 >
-                                  Quantity: {item.quantity}
+                                  {t("quantity")} {item.quantity}
                                 </span>
                               </div>
                               <div className="flex justify-end">
@@ -159,7 +165,7 @@ const CartDropdown = ({
                             className="mt-1"
                             data-testid="cart-item-remove-button"
                           >
-                            Remove
+                            {t("remove")}
                           </DeleteButton>
                         </div>
                       </div>
@@ -168,7 +174,7 @@ const CartDropdown = ({
                 <div className="p-4 flex flex-col gap-y-4 text-small-regular">
                   <div className="flex items-center justify-between">
                     <span className="text-ui-fg-base font-semibold">
-                      Subtotal{" "}
+                      {t("subtotal")}{" "}
                       <span className="font-normal">(excl. taxes)</span>
                     </span>
                     <span
@@ -189,7 +195,7 @@ const CartDropdown = ({
                       size="large"
                       data-testid="go-to-cart-button"
                     >
-                      Go to cart
+                      {t("gotocart")}
                     </Button>
                   </LocalizedClientLink>
                 </div>
@@ -200,12 +206,12 @@ const CartDropdown = ({
                   <div className="bg-gray-900 text-small-regular flex items-center justify-center w-6 h-6 rounded-full text-white">
                     <span>0</span>
                   </div>
-                  <span>Your shopping bag is empty.</span>
+                  <span>{t("empty")}</span>
                   <div>
                     <LocalizedClientLink href="/store">
                       <>
-                        <span className="sr-only">Go to all products page</span>
-                        <Button onClick={close}>Explore products</Button>
+                        <span className="sr-only">{t("gotoall")}</span>
+                        <Button onClick={close}>{t("explore")}</Button>
                       </>
                     </LocalizedClientLink>
                   </div>
@@ -218,5 +224,3 @@ const CartDropdown = ({
     </div>
   )
 }
-
-export default CartDropdown

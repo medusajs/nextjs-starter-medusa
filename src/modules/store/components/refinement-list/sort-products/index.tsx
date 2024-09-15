@@ -1,6 +1,7 @@
 "use client"
 
 import { ChangeEvent } from "react"
+import { useI18n, useScopedI18n } from '../../../../../locales/client'
 
 import FilterRadioGroup from "@modules/common/components/filter-radio-group"
 
@@ -12,30 +13,31 @@ type SortProductsProps = {
   'data-testid'?: string
 }
 
-const sortOptions = [
-  {
-    value: "created_at",
-    label: "Latest Arrivals",
-  },
-  {
-    value: "price_asc",
-    label: "Price: Low -> High",
-  },
-  {
-    value: "price_desc",
-    label: "Price: High -> Low",
-  },
-]
-
 const SortProducts = ({ 'data-testid': dataTestId, sortBy, setQueryParams }: SortProductsProps) => {
   const handleChange = (e: ChangeEvent<HTMLButtonElement>) => {
     const newSortBy = e.target.value as SortOptions
     setQueryParams("sortBy", newSortBy)
   }
 
+  const t = useScopedI18n('store')
+  const sortOptions = [
+    {
+      value: "created_at",
+      label: t("created_at"),
+    },
+    {
+      value: "price_asc",
+      label: t("price_asc"),
+    },
+    {
+      value: "price_desc",
+      label: t("price_desc"),
+    },
+  ]
+  
   return (
     <FilterRadioGroup
-      title="Sort by"
+      title={t("sort")}
       items={sortOptions}
       value={sortBy}
       handleChange={handleChange}
