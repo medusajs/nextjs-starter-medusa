@@ -1,3 +1,5 @@
+"use client"
+
 import { ProductVariant } from "@medusajs/medusa"
 import { Text } from "@medusajs/ui"
 import { useScopedI18n } from '../../../../locales/client'

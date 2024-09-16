@@ -4,6 +4,7 @@ import React, { Suspense } from "react"
 
 import { I18nProviderClient } from "../../../locales/client"
 import { getCurrentLocale } from "../../../locales/server"
+
 import ImageGallery from "@modules/products/components/image-gallery"
 import ProductActions from "@modules/products/components/product-actions"
 import ProductOnboardingCta from "@modules/products/components/product-onboarding-cta"
@@ -30,7 +31,7 @@ async function ProductTemplate({
   }
 
   return (
-    <I18nProviderClient locale={await getCurrentLocale()}>
+    <I18nProviderClient locale={getCurrentLocale()}>
       <div
         className="content-container flex flex-col small:flex-row small:items-start py-6 relative"
         data-testid="product-container"
