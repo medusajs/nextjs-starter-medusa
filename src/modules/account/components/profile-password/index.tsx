@@ -3,6 +3,8 @@
 import { Customer } from "@medusajs/medusa"
 import React, { useEffect } from "react"
 
+import { useScopedI18n } from "../../../../locales/client"
+
 import Input from "@modules/common/components/input"
 
 import AccountInfo from "../account-info"
@@ -14,6 +16,7 @@ type MyInformationProps = {
 }
 
 const ProfileName: React.FC<MyInformationProps> = ({ customer }) => {
+  const t = useScopedI18n("account")
   const [successState, setSuccessState] = React.useState(false)
 
   const [state, formAction] = useFormState(updateCustomerPassword, {
@@ -33,7 +36,7 @@ const ProfileName: React.FC<MyInformationProps> = ({ customer }) => {
   return (
     <form action={formAction} onReset={() => clearState()} className="w-full">
       <AccountInfo
-        label="Password"
+        label={t("password")}
         currentInfo={
           <span>The password is not shown for security reasons</span>
         }
@@ -45,21 +48,21 @@ const ProfileName: React.FC<MyInformationProps> = ({ customer }) => {
       >
         <div className="grid grid-cols-2 gap-4">
           <Input
-            label="Old password"
+            label={t("old_password")}
             name="old_password"
             required
             type="password"
             data-testid="old-password-input"
           />
           <Input
-            label="New password"
+            label={t("new_password")}
             type="password"
             name="new_password"
             required
             data-testid="new-password-input"
           />
           <Input
-            label="Confirm password"
+            label={t("confirm_password")}
             type="password"
             name="confirm_password"
             required

@@ -1,3 +1,5 @@
+"use client"
+
 import { Customer, Region } from "@medusajs/medusa"
 import React from "react"
 

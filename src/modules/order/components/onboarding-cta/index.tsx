@@ -1,4 +1,4 @@
-"use client"
+"use client" // TODO: not client
 
 import { useScopedI18n } from "../../../../locales/client"
 

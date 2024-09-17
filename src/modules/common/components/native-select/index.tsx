@@ -1,3 +1,6 @@
+"use client"
+
+import { useI18n } from '../../../../locales/client'
 import { ChevronUpDown } from "@medusajs/icons"
 import { clx } from "@medusajs/ui"
 import {
@@ -22,7 +25,8 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
   ) => {
     const innerRef = useRef<HTMLSelectElement>(null)
     const [isPlaceholder, setIsPlaceholder] = useState(false)
-
+    const t = useI18n()
+    
     useImperativeHandle<HTMLSelectElement | null, HTMLSelectElement | null>(
       ref,
       () => innerRef.current

@@ -1,4 +1,4 @@
-"use client"
+"use client" // TODO: not client
 
 import { Listbox, Transition } from "@headlessui/react"
 import { Region } from "@medusajs/medusa"

@@ -21,7 +21,7 @@ type ProductTemplateProps = {
   countryCode: string
 }
 
-async function ProductTemplate({
+function ProductTemplate({
   product,
   region,
   countryCode,
