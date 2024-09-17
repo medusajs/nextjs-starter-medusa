@@ -2,6 +2,8 @@
 
 import { forwardRef, useImperativeHandle, useMemo, useRef } from "react"
 
+import { useI18n } from "../../../../locales/client"
+
 import NativeSelect, {
   NativeSelectProps,
 } from "@modules/common/components/native-select"
@@ -12,7 +14,10 @@ const CountrySelect = forwardRef<
   NativeSelectProps & {
     region?: Region
   }
->(({ placeholder = "Country", region, defaultValue, ...props }, ref) => {
+>(({ placeholder = null, region, defaultValue, ...props }, ref) => {
+  const t = useI18n()
+  placeholder = t("account.address.country_code")
+
   const innerRef = useRef<HTMLSelectElement>(null)
 
   useImperativeHandle<HTMLSelectElement | null, HTMLSelectElement | null>(

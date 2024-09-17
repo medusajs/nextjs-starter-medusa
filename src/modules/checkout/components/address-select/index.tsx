@@ -5,6 +5,8 @@ import { clx } from "@medusajs/ui"
 import { omit } from "lodash"
 import { Fragment, useMemo } from "react"
 
+import { useScopedI18n } from '../../../../locales/client'
+
 import Radio from "@modules/common/components/radio"
 import { cartUpdate } from "@modules/checkout/actions"
 import compareAddresses from "@lib/util/compare-addresses"
@@ -15,6 +17,7 @@ type AddressSelectProps = {
 }
 
 const AddressSelect = ({ addresses, cart }: AddressSelectProps) => {
+  const t = useScopedI18n("checkout")
   const handleSelect = (id: string) => {
     const savedAddress = addresses.find((a) => a.id === id)
     if (savedAddress) {
@@ -47,7 +50,7 @@ const AddressSelect = ({ addresses, cart }: AddressSelectProps) => {
               <span className="block truncate">
                 {selectedAddress
                   ? selectedAddress.address_1
-                  : "Choose an address"}
+                  : t("chooseaddress") }
               </span>
               <ChevronUpDown
                 className={clx("transition-rotate duration-200", {

@@ -6,6 +6,8 @@ import { Heading, Label, Text, Tooltip } from "@medusajs/ui"
 import React, { useMemo } from "react"
 import { useFormState } from "react-dom"
 
+import { useI18n } from '../../../../locales/client'
+
 import Input from "@modules/common/components/input"
 import Trash from "@modules/common/icons/trash"
 import ErrorMessage from "@modules/checkout/components/error-message"
@@ -22,6 +24,7 @@ type DiscountCodeProps = {
 }
 
 const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
+  const t = useI18n()
   const [isOpen, setIsOpen] = React.useState(false)
 
   const { discounts, gift_cards, region } = cart
@@ -41,7 +44,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
         })}`
 
       default:
-        return "Free shipping"
+        return t("checkout.shipping.free")
     }
   }, [discounts, region])
 
@@ -60,7 +63,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
       <div className="txt-medium">
         {gift_cards.length > 0 && (
           <div className="flex flex-col mb-4">
-            <Heading className="txt-medium">Gift card(s) applied:</Heading>
+            <Heading className="txt-medium">{t("checkout.giftcards")}</Heading>
             {gift_cards?.map((gc) => (
               <div
                 className="flex items-center justify-between txt-small-plus"
@@ -68,7 +71,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                 data-testid="gift-card"
               >
                 <Text className="flex gap-x-1 items-baseline">
-                  <span>Code: </span>
+                  <span>{t("checkout.code")}</span>
                   <span className="truncate" data-testid="gift-card-code">
                     {gc.code}
                   </span>
@@ -90,7 +93,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                   data-testid="remove-gift-card-button"
                 >
                   <Trash size={14} />
-                  <span className="sr-only">Remove gift card from order</span>
+                  <span className="sr-only">{t("checkout.removegift")}</span>
                 </button>
               </div>
             ))}
@@ -100,13 +103,13 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
         {appliedDiscount ? (
           <div className="w-full flex items-center">
             <div className="flex flex-col w-full">
-              <Heading className="txt-medium">Discount applied:</Heading>
+              <Heading className="txt-medium">{t("checkout.discount")}</Heading>
               <div
                 className="flex items-center justify-between w-full max-w-full"
                 data-testid="discount-row"
               >
                 <Text className="flex gap-x-1 items-baseline txt-small-plus w-4/5 pr-1">
-                  <span>Code:</span>
+                  <span>{t("checkout.code")}</span>
                   <span className="truncate" data-testid="discount-code">
                     {discounts[0].code}
                   </span>
@@ -125,7 +128,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                 >
                   <Trash size={14} />
                   <span className="sr-only">
-                    Remove discount code from order
+                  {t("checkout.removediscount")}
                   </span>
                 </button>
               </div>
@@ -140,7 +143,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                 className="txt-medium text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
                 data-testid="add-discount-button"
               >
-                Add gift card or discount code
+                {t("checkout.addgift")}
               </button>
               <Tooltip content="You can add multiple gift cards, but only one discount code.">
                 <InformationCircleSolid color="var(--fg-muted)" />
@@ -150,7 +153,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
               <>
                 <div className="flex w-full gap-x-2 items-center">
                   <Input
-                    label="Please enter code----------------------------------------------------------------------------------------"
+                    label={t("checkout.entercode")}
                     name="code"
                     type="text"
                     autoFocus={false}
@@ -160,7 +163,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                     variant="secondary"
                     data-testid="discount-apply-button"
                   >
-                    Apply
+                    {t("generic.apply")}
                   </SubmitButton>
                 </div>
                 <ErrorMessage

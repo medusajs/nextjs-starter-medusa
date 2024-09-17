@@ -1,5 +1,7 @@
 import { Heading } from "@medusajs/ui"
 
+import { getScopedI18n } from "../../../../locales/server"
+
 import ItemsPreviewTemplate from "@modules/cart/templates/preview"
 import DiscountCode from "@modules/checkout/components/discount-code"
 import CartTotals from "@modules/common/components/cart-totals"
@@ -8,6 +10,7 @@ import { cookies } from "next/headers"
 import { getCart } from "@lib/data"
 
 const CheckoutSummary = async () => {
+  const t = await getScopedI18n("cart")
   const cartId = cookies().get("_medusa_cart_id")?.value
 
   if (!cartId) {
@@ -28,7 +31,7 @@ const CheckoutSummary = async () => {
           level="h2"
           className="flex flex-row text-3xl-regular items-baseline"
         >
-          In your Cart
+          {t("inyourcart")}
         </Heading>
         <Divider className="my-6" />
         <CartTotals data={cart} />
