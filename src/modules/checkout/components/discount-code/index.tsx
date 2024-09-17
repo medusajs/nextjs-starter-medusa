@@ -150,7 +150,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
               <>
                 <div className="flex w-full gap-x-2 items-center">
                   <Input
-                    label="Please enter code"
+                    label="Please enter code----------------------------------------------------------------------------------------"
                     name="code"
                     type="text"
                     autoFocus={false}

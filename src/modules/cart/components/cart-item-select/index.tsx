@@ -10,6 +10,8 @@ import {
   useState,
 } from "react"
 
+import { useScopedI18n } from "../../../../locales/client"
+
 import ChevronDown from "@modules/common/icons/chevron-down"
 
 type NativeSelectProps = {
@@ -19,7 +21,10 @@ type NativeSelectProps = {
 } & Omit<SelectHTMLAttributes<HTMLSelectElement>, "size">
 
 const CartItemSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
-  ({ placeholder = "Select...", className, children, ...props }, ref) => {
+  ({ placeholder = null, className, children, ...props }, ref) => {
+    const t = useScopedI18n("cart")
+    placeholder = placeholder || t("select")
+
     const innerRef = useRef<HTMLSelectElement>(null)
     const [isPlaceholder, setIsPlaceholder] = useState(false)
 
