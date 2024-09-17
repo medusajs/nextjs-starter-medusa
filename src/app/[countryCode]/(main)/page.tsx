@@ -1,6 +1,8 @@
 import { Product } from "@medusajs/medusa"
 import { Metadata } from "next"
 
+import { getI18n } from "../../../locales/server"
+
 import { getCollectionsList, getProductsList, getRegion } from "@lib/data"
 import FeaturedProducts from "@modules/home/components/featured-products"
 import Hero from "@modules/home/components/hero"
@@ -8,9 +10,8 @@ import { ProductCollectionWithPreviews } from "types/global"
 import { cache } from "react"
 
 export const metadata: Metadata = {
-  title: "Medusa Next.js Starter Template",
-  description:
-    "A performant frontend ecommerce starter template with Next.js 14 and Medusa.",
+  title: "store.title",
+  description: "store.desc",
 }
 
 const getCollectionsWithProducts = cache(
@@ -59,6 +60,10 @@ export default async function Home({
 }: {
   params: { countryCode: string }
 }) {
+  const t = await getI18n()
+  metadata.title = t("store.title")
+  metadata.description = t("store.desc")
+
   const collections = await getCollectionsWithProducts(countryCode)
   const region = await getRegion(countryCode)
 

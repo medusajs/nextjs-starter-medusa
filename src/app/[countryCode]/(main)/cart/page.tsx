@@ -2,6 +2,8 @@ import { LineItem } from "@medusajs/medusa"
 import { Metadata } from "next"
 import { cookies } from "next/headers"
 
+import { getI18n } from "../../../../locales/server"
+
 import CartTemplate from "@modules/cart/templates"
 
 import { enrichLineItems } from "@modules/cart/actions"
@@ -10,8 +12,8 @@ import { CartWithCheckoutStep } from "types/global"
 import { getCart, getCustomer } from "@lib/data"
 
 export const metadata: Metadata = {
-  title: "Cart",
-  description: "View your cart",
+  title: "cart.title",
+  description: "cart.desc",
 }
 
 const fetchCart = async () => {
@@ -40,6 +42,10 @@ const fetchCart = async () => {
 }
 
 export default async function Cart() {
+  const t = await getI18n()
+  metadata.title = t("cart.title")
+  metadata.description = t("cart.desc")
+
   const cart = await fetchCart()
   const customer = await getCustomer()
 

@@ -1,13 +1,15 @@
 import { Metadata } from "next"
 
+import { getI18n } from "../../../../../locales/server"
+
 import SearchResultsTemplate from "@modules/search/templates/search-results-template"
 
 import { search } from "@modules/search/actions"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 
 export const metadata: Metadata = {
-  title: "Search",
-  description: "Explore all of our products.",
+  title: "search.title",
+  description: "search.desc",
 }
 
 type Params = {
@@ -19,6 +21,10 @@ type Params = {
 }
 
 export default async function SearchResults({ params, searchParams }: Params) {
+  const t = await getI18n()
+  metadata.title = t("search.title")
+  metadata.description = t("search.desc")
+
   const { query } = params
   const { sortBy, page } = searchParams
 

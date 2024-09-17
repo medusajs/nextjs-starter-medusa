@@ -10,7 +10,7 @@ import { cookies } from "next/headers"
 import { getCart } from "@lib/data"
 
 const CheckoutSummary = async () => {
-  const t = await getScopedI18n("cart")
+  const t = await getScopedI18n("checkout")
   const cartId = cookies().get("_medusa_cart_id")?.value
 
   if (!cartId) {

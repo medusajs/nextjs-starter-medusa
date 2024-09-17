@@ -1,15 +1,21 @@
 import { Metadata } from "next"
 
+import { getI18n } from "../../../../../../locales/server"
+
 import OrderOverview from "@modules/account/components/order-overview"
 import { listCustomerOrders } from "@lib/data"
 import { notFound } from "next/navigation"
 
 export const metadata: Metadata = {
-  title: "Orders",
-  description: "Overview of your previous orders.",
+  title: "page.orders.title",
+  description: "page.orders.desc",
 }
 
 export default async function Orders() {
+  const t = await getI18n()
+  metadata.title = t("page.orders.title")
+  metadata.description = t("page.orders.desc")
+
   const orders = await listCustomerOrders()
 
   if (!orders) {
@@ -19,11 +25,8 @@ export default async function Orders() {
   return (
     <div className="w-full" data-testid="orders-page-wrapper">
       <div className="mb-8 flex flex-col gap-y-4">
-        <h1 className="text-2xl-semi">Orders</h1>
-        <p className="text-base-regular">
-          View your previous orders and their status. You can also create
-          returns or exchanges for your orders if needed.
-        </p>
+        <h1 className="text-2xl-semi">{t("page.orders.title")}</h1>
+        <p className="text-base-regular">{t("page.orders.details")}</p>
       </div>
       <div>
         <OrderOverview orders={orders} />

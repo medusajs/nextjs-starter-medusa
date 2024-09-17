@@ -1,7 +1,9 @@
 import { Metadata } from "next"
 import { cookies } from "next/headers"
 import { notFound } from "next/navigation"
-import { LineItem } from "@medusajs/medusa"
+import { Cart, LineItem } from "@medusajs/medusa"
+
+import { getI18n } from "../../../../locales/server"
 
 import { enrichLineItems } from "@modules/cart/actions"
 import Wrapper from "@modules/checkout/components/payment-wrapper"
@@ -31,6 +33,9 @@ const fetchCart = async () => {
 }
 
 export default async function Checkout() {
+  const t = await getI18n()
+  metadata.title = t("checkout.title")
+
   const cart = await fetchCart()
 
   if (!cart) {

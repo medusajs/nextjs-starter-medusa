@@ -1,6 +1,8 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
+import { getI18n } from "../../../../../locales/server"
+
 import { getCategoryByHandle, listCategories, listRegions } from "@lib/data"
 import CategoryTemplate from "@modules/categories/templates"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
@@ -52,8 +54,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       product_categories[product_categories.length - 1].description ??
       `${title} category.`
 
+    const t = await getI18n()
+    const storeName = t("store.name")
+
     return {
-      title: `${title} | Medusa Store`,
+      title: `${title} | ${storeName}`,
       description,
       alternates: {
         canonical: `${params.category.join("/")}`,

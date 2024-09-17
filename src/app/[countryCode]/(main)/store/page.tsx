@@ -1,11 +1,13 @@
 import { Metadata } from "next"
 
+import { getI18n } from "../../../../locales/server"
+
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import StoreTemplate from "@modules/store/templates"
 
 export const metadata: Metadata = {
-  title: "Store",
-  description: "Explore all of our products.",
+  title: "store.products.title",
+  description: "store.products.desc",
 }
 
 type Params = {
@@ -19,6 +21,10 @@ type Params = {
 }
 
 export default async function StorePage({ searchParams, params }: Params) {
+  const t = await getI18n()
+  metadata.title = t("store.products.title")
+  metadata.description = t("store.products.desc")
+
   const { sortBy, page } = searchParams
 
   return (

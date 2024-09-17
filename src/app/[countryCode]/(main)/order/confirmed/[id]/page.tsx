@@ -1,5 +1,7 @@
 import { Metadata } from "next"
 
+import { getI18n } from "../../../../../../locales/server"
+
 import { retrieveOrder } from "@lib/data"
 import { LineItem, Order } from "@medusajs/medusa"
 import { enrichLineItems } from "@modules/cart/actions"
@@ -28,11 +30,15 @@ async function getOrder(id: string) {
 }
 
 export const metadata: Metadata = {
-  title: "Order Confirmed",
-  description: "You purchase was successful",
+  title: "order.confirmed_title",
+  description: "oder.confirmed_desc",
 }
 
 export default async function OrderConfirmedPage({ params }: Props) {
+  const t = await getI18n()
+  metadata.title = t("order.confirmed_title")
+  metadata.description = t("order.confirmed_desc")
+
   const { order } = await getOrder(params.id)
 
   return <OrderCompletedTemplate order={order} />

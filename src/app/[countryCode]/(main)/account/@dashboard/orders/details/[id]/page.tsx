@@ -1,6 +1,8 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
+import { getI18n } from "../../../../../../../../locales/server"
+
 import { retrieveOrder } from "@lib/data"
 import OrderDetailsTemplate from "@modules/order/templates/order-details-template"
 
@@ -9,6 +11,7 @@ type Props = {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const t = await getI18n()
   const order = await retrieveOrder(params.id).catch(() => null)
 
   if (!order) {
@@ -16,8 +19,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: `Order #${order.display_id}`,
-    description: `View your order`,
+    title: t("page.order.title") + ` #${order.display_id}`,
+    description: t("page.order.desc"),
   }
 }
 
