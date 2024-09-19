@@ -17,8 +17,19 @@ export default async function CheckoutForm({
     return null
   }
 
-  const shippingMethods = await listCartShippingMethods(cart.id)
+  const _shippingMethods = await listCartShippingMethods(cart.id)
   const paymentMethods = await listCartPaymentMethods(cart.region?.id ?? "")
+
+  const shippingMethods = _shippingMethods.filter((sm) => {
+    const isReturn = sm.rules.some(
+      (rule) => rule.attribute === "is_return" && rule.value === "true"
+    )
+    const isEnabledInStore = sm.rules.some(
+      (rule) => rule.attribute === "enabled_in_store" && rule.value === "true"
+    )
+
+    return !isReturn && isEnabledInStore
+  })
 
   if (!shippingMethods || !paymentMethods) {
     return null
