@@ -36,7 +36,7 @@ const fetchCart = async () => {
     cart.items = enrichedItems as LineItem[]
   }
 
-  cart.checkout_step = cart && getCheckoutStep(cart)
+  cart.checkout_step = (cart && getCheckoutStep(cart) || "address")
 
   return cart
 }
