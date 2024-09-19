@@ -17,7 +17,7 @@
   },
   "resolutions": {
     "webpack": "^5",
-    "@types/react": "17.0.40"
+    "@types/react": "^18.2.42"
   },
   "dependencies": {
     "@headlessui/react": "^1.6.1",
