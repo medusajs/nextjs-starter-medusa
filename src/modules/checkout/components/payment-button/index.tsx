@@ -259,6 +259,7 @@ const PayPalPaymentButton = ({
 }
 
 const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
+  const t = useScopedI18n("checkout")
   const [submitting, setSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
@@ -284,7 +285,7 @@ const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
         size="large"
         data-testid="submit-order-button"
       >
-        Place order
+        {t("placeorder")}
       </Button>
       <ErrorMessage
         error={errorMessage}

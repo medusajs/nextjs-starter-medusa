@@ -40,9 +40,11 @@ export default {
 
   "cart.title": "Cart",
   "cart.desc": "View your cart",
+  "cart.taxes_desc": "Cart total excluding shipping and taxes.",
   "cart.subtotal": "Subtotal",
   "cart.discount": "Discount",
   "cart.shipping": "Shipping",
+  "cart.taxes": "Taxes",
   "cart.giftcard": "Gift card",
   "cart.total": "Total",
   "cart.summary": "Summary",
@@ -60,6 +62,7 @@ export default {
   "cart.": "",
     
   "checkout.title": "Checkout",
+  "checkout.placeorder": "Place Order",
   "checkout.back": "Back to shopping cart",
   "checkout.inyourcart": "In your Cart",
   "checkout.chooseaddress": "Choose an address",
@@ -221,6 +224,7 @@ export default {
   "account.address.email": "E-mail",
   
   "account.password": "Password",
+  "account.password_hint": "The password is not shown for security reasons",
   "account.old_password": "Old password",
   "account.new_password": "New password",
   "account.confirm_password": "Confirm password",

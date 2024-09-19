@@ -40,9 +40,11 @@ export default {
 
   "cart.title": "Kosár",
   "cart.desc": "Tekintsd meg a kosarad",
+  "cart.taxes_desc": "A kosárban szereplő összeg nem tartalmazza az ÁFA-t és a szállítási díjat.",
   "cart.subtotal": "Részösszeg",
   "cart.discount": "Kedvezmény",
   "cart.shipping": "Szállítás",
+  "cart.taxes": "ÁFA",
   "cart.giftcard": "Ajándékkártya",
   "cart.total": "Összeg",
   "cart.summary": "Összegzés",
@@ -60,6 +62,7 @@ export default {
   "cart.": "",
 
   "checkout.title": "Fizetés",
+  "checkout.placeorder": "Rendelés leadása",
   "checkout.back": "Vissza a kosárhoz",
   "checkout.inyourcart": "A kosaradban",
   "checkout.chooseaddress": "Válassz egy címet",
@@ -221,6 +224,7 @@ export default {
   "account.address.email": "E-mail",
 
   "account.password": "Jelszó",
+  "account.password_hint": "A jelszó biztonsági okokból nem jelenik meg",
   "account.old_password": "Régi jelszó",
   "account.new_password": "Új jelszó",
   "account.confirm_password": "Jelszó megerősítése",

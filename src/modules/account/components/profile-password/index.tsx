@@ -38,7 +38,7 @@ const ProfileName: React.FC<MyInformationProps> = ({ customer }) => {
       <AccountInfo
         label={t("password")}
         currentInfo={
-          <span>The password is not shown for security reasons</span>
+          <span>{t("password_hint")}</span>
         }
         isSuccess={successState}
         isError={!!state.error}
