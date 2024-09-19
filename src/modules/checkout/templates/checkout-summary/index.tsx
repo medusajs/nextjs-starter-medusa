@@ -1,23 +1,21 @@
+"use client"
+
 import { Heading } from "@medusajs/ui"
 
-import { getScopedI18n } from "../../../../locales/server"
+import { useScopedI18n } from "../../../../locales/client"
 
 import ItemsPreviewTemplate from "@modules/cart/templates/preview"
 import DiscountCode from "@modules/checkout/components/discount-code"
 import CartTotals from "@modules/common/components/cart-totals"
 import Divider from "@modules/common/components/divider"
-import { cookies } from "next/headers"
-import { getCart } from "@lib/data"
+import { Cart } from "medusa-react"
 
-const CheckoutSummary = async () => {
-  const t = await getScopedI18n("checkout")
-  const cartId = cookies().get("_medusa_cart_id")?.value
+type CheckoutSummaryProps = {
+  cart: Omit<Cart, "refundable_amount" | "refunded_total">
+}
 
-  if (!cartId) {
-    return null
-  }
-
-  const cart = await getCart(cartId).then((cart) => cart)
+const CheckoutSummary: React.FC<CheckoutSummaryProps> = ({ cart }) => {
+  const t = useScopedI18n("checkout")
 
   if (!cart) {
     return null

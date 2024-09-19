@@ -47,7 +47,7 @@ export default async function Checkout() {
       <Wrapper cart={cart}>
         <CheckoutForm />
       </Wrapper>
-      <CheckoutSummary />
+      <CheckoutSummary cart={cart} />
     </div>
   )
 }
