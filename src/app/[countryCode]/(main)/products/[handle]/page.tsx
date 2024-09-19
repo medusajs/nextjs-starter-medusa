@@ -1,5 +1,6 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
+import { getI18n, setStaticParams } from "../../../../../locales/server"
 
 import {
   getProductByHandle,
@@ -84,6 +85,7 @@ const getPricedProductByHandle = async (handle: string, region: Region) => {
 }
 
 export default async function ProductPage({ params }: Props) {
+  setStaticParams(params.countryCode)
   const region = await getRegion(params.countryCode)
 
   if (!region) {

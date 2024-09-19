@@ -1,3 +1,5 @@
+"use client"
+
 import { LineItem, Region } from "@medusajs/medusa"
 import { Table } from "@medusajs/ui"
 

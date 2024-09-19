@@ -10,6 +10,8 @@ import { Cart, Customer } from "@medusajs/medusa"
 import { CheckCircleSolid } from "@medusajs/icons"
 import { Heading, Text, useToggleState } from "@medusajs/ui"
 
+import { useI18n } from "../../../../locales/client"
+
 import Divider from "@modules/common/components/divider"
 import Spinner from "@modules/common/icons/spinner"
 
@@ -28,6 +30,7 @@ const Addresses = ({
   cart: Omit<Cart, "refundable_amount" | "refunded_total"> | null
   customer: Omit<Customer, "password_hash"> | null
 }) => {
+  const t = useI18n()
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
@@ -56,7 +59,7 @@ const Addresses = ({
           level="h2"
           className="flex flex-row text-3xl-regular gap-x-2 items-baseline"
         >
-          Shipping Address
+          {t("checkout.shipping_address")}
           {!isOpen && <CheckCircleSolid />}
         </Heading>
         {!isOpen && cart?.shipping_address && (
@@ -66,7 +69,7 @@ const Addresses = ({
               className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
               data-testid="edit-address-button"
             >
-              Edit
+              {t("generic.edit")}
             </button>
           </Text>
         )}
@@ -88,13 +91,15 @@ const Addresses = ({
                   level="h2"
                   className="text-3xl-regular gap-x-4 pb-6 pt-8"
                 >
-                  Billing address
+                  {t("checkout.billing_address")}
                 </Heading>
 
                 <BillingAddress cart={cart} countryCode={countryCode} />
               </div>
             )}
-            <SubmitButton className="mt-6" data-testid="submit-address-button">Continue to delivery</SubmitButton>
+            <SubmitButton className="mt-6" data-testid="submit-address-button">
+              {t("checkout.continue")}
+            </SubmitButton>
             <ErrorMessage error={message} data-testid="address-error-message" />
           </div>
         </form>
@@ -104,9 +109,12 @@ const Addresses = ({
             {cart && cart.shipping_address ? (
               <div className="flex items-start gap-x-8">
                 <div className="flex items-start gap-x-1 w-full">
-                  <div className="flex flex-col w-1/3" data-testid="shipping-address-summary">
+                  <div
+                    className="flex flex-col w-1/3"
+                    data-testid="shipping-address-summary"
+                  >
                     <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                      Shipping Address
+                      {t("checkout.shipping_address")}
                     </Text>
                     <Text className="txt-medium text-ui-fg-subtle">
                       {cart.shipping_address.first_name}{" "}
@@ -125,7 +133,10 @@ const Addresses = ({
                     </Text>
                   </div>
 
-                  <div className="flex flex-col w-1/3 " data-testid="shipping-contact-summary">
+                  <div
+                    className="flex flex-col w-1/3 "
+                    data-testid="shipping-contact-summary"
+                  >
                     <Text className="txt-medium-plus text-ui-fg-base mb-1">
                       Contact
                     </Text>
@@ -137,14 +148,17 @@ const Addresses = ({
                     </Text>
                   </div>
 
-                  <div className="flex flex-col w-1/3" data-testid="billing-address-summary">
+                  <div
+                    className="flex flex-col w-1/3"
+                    data-testid="billing-address-summary"
+                  >
                     <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                      Billing Address
+                      {t("checkout.billing_address")}
                     </Text>
 
                     {sameAsSBilling ? (
                       <Text className="txt-medium text-ui-fg-subtle">
-                        Billing- and delivery address are the same.
+                        {t("checkout.same_as_billing")}
                       </Text>
                     ) : (
                       <>

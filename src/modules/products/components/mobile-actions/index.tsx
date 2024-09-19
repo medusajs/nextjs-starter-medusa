@@ -6,6 +6,7 @@ import {
 import { Button, clx } from "@medusajs/ui"
 import React, { Fragment, useMemo } from "react"
 
+import { useI18n, useScopedI18n, I18nProviderClient } from '../../../../locales/client'
 import useToggleState from "@lib/hooks/use-toggle-state"
 import ChevronDown from "@modules/common/icons/chevron-down"
 import X from "@modules/common/icons/x"
@@ -41,6 +42,8 @@ const MobileActions: React.FC<MobileActionsProps> = ({
 }) => {
   const { state, open, close } = useToggleState()
 
+  const t = useScopedI18n("product")
+  
   const price = getProductPrice({
     product: product,
     variantId: variant?.id,
@@ -126,10 +129,10 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                 data-testid="mobile-cart-button"
               >
                 {!variant
-                  ? "Select variant"
+                  ? t("variant")
                   : !inStock
-                  ? "Out of stock"
-                  : "Add to cart"}
+                  ? t("outof")
+                  : t("addtocart")}
               </Button>
             </div>
           </div>

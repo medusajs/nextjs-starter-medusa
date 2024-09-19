@@ -1,3 +1,5 @@
+"use client"
+
 import { clx } from "@medusajs/ui"
 
 const Divider = ({ className }: { className?: string }) => (

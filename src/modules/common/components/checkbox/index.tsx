@@ -1,3 +1,5 @@
+"use client"
+
 import { Checkbox, Label } from "@medusajs/ui"
 import React from "react"
 

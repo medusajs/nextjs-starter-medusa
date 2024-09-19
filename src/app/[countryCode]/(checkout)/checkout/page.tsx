@@ -1,7 +1,9 @@
 import { Metadata } from "next"
 import { cookies } from "next/headers"
 import { notFound } from "next/navigation"
-import { LineItem } from "@medusajs/medusa"
+import { Cart, LineItem } from "@medusajs/medusa"
+
+import { getI18n, setStaticParams, getCurrentLocale } from "../../../../locales/server"
 
 import { enrichLineItems } from "@modules/cart/actions"
 import Wrapper from "@modules/checkout/components/payment-wrapper"
@@ -10,7 +12,11 @@ import CheckoutSummary from "@modules/checkout/templates/checkout-summary"
 import { getCart } from "@lib/data"
 
 export const metadata: Metadata = {
-  title: "Checkout",
+  title: "checkout.title",
+}
+
+type Props = {
+  params: { countryCode: string; }
 }
 
 const fetchCart = async () => {
@@ -30,7 +36,11 @@ const fetchCart = async () => {
   return cart
 }
 
-export default async function Checkout() {
+export default async function Checkout({ params }: Props) {
+  setStaticParams(params.countryCode)
+  const t = await getI18n()
+  metadata.title = t("checkout.title")
+
   const cart = await fetchCart()
 
   if (!cart) {
@@ -42,7 +52,7 @@ export default async function Checkout() {
       <Wrapper cart={cart}>
         <CheckoutForm />
       </Wrapper>
-      <CheckoutSummary />
+      <CheckoutSummary cart={cart} />
     </div>
   )
 }

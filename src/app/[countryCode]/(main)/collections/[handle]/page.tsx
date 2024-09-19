@@ -1,6 +1,8 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
+import { getI18n } from "../../../../../locales/server"
+
 import {
   getCollectionByHandle,
   getCollectionsList,
@@ -51,9 +53,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     notFound()
   }
 
+  const t = await getI18n()
+  const storeName = t("store.name")
+  const collectionTxt = t("generic.collection")
+
   const metadata = {
-    title: `${collection.title} | Medusa Store`,
-    description: `${collection.title} collection`,
+    title: `${collection.title} | ${storeName}`,
+    description: `${collection.title} ${collectionTxt}`,
   } as Metadata
 
   return metadata

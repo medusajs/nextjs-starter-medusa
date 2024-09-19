@@ -3,6 +3,8 @@
 import { Stripe, StripeElementsOptions } from "@stripe/stripe-js"
 import { Elements } from "@stripe/react-stripe-js"
 
+import {  useScopedI18n } from '../../../../locales/client'
+
 import { PaymentSession } from "@medusajs/medusa"
 
 type StripeWrapperProps = {
@@ -21,23 +23,19 @@ const StripeWrapper: React.FC<StripeWrapperProps> = ({
     const options: StripeElementsOptions = {
       clientSecret: paymentSession!.data?.client_secret as string | undefined,
     }
+
+    const t = useScopedI18n("checkout.payment.stripe")
   
     if (!stripeKey) {
-      throw new Error(
-        "Stripe key is missing. Set NEXT_PUBLIC_STRIPE_KEY environment variable."
-      )
+      throw new Error(t("error1"))
     }
   
     if (!stripePromise) {
-      throw new Error(
-        "Stripe promise is missing. Make sure you have provided a valid Stripe key."
-      )
+      throw new Error(t("error2"))
     }
   
     if (!paymentSession?.data?.client_secret) {
-      throw new Error(
-        "Stripe client secret is missing. Cannot initialize Stripe."
-      )
+      throw new Error(t("error3"))
     }
   
     return (

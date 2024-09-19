@@ -1,3 +1,6 @@
+"use client"
+
+import { useI18n } from "../../../../locales/client"
 import { ChevronUpDown } from "@medusajs/icons"
 import { clx } from "@medusajs/ui"
 import {
@@ -8,6 +11,7 @@ import {
   useRef,
   useState,
 } from "react"
+import { useScopedI18n } from "../../../../locales/client"
 
 export type NativeSelectProps = {
   placeholder?: string
@@ -17,12 +21,15 @@ export type NativeSelectProps = {
 
 const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
   (
-    { placeholder = "Select...", defaultValue, className, children, ...props },
+    { placeholder = null, defaultValue, className, children, ...props },
     ref
   ) => {
+    const t = useI18n()
+    placeholder = placeholder || t("cart.select")
+
     const innerRef = useRef<HTMLSelectElement>(null)
     const [isPlaceholder, setIsPlaceholder] = useState(false)
-
+    
     useImperativeHandle<HTMLSelectElement | null, HTMLSelectElement | null>(
       ref,
       () => innerRef.current

@@ -7,6 +7,8 @@ import { PricedShippingOption } from "@medusajs/medusa/dist/types/pricing"
 import { Button, Heading, Text, clx, useToggleState } from "@medusajs/ui"
 import { formatAmount } from "@lib/util/prices"
 
+import { useScopedI18n } from '../../../../locales/client'
+
 import Divider from "@modules/common/components/divider"
 import Radio from "@modules/common/components/radio"
 import Spinner from "@modules/common/icons/spinner"
@@ -27,6 +29,7 @@ const Shipping: React.FC<ShippingProps> = ({
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  const t = useScopedI18n("checkout.shipping")
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
@@ -76,7 +79,7 @@ const Shipping: React.FC<ShippingProps> = ({
             }
           )}
         >
-          Delivery
+          {t("title")}
           {!isOpen && cart.shipping_methods.length > 0 && <CheckCircleSolid />}
         </Heading>
         {!isOpen &&
@@ -89,7 +92,7 @@ const Shipping: React.FC<ShippingProps> = ({
                 className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
                 data-testid="edit-delivery-button"
               >
-                Edit
+                {t("edit")}
               </button>
             </Text>
           )}
@@ -157,7 +160,7 @@ const Shipping: React.FC<ShippingProps> = ({
             disabled={!cart.shipping_methods[0]}
             data-testid="submit-delivery-option-button"
           >
-            Continue to payment
+            {t("continue")}
           </Button>
         </div>
       ) : (
@@ -166,7 +169,7 @@ const Shipping: React.FC<ShippingProps> = ({
             {cart && cart.shipping_methods.length > 0 && (
               <div className="flex flex-col w-1/3">
                 <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                  Method
+                {t("method")}
                 </Text>
                 <Text className="txt-medium text-ui-fg-subtle">
                   {cart.shipping_methods[0].shipping_option.name} (

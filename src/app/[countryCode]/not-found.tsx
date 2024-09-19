@@ -1,7 +1,8 @@
-import { getI18n, getCurrentLocale, setStaticParams } from "../../../locales/server"
-
-import InteractiveLink from "@modules/common/components/interactive-link"
+import { ArrowUpRightMini } from "@medusajs/icons"
+import { Text } from "@medusajs/ui"
 import { Metadata } from "next"
+import Link from "next/link"
+import { getI18n, getCurrentLocale, setStaticParams } from "../../locales/server"
 
 export const metadata: Metadata = {
   title: "404",
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
 }
 
 export default async function NotFound() {
-  setStaticParams(getCurrentLocale())
+  setStaticParams(getCurrentLocale());
   const t = await getI18n()
 
   metadata.description = t("generic.somethingwrong")
@@ -22,7 +23,15 @@ export default async function NotFound() {
       <p className="text-small-regular text-ui-fg-base">
         {t("generic.notfound_desc")}
       </p>
-      <InteractiveLink href="/">{t("generic.notfound_link")}</InteractiveLink>
+      <Link className="flex gap-x-1 items-center group" href="/">
+        <Text className="text-ui-fg-interactive">
+          {t("generic.notfound_link")}
+        </Text>
+        <ArrowUpRightMini
+          className="group-hover:rotate-45 ease-in-out duration-150"
+          color="var(--fg-interactive)"
+        />
+      </Link>
     </div>
   )
 }

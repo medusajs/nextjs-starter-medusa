@@ -7,6 +7,7 @@ import { isEqual } from "lodash"
 import { useParams } from "next/navigation"
 import { useEffect, useMemo, useRef, useState } from "react"
 
+import { useI18n, useScopedI18n, I18nProviderClient } from '../../../../locales/client'
 import { useIntersection } from "@lib/hooks/use-in-view"
 import { addToCart } from "@modules/cart/actions"
 import Divider from "@modules/common/components/divider"
@@ -35,6 +36,8 @@ export default function ProductActions({
 }: ProductActionsProps) {
   const [options, setOptions] = useState<Record<string, string>>({})
   const [isAdding, setIsAdding] = useState(false)
+
+  const t = useScopedI18n("product")
 
   const countryCode = useParams().countryCode as string
 
@@ -171,10 +174,10 @@ export default function ProductActions({
           data-testid="add-product-button"
         >
           {!variant
-            ? "Select variant"
+            ? t("variant")
             : !inStock
-            ? "Out of stock"
-            : "Add to cart"}
+            ? t("outof")
+            : t("addtocart")}
         </Button>
         <MobileActions
           product={product}

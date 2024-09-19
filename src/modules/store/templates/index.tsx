@@ -1,35 +1,38 @@
 import { Suspense } from "react"
 
+import { getI18n, getScopedI18n } from "../../../locales/server"
 import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-grid"
 import RefinementList from "@modules/store/components/refinement-list"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 
 import PaginatedProducts from "./paginated-products"
 
-const StoreTemplate = ({
-  sortBy,
-  page,
-  countryCode,
+async function StoreTemplate({
+  sortBy, page, countryCode,
 }: {
   sortBy?: SortOptions
   page?: string
   countryCode: string
-}) => {
+}) {
   const pageNumber = page ? parseInt(page) : 1
-
+  const t = await getScopedI18n("store")
   return (
-    <div className="flex flex-col small:flex-row small:items-start py-6 content-container" data-testid="category-container">
+    <div
+      className="flex flex-col small:flex-row small:items-start py-6 content-container"
+      data-testid="category-container"
+    >
       <RefinementList sortBy={sortBy || "created_at"} />
       <div className="w-full">
         <div className="mb-8 text-2xl-semi">
-          <h1 data-testid="store-page-title">All products</h1>
+          <h1 data-testid="store-page-title">
+            {t("all")}
+          </h1>
         </div>
         <Suspense fallback={<SkeletonProductGrid />}>
           <PaginatedProducts
             sortBy={sortBy || "created_at"}
             page={pageNumber}
-            countryCode={countryCode}
-          />
+            countryCode={countryCode} />
         </Suspense>
       </div>
     </div>

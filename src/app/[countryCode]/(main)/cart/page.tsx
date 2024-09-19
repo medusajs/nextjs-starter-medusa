@@ -2,6 +2,8 @@ import { LineItem } from "@medusajs/medusa"
 import { Metadata } from "next"
 import { cookies } from "next/headers"
 
+import { getI18n, setStaticParams } from "../../../../locales/server"
+
 import CartTemplate from "@modules/cart/templates"
 
 import { enrichLineItems } from "@modules/cart/actions"
@@ -10,8 +12,12 @@ import { CartWithCheckoutStep } from "types/global"
 import { getCart, getCustomer } from "@lib/data"
 
 export const metadata: Metadata = {
-  title: "Cart",
-  description: "View your cart",
+  title: "cart.title",
+  description: "cart.desc",
+}
+
+type Props = {
+  params: { countryCode: string; }
 }
 
 const fetchCart = async () => {
@@ -34,12 +40,17 @@ const fetchCart = async () => {
     cart.items = enrichedItems as LineItem[]
   }
 
-  cart.checkout_step = cart && getCheckoutStep(cart)
+  cart.checkout_step = (cart && getCheckoutStep(cart) || "address")
 
   return cart
 }
 
-export default async function Cart() {
+export default async function Cart({ params }: Props) {
+  setStaticParams(params.countryCode)
+  const t = await getI18n()
+  metadata.title = t("cart.title")
+  metadata.description = t("cart.desc")
+
   const cart = await fetchCart()
   const customer = await getCustomer()
 
