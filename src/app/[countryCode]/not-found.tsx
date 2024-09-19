@@ -2,14 +2,15 @@ import { ArrowUpRightMini } from "@medusajs/icons"
 import { Text } from "@medusajs/ui"
 import { Metadata } from "next"
 import Link from "next/link"
-import { getI18n } from "../locales/server"
+import { getI18n, getCurrentLocale, setStaticParams } from "../../locales/server"
 
 export const metadata: Metadata = {
   title: "404",
-  description: "Something went wrong",
+  description: "generic.somethingwrong",
 }
 
 export default async function NotFound() {
+  setStaticParams(getCurrentLocale());
   const t = await getI18n()
 
   metadata.description = t("generic.somethingwrong")

@@ -1,4 +1,5 @@
-import { getI18n } from "../../../locales/server"
+import { getI18n, getCurrentLocale, setStaticParams } from "../../../locales/server"
+
 import { Metadata } from "next"
 
 import InteractiveLink from "@modules/common/components/interactive-link"
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
 }
 
 export default async function NotFound() {
+  setStaticParams(getCurrentLocale())
   const t = await getI18n()
 
   metadata.description = t("generic.somethingwrong")

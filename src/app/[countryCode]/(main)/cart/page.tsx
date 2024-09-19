@@ -2,7 +2,7 @@ import { LineItem } from "@medusajs/medusa"
 import { Metadata } from "next"
 import { cookies } from "next/headers"
 
-import { getI18n } from "../../../../locales/server"
+import { getI18n, setStaticParams } from "../../../../locales/server"
 
 import CartTemplate from "@modules/cart/templates"
 
@@ -14,6 +14,10 @@ import { getCart, getCustomer } from "@lib/data"
 export const metadata: Metadata = {
   title: "cart.title",
   description: "cart.desc",
+}
+
+type Props = {
+  params: { countryCode: string; }
 }
 
 const fetchCart = async () => {
@@ -41,7 +45,8 @@ const fetchCart = async () => {
   return cart
 }
 
-export default async function Cart() {
+export default async function Cart({ params }: Props) {
+  setStaticParams(params.countryCode)
   const t = await getI18n()
   metadata.title = t("cart.title")
   metadata.description = t("cart.desc")

@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 
-import { getI18n } from "../../../../../../locales/server"
+import { getI18n, setStaticParams } from "../../../../../../locales/server"
 
 import OrderOverview from "@modules/account/components/order-overview"
 import { listCustomerOrders } from "@lib/data"
@@ -11,7 +11,12 @@ export const metadata: Metadata = {
   description: "page.orders.desc",
 }
 
-export default async function Orders() {
+type Props = {
+  params: { countryCode: string; }
+}
+
+export default async function Orders({ params }: Props) {
+  setStaticParams(params.countryCode)
   const t = await getI18n()
   metadata.title = t("page.orders.title")
   metadata.description = t("page.orders.desc")

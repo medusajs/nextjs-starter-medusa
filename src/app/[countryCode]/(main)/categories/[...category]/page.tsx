@@ -1,7 +1,7 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
-import { getI18n } from "../../../../../locales/server"
+import { getI18n, setStaticParams } from "../../../../../locales/server"
 
 import { getCategoryByHandle, listCategories, listRegions } from "@lib/data"
 import CategoryTemplate from "@modules/categories/templates"
@@ -70,6 +70,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function CategoryPage({ params, searchParams }: Props) {
+  setStaticParams(params.countryCode)
   const { sortBy, page } = searchParams
 
   const { product_categories } = await getCategoryByHandle(

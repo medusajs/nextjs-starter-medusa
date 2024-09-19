@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 
-import { getI18n } from "../../../../../../locales/server"
+import { getI18n, setStaticParams } from "../../../../../../locales/server"
 
 import ProfilePhone from "@modules/account//components/profile-phone"
 import ProfileBillingAddress from "@modules/account/components/profile-billing-address"
@@ -16,7 +16,12 @@ export const metadata: Metadata = {
   description: "page.profile.desc",
 }
 
-export default async function Profile() {
+type Props = {
+  params: { countryCode: string; }
+}
+
+export default async function Profile({ params }: Props) {
+  setStaticParams(params.countryCode)
   const t = await getI18n()
   metadata.title = t("page.profile.title")
   metadata.description = t("page.profile.desc")

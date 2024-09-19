@@ -1,7 +1,7 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
-import { getI18n } from "../../../../../../locales/server"
+import { getI18n, setStaticParams } from "../../../../../../locales/server"
 
 import AddressBook from "@modules/account/components/address-book"
 
@@ -14,7 +14,12 @@ export const metadata: Metadata = {
   description: "page.adresses.desc",
 }
 
-export default async function Addresses() {
+type Props = {
+  params: { countryCode: string; }
+}
+
+export default async function Addresses({ params }: Props) {
+  setStaticParams(params.countryCode)
   const t = await getI18n()
   metadata.title = t("page.adresses.title")
   metadata.description = t("page.adresses.desc")

@@ -2,13 +2,14 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import ChevronDown from "@modules/common/icons/chevron-down"
 import MedusaCTA from "@modules/layout/components/medusa-cta"
 
-import { getI18n } from "../../../locales/server"
+import { getI18n, getCurrentLocale, setStaticParams } from "../../../locales/server"
 
 export default async function CheckoutLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  setStaticParams(getCurrentLocale());
   const t = await getI18n()
 
   return (

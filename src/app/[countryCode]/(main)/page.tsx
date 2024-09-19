@@ -1,7 +1,7 @@
 import { Product } from "@medusajs/medusa"
 import { Metadata } from "next"
 
-import { getI18n } from "../../../locales/server"
+import { getI18n, setStaticParams } from "../../../locales/server"
 
 import { getCollectionsList, getProductsList, getRegion } from "@lib/data"
 import FeaturedProducts from "@modules/home/components/featured-products"
@@ -60,6 +60,7 @@ export default async function Home({
 }: {
   params: { countryCode: string }
 }) {
+  setStaticParams(countryCode)
   const t = await getI18n()
   metadata.title = t("store.title")
   metadata.description = t("store.desc")

@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 
-import { getI18n } from "../../../../locales/server"
+import { getI18n, setStaticParams } from "../../../../locales/server"
 
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import StoreTemplate from "@modules/store/templates"
@@ -21,6 +21,7 @@ type Params = {
 }
 
 export default async function StorePage({ searchParams, params }: Params) {
+  setStaticParams(params.countryCode)
   const t = await getI18n()
   metadata.title = t("store.products.title")
   metadata.description = t("store.products.desc")
