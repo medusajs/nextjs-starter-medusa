@@ -23,7 +23,7 @@ export default async function CheckoutForm({
   // only options that are enabled in store will be returned,
   // here we only need to filter ones that are not return options
   const shippingMethods = _shippingMethods.filter((sm) => {
-    return !sm.rules.some(
+    return !sm.rules?.some(
       (rule) => rule.attribute === "is_return" && rule.value === "true"
     )
   })
