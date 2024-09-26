@@ -1,4 +1,4 @@
-import { Metadata } from "next"
+import { Metadata, Viewport } from "next"
 import "styles/globals.css"
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://localhost:8000"
