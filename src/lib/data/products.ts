@@ -54,7 +54,7 @@ export const getProductsList = cache(async function ({
   queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams
 }> {
   const limit = queryParams?.limit || 12
-  const offset = (pageParam - 1) * limit
+  const offset = pageParam * limit
   const region = await getRegion(countryCode)
 
   if (!region) {
@@ -63,6 +63,7 @@ export const getProductsList = cache(async function ({
       nextPage: null,
     }
   }
+
   return sdk.store.product
     .list(
       {
