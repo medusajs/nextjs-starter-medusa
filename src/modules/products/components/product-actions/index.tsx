@@ -20,9 +20,9 @@ type ProductActionsProps = {
   disabled?: boolean
 }
 
-const optionsAsKeymap = (variantOptions: any) => {
+const optionsAsKeymap = (variantOptions: HttpTypes.StoreProductVariant["options"]) => {
   return variantOptions?.reduce((acc: Record<string, string>, varopt: any) => {
-    acc[varopt.option.title] = varopt.value
+    acc[varopt.option_id] = varopt.value
     return acc
   }, {})
 }
@@ -56,10 +56,10 @@ export default function ProductActions({
   }, [product.variants, options])
 
   // update the options when a variant is selected
-  const setOptionValue = (title: string, value: string) => {
+  const setOptionValue = (optionId: string, value: string) => {
     setOptions((prev) => ({
       ...prev,
-      [title]: value,
+      [optionId]: value,
     }))
   }
 
@@ -117,7 +117,7 @@ export default function ProductActions({
                   <div key={option.id}>
                     <OptionSelect
                       option={option}
-                      current={options[option.title ?? ""]}
+                      current={options[option.id]}
                       updateOption={setOptionValue}
                       title={option.title ?? ""}
                       data-testid="product-options"
