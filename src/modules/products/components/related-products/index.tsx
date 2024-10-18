@@ -1,7 +1,7 @@
-import Product from "../product-preview"
-import { getRegion } from "@lib/data/regions"
 import { getProductsList } from "@lib/data/products"
+import { getRegion } from "@lib/data/regions"
 import { HttpTypes } from "@medusajs/types"
+import Product from "../product-preview"
 
 type RelatedProductsProps = {
   product: HttpTypes.StoreProduct
@@ -27,8 +27,8 @@ export default async function RelatedProducts({
     queryParams.collection_id = [product.collection_id]
   }
   if (product.tags) {
-    queryParams.tags = product.tags
-      .map((t) => t.value)
+    queryParams.tag_id = product.tags
+      .map((t) => t.id)
       .filter(Boolean) as string[]
   }
   queryParams.is_giftcard = false
