@@ -797,7 +797,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@medusajs/js-sdk@rc":
+"@medusajs/js-sdk@npm:rc":
   version: 1.0.0-rc-20241018141633
   resolution: "@medusajs/js-sdk@npm:1.0.0-rc-20241018141633"
   dependencies:
@@ -808,7 +808,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@medusajs/types@npm:2.0.0-rc-20241018141633, @medusajs/types@rc":
+"@medusajs/types@npm:2.0.0-rc-20241018141633, @medusajs/types@npm:rc":
   version: 2.0.0-rc-20241018141633
   resolution: "@medusajs/types@npm:2.0.0-rc-20241018141633"
   dependencies:
@@ -826,7 +826,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@medusajs/ui-preset@rc":
+"@medusajs/ui-preset@npm:rc":
   version: 2.0.0-rc-20241018141633
   resolution: "@medusajs/ui-preset@npm:2.0.0-rc-20241018141633"
   dependencies:
@@ -838,7 +838,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@medusajs/ui@rc":
+"@medusajs/ui@npm:rc":
   version: 4.0.0-rc-20241018141633
   resolution: "@medusajs/ui@npm:4.0.0-rc-20241018141633"
   dependencies:
