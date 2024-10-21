@@ -15,10 +15,6 @@
     "analyze": "ANALYZE=true next build",
     "test-e2e": "playwright test e2e"
   },
-  "resolutions": {
-    "webpack": "^5",
-    "@types/react": "17.0.40"
-  },
   "dependencies": {
     "@headlessui/react": "^1.6.1",
     "@hookform/error-message": "^2.0.0",
