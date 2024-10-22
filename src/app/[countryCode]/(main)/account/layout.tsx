@@ -1,4 +1,4 @@
-import { getCustomer } from "@lib/data"
+import { getCustomer } from "@lib/data/customer"
 import AccountLayout from "@modules/account/templates/account-layout"
 
 export default async function AccountPageLayout({

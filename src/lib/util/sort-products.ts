@@ -1,42 +1,50 @@
+import { HttpTypes } from "@medusajs/types"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
-import { ProductPreviewType } from "types/global"
 
-const stripCurrency = (price: string) => {
-  return parseFloat(price.replace(/[^0-9.]/g, ""))
+interface MinPricedProduct extends HttpTypes.StoreProduct {
+  _minPrice?: number
 }
 
-const sortProducts = (products: ProductPreviewType[], sortBy: SortOptions) => {
-  if (sortBy === "price_asc") {
-    return products.sort((a, b) => {
-      if (!a.price?.calculated_price || !b.price?.calculated_price) return 0
+/**
+ * Helper function to sort products by price until the store API supports sorting by price
+ * @param products
+ * @param sortBy
+ * @returns products sorted by price
+ */
+export function sortProducts(
+  products: HttpTypes.StoreProduct[],
+  sortBy: SortOptions
+): HttpTypes.StoreProduct[] {
+  let sortedProducts = products as MinPricedProduct[]
 
-      return (
-        stripCurrency(a.price?.calculated_price) -
-        stripCurrency(b.price?.calculated_price)
-      )
+  if (["price_asc", "price_desc"].includes(sortBy)) {
+    // Precompute the minimum price for each product
+    sortedProducts.forEach((product) => {
+      if (product.variants && product.variants.length > 0) {
+        product._minPrice = Math.min(
+          ...product.variants.map(
+            (variant) => variant?.calculated_price?.calculated_amount || 0
+          )
+        )
+      } else {
+        product._minPrice = Infinity
+      }
     })
-  }
 
-  if (sortBy === "price_desc") {
-    return products.sort((a, b) => {
-      if (!a.price?.calculated_price || !b.price?.calculated_price) return 0
-
-      return (
-        stripCurrency(b.price?.calculated_price) -
-        stripCurrency(a.price?.calculated_price)
-      )
+    // Sort products based on the precomputed minimum prices
+    sortedProducts.sort((a, b) => {
+      const diff = a._minPrice! - b._minPrice!
+      return sortBy === "price_asc" ? diff : -diff
     })
   }
 
   if (sortBy === "created_at") {
-    return products.sort((a, b) => {
-      if (!a.created_at || !b.created_at) return 0
-
-      return new Date(b.created_at).valueOf() - new Date(a.created_at).valueOf()
+    sortedProducts.sort((a, b) => {
+      return (
+        new Date(b.created_at!).getTime() - new Date(a.created_at!).getTime()
+      )
     })
   }
 
-  return products
+  return sortedProducts
 }
-
-export default sortProducts

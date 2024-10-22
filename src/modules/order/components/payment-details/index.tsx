@@ -1,16 +1,17 @@
-import { Order } from "@medusajs/medusa"
 import { Container, Heading, Text } from "@medusajs/ui"
-import { formatAmount } from "@lib/util/prices"
 
-import { paymentInfoMap } from "@lib/constants"
+import { isStripe, paymentInfoMap } from "@lib/constants"
 import Divider from "@modules/common/components/divider"
+import { convertToLocale } from "@lib/util/money"
+import { HttpTypes } from "@medusajs/types"
 
 type PaymentDetailsProps = {
-  order: Order
+  order: HttpTypes.StoreOrder
 }
 
 const PaymentDetails = ({ order }: PaymentDetailsProps) => {
-  const payment = order.payments[0]
+  const payment = order.payment_collections?.[0].payments?.[0]
+
   return (
     <div>
       <Heading level="h2" className="flex flex-row text-3xl-regular my-6">
@@ -23,7 +24,10 @@ const PaymentDetails = ({ order }: PaymentDetailsProps) => {
               <Text className="txt-medium-plus text-ui-fg-base mb-1">
                 Payment method
               </Text>
-              <Text className="txt-medium text-ui-fg-subtle" data-testid="payment-method">
+              <Text
+                className="txt-medium text-ui-fg-subtle"
+                data-testid="payment-method"
+              >
                 {paymentInfoMap[payment.provider_id].title}
               </Text>
             </div>
@@ -36,13 +40,14 @@ const PaymentDetails = ({ order }: PaymentDetailsProps) => {
                   {paymentInfoMap[payment.provider_id].icon}
                 </Container>
                 <Text data-testid="payment-amount">
-                  {payment.provider_id === "stripe" && payment.data.card_last4
+                  {isStripe(payment.provider_id) && payment.data?.card_last4
                     ? `**** **** **** ${payment.data.card_last4}`
-                    : `${formatAmount({
+                    : `${convertToLocale({
                         amount: payment.amount,
-                        region: order.region,
-                        includeTaxes: false,
-                      })} paid at ${new Date(payment.created_at).toString()}`}
+                        currency_code: order.currency_code,
+                      })} paid at ${new Date(
+                        payment.created_at ?? ""
+                      ).toLocaleString()}`}
                 </Text>
               </div>
             </div>

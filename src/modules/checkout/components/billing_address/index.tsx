@@ -1,27 +1,10 @@
 import React, { useState, useEffect } from "react"
 import Input from "@modules/common/components/input"
 import CountrySelect from "../country-select"
-import { Cart } from "@medusajs/medusa"
+import { HttpTypes } from "@medusajs/types"
 
-const BillingAddress = ({
-  cart,
-  countryCode,
-}: {
-  cart: Omit<Cart, "refundable_amount" | "refunded_total"> | null
-  countryCode: string
-}) => {
-  const [formData, setFormData] = useState({
-    "billing_address.first_name": cart?.billing_address?.first_name || "",
-    "billing_address.last_name": cart?.billing_address?.last_name || "",
-    "billing_address.address_1": cart?.billing_address?.address_1 || "",
-    "billing_address.company": cart?.billing_address?.company || "",
-    "billing_address.postal_code": cart?.billing_address?.postal_code || "",
-    "billing_address.city": cart?.billing_address?.city || "",
-    "billing_address.country_code":
-      cart?.billing_address?.country_code || countryCode || "",
-    "billing_address.province": cart?.billing_address?.province || "",
-    "billing_address.phone": cart?.billing_address?.phone || "",
-  })
+const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
+  const [formData, setFormData] = useState<any>({})
 
   useEffect(() => {
     setFormData({
@@ -119,6 +102,7 @@ const BillingAddress = ({
           autoComplete="address-level1"
           value={formData["billing_address.province"]}
           onChange={handleChange}
+          required
           data-testid="billing-province-input"
         />
         <Input

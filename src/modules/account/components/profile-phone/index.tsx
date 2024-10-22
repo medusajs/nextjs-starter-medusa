@@ -1,20 +1,36 @@
 "use client"
 
-import { Customer } from "@medusajs/medusa"
 import React, { useEffect } from "react"
 import { useFormState } from "react-dom"
 
 import Input from "@modules/common/components/input"
 
 import AccountInfo from "../account-info"
-import { updateCustomerPhone } from "@modules/account/actions"
+import { HttpTypes } from "@medusajs/types"
+import { updateCustomer } from "@lib/data/customer"
 
 type MyInformationProps = {
-  customer: Omit<Customer, "password_hash">
+  customer: HttpTypes.StoreCustomer
 }
 
 const ProfileEmail: React.FC<MyInformationProps> = ({ customer }) => {
   const [successState, setSuccessState] = React.useState(false)
+
+  const updateCustomerPhone = async (
+    _currentState: Record<string, unknown>,
+    formData: FormData
+  ) => {
+    const customer = {
+      phone: formData.get("phone") as string,
+    }
+
+    try {
+      await updateCustomer(customer)
+      return { success: true, error: null }
+    } catch (error: any) {
+      return { success: false, error: error.toString() }
+    }
+  }
 
   const [state, formAction] = useFormState(updateCustomerPhone, {
     error: false,
@@ -47,7 +63,7 @@ const ProfileEmail: React.FC<MyInformationProps> = ({ customer }) => {
             type="phone"
             autoComplete="phone"
             required
-            defaultValue={customer.phone}
+            defaultValue={customer.phone ?? ""}
             data-testid="phone-input"
           />
         </div>

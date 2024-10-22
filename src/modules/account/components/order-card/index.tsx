@@ -1,24 +1,26 @@
-import { Order } from "@medusajs/medusa"
 import { Button } from "@medusajs/ui"
 import { useMemo } from "react"
 
 import Thumbnail from "@modules/products/components/thumbnail"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import { formatAmount } from "@lib/util/prices"
+import { convertToLocale } from "@lib/util/money"
+import { HttpTypes } from "@medusajs/types"
 
 type OrderCardProps = {
-  order: Omit<Order, "beforeInsert">
+  order: HttpTypes.StoreOrder
 }
 
 const OrderCard = ({ order }: OrderCardProps) => {
   const numberOfLines = useMemo(() => {
-    return order.items.reduce((acc, item) => {
-      return acc + item.quantity
-    }, 0)
+    return (
+      order.items?.reduce((acc, item) => {
+        return acc + item.quantity
+      }, 0) ?? 0
+    )
   }, [order])
 
   const numberOfProducts = useMemo(() => {
-    return order.items.length
+    return order.items?.length ?? 0
   }, [order])
 
   return (
@@ -31,10 +33,9 @@ const OrderCard = ({ order }: OrderCardProps) => {
           {new Date(order.created_at).toDateString()}
         </span>
         <span className="px-2" data-testid="order-amount">
-          {formatAmount({
+          {convertToLocale({
             amount: order.total,
-            region: order.region,
-            includeTaxes: false,
+            currency_code: order.currency_code,
           })}
         </span>
         <span className="pl-2">{`${numberOfLines} ${
@@ -42,7 +43,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
         }`}</span>
       </div>
       <div className="grid grid-cols-2 small:grid-cols-4 gap-4 my-4">
-        {order.items.slice(0, 3).map((i) => {
+        {order.items?.slice(0, 3).map((i) => {
           return (
             <div
               key={i.id}

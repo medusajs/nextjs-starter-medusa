@@ -1,23 +1,21 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
-import {
-  getProductByHandle,
-  getProductsList,
-  getRegion,
-  listRegions,
-  retrievePricedProductById,
-} from "@lib/data"
-import { Region } from "@medusajs/medusa"
 import ProductTemplate from "@modules/products/templates"
+import { getRegion, listRegions } from "@lib/data/regions"
+import { getProductByHandle, getProductsList } from "@lib/data/products"
 
 type Props = {
   params: { countryCode: string; handle: string }
 }
 
 export async function generateStaticParams() {
-  const countryCodes = await listRegions().then((regions) =>
-    regions?.map((r) => r.countries.map((c) => c.iso_2)).flat()
+  const countryCodes = await listRegions().then(
+    (regions) =>
+      regions
+        ?.map((r) => r.countries?.map((c) => c.iso_2))
+        .flat()
+        .filter(Boolean) as string[]
   )
 
   if (!countryCodes) {
@@ -46,10 +44,13 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { handle } = params
+  const region = await getRegion(params.countryCode)
 
-  const { product } = await getProductByHandle(handle).then(
-    (product) => product
-  )
+  if (!region) {
+    notFound()
+  }
+
+  const product = await getProductByHandle(handle, region.id)
 
   if (!product) {
     notFound()
@@ -66,23 +67,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-const getPricedProductByHandle = async (handle: string, region: Region) => {
-  const { product } = await getProductByHandle(handle).then(
-    (product) => product
-  )
-
-  if (!product || !product.id) {
-    return null
-  }
-
-  const pricedProduct = await retrievePricedProductById({
-    id: product.id,
-    regionId: region.id,
-  })
-
-  return pricedProduct
-}
-
 export default async function ProductPage({ params }: Props) {
   const region = await getRegion(params.countryCode)
 
@@ -90,8 +74,7 @@ export default async function ProductPage({ params }: Props) {
     notFound()
   }
 
-  const pricedProduct = await getPricedProductByHandle(params.handle, region)
-
+  const pricedProduct = await getProductByHandle(params.handle, region.id)
   if (!pricedProduct) {
     notFound()
   }

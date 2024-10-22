@@ -2,11 +2,10 @@ import { Metadata } from "next"
 
 import Footer from "@modules/layout/templates/footer"
 import Nav from "@modules/layout/templates/nav"
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://localhost:8000"
+import { getBaseURL } from "@lib/util/env"
 
 export const metadata: Metadata = {
-  metadataBase: new URL(BASE_URL),
+  metadataBase: new URL(getBaseURL()),
 }
 
 export default async function PageLayout(props: { children: React.ReactNode }) {

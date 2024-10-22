@@ -3,23 +3,23 @@
 import React, { useEffect, useState } from "react"
 import { PencilSquare as Edit, Trash } from "@medusajs/icons"
 import { Button, Heading, Text, clx } from "@medusajs/ui"
-import { Address, Region } from "@medusajs/medusa"
 
 import useToggleState from "@lib/hooks/use-toggle-state"
 import CountrySelect from "@modules/checkout/components/country-select"
 import Input from "@modules/common/components/input"
 import Modal from "@modules/common/components/modal"
-import {
-  deleteCustomerShippingAddress,
-  updateCustomerShippingAddress,
-} from "@modules/account/actions"
 import Spinner from "@modules/common/icons/spinner"
 import { useFormState } from "react-dom"
 import { SubmitButton } from "@modules/checkout/components/submit-button"
+import { HttpTypes } from "@medusajs/types"
+import {
+  deleteCustomerAddress,
+  updateCustomerAddress,
+} from "@lib/data/customer"
 
 type EditAddressProps = {
-  region: Region
-  address: Address
+  region: HttpTypes.StoreRegion
+  address: HttpTypes.StoreCustomerAddress
   isActive?: boolean
 }
 
@@ -32,7 +32,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
   const [successState, setSuccessState] = useState(false)
   const { state, open, close: closeModal } = useToggleState(false)
 
-  const [formState, formAction] = useFormState(updateCustomerShippingAddress, {
+  const [formState, formAction] = useFormState(updateCustomerAddress, {
     success: false,
     error: null,
     addressId: address.id,
@@ -58,7 +58,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
 
   const removeAddress = async () => {
     setRemoving(true)
-    await deleteCustomerShippingAddress(address.id)
+    await deleteCustomerAddress(address.id)
     setRemoving(false)
   }
 
@@ -74,11 +74,17 @@ const EditAddress: React.FC<EditAddressProps> = ({
         data-testid="address-container"
       >
         <div className="flex flex-col">
-          <Heading className="text-left text-base-semi" data-testid="address-name">
+          <Heading
+            className="text-left text-base-semi"
+            data-testid="address-name"
+          >
             {address.first_name} {address.last_name}
           </Heading>
           {address.company && (
-            <Text className="txt-compact-small text-ui-fg-base" data-testid="address-company">
+            <Text
+              className="txt-compact-small text-ui-fg-base"
+              data-testid="address-company"
+            >
               {address.company}
             </Text>
           )}

@@ -1,13 +1,11 @@
-import { ProductOption } from "@medusajs/medusa"
+import { HttpTypes } from "@medusajs/types"
 import { clx } from "@medusajs/ui"
 import React from "react"
 
-import { onlyUnique } from "@lib/util/only-unique"
-
 type OptionSelectProps = {
-  option: ProductOption
-  current: string
-  updateOption: (option: Record<string, string>) => void
+  option: HttpTypes.StoreProductOption
+  current: string | undefined
+  updateOption: (title: string, value: string) => void
   title: string
   disabled: boolean
   "data-testid"?: string
@@ -21,7 +19,7 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
   "data-testid": dataTestId,
   disabled,
 }) => {
-  const filteredOptions = option.values.map((v) => v.value).filter(onlyUnique)
+  const filteredOptions = (option.values ?? []).map((v) => v.value)
 
   return (
     <div className="flex flex-col gap-y-3">
@@ -33,7 +31,7 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
         {filteredOptions.map((v) => {
           return (
             <button
-              onClick={() => updateOption({ [option.id]: v })}
+              onClick={() => updateOption(option.id, v)}
               key={v}
               className={clx(
                 "border-ui-border-base bg-ui-bg-subtle border text-small-regular h-10 rounded-rounded p-2 flex-1 ",

@@ -1,24 +1,24 @@
-import { formatAmount } from "@lib/util/prices"
-import { LineItem, Region } from "@medusajs/medusa"
+import { getPricesForVariant } from "@lib/util/get-product-price"
+import { HttpTypes } from "@medusajs/types"
 import { clx } from "@medusajs/ui"
 
-import { getPercentageDiff } from "@lib/util/get-precentage-diff"
-import { CalculatedVariant } from "types/medusa"
-
 type LineItemUnitPriceProps = {
-  item: Omit<LineItem, "beforeInsert">
-  region: Region
+  item: HttpTypes.StoreCartLineItem | HttpTypes.StoreOrderLineItem
   style?: "default" | "tight"
 }
 
 const LineItemUnitPrice = ({
   item,
-  region,
   style = "default",
 }: LineItemUnitPriceProps) => {
-  const originalPrice = (item.variant as CalculatedVariant).original_price
-  const hasReducedPrice = (originalPrice * item.quantity || 0) > item.total!
-  const reducedPrice = (item.total || 0) / item.quantity!
+  const {
+    original_price,
+    calculated_price,
+    original_price_number,
+    calculated_price_number,
+    percentage_diff,
+  } = getPricesForVariant(item.variant) ?? {}
+  const hasReducedPrice = calculated_price_number < original_price_number
 
   return (
     <div className="flex flex-col text-ui-fg-muted justify-center h-full">
@@ -28,18 +28,15 @@ const LineItemUnitPrice = ({
             {style === "default" && (
               <span className="text-ui-fg-muted">Original: </span>
             )}
-            <span className="line-through" data-testid="product-unit-original-price">
-              {formatAmount({
-                amount: originalPrice,
-                region: region,
-                includeTaxes: false,
-              })}
+            <span
+              className="line-through"
+              data-testid="product-unit-original-price"
+            >
+              {original_price}
             </span>
           </p>
           {style === "default" && (
-            <span className="text-ui-fg-interactive">
-              -{getPercentageDiff(originalPrice, reducedPrice || 0)}%
-            </span>
+            <span className="text-ui-fg-interactive">-{percentage_diff}%</span>
           )}
         </>
       )}
@@ -49,11 +46,7 @@ const LineItemUnitPrice = ({
         })}
         data-testid="product-unit-price"
       >
-        {formatAmount({
-          amount: reducedPrice || item.unit_price || 0,
-          region: region,
-          includeTaxes: false,
-        })}
+        {calculated_price}
       </span>
     </div>
   )

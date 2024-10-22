@@ -1,8 +1,9 @@
 import { Metadata } from "next"
 
-import { getCustomer, listCustomerOrders } from "@lib/data"
 import Overview from "@modules/account/components/overview"
 import { notFound } from "next/navigation"
+import { getCustomer } from "@lib/data/customer"
+import { listOrders } from "@lib/data/orders"
 
 export const metadata: Metadata = {
   title: "Account",
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 
 export default async function OverviewTemplate() {
   const customer = await getCustomer().catch(() => null)
-  const orders = (await listCustomerOrders().catch(() => null)) || null
+  const orders = (await listOrders().catch(() => null)) || null
 
   if (!customer) {
     notFound()

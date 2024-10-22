@@ -1,13 +1,9 @@
-import { LineItem } from "@medusajs/medusa"
 import { Metadata } from "next"
-import { cookies } from "next/headers"
-
 import CartTemplate from "@modules/cart/templates"
 
-import { enrichLineItems } from "@modules/cart/actions"
-import { getCheckoutStep } from "@lib/util/get-checkout-step"
-import { CartWithCheckoutStep } from "types/global"
-import { getCart, getCustomer } from "@lib/data"
+import { enrichLineItems, retrieveCart } from "@lib/data/cart"
+import { HttpTypes } from "@medusajs/types"
+import { getCustomer } from "@lib/data/customer"
 
 export const metadata: Metadata = {
   title: "Cart",
@@ -15,26 +11,16 @@ export const metadata: Metadata = {
 }
 
 const fetchCart = async () => {
-  const cartId = cookies().get("_medusa_cart_id")?.value
-
-  if (!cartId) {
-    return null
-  }
-
-  const cart = await getCart(cartId).then(
-    (cart) => cart as CartWithCheckoutStep
-  )
+  const cart = await retrieveCart()
 
   if (!cart) {
     return null
   }
 
-  if (cart?.items.length) {
-    const enrichedItems = await enrichLineItems(cart?.items, cart?.region_id)
-    cart.items = enrichedItems as LineItem[]
+  if (cart?.items?.length) {
+    const enrichedItems = await enrichLineItems(cart?.items, cart?.region_id!)
+    cart.items = enrichedItems as HttpTypes.StoreCartLineItem[]
   }
-
-  cart.checkout_step = cart && getCheckoutStep(cart)
 
   return cart
 }

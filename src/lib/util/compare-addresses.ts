@@ -1,22 +1,28 @@
-import { isEqual, omit } from "lodash"
+import { isEqual, pick } from "lodash"
 
 export default function compareAddresses(address1: any, address2: any) {
   return isEqual(
-    omit(address1, [
-      "id",
-      "created_at",
-      "updated_at",
-      "deleted_at",
-      "metadata",
-      "customer_id",
+    pick(address1, [
+      "first_name",
+      "last_name",
+      "address_1",
+      "company",
+      "postal_code",
+      "city",
+      "country_code",
+      "province",
+      "phone",
     ]),
-    omit(address2, [
-      "id",
-      "created_at",
-      "updated_at",
-      "deleted_at",
-      "metadata",
-      "customer_id",
+    pick(address2, [
+      "first_name",
+      "last_name",
+      "address_1",
+      "company",
+      "postal_code",
+      "city",
+      "country_code",
+      "province",
+      "phone",
     ])
   )
 }
