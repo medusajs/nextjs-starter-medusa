@@ -41,7 +41,7 @@ export const getProductByHandle = cache(async function (
 })
 
 export const getProductsList = cache(async function ({
-  pageParam = 1,
+  pageParam = 0,
   queryParams,
   countryCode,
 }: {
