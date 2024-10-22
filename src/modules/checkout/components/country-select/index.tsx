@@ -3,12 +3,12 @@ import { forwardRef, useImperativeHandle, useMemo, useRef } from "react"
 import NativeSelect, {
   NativeSelectProps,
 } from "@modules/common/components/native-select"
-import { Region } from "@medusajs/medusa"
+import { HttpTypes } from "@medusajs/types"
 
 const CountrySelect = forwardRef<
   HTMLSelectElement,
   NativeSelectProps & {
-    region?: Region
+    region?: HttpTypes.StoreRegion
   }
 >(({ placeholder = "Country", region, defaultValue, ...props }, ref) => {
   const innerRef = useRef<HTMLSelectElement>(null)
@@ -23,7 +23,7 @@ const CountrySelect = forwardRef<
       return []
     }
 
-    return region.countries.map((country) => ({
+    return region.countries?.map((country) => ({
       value: country.iso_2,
       label: country.display_name,
     }))
@@ -36,7 +36,7 @@ const CountrySelect = forwardRef<
       defaultValue={defaultValue}
       {...props}
     >
-      {countryOptions.map(({ value, label }, index) => (
+      {countryOptions?.map(({ value, label }, index) => (
         <option key={index} value={value}>
           {label}
         </option>

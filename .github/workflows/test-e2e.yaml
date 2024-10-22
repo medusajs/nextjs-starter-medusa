@@ -88,7 +88,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: "20"
 
       - name: Initialize PostgreSQL
         run: |
@@ -97,13 +97,15 @@ jobs:
           psql -h localhost -U postgres -d test -c "CREATE DATABASE ${{ env.TEST_POSTGRES_DATABASE }} OWNER ${{ env.TEST_POSTGRES_USER }};"
 
       - name: Install Medusa CLI
-        run: npm install @medusajs/medusa-cli -g
+        run: npm install @medusajs/medusa-cli@preview -g
       - name: Setup medusa backend server
         working-directory: ../
         # https://docs.medusajs.com/cli/reference#options
         run: |
           medusa new backend \
           -y \
+          --v2 \
+          --branch feat/v2 \
           --skip-db \
           --skip-migrations \
           --skip-env \
@@ -112,10 +114,6 @@ jobs:
           --db-database ${{ env.TEST_POSTGRES_DATABASE }} \
           --db-host ${{ env.TEST_POSTGRES_HOST }} \
           --db-port ${{ env.TEST_POSTGREST_PORT }}
-
-      - name: Build the backend
-        working-directory: ../backend
-        run: yarn build:admin
 
       - name: Setup search in the backend
         working-directory: ../backend
@@ -130,7 +128,7 @@ jobs:
 
       - name: Run backend server
         working-directory: ../backend
-        run: medusa develop &
+        run: medusa develop
 
       - name: Install packages
         run: yarn install -y

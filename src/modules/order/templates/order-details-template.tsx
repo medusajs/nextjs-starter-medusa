@@ -1,6 +1,5 @@
 "use client"
 
-import { Order } from "@medusajs/medusa"
 import { XMark } from "@medusajs/icons"
 import React from "react"
 
@@ -10,9 +9,10 @@ import OrderDetails from "@modules/order/components/order-details"
 import OrderSummary from "@modules/order/components/order-summary"
 import ShippingDetails from "@modules/order/components/shipping-details"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import { HttpTypes } from "@medusajs/types"
 
 type OrderDetailsTemplateProps = {
-  order: Order
+  order: HttpTypes.StoreOrder
 }
 
 const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
@@ -35,7 +35,7 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
         data-testid="order-details-container"
       >
         <OrderDetails order={order} showStatus />
-        <Items items={order.items} region={order.region} />
+        <Items items={order.items} />
         <ShippingDetails order={order} />
         <OrderSummary order={order} />
         <Help />

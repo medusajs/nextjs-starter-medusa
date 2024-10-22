@@ -3,18 +3,21 @@ import { notFound } from "next/navigation"
 
 import AddressBook from "@modules/account/components/address-book"
 
-import { getCustomer, getRegion } from "@lib/data"
-
 import { headers } from "next/headers"
+import { getRegion } from "@lib/data/regions"
+import { getCustomer } from "@lib/data/customer"
 
 export const metadata: Metadata = {
   title: "Addresses",
   description: "View your addresses",
 }
 
-export default async function Addresses() {
-  const nextHeaders = headers()
-  const countryCode = nextHeaders.get("next-url")?.split("/")[1] || ""
+export default async function Addresses({
+  params,
+}: {
+  params: { countryCode: string }
+}) {
+  const { countryCode } = params
   const customer = await getCustomer()
   const region = await getRegion(countryCode)
 

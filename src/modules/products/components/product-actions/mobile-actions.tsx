@@ -1,8 +1,4 @@
 import { Dialog, Transition } from "@headlessui/react"
-import {
-  PricedProduct,
-  PricedVariant,
-} from "@medusajs/medusa/dist/types/pricing"
 import { Button, clx } from "@medusajs/ui"
 import React, { Fragment, useMemo } from "react"
 
@@ -11,15 +7,14 @@ import ChevronDown from "@modules/common/icons/chevron-down"
 import X from "@modules/common/icons/x"
 
 import { getProductPrice } from "@lib/util/get-product-price"
-import { Region } from "@medusajs/medusa"
-import OptionSelect from "../option-select"
+import OptionSelect from "./option-select"
+import { HttpTypes } from "@medusajs/types"
 
 type MobileActionsProps = {
-  product: PricedProduct
-  variant?: PricedVariant
-  region: Region
-  options: Record<string, string>
-  updateOptions: (update: Record<string, string>) => void
+  product: HttpTypes.StoreProduct
+  variant?: HttpTypes.StoreProductVariant
+  options: Record<string, string | undefined>
+  updateOptions: (title: string, value: string) => void
   inStock?: boolean
   handleAddToCart: () => void
   isAdding?: boolean
@@ -30,7 +25,6 @@ type MobileActionsProps = {
 const MobileActions: React.FC<MobileActionsProps> = ({
   product,
   variant,
-  region,
   options,
   updateOptions,
   inStock,
@@ -44,7 +38,6 @@ const MobileActions: React.FC<MobileActionsProps> = ({
   const price = getProductPrice({
     product: product,
     variantId: variant?.id,
-    region,
   })
 
   const selectedPrice = useMemo(() => {
@@ -174,16 +167,16 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                     </button>
                   </div>
                   <div className="bg-white px-6 py-12">
-                    {product.variants.length > 1 && (
+                    {(product.variants?.length ?? 0) > 1 && (
                       <div className="flex flex-col gap-y-6">
                         {(product.options || []).map((option) => {
                           return (
                             <div key={option.id}>
                               <OptionSelect
                                 option={option}
-                                current={options[option.id]}
+                                current={options[option.title ?? ""]}
                                 updateOption={updateOptions}
-                                title={option.title}
+                                title={option.title ?? ""}
                                 disabled={optionsDisabled}
                               />
                             </div>

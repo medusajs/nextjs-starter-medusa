@@ -3,10 +3,10 @@ import React from "react"
 import UnderlineLink from "@modules/common/components/interactive-link"
 
 import AccountNav from "../components/account-nav"
-import { Customer } from "@medusajs/medusa"
+import { HttpTypes } from "@medusajs/types"
 
 interface AccountLayoutProps {
-  customer: Omit<Customer, "password_hash"> | null
+  customer: HttpTypes.StoreCustomer | null
   children: React.ReactNode
 }
 

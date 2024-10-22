@@ -1,4 +1,4 @@
-import Medusa from "@medusajs/medusa-js"
+import Medusa from "@medusajs/js-sdk"
 
 // Defaults to standard port for Medusa server
 let MEDUSA_BACKEND_URL = "http://localhost:9000"
@@ -7,7 +7,8 @@ if (process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL) {
   MEDUSA_BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
 }
 
-export const medusaClient = new Medusa({
+export const sdk = new Medusa({
   baseUrl: MEDUSA_BACKEND_URL,
-  maxRetries: 3,
+  debug: process.env.NODE_ENV === "development",
+  publishableKey: process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
 })
