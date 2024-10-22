@@ -60,5 +60,6 @@
     "prettier": "^2.8.8",
     "tailwindcss": "^3.0.23",
     "typescript": "^5.3.2"
-  }
+  },
+  "packageManager": "yarn@3.2.3"
 }
