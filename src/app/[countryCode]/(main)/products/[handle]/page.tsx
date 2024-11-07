@@ -35,7 +35,11 @@ export async function generateStaticParams() {
       .flat()
       .filter((param) => param.handle)
   } catch (error) {
-    console.error("Error generating static params:", error)
+    console.error(
+      `Failed to generate static paths for product pages: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }.`
+    )
     return []
   }
 }
