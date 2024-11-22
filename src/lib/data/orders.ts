@@ -4,6 +4,7 @@ import { sdk } from "@lib/config"
 import medusaError from "@lib/util/medusa-error"
 import { cache } from "react"
 import { getAuthHeaders } from "./cookies"
+import { HttpTypes } from "@medusajs/types"
 
 export const retrieveOrder = cache(async function (id: string) {
   return sdk.store.order
@@ -27,11 +28,35 @@ export const listOrders = cache(async function (
 })
 
 export const createTransferRequest = async (
-  state: { success: boolean; error: string | null },
+  state: {
+    success: boolean
+    error: string | null
+    order: HttpTypes.StoreOrder | null
+  },
   formData: FormData
-): Promise<{ success: boolean; error: string | null }> => {
-  console.log(formData)
-  return { success: true, error: "No good" }
+): Promise<{
+  success: boolean
+  error: string | null
+  order: HttpTypes.StoreOrder | null
+}> => {
+  const id = formData.get("order_id")
+
+  const headers = getAuthHeaders()
+
+  return await sdk.client
+    .fetch<HttpTypes.StoreOrderResponse>(
+      `/store/orders/${id}/transfer/request`,
+      {
+        method: "POST",
+        headers,
+        body: {},
+        query: {
+          fields: "id, email",
+        },
+      }
+    )
+    .then(({ order }) => ({ success: true, error: null, order }))
+    .catch((err) => ({ success: false, error: err.message, order: null }))
 }
 
 export const acceptTransferRequest = async (formData: FormData) => {
