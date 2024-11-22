@@ -5,7 +5,6 @@ import medusaError from "@lib/util/medusa-error"
 import { HttpTypes } from "@medusajs/types"
 import { revalidateTag } from "next/cache"
 import { redirect } from "next/navigation"
-import { cache } from "react"
 import {
   getAuthHeaders,
   getCacheOptions,
@@ -36,6 +35,22 @@ export const retrieveCustomer =
       .then(({ customer }) => customer)
       .catch(() => null)
   }
+
+export const updateCustomer = async (body: HttpTypes.StoreUpdateCustomer) => {
+  const headers = {
+    ...(await getAuthHeaders()),
+  }
+
+  const updateRes = await sdk.store.customer
+    .update(body, {}, headers)
+    .then(({ customer }) => customer)
+    .catch(medusaError)
+
+  const cacheTag = await getCacheTag("customers")
+  revalidateTag(cacheTag)
+
+  return updateRes
+}
 
 export async function signup(_currentState: unknown, formData: FormData) {
   const password = formData.get("password") as string
