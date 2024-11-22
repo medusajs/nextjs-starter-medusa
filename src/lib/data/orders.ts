@@ -25,3 +25,19 @@ export const listOrders = cache(async function (
     .then(({ orders }) => orders)
     .catch((err) => medusaError(err))
 })
+
+export const createTransferRequest = async (
+  state: { success: boolean; error: string | null },
+  formData: FormData
+): Promise<{ success: boolean; error: string | null }> => {
+  console.log(formData)
+  return { success: true, error: "No good" }
+}
+
+export const acceptTransferRequest = async (formData: FormData) => {
+  console.log(formData)
+}
+
+export const rejectTransferRequest = async (formData: FormData) => {
+  console.log(formData)
+}
