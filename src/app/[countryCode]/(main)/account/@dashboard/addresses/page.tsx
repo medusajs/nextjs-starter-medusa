@@ -12,11 +12,12 @@ export const metadata: Metadata = {
   description: "View your addresses",
 }
 
-export default async function Addresses({
-  params,
-}: {
-  params: { countryCode: string }
-}) {
+export default async function Addresses(
+  props: {
+    params: Promise<{ countryCode: string }>
+  }
+) {
+  const params = await props.params;
   const { countryCode } = params
   const customer = await getCustomer()
   const region = await getRegion(countryCode)

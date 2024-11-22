@@ -11,11 +11,11 @@ import CollectionTemplate from "@modules/collections/templates"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 
 type Props = {
-  params: { handle: string; countryCode: string }
-  searchParams: {
+  params: Promise<{ handle: string; countryCode: string }>
+  searchParams: Promise<{
     page?: string
     sortBy?: SortOptions
-  }
+  }>
 }
 
 export const PRODUCT_LIMIT = 12
@@ -51,7 +51,8 @@ export async function generateStaticParams() {
   return staticParams
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   const collection = await getCollectionByHandle(params.handle)
 
   if (!collection) {
@@ -66,7 +67,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return metadata
 }
 
-export default async function CollectionPage({ params, searchParams }: Props) {
+export default async function CollectionPage(props: Props) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const { sortBy, page } = searchParams
 
   const collection = await getCollectionByHandle(params.handle).then(

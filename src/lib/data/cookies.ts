@@ -1,8 +1,8 @@
 import "server-only"
-import { cookies } from "next/headers"
+import { cookies, type UnsafeUnwrappedCookies } from "next/headers";
 
 export const getAuthHeaders = (): { authorization: string } | {} => {
-  const token = cookies().get("_medusa_jwt")?.value
+  const token = (cookies() as unknown as UnsafeUnwrappedCookies).get("_medusa_jwt")?.value
 
   if (token) {
     return { authorization: `Bearer ${token}` }
@@ -12,7 +12,7 @@ export const getAuthHeaders = (): { authorization: string } | {} => {
 }
 
 export const setAuthToken = (token: string) => {
-  cookies().set("_medusa_jwt", token, {
+  (cookies() as unknown as UnsafeUnwrappedCookies).set("_medusa_jwt", token, {
     maxAge: 60 * 60 * 24 * 7,
     httpOnly: true,
     sameSite: "strict",
@@ -21,17 +21,17 @@ export const setAuthToken = (token: string) => {
 }
 
 export const removeAuthToken = () => {
-  cookies().set("_medusa_jwt", "", {
+  (cookies() as unknown as UnsafeUnwrappedCookies).set("_medusa_jwt", "", {
     maxAge: -1,
   })
 }
 
 export const getCartId = () => {
-  return cookies().get("_medusa_cart_id")?.value
+  return (cookies() as unknown as UnsafeUnwrappedCookies).get("_medusa_cart_id")?.value;
 }
 
 export const setCartId = (cartId: string) => {
-  cookies().set("_medusa_cart_id", cartId, {
+  (cookies() as unknown as UnsafeUnwrappedCookies).set("_medusa_cart_id", cartId, {
     maxAge: 60 * 60 * 24 * 7,
     httpOnly: true,
     sameSite: "strict",
@@ -40,5 +40,5 @@ export const setCartId = (cartId: string) => {
 }
 
 export const removeCartId = () => {
-  cookies().set("_medusa_cart_id", "", { maxAge: -1 })
+  (cookies() as unknown as UnsafeUnwrappedCookies).set("_medusa_cart_id", "", { maxAge: -1 })
 }
