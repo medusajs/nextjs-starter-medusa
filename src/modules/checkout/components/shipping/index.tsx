@@ -1,6 +1,6 @@
 "use client"
 
-import { RadioGroup } from "@headlessui/react"
+import { RadioGroup, Radio } from "@headlessui/react"
 import { setShippingMethod } from "@lib/data/cart"
 import { convertToLocale } from "@lib/util/money"
 import { CheckCircleSolid } from "@medusajs/icons"
@@ -8,7 +8,7 @@ import { HttpTypes } from "@medusajs/types"
 import { Button, Heading, Text, clx } from "@medusajs/ui"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import Divider from "@modules/common/components/divider"
-import Radio from "@modules/common/components/radio"
+import MedusaRadio from "@modules/common/components/radio"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 
@@ -105,15 +105,13 @@ const Shipping: React.FC<ShippingProps> = ({
       {isOpen ? (
         <div data-testid="delivery-options-container">
           <div className="pb-8">
-            {/* @ts-ignore */}
             <RadioGroup
               value={shippingMethodId}
               onChange={handleSetShippingMethod}
             >
               {availableShippingMethods?.map((option) => {
                 return (
-                  // @ts-ignore
-                  <RadioGroup.Option
+                  <Radio
                     key={option.id}
                     value={option.id}
                     data-testid="delivery-option-radio"
@@ -126,7 +124,7 @@ const Shipping: React.FC<ShippingProps> = ({
                     )}
                   >
                     <div className="flex items-center gap-x-4">
-                      <Radio checked={option.id === shippingMethodId} />
+                      <MedusaRadio checked={option.id === shippingMethodId} />
                       <span className="text-base-regular">{option.name}</span>
                     </div>
                     <span className="justify-self-end text-ui-fg-base">
@@ -135,7 +133,7 @@ const Shipping: React.FC<ShippingProps> = ({
                         currency_code: cart?.currency_code,
                       })}
                     </span>
-                  </RadioGroup.Option>
+                  </Radio>
                 )
               })}
             </RadioGroup>

@@ -1,7 +1,6 @@
 "use client"
 
 import { Table, Text, clx } from "@medusajs/ui"
-
 import { updateLineItem } from "@lib/data/cart"
 import { HttpTypes } from "@medusajs/types"
 import CartItemSelect from "@modules/cart/components/cart-item-select"
@@ -124,7 +123,11 @@ const Item = ({ item, type = "full" }: ItemProps) => {
               <LineItemUnitPrice item={item} style="tight" />
             </span>
           )}
-          <LineItemPrice item={item} style="tight" />
+          <LineItemPrice
+            item={item}
+            style="tight"
+            currencyCode={item.region?.currency_code}
+          />
         </span>
       </Table.Cell>
     </Table.Row>
