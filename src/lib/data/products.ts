@@ -1,46 +1,67 @@
-import { sdk } from "@lib/config"
-import { HttpTypes } from "@medusajs/types"
-import { cache } from "react"
-import { getRegion } from "./regions"
-import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
-import { sortProducts } from "@lib/util/sort-products"
+"use server"
 
-export const getProductsById = cache(async function ({
+import { sdk } from "@lib/config"
+import { sortProducts } from "@lib/util/sort-products"
+import { HttpTypes } from "@medusajs/types"
+import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
+import { getAuthHeaders, getCacheOptions } from "./cookies"
+import { getRegion } from "./regions"
+
+export const getProductsById = async ({
   ids,
   regionId,
 }: {
   ids: string[]
   regionId: string
-}) {
-  return sdk.store.product
-    .list(
-      {
+}) => {
+  const headers = {
+    ...(await getAuthHeaders()),
+  }
+
+  const next = {
+    ...(await getCacheOptions("products")),
+  }
+
+  return sdk.client
+    .fetch<{ products: HttpTypes.StoreProduct[] }>(`/store/products`, {
+      method: "GET",
+      query: {
         id: ids,
         region_id: regionId,
-        fields: "*variants.calculated_price,+variants.inventory_quantity",
+        fields:
+          "*variants,*variants.calculated_price,*variants.inventory_quantity",
       },
-      { next: { tags: ["products"] } }
-    )
+      headers,
+      next,
+    })
     .then(({ products }) => products)
-})
+}
 
-export const getProductByHandle = cache(async function (
-  handle: string,
-  regionId: string
-) {
-  return sdk.store.product
-    .list(
-      {
+export const getProductByHandle = async (handle: string, regionId: string) => {
+  const headers = {
+    ...(await getAuthHeaders()),
+  }
+
+  const next = {
+    ...(await getCacheOptions("products")),
+  }
+
+  return sdk.client
+    .fetch<{ products: HttpTypes.StoreProduct[] }>(`/store/products`, {
+      method: "GET",
+      query: {
         handle,
         region_id: regionId,
-        fields: "*variants.calculated_price,+variants.inventory_quantity",
+        fields:
+          "*variants.calculated_price,+variants.inventory_quantity,+metadata,+tags",
       },
-      { next: { tags: ["products"] } }
-    )
+      headers,
+      next,
+    })
     .then(({ products }) => products[0])
-})
+}
 
-export const getProductsList = cache(async function ({
+export const listProducts = async ({
   pageParam = 1,
   queryParams,
   countryCode,
@@ -52,9 +73,10 @@ export const getProductsList = cache(async function ({
   response: { products: HttpTypes.StoreProduct[]; count: number }
   nextPage: number | null
   queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams
-}> {
+}> => {
   const limit = queryParams?.limit || 12
-  const offset = pageParam * limit
+  const _pageParam = Math.max(pageParam, 1)
+  const offset = (_pageParam - 1) * limit
   const region = await getRegion(countryCode)
 
   if (!region) {
@@ -64,16 +86,29 @@ export const getProductsList = cache(async function ({
     }
   }
 
-  return sdk.store.product
-    .list(
+  const headers = {
+    ...(await getAuthHeaders()),
+  }
+
+  const next = {
+    ...(await getCacheOptions("products")),
+  }
+
+  return sdk.client
+    .fetch<{ products: HttpTypes.StoreProduct[]; count: number }>(
+      `/store/products`,
       {
-        limit,
-        offset,
-        region_id: region.id,
-        fields: "*variants.calculated_price",
-        ...queryParams,
-      },
-      { next: { tags: ["products"] } }
+        method: "GET",
+        query: {
+          limit,
+          offset,
+          region_id: region.id,
+          fields: "*variants.calculated_price",
+          ...queryParams,
+        },
+        headers,
+        next,
+      }
     )
     .then(({ products, count }) => {
       const nextPage = count > offset + limit ? pageParam + 1 : null
@@ -87,13 +122,13 @@ export const getProductsList = cache(async function ({
         queryParams,
       }
     })
-})
+}
 
 /**
  * This will fetch 100 products to the Next.js cache and sort them based on the sortBy parameter.
  * It will then return the paginated products based on the page and limit parameters.
  */
-export const getProductsListWithSort = cache(async function ({
+export const listProductsWithSort = async ({
   page = 0,
   queryParams,
   sortBy = "created_at",
@@ -107,12 +142,12 @@ export const getProductsListWithSort = cache(async function ({
   response: { products: HttpTypes.StoreProduct[]; count: number }
   nextPage: number | null
   queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams
-}> {
+}> => {
   const limit = queryParams?.limit || 12
 
   const {
     response: { products, count },
-  } = await getProductsList({
+  } = await listProducts({
     pageParam: 0,
     queryParams: {
       ...queryParams,
@@ -137,4 +172,4 @@ export const getProductsListWithSort = cache(async function ({
     nextPage,
     queryParams,
   }
-})
+}
