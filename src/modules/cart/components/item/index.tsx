@@ -123,11 +123,7 @@ const Item = ({ item, type = "full" }: ItemProps) => {
               <LineItemUnitPrice item={item} style="tight" />
             </span>
           )}
-          <LineItemPrice
-            item={item}
-            style="tight"
-            currencyCode={item.region?.currency_code}
-          />
+          <LineItemPrice item={item} style="tight" />
         </span>
       </Table.Cell>
     </Table.Row>
