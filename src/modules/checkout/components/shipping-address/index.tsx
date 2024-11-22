@@ -18,7 +18,18 @@ const ShippingAddress = ({
   checked: boolean
   onChange: () => void
 }) => {
-  const [formData, setFormData] = useState<Record<string, any>>({})
+  const [formData, setFormData] = useState<Record<string, any>>({
+    "shipping_address.first_name": cart?.shipping_address?.first_name || "",
+    "shipping_address.last_name": cart?.shipping_address?.last_name || "",
+    "shipping_address.address_1": cart?.shipping_address?.address_1 || "",
+    "shipping_address.company": cart?.shipping_address?.company || "",
+    "shipping_address.postal_code": cart?.shipping_address?.postal_code || "",
+    "shipping_address.city": cart?.shipping_address?.city || "",
+    "shipping_address.country_code": cart?.shipping_address?.country_code || "",
+    "shipping_address.province": cart?.shipping_address?.province || "",
+    "shipping_address.phone": cart?.shipping_address?.phone || "",
+    email: cart?.email || "",
+  })
 
   const countriesInRegion = useMemo(
     () => cart?.region?.countries?.map((c) => c.iso_2),
