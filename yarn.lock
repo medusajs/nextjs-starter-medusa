@@ -796,14 +796,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@medusajs/js-sdk@npm:2.0.5-preview-20241120121037":
-  version: 2.0.5-preview-20241120121037
-  resolution: "@medusajs/js-sdk@npm:2.0.5-preview-20241120121037"
+"@medusajs/js-sdk@npm:latest":
+  version: 2.0.6
+  resolution: "@medusajs/js-sdk@npm:2.0.6"
   dependencies:
-    "@medusajs/types": 2.0.5-preview-20241120121037
+    "@medusajs/types": ^2.0.6
     fetch-event-stream: ^0.1.5
     qs: ^6.12.1
-  checksum: 07790896904bb416d6f43411965df4bf4f43a0016e5a7a3b25a7a19c53a6c57a1f6e3bda4dbf31ce030500962df0468a8998e6b13bd7729057c18ba4f056352a
+  checksum: 1df457349ef93720f0b6b5175bb1ffa47213f1aeaeb97bab397834b5e39a1c0c47bef26adfbd41f2133f5fa37c43c5f4d140127f7137366b636cd29a7e7c74be
   languageName: node
   linkType: hard
 
@@ -825,9 +825,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@medusajs/types@npm:2.0.5-preview-20241120121037":
-  version: 2.0.5-preview-20241120121037
-  resolution: "@medusajs/types@npm:2.0.5-preview-20241120121037"
+"@medusajs/types@npm:^2.0.6":
+  version: 2.0.6
+  resolution: "@medusajs/types@npm:2.0.6"
   dependencies:
     bignumber.js: ^9.1.2
   peerDependencies:
@@ -839,7 +839,7 @@ __metadata:
       optional: true
     vite:
       optional: true
-  checksum: 8add8db83f7780874a508edc4bda9d96160ac64abf722da25bdcea2b4db88c0fd7c64feeb42f2d949bad6973dbd1f4015214fb1d713c4e4d485be02970ef53ed
+  checksum: 0a87888bea6f78c0496666133e8cc89d24416d7fe5cd85f5c1d7c4136fb8cc194bba1301191ea6f409e85ff2cda7ea2e06c74087d34bcbc8f221d92331fb11ba
   languageName: node
   linkType: hard
 
@@ -5848,7 +5848,7 @@ __metadata:
     "@babel/core": ^7.17.5
     "@headlessui/react": ^1.6.1
     "@hookform/error-message": ^2.0.0
-    "@medusajs/js-sdk": 2.0.5-preview-20241120121037
+    "@medusajs/js-sdk": latest
     "@medusajs/types": 2.0.0
     "@medusajs/ui": 2.0.0
     "@medusajs/ui-preset": 2.0.0
