@@ -1,5 +1,5 @@
-import { Button, Heading, Text } from "@medusajs/ui"
-import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import { Heading, Text } from "@medusajs/ui"
+import TransferActions from "@modules/order/components/transfer-actions"
 import TransferImage from "@modules/order/components/transfer-image"
 
 export default async function TransferPage({
@@ -31,20 +31,7 @@ export default async function TransferPage({
           further action is required.
         </Text>
         <div className="w-full h-px bg-zinc-200" />
-        <div className="flex gap-x-4">
-          <Button size="large" asChild>
-            <LocalizedClientLink href={`/order/${id}/transfer/${token}/accept`}>
-              Approve transfer
-            </LocalizedClientLink>
-          </Button>
-          <Button size="large" variant="secondary" asChild>
-            <LocalizedClientLink
-              href={`/order/${id}/transfer/${token}/decline`}
-            >
-              Decline transfer
-            </LocalizedClientLink>
-          </Button>
-        </div>
+        <TransferActions id={id} token={token} />
       </div>
     </div>
   )
