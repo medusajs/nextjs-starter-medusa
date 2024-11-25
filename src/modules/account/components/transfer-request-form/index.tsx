@@ -2,7 +2,7 @@
 
 import { useFormState } from "react-dom"
 import { createTransferRequest } from "@lib/data/orders"
-import { Text, Heading, Input, Button, IconButton } from "@medusajs/ui"
+import { Text, Heading, Input, Button, IconButton, Toaster } from "@medusajs/ui"
 import { SubmitButton } from "@modules/checkout/components/submit-button"
 import { CheckCircleMiniSolid, XCircleSolid } from "@medusajs/icons"
 import { useEffect, useState } from "react"
@@ -47,13 +47,13 @@ export default function TransferRequestForm() {
               Request transfer
             </SubmitButton>
           </div>
-          {!state.success && state.error && (
-            <Text className="text-base-regular text-rose-500">
-              {state.error}
-            </Text>
-          )}
         </form>
       </div>
+      {!state.success && state.error && (
+        <Text className="text-base-regular text-rose-500 text-right">
+          {state.error}
+        </Text>
+      )}
       {showSuccess && (
         <div className="flex justify-between p-4 bg-neutral-50 shadow-borders-base w-full self-stretch items-center">
           <div className="flex gap-x-2 items-center">

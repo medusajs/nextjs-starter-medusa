@@ -39,30 +39,41 @@ export const createTransferRequest = async (
   error: string | null
   order: HttpTypes.StoreOrder | null
 }> => {
-  const id = formData.get("order_id")
+  const id = formData.get("order_id") as string
+
+  if (!id) {
+    return { success: false, error: "Order ID is required", order: null }
+  }
 
   const headers = getAuthHeaders()
 
-  return await sdk.client
-    .fetch<HttpTypes.StoreOrderResponse>(
-      `/store/orders/${id}/transfer/request`,
+  return await sdk.store.order
+    .requestTransfer(
+      id,
+      {},
       {
-        method: "POST",
-        headers,
-        body: {},
-        query: {
-          fields: "id, email",
-        },
-      }
+        fields: "id, email",
+      },
+      headers
     )
     .then(({ order }) => ({ success: true, error: null, order }))
     .catch((err) => ({ success: false, error: err.message, order: null }))
 }
 
-export const acceptTransferRequest = async (formData: FormData) => {
-  console.log(formData)
+export const acceptTransferRequest = async (id: string, token: string) => {
+  const headers = getAuthHeaders()
+
+  return await sdk.store.order
+    .acceptTransfer(id, { token }, {}, headers)
+    .then(({ order }) => ({ success: true, error: null, order }))
+    .catch((err) => ({ success: false, error: err.message, order: null }))
 }
 
-export const rejectTransferRequest = async (formData: FormData) => {
-  console.log(formData)
+export const declineTransferRequest = async (id: string, token: string) => {
+  const headers = getAuthHeaders()
+
+  return await sdk.store.order
+    .declineTransfer(id, { token }, {}, headers)
+    .then(({ order }) => ({ success: true, error: null, order }))
+    .catch((err) => ({ success: false, error: err.message, order: null }))
 }

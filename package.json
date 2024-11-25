@@ -18,7 +18,7 @@
   "dependencies": {
     "@headlessui/react": "^1.6.1",
     "@hookform/error-message": "^2.0.0",
-    "@medusajs/js-sdk": "2.0.0",
+    "@medusajs/js-sdk": "2.0.5-snapshot-20241124153140",
     "@medusajs/ui": "2.0.0",
     "@meilisearch/instant-meilisearch": "^0.7.1",
     "@paypal/paypal-js": "^5.0.6",
