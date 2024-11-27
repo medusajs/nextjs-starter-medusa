@@ -38,11 +38,11 @@ export default function TransferRequestForm() {
           action={formAction}
           className="flex flex-col gap-y-1 sm:items-end"
         >
-          <div className="flex gap-x-2">
-            <Input name="order_id" placeholder="Order ID" />
+          <div className="flex flex-col gap-y-2 w-full">
+            <Input className="w-full" name="order_id" placeholder="Order ID" />
             <SubmitButton
               variant="secondary"
-              className="w-fit whitespace-nowrap"
+              className="w-fit whitespace-nowrap self-end"
             >
               Request transfer
             </SubmitButton>
