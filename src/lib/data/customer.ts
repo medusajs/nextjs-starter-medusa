@@ -6,7 +6,12 @@ import { HttpTypes } from "@medusajs/types"
 import { revalidateTag } from "next/cache"
 import { redirect } from "next/navigation"
 import { cache } from "react"
-import { getAuthHeaders, removeAuthToken, setAuthToken } from "./cookies"
+import {
+  getAuthHeaders,
+  getCartId,
+  removeAuthToken,
+  setAuthToken,
+} from "./cookies"
 
 export const getCustomer = cache(async function () {
   return await sdk.store.customer
@@ -58,6 +63,9 @@ export async function signup(_currentState: unknown, formData: FormData) {
     setAuthToken(loginToken as string)
 
     revalidateTag("customer")
+
+    await transferCart()
+
     return createdCustomer
   } catch (error: any) {
     return error.toString()
@@ -78,6 +86,12 @@ export async function login(_currentState: unknown, formData: FormData) {
   } catch (error: any) {
     return error.toString()
   }
+
+  try {
+    await transferCart()
+  } catch (error: any) {
+    return error.toString()
+  }
 }
 
 export async function signout(countryCode: string) {
@@ -86,6 +100,22 @@ export async function signout(countryCode: string) {
   revalidateTag("auth")
   revalidateTag("customer")
   redirect(`/${countryCode}/account`)
+}
+
+export async function transferCart() {
+  const cartId = getCartId()
+
+  if (!cartId) {
+    return
+  }
+
+  const headers = {
+    ...getAuthHeaders(),
+  }
+
+  await sdk.store.cart.transferCart(cartId, {}, headers)
+
+  revalidateTag("cart")
 }
 
 export const addCustomerAddress = async (
