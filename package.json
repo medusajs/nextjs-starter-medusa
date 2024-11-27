@@ -18,8 +18,8 @@
   "dependencies": {
     "@headlessui/react": "^1.6.1",
     "@hookform/error-message": "^2.0.0",
-    "@medusajs/js-sdk": "2.0.5-snapshot-20241124153140",
-    "@medusajs/ui": "2.0.0",
+    "@medusajs/js-sdk": "latest",
+    "@medusajs/ui": "latest",
     "@meilisearch/instant-meilisearch": "^0.7.1",
     "@paypal/paypal-js": "^5.0.6",
     "@paypal/react-paypal-js": "^7.8.1",
@@ -42,8 +42,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",
-    "@medusajs/types": "2.0.0",
-    "@medusajs/ui-preset": "2.0.0",
+    "@medusajs/types": "latest",
+    "@medusajs/ui-preset": "latest",
     "@playwright/test": "^1.41.1",
     "@types/lodash": "^4.14.195",
     "@types/node": "17.0.21",
