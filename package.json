@@ -12,8 +12,7 @@
     "build": "next build",
     "start": "next start -p 8000",
     "lint": "next lint",
-    "analyze": "ANALYZE=true next build",
-    "test-e2e": "playwright test e2e"
+    "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
     "@headlessui/react": "^1.6.1",
@@ -44,7 +43,6 @@
     "@babel/core": "^7.17.5",
     "@medusajs/types": "latest",
     "@medusajs/ui-preset": "latest",
-    "@playwright/test": "^1.41.1",
     "@types/lodash": "^4.14.195",
     "@types/node": "17.0.21",
     "@types/pg": "^8.11.0",
