@@ -134,9 +134,7 @@ export async function transferCart() {
     return
   }
 
-  const headers = {
-    ...getAuthHeaders(),
-  }
+  const headers = await getAuthHeaders()
 
   await sdk.store.cart.transferCart(cartId, {}, headers)
 

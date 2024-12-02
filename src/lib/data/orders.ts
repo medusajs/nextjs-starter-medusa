@@ -76,7 +76,7 @@ export const createTransferRequest = async (
     return { success: false, error: "Order ID is required", order: null }
   }
 
-  const headers = getAuthHeaders()
+  const headers = await getAuthHeaders()
 
   return await sdk.store.order
     .requestTransfer(
@@ -92,7 +92,7 @@ export const createTransferRequest = async (
 }
 
 export const acceptTransferRequest = async (id: string, token: string) => {
-  const headers = getAuthHeaders()
+  const headers = await getAuthHeaders()
 
   return await sdk.store.order
     .acceptTransfer(id, { token }, {}, headers)
@@ -101,7 +101,7 @@ export const acceptTransferRequest = async (id: string, token: string) => {
 }
 
 export const declineTransferRequest = async (id: string, token: string) => {
-  const headers = getAuthHeaders()
+  const headers = await getAuthHeaders()
 
   return await sdk.store.order
     .declineTransfer(id, { token }, {}, headers)
