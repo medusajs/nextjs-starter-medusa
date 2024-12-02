@@ -13,7 +13,7 @@
 </h1>
 
 <p align="center">
-Combine Medusa's modules for your commerce backend with the newest Next.js 14 features for a performant storefront.</p>
+Combine Medusa's modules for your commerce backend with the newest Next.js 15 features for a performant storefront.</p>
 
 <p align="center">
   <a href="https://github.com/medusajs/medusa/blob/master/CONTRIBUTING.md">
@@ -58,7 +58,7 @@ Features include:
   - Checkout with PayPal and Stripe
   - User Accounts
   - Order Details
-- Full Next.js 14 support:
+- Full Next.js 15 support:
   - App Router
   - Next fetching/caching
   - Server Components
