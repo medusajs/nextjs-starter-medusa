@@ -3,7 +3,6 @@
 import { sdk } from "@lib/config"
 import medusaError from "@lib/util/medusa-error"
 import { HttpTypes } from "@medusajs/types"
-import { omit } from "lodash"
 import { revalidateTag } from "next/cache"
 import { redirect } from "next/navigation"
 import {
@@ -14,7 +13,7 @@ import {
   removeCartId,
   setCartId,
 } from "./cookies"
-import { getProductsById } from "./products"
+import { listProducts } from "./products"
 import { getRegion } from "./regions"
 
 export async function retrieveCart() {
@@ -37,7 +36,7 @@ export async function retrieveCart() {
       method: "GET",
       query: {
         fields:
-          "*items, *region, *items.product, *items.variant, +items.thumbnail, +items.metadata, *promotions",
+          "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, *promotions, *items.unit_price, *items.original_total, *items.subtotal, *items.total, *items.original_tax_total, *items.tax_total, *items.discount_total",
       },
       headers,
       next,
@@ -49,12 +48,13 @@ export async function retrieveCart() {
 }
 
 export async function getOrSetCart(countryCode: string) {
-  let cart = await retrieveCart()
   const region = await getRegion(countryCode)
 
   if (!region) {
     throw new Error(`Region not found for country code: ${countryCode}`)
   }
+
+  let cart = await retrieveCart()
 
   const headers = {
     ...(await getAuthHeaders()),
@@ -113,19 +113,29 @@ export async function addToCart({
   quantity: number
   countryCode: string
 }) {
+  console.log("adding to cart")
+  console.log({ variantId, quantity, countryCode })
+
   if (!variantId) {
     throw new Error("Missing variant ID when adding to cart")
   }
 
+  console.log("getting or setting cart")
+
   const cart = await getOrSetCart(countryCode)
+  console.log({ cart })
 
   if (!cart) {
     throw new Error("Error retrieving or creating cart")
   }
 
+  console.log("creating line item")
+
   const headers = {
     ...(await getAuthHeaders()),
   }
+
+  console.log("creating line item")
 
   await sdk.store.cart
     .createLineItem(
@@ -138,6 +148,7 @@ export async function addToCart({
       headers
     )
     .then(async () => {
+      console.log("revalidating cart")
       const cartCacheTag = await getCacheTag("carts")
       revalidateTag(cartCacheTag)
     })
@@ -205,44 +216,7 @@ export async function enrichLineItems(
     | null,
   regionId: string
 ) {
-  if (!lineItems) return []
-
-  // Prepare query parameters
-  const queryParams = {
-    ids: lineItems.map((lineItem) => lineItem.product_id!),
-    regionId: regionId,
-  }
-
-  // Fetch products by their IDs
-  const products = await getProductsById(queryParams)
-  // If there are no line items or products, return an empty array
-  if (!lineItems?.length || !products) {
-    return []
-  }
-
-  // Enrich line items with product and variant information
-  const enrichedItems = lineItems.map((item) => {
-    const product = products.find((p: any) => p.id === item.product_id)
-    const variant = product?.variants?.find(
-      (v: any) => v.id === item.variant_id
-    )
-
-    // If product or variant is not found, return the original item
-    if (!product || !variant) {
-      return item
-    }
-
-    // If product and variant are found, enrich the item
-    return {
-      ...item,
-      variant: {
-        ...variant,
-        product: omit(product, "variants"),
-      },
-    }
-  }) as HttpTypes.StoreCartLineItem[]
-
-  return enrichedItems
+  return lineItems
 }
 
 export async function setShippingMethod({

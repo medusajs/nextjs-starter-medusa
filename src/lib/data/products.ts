@@ -5,79 +5,38 @@ import { sortProducts } from "@lib/util/sort-products"
 import { HttpTypes } from "@medusajs/types"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import { getAuthHeaders, getCacheOptions } from "./cookies"
-import { getRegion } from "./regions"
-
-export const getProductsById = async ({
-  ids,
-  regionId,
-}: {
-  ids: string[]
-  regionId: string
-}) => {
-  const headers = {
-    ...(await getAuthHeaders()),
-  }
-
-  const next = {
-    ...(await getCacheOptions("products")),
-  }
-
-  return sdk.client
-    .fetch<{ products: HttpTypes.StoreProduct[] }>(`/store/products`, {
-      method: "GET",
-      query: {
-        id: ids,
-        region_id: regionId,
-        fields:
-          "*variants,*variants.calculated_price,*variants.inventory_quantity",
-      },
-      headers,
-      next,
-    })
-    .then(({ products }) => products)
-}
-
-export const getProductByHandle = async (handle: string, regionId: string) => {
-  const headers = {
-    ...(await getAuthHeaders()),
-  }
-
-  const next = {
-    ...(await getCacheOptions("products")),
-  }
-
-  return sdk.client
-    .fetch<{ products: HttpTypes.StoreProduct[] }>(`/store/products`, {
-      method: "GET",
-      query: {
-        handle,
-        region_id: regionId,
-        fields:
-          "*variants.calculated_price,+variants.inventory_quantity,+metadata,+tags",
-      },
-      headers,
-      next,
-    })
-    .then(({ products }) => products[0])
-}
+import { getRegion, retrieveRegion } from "./regions"
 
 export const listProducts = async ({
   pageParam = 1,
   queryParams,
   countryCode,
+  regionId,
 }: {
   pageParam?: number
   queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams
-  countryCode: string
+  countryCode?: string
+  regionId?: string
 }): Promise<{
   response: { products: HttpTypes.StoreProduct[]; count: number }
   nextPage: number | null
   queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams
 }> => {
+  if (!countryCode && !regionId) {
+    throw new Error("Country code or region ID is required")
+  }
+
   const limit = queryParams?.limit || 12
   const _pageParam = Math.max(pageParam, 1)
   const offset = (_pageParam - 1) * limit
-  const region = await getRegion(countryCode)
+
+  let region: HttpTypes.StoreRegion | undefined | null
+
+  if (countryCode) {
+    region = await getRegion(countryCode)
+  } else {
+    region = await retrieveRegion(regionId!)
+  }
 
   if (!region) {
     return {
@@ -102,8 +61,9 @@ export const listProducts = async ({
         query: {
           limit,
           offset,
-          region_id: region.id,
-          fields: "*variants.calculated_price",
+          region_id: region?.id,
+          fields:
+            "*variants.calculated_price,+variants.inventory_quantity,+metadata,+tags",
           ...queryParams,
         },
         headers,
