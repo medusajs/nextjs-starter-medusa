@@ -1,7 +1,7 @@
 import { Metadata } from "next"
 
 import { retrieveCart } from "@lib/data/cart"
-import { getCustomer } from "@lib/data/customer"
+import { retrieveCustomer } from "@lib/data/customer"
 import { getBaseURL } from "@lib/util/env"
 import CartMismatchBanner from "@modules/layout/components/cart-mismatch-banner"
 import Footer from "@modules/layout/templates/footer"
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 }
 
 export default async function PageLayout(props: { children: React.ReactNode }) {
-  const customer = await getCustomer()
+  const customer = await retrieveCustomer()
   const cart = await retrieveCart()
 
   return (
