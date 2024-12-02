@@ -1,4 +1,4 @@
-import { getProductsList } from "@lib/data/products"
+import { listProducts } from "@lib/data/products"
 import { getRegion } from "@lib/data/regions"
 import { HttpTypes } from "@medusajs/types"
 import Product from "../product-preview"
@@ -33,7 +33,7 @@ export default async function RelatedProducts({
   }
   queryParams.is_giftcard = false
 
-  const products = await getProductsList({
+  const products = await listProducts({
     queryParams,
     countryCode,
   }).then(({ response }) => {

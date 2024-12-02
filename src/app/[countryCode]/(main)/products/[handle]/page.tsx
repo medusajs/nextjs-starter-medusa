@@ -7,7 +7,7 @@ import { getProductByHandle } from "@lib/data/products"
 import { sdk } from "@lib/config"
 
 type Props = {
-  params: { countryCode: string; handle: string }
+  params: Promise<{ countryCode: string; handle: string }>
 }
 
 export async function generateStaticParams() {
@@ -44,7 +44,8 @@ export async function generateStaticParams() {
   }
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   const { handle } = params
   const region = await getRegion(params.countryCode)
 
@@ -69,7 +70,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function ProductPage({ params }: Props) {
+export default async function ProductPage(props: Props) {
+  const params = await props.params;
   const region = await getRegion(params.countryCode)
 
   if (!region) {

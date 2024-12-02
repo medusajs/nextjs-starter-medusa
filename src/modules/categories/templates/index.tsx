@@ -10,12 +10,12 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import { HttpTypes } from "@medusajs/types"
 
 export default function CategoryTemplate({
-  categories,
+  category,
   sortBy,
   page,
   countryCode,
 }: {
-  categories: HttpTypes.StoreProductCategory[]
+  category: HttpTypes.StoreProductCategory
   sortBy?: SortOptions
   page?: string
   countryCode: string
@@ -23,10 +23,18 @@ export default function CategoryTemplate({
   const pageNumber = page ? parseInt(page) : 1
   const sort = sortBy || "created_at"
 
-  const category = categories[categories.length - 1]
-  const parents = categories.slice(0, categories.length - 1)
-
   if (!category || !countryCode) notFound()
+
+  const parents = [] as HttpTypes.StoreProductCategory[]
+
+  const getParents = (category: HttpTypes.StoreProductCategory) => {
+    if (category.parent_category) {
+      parents.push(category.parent_category)
+      getParents(category.parent_category)
+    }
+  }
+
+  getParents(category)
 
   return (
     <div
@@ -69,7 +77,13 @@ export default function CategoryTemplate({
             </ul>
           </div>
         )}
-        <Suspense fallback={<SkeletonProductGrid />}>
+        <Suspense
+          fallback={
+            <SkeletonProductGrid
+              numberOfProducts={category.products?.length ?? 8}
+            />
+          }
+        >
           <PaginatedProducts
             sortBy={sort}
             page={pageNumber}

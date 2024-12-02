@@ -59,6 +59,7 @@ export default function SearchModal() {
       <div className="fixed inset-0 bg-opacity-75 backdrop-blur-md opacity-100 h-screen w-screen" />
       <div className="fixed inset-0 px-5 sm:p-0" ref={searchRef}>
         <div className="flex flex-col justify-start w-full h-fit transform p-5 items-center text-left align-middle transition-all max-h-[75vh] bg-transparent shadow-none">
+          {/* @ts-ignore */}
           <InstantSearch
             indexName={SEARCH_INDEX_NAME}
             searchClient={searchClient}

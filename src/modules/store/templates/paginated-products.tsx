@@ -1,4 +1,4 @@
-import { getProductsListWithSort } from "@lib/data/products"
+import { listProductsWithSort } from "@lib/data/products"
 import { getRegion } from "@lib/data/regions"
 import ProductPreview from "@modules/products/components/product-preview"
 import { Pagination } from "@modules/store/components/pagination"
@@ -57,7 +57,7 @@ export default async function PaginatedProducts({
 
   let {
     response: { products, count },
-  } = await getProductsListWithSort({
+  } = await listProductsWithSort({
     page,
     queryParams,
     sortBy,

@@ -1,5 +1,5 @@
 import { clx } from "@medusajs/ui"
-import React from "react"
+import React, { type JSX } from "react";
 import {
   UseHitsProps,
   useHits,

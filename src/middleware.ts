@@ -1,5 +1,4 @@
 import { HttpTypes } from "@medusajs/types"
-import { notFound } from "next/navigation"
 import { NextRequest, NextResponse } from "next/server"
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
@@ -11,7 +10,7 @@ const regionMapCache = {
   regionMapUpdated: Date.now(),
 }
 
-async function getRegionMap() {
+async function getRegionMap(cacheId: string) {
   const { regionMap, regionMapUpdated } = regionMapCache
 
   if (
@@ -25,12 +24,22 @@ async function getRegionMap() {
       },
       next: {
         revalidate: 3600,
-        tags: ["regions"],
+        tags: [`regions-${cacheId}`],
       },
-    }).then((res) => res.json())
+    }).then(async (response) => {
+      const json = await response.json()
+
+      if (!response.ok) {
+        throw new Error(json.message)
+      }
+
+      return json
+    })
 
     if (!regions?.length) {
-      notFound()
+      throw new Error(
+        "No regions found. Please set up regions in your Medusa Admin."
+      )
     }
 
     // Create a map of country codes to regions.
@@ -84,6 +93,18 @@ async function getCountryCode(
   }
 }
 
+async function setCacheId(request: NextRequest, response: NextResponse) {
+  const cacheId = request.nextUrl.searchParams.get("_medusa_cache_id")
+
+  if (cacheId) {
+    return cacheId
+  }
+
+  const newCacheId = crypto.randomUUID()
+  response.cookies.set("_medusa_cache_id", newCacheId, { maxAge: 60 * 60 * 24 })
+  return newCacheId
+}
+
 /**
  * Middleware to handle region selection and onboarding status.
  */
@@ -93,9 +114,17 @@ export async function middleware(request: NextRequest) {
   const cartId = searchParams.get("cart_id")
   const checkoutStep = searchParams.get("step")
   const onboardingCookie = request.cookies.get("_medusa_onboarding")
+  const cacheIdCookie = request.cookies.get("_medusa_cache_id")
   const cartIdCookie = request.cookies.get("_medusa_cart_id")
 
-  const regionMap = await getRegionMap()
+  let redirectUrl = request.nextUrl.href
+
+  let response = NextResponse.redirect(redirectUrl, 307)
+
+  // Set a cache id to invalidate the cache for this instance only
+  const cacheId = await setCacheId(request, response)
+
+  const regionMap = await getRegionMap(cacheId)
 
   const countryCode = regionMap && (await getCountryCode(request, regionMap))
 
@@ -106,8 +135,14 @@ export async function middleware(request: NextRequest) {
   if (
     urlHasCountryCode &&
     (!isOnboarding || onboardingCookie) &&
-    (!cartId || cartIdCookie)
+    (!cartId || cartIdCookie) &&
+    cacheIdCookie
   ) {
+    return NextResponse.next()
+  }
+
+  // check if the url is a static asset
+  if (request.nextUrl.pathname.includes(".")) {
     return NextResponse.next()
   }
 
@@ -115,10 +150,6 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname === "/" ? "" : request.nextUrl.pathname
 
   const queryString = request.nextUrl.search ? request.nextUrl.search : ""
-
-  let redirectUrl = request.nextUrl.href
-
-  let response = NextResponse.redirect(redirectUrl, 307)
 
   // If no country code is set, we redirect to the relevant region.
   if (!urlHasCountryCode && countryCode) {
@@ -142,5 +173,7 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|favicon.ico).*)"],
+  matcher: [
+    "/((?!api|_next/static|_next/image|favicon.ico|images|assets|png|svg|jpg|jpeg|gif|webp).*)",
+  ],
 }

@@ -8,11 +8,11 @@ import CategoryTemplate from "@modules/categories/templates"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 
 type Props = {
-  params: { category: string[]; countryCode: string }
-  searchParams: {
+  params: Promise<{ category: string[]; countryCode: string }>
+  searchParams: Promise<{
     sortBy?: SortOptions
     page?: string
-  }
+  }>
 }
 
 export async function generateStaticParams() {
@@ -42,19 +42,14 @@ export async function generateStaticParams() {
   return staticParams
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params
   try {
-    const { product_categories } = await getCategoryByHandle(
-      params.category
-    )
+    const productCategory = await getCategoryByHandle(params.category)
 
-    const title = product_categories
-      .map((category: StoreProductCategory) => category.name)
-      .join(" | ")
+    const title = productCategory.name + " | Medusa Store"
 
-    const description =
-      product_categories[product_categories.length - 1].description ??
-      `${title} category.`
+    const description = productCategory.description ?? `${title} category.`
 
     return {
       title: `${title} | Medusa Store`,
@@ -68,20 +63,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function CategoryPage({ params, searchParams }: Props) {
+export default async function CategoryPage(props: Props) {
+  const searchParams = await props.searchParams
+  const params = await props.params
   const { sortBy, page } = searchParams
 
-  const { product_categories } = await getCategoryByHandle(
-    params.category
-  )
+  const productCategory = await getCategoryByHandle(params.category)
 
-  if (!product_categories) {
+  if (!productCategory) {
     notFound()
   }
 
   return (
     <CategoryTemplate
-      categories={product_categories}
+      category={productCategory}
       sortBy={sortBy}
       page={page}
       countryCode={params.countryCode}

@@ -1,5 +1,5 @@
 import { Heading } from "@medusajs/ui"
-import { cookies } from "next/headers"
+import { cookies as nextCookies } from "next/headers"
 
 import CartTotals from "@modules/common/components/cart-totals"
 import Help from "@modules/order/components/help"
@@ -14,10 +14,12 @@ type OrderCompletedTemplateProps = {
   order: HttpTypes.StoreOrder
 }
 
-export default function OrderCompletedTemplate({
+export default async function OrderCompletedTemplate({
   order,
 }: OrderCompletedTemplateProps) {
-  const isOnboarding = cookies().get("_medusa_onboarding")?.value === "true"
+  const cookies = await nextCookies()
+
+  const isOnboarding = cookies.get("_medusa_onboarding")?.value === "true"
 
   return (
     <div className="py-6 min-h-[calc(100vh-64px)]">
