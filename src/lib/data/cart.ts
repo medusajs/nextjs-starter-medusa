@@ -196,16 +196,6 @@ export async function deleteLineItem(lineId: string) {
     .catch(medusaError)
 }
 
-export async function enrichLineItems(
-  lineItems:
-    | HttpTypes.StoreCartLineItem[]
-    | HttpTypes.StoreOrderLineItem[]
-    | null,
-  regionId: string
-) {
-  return lineItems
-}
-
 export async function setShippingMethod({
   cartId,
   shippingMethodId,
