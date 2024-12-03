@@ -42,7 +42,7 @@ export async function retrieveCart() {
       cache: "force-cache",
     })
     .then(({ cart }) => cart)
-    .catch(() => {})
+    .catch(() => null)
 }
 
 export async function getOrSetCart(countryCode: string) {
