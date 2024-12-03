@@ -1,7 +1,5 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
-
-import { sdk } from "@lib/config"
 import { listProducts } from "@lib/data/products"
 import { getRegion, listRegions } from "@lib/data/regions"
 import ProductTemplate from "@modules/products/templates"
@@ -57,8 +55,6 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     countryCode: params.countryCode,
     queryParams: { handle },
   }).then(({ response }) => response.products[0])
-
-  console.log({ product })
 
   if (!product) {
     notFound()

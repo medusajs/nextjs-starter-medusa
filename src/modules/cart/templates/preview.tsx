@@ -8,10 +8,11 @@ import Item from "@modules/cart/components/item"
 import SkeletonLineItem from "@modules/skeletons/components/skeleton-line-item"
 
 type ItemsTemplateProps = {
-  items?: HttpTypes.StoreCartLineItem[]
+  cart: HttpTypes.StoreCart
 }
 
-const ItemsPreviewTemplate = ({ items }: ItemsTemplateProps) => {
+const ItemsPreviewTemplate = ({ cart }: ItemsTemplateProps) => {
+  const items = cart.items
   const hasOverflow = items && items.length > 4
 
   return (
@@ -29,7 +30,14 @@ const ItemsPreviewTemplate = ({ items }: ItemsTemplateProps) => {
                   return (a.created_at ?? "") > (b.created_at ?? "") ? -1 : 1
                 })
                 .map((item) => {
-                  return <Item key={item.id} item={item} type="preview" />
+                  return (
+                    <Item
+                      key={item.id}
+                      item={item}
+                      type="preview"
+                      currencyCode={cart.currency_code}
+                    />
+                  )
                 })
             : repeat(5).map((i) => {
                 return <SkeletonLineItem key={i} />

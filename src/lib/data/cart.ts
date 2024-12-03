@@ -13,7 +13,6 @@ import {
   removeCartId,
   setCartId,
 } from "./cookies"
-import { listProducts } from "./products"
 import { getRegion } from "./regions"
 
 export async function retrieveCart() {
@@ -36,15 +35,14 @@ export async function retrieveCart() {
       method: "GET",
       query: {
         fields:
-          "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, *promotions, *items.unit_price, *items.original_total, *items.subtotal, *items.total, *items.original_tax_total, *items.tax_total, *items.discount_total",
+          "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions",
       },
       headers,
       next,
+      cache: "force-cache",
     })
     .then(({ cart }) => cart)
-    .catch(() => {
-      return null
-    })
+    .catch(() => {})
 }
 
 export async function getOrSetCart(countryCode: string) {
@@ -113,29 +111,19 @@ export async function addToCart({
   quantity: number
   countryCode: string
 }) {
-  console.log("adding to cart")
-  console.log({ variantId, quantity, countryCode })
-
   if (!variantId) {
     throw new Error("Missing variant ID when adding to cart")
   }
 
-  console.log("getting or setting cart")
-
   const cart = await getOrSetCart(countryCode)
-  console.log({ cart })
 
   if (!cart) {
     throw new Error("Error retrieving or creating cart")
   }
 
-  console.log("creating line item")
-
   const headers = {
     ...(await getAuthHeaders()),
   }
-
-  console.log("creating line item")
 
   await sdk.store.cart
     .createLineItem(
@@ -148,7 +136,6 @@ export async function addToCart({
       headers
     )
     .then(async () => {
-      console.log("revalidating cart")
       const cartCacheTag = await getCacheTag("carts")
       revalidateTag(cartCacheTag)
     })
