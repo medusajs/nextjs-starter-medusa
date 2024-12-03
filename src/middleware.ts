@@ -115,6 +115,9 @@ export async function middleware(request: NextRequest) {
 
   // if one of the country codes is in the url and the cache id is set, return next
   if (urlHasCountryCode && cacheIdCookie) {
+    console.log(
+      "returning next because of country code and cache id existing. not redirecting"
+    )
     return NextResponse.next()
   }
 
@@ -123,11 +126,15 @@ export async function middleware(request: NextRequest) {
     response.cookies.set("_medusa_cache_id", cacheId, {
       maxAge: 60 * 60 * 24,
     })
+    console.log(
+      "redirecting because of country code existing and no cache id set in cookie"
+    )
     return response
   }
 
   // check if the url is a static asset
   if (request.nextUrl.pathname.includes(".")) {
+    console.log("returning next because of static asset")
     return NextResponse.next()
   }
 
@@ -138,6 +145,9 @@ export async function middleware(request: NextRequest) {
 
   // If no country code is set, we redirect to the relevant region.
   if (!urlHasCountryCode && countryCode) {
+    console.log(
+      "redirecting because of country code not existing in url and existing in cookie"
+    )
     redirectUrl = `${request.nextUrl.origin}/${countryCode}${redirectPath}${queryString}`
     response = NextResponse.redirect(`${redirectUrl}`, 307)
   }
