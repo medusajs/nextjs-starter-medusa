@@ -102,14 +102,9 @@ export async function middleware(request: NextRequest) {
 
   let response = NextResponse.redirect(redirectUrl, 307)
 
-  let cacheId = request.cookies.get("_medusa_cache_id")?.value
+  let cacheIdCookie = request.cookies.get("_medusa_cache_id")
 
-  if (!cacheId) {
-    cacheId = crypto.randomUUID()
-    response.cookies.set("_medusa_cache_id", cacheId, {
-      maxAge: 60 * 60 * 24,
-    })
-  }
+  let cacheId = cacheIdCookie?.value || crypto.randomUUID()
 
   const regionMap = await getRegionMap(cacheId)
 
@@ -118,9 +113,17 @@ export async function middleware(request: NextRequest) {
   const urlHasCountryCode =
     countryCode && request.nextUrl.pathname.split("/")[1].includes(countryCode)
 
-  // check if one of the country codes is in the url
-  if (urlHasCountryCode && cacheId) {
+  // if one of the country codes is in the url and the cache id is set, return next
+  if (urlHasCountryCode && cacheIdCookie) {
     return NextResponse.next()
+  }
+
+  // if one of the country codes is in the url and the cache id is not set, set the cache id and redirect
+  if (urlHasCountryCode && !cacheIdCookie) {
+    response.cookies.set("_medusa_cache_id", cacheId, {
+      maxAge: 60 * 60 * 24,
+    })
+    return response
   }
 
   // check if the url is a static asset
