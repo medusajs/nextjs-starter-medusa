@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
-    "@hookform/error-message": "^2.0.0",
     "@medusajs/js-sdk": "latest",
     "@medusajs/ui": "latest",
     "@meilisearch/instant-meilisearch": "^0.7.1",
