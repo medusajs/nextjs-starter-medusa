@@ -62,7 +62,7 @@ const ShippingDetails = ({ order }: ShippingDetailsProps) => {
               currency_code: order.currency_code,
             })
               .replace(/,/g, "")
-              .replace(/\./g, ",")}
+              .replace(/\./g, ".")}
             )
           </Text>
         </div>
