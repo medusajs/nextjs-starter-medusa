@@ -3,7 +3,7 @@
   "version": "1.0.3",
   "private": true,
   "author": "Kasper Fabricius Kristensen <kasper@medusajs.com> & Victor Gerbrands <victor@medusajs.com> (https://www.medusajs.com)",
-  "description": "Next.js Starter to be used with Medusa server",
+  "description": "Next.js Starter to be used with Medusa V2",
   "keywords": [
     "medusa-storefront"
   ],
@@ -31,8 +31,8 @@
     "pg": "^8.11.3",
     "qs": "^6.12.1",
     "react": "19.0.0-rc-66855b96-20241106",
-    "react-country-flag": "^3.1.0",
     "react-dom": "19.0.0-rc-66855b96-20241106",
+    "react-country-flag": "^3.1.0",
     "react-instantsearch-hooks-web": "^6.47.3",
     "react-intersection-observer": "^9.3.4",
     "server-only": "^0.0.1",
@@ -63,5 +63,9 @@
   "resolutions": {
     "@types/react": "npm:types-react@19.0.0-rc.1",
     "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
+  },
+  "overrides": {
+    "react": "19.0.0-rc-66855b96-20241106",
+    "react-dom": "19.0.0-rc-66855b96-20241106"
   }
 }
