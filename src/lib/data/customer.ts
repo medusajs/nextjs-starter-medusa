@@ -68,6 +68,8 @@ export async function signup(_currentState: unknown, formData: FormData) {
       password: password,
     })
 
+    await setAuthToken(token as string)
+
     const headers = {
       ...(await getAuthHeaders()),
     }
