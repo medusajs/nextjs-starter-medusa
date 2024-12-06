@@ -112,7 +112,7 @@ NEXT_PUBLIC_STRIPE_KEY=<your-stripe-public-key>
 NEXT_PUBLIC_PAYPAL_CLIENT_ID=<your-paypal-client-id>
 ```
 
-You will also need to setup the integrations in your Medusa server. See the [Medusa documentation](https://docs.medusajs.com) for more information on how to configure [Stripe](https://docs.medusajs.com/add-plugins/stripe) and [PayPal](https://docs.medusajs.com/add-plugins/paypal) in your Medusa project.
+You will also need to setup the integrations in your Medusa server. See the [Medusa documentation](https://docs.medusajs.com) for more information on how to configure [Stripe](https://docs.medusajs.com/resources/integrations#payment) and [PayPal](https://docs.medusajs.com/add-plugins/paypal) in your Medusa project.
 
 # Search integration
 
