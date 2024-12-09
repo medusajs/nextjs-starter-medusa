@@ -114,10 +114,6 @@ const Payment = ({
   }
 
   useEffect(() => {
-    console.log(selectedPaymentMethod)
-  }, [selectedPaymentMethod])
-
-  useEffect(() => {
     setError(null)
   }, [isOpen])
 
