@@ -98,6 +98,8 @@ async function getCountryCode(
  * Middleware to handle region selection and onboarding status.
  */
 export async function middleware(request: NextRequest) {
+  console.log("request", request)
+  console.log("request.cookies", request.cookies.getAll())
   let redirectUrl = request.nextUrl.href
 
   let response = NextResponse.redirect(redirectUrl, 307)
@@ -129,6 +131,7 @@ export async function middleware(request: NextRequest) {
     console.log(
       "redirecting because of country code existing and no cache id set in cookie"
     )
+    console.log("request")
     return response
   }
 
