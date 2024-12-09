@@ -12,7 +12,7 @@ import { StripeCardElementOptions } from "@stripe/stripe-js"
 import Divider from "@modules/common/components/divider"
 import PaymentContainer from "@modules/checkout/components/payment-container"
 import { isStripe as isStripeFunc, paymentInfoMap } from "@lib/constants"
-import { StripeContext } from "@modules/checkout/components/payment-wrapper"
+import { StripeContext } from "@modules/checkout/components/payment-wrapper/stripe-wrapper"
 import { initiatePaymentSession } from "@lib/data/cart"
 
 const Payment = ({
@@ -22,8 +22,12 @@ const Payment = ({
   cart: any
   availablePaymentMethods: any[]
 }) => {
-  const activeSession = cart.payment_collection?.payment_sessions?.find(
-    (paymentSession: any) => paymentSession.status === "pending"
+  const activeSession = useMemo(
+    () =>
+      cart.payment_collection?.payment_sessions?.find(
+        (paymentSession: any) => paymentSession.status === "pending"
+      ),
+    [cart.payment_collection?.payment_sessions]
   )
 
   const [isLoading, setIsLoading] = useState(false)
@@ -40,7 +44,7 @@ const Payment = ({
 
   const isOpen = searchParams.get("step") === "payment"
 
-  const isStripe = isStripeFunc(activeSession?.provider_id)
+  const isStripe = isStripeFunc(selectedPaymentMethod)
   const stripeReady = useContext(StripeContext)
 
   const paidByGiftcard =
@@ -110,6 +114,10 @@ const Payment = ({
   }
 
   useEffect(() => {
+    console.log(selectedPaymentMethod)
+  }, [selectedPaymentMethod])
+
+  useEffect(() => {
     setError(null)
   }, [isOpen])
 
@@ -149,20 +157,16 @@ const Payment = ({
                 value={selectedPaymentMethod}
                 onChange={(value: string) => setSelectedPaymentMethod(value)}
               >
-                {availablePaymentMethods
-                  .sort((a, b) => {
-                    return a.provider_id > b.provider_id ? 1 : -1
-                  })
-                  .map((paymentMethod) => {
-                    return (
-                      <PaymentContainer
-                        paymentInfoMap={paymentInfoMap}
-                        paymentProviderId={paymentMethod.id}
-                        key={paymentMethod.id}
-                        selectedPaymentOptionId={selectedPaymentMethod}
-                      />
-                    )
-                  })}
+                {availablePaymentMethods.map((paymentMethod) => {
+                  return (
+                    <PaymentContainer
+                      paymentInfoMap={paymentInfoMap}
+                      paymentProviderId={paymentMethod.id}
+                      key={paymentMethod.id}
+                      selectedPaymentOptionId={selectedPaymentMethod}
+                    />
+                  )
+                })}
               </RadioGroup>
               {isStripe && stripeReady && (
                 <div className="mt-5 transition-all duration-150 ease-in-out">
