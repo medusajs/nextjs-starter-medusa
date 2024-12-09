@@ -7,11 +7,11 @@ export const getAuthHeaders = async (): Promise<
   const cookies = await nextCookies()
   const token = cookies.get("_medusa_jwt")?.value
 
-  if (token) {
-    return { authorization: `Bearer ${token}` }
+  if (!token) {
+    return {}
   }
 
-  return {}
+  return { authorization: `Bearer ${token}` }
 }
 
 export const getCacheTag = async (tag: string): Promise<string> => {

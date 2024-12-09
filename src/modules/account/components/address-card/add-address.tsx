@@ -2,7 +2,7 @@
 
 import { Plus } from "@medusajs/icons"
 import { Button, Heading } from "@medusajs/ui"
-import { useEffect, useState, useActionState } from "react";
+import { useEffect, useState, useActionState } from "react"
 
 import useToggleState from "@lib/hooks/use-toggle-state"
 import CountrySelect from "@modules/checkout/components/country-select"
@@ -12,11 +12,18 @@ import { SubmitButton } from "@modules/checkout/components/submit-button"
 import { HttpTypes } from "@medusajs/types"
 import { addCustomerAddress } from "@lib/data/customer"
 
-const AddAddress = ({ region }: { region: HttpTypes.StoreRegion }) => {
+const AddAddress = ({
+  region,
+  addresses,
+}: {
+  region: HttpTypes.StoreRegion
+  addresses: HttpTypes.StoreCustomerAddress[]
+}) => {
   const [successState, setSuccessState] = useState(false)
   const { state, open, close: closeModal } = useToggleState(false)
 
   const [formState, formAction] = useActionState(addCustomerAddress, {
+    isDefaultShipping: addresses.length === 0,
     success: false,
     error: null,
   })

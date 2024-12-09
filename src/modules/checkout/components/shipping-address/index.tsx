@@ -179,7 +179,6 @@ const ShippingAddress = ({
           autoComplete="address-level1"
           value={formData["shipping_address.province"]}
           onChange={handleChange}
-          required
           data-testid="shipping-province-input"
         />
       </div>

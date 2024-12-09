@@ -1,6 +1,6 @@
 "use client"
 
-import { useFormState } from "react-dom"
+import { useActionState } from "react"
 import { createTransferRequest } from "@lib/data/orders"
 import { Text, Heading, Input, Button, IconButton, Toaster } from "@medusajs/ui"
 import { SubmitButton } from "@modules/checkout/components/submit-button"
@@ -10,7 +10,7 @@ import { useEffect, useState } from "react"
 export default function TransferRequestForm() {
   const [showSuccess, setShowSuccess] = useState(false)
 
-  const [state, formAction] = useFormState(createTransferRequest, {
+  const [state, formAction] = useActionState(createTransferRequest, {
     success: false,
     error: null,
     order: null,
