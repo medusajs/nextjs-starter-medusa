@@ -1,19 +1,18 @@
 "use client"
 
-import { useCallback, useContext, useEffect, useMemo, useState } from "react"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { RadioGroup } from "@headlessui/react"
-import ErrorMessage from "@modules/checkout/components/error-message"
+import { isStripe as isStripeFunc, paymentInfoMap } from "@lib/constants"
+import { initiatePaymentSession } from "@lib/data/cart"
 import { CheckCircleSolid, CreditCard } from "@medusajs/icons"
-import { Button, Container, Heading, Text, Tooltip, clx } from "@medusajs/ui"
+import { Button, Container, Heading, Text, clx } from "@medusajs/ui"
+import ErrorMessage from "@modules/checkout/components/error-message"
+import PaymentContainer from "@modules/checkout/components/payment-container"
+import { StripeContext } from "@modules/checkout/components/payment-wrapper/stripe-wrapper"
+import Divider from "@modules/common/components/divider"
 import { CardElement } from "@stripe/react-stripe-js"
 import { StripeCardElementOptions } from "@stripe/stripe-js"
-
-import Divider from "@modules/common/components/divider"
-import PaymentContainer from "@modules/checkout/components/payment-container"
-import { isStripe as isStripeFunc, paymentInfoMap } from "@lib/constants"
-import { StripeContext } from "@modules/checkout/components/payment-wrapper/stripe-wrapper"
-import { initiatePaymentSession } from "@lib/data/cart"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useCallback, useContext, useEffect, useMemo, useState } from "react"
 
 const Payment = ({
   cart,
@@ -22,12 +21,8 @@ const Payment = ({
   cart: any
   availablePaymentMethods: any[]
 }) => {
-  const activeSession = useMemo(
-    () =>
-      cart.payment_collection?.payment_sessions?.find(
-        (paymentSession: any) => paymentSession.status === "pending"
-      ),
-    [cart.payment_collection?.payment_sessions]
+  const activeSession = cart.payment_collection?.payment_sessions?.find(
+    (paymentSession: any) => paymentSession.status === "pending"
   )
 
   const [isLoading, setIsLoading] = useState(false)
