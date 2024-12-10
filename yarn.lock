@@ -991,20 +991,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@medusajs/js-sdk@npm:2.1.1-preview-20241209180157":
-  version: 2.1.1-preview-20241209180157
-  resolution: "@medusajs/js-sdk@npm:2.1.1-preview-20241209180157"
+"@medusajs/js-sdk@npm:latest":
+  version: 2.1.1
+  resolution: "@medusajs/js-sdk@npm:2.1.1"
   dependencies:
-    "@medusajs/types": 2.1.1-preview-20241209180157
+    "@medusajs/types": ^2.1.1
     fetch-event-stream: ^0.1.5
     qs: ^6.12.1
-  checksum: a9221c53cd3488f6e771ec2ee9d7611339e42ddc9d79f42bef36f2e8b8532b07e595c50423179ccd44d942a9ece49718884927b085f90af689b1544b382c1e54
+  checksum: f93c77ab98baf8bc5b1007d2c467aea059e07277e43edd9d8321ec603db5ac479f997bd5ac527f24152539dedad2004baea7a0b5c6911d1f8144d9d4bda9f326
   languageName: node
   linkType: hard
 
-"@medusajs/types@npm:2.1.1-preview-20241209180157":
-  version: 2.1.1-preview-20241209180157
-  resolution: "@medusajs/types@npm:2.1.1-preview-20241209180157"
+"@medusajs/types@npm:^2.1.1, @medusajs/types@npm:latest":
+  version: 2.1.1
+  resolution: "@medusajs/types@npm:2.1.1"
   dependencies:
     bignumber.js: ^9.1.2
   peerDependencies:
@@ -1016,7 +1016,7 @@ __metadata:
       optional: true
     vite:
       optional: true
-  checksum: d5023f61b3207e70e96e6ff29687a7ff9f208779bc58a2f47a81b76e3af5fa0143bee26d50c577ad2841b666635fbd101c8e375be9ef1275d5b5da431bb803bb
+  checksum: 489dcee8bb8ffda9680ee464637f986fea2499d17eb75229adb12e6fd70432f25a4e1c3f05d1b695609feb5da1b8c3ae1d55f2c708313a2fc575ac7f8c226fc7
   languageName: node
   linkType: hard
 
@@ -6779,8 +6779,8 @@ __metadata:
   dependencies:
     "@babel/core": ^7.17.5
     "@headlessui/react": ^2.2.0
-    "@medusajs/js-sdk": 2.1.1-preview-20241209180157
-    "@medusajs/types": 2.1.1-preview-20241209180157
+    "@medusajs/js-sdk": latest
+    "@medusajs/types": latest
     "@medusajs/ui": latest
     "@medusajs/ui-preset": latest
     "@meilisearch/instant-meilisearch": ^0.7.1
