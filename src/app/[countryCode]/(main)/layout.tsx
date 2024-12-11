@@ -1,7 +1,6 @@
 import { Metadata } from "next"
 
-import { sdk } from "@lib/config"
-import { retrieveCart } from "@lib/data/cart"
+import { listCartOptions, retrieveCart } from "@lib/data/cart"
 import { retrieveCustomer } from "@lib/data/customer"
 import { getBaseURL } from "@lib/util/env"
 import { StoreCartShippingOption } from "@medusajs/types"
@@ -20,10 +19,7 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
   let shippingOptions: StoreCartShippingOption[] = []
 
   if (cart) {
-    const { shipping_options } = await sdk.store.fulfillment.listCartOptions({
-      cart_id: cart.id,
-      fields: "*prices",
-    })
+    const { shipping_options } = await listCartOptions()
 
     shippingOptions = shipping_options
   }
