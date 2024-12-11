@@ -9,6 +9,7 @@ import {
   getAuthHeaders,
   getCacheOptions,
   getCacheTag,
+  getCartId,
   removeAuthToken,
   setAuthToken,
 } from "./cookies"
@@ -68,6 +69,8 @@ export async function signup(_currentState: unknown, formData: FormData) {
       password: password,
     })
 
+    await setAuthToken(token as string)
+
     const headers = {
       ...(await getAuthHeaders()),
     }
@@ -87,6 +90,8 @@ export async function signup(_currentState: unknown, formData: FormData) {
 
     const customerCacheTag = await getCacheTag("customers")
     revalidateTag(customerCacheTag)
+
+    await transferCart()
 
     return createdCustomer
   } catch (error: any) {
@@ -109,6 +114,12 @@ export async function login(_currentState: unknown, formData: FormData) {
   } catch (error: any) {
     return error.toString()
   }
+
+  try {
+    await transferCart()
+  } catch (error: any) {
+    return error.toString()
+  }
 }
 
 export async function signout(countryCode: string) {
@@ -119,10 +130,27 @@ export async function signout(countryCode: string) {
   redirect(`/${countryCode}/account`)
 }
 
+export async function transferCart() {
+  const cartId = await getCartId()
+
+  if (!cartId) {
+    return
+  }
+
+  const headers = await getAuthHeaders()
+
+  await sdk.store.cart.transferCart(cartId, {}, headers)
+
+  revalidateTag("cart")
+}
+
 export const addCustomerAddress = async (
-  _currentState: unknown,
+  currentState: Record<string, unknown>,
   formData: FormData
 ): Promise<any> => {
+  const isDefaultBilling = (currentState.isDefaultBilling as boolean) || false
+  const isDefaultShipping = (currentState.isDefaultShipping as boolean) || false
+
   const address = {
     first_name: formData.get("first_name") as string,
     last_name: formData.get("last_name") as string,
@@ -134,6 +162,8 @@ export const addCustomerAddress = async (
     province: formData.get("province") as string,
     country_code: formData.get("country_code") as string,
     phone: formData.get("phone") as string,
+    is_default_billing: isDefaultBilling,
+    is_default_shipping: isDefaultShipping,
   }
 
   const headers = {
@@ -175,7 +205,12 @@ export const updateCustomerAddress = async (
   currentState: Record<string, unknown>,
   formData: FormData
 ): Promise<any> => {
-  const addressId = currentState.addressId as string
+  const addressId =
+    (currentState.addressId as string) || (formData.get("addressId") as string)
+
+  if (!addressId) {
+    return { success: false, error: "Address ID is required" }
+  }
 
   const address = {
     first_name: formData.get("first_name") as string,
@@ -187,7 +222,12 @@ export const updateCustomerAddress = async (
     postal_code: formData.get("postal_code") as string,
     province: formData.get("province") as string,
     country_code: formData.get("country_code") as string,
-    phone: formData.get("phone") as string,
+  } as HttpTypes.StoreUpdateCustomerAddress
+
+  const phone = formData.get("phone") as string
+
+  if (phone) {
+    address.phone = phone
   }
 
   const headers = {
