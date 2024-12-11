@@ -27,12 +27,6 @@ body:
       required: true
   - type: input
     attributes:
-      label: Medusa version
-      placeholder: 2.0.0
-    validations:
-      required: true
-  - type: input
-    attributes:
       label: Operating system name and version
     validations:
       required: true
