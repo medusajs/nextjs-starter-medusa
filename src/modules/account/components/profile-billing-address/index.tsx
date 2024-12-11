@@ -91,6 +91,7 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({
 
   return (
     <form action={formAction} onReset={() => clearState()} className="w-full">
+      <input type="hidden" name="addressId" value={billingAddress?.id} />
       <AccountInfo
         label="Billing address"
         currentInfo={currentInfo}

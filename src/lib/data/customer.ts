@@ -204,7 +204,8 @@ export const updateCustomerAddress = async (
   currentState: Record<string, unknown>,
   formData: FormData
 ): Promise<any> => {
-  const addressId = currentState.addressId as string
+  const addressId =
+    (currentState.addressId as string) || (formData.get("addressId") as string)
 
   if (!addressId) {
     return { success: false, error: "Address ID is required" }
@@ -220,7 +221,12 @@ export const updateCustomerAddress = async (
     postal_code: formData.get("postal_code") as string,
     province: formData.get("province") as string,
     country_code: formData.get("country_code") as string,
-    phone: formData.get("phone") as string,
+  } as HttpTypes.StoreUpdateCustomerAddress
+
+  const phone = formData.get("phone") as string
+
+  if (phone) {
+    address.phone = phone
   }
 
   const headers = {
