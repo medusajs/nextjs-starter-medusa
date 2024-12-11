@@ -1,4 +1,4 @@
-name: Bug report for v2.0
+name: Bug report for the Medusa Next.js Starter
 description: File a bug report.
 title: "[Bug]: "
 labels: ["status: needs triaging", "bug"]
@@ -27,8 +27,8 @@ body:
       required: true
   - type: input
     attributes:
-      label: Database and its version
-      placeholder: PostgreSQL 16.2
+      label: Medusa version
+      placeholder: 2.0.0
     validations:
       required: true
   - type: input
