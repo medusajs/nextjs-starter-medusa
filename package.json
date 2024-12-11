@@ -18,8 +18,6 @@
     "@headlessui/react": "^2.2.0",
     "@medusajs/js-sdk": "latest",
     "@medusajs/ui": "latest",
-    "@paypal/paypal-js": "^5.0.6",
-    "@paypal/react-paypal-js": "^7.8.1",
     "@radix-ui/react-accordion": "^1.2.1",
     "@stripe/react-stripe-js": "^1.7.2",
     "@stripe/stripe-js": "^1.29.0",
