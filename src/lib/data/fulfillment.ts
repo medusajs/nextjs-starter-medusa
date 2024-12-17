@@ -29,3 +29,34 @@ export const listCartShippingMethods = async (cartId: string) => {
       return null
     })
 }
+
+export const calculatePriceForShippingOption = async (
+  optionId: string,
+  cartId: string
+) => {
+  const headers = {
+    ...(await getAuthHeaders()),
+  }
+
+  const next = {
+    ...(await getCacheOptions("fulfillment")),
+  }
+
+  return sdk.client
+    .fetch<{ shipping_option: HttpTypes.StoreCartShippingOption }>(
+      `/store/shipping-options/${optionId}/calculate`,
+      {
+        method: "POST",
+        body: { cart_id: cartId },
+        headers,
+        next,
+        cache: "no-cache",
+      }
+    )
+    .then(({ shipping_option }) => shipping_option)
+    .catch((e) => {
+      console.log(e)
+
+      return null
+    })
+}

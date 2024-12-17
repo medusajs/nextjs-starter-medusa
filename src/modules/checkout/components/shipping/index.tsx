@@ -2,8 +2,9 @@
 
 import { RadioGroup, Radio } from "@headlessui/react"
 import { setShippingMethod } from "@lib/data/cart"
+import { calculatePriceForShippingOption } from "@lib/data/fulfillment"
 import { convertToLocale } from "@lib/util/money"
-import { CheckCircleSolid } from "@medusajs/icons"
+import { CheckCircleSolid, Loader } from "@medusajs/icons"
 import { HttpTypes } from "@medusajs/types"
 import { Button, Heading, Text, clx } from "@medusajs/ui"
 import ErrorMessage from "@modules/checkout/components/error-message"
@@ -22,6 +23,10 @@ const Shipping: React.FC<ShippingProps> = ({
   availableShippingMethods,
 }) => {
   const [isLoading, setIsLoading] = useState(false)
+  const [isLoadingPrices, setIsLoadingPrices] = useState(true)
+  const [calculatedPricesMap, setCalculatedPricesMap] = useState<
+    Record<string, number>
+  >({})
   const [error, setError] = useState<string | null>(null)
   const [shippingMethodId, setShippingMethodId] = useState<string | null>(
     cart.shipping_methods?.at(-1)?.shipping_option_id || null
@@ -33,10 +38,27 @@ const Shipping: React.FC<ShippingProps> = ({
 
   const isOpen = searchParams.get("step") === "delivery"
 
-  const selectedShippingMethod = availableShippingMethods?.find(
-    // To do: remove the previously selected shipping method instead of using the last one
-    (method) => method.id === cart.shipping_methods?.at(-1)?.shipping_option_id
-  )
+  useEffect(() => {
+    setIsLoadingPrices(true)
+
+    if (availableShippingMethods?.length) {
+      const promises = availableShippingMethods
+        .filter((sm) => sm.price_type === "calculated")
+        .map((sm) => calculatePriceForShippingOption(sm.id, cart.id))
+
+      if (promises.length) {
+        Promise.allSettled(promises).then((res) => {
+          const pricesMap: Record<string, number> = {}
+          res
+            .filter((r) => r.status === "fulfilled")
+            .forEach((p) => (pricesMap[p.value?.id || ""] = p.value?.amount!))
+
+          setCalculatedPricesMap(pricesMap)
+          setIsLoadingPrices(false)
+        })
+      }
+    }
+  }, [availableShippingMethods])
 
   const handleEdit = () => {
     router.push(pathname + "?step=delivery", { scroll: false })
@@ -128,10 +150,21 @@ const Shipping: React.FC<ShippingProps> = ({
                       <span className="text-base-regular">{option.name}</span>
                     </div>
                     <span className="justify-self-end text-ui-fg-base">
-                      {convertToLocale({
-                        amount: option.amount!,
-                        currency_code: cart?.currency_code,
-                      })}
+                      {option.price_type === "flat" ? (
+                        convertToLocale({
+                          amount: option.amount!,
+                          currency_code: cart?.currency_code,
+                        })
+                      ) : calculatedPricesMap[option.id] ? (
+                        convertToLocale({
+                          amount: calculatedPricesMap[option.id],
+                          currency_code: cart?.currency_code,
+                        })
+                      ) : isLoadingPrices ? (
+                        <Loader />
+                      ) : (
+                        "-"
+                      )}
                     </span>
                   </Radio>
                 )
@@ -164,9 +197,9 @@ const Shipping: React.FC<ShippingProps> = ({
                   Method
                 </Text>
                 <Text className="txt-medium text-ui-fg-subtle">
-                  {selectedShippingMethod?.name}{" "}
+                  {cart.shipping_methods?.at(-1)?.name}{" "}
                   {convertToLocale({
-                    amount: selectedShippingMethod?.amount!,
+                    amount: cart.shipping_methods.at(-1)?.amount!,
                     currency_code: cart?.currency_code,
                   })}
                 </Text>
