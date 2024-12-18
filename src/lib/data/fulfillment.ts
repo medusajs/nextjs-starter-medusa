@@ -32,7 +32,8 @@ export const listCartShippingMethods = async (cartId: string) => {
 
 export const calculatePriceForShippingOption = async (
   optionId: string,
-  cartId: string
+  cartId: string,
+  data?: Record<string, unknown>
 ) => {
   const headers = {
     ...(await getAuthHeaders()),
@@ -42,21 +43,24 @@ export const calculatePriceForShippingOption = async (
     ...(await getCacheOptions("fulfillment")),
   }
 
+  const body = { cart_id: cartId, data }
+
+  if (data) {
+    body.data = data
+  }
+
   return sdk.client
     .fetch<{ shipping_option: HttpTypes.StoreCartShippingOption }>(
       `/store/shipping-options/${optionId}/calculate`,
       {
         method: "POST",
-        body: { cart_id: cartId },
+        body,
         headers,
         next,
-        cache: "no-cache",
       }
     )
     .then(({ shipping_option }) => shipping_option)
     .catch((e) => {
-      console.log(e)
-
       return null
     })
 }
