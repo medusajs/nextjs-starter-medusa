@@ -132,16 +132,24 @@ const Shipping: React.FC<ShippingProps> = ({
               onChange={handleSetShippingMethod}
             >
               {availableShippingMethods?.map((option) => {
+                const isDisabled =
+                  option.price_type === "calculated" &&
+                  !isLoadingPrices &&
+                  typeof calculatedPricesMap[option.id] !== "number"
+
                 return (
                   <Radio
                     key={option.id}
                     value={option.id}
                     data-testid="delivery-option-radio"
+                    disabled={isDisabled}
                     className={clx(
                       "flex items-center justify-between text-small-regular cursor-pointer py-4 border rounded-rounded px-8 mb-2 hover:shadow-borders-interactive-with-active",
                       {
                         "border-ui-border-interactive":
                           option.id === shippingMethodId,
+                        "hover:shadow-brders-none cursor-not-allowed":
+                          isDisabled,
                       }
                     )}
                   >
