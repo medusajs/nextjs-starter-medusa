@@ -174,7 +174,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                             <div key={option.id}>
                               <OptionSelect
                                 option={option}
-                                current={options[option.title ?? ""]}
+                                current={options[option.id]}
                                 updateOption={updateOptions}
                                 title={option.title ?? ""}
                                 disabled={optionsDisabled}
