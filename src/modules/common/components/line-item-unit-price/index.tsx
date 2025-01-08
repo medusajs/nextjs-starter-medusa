@@ -1,4 +1,3 @@
-import { getPricesForVariant } from "@lib/util/get-product-price"
 import { convertToLocale } from "@lib/util/money"
 import { HttpTypes } from "@medusajs/types"
 import { clx } from "@medusajs/ui"
@@ -14,8 +13,7 @@ const LineItemUnitPrice = ({
   style = "default",
   currencyCode,
 }: LineItemUnitPriceProps) => {
-  const { total, original_total, unit_price } = item
-
+  const { total, original_total } = item
   const hasReducedPrice = total < original_total
 
   const percentage_diff = Math.round(
@@ -52,7 +50,7 @@ const LineItemUnitPrice = ({
         data-testid="product-unit-price"
       >
         {convertToLocale({
-          amount: unit_price,
+          amount: total / item.quantity,
           currency_code: currencyCode,
         })}
       </span>
