@@ -1,11 +1,16 @@
 const checkEnvVariables = require("./check-env-variables")
+const nextIntl = require("next-intl/plugin")
+
 
 checkEnvVariables()
 
 /**
  * @type {import('next').NextConfig}
  */
-const nextConfig = {
+
+const withNextIntl = nextIntl("./src/lib/i18n/request-config.js")
+
+const configOpts = {
   reactStrictMode: true,
   logging: {
     fetches: {
@@ -39,5 +44,7 @@ const nextConfig = {
     ],
   },
 }
+
+const nextConfig = withNextIntl(configOpts)
 
 module.exports = nextConfig

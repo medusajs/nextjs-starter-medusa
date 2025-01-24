@@ -1,0 +1,9 @@
+{
+    "main":{},
+    "checkout":{},
+    "products":{},
+    "content":{},
+    "GO_TO_FRONTPAGE":"Go to homepage",
+    "THE_PAGE_YOU_TRIED_TO_ACCESS_D":"The page you tried to access does not exist.",
+    "PAGE_NOT_FOUND":"Page not found"
+}
