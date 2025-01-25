@@ -2,12 +2,9 @@ import { HttpTypes } from "@medusajs/types"
 import { NextRequest, NextResponse } from "next/server"
 
 import createIntlMiddleware from "next-intl/middleware"
-import { fallbackLng, languages } from "./lib/i18n/settings"
-const intlMiddleware = createIntlMiddleware({
-  locales: languages,
-  defaultLocale: fallbackLng,
-  localeDetection: true,
-})
+import { fallbackLng, intlConfig, languages } from "./lib/i18n/settings"
+
+const intlMiddleware = createIntlMiddleware(intlConfig)
 
 const BACKEND_URL = process.env.MEDUSA_BACKEND_URL
 const PUBLISHABLE_API_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
@@ -87,7 +84,6 @@ async function getCountryCode(
       .get("x-vercel-ip-country")
       ?.toLowerCase()
 
-      console.log({ pna: request.nextUrl.pathname.split("/") })
       const urlCountryCode = request.nextUrl.pathname
         .split("/")
         [countryCodePathnameIndex]?.toLowerCase()
@@ -126,7 +122,7 @@ export async function middleware(request: NextRequest) {
   // need to redirect manually if we provide a wrong locale when a countryCode is included
   const urlHasUnknownLocale =
     !urlHasKnownLocale &&
-    pathnameArr[1].length == 2 &&
+    pathnameArr?.[1]?.length == 2 &&
     (pathnameArr?.[2] ? pathnameArr[2].length == 2 : true);
   
 
@@ -142,7 +138,6 @@ export async function middleware(request: NextRequest) {
 
   if (urlHasUnknownLocale) {
     redirectUrl = `${request.nextUrl.origin}/${fallbackLng}/${redirectPath}${queryString}`
-    console.log("urlHasUnknownLocale", { redirectUrl })
     response = NextResponse.redirect(`${redirectUrl}`, 307)
   }
 
@@ -182,12 +177,13 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
+  if (!urlHasKnownLocale) return intlMiddleware(request)
+
   // If no country code is set, we redirect to the relevant region.
   if (!urlHasCountryCode && countryCode) {
     redirectUrl = `${request.nextUrl.origin}/${
       urlHasKnownLocale ? pathnameArr[1] + "/" : ""
     }${countryCode}/${redirectPath}${queryString}`
-    console.log("urlHasCountryCode", { redirectUrl })
     response = NextResponse.redirect(`${redirectUrl}`, 307)
   }
 

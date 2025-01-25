@@ -1,3 +1,6 @@
+import k from "@lib/i18n/translations/keys"
+import { getTranslations } from "next-intl/server"
+
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
@@ -18,6 +21,7 @@ export default async function Addresses(props: {
   const { countryCode } = params
   const customer = await retrieveCustomer()
   const region = await getRegion(countryCode)
+  const t = await getTranslations()
 
   if (!customer || !region) {
     notFound()
@@ -26,10 +30,9 @@ export default async function Addresses(props: {
   return (
     <div className="w-full" data-testid="addresses-page-wrapper">
       <div className="mb-8 flex flex-col gap-y-4">
-        <h1 className="text-2xl-semi">Shipping Addresses</h1>
+        <h1 className="text-2xl-semi">{t(k.SHIPPING_ADDRESSES)}</h1>
         <p className="text-base-regular">
-          View and update your shipping addresses, you can add as many as you
-          like. Saving your addresses will make them available during checkout.
+          {t(k.VIEW_AND_UPDATE_YOUR_SHIPPING)}
         </p>
       </div>
       <AddressBook customer={customer} region={region} />

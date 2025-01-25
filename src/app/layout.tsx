@@ -1,16 +1,16 @@
 import { getBaseURL } from "@lib/util/env"
-import { Metadata } from "next"
 import { getI18NConfigCallback } from "@lib/i18n/config-callback"
 import { LOCALE_COOKIE, fallbackLng, languages } from "@lib/i18n/settings"
+import { Metadata } from "next"
 import { NextIntlClientProvider } from "next-intl"
-import { unstable_setRequestLocale } from "next-intl/server"
+import { setRequestLocale } from "next-intl/server"
 import { cookies } from "next/headers"
 import { Suspense } from "react"
 import "styles/globals.css"
 
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseURL()),
-}
+};
 
 export function generateStaticParams() {
   return languages.map((locale) => ({ locale }));
@@ -18,30 +18,31 @@ export function generateStaticParams() {
 
 export default async function RootLayout({
   children,
-  params: { locale: localeParam },
+  params: { locale: requestedLocale },
 }: {
   children: React.ReactNode;
   params: { locale: string };
 }) {
-
-  // Determine the locale to use
-  const locale = languages.includes(localeParam)
-    ? localeParam
-    : (await cookies()).get(LOCALE_COOKIE)?.value || fallbackLng;
+  // determine the locale to use based on URL, cookie, or fallback
+  const isValidLocale = languages.includes(requestedLocale);
+  const cookieLocale = (await cookies()).get(LOCALE_COOKIE)?.value;
+  const finalLocale = isValidLocale 
+    ? requestedLocale 
+    : cookieLocale && languages.includes(cookieLocale)
+      ? cookieLocale
+      : fallbackLng;
 
   // Set the request locale (for server-side context)
-  unstable_setRequestLocale(locale);
-
-  // Load translations for the determined locale
+  setRequestLocale(finalLocale);
+  // load translations for the determined locale
   const { messages } = await getI18NConfigCallback({
-    locale,
-    requestLocale: Promise.resolve(undefined)
+    requestLocale: Promise.resolve(finalLocale),
   });
 
   return (
-    <html lang={locale} data-mode="light">
+    <html lang={finalLocale} data-mode="light">
       {/* Provide the intl context */}
-      <NextIntlClientProvider locale={locale} messages={messages}>
+      <NextIntlClientProvider locale={finalLocale} messages={messages}>
         <body>
           <main className="relative">{children}</main>
         </body>

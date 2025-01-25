@@ -6,17 +6,17 @@ export const getI18NConfigCallback = async ({
 }: {
   requestLocale: Promise<string | undefined>;
 }) => {
-  // Resolve the locale asynchronously
+  // resolve the locale asynchronously
   const resolvedRequestLocale = (await requestLocale) || fallbackLng;
 
-  // Validate the locale and fallback if necessary
+  // validate the locale and fallback if necessary
   const resolvedLocale = languages.includes(resolvedRequestLocale)
     ? resolvedRequestLocale
     : fallbackLng;
 
   return {
-    locale: resolvedLocale, // Add the resolved locale
-    messages: (await import(`@locales/${resolvedLocale}.json`)).default, // Load messages dynamically
+    locale: resolvedLocale,
+    messages: (await import(`./translations/locales/${resolvedLocale}.ts`)).default,
   };
 };
 

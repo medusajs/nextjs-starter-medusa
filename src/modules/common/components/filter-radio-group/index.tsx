@@ -1,3 +1,6 @@
+import k, { TranslationDef } from "@lib/i18n/translations/keys"
+import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+
 import { EllipseMiniSolid } from "@medusajs/icons"
 import { Label, RadioGroup, Text, clx } from "@medusajs/ui"
 
@@ -19,6 +22,8 @@ const FilterRadioGroup = ({
   handleChange,
   "data-testid": dataTestId,
 }: FilterRadioGroupProps) => {
+  const t = useSafeTranslations()
+
   return (
     <div className="flex gap-x-3 flex-col gap-y-3">
       <Text className="txt-compact-small-plus text-ui-fg-muted">{title}</Text>
@@ -48,7 +53,7 @@ const FilterRadioGroup = ({
               data-testid="radio-label"
               data-active={i.value === value}
             >
-              {i.label}
+              {t(k[i.label as keyof TranslationDef])}
             </Label>
           </div>
         ))}

@@ -1,7 +1,7 @@
+import k from "@lib/i18n/translations/keys"
 import { ArrowUpRightMini } from "@medusajs/icons"
 import { Text } from "@medusajs/ui"
 import { Metadata } from "next"
-import k from "@lib/i18n/translations/keys"
 import { Link } from "@lib/i18n/navigation"
 import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
 

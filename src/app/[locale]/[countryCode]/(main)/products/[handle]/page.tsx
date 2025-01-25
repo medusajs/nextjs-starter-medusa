@@ -3,9 +3,11 @@ import { notFound } from "next/navigation"
 import { listProducts } from "@lib/data/products"
 import { getRegion, listRegions } from "@lib/data/regions"
 import ProductTemplate from "@modules/products/templates"
+import { setRequestLocale } from "next-intl/server"
+
 
 type Props = {
-  params: Promise<{ countryCode: string; handle: string }>
+  params: Promise<{ countryCode: string; handle: string; locale: string }>
 }
 
 export async function generateStaticParams() {
@@ -74,6 +76,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 export default async function ProductPage(props: Props) {
   const params = await props.params
   const region = await getRegion(params.countryCode)
+  setRequestLocale(params.locale)
 
   if (!region) {
     notFound()

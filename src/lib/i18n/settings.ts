@@ -1,9 +1,7 @@
 export const fallbackLng = "en"
 export const languages = [
   fallbackLng,
-  "fr",
-  // "de",
-  // "it",
+  "ar"
 ]
 export const localePrefix = "always"
 export const LOCALE_COOKIE = "NEXT_LOCALE"

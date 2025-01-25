@@ -1,3 +1,6 @@
+import k from "@lib/i18n/translations/keys"
+import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+
 import { retrieveOrder } from "@lib/data/orders"
 import OrderDetailsTemplate from "@modules/order/templates/order-details-template"
 import { Metadata } from "next"
@@ -8,16 +11,19 @@ type Props = {
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
+
+  const t = useSafeTranslations()
+  
   const params = await props.params
   const order = await retrieveOrder(params.id).catch(() => null)
 
   if (!order) {
     notFound()
   }
-
+  
   return {
-    title: `Order #${order.display_id}`,
-    description: `View your order`,
+    title: `${t(k.ORDER)} #${order.display_id}`,
+    description: `${t(k.VIEW_YOUR_ORDER)}`,
   }
 }
 

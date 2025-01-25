@@ -1,5 +1,8 @@
 "use client"
 
+import k from "@lib/i18n/translations/keys"
+import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+
 import { Popover, PopoverPanel, Transition } from "@headlessui/react"
 import { ArrowRightMini, XMark } from "@medusajs/icons"
 import { Text, clx, useToggleState } from "@medusajs/ui"
@@ -19,6 +22,8 @@ const SideMenuItems = {
 const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
   const toggleState = useToggleState()
 
+  const t = useSafeTranslations()
+
   return (
     <div className="h-full">
       <div className="flex items-center h-full">
@@ -30,7 +35,7 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                   data-testid="nav-menu-button"
                   className="relative h-full flex items-center transition-all ease-out duration-200 focus:outline-none hover:text-ui-fg-base"
                 >
-                  Menu
+                  {t(k.MENU)}
                 </Popover.Button>
               </div>
 
@@ -64,7 +69,8 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                               onClick={close}
                               data-testid={`${name.toLowerCase()}-link`}
                             >
-                              {name}
+                              {/* {name} */}
+                              {name && t(`MENU_${name.toUpperCase()}`)}
                             </LocalizedClientLink>
                           </li>
                         )
@@ -90,8 +96,8 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                         />
                       </div>
                       <Text className="flex justify-between txt-compact-small">
-                        © {new Date().getFullYear()} Medusa Store. All rights
-                        reserved.
+                        {t(k._8)} {new Date().getFullYear()} {" "}
+                        {t(k.MEDUSA_STORE_ALL_RIGHTS)}
                       </Text>
                     </div>
                   </div>
