@@ -23,13 +23,7 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
 
     shippingOptions = shipping_options
   }
-    // return (
-    //     <html>
-    //       <body>
-    //         {props.children}
-    //       </body>
-    //     </html>
-      // )
+
   return (
     <>
       <Nav />

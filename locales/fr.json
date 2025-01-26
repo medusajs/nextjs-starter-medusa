@@ -1,9 +1,0 @@
-{
-    "main":{},
-    "checkout":{},
-    "products":{},
-    "content":{},
-    "GO_TO_FRONTPAGE":"Aller à la page d'accueil",
-    "THE_PAGE_YOU_TRIED_TO_ACCESS_D":"La page que vous avez essayé d'accéder n'existe pas.",
-    "PAGE_NOT_FOUND":"Page introuvable"
-}
