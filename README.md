@@ -36,7 +36,7 @@ For a quick setup, run:
 npx create-medusa-app@latest
 ```
 
-Check out [create-medusa-app docs](https://docs.medusajs.com/create-medusa-app) for more details and troubleshooting.
+Check out [create-medusa-app docs](https://docs.medusajs.com/learn/installation) for more details and troubleshooting.
 
 # Overview
 
