@@ -1,5 +1,5 @@
 import { getBaseURL } from "@lib/util/env"
-import { getI18NConfigCallback } from "@lib/i18n/config-callback"
+import getI18NRequestConfig from "@lib/i18n/request-config";
 import { LOCALE_COOKIE, fallbackLng, languages } from "@lib/i18n/settings"
 import { Metadata } from "next"
 import { NextIntlClientProvider } from "next-intl"
@@ -35,7 +35,7 @@ export default async function RootLayout({
   // Set the request locale (for server-side context)
   setRequestLocale(finalLocale);
   // load translations for the determined locale
-  const { messages } = await getI18NConfigCallback({
+  const { messages } = await getI18NRequestConfig({
     requestLocale: Promise.resolve(finalLocale),
   });
 
