@@ -1,4 +1,4 @@
-const { getRequestConfig } = require("next-intl/server");
+import { getRequestConfig } from "next-intl/server";
 import { routing } from "./settings";
 
 const getI18NRequestConfig = getRequestConfig(async ({ requestLocale }: { requestLocale: Promise<string | undefined> }) => {
