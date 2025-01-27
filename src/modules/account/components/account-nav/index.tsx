@@ -45,7 +45,7 @@ const AccountNav = ({
         ) : (
           <>
             <div className="text-xl-semi mb-4 px-8">
-              {t('HELLO_CUSTOMER')} {customer?.first_name}
+              {t('HELLO_CUSTOMER', { firstName: customer?.first_name })}
             </div>
             <div className="text-base-regular">
               <ul>

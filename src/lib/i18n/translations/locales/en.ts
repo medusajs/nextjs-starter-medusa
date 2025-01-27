@@ -219,7 +219,7 @@ const messages = {
   PRICE_LOW_HIGH: "Price: Low -> High",
   PRICE_HIGH_LOW: "Price: High -> Low",
 
-  HELLO_CUSTOMER: "Hello",
+  HELLO_CUSTOMER: "Hello {firstName}",
   SIGNED_IN_AS: "Signed in as:",
   COMPLETED: "Completed",
   ADDRESSES: "Addresses",
@@ -247,6 +247,9 @@ const messages = {
   NEXT_STEP_APPEARS: "Another step will appear",
   CONTINUE_TO_DELIVERY: "Continue to delivery",
   PRICE: "Price",
+  FROM: "From",
+  RELATED_PRODUCTS: "Related products",
+  MIGHT_ALSO_WANT_CHECK_OUT_PRODUCTS: "You might also want to check out these products.",
 } as const;
 
 export default messages;

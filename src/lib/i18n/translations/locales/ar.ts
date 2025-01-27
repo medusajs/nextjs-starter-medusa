@@ -202,7 +202,7 @@ const messages = {
   LATEST_ARRIVALS: "أحدث الوافدين",
   PRICE_LOW_HIGH: "السعر: من الأقل إلى الأعلى",
   PRICE_HIGH_LOW: "السعر: من الأعلى إلى الأقل",
-  HELLO_CUSTOMER: "مرحبًا",
+  HELLO_CUSTOMER: "مرحبًا {firstName}",
   SIGNED_IN_AS: "مسجل الدخول كـ:",
   COMPLETED: "مكتمل",
   ADDRESSES: "العناوين",
@@ -232,7 +232,10 @@ const messages = {
   ENTER_CARD_DETAILS: "أدخل تفاصيل البطاقة",
   NEXT_STEP_APPEARS: "ستظهر خطوة أخرى",
   CONTINUE_TO_DELIVERY: "متابعة إلى التوصيل",
-  PRICE: "السعر",  
+  PRICE: "السعر",
+  FROM: "السعر يبدأ من",
+  RELATED_PRODUCTS: "منتجات ذات صلة",
+  MIGHT_ALSO_WANT_CHECK_OUT_PRODUCTS: "قد ترغب أيضًا في الاطلاع على هذه المنتجات.",
 } as const;
 
 export default messages;

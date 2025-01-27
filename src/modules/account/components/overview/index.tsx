@@ -20,7 +20,7 @@ const Overview = ({ customer, orders }: OverviewProps) => {
       <div className="hidden small:block">
         <div className="text-xl-semi flex justify-between items-center mb-4">
           <span data-testid="welcome-message" data-value={customer?.first_name}>
-            {t('HELLO_CUSTOMER')} {customer?.first_name}
+            {t('HELLO_CUSTOMER', { firstName: customer?.first_name })}
           </span>
           <span className="text-small-regular text-ui-fg-base">
             {t('SIGNED_IN_AS')}{" "}
