@@ -236,6 +236,7 @@ const messages = {
   FROM: "السعر يبدأ من",
   RELATED_PRODUCTS: "منتجات ذات صلة",
   MIGHT_ALSO_WANT_CHECK_OUT_PRODUCTS: "قد ترغب أيضًا في الاطلاع على هذه المنتجات.",
+  INVALID_DATE: "تاريخ غير صحيح",
 } as const;
 
 export default messages;

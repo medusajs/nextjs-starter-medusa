@@ -250,6 +250,7 @@ const messages = {
   FROM: "From",
   RELATED_PRODUCTS: "Related products",
   MIGHT_ALSO_WANT_CHECK_OUT_PRODUCTS: "You might also want to check out these products.",
+  INVALID_DATE: "Invalid Date",
 } as const;
 
 export default messages;

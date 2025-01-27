@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl"
+import { useTranslations, useFormatter } from "next-intl"
 
 import { Button } from "@medusajs/ui"
 import { useMemo } from "react"
@@ -13,6 +13,9 @@ type OrderCardProps = {
 }
 
 const OrderCard = ({ order }: OrderCardProps) => {
+  const t = useTranslations()
+  const format = useFormatter()
+
   const numberOfLines = useMemo(() => {
     return (
       order.items?.reduce((acc, item) => {
@@ -25,7 +28,11 @@ const OrderCard = ({ order }: OrderCardProps) => {
     return order.items?.length ?? 0
   }, [order])
 
-  const t = useTranslations()
+  const formattedDate = format.dateTime(new Date(order.created_at), {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
 
   return (
     <div className="bg-white flex flex-col" data-testid="order-card">
@@ -35,7 +42,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
       </div>
       <div className="flex items-center divide-x divide-gray-200 text-small-regular text-ui-fg-base">
         <span className="pr-2" data-testid="order-created-at">
-          {new Date(order.created_at).toDateString()}
+          {formattedDate}
         </span>
         <span className="px-2" data-testid="order-amount">
           {convertToLocale({

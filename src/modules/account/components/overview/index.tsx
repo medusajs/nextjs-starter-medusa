@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl"
+import { useTranslations, useFormatter } from "next-intl"
 
 import { Container } from "@medusajs/ui"
 
@@ -14,6 +14,7 @@ type OverviewProps = {
 
 const Overview = ({ customer, orders }: OverviewProps) => {
   const t = useTranslations()
+  const format = useFormatter()
 
   return (
     <div data-testid="overview-page-wrapper">
@@ -79,6 +80,12 @@ const Overview = ({ customer, orders }: OverviewProps) => {
               >
                 {orders && orders.length > 0 ? (
                   orders.slice(0, 5).map((order) => {
+                    // Format order creation date
+                    const formattedDate = format.dateTime(new Date(order.created_at), {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })
                     return (
                       <li
                         key={order.id}
@@ -98,7 +105,7 @@ const Overview = ({ customer, orders }: OverviewProps) => {
                                 {t('TOTAL_AMOUNT')}
                               </span>
                               <span data-testid="order-created-date">
-                                {new Date(order.created_at).toDateString()}
+                                {formattedDate}
                               </span>
                               <span
                                 data-testid="order-id"
