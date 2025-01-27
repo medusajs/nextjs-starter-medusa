@@ -1,7 +1,6 @@
 "use client"
 
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 
 import React, { useEffect, useActionState } from "react"
 import Input from "@modules/common/components/input"
@@ -14,13 +13,13 @@ type MyInformationProps = {
 }
 
 const ProfilePassword: React.FC<MyInformationProps> = ({ customer }) => {
-  const t = useSafeTranslations()
+  const t = useTranslations()
   
   const [successState, setSuccessState] = React.useState(false)
 
   // TODO: Add support for password updates
   const updatePassword = async () => {
-    toast.info(t(k.PASSWORD_UPDATE_NOT_IMPLEMENTED))
+    toast.info(t('PASSWORD_UPDATE_NOT_IMPLEMENTED'))
   }
 
   const clearState = () => {
@@ -36,7 +35,7 @@ const ProfilePassword: React.FC<MyInformationProps> = ({ customer }) => {
       <AccountInfo
         label="Password"
         currentInfo={
-          <span>{t(k.THE_PASSWORD_IS_NOT_SHOWN_FOR)}</span>
+          <span>{t('THE_PASSWORD_IS_NOT_SHOWN_FOR')}</span>
         }
         isSuccess={successState}
         isError={false}
@@ -46,21 +45,21 @@ const ProfilePassword: React.FC<MyInformationProps> = ({ customer }) => {
       >
         <div className="grid grid-cols-2 gap-4">
           <Input
-            label={t(k.OLD_PASSWORD)}
+            label={t('OLD_PASSWORD')}
             name="old_password"
             required
             type="password"
             data-testid="old-password-input"
           />
           <Input
-            label={t(k.NEW_PASSWORD)}
+            label={t('NEW_PASSWORD')}
             type="password"
             name="new_password"
             required
             data-testid="new-password-input"
           />
           <Input
-            label={t(k.CONFIRM_PASSWORD)}
+            label={t('CONFIRM_PASSWORD')}
             type="password"
             name="confirm_password"
             required

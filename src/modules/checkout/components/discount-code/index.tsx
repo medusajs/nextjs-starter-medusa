@@ -1,7 +1,6 @@
 "use client"
 
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 
 import { Badge, Heading, Input, Label, Text, Tooltip } from "@medusajs/ui"
 import React, { useActionState } from "react";
@@ -54,7 +53,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
 
   const [message, formAction] = useActionState(submitPromotionForm, null)
 
-  const t = useSafeTranslations()
+  const t = useTranslations()
 
   return (
     <div className="w-full bg-white flex flex-col">
@@ -67,7 +66,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
               className="txt-medium text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
               data-testid="add-discount-button"
             >
-              {t(k.ADD_PROMOTION_CODE_S)}
+              {t('ADD_PROMOTION_CODE_S')}
             </button>
 
             {/* <Tooltip content="You can add multiple promotion codes">
@@ -90,7 +89,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                   variant="secondary"
                   data-testid="discount-apply-button"
                 >
-                  {t(k.APPLY)}
+                  {t('APPLY')}
                 </SubmitButton>
               </div>
 
@@ -106,7 +105,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
           <div className="w-full flex items-center">
             <div className="flex flex-col w-full">
               <Heading className="txt-medium mb-2">
-                {t(k.PROMOTION_S_APPLIED)}
+                {t('PROMOTION_S_APPLIED')}
               </Heading>
 
               {promotions.map((promotion) => {
@@ -162,7 +161,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                       >
                         <Trash size={14} />
                         <span className="sr-only">
-                        {t(k.REMOVE_DISCOUNT_CODE_FROM_ORDER)}
+                        {t('REMOVE_DISCOUNT_CODE_FROM_ORDER')}
                         </span>
                       </button>
                     )}

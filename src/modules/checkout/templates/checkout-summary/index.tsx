@@ -1,5 +1,4 @@
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 
 import { Heading } from "@medusajs/ui"
 
@@ -9,7 +8,7 @@ import CartTotals from "@modules/common/components/cart-totals"
 import Divider from "@modules/common/components/divider"
 
 const CheckoutSummary = ({ cart }: { cart: any }) => {
-  const t = useSafeTranslations()
+  const t = useTranslations()
   
   return (
     <div className="sticky top-0 flex flex-col-reverse small:flex-col gap-y-8 py-8 small:py-0 ">
@@ -19,7 +18,7 @@ const CheckoutSummary = ({ cart }: { cart: any }) => {
           level="h2"
           className="flex flex-row text-3xl-regular items-baseline"
         >
-          {t(k.IN_YOUR_CART)}
+          {t('IN_YOUR_CART')}
         </Heading>
         <Divider className="my-6" />
         <CartTotals totals={cart} />

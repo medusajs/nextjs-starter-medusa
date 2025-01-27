@@ -1,7 +1,6 @@
 "use client"
 
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 
 import { Button } from "@medusajs/ui"
 import OrderCard from "../order-card"
@@ -24,21 +23,21 @@ const OrderOverview = ({ orders }: { orders: HttpTypes.StoreOrder[] }) => {
     )
   }
 
-  const t = useSafeTranslations()
+  const t = useTranslations()
 
   return (
     <div
       className="w-full flex flex-col items-center gap-y-4"
       data-testid="no-orders-container"
     >
-      <h2 className="text-large-semi">{t(k.NOTHING_TO_SEE_HERE)}</h2>
+      <h2 className="text-large-semi">{t('NOTHING_TO_SEE_HERE')}</h2>
       <p className="text-base-regular">
-        {t(k.YOU_DON_T_HAVE_ANY_ORDERS_YET)} {":)"}
+        {t('YOU_DON_T_HAVE_ANY_ORDERS_YET')} {":)"}
       </p>
       <div className="mt-4">
         <LocalizedClientLink href="/" passHref>
           <Button data-testid="continue-shopping-button">
-            {t(k.CONTINUE_SHOPPING)}
+            {t('CONTINUE_SHOPPING')}
           </Button>
         </LocalizedClientLink>
       </div>

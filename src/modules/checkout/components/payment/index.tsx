@@ -1,7 +1,6 @@
 "use client"
 
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 
 import { RadioGroup } from "@headlessui/react"
 import { isStripe as isStripeFunc, paymentInfoMap } from "@lib/constants"
@@ -29,7 +28,7 @@ const Payment = ({
     (paymentSession: any) => paymentSession.status === "pending"
   )
 
-  const t = useSafeTranslations()
+  const t = useTranslations()
 
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -131,7 +130,7 @@ const Payment = ({
             }
           )}
         >
-          {t(k.PAYMENT)}
+          {t('PAYMENT')}
           {!isOpen && paymentReady && <CheckCircleSolid />}
         </Heading>
         {!isOpen && paymentReady && (
@@ -141,7 +140,7 @@ const Payment = ({
               className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
               data-testid="edit-payment-button"
             >
-              {t(k.EDIT)}
+              {t('EDIT')}
             </button>
           </Text>
         )}
@@ -168,7 +167,7 @@ const Payment = ({
               {isStripe && stripeReady && (
                 <div className="mt-5 transition-all duration-150 ease-in-out">
                   <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                    {t(k.ENTER_CARD_DETS)}
+                    {t('ENTER_CARD_DETS')}
                   </Text>
 
                   <CardElement
@@ -190,13 +189,13 @@ const Payment = ({
           {paidByGiftcard && (
             <div className="flex flex-col w-1/3">
               <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                {t(k.PAYMENT_METHOD)}
+                {t('PAYMENT_METHOD')}
               </Text>
               <Text
                 className="txt-medium text-ui-fg-subtle"
                 data-testid="payment-method-summary"
               >
-                {t(k.GIFT_CARD)}
+                {t('GIFT_CARD')}
               </Text>
             </div>
           )}
@@ -218,8 +217,8 @@ const Payment = ({
             data-testid="submit-payment-button"
           >
             {!activeSession && isStripeFunc(selectedPaymentMethod)
-              ? ` t(k.ENTER_CARD_DETAILS)`
-              : t(k.CONTINUE_TO_REVIEW)}
+              ? ` t('ENTER_CARD_DETAILS')`
+              : t('CONTINUE_TO_REVIEW')}
           </Button>
         </div>
 
@@ -228,7 +227,7 @@ const Payment = ({
             <div className="flex items-start gap-x-1 w-full">
               <div className="flex flex-col w-1/3">
                 <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                {t(k.PAYMENT_METHOD)}
+                {t('PAYMENT_METHOD')}
                 </Text>
                 <Text
                   className="txt-medium text-ui-fg-subtle"
@@ -240,7 +239,7 @@ const Payment = ({
               </div>
               <div className="flex flex-col w-1/3">
                 <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                  {t(k.PAYMENT_DETAILS)}
+                  {t('PAYMENT_DETAILS')}
                 </Text>
                 <div
                   className="flex gap-2 txt-medium text-ui-fg-subtle items-center"
@@ -254,7 +253,7 @@ const Payment = ({
                   <Text>
                     {isStripeFunc(selectedPaymentMethod) && cardBrand
                       ? cardBrand
-                      : t(k.NEXT_STEP_APPEARS)}
+                      : t('NEXT_STEP_APPEARS')}
                   </Text>
                 </div>
               </div>
@@ -262,13 +261,13 @@ const Payment = ({
           ) : paidByGiftcard ? (
             <div className="flex flex-col w-1/3">
               <Text className="txt-medium-plus text-ui-fg-base mb-1">
-              {t(k.PAYMENT_METHOD)}
+              {t('PAYMENT_METHOD')}
               </Text>
               <Text
                 className="txt-medium text-ui-fg-subtle"
                 data-testid="payment-method-summary"
               >
-                {t(k.GIFT_CARD)}
+                {t('GIFT_CARD')}
               </Text>
             </div>
           ) : null}

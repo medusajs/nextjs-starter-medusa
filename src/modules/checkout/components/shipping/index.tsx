@@ -1,7 +1,6 @@
 "use client"
 
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 
 import { RadioGroup, Radio } from "@headlessui/react"
 import { setShippingMethod } from "@lib/data/cart"
@@ -36,7 +35,7 @@ const Shipping: React.FC<ShippingProps> = ({
     cart.shipping_methods?.at(-1)?.shipping_option_id || null
   )
 
-  const t = useSafeTranslations()
+  const t = useTranslations()
 
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -110,7 +109,7 @@ const Shipping: React.FC<ShippingProps> = ({
             }
           )}
         >
-          {t(k.DELIVERY)}
+          {t('DELIVERY')}
           {!isOpen && (cart.shipping_methods?.length ?? 0) > 0 && (
             <CheckCircleSolid />
           )}
@@ -125,7 +124,7 @@ const Shipping: React.FC<ShippingProps> = ({
                 className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
                 data-testid="edit-delivery-button"
               >
-                {t(k.EDIT)}
+                {t('EDIT')}
               </button>
             </Text>
           )}
@@ -199,7 +198,7 @@ const Shipping: React.FC<ShippingProps> = ({
             disabled={!cart.shipping_methods?.[0]}
             data-testid="submit-delivery-option-button"
           >
-            {t(k.CONTINUE_TO_PAYMENT)}
+            {t('CONTINUE_TO_PAYMENT')}
           </Button>
         </div>
       ) : (
@@ -208,7 +207,7 @@ const Shipping: React.FC<ShippingProps> = ({
             {cart && (cart.shipping_methods?.length ?? 0) > 0 && (
               <div className="flex flex-col w-1/3">
                 <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                  {t(k.METHOD)}
+                  {t('METHOD')}
                 </Text>
                 <Text className="txt-medium text-ui-fg-subtle">
                   {cart.shipping_methods?.at(-1)?.name}{" "}

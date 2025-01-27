@@ -1,7 +1,6 @@
 "use client"
 
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 
 import { Popover, PopoverPanel, Transition } from "@headlessui/react"
 import { ArrowRightMini, XMark } from "@medusajs/icons"
@@ -22,7 +21,7 @@ const SideMenuItems = {
 const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
   const toggleState = useToggleState()
 
-  const t = useSafeTranslations()
+  const t = useTranslations()
 
   return (
     <div className="h-full">
@@ -35,7 +34,7 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                   data-testid="nav-menu-button"
                   className="relative h-full flex items-center transition-all ease-out duration-200 focus:outline-none hover:text-ui-fg-base"
                 >
-                  {t(k.MENU)}
+                  {t('MENU')}
                 </Popover.Button>
               </div>
 
@@ -96,8 +95,8 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                         />
                       </div>
                       <Text className="flex justify-between txt-compact-small">
-                        {t(k._8)} {new Date().getFullYear()} {" "}
-                        {t(k.MEDUSA_STORE_ALL_RIGHTS)}
+                        {t('_8')} {new Date().getFullYear()} {" "}
+                        {t('MEDUSA_STORE_ALL_RIGHTS')}
                       </Text>
                     </div>
                   </div>

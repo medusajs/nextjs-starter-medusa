@@ -1,5 +1,4 @@
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 
 import { Button } from "@medusajs/ui"
 import { useMemo } from "react"
@@ -26,12 +25,12 @@ const OrderCard = ({ order }: OrderCardProps) => {
     return order.items?.length ?? 0
   }, [order])
 
-  const t = useSafeTranslations()
+  const t = useTranslations()
 
   return (
     <div className="bg-white flex flex-col" data-testid="order-card">
       <div className="uppercase text-large-semi mb-1">
-        {t(k._1)}
+        {t('_1')}
         <span data-testid="order-display-id">{order.display_id}</span>
       </div>
       <div className="flex items-center divide-x divide-gray-200 text-small-regular text-ui-fg-base">
@@ -45,7 +44,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
           })}
         </span>
         <span className="pl-2">{`${numberOfLines} ${
-          numberOfLines > 1 ? t(k.ITEMS) : t(k.ITEM)
+          numberOfLines > 1 ? t('ITEMS') : t('ITEM')
         }`}</span>
       </div>
       <div className="grid grid-cols-2 small:grid-cols-4 gap-4 my-4">
@@ -64,7 +63,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
                 >
                   {i.title}
                 </span>
-                <span className="ml-2">{t(k.X)}</span>
+                <span className="ml-2">{t('X')}</span>
                 <span data-testid="item-quantity">{i.quantity}</span>
               </div>
             </div>
@@ -73,16 +72,16 @@ const OrderCard = ({ order }: OrderCardProps) => {
         {numberOfProducts > 4 && (
           <div className="w-full h-full flex flex-col items-center justify-center">
             <span className="text-small-regular text-ui-fg-base">
-              {t(k._2)} {numberOfLines - 4}
+              {t('_2')} {numberOfLines - 4}
             </span>
-            <span className="text-small-regular text-ui-fg-base">{t(k.MORE)}</span>
+            <span className="text-small-regular text-ui-fg-base">{t('MORE')}</span>
           </div>
         )}
       </div>
       <div className="flex justify-end">
         <LocalizedClientLink href={`/account/orders/details/${order.id}`}>
           <Button data-testid="order-details-link" variant="secondary">
-            {t(k.SEE_DETAILS)}
+            {t('SEE_DETAILS')}
           </Button>
         </LocalizedClientLink>
       </div>

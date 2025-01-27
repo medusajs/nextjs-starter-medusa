@@ -1,7 +1,6 @@
 "use client"
 
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 
 import {
   Listbox,
@@ -66,7 +65,7 @@ const CountrySelect = ({ toggleState, regions }: CountrySelectProps) => {
     close()
   }
 
-  const t = useSafeTranslations()
+  const t = useTranslations()
 
   return (
     <div>
@@ -81,7 +80,7 @@ const CountrySelect = ({ toggleState, regions }: CountrySelectProps) => {
       >
         <ListboxButton className="py-1 w-full">
           <div className="txt-compact-small flex items-start gap-x-2">
-            <span>{t(k.SHIPPING_TO)}</span>
+            <span>{t('SHIPPING_TO')}</span>
             {current && (
               <span className="txt-compact-small flex items-center gap-x-2">
                 {/* @ts-ignore */}

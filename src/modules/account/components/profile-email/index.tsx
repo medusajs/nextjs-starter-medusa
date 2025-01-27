@@ -1,7 +1,6 @@
 "use client"
 
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 
 import React, { useEffect, useActionState } from "react";
 
@@ -48,12 +47,12 @@ const ProfileEmail: React.FC<MyInformationProps> = ({ customer }) => {
     setSuccessState(state.success)
   }, [state])
 
-  const t = useSafeTranslations()
+  const t = useTranslations()
 
   return (
     <form action={formAction} className="w-full">
       <AccountInfo
-        label={t(k.EMAIL)}
+        label={t('EMAIL')}
         currentInfo={`${customer.email}`}
         isSuccess={successState}
         isError={!!state.error}
@@ -63,7 +62,7 @@ const ProfileEmail: React.FC<MyInformationProps> = ({ customer }) => {
       >
         <div className="grid grid-cols-1 gap-y-2">
           <Input
-            label={t(k.EMAIL)}
+            label={t('EMAIL')}
             name="email"
             type="email"
             autoComplete="email"

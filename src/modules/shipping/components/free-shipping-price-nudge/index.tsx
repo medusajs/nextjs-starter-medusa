@@ -1,7 +1,6 @@
 "use client"
 
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 
 import { convertToLocale } from "@lib/util/money"
 import { CheckCircleSolid, XMark } from "@medusajs/icons"
@@ -144,7 +143,7 @@ function FreeShippingInline({
     remaining_percentage: number
   }
 }) {
-  const t = useSafeTranslations()
+  const t = useTranslations()
 
   return (
     <div className="bg-neutral-100 p-2 rounded-lg border">
@@ -154,10 +153,10 @@ function FreeShippingInline({
             {price.target_reached ? (
               <div className="flex items-center gap-1.5">
                 <CheckCircleSolid className="text-green-500 inline-block" />{" "}
-                {t(k.FREE_SHIPPING_UNLOCKED)}
+                {t('FREE_SHIPPING_UNLOCKED')}
               </div>
             ) : (
-              `${t(k.UNLOCK_FREE_SHIPPING)}`
+              `${t('UNLOCK_FREE_SHIPPING')}`
             )}
           </div>
 
@@ -166,14 +165,14 @@ function FreeShippingInline({
               "opacity-0 invisible": price.target_reached,
             })}
           >
-            {t(k.ONLY)}{" "}
+            {t('ONLY')}{" "}
             <span className="text-neutral-950">
               {convertToLocale({
                 amount: price.target_remaining,
                 currency_code: cart.currency_code,
               })}
             </span>{" "}
-            {t(k.AWAY)}
+            {t('AWAY')}
           </div>
         </div>
         <div className="flex justify-between gap-1">
@@ -201,7 +200,7 @@ function FreeShippingPopup({
   price: StoreFreeShippingPrice
 }) {
   const [isClosed, setIsClosed] = useState(false)
-  const t = useSafeTranslations()
+  const t = useTranslations()
 
   return (
     <div
@@ -231,10 +230,10 @@ function FreeShippingPopup({
                 {price.target_reached ? (
                   <div className="flex items-center gap-1.5">
                     <CheckCircleSolid className="text-green-500 inline-block" />{" "}
-                    {t(k.FREE_SHIPPING_UNLOCKED)}
+                    {t('FREE_SHIPPING_UNLOCKED')}
                   </div>
                 ) : (
-                  `${t(k.UNLOCK_FREE_SHIPPING)}`
+                  `${t('UNLOCK_FREE_SHIPPING')}`
                 )}
               </div>
 
@@ -243,14 +242,14 @@ function FreeShippingPopup({
                   "opacity-0 invisible": price.target_reached,
                 })}
               >
-                {t(k.ONLY)}{" "}
+                {t('ONLY')}{" "}
                 <span className="text-white">
                   {convertToLocale({
                     amount: price.target_remaining,
                     currency_code: cart.currency_code,
                   })}
                 </span>{" "}
-                {t(k.ONLY)}
+                {t('ONLY')}
               </div>
             </div>
             <div className="flex justify-between gap-1">
@@ -273,14 +272,14 @@ function FreeShippingPopup({
             className="rounded-2xl bg-transparent shadow-none outline-none border-[1px] border-white text-[15px] py-2.5 px-4"
             href="/cart"
           >
-            {t(k.VIEW_CART)}
+            {t('VIEW_CART')}
           </LocalizedClientLink>
 
           <LocalizedClientLink
             className="flex-grow rounded-2xl bg-white text-neutral-950 shadow-none outline-none border-[1px] border-white text-[15px] py-2.5 px-4 text-center"
             href="/store"
           >
-            {t(k.VIEW_PRODUCTS)}
+            {t('VIEW_PRODUCTS')}
           </LocalizedClientLink>
         </div>
       </div>

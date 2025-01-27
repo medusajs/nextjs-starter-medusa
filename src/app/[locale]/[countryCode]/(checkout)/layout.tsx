@@ -1,4 +1,3 @@
-import k from "@lib/i18n/translations/keys"
 import { getTranslations } from "next-intl/server"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import ChevronDown from "@modules/common/icons/chevron-down"
@@ -24,10 +23,10 @@ export default async function CheckoutLayout({
             >
               <ChevronDown className="rotate-90" size={16} />
               <span className="mt-px hidden small:block txt-compact-plus text-ui-fg-subtle hover:text-ui-fg-base ">
-                {t(k.BACK_TO_SHOPPING_CART)}
+                {t('BACK_TO_SHOPPING_CART')}
               </span>
               <span className="mt-px block small:hidden txt-compact-plus text-ui-fg-subtle hover:text-ui-fg-base">
-                {t(k.BACK)}
+                {t('BACK')}
               </span>
             </LocalizedClientLink>
             <LocalizedClientLink
@@ -35,7 +34,7 @@ export default async function CheckoutLayout({
               className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase"
               data-testid="store-link"
             >
-              {t(k.MEDUSA_STORE)}
+              {t('MEDUSA_STORE')}
             </LocalizedClientLink>
             <div className="flex-1 basis-0" />
           </nav>

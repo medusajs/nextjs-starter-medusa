@@ -1,7 +1,6 @@
 "use client"
 
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 
 import Back from "@modules/common/icons/back"
 import FastDelivery from "@modules/common/icons/fast-delivery"
@@ -15,15 +14,15 @@ type ProductTabsProps = {
 }
 
 const ProductTabs = ({ product }: ProductTabsProps) => {
-  const t = useSafeTranslations()
+  const t = useTranslations()
 
   const tabs = [
     {
-      label: t(k.PRODUCT_INFORMATION),
+      label: t('PRODUCT_INFORMATION'),
       component: <ProductInfoTab product={product} />,
     },
     {
-      label: t(k.SHIPPING_RETURNS),
+      label: t('SHIPPING_RETURNS'),
       component: <ShippingInfoTab />,
     },
   ]
@@ -47,38 +46,38 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
 }
 
 const ProductInfoTab = ({ product }: ProductTabsProps) => {
-  const t = useSafeTranslations()
+  const t = useTranslations()
 
   return (
     <div className="text-small-regular py-8">
       <div className="grid grid-cols-2 gap-x-8">
         <div className="flex flex-col gap-y-4">
           <div>
-            <span className="font-semibold">{t(k.MATERIAL)}</span>
-            <p>{product.material ? product.material : t(k._5)}</p>
+            <span className="font-semibold">{t('MATERIAL')}</span>
+            <p>{product.material ? product.material : t('_5')}</p>
           </div>
           <div>
-            <span className="font-semibold">{t(k.COUNTRY_OF_ORIGIN)}</span>
-            <p>{product.origin_country ? product.origin_country : t(k._5)}</p>
+            <span className="font-semibold">{t('COUNTRY_OF_ORIGIN')}</span>
+            <p>{product.origin_country ? product.origin_country : t('_5')}</p>
           </div>
           <div>
-            <span className="font-semibold">{t(k.TYPE)}</span>
-            <p>{product.type ? product.type.value : t(k._5)}</p>
+            <span className="font-semibold">{t('TYPE')}</span>
+            <p>{product.type ? product.type.value : t('_5')}</p>
           </div>
         </div>
         <div className="flex flex-col gap-y-4">
           <div>
-            <span className="font-semibold">{t(k.WEIGHT)}</span>
-            <p>{product.weight ? `${product.weight} g` : t(k._5)}</p>
+            <span className="font-semibold">{t('WEIGHT')}</span>
+            <p>{product.weight ? `${product.weight} g` : t('_5')}</p>
           </div>
           <div>
-            <span className="font-semibold">{t(k.DIMENSIONS)}</span>
+            <span className="font-semibold">{t('DIMENSIONS')}</span>
             <p>
               {product.length && product.width && product.height
-                ? `${product.length}${t(k.L_X)} ${product.width}${t(k.W_X)} ${
+                ? `${product.length}${t('L_X')} ${product.width}${t('W_X')} ${
                     product.height
-                  }${t(k.H)}`
-                : t(k._5)}
+                  }${t('H')}`
+                : t('_5')}
             </p>
           </div>
         </div>
@@ -88,7 +87,7 @@ const ProductInfoTab = ({ product }: ProductTabsProps) => {
 }
 
 const ShippingInfoTab = () => {
-  const t = useSafeTranslations()
+  const t = useTranslations()
 
   return (
     <div className="text-small-regular py-8">
@@ -96,27 +95,27 @@ const ShippingInfoTab = () => {
         <div className="flex items-start gap-x-2">
           <FastDelivery />
           <div>
-            <span className="font-semibold">{t(k.FAST_DELIVERY)}</span>
+            <span className="font-semibold">{t('FAST_DELIVERY')}</span>
             <p className="max-w-sm">
-              {t(k.YOUR_PACKAGE_WILL_ARRIVE_IN)}
+              {t('YOUR_PACKAGE_WILL_ARRIVE_IN')}
             </p>
           </div>
         </div>
         <div className="flex items-start gap-x-2">
           <Refresh />
           <div>
-            <span className="font-semibold">{t(k.SIMPLE_EXCHANGES)}</span>
+            <span className="font-semibold">{t('SIMPLE_EXCHANGES')}</span>
             <p className="max-w-sm">
-              {t(k.IS_THE_FIT_NOT_QUITE_RIGHT_NO)}
+              {t('IS_THE_FIT_NOT_QUITE_RIGHT_NO')}
             </p>
           </div>
         </div>
         <div className="flex items-start gap-x-2">
           <Back />
           <div>
-            <span className="font-semibold">{t(k.EASY_RETURNS)}</span>
+            <span className="font-semibold">{t('EASY_RETURNS')}</span>
             <p className="max-w-sm">
-              {t(k.IS_THE_FIT_NOT_QUITE_RIGHT_NO)}
+              {t('IS_THE_FIT_NOT_QUITE_RIGHT_NO')}
             </p>
           </div>
         </div>

@@ -1,4 +1,3 @@
-import k from "@lib/i18n/translations/keys"
 import { getTranslations } from "next-intl/server"
 
 import { Metadata } from "next"
@@ -30,9 +29,9 @@ export default async function Addresses(props: {
   return (
     <div className="w-full" data-testid="addresses-page-wrapper">
       <div className="mb-8 flex flex-col gap-y-4">
-        <h1 className="text-2xl-semi">{t(k.SHIPPING_ADDRESSES)}</h1>
+        <h1 className="text-2xl-semi">{t('SHIPPING_ADDRESSES')}</h1>
         <p className="text-base-regular">
-          {t(k.VIEW_AND_UPDATE_YOUR_SHIPPING)}
+          {t('VIEW_AND_UPDATE_YOUR_SHIPPING')}
         </p>
       </div>
       <AddressBook customer={customer} region={region} />

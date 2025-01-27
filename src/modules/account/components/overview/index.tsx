@@ -1,5 +1,4 @@
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 
 import { Container } from "@medusajs/ui"
 
@@ -14,17 +13,17 @@ type OverviewProps = {
 }
 
 const Overview = ({ customer, orders }: OverviewProps) => {
-  const t = useSafeTranslations()
+  const t = useTranslations()
 
   return (
     <div data-testid="overview-page-wrapper">
       <div className="hidden small:block">
         <div className="text-xl-semi flex justify-between items-center mb-4">
           <span data-testid="welcome-message" data-value={customer?.first_name}>
-            {t(k.HELLO_CUSTOMER)} {customer?.first_name}
+            {t('HELLO_CUSTOMER')} {customer?.first_name}
           </span>
           <span className="text-small-regular text-ui-fg-base">
-            {t(k.SIGNED_IN_AS)}{" "}
+            {t('SIGNED_IN_AS')}{" "}
             <span
               className="font-semibold"
               data-testid="customer-email"
@@ -38,7 +37,7 @@ const Overview = ({ customer, orders }: OverviewProps) => {
           <div className="flex flex-col gap-y-4 h-full col-span-1 row-span-2 flex-1">
             <div className="flex items-start gap-x-16 mb-6">
               <div className="flex flex-col gap-y-4">
-                <h3 className="text-large-semi">{t(k.PROFILE)}</h3>
+                <h3 className="text-large-semi">{t('PROFILE')}</h3>
                 <div className="flex items-end gap-x-2">
                   <span
                     className="text-3xl-semi leading-none"
@@ -48,13 +47,13 @@ const Overview = ({ customer, orders }: OverviewProps) => {
                     {getProfileCompletion(customer)}%
                   </span>
                   <span className="uppercase text-base-regular text-ui-fg-subtle">
-                  {t(k.COMPLETED)}
+                  {t('COMPLETED')}
                   </span>
                 </div>
               </div>
 
               <div className="flex flex-col gap-y-4">
-                <h3 className="text-large-semi">{t(k.ADDRESSES)}</h3>
+                <h3 className="text-large-semi">{t('ADDRESSES')}</h3>
                 <div className="flex items-end gap-x-2">
                   <span
                     className="text-3xl-semi leading-none"
@@ -64,7 +63,7 @@ const Overview = ({ customer, orders }: OverviewProps) => {
                     {customer?.addresses?.length || 0}
                   </span>
                   <span className="uppercase text-base-regular text-ui-fg-subtle">
-                  {t(k.SAVED)}
+                  {t('SAVED')}
                   </span>
                 </div>
               </div>
@@ -72,7 +71,7 @@ const Overview = ({ customer, orders }: OverviewProps) => {
 
             <div className="flex flex-col gap-y-4">
               <div className="flex items-center gap-x-2">
-                <h3 className="text-large-semi">{t(k.RECENT_ORDERS)}</h3>
+                <h3 className="text-large-semi">{t('RECENT_ORDERS')}</h3>
               </div>
               <ul
                 className="flex flex-col gap-y-4"
@@ -91,12 +90,12 @@ const Overview = ({ customer, orders }: OverviewProps) => {
                         >
                           <Container className="bg-gray-50 flex justify-between items-center p-4">
                             <div className="grid grid-cols-3 grid-rows-2 text-small-regular gap-x-4 flex-1">
-                              <span className="font-semibold">{t(k.DATE_PLACED)}</span>
+                              <span className="font-semibold">{t('DATE_PLACED')}</span>
                               <span className="font-semibold">
-                                {t(k.ORDER_NUMBER)}
+                                {t('ORDER_NUMBER')}
                               </span>
                               <span className="font-semibold">
-                                {t(k.TOTAL_AMOUNT)}
+                                {t('TOTAL_AMOUNT')}
                               </span>
                               <span data-testid="order-created-date">
                                 {new Date(order.created_at).toDateString()}
@@ -119,7 +118,7 @@ const Overview = ({ customer, orders }: OverviewProps) => {
                               data-testid="open-order-button"
                             >
                               <span className="sr-only">
-                                 {t(k.GO_TO_ORDER)} #{order.display_id}
+                                 {t('GO_TO_ORDER')} #{order.display_id}
                               </span>
                               <ChevronDown className="-rotate-90" />
                             </button>
@@ -129,7 +128,7 @@ const Overview = ({ customer, orders }: OverviewProps) => {
                     )
                   })
                 ) : (
-                  <span data-testid="no-orders-message">{t(k.NO_RECENT_ORDERS)}</span>
+                  <span data-testid="no-orders-message">{t('NO_RECENT_ORDERS')}</span>
                 )}
               </ul>
             </div>

@@ -1,7 +1,6 @@
 "use client"
 
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 
 import { XMark } from "@medusajs/icons"
 import { HttpTypes } from "@medusajs/types"
@@ -20,18 +19,18 @@ type OrderDetailsTemplateProps = {
 const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
   order,
 }) => {
-  const t = useSafeTranslations()
+  const t = useTranslations()
 
   return (
     <div className="flex flex-col justify-center gap-y-4">
       <div className="flex gap-2 justify-between items-center">
-        <h1 className="text-2xl-semi">{t(k.ORDER_DETAILS)}</h1>
+        <h1 className="text-2xl-semi">{t('ORDER_DETAILS')}</h1>
         <LocalizedClientLink
           href="/account/orders"
           className="flex gap-2 items-center text-ui-fg-subtle hover:text-ui-fg-base"
           data-testid="back-to-overview-button"
         >
-          <XMark /> {t(k.BACK_TO_OVERVIEW)}
+          <XMark /> {t('BACK_TO_OVERVIEW')}
         </LocalizedClientLink>
       </div>
       <div

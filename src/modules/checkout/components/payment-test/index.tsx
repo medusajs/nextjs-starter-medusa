@@ -1,15 +1,14 @@
 import { Badge } from "@medusajs/ui"
 
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 
 const PaymentTest = ({ className }: { className?: string }) => {
-  const t = useSafeTranslations()
+  const t = useTranslations()
 
   return (
     <Badge color="orange" className={className}>
-      <span className="font-semibold">{t(k.ATTENTION)}</span>{" "}
-      {t(k.FOR_TESTING_PURPOSES_ONL)}
+      <span className="font-semibold">{t('ATTENTION')}</span>{" "}
+      {t('FOR_TESTING_PURPOSES_ONL')}
     </Badge>
   )
 }

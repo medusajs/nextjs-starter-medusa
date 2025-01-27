@@ -1,4 +1,3 @@
-import k from "@lib/i18n/translations/keys"
 import { getTranslations } from "next-intl/server"
 
 import { Metadata } from "next"
@@ -30,9 +29,9 @@ export default async function Profile() {
   return (
     <div className="w-full" data-testid="profile-page-wrapper">
       <div className="mb-8 flex flex-col gap-y-4">
-        <h1 className="text-2xl-semi">{t(k.PROFILE)}</h1>
+        <h1 className="text-2xl-semi">{t('PROFILE')}</h1>
         <p className="text-base-regular">
-          {t(k.VIEW_AND_UPDATE_YOUR_PROFILE_I)}
+          {t('VIEW_AND_UPDATE_YOUR_PROFILE_I')}
         </p>
       </div>
       <div className="flex flex-col gap-y-8 w-full">

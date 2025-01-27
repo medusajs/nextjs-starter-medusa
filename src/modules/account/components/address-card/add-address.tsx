@@ -1,7 +1,6 @@
 "use client"
 
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 
 import { Plus } from "@medusajs/icons"
 import { Button, Heading } from "@medusajs/ui"
@@ -49,7 +48,7 @@ const AddAddress = ({
     }
   }, [formState])
 
-  const t = useSafeTranslations()
+  const t = useTranslations()
 
   return (
     <>
@@ -58,27 +57,27 @@ const AddAddress = ({
         onClick={open}
         data-testid="add-address-button"
       >
-        <span className="text-base-semi">{t(k.NEW_ADDRESS)}</span>
+        <span className="text-base-semi">{t('NEW_ADDRESS')}</span>
         <Plus />
       </button>
 
       <Modal isOpen={state} close={close} data-testid="add-address-modal">
         <Modal.Title>
-          <Heading className="mb-2">{t(k.ADD_ADDRESS)}</Heading>
+          <Heading className="mb-2">{t('ADD_ADDRESS')}</Heading>
         </Modal.Title>
         <form action={formAction}>
           <Modal.Body>
             <div className="flex flex-col gap-y-2">
               <div className="grid grid-cols-2 gap-x-2">
                 <Input
-                  label={t(k.FIRST_NAME)}
+                  label={t('FIRST_NAME')}
                   name="first_name"
                   required
                   autoComplete="given-name"
                   data-testid="first-name-input"
                 />
                 <Input
-                  label={t(k.LAST_NAME)}
+                  label={t('LAST_NAME')}
                   name="last_name"
                   required
                   autoComplete="family-name"
@@ -86,34 +85,34 @@ const AddAddress = ({
                 />
               </div>
               <Input
-                label={t(k.COMPANY)}
+                label={t('COMPANY')}
                 name="company"
                 autoComplete="organization"
                 data-testid="company-input"
               />
               <Input
-                label={t(k.ADDRESS)}
+                label={t('ADDRESS')}
                 name="address_1"
                 required
                 autoComplete="address-line1"
                 data-testid="address-1-input"
               />
               <Input
-                label={t(k.APARTMENT_SUITE_ETC)}
+                label={t('APARTMENT_SUITE_ETC')}
                 name="address_2"
                 autoComplete="address-line2"
                 data-testid="address-2-input"
               />
               <div className="grid grid-cols-[144px_1fr] gap-x-2">
                 <Input
-                  label={t(k.POSTAL_CODE)}
+                  label={t('POSTAL_CODE')}
                   name="postal_code"
                   required
                   autoComplete="postal-code"
                   data-testid="postal-code-input"
                 />
                 <Input
-                  label={t(k.CITY)}
+                  label={t('CITY')}
                   name="city"
                   required
                   autoComplete="locality"
@@ -121,7 +120,7 @@ const AddAddress = ({
                 />
               </div>
               <Input
-                label={t(k.STATE_PROVINCE)}
+                label={t('STATE_PROVINCE')}
                 name="province"
                 autoComplete="address-level1"
                 data-testid="state-input"
@@ -134,7 +133,7 @@ const AddAddress = ({
                 data-testid="country-select"
               />
               <Input
-                label={t(k.PHONE)}
+                label={t('PHONE')}
                 name="phone"
                 autoComplete="phone"
                 data-testid="phone-input"
@@ -158,9 +157,9 @@ const AddAddress = ({
                 className="h-10"
                 data-testid="cancel-button"
               >
-                {t(k.CANCEL)}
+                {t('CANCEL')}
               </Button>
-              <SubmitButton data-testid="save-button">{t(k.SAVE)}</SubmitButton>
+              <SubmitButton data-testid="save-button">{t('SAVE')}</SubmitButton>
             </div>
           </Modal.Footer>
         </form>

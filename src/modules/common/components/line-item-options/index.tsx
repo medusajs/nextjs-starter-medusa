@@ -1,5 +1,4 @@
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 
 import { HttpTypes } from "@medusajs/types"
 import { Text } from "@medusajs/ui"
@@ -15,7 +14,7 @@ const LineItemOptions = ({
   "data-testid": dataTestid,
   "data-value": dataValue,
 }: LineItemOptionsProps) => {
-  const t = useSafeTranslations()
+  const t = useTranslations()
 
   return (
     <Text
@@ -23,7 +22,7 @@ const LineItemOptions = ({
       data-value={dataValue}
       className="inline-block txt-medium text-ui-fg-subtle w-full overflow-hidden text-ellipsis"
     >
-      {t(k.VARIANT)} {variant?.title}
+      {t('VARIANT')} {variant?.title}
     </Text>
   )
 }

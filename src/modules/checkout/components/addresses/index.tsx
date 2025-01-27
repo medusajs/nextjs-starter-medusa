@@ -1,7 +1,6 @@
 "use client"
 
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 
 import { setAddresses } from "@lib/data/cart"
 import compareAddresses from "@lib/util/compare-addresses"
@@ -28,7 +27,7 @@ const Addresses = ({
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
-  const t = useSafeTranslations()
+  const t = useTranslations()
 
   const isOpen = searchParams.get("step") === "address"
 
@@ -51,7 +50,7 @@ const Addresses = ({
           level="h2"
           className="flex flex-row text-3xl-regular gap-x-2 items-baseline"
         >
-          {t(k.SHIPPING_ADDRESS)}
+          {t('SHIPPING_ADDRESS')}
           {!isOpen && <CheckCircleSolid />}
         </Heading>
         {!isOpen && cart?.shipping_address && (
@@ -61,7 +60,7 @@ const Addresses = ({
               className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
               data-testid="edit-address-button"
             >
-              {t(k.EDIT)}
+              {t('EDIT')}
             </button>
           </Text>
         )}
@@ -82,14 +81,14 @@ const Addresses = ({
                   level="h2"
                   className="text-3xl-regular gap-x-4 pb-6 pt-8"
                 >
-                  {t(k.BILLING_ADDRESS)}
+                  {t('BILLING_ADDRESS')}
                 </Heading>
 
                 <BillingAddress cart={cart} />
               </div>
             )}
             <SubmitButton className="mt-6" data-testid="submit-address-button">
-              {t(k.CONTINUE_TO_DELIVERY)}
+              {t('CONTINUE_TO_DELIVERY')}
             </SubmitButton>
             <ErrorMessage error={message} data-testid="address-error-message" />
           </div>
@@ -105,7 +104,7 @@ const Addresses = ({
                     data-testid="shipping-address-summary"
                   >
                     <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                      {t(k.SHIPPING_ADDRESS)}
+                      {t('SHIPPING_ADDRESS')}
                     </Text>
                     <Text className="txt-medium text-ui-fg-subtle">
                       {cart.shipping_address.first_name}{" "}
@@ -129,7 +128,7 @@ const Addresses = ({
                     data-testid="shipping-contact-summary"
                   >
                     <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                      {t(k.CONTACT)}
+                      {t('CONTACT')}
                     </Text>
                     <Text className="txt-medium text-ui-fg-subtle">
                       {cart.shipping_address.phone}
@@ -144,12 +143,12 @@ const Addresses = ({
                     data-testid="billing-address-summary"
                   >
                     <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                      {t(k.BILLING_ADDRESS)}
+                      {t('BILLING_ADDRESS')}
                     </Text>
 
                     {sameAsBilling ? (
                       <Text className="txt-medium text-ui-fg-subtle">
-                        {t(k.BILLING_ADDRESS_SAME_AS_DELIVERY_ADDRESS)}
+                        {t('BILLING_ADDRESS_SAME_AS_DELIVERY_ADDRESS')}
                       </Text>
                     ) : (
                       <>

@@ -1,7 +1,6 @@
 "use client"
 
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 
 import React, { useEffect, useMemo, useActionState } from "react"
 
@@ -66,7 +65,7 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({
 
   const currentInfo = useMemo(() => {
     if (!billingAddress) {
-      return t(k.NO_BILLING_ADDRESS)
+      return t('NO_BILLING_ADDRESS')
     }
 
     const country =
@@ -92,13 +91,13 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({
     )
   }, [billingAddress, regionOptions])
 
-  const t = useSafeTranslations()
+  const t = useTranslations()
 
   return (
     <form action={formAction} onReset={() => clearState()} className="w-full">
       <input type="hidden" name="addressId" value={billingAddress?.id} />
       <AccountInfo
-        label={t(k.BILLING_ADDRESS)}
+        label={t('BILLING_ADDRESS')}
         currentInfo={currentInfo}
         isSuccess={successState}
         isError={!!state.error}
@@ -108,14 +107,14 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({
         <div className="grid grid-cols-1 gap-y-2">
           <div className="grid grid-cols-2 gap-x-2">
             <Input
-              label={t(k.FIRST_NAME)}
+              label={t('FIRST_NAME')}
               name="first_name"
               defaultValue={billingAddress?.first_name || undefined}
               required
               data-testid="billing-first-name-input"
             />
             <Input
-              label={t(k.LAST_NAME)}
+              label={t('LAST_NAME')}
               name="last_name"
               defaultValue={billingAddress?.last_name || undefined}
               required
@@ -123,34 +122,34 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({
             />
           </div>
           <Input
-            label={t(k.COMPANY)}
+            label={t('COMPANY')}
             name="company"
             defaultValue={billingAddress?.company || undefined}
             data-testid="billing-company-input"
           />
           <Input
-            label={t(k.ADDRESS)}
+            label={t('ADDRESS')}
             name="address_1"
             defaultValue={billingAddress?.address_1 || undefined}
             required
             data-testid="billing-address-1-input"
           />
           <Input
-            label={t(k.APARTMENT_SUITE_ETC)}
+            label={t('APARTMENT_SUITE_ETC')}
             name="address_2"
             defaultValue={billingAddress?.address_2 || undefined}
             data-testid="billing-address-2-input"
           />
           <div className="grid grid-cols-[144px_1fr] gap-x-2">
             <Input
-              label={t(k.POSTAL_CODE)}
+              label={t('POSTAL_CODE')}
               name="postal_code"
               defaultValue={billingAddress?.postal_code || undefined}
               required
               data-testid="billing-postcal-code-input"
             />
             <Input
-              label={t(k.CITY)}
+              label={t('CITY')}
               name="city"
               defaultValue={billingAddress?.city || undefined}
               required
@@ -158,7 +157,7 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({
             />
           </div>
           <Input
-            label={t(k.STATE_PROVINCE)}
+            label={t('STATE_PROVINCE')}
             name="province"
             defaultValue={billingAddress?.province || undefined}
             data-testid="billing-province-input"

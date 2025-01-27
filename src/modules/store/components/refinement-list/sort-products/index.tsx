@@ -1,7 +1,6 @@
 "use client"
 
-import k, { TranslationDef } from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 
 import FilterRadioGroup from "@modules/common/components/filter-radio-group"
 
@@ -16,15 +15,15 @@ type SortProductsProps = {
 const sortOptions = [
   {
     value: "created_at",
-    label: k.LATEST_ARRIVALS
+    label: 'LATEST_ARRIVALS'
   },
   {
     value: "price_asc",
-    label: k.PRICE_LOW_HIGH,
+    label: 'PRICE_LOW_HIGH',
   },
   {
     value: "price_desc",
-    label: k.PRICE_HIGH_LOW,
+    label: 'PRICE_HIGH_LOW',
   },
 ]
 
@@ -37,11 +36,11 @@ const SortProducts = ({
     setQueryParams("sortBy", value)
   }
 
-  const t = useSafeTranslations()
+  const t = useTranslations()
 
   return (
     <FilterRadioGroup
-      title={t(k.SORT_BY)}
+      title={t('SORT_BY')}
       items={sortOptions}
       value={sortBy}
       handleChange={handleChange}

@@ -1,7 +1,6 @@
 "use client"
 
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 
 import { HttpTypes } from "@medusajs/types"
 import { Container } from "@medusajs/ui"
@@ -96,7 +95,7 @@ const ShippingAddress = ({
       [e.target.name]: e.target.value,
     })
   }
-  const t = useSafeTranslations()
+  const t = useTranslations()
 
   return (
     <>
@@ -118,7 +117,7 @@ const ShippingAddress = ({
       )}
       <div className="grid grid-cols-2 gap-4">
         <Input
-          label={t(k.FIRST_NAME)}
+          label={t('FIRST_NAME')}
           name="shipping_address.first_name"
           autoComplete="given-name"
           value={formData["shipping_address.first_name"]}
@@ -127,7 +126,7 @@ const ShippingAddress = ({
           data-testid="shipping-first-name-input"
         />
         <Input
-          label={t(k.LAST_NAME)}
+          label={t('LAST_NAME')}
           name="shipping_address.last_name"
           autoComplete="family-name"
           value={formData["shipping_address.last_name"]}
@@ -136,7 +135,7 @@ const ShippingAddress = ({
           data-testid="shipping-last-name-input"
         />
         <Input
-          label={t(k.ADDRESS)}
+          label={t('ADDRESS')}
           name="shipping_address.address_1"
           autoComplete="address-line1"
           value={formData["shipping_address.address_1"]}
@@ -145,7 +144,7 @@ const ShippingAddress = ({
           data-testid="shipping-address-input"
         />
         <Input
-          label={t(k.COMPANY)}
+          label={t('COMPANY')}
           name="shipping_address.company"
           value={formData["shipping_address.company"]}
           onChange={handleChange}
@@ -153,7 +152,7 @@ const ShippingAddress = ({
           data-testid="shipping-company-input"
         />
         <Input
-          label={t(k.POSTAL_CODE)}
+          label={t('POSTAL_CODE')}
           name="shipping_address.postal_code"
           autoComplete="postal-code"
           value={formData["shipping_address.postal_code"]}
@@ -162,7 +161,7 @@ const ShippingAddress = ({
           data-testid="shipping-postal-code-input"
         />
         <Input
-          label={t(k.CITY)}
+          label={t('CITY')}
           name="shipping_address.city"
           autoComplete="address-level2"
           value={formData["shipping_address.city"]}
@@ -180,7 +179,7 @@ const ShippingAddress = ({
           data-testid="shipping-country-select"
         />
         <Input
-          label={t(k.STATE_PROVINCE)}
+          label={t('STATE_PROVINCE')}
           name="shipping_address.province"
           autoComplete="address-level1"
           value={formData["shipping_address.province"]}
@@ -190,7 +189,7 @@ const ShippingAddress = ({
       </div>
       <div className="my-8">
         <Checkbox
-          label={t(k.BILLING_ADDRESS_SAME_AS_SHIPPING_ADDRESS)}
+          label={t('BILLING_ADDRESS_SAME_AS_SHIPPING_ADDRESS')}
           name="same_as_billing"
           checked={checked}
           onChange={onChange}
@@ -199,10 +198,10 @@ const ShippingAddress = ({
       </div>
       <div className="grid grid-cols-2 gap-4 mb-4">
         <Input
-          label={t(k.EMAIL)}
+          label={t('EMAIL')}
           name="email"
           type="email"
-          title={t(k.ENTER_VALID_EMAIL)}
+          title={t('ENTER_VALID_EMAIL')}
           autoComplete="email"
           value={formData.email}
           onChange={handleChange}
@@ -210,7 +209,7 @@ const ShippingAddress = ({
           data-testid="shipping-email-input"
         />
         <Input
-          label={t(k.PHONE)}
+          label={t('PHONE')}
           name="shipping_address.phone"
           autoComplete="tel"
           value={formData["shipping_address.phone"]}

@@ -1,5 +1,4 @@
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 import { getTranslations } from "next-intl/server"
 import { Metadata } from "next"
 
@@ -25,9 +24,9 @@ export default async function Orders() {
   return (
     <div className="w-full" data-testid="orders-page-wrapper">
       <div className="mb-8 flex flex-col gap-y-4">
-        <h1 className="text-2xl-semi">{t(k.ORDERS)}</h1>
+        <h1 className="text-2xl-semi">{t('ORDERS')}</h1>
         <p className="text-base-regular">
-          {t(k.VIEW_YOUR_PREVIOUS_ORDERS_AND)}
+          {t('VIEW_YOUR_PREVIOUS_ORDERS_AND')}
         </p>
       </div>
       <div>

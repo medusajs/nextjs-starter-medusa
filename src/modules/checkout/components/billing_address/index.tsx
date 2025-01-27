@@ -1,7 +1,6 @@
 "use client"
 
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 
 import { HttpTypes } from "@medusajs/types"
 import Input from "@modules/common/components/input"
@@ -32,13 +31,13 @@ const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
     })
   }
 
-  const t = useSafeTranslations()
+  const t = useTranslations()
 
   return (
     <>
       <div className="grid grid-cols-2 gap-4">
         <Input
-          label={t(k.FIRST_NAME)}
+          label={t('FIRST_NAME')}
           name="billing_address.first_name"
           autoComplete="given-name"
           value={formData["billing_address.first_name"]}
@@ -47,7 +46,7 @@ const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
           data-testid="billing-first-name-input"
         />
         <Input
-          label={t(k.LAST_NAME)}
+          label={t('LAST_NAME')}
           name="billing_address.last_name"
           autoComplete="family-name"
           value={formData["billing_address.last_name"]}
@@ -56,7 +55,7 @@ const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
           data-testid="billing-last-name-input"
         />
         <Input
-          label={t(k.ADDRESS)}
+          label={t('ADDRESS')}
           name="billing_address.address_1"
           autoComplete="address-line1"
           value={formData["billing_address.address_1"]}
@@ -65,7 +64,7 @@ const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
           data-testid="billing-address-input"
         />
         <Input
-          label={t(k.COMPANY)}
+          label={t('COMPANY')}
           name="billing_address.company"
           value={formData["billing_address.company"]}
           onChange={handleChange}
@@ -73,7 +72,7 @@ const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
           data-testid="billing-company-input"
         />
         <Input
-          label={t(k.POSTAL_CODE)}
+          label={t('POSTAL_CODE')}
           name="billing_address.postal_code"
           autoComplete="postal-code"
           value={formData["billing_address.postal_code"]}
@@ -82,7 +81,7 @@ const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
           data-testid="billing-postal-input"
         />
         <Input
-          label={t(k.CITY)}
+          label={t('CITY')}
           name="billing_address.city"
           autoComplete="address-level2"
           value={formData["billing_address.city"]}
@@ -97,7 +96,7 @@ const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
           data-testid="billing-country-select"
         />
         <Input
-          label={t(k.STATE_PROVINCE)}
+          label={t('STATE_PROVINCE')}
           name="billing_address.province"
           autoComplete="address-level1"
           value={formData["billing_address.province"]}
@@ -105,7 +104,7 @@ const BillingAddress = ({ cart }: { cart: HttpTypes.StoreCart | null }) => {
           data-testid="billing-province-input"
         />
         <Input
-          label={t(k.PHONE)}
+          label={t('PHONE')}
           name="billing_address.phone"
           autoComplete="tel"
           value={formData["billing_address.phone"]}

@@ -37,6 +37,7 @@ export default async function RootLayout({
   // load translations for the determined locale
   const { messages } = await getI18NRequestConfig({
     requestLocale: Promise.resolve(finalLocale),
+    locale: finalLocale,
   });
 
   return (

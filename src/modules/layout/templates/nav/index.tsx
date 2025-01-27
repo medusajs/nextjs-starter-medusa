@@ -1,5 +1,4 @@
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 import { getTranslations } from "next-intl/server"
 
 import { Suspense } from "react"
@@ -30,7 +29,7 @@ export default async function Nav() {
               className="txt-compact-xlarge-plus hover:text-ui-fg-base uppercase"
               data-testid="nav-store-link"
             >
-              {t(k.MEDUSA_STORE)}
+              {t('MEDUSA_STORE')}
             </LocalizedClientLink>
           </div>
 
@@ -41,7 +40,7 @@ export default async function Nav() {
                 href="/account"
                 data-testid="nav-account-link"
               >
-                {t(k.ACCOUNT)}
+                {t('ACCOUNT')}
               </LocalizedClientLink>
             </div>
             <Suspense
@@ -51,7 +50,7 @@ export default async function Nav() {
                   href="/cart"
                   data-testid="nav-cart-link"
                 >
-                  {t(k.CART2)}
+                  {t('CART2')}
                 </LocalizedClientLink>
               }
             >

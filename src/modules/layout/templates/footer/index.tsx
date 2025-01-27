@@ -1,5 +1,4 @@
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 
 import { listCategories } from "@lib/data/categories"
 import { listCollections } from "@lib/data/collections"
@@ -25,14 +24,14 @@ export default async function Footer() {
               href="/"
               className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase"
             >
-              {t(k.MEDUSA_STORE)}
+              {t('MEDUSA_STORE')}
             </LocalizedClientLink>
           </div>
           <div className="text-small-regular gap-10 md:gap-x-16 grid grid-cols-2 sm:grid-cols-3">
             {productCategories && productCategories?.length > 0 && (
               <div className="flex flex-col gap-y-2">
                 <span className="txt-small-plus txt-ui-fg-base">
-                  {t(k.CATEGORIES)}
+                  {t('CATEGORIES')}
                 </span>
                 <ul
                   className="grid grid-cols-1 gap-2"
@@ -90,7 +89,7 @@ export default async function Footer() {
             {collections && collections.length > 0 && (
               <div className="flex flex-col gap-y-2">
                 <span className="txt-small-plus txt-ui-fg-base">
-                  {t(k.COLLECTIONS)}
+                  {t('COLLECTIONS')}
                 </span>
                 <ul
                   className={clx(
@@ -114,7 +113,7 @@ export default async function Footer() {
               </div>
             )}
             <div className="flex flex-col gap-y-2">
-              <span className="txt-small-plus txt-ui-fg-base">{t(k.MEDUSA)}</span>
+              <span className="txt-small-plus txt-ui-fg-base">{t('MEDUSA')}</span>
               <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
                 <li>
                   <a
@@ -123,7 +122,7 @@ export default async function Footer() {
                     rel="noreferrer"
                     className="hover:text-ui-fg-base"
                   >
-                    {t(k.GITHUB)}
+                    {t('GITHUB')}
                   </a>
                 </li>
                 <li>
@@ -133,7 +132,7 @@ export default async function Footer() {
                     rel="noreferrer"
                     className="hover:text-ui-fg-base"
                   >
-                    {t(k.DOCUMENTATION)}
+                    {t('DOCUMENTATION')}
                   </a>
                 </li>
                 <li>
@@ -143,7 +142,7 @@ export default async function Footer() {
                     rel="noreferrer"
                     className="hover:text-ui-fg-base"
                   >
-                    {t(k.SOURCE_CODE)}
+                    {t('SOURCE_CODE')}
                   </a>
                 </li>
               </ul>
@@ -152,8 +151,8 @@ export default async function Footer() {
         </div>
         <div className="flex w-full mb-16 justify-between text-ui-fg-muted">
           <Text className="txt-compact-small">
-            {t(k._8)} {new Date().getFullYear()}{" "}
-            {t(k.MEDUSA_STORE_ALL_RIGHTS_RESER)}
+            {t('_8')} {new Date().getFullYear()}{" "}
+            {t('MEDUSA_STORE_ALL_RIGHTS_RESER')}
           </Text>
           <MedusaCTA />
         </div>

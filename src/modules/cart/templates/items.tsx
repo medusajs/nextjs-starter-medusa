@@ -1,5 +1,4 @@
-import k from "@lib/i18n/translations/keys"
-import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { useTranslations } from "next-intl"
 
 import repeat from "@lib/util/repeat"
 import { HttpTypes } from "@medusajs/types"
@@ -14,24 +13,24 @@ type ItemsTemplateProps = {
 
 const ItemsTemplate = ({ cart }: ItemsTemplateProps) => {
   const items = cart?.items
-  const t = useSafeTranslations()
+  const t = useTranslations()
 
   return (
     <div>
       <div className="pb-3 flex items-center">
-        <Heading className="text-[2rem] leading-[2.75rem]">{t(k.CART)}</Heading>
+        <Heading className="text-[2rem] leading-[2.75rem]">{t('CART')}</Heading>
       </div>
       <Table>
         <Table.Header className="border-t-0">
           <Table.Row className="text-ui-fg-subtle txt-medium-plus">
-            <Table.HeaderCell className="!pl-0">{t(k.ITEMS)}</Table.HeaderCell>
+            <Table.HeaderCell className="!pl-0">{t('ITEMS')}</Table.HeaderCell>
             <Table.HeaderCell></Table.HeaderCell>
-            <Table.HeaderCell>{t(k.QUANTITY)}</Table.HeaderCell>
+            <Table.HeaderCell>{t('QUANTITY')}</Table.HeaderCell>
             <Table.HeaderCell className="hidden small:table-cell">
-              {t(k.PRICE)}
+              {t('PRICE')}
             </Table.HeaderCell>
             <Table.HeaderCell className="!pr-0 text-right">
-              {t(k.TOTAL)}
+              {t('TOTAL')}
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
