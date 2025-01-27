@@ -2,9 +2,9 @@ import { HttpTypes } from "@medusajs/types"
 import { NextRequest, NextResponse } from "next/server"
 
 import createIntlMiddleware from "next-intl/middleware"
-import { fallbackLng, intlConfig, languages } from "./lib/i18n/settings"
+import { routing } from "./lib/i18n/settings";
 
-const intlMiddleware = createIntlMiddleware(intlConfig)
+const intlMiddleware = createIntlMiddleware(routing)
 
 const BACKEND_URL = process.env.MEDUSA_BACKEND_URL
 const PUBLISHABLE_API_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
@@ -117,7 +117,7 @@ export async function middleware(request: NextRequest) {
   let response = NextResponse.redirect(redirectUrl, 307)
 
   const pathnameArr = request.nextUrl.pathname.split("/");
-  const urlHasKnownLocale = languages.includes(pathnameArr[1]);
+  const urlHasKnownLocale = routing.locales.includes(pathnameArr[1]);
   
   // need to redirect manually if we provide a wrong locale when a countryCode is included
   const urlHasUnknownLocale =
@@ -137,7 +137,7 @@ export async function middleware(request: NextRequest) {
   const queryString = request.nextUrl.search ? request.nextUrl.search : ""
 
   if (urlHasUnknownLocale) {
-    redirectUrl = `${request.nextUrl.origin}/${fallbackLng}/${redirectPath}${queryString}`
+    redirectUrl = `${request.nextUrl.origin}/${routing.defaultLocale}/${redirectPath}${queryString}`
     response = NextResponse.redirect(`${redirectUrl}`, 307)
   }
 

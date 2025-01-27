@@ -1,14 +1,14 @@
-const { getI18NRequestConfig } = require("next-intl/server");
-const { fallbackLng, languages } = require("./settings");
+const { getRequestConfig } = require("next-intl/server");
+import { routing } from "./settings";
 
-const requestConfig = getI18NRequestConfig(async ({ requestLocale }: { requestLocale: Promise<string | undefined> }) => {
+const getI18NRequestConfig = getRequestConfig(async ({ requestLocale }: { requestLocale: Promise<string | undefined> }) => {
   // resolve the locale asynchronously
-  const resolvedRequestLocale = (await requestLocale) || fallbackLng;
+  const resolvedRequestLocale = (await requestLocale) || routing.defaultLocale;
 
   // validate the locale and fallback if necessary
-  const resolvedLocale = languages.includes(resolvedRequestLocale)
+  const resolvedLocale = routing.locales.includes(resolvedRequestLocale)
     ? resolvedRequestLocale
-    : fallbackLng;
+    : routing.defaultLocale;
 
   return {
     locale: resolvedLocale,
@@ -16,4 +16,5 @@ const requestConfig = getI18NRequestConfig(async ({ requestLocale }: { requestLo
   };
 });
 
-export default requestConfig;
+export default getI18NRequestConfig;
+

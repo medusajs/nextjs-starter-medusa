@@ -1,6 +1,6 @@
 import { getBaseURL } from "@lib/util/env"
 import getI18NRequestConfig from "@lib/i18n/request-config";
-import { LOCALE_COOKIE, fallbackLng, languages } from "@lib/i18n/settings"
+import { LOCALE_COOKIE, routing } from "@lib/i18n/settings";
 import { Metadata } from "next"
 import { NextIntlClientProvider } from "next-intl"
 import { setRequestLocale } from "next-intl/server"
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 export function generateStaticParams() {
-  return languages.map((locale) => ({ locale }));
+  return routing.locales.map((locale) => ({ locale }));
 }
 
 export default async function RootLayout({
@@ -24,13 +24,13 @@ export default async function RootLayout({
   params: { locale: string };
 }) {
   // determine the locale to use based on URL, cookie, or fallback
-  const isValidLocale = languages.includes(requestedLocale);
+  const isValidLocale = routing.locales.includes(requestedLocale);
   const cookieLocale = (await cookies()).get(LOCALE_COOKIE)?.value;
   const finalLocale = isValidLocale 
     ? requestedLocale 
-    : cookieLocale && languages.includes(cookieLocale)
+    : cookieLocale && routing.locales.includes(cookieLocale)
       ? cookieLocale
-      : fallbackLng;
+      : routing.defaultLocale;
 
   // Set the request locale (for server-side context)
   setRequestLocale(finalLocale);
