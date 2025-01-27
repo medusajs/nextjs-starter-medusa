@@ -18,7 +18,8 @@
     "paths": {
       "@lib/*": ["lib/*"],
       "@modules/*": ["modules/*"],
-      "@pages/*": ["pages/*"]
+      "@pages/*": ["pages/*"],
+      "@locales/*": ["../locales/*"]
     },
     "plugins": [
       {

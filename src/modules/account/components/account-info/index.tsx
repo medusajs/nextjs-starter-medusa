@@ -1,3 +1,6 @@
+import k from "@lib/i18n/translations/keys"
+import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+
 import { Disclosure } from "@headlessui/react"
 import { Badge, Button, clx } from "@medusajs/ui"
 import { useEffect } from "react"
@@ -41,6 +44,7 @@ const AccountInfo = ({
     }
   }, [isSuccess, close])
 
+  const t = useSafeTranslations()
   return (
     <div className="text-small-regular" data-testid={dataTestid}>
       <div className="flex items-end justify-between">
@@ -63,7 +67,7 @@ const AccountInfo = ({
             data-testid="edit-button"
             data-active={state}
           >
-            {state ? "Cancel" : "Edit"}
+            {state ? t(k.CANCEL) : t(k.EDIT)}
           </Button>
         </div>
       </div>
@@ -82,7 +86,7 @@ const AccountInfo = ({
           data-testid="success-message"
         >
           <Badge className="p-2 my-4" color="green">
-            <span>{label} updated succesfully</span>
+            <span>{label}{" "}{t(k.UPDATED_SUCCESSFULLY)}</span>
           </Badge>
         </Disclosure.Panel>
       </Disclosure>
@@ -126,7 +130,7 @@ const AccountInfo = ({
                 type="submit"
                 data-testid="save-button"
               >
-                Save changes
+                {t(k.SAVE_CHANGES)}
               </Button>
             </div>
           </div>

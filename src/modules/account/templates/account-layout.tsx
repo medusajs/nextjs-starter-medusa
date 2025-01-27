@@ -1,5 +1,8 @@
 import React from "react"
 
+import k from "@lib/i18n/translations/keys"
+import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+
 import UnderlineLink from "@modules/common/components/interactive-link"
 
 import AccountNav from "../components/account-nav"
@@ -14,6 +17,8 @@ const AccountLayout: React.FC<AccountLayoutProps> = ({
   customer,
   children,
 }) => {
+  const t = useSafeTranslations()
+
   return (
     <div className="flex-1 small:py-12" data-testid="account-page">
       <div className="flex-1 content-container h-full max-w-5xl mx-auto bg-white flex flex-col">
@@ -23,15 +28,14 @@ const AccountLayout: React.FC<AccountLayoutProps> = ({
         </div>
         <div className="flex flex-col small:flex-row items-end justify-between small:border-t border-gray-200 py-12 gap-8">
           <div>
-            <h3 className="text-xl-semi mb-4">Got questions?</h3>
+            <h3 className="text-xl-semi mb-4">{t(k.GOT_QUESTIONS)}</h3>
             <span className="txt-medium">
-              You can find frequently asked questions and answers on our
-              customer service page.
+              {t(k.FIND_FAQ)}
             </span>
           </div>
           <div>
             <UnderlineLink href="/customer-service">
-              Customer Service
+              {t(k.CUSTOMER_SERVICE)}
             </UnderlineLink>
           </div>
         </div>

@@ -1,3 +1,7 @@
+import k from "@lib/i18n/translations/keys"
+import { useSafeTranslations } from "@lib/i18n/use-safe-translations"
+import { getTranslations } from "next-intl/server"
+
 import { Suspense } from "react"
 
 import { listRegions } from "@lib/data/regions"
@@ -8,6 +12,7 @@ import SideMenu from "@modules/layout/components/side-menu"
 
 export default async function Nav() {
   const regions = await listRegions().then((regions: StoreRegion[]) => regions)
+  const t = await getTranslations()
 
   return (
     <div className="sticky top-0 inset-x-0 z-50 group">
@@ -25,7 +30,7 @@ export default async function Nav() {
               className="txt-compact-xlarge-plus hover:text-ui-fg-base uppercase"
               data-testid="nav-store-link"
             >
-              Medusa Store
+              {t(k.MEDUSA_STORE)}
             </LocalizedClientLink>
           </div>
 
@@ -36,7 +41,7 @@ export default async function Nav() {
                 href="/account"
                 data-testid="nav-account-link"
               >
-                Account
+                {t(k.ACCOUNT)}
               </LocalizedClientLink>
             </div>
             <Suspense
@@ -46,7 +51,7 @@ export default async function Nav() {
                   href="/cart"
                   data-testid="nav-cart-link"
                 >
-                  Cart (0)
+                  {t(k.CART2)}
                 </LocalizedClientLink>
               }
             >
