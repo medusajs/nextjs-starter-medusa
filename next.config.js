@@ -8,7 +8,7 @@ checkEnvVariables()
  * @type {import('next').NextConfig}
  */
 
-const withNextIntl = nextIntl("./src/lib/i18n/request-config.js")
+const withNextIntl = nextIntl("./src/lib/i18n/request-config.ts");
 
 const configOpts = {
   reactStrictMode: true,
