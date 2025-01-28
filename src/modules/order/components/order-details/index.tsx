@@ -26,7 +26,7 @@ const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
   return (
     <div>
       <Text>
-        We have sent the order confirmation details to{" "}
+        {t('ORDER_CONFIRMATION_SENT_TO')}{" "}
         <span
           className="text-ui-fg-medium-plus font-semibold"
           data-testid="order-email"
@@ -36,27 +36,27 @@ const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
         .
       </Text>
       <Text className="mt-2">
-        Order date:{" "}
+        {t('ORDER_DATE')}{" "}
         <span data-testid="order-date">
           {formattedDate}
         </span>
       </Text>
       <Text className="mt-2 text-ui-fg-interactive">
-        Order number: <span data-testid="order-id">{order.display_id}</span>
+        {t('ORDER_NUMBER_WITH_COLON')} <span data-testid="order-id">{order.display_id}</span>
       </Text>
 
       <div className="flex items-center text-compact-small gap-x-4 mt-4">
         {showStatus && (
           <>
             <Text>
-              Order status:{" "}
+            {t('ORDER_STATUS')}{" "}
               <span className="text-ui-fg-subtle " data-testid="order-status">
                 {/* TODO: Check where the statuses should come from */}
                 {/* {formatStatus(order.fulfillment_status)} */}
               </span>
             </Text>
             <Text>
-              Payment status:{" "}
+              {t('PAYMENT_STATUS_WITH_COLON')}{" "}
               <span
                 className="text-ui-fg-subtle "
                 sata-testid="order-payment-status"

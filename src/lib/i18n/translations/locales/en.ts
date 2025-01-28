@@ -75,6 +75,7 @@ const messages = {
   FOR_TESTING_PURPOSES_ONL: `For testing purposes
       only.`,
   REVIEW: `Review`,
+  PLACE_ORDER: `Place order`,
   BY_CLICKING_THE_PLACE_ORDER_BU: `By clicking the Place Order button, you confirm that you have
                 read, understand and accept our Terms of Use, Terms of Sale and
                 Returns Policy and acknowledge that you have read Medusa
@@ -227,6 +228,11 @@ const messages = {
   RECENT_ORDERS: "Recent orders",
   DATE_PLACED: "Date placed",
   ORDER_NUMBER: "Order number",
+  ORDER_NUMBER_WITH_COLON: "Order number:",
+  ORDER_CONFIRMATION_SENT_TO: "We have sent the order confirmation details to",
+  ORDER_DATE: "Order date",
+  ORDER_STATUS: "Order status",
+  PAYMENT_STATUS_WITH_COLON: "Payment status:",
   ORDER: "Order",
   VIEW_YOUR_ORDER: "View your order",
   FREE_SHIPPING_UNLOCKED: "Free Shipping unlocked!",
@@ -236,6 +242,7 @@ const messages = {
   VIEW_CART: "View cart",
   VIEW_PRODUCTS: "View products",
   TOTAL_AMOUNT: "Total amount",
+  SELECT_TITLE: "Select {title}",
   NO_RECENT_ORDERS: "No recent orders",
   GO_TO_ORDER: "Go to order",
   ACCOUNTS: "Accounts",

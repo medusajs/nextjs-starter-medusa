@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl"
+import { getTranslations } from "next-intl/server"
 
 import { Heading } from "@medusajs/ui"
 import { cookies as nextCookies } from "next/headers"
@@ -21,7 +21,7 @@ export default async function OrderCompletedTemplate({
 }: OrderCompletedTemplateProps) {
   const cookies = await nextCookies()
 
-  const t = useTranslations()
+  const t = await getTranslations()
 
   const isOnboarding = cookies.get("_medusa_onboarding")?.value === "true"
 

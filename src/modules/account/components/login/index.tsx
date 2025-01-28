@@ -23,7 +23,7 @@ const Login = ({ setCurrentView }: Props) => {
     >
       <h1 className="text-large-semi uppercase mb-6">{t('WELCOME_BACK')}</h1>
       <p className="text-center text-base-regular text-ui-fg-base mb-8">
-        {t('SIGN_IN_TO_ACCESS_AN_ENHANCED')}test
+        {t('SIGN_IN_TO_ACCESS_AN_ENHANCED')}
       </p>
       <form className="w-full" action={formAction}>
         <div className="flex flex-col w-full gap-y-2">

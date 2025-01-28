@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl"
+import { getTranslations } from "next-intl/server"
 
 import { retrieveOrder } from "@lib/data/orders"
 import OrderDetailsTemplate from "@modules/order/templates/order-details-template"
@@ -11,7 +11,7 @@ type Props = {
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
 
-  const t = useTranslations()
+  const t = await getTranslations()
   
   const params = await props.params
   const order = await retrieveOrder(params.id).catch(() => null)
