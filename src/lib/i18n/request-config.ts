@@ -36,7 +36,7 @@ const getI18NRequestConfig = getRequestConfig(async ({ requestLocale }: { reques
 
   return {
     locale: resolvedLocale,
-    messages: (await import(`./translations/locales/${resolvedLocale}.ts`)).default,
+    messages: (await import(`@locales/${resolvedLocale}.ts`)).default, 
     formats,
   };
 });

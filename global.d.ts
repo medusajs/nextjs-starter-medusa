@@ -1,5 +1,5 @@
-import en from './src/lib/i18n/translations/en';
-import type enMessages from './src/lib/i18n/translations/en';
+import messages from './messages/en';
+import type messages from './messages/en';
 import { formats, FormatsType } from './src/lib/i18n/request-config';
 
 type Messages = typeof en;

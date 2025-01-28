@@ -19,7 +19,7 @@
       "@lib/*": ["lib/*"],
       "@modules/*": ["modules/*"],
       "@pages/*": ["pages/*"],
-      "@locales/*": ["../locales/*"]
+      "@locales/*": ["../messages/*"]
     },
     "plugins": [
       {
