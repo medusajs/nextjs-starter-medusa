@@ -34,12 +34,15 @@ const getI18NRequestConfig = getRequestConfig(async ({ requestLocale }: { reques
     ? resolvedRequestLocale
     : routing.defaultLocale;
 
+  const messages = (await import(`@locales/${resolvedLocale}/index.json`)).default;
+
   return {
     locale: resolvedLocale,
-    messages: (await import(`@locales/${resolvedLocale}.ts`)).default, 
+    messages,
     formats,
   };
 });
 
 export default getI18NRequestConfig;
-
+  
+  

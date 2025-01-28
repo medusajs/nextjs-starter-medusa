@@ -1,5 +1,5 @@
-import messages from './messages/en';
-import type messages from './messages/en';
+import enMessages from '../messages/en/index.json';
+import arMessages from '../messages/ar/index.json';
 import { formats, FormatsType } from './src/lib/i18n/request-config';
 
 type Messages = typeof en;
