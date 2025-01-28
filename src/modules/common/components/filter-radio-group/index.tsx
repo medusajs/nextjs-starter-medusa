@@ -1,4 +1,3 @@
-import k, { TranslationDef } from "@lib/i18n/translations/keys"
 import { useTranslations } from "next-intl"
 
 import { EllipseMiniSolid } from "@medusajs/icons"
