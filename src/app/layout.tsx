@@ -1,8 +1,8 @@
 import { getBaseURL } from "@lib/util/env"
-import getI18NRequestConfig from "@lib/i18n/request-config";
 import { LOCALE_COOKIE, routing } from "@lib/i18n/settings";
 import { Metadata } from "next"
 import { NextIntlClientProvider } from "next-intl"
+import { getLocale, getMessages } from 'next-intl/server';
 import { setRequestLocale } from "next-intl/server"
 import { cookies } from "next/headers"
 import { Suspense } from "react"
@@ -23,27 +23,16 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: { locale: string };
 }) {
-  // determine the locale to use based on URL, cookie, or fallback
-  const isValidLocale = routing.locales.includes(requestedLocale);
-  const cookieLocale = (await cookies()).get(LOCALE_COOKIE)?.value;
-  const finalLocale = isValidLocale 
-    ? requestedLocale 
-    : cookieLocale && routing.locales.includes(cookieLocale)
-      ? cookieLocale
-      : routing.defaultLocale;
 
   // Set the request locale (for server-side context)
-  setRequestLocale(finalLocale);
-  // load translations for the determined locale
-  const { messages } = await getI18NRequestConfig({
-    requestLocale: Promise.resolve(finalLocale),
-    locale: finalLocale,
-  });
+  setRequestLocale(await getLocale());
+
+  const messages = await getMessages();
 
   return (
-    <html lang={finalLocale} data-mode="light">
+    <html lang={await getLocale()} data-mode="light">
       {/* Provide the intl context */}
-      <NextIntlClientProvider locale={finalLocale} messages={messages}>
+      <NextIntlClientProvider messages={messages}>
         <body>
           <main className="relative">{children}</main>
         </body>

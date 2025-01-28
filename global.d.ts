@@ -8,7 +8,7 @@ declare module 'next-intl' {
     type DefaultLocale = 'en';
     type SupportedLocales = DefaultLocale | 'ar';
   
-    type MessageSchema = typeof arMessages;
+    type MessageSchema = typeof enMessages;
   
     interface IntlConfig {
       locale: SupportedLocales;
@@ -16,4 +16,4 @@ declare module 'next-intl' {
       formats: FormatsType;
     }
   }
-  import { useTranslations } from "next-intl"import { useTranslations } from "next-intl"
+  
