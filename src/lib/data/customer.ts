@@ -16,8 +16,12 @@ import {
 
 export const retrieveCustomer =
   async (): Promise<HttpTypes.StoreCustomer | null> => {
+    const authHeaders = await getAuthHeaders()
+
+    if (!authHeaders) return null
+
     const headers = {
-      ...(await getAuthHeaders()),
+      ...authHeaders,
     }
 
     const next = {
