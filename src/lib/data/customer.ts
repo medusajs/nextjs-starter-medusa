@@ -127,9 +127,10 @@ export async function login(_currentState: unknown, formData: FormData) {
 }
 
 export async function signout(countryCode: string) {
+  const customerCacheTag = await getCacheTag("customers")
   await sdk.auth.logout()
   removeAuthToken()
-  revalidateTag("customer")
+  revalidateTag(customerCacheTag)
   redirect(`/${countryCode}/account`)
 }
 
