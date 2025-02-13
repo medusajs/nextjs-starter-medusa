@@ -21,6 +21,32 @@ type ShippingProps = {
   availableShippingMethods: HttpTypes.StoreCartShippingOption[] | null
 }
 
+function formatAddress(address) {
+  if (!address) {
+    return ""
+  }
+
+  let ret = ""
+
+  if (address.address_1) {
+    ret += ` ${address.address_1}`
+  }
+
+  if (address.address_2) {
+    ret += `, ${address.address_2}`
+  }
+
+  if (address.postal_code) {
+    ret += `, ${address.postal_code} ${address.city}`
+  }
+
+  if (address.country_code) {
+    ret += `, ${address.country_code.toUpperCase()}`
+  }
+
+  return ret
+}
+
 const Shipping: React.FC<ShippingProps> = ({
   cart,
   availableShippingMethods,
@@ -285,16 +311,21 @@ const Shipping: React.FC<ShippingProps> = ({
                             }
                           )}
                         >
-                          <div className="flex items-center gap-x-4">
+                          <div className="flex items-start gap-x-4">
                             <MedusaRadio
                               checked={option.id === shippingMethodId}
                             />
-                            <span className="text-base-regular">
-                              {option.name}
-                            </span>
-                            <span className="text-base-regular">
-                              {console.log(option)}
-                            </span>
+                            <div className="flex flex-col">
+                              <span className="text-base-regular">
+                                {option.name}
+                              </span>
+                              <span className="text-base-regular text-ui-fg-muted">
+                                {formatAddress(
+                                  option.service_zone?.fulfillment_set?.location
+                                    ?.address
+                                )}
+                              </span>
+                            </div>
                           </div>
                           <span className="justify-self-end text-ui-fg-base">
                             {convertToLocale({
