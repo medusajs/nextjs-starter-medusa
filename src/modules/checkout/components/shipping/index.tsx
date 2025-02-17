@@ -183,7 +183,7 @@ const Shipping: React.FC<ShippingProps> = ({
       </div>
       {isOpen ? (
         <>
-          <div className="grid grid-cols-2">
+          <div className="grid md:grid-cols-2">
             <div className="grid-colspan-1 flex flex-col">
               <span className="font-medium txt-medium text-ui-fg-base">
                 Shipping method
@@ -193,12 +193,18 @@ const Shipping: React.FC<ShippingProps> = ({
               </span>
             </div>
             <div data-testid="delivery-options-container grid-colspan-1">
-              <div className="pb-8">
+              <div className="pb-8 md:pt-0 pt-2">
                 {hasPickupOptions && (
                   <RadioGroup
                     value={showPickupOptions}
                     onChange={(value) => {
-                      handleSetShippingMethod(_pickupMethods[0].id, "pickup")
+                      const id = _pickupMethods.find(
+                        (option) => !option.has_missing_inventory
+                      )?.id
+
+                      if (id) {
+                        handleSetShippingMethod(id, "pickup")
+                      }
                     }}
                   >
                     <Radio
@@ -286,7 +292,7 @@ const Shipping: React.FC<ShippingProps> = ({
           </div>
 
           {showPickupOptions === PICKUP_OPTION_ON && (
-            <div className="grid grid-cols-2">
+            <div className="grid md:grid-cols-2">
               <div className="grid-colspan-1 flex flex-col">
                 <span className="font-medium txt-medium text-ui-fg-base">
                   Store
@@ -296,7 +302,7 @@ const Shipping: React.FC<ShippingProps> = ({
                 </span>
               </div>
               <div data-testid="delivery-options-container grid-colspan-1">
-                <div className="pb-8">
+                <div className="pb-8 md:pt-0 pt-2">
                   <RadioGroup
                     value={shippingMethodId}
                     onChange={(v) => handleSetShippingMethod(v, "pickup")}
@@ -306,12 +312,15 @@ const Shipping: React.FC<ShippingProps> = ({
                         <Radio
                           key={option.id}
                           value={option.id}
+                          disabled={option.has_missing_inventory}
                           data-testid="delivery-option-radio"
                           className={clx(
                             "flex items-center justify-between text-small-regular cursor-pointer py-4 border rounded-rounded px-8 mb-2 hover:shadow-borders-interactive-with-active",
                             {
                               "border-ui-border-interactive":
                                 option.id === shippingMethodId,
+                              "hover:shadow-brders-none cursor-not-allowed":
+                                option.has_missing_inventory,
                             }
                           )}
                         >
