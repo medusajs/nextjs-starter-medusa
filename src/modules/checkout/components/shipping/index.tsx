@@ -199,7 +199,7 @@ const Shipping: React.FC<ShippingProps> = ({
                     value={showPickupOptions}
                     onChange={(value) => {
                       const id = _pickupMethods.find(
-                        (option) => !option.has_missing_inventory
+                        (option) => !option.insufficient_inventory
                       )?.id
 
                       if (id) {
@@ -312,7 +312,7 @@ const Shipping: React.FC<ShippingProps> = ({
                         <Radio
                           key={option.id}
                           value={option.id}
-                          disabled={option.has_missing_inventory}
+                          disabled={option.insufficient_inventory}
                           data-testid="delivery-option-radio"
                           className={clx(
                             "flex items-center justify-between text-small-regular cursor-pointer py-4 border rounded-rounded px-8 mb-2 hover:shadow-borders-interactive-with-active",
@@ -320,7 +320,7 @@ const Shipping: React.FC<ShippingProps> = ({
                               "border-ui-border-interactive":
                                 option.id === shippingMethodId,
                               "hover:shadow-brders-none cursor-not-allowed":
-                                option.has_missing_inventory,
+                                option.insufficient_inventory,
                             }
                           )}
                         >
