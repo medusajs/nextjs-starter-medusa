@@ -127,10 +127,12 @@ export async function login(_currentState: unknown, formData: FormData) {
 }
 
 export async function signout(countryCode: string) {
-  const customerCacheTag = await getCacheTag("customers")
   await sdk.auth.logout()
   removeAuthToken()
+  
+  const customerCacheTag = await getCacheTag("customers")
   revalidateTag(customerCacheTag)
+  
   redirect(`/${countryCode}/account`)
 }
 
@@ -145,7 +147,8 @@ export async function transferCart() {
 
   await sdk.store.cart.transferCart(cartId, {}, headers)
 
-  revalidateTag("cart")
+  const cartCacheTag = await getCacheTag("carts")
+  revalidateTag(cartCacheTag)
 }
 
 export const addCustomerAddress = async (
