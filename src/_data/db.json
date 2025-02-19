@@ -1,0 +1,49 @@
+{
+    "pcdetails":[
+    {
+      "id": "1",
+      "name": "Gaming Laptop",
+      "price": 1200.99,
+      "photo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGSY3oATUFK1siYGE9_3x9dcZpEb321Jyn7Q&s",
+      "description": "High-performance gaming laptop with RTX graphics and fast refresh rate."
+    },
+    {
+      "id": "2",
+      "name": "Mechanical Keyboard",
+      "price": 99.99,
+      "photo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWCTSpc5FhWkNHOeOYEwKC5-ZiH5hNMfVZCg&s",
+      "description": "RGB mechanical keyboard with tactile switches for a responsive typing experience."
+    },
+    {
+      "id": "3",
+      "name": "Wireless Mouse",
+      "price": 49.99,
+      "photo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuT_v8jpV6qSC9Gl2vPsYKdkWghO6wlf7iZQ&s",
+      "description": "Ergonomic wireless mouse with adjustable DPI and long battery life."
+    },
+    {
+      "id": "4",
+      "name": "4K Monitor",
+      "price": 299.99,
+      "photo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTXbuFS1ErinLrTvKjdFafPEwcfcc4qcaCMw&s",
+      "description": "Ultra HD 4K monitor with vibrant colors and high refresh rate for smooth visuals."
+    },
+    {
+      "id": "5",
+      "name": "4K Monitor",
+      "price": 299.99,
+      "photo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSZ1L6Bh0939VSUMOteDrVBP6EAEs1IOXDcA&s",
+      "description": "Ultra HD 4K monitor with vibrant colors and high refresh rate for smooth visuals."
+    },
+    {
+      "id": "6",
+      "name": "4K Monitor",
+      "price": 299.99,
+      "photo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRs4DQysc933LDowS8BJ6yyq8oQkrFvkuZs_w&s",
+      "description": "Ultra HD 4K monitor with vibrant colors and high refresh rate for smooth visuals."
+    }
+    
+    
+  ]
+}
+  

@@ -1,5 +1,11 @@
 import { RefObject, useEffect, useState } from "react"
 
+
+//stors custom react hooks to simplify logic(e.g , authentication hooks, cart hooks)
+
+//helps manages reusable functionalities like useAuth() or useCart().
+
+
 export const useIntersection = (
   element: RefObject<HTMLDivElement | null>,
   rootMargin: string

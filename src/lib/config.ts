@@ -1,5 +1,9 @@
 import Medusa from "@medusajs/js-sdk"
 
+//stores configuration settings(API keys,environment variables,medusa setup)
+
+//used initialize to SDKs or set up external services 
+
 // Defaults to standard port for Medusa server
 let MEDUSA_BACKEND_URL = "http://localhost:9000"
 

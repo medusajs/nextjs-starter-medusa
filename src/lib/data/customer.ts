@@ -14,6 +14,11 @@ import {
   setAuthToken,
 } from "./cookies"
 
+//handles data fetching and proccing (fetching customers ordrs  or products from medusa)
+
+//typically contains API calls and database interaction.
+
+
 export const retrieveCustomer =
   async (): Promise<HttpTypes.StoreCustomer | null> => {
     const headers = {
@@ -56,20 +61,20 @@ export const updateCustomer = async (body: HttpTypes.StoreUpdateCustomer) => {
 
 export async function signup(_currentState: unknown, formData: FormData) {
   const password = formData.get("password") as string
-  const customerForm = {
+  const customerForm = {              // get form data from register
     email: formData.get("email") as string,
     first_name: formData.get("first_name") as string,
     last_name: formData.get("last_name") as string,
     phone: formData.get("phone") as string,
   }
 
-  try {
+  try {       //register customer with medusa/calls medusa to create a new customer
     const token = await sdk.auth.register("customer", "emailpass", {
       email: customerForm.email,
       password: password,
-    })
+    })     //if successful, medusa return authentication token
 
-    await setAuthToken(token as string)
+    await setAuthToken(token as string)  //this allows the user to loggeed in
 
     const headers = {
       ...(await getAuthHeaders()),
@@ -79,19 +84,19 @@ export async function signup(_currentState: unknown, formData: FormData) {
       customerForm,
       {},
       headers
-    )
+    ) //adds the new user to the postgreSQL database 
 
     const loginToken = await sdk.auth.login("customer", "emailpass", {
       email: customerForm.email,
       password,
-    })
+    })  //logs the user in immediately after registration 
 
     await setAuthToken(loginToken as string)
 
     const customerCacheTag = await getCacheTag("customers")
     revalidateTag(customerCacheTag)
 
-    await transferCart()
+    await transferCart()  //transfer shoping cart 
 
     return createdCustomer
   } catch (error: any) {
@@ -100,23 +105,23 @@ export async function signup(_currentState: unknown, formData: FormData) {
 }
 
 export async function login(_currentState: unknown, formData: FormData) {
-  const email = formData.get("email") as string
+  const email = formData.get("email") as string  //get email and password from form
   const password = formData.get("password") as string
 
   try {
     await sdk.auth
-      .login("customer", "emailpass", { email, password })
-      .then(async (token) => {
-        await setAuthToken(token as string)
-        const customerCacheTag = await getCacheTag("customers")
-        revalidateTag(customerCacheTag)
+      .login("customer", "emailpass", { email, password }) //check if the credentials are correct
+      .then(async (token) => {   //This means: "Once the login request is successful, take the returned token and do the next steps.
+        await setAuthToken(token as string) //save the session token/store authentication token
+        const customerCacheTag = await getCacheTag("customers")  //getCacheTag("customers") → Fetches the cache tag related to customer data.
+        revalidateTag(customerCacheTag) // Refreshes the customer data so the latest info is available (e.g., updated cart, account details, etc.).
       })
   } catch (error: any) {
     return error.toString()
   }
 
   try {
-    await transferCart()
+    await transferCart()  //transfer shopping cart it  have
   } catch (error: any) {
     return error.toString()
   }
@@ -245,3 +250,21 @@ export const updateCustomerAddress = async (
       return { success: false, error: err.toString() }
     })
 }
+
+
+// login or register =  login.tsx  Register.tsx
+
+// form submmission triggers login or sing up functions = Customer.ts
+
+// backend verifies cregintials with medusa = sdk.auth.login() or sdk.auth.register()
+
+// if successful,authentication token is stored = setAuthToken(token)
+
+// user session is created and shpping cart is transferred = transferCart()
+
+// context → Manages global state.
+// data → Fetches/stores data from APIs.
+// hooks → Custom reusable React logic.
+// util → Helper functions.
+// config.ts → App settings & API setup.
+// constant.tsx → Predefined values used in the app.

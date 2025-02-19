@@ -1,4 +1,5 @@
 import { getBaseURL } from "@lib/util/env"
+import { Categories } from "@modules/home/components/cetagory"
 import { Metadata } from "next"
 import "styles/globals.css"
 

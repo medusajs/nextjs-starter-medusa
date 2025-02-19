@@ -5,6 +5,10 @@ import Ideal from "@modules/common/icons/ideal"
 import Bancontact from "@modules/common/icons/bancontact"
 import PayPal from "@modules/common/icons/paypal"
 
+//define constants used throughtout the app(API URLs, Status code,default values)
+
+//helps avoid hard code values and makes updates easier.
+
 /* Map of payment provider_id to their title and icon. Add in any payment providers you want to use. */
 export const paymentInfoMap: Record<
   string,

@@ -1,5 +1,9 @@
 import { isEqual, pick } from "lodash"
 
+//contains utility/helper functions (formatig data / handling errors/logging)
+
+//use throughout the app to keep code clean and reusable.
+
 export default function compareAddresses(address1: any, address2: any) {
   return isEqual(
     pick(address1, [

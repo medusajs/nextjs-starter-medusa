@@ -2,6 +2,10 @@
 
 import React, { createContext, useContext } from "react"
 
+//stores reeact context for managing globle states (authentication/user data /cart)
+
+//helps share data between components without passing props mannual.
+
 interface ModalContext {
   close: () => void
 }
