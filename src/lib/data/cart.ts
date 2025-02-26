@@ -236,10 +236,7 @@ export async function setShippingMethod({
 
 export async function initiatePaymentSession(
   cart: HttpTypes.StoreCart,
-  data: {
-    provider_id: string
-    context?: Record<string, unknown>
-  }
+  data: HttpTypes.StoreInitializePaymentSession
 ) {
   const headers = {
     ...(await getAuthHeaders()),
