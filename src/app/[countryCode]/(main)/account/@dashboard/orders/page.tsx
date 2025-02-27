@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   description: "Overview of your previous orders.",
 }
 
+export const dynamic = "force-dynamic"
+
 export default async function Orders() {
   const orders = await listOrders()
 
