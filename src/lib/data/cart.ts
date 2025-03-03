@@ -20,8 +20,9 @@ import { getRegion } from "./regions"
  * @param cartId - optional - The ID of the cart to retrieve.
  * @returns The cart object if found, or null if not found.
  */
-export async function retrieveCart(cartId?: string) {
+export async function retrieveCart(cartId?: string, fields?: string) {
   const id = cartId || (await getCartId())
+  fields ??= "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name"
 
   if (!id) {
     return null
@@ -39,14 +40,13 @@ export async function retrieveCart(cartId?: string) {
     .fetch<HttpTypes.StoreCartResponse>(`/store/carts/${id}`, {
       method: "GET",
       query: {
-        fields:
-          "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name",
+        fields
       },
       headers,
       next,
       cache: "force-cache",
     })
-    .then(({ cart }) => cart)
+    .then(({ cart }: { cart: HttpTypes.StoreCart }) => cart)
     .catch(() => null)
 }
 
@@ -57,7 +57,7 @@ export async function getOrSetCart(countryCode: string) {
     throw new Error(`Region not found for country code: ${countryCode}`)
   }
 
-  let cart = await retrieveCart()
+  let cart = await retrieveCart(undefined, 'id,region_id')
 
   const headers = {
     ...(await getAuthHeaders()),
@@ -99,7 +99,7 @@ export async function updateCart(data: HttpTypes.StoreUpdateCart) {
 
   return sdk.store.cart
     .update(cartId, data, {}, headers)
-    .then(async ({ cart }) => {
+    .then(async ({ cart }: { cart: HttpTypes.StoreCart }) => {
       const cartCacheTag = await getCacheTag("carts")
       revalidateTag(cartCacheTag)
 
