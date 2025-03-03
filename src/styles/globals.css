@@ -18,6 +18,7 @@
   }
 
   input:focus ~ label,
+  input:-webkit-autofill ~ label,
   input:not(:placeholder-shown) ~ label {
     @apply -translate-y-2 text-xsmall-regular;
   }
