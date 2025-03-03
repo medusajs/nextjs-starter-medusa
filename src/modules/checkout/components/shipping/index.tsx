@@ -183,16 +183,16 @@ const Shipping: React.FC<ShippingProps> = ({
       </div>
       {isOpen ? (
         <>
-          <div className="grid md:grid-cols-2">
-            <div className="grid-colspan-1 flex flex-col">
+          <div className="grid">
+            <div className="flex flex-col">
               <span className="font-medium txt-medium text-ui-fg-base">
                 Shipping method
               </span>
-              <span className=" text-ui-fg-muted txt-medium">
+              <span className="mb-4 text-ui-fg-muted txt-medium">
                 How would you like you order delivered
               </span>
             </div>
-            <div data-testid="delivery-options-container grid-colspan-1">
+            <div data-testid="delivery-options-container">
               <div className="pb-8 md:pt-0 pt-2">
                 {hasPickupOptions && (
                   <RadioGroup
@@ -292,16 +292,16 @@ const Shipping: React.FC<ShippingProps> = ({
           </div>
 
           {showPickupOptions === PICKUP_OPTION_ON && (
-            <div className="grid md:grid-cols-2">
-              <div className="grid-colspan-1 flex flex-col">
+            <div className="grid">
+              <div className="flex flex-col">
                 <span className="font-medium txt-medium text-ui-fg-base">
                   Store
                 </span>
-                <span className=" text-ui-fg-muted txt-medium">
+                <span className="mb-4 text-ui-fg-muted txt-medium">
                   Choose a store near you
                 </span>
               </div>
-              <div data-testid="delivery-options-container grid-colspan-1">
+              <div data-testid="delivery-options-container">
                 <div className="pb-8 md:pt-0 pt-2">
                   <RadioGroup
                     value={shippingMethodId}
@@ -355,23 +355,21 @@ const Shipping: React.FC<ShippingProps> = ({
             </div>
           )}
 
-          <div className="grid grid-cols-2">
-            <div className="col-span-1 col-start-2">
-              <ErrorMessage
-                error={error}
-                data-testid="delivery-option-error-message"
-              />
-              <Button
-                size="large"
-                className="mt-6 w-full"
-                onClick={handleSubmit}
-                isLoading={isLoading}
-                disabled={!cart.shipping_methods?.[0]}
-                data-testid="submit-delivery-option-button"
-              >
-                Continue to payment
-              </Button>
-            </div>
+          <div>
+            <ErrorMessage
+              error={error}
+              data-testid="delivery-option-error-message"
+            />
+            <Button
+              size="large"
+              className="mt"
+              onClick={handleSubmit}
+              isLoading={isLoading}
+              disabled={!cart.shipping_methods?.[0]}
+              data-testid="submit-delivery-option-button"
+            >
+              Continue to payment
+            </Button>
           </div>
         </>
       ) : (
