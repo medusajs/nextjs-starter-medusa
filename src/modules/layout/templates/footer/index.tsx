@@ -18,7 +18,7 @@ export default async function Footer() {
           <div>
             <LocalizedClientLink
               href="/"
-              className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase"
+              className="text-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase"
             >
               Medusa Store
             </LocalizedClientLink>
@@ -26,7 +26,7 @@ export default async function Footer() {
           <div className="text-small-regular gap-10 md:gap-x-16 grid grid-cols-2 sm:grid-cols-3">
             {productCategories && productCategories?.length > 0 && (
               <div className="flex flex-col gap-y-2">
-                <span className="txt-small-plus txt-ui-fg-base">
+                <span className="text-small-plus text-ui-fg-base">
                   Categories
                 </span>
                 <ul
@@ -47,13 +47,13 @@ export default async function Footer() {
 
                     return (
                       <li
-                        className="flex flex-col gap-2 text-ui-fg-subtle txt-small"
+                        className="flex flex-col gap-2 text-ui-fg-subtle text-small"
                         key={c.id}
                       >
                         <LocalizedClientLink
                           className={clx(
                             "hover:text-ui-fg-base",
-                            children && "txt-small-plus"
+                            children && "text-small-plus"
                           )}
                           href={`/categories/${c.handle}`}
                           data-testid="category-link"
@@ -84,12 +84,12 @@ export default async function Footer() {
             )}
             {collections && collections.length > 0 && (
               <div className="flex flex-col gap-y-2">
-                <span className="txt-small-plus txt-ui-fg-base">
+                <span className="text-small-plus text-ui-fg-base">
                   Collections
                 </span>
                 <ul
                   className={clx(
-                    "grid grid-cols-1 gap-2 text-ui-fg-subtle txt-small",
+                    "grid grid-cols-1 gap-2 text-ui-fg-subtle text-small",
                     {
                       "grid-cols-2": (collections?.length || 0) > 3,
                     }
@@ -109,8 +109,8 @@ export default async function Footer() {
               </div>
             )}
             <div className="flex flex-col gap-y-2">
-              <span className="txt-small-plus txt-ui-fg-base">Medusa</span>
-              <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
+              <span className="text-small-plus text-ui-fg-base">Medusa</span>
+              <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle text-small">
                 <li>
                   <a
                     href="https://github.com/medusajs"
@@ -146,7 +146,7 @@ export default async function Footer() {
           </div>
         </div>
         <div className="flex w-full mb-16 justify-between text-ui-fg-muted">
-          <Text className="txt-compact-small">
+          <Text className="text-compact-small">
             © {new Date().getFullYear()} Medusa Store. All rights reserved.
           </Text>
           <MedusaCTA />
