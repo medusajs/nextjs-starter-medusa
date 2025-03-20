@@ -11,6 +11,7 @@ import {
   getCacheTag,
   getCartId,
   removeAuthToken,
+  removeCartId,
   setAuthToken,
 } from "./cookies"
 
@@ -128,11 +129,17 @@ export async function login(_currentState: unknown, formData: FormData) {
 
 export async function signout(countryCode: string) {
   await sdk.auth.logout()
-  removeAuthToken()
-  
+
+  await removeAuthToken()
+
   const customerCacheTag = await getCacheTag("customers")
   revalidateTag(customerCacheTag)
-  
+
+  await removeCartId()
+
+  const cartCacheTag = await getCacheTag("carts")
+  revalidateTag(cartCacheTag)
+
   redirect(`/${countryCode}/account`)
 }
 

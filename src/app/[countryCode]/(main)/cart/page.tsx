@@ -10,12 +10,12 @@ export const metadata: Metadata = {
 }
 
 export default async function Cart() {
-  const cart = await retrieveCart()
-  const customer = await retrieveCustomer()
-
-  if (!cart) {
+  const cart = await retrieveCart().catch((error) => {
+    console.error(error)
     return notFound()
-  }
+  })
+
+  const customer = await retrieveCustomer()
 
   return <CartTemplate cart={cart} customer={customer} />
 }
