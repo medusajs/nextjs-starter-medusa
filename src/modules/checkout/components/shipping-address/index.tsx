@@ -49,37 +49,42 @@ const ShippingAddress = ({
     address?: HttpTypes.StoreCartAddress,
     email?: string
   ) => {
-    address &&
-      setFormData((prevState: Record<string, any>) => ({
-        ...prevState,
-        "shipping_address.first_name": address?.first_name || "",
-        "shipping_address.last_name": address?.last_name || "",
-        "shipping_address.address_1": address?.address_1 || "",
-        "shipping_address.company": address?.company || "",
-        "shipping_address.postal_code": address?.postal_code || "",
-        "shipping_address.city": address?.city || "",
-        "shipping_address.country_code": address?.country_code || "",
-        "shipping_address.province": address?.province || "",
-        "shipping_address.phone": address?.phone || "",
-      }))
+    if (address) {
+      const updatedFormData = {
+        ...formData,
+        "shipping_address.first_name": address.first_name || "",
+        "shipping_address.last_name": address.last_name || "",
+        "shipping_address.address_1": address.address_1 || "",
+        "shipping_address.company": address.company || "",
+        "shipping_address.postal_code": address.postal_code || "",
+        "shipping_address.city": address.city || "",
+        "shipping_address.country_code": address.country_code || "",
+        "shipping_address.province": address.province || "",
+        "shipping_address.phone": address.phone || "",
+      }
 
-    email &&
-      setFormData((prevState: Record<string, any>) => ({
-        ...prevState,
-        email: email,
-      }))
+      setFormData(
+        email ? { ...updatedFormData, email: email || "" } : updatedFormData
+      )
+    } else if (email) {
+      setFormData({ ...formData, email: email })
+    }
   }
 
   useEffect(() => {
-    // Ensure cart is not null and has a shipping_address before setting form data
-    if (cart && cart.shipping_address) {
-      setFormAddress(cart?.shipping_address, cart?.email)
+    // Only update form data from cart if we don't already have values
+    // to prevent controlled/uncontrolled switch
+    if (!formData["shipping_address.first_name"] && cart?.shipping_address) {
+      setFormAddress(cart.shipping_address, cart.email)
+    } else if (!formData.email && cart?.email) {
+      setFormData((prev) => ({ ...prev, email: cart.email || "" }))
     }
 
-    if (cart && !cart.email && customer?.email) {
-      setFormAddress(undefined, customer.email)
+    // Set email from customer if available and not already set
+    if (!formData.email && !cart?.email && customer?.email) {
+      setFormData((prev) => ({ ...prev, email: customer.email || "" }))
     }
-  }, [cart]) // Add cart as a dependency
+  }, [cart, customer])
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -92,6 +97,13 @@ const ShippingAddress = ({
     })
   }
 
+  // Create a stable address input object for the select component
+  const addressInput = useMemo(() => {
+    return mapKeys(formData, (_, key) =>
+      key.replace("shipping_address.", "")
+    ) as HttpTypes.StoreCartAddress
+  }, [formData])
+
   return (
     <>
       {customer && (addressesInRegion?.length || 0) > 0 && (
@@ -101,11 +113,7 @@ const ShippingAddress = ({
           </p>
           <AddressSelect
             addresses={customer.addresses}
-            addressInput={
-              mapKeys(formData, (_, key) =>
-                key.replace("shipping_address.", "")
-              ) as HttpTypes.StoreCartAddress
-            }
+            addressInput={addressInput}
             onSelect={setFormAddress}
           />
         </Container>

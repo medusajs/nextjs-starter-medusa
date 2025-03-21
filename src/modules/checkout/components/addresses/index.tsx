@@ -103,19 +103,19 @@ const Addresses = ({
                       Shipping Address
                     </Text>
                     <Text className="txt-medium text-ui-fg-subtle">
-                      {cart.shipping_address.first_name}{" "}
-                      {cart.shipping_address.last_name}
+                      {cart.shipping_address.first_name || ""}{" "}
+                      {cart.shipping_address.last_name || ""}
                     </Text>
                     <Text className="txt-medium text-ui-fg-subtle">
-                      {cart.shipping_address.address_1}{" "}
-                      {cart.shipping_address.address_2}
+                      {cart.shipping_address.address_1 || ""}{" "}
+                      {cart.shipping_address.address_2 || ""}
                     </Text>
                     <Text className="txt-medium text-ui-fg-subtle">
-                      {cart.shipping_address.postal_code},{" "}
-                      {cart.shipping_address.city}
+                      {cart.shipping_address.postal_code || ""},{" "}
+                      {cart.shipping_address.city || ""}
                     </Text>
                     <Text className="txt-medium text-ui-fg-subtle">
-                      {cart.shipping_address.country_code?.toUpperCase()}
+                      {cart.shipping_address.country_code?.toUpperCase() || ""}
                     </Text>
                   </div>
 
@@ -127,10 +127,10 @@ const Addresses = ({
                       Contact
                     </Text>
                     <Text className="txt-medium text-ui-fg-subtle">
-                      {cart.shipping_address.phone}
+                      {cart.shipping_address.phone || ""}
                     </Text>
                     <Text className="txt-medium text-ui-fg-subtle">
-                      {cart.email}
+                      {cart.email || ""}
                     </Text>
                   </div>
 
@@ -149,19 +149,20 @@ const Addresses = ({
                     ) : (
                       <>
                         <Text className="txt-medium text-ui-fg-subtle">
-                          {cart.billing_address?.first_name}{" "}
-                          {cart.billing_address?.last_name}
+                          {cart.billing_address?.first_name || ""}{" "}
+                          {cart.billing_address?.last_name || ""}
                         </Text>
                         <Text className="txt-medium text-ui-fg-subtle">
-                          {cart.billing_address?.address_1}{" "}
-                          {cart.billing_address?.address_2}
+                          {cart.billing_address?.address_1 || ""}{" "}
+                          {cart.billing_address?.address_2 || ""}
                         </Text>
                         <Text className="txt-medium text-ui-fg-subtle">
-                          {cart.billing_address?.postal_code},{" "}
-                          {cart.billing_address?.city}
+                          {cart.billing_address?.postal_code || ""},{" "}
+                          {cart.billing_address?.city || ""}
                         </Text>
                         <Text className="txt-medium text-ui-fg-subtle">
-                          {cart.billing_address?.country_code?.toUpperCase()}
+                          {cart.billing_address?.country_code?.toUpperCase() ||
+                            ""}
                         </Text>
                       </>
                     )}

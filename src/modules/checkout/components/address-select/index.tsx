@@ -29,11 +29,12 @@ const AddressSelect = ({
   }
 
   const selectedAddress = useMemo(() => {
+    if (!addressInput || !addresses?.length) return undefined
     return addresses.find((a) => compareAddresses(a, addressInput))
   }, [addresses, addressInput])
 
   return (
-    <Listbox onChange={handleSelect} value={selectedAddress?.id}>
+    <Listbox onChange={handleSelect} value={selectedAddress?.id || null}>
       <div className="relative">
         <Listbox.Button
           className="relative w-full flex justify-between items-center px-4 py-[10px] text-left bg-white cursor-default focus:outline-none border rounded-rounded focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-gray-300 focus-visible:ring-offset-2 focus-visible:border-gray-300 text-base-regular"
