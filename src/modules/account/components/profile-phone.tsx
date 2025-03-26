@@ -4,7 +4,7 @@ import React, { useEffect, useActionState } from "react"
 
 import Input from "@modules/common/components/input"
 
-import AccountInfo from "../account-info"
+import AccountInfo from "./account-info"
 import { HttpTypes } from "@medusajs/types"
 import { updateCustomer } from "@lib/data/customer"
 
@@ -12,7 +12,7 @@ type MyInformationProps = {
   customer: HttpTypes.StoreCustomer
 }
 
-const ProfilePhone: React.FC<MyInformationProps> = ({ customer }) => {
+const ProfileEmail: React.FC<MyInformationProps> = ({ customer }) => {
   const [successState, setSuccessState] = React.useState(false)
 
   const updateCustomerPhone = async (
@@ -48,7 +48,7 @@ const ProfilePhone: React.FC<MyInformationProps> = ({ customer }) => {
     <form action={formAction} className="w-full">
       <AccountInfo
         label="Phone"
-        currentInfo={`${customer.phone}`}
+        currentInfo={customer.phone || "No phone number"}
         isSuccess={successState}
         isError={!!state.error}
         errorMessage={state.error}
@@ -59,10 +59,10 @@ const ProfilePhone: React.FC<MyInformationProps> = ({ customer }) => {
           <Input
             label="Phone"
             name="phone"
-            type="phone"
-            autoComplete="phone"
+            type="tel"
+            autoComplete="tel"
             required
-            defaultValue={customer.phone ?? ""}
+            defaultValue={customer.phone || ""}
             data-testid="phone-input"
           />
         </div>
@@ -71,4 +71,4 @@ const ProfilePhone: React.FC<MyInformationProps> = ({ customer }) => {
   )
 }
 
-export default ProfilePhone
+export default ProfileEmail
