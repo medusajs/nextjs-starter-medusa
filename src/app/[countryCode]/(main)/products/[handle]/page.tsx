@@ -27,7 +27,7 @@ export async function generateStaticParams() {
 
       return {
         country,
-        products: response.products?.filter((p) => p.handle) || [],
+        products: response.products || [],
       }
     })
 
