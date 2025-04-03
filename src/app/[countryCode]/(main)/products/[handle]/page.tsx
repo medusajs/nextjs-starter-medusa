@@ -18,19 +18,28 @@ export async function generateStaticParams() {
       return []
     }
 
-    const products = await listProducts({
-      countryCode: "US",
-      queryParams: { fields: "handle" },
-    }).then(({ response }) => response.products)
+    const promises = countryCodes.map(async (country) => {
+      const { response } = await listProducts({
+        countryCode: country,
+        queryParams: { limit: 100, fields: "handle" },
+        isStatic: true,
+      })
 
-    return countryCodes
-      .map((countryCode) =>
-        products.map((product) => ({
-          countryCode,
+      return {
+        country,
+        products: response.products?.filter((p) => p.handle) || [],
+      }
+    })
+
+    const countryProducts = await Promise.all(promises)
+
+    return countryProducts
+      .flatMap((countryData) =>
+        countryData.products.map((product) => ({
+          countryCode: countryData.country,
           handle: product.handle,
         }))
       )
-      .flat()
       .filter((param) => param.handle)
   } catch (error) {
     console.error(
