@@ -22,7 +22,6 @@ export async function generateStaticParams() {
       const { response } = await listProducts({
         countryCode: country,
         queryParams: { limit: 100, fields: "handle" },
-        isStatic: true,
       })
 
       return {
