@@ -76,6 +76,15 @@ cd nextjs-starter-medusa/
 mv .env.template .env.local
 ```
 
+#### Environment Variables
+
+This starter uses the following environment variables:
+
+- `MEDUSA_BACKEND_URL` - Used for server-side code (middleware)
+- `NEXT_PUBLIC_MEDUSA_BACKEND_URL` - Used for client-side code
+  
+The middleware will check for both variables, so you can set them to the same value for convenience.
+
 ### Install dependencies
 
 Use Yarn to install all dependencies.
