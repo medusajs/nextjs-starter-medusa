@@ -9,18 +9,25 @@ import ProductInfo from "@modules/products/templates/product-info"
 import SkeletonRelatedProducts from "@modules/skeletons/templates/skeleton-related-products"
 import { notFound } from "next/navigation"
 import ProductActionsWrapper from "./product-actions-wrapper"
-import { HttpTypes } from "@medusajs/types"
+import { AdminStore, HttpTypes, StoreCustomer } from "@medusajs/types"
+import ChatWidget from "ChatWidget"
+
+export interface StoreProduct extends HttpTypes.StoreProduct {
+  store: AdminStore;
+}
 
 type ProductTemplateProps = {
-  product: HttpTypes.StoreProduct
+  product: StoreProduct
   region: HttpTypes.StoreRegion
   countryCode: string
+  customer: StoreCustomer | null
 }
 
 const ProductTemplate: React.FC<ProductTemplateProps> = ({
   product,
   region,
   countryCode,
+  customer,
 }) => {
   if (!product || !product.id) {
     return notFound()
@@ -62,6 +69,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
           <RelatedProducts product={product} countryCode={countryCode} />
         </Suspense>
       </div>
+      <ChatWidget store={product.store} customer={customer} />
     </>
   )
 }

@@ -15,6 +15,7 @@
     "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
+    "@connectycube/chat-widget": "^0.24.0",
     "@headlessui/react": "^2.2.0",
     "@medusajs/js-sdk": "latest",
     "@medusajs/ui": "latest",
