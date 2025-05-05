@@ -41,7 +41,6 @@ const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
             <Text>
               Order status:{" "}
               <span className="text-ui-fg-subtle " data-testid="order-status">
-                {/* TODO: Check where the statuses should come from */}
                 {formatStatus(order.fulfillment_status)}
               </span>
             </Text>
