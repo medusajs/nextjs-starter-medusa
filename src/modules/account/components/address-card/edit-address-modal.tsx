@@ -81,7 +81,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
           </Heading>
           {address.company && (
             <Text
-              className="txt-compact-small text-ui-fg-base"
+              className="text-compact-small text-ui-fg-base"
               data-testid="address-company"
             >
               {address.company}
