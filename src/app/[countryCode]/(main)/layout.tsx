@@ -8,6 +8,9 @@ import CartMismatchBanner from "@modules/layout/components/cart-mismatch-banner"
 import Footer from "@modules/layout/templates/footer"
 import Nav from "@modules/layout/templates/nav"
 import FreeShippingPriceNudge from "@modules/shipping/components/free-shipping-price-nudge"
+import { CompanionPanelProvider } from "@lib/context/companion-panel-context"
+import UnifiedLayoutWrapper from "@modules/layout/components/unified-layout-wrapper"
+import ResizableCompanionPanel from "@modules/layout/components/resizable-companion-panel"
 
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseURL()),
@@ -25,7 +28,7 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
   }
 
   return (
-    <>
+    <CompanionPanelProvider>
       <Nav />
       {customer && cart && (
         <CartMismatchBanner customer={customer} cart={cart} />
@@ -38,8 +41,15 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
           shippingOptions={shippingOptions}
         />
       )}
-      {props.children}
-      <Footer />
-    </>
+      
+      <UnifiedLayoutWrapper 
+        footer={<Footer />}
+        className="debug-content-size"
+      >
+        {props.children}
+      </UnifiedLayoutWrapper>
+      
+      <ResizableCompanionPanel cart={cart} />
+    </CompanionPanelProvider>
   )
 }

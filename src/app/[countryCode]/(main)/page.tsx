@@ -2,6 +2,7 @@ import { Metadata } from "next"
 
 import FeaturedProducts from "@modules/home/components/featured-products"
 import Hero from "@modules/home/components/hero"
+import ContentResponsiveDemo from "@modules/layout/components/content-responsive-demo"
 import { listCollections } from "@lib/data/collections"
 import { getRegion } from "@lib/data/regions"
 

@@ -1,4 +1,5 @@
 const path = require("path")
+const contentMediaPlugin = require("./src/lib/tailwind/content-media-plugin")
 
 module.exports = {
   darkMode: "class",
@@ -158,5 +159,8 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-radix")()],
+  plugins: [
+    require("tailwindcss-radix")(),
+    contentMediaPlugin, // Our custom content-area responsive plugin
+  ],
 }

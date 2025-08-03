@@ -5,6 +5,8 @@ import { StoreRegion } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import CartButton from "@modules/layout/components/cart-button"
 import SideMenu from "@modules/layout/components/side-menu"
+import HelpTriggerButton from "@modules/layout/components/help-trigger-button"
+import AIChatTriggerButton from "@modules/layout/components/ai-chat-trigger-button"
 
 export default async function Nav() {
   const regions = await listRegions().then((regions: StoreRegion[]) => regions)
@@ -39,6 +41,13 @@ export default async function Nav() {
                 Account
               </LocalizedClientLink>
             </div>
+            
+            {/* Companion Panel Triggers */}
+            <div className="flex items-center gap-x-2 h-full">
+              <HelpTriggerButton />
+              <AIChatTriggerButton />
+            </div>
+            
             <Suspense
               fallback={
                 <LocalizedClientLink

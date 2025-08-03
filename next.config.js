@@ -1,6 +1,9 @@
 const checkEnvVariables = require("./check-env-variables")
 
-checkEnvVariables()
+// Skip environment check during testing
+if (process.env.NODE_ENV !== 'test') {
+  checkEnvVariables()
+}
 
 /**
  * @type {import('next').NextConfig}

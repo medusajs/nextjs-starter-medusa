@@ -1,0 +1,242 @@
+/**
+ * Products Page Styles
+ * 
+ * All responsive styles for product listing and detail pages in one file.
+ * Includes traditional media queries, content media queries, and component styles.
+ */
+
+/* =============================================================================
+   COMPONENT-SPECIFIC STYLES
+   ============================================================================= */
+
+.products-container {
+  padding: 1rem;
+}
+
+.products-header {
+  margin-bottom: 2rem;
+}
+
+.products-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.products-subtitle {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.products-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+/* Product detail layout */
+.product-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.product-images {
+  width: 100%;
+}
+
+.product-info {
+  width: 100%;
+}
+
+/* =============================================================================
+   TRADITIONAL MEDIA QUERIES
+   ============================================================================= */
+
+/* Small screens and up */
+@media (min-width: 640px) {
+  .products-container {
+    padding: 1.5rem;
+  }
+  
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  
+  .products-filters {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  .product-detail {
+    flex-direction: row;
+  }
+  
+  .product-images,
+  .product-info {
+    width: 50%;
+  }
+}
+
+/* Medium screens and up */
+@media (min-width: 768px) {
+  .products-container {
+    padding: 2rem;
+  }
+  
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+  }
+  
+  .products-title {
+    font-size: 1.875rem;
+  }
+}
+
+/* Large screens and up */
+@media (min-width: 1024px) {
+  .products-container {
+    padding: 2.5rem;
+  }
+  
+  .products-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3rem;
+  }
+}
+
+/* Extra large screens */
+@media (min-width: 1280px) {
+  .products-container {
+    padding: 3rem;
+  }
+  
+  .products-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* =============================================================================
+   CONTENT MEDIA QUERIES (Custom System)
+   Based on actual content area width, not viewport
+   ============================================================================= */
+
+/* Small content areas (640px+) */
+[data-media-query="sm"] .products-container,
+[data-media-query="md"] .products-container,
+[data-media-query="lg"] .products-container,
+[data-media-query="xl"] .products-container {
+  padding: 1.5rem;
+}
+
+[data-media-query="sm"] .products-grid,
+[data-media-query="md"] .products-grid,
+[data-media-query="lg"] .products-grid,
+[data-media-query="xl"] .products-grid {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+[data-media-query="sm"] .products-filters,
+[data-media-query="md"] .products-filters,
+[data-media-query="lg"] .products-filters,
+[data-media-query="xl"] .products-filters {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+[data-media-query="sm"] .product-detail,
+[data-media-query="md"] .product-detail,
+[data-media-query="lg"] .product-detail,
+[data-media-query="xl"] .product-detail {
+  flex-direction: row;
+}
+
+[data-media-query="sm"] .product-images,
+[data-media-query="md"] .product-images,
+[data-media-query="lg"] .product-images,
+[data-media-query="xl"] .product-images {
+  width: 50%;
+}
+
+[data-media-query="sm"] .product-info,
+[data-media-query="md"] .product-info,
+[data-media-query="lg"] .product-info,
+[data-media-query="xl"] .product-info {
+  width: 50%;
+}
+
+/* Medium content areas (768px+) */
+[data-media-query="md"] .products-container,
+[data-media-query="lg"] .products-container,
+[data-media-query="xl"] .products-container {
+  padding: 2rem;
+}
+
+[data-media-query="md"] .products-grid,
+[data-media-query="lg"] .products-grid,
+[data-media-query="xl"] .products-grid {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+}
+
+[data-media-query="md"] .products-title,
+[data-media-query="lg"] .products-title,
+[data-media-query="xl"] .products-title {
+  font-size: 1.875rem;
+}
+
+/* Large content areas (1024px+) */
+[data-media-query="lg"] .products-container,
+[data-media-query="xl"] .products-container {
+  padding: 2.5rem;
+}
+
+[data-media-query="lg"] .products-grid,
+[data-media-query="xl"] .products-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3rem;
+}
+
+/* Extra large content areas (1280px+) */
+[data-media-query="xl"] .products-container {
+  padding: 3rem;
+}
+
+[data-media-query="xl"] .products-grid {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+/* =============================================================================
+   COMPANION PANEL INTEGRATION
+   Styles that respond to panel state + content size
+   ============================================================================= */
+
+/* When panel forces mobile-like layout */
+[data-panel-open="true"][data-media-query="xs"] .products-grid {
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+[data-panel-open="true"][data-media-query="xs"] .product-detail {
+  flex-direction: column;
+}
+
+[data-panel-open="true"][data-media-query="xs"] .product-images,
+[data-panel-open="true"][data-media-query="xs"] .product-info {
+  width: 100%;
+}
+
+[data-panel-open="true"][data-media-query="sm"] .products-grid {
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}

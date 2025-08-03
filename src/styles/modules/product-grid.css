@@ -1,0 +1,227 @@
+/**
+ * Product Grid Component Styles
+ * 
+ * All responsive styles for product grid layouts in one file.
+ * Includes traditional media queries, content media queries, and component styles.
+ */
+
+/* =============================================================================
+   COMPONENT-SPECIFIC STYLES
+   ============================================================================= */
+
+.product-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.product-grid-item {
+  background: white;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.product-grid-item:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.product-grid-compact .product-grid-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* Grid variants */
+.product-grid-dense {
+  gap: 0.5rem;
+}
+
+.product-grid-spacious {
+  gap: 2rem;
+}
+
+.product-grid-auto-fit {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+/* =============================================================================
+   TRADITIONAL MEDIA QUERIES
+   ============================================================================= */
+
+/* Small screens and up - 2 columns */
+@media (min-width: 640px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+  
+  .product-grid-dense {
+    gap: 0.75rem;
+  }
+  
+  .product-grid-spacious {
+    gap: 3rem;
+  }
+  
+  .product-grid-auto-fit {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+
+/* Medium screens and up - 3 columns */
+@media (min-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 2rem;
+  }
+  
+  .product-grid-dense {
+    gap: 1rem;
+  }
+  
+  .product-grid-spacious {
+    gap: 4rem;
+  }
+  
+  .product-grid-auto-fit {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+/* Large screens and up - 4 columns */
+@media (min-width: 1024px) {
+  .product-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.5rem;
+    padding: 2.5rem;
+  }
+}
+
+/* Extra large screens - 5 columns */
+@media (min-width: 1280px) {
+  .product-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 3rem;
+    padding: 3rem;
+  }
+}
+
+/* =============================================================================
+   CONTENT MEDIA QUERIES (Custom System)
+   Based on actual content area width, not viewport
+   ============================================================================= */
+
+/* Small content areas (640px+) - 2 columns */
+[data-media-query="sm"] .product-grid,
+[data-media-query="md"] .product-grid,
+[data-media-query="lg"] .product-grid,
+[data-media-query="xl"] .product-grid {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+
+/* Medium content areas (768px+) - 3 columns */
+[data-media-query="md"] .product-grid,
+[data-media-query="lg"] .product-grid,
+[data-media-query="xl"] .product-grid {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  padding: 2rem;
+}
+
+/* Large content areas (1024px+) - 4 columns */
+[data-media-query="lg"] .product-grid,
+[data-media-query="xl"] .product-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2.5rem;
+  padding: 2.5rem;
+}
+
+/* Extra large content areas (1280px+) - 5 columns */
+[data-media-query="xl"] .product-grid {
+  grid-template-columns: repeat(5, 1fr);
+  gap: 3rem;
+  padding: 3rem;
+}
+
+/* Content-based grid variants */
+[data-media-query="sm"] .product-grid-dense,
+[data-media-query="md"] .product-grid-dense,
+[data-media-query="lg"] .product-grid-dense,
+[data-media-query="xl"] .product-grid-dense {
+  gap: 0.75rem;
+}
+
+[data-media-query="md"] .product-grid-dense,
+[data-media-query="lg"] .product-grid-dense,
+[data-media-query="xl"] .product-grid-dense {
+  gap: 1rem;
+}
+
+[data-media-query="sm"] .product-grid-spacious,
+[data-media-query="md"] .product-grid-spacious,
+[data-media-query="lg"] .product-grid-spacious,
+[data-media-query="xl"] .product-grid-spacious {
+  gap: 3rem;
+}
+
+[data-media-query="md"] .product-grid-spacious,
+[data-media-query="lg"] .product-grid-spacious,
+[data-media-query="xl"] .product-grid-spacious {
+  gap: 4rem;
+}
+
+[data-media-query="sm"] .product-grid-auto-fit,
+[data-media-query="md"] .product-grid-auto-fit,
+[data-media-query="lg"] .product-grid-auto-fit,
+[data-media-query="xl"] .product-grid-auto-fit {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+[data-media-query="md"] .product-grid-auto-fit,
+[data-media-query="lg"] .product-grid-auto-fit,
+[data-media-query="xl"] .product-grid-auto-fit {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+/* =============================================================================
+   COMPANION PANEL INTEGRATION
+   Styles that respond to panel state + content size
+   ============================================================================= */
+
+/* When panel compresses content to mobile widths */
+[data-panel-open="true"][data-media-query="xs"] .product-grid {
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  padding: 0.75rem;
+}
+
+/* Slightly compressed - single column but larger items */
+[data-panel-open="true"][data-media-query="sm"] .product-grid {
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+/* When content is compressed but still has some space - compact grid */
+[data-panel-open="true"][data-media-query="sm"] .product-grid-compact .product-grid-item {
+  /* Horizontal product cards when space is limited */
+  flex-direction: row;
+  max-height: 120px;
+}
+
+/* When panel is open, reduce minimum widths for auto-fit */
+[data-panel-open="true"] .product-grid-auto-fit {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+[data-panel-open="true"][data-media-query="sm"] .product-grid-auto-fit {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}

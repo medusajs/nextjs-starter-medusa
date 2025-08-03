@@ -1,0 +1,183 @@
+/**
+ * Resizable Panel Styles
+ * 
+ * Styles for dragable panel resize functionality
+ */
+
+/* =============================================================================
+   RESIZE HANDLE STYLES
+   ============================================================================= */
+
+.resize-handle {
+  position: absolute;
+  left: -2px; /* Slightly outside panel for easier grabbing */
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  cursor: col-resize;
+  z-index: 10;
+  background: transparent;
+  transition: background-color 200ms ease;
+}
+
+.resize-handle:hover {
+  background: rgba(59, 130, 246, 0.3); /* blue-500 with opacity */
+}
+
+.resize-handle:active,
+.resize-handle.resizing {
+  background: rgba(59, 130, 246, 0.6);
+}
+
+/* Visual indicator line */
+.resize-handle::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 2px;
+  height: 30px;
+  background: rgba(156, 163, 175, 0.5); /* gray-400 */
+  border-radius: 1px;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.resize-handle:hover::after {
+  opacity: 1;
+}
+
+/* =============================================================================
+   RESIZING STATE STYLES
+   ============================================================================= */
+
+/* Disable text selection during resize */
+.resizing,
+.resizing * {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Disable transitions during resize for smooth dragging */
+.resizing .companion-panel {
+  transition: none !important;
+}
+
+/* Global cursor override during resize */
+.resizing {
+  cursor: col-resize !important;
+}
+
+.resizing * {
+  cursor: col-resize !important;
+}
+
+/* =============================================================================
+   PANEL SIZE FEEDBACK
+   ============================================================================= */
+
+.panel-size-indicator {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: monospace;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms ease;
+  z-index: 20;
+}
+
+.resizing .panel-size-indicator {
+  opacity: 1;
+}
+
+/* =============================================================================
+   RESPONSIVE CONSTRAINTS
+   ============================================================================= */
+
+/* Hide resize handle on mobile */
+@media (max-width: 768px) {
+  .resize-handle {
+    display: none;
+  }
+}
+
+/* Minimum panel width constraint */
+.companion-panel {
+  min-width: 350px;
+}
+
+@media (max-width: 768px) {
+  .companion-panel {
+    min-width: auto; /* Remove constraint on mobile */
+  }
+}
+
+/* =============================================================================
+   CONTENT-AWARE RESIZE CONSTRAINTS
+   ============================================================================= */
+
+/* Adjust max width based on content area */
+[data-media-query="sm"] .companion-panel {
+  max-width: calc(40vw - 1em);
+}
+
+[data-media-query="md"] .companion-panel {
+  max-width: calc(45vw - 1.5em);
+}
+
+[data-media-query="lg"] .companion-panel,
+[data-media-query="xl"] .companion-panel {
+  max-width: calc(50vw - 2em);
+}
+
+/* =============================================================================
+   ACCESSIBILITY
+   ============================================================================= */
+
+/* Focus styles for keyboard navigation */
+.resize-handle:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .resize-handle {
+    border: 1px solid currentColor;
+  }
+  
+  .resize-handle:hover {
+    background: currentColor;
+    opacity: 0.3;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .resize-handle,
+  .panel-size-indicator {
+    transition: none;
+  }
+}
+
+/* =============================================================================
+   TOUCH DEVICE ADAPTATIONS
+   ============================================================================= */
+
+/* Larger touch target on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .resize-handle {
+    width: 8px;
+    left: -4px;
+  }
+}

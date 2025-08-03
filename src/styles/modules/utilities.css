@@ -1,0 +1,298 @@
+/**
+ * Utility Classes
+ * 
+ * Cross-cutting utility classes for responsive design, spacing, and visibility.
+ * Includes traditional media queries, content media queries, and utility styles.
+ */
+
+/* =============================================================================
+   RESPONSIVE SPACING UTILITIES
+   ============================================================================= */
+
+.content-responsive-padding {
+    padding: 1rem;
+}
+
+.content-responsive-margin {
+    margin: 1rem;
+}
+
+.content-responsive-gap {
+    gap: 1rem;
+}
+
+/* =============================================================================
+   TRADITIONAL MEDIA QUERY UTILITIES
+   ============================================================================= */
+
+/* Small screens and up */
+@media (min-width: 640px) {
+    .content-responsive-padding {
+        padding: 1.5rem;
+    }
+
+    .content-responsive-margin {
+        margin: 1.5rem;
+    }
+
+    .content-responsive-gap {
+        gap: 1.5rem;
+    }
+}
+
+/* Medium screens and up */
+@media (min-width: 768px) {
+    .content-responsive-padding {
+        padding: 2rem;
+    }
+
+    .content-responsive-margin {
+        margin: 2rem;
+    }
+
+    .content-responsive-gap {
+        gap: 2rem;
+    }
+}
+
+/* Large screens and up */
+@media (min-width: 1024px) {
+    .content-responsive-padding {
+        padding: 2.5rem;
+    }
+
+    .content-responsive-gap {
+        gap: 2.5rem;
+    }
+}
+
+/* Extra large screens */
+@media (min-width: 1280px) {
+    .content-responsive-padding {
+        padding: 3rem;
+    }
+
+    .content-responsive-gap {
+        gap: 3rem;
+    }
+}
+
+/* =============================================================================
+   CONTENT MEDIA QUERY UTILITIES
+   Based on actual content area width, not viewport
+   ============================================================================= */
+
+[data-media-query="sm"] .content-responsive-padding,
+[data-media-query="md"] .content-responsive-padding,
+[data-media-query="lg"] .content-responsive-padding,
+[data-media-query="xl"] .content-responsive-padding {
+    padding: 1.5rem;
+}
+
+[data-media-query="md"] .content-responsive-padding,
+[data-media-query="lg"] .content-responsive-padding,
+[data-media-query="xl"] .content-responsive-padding {
+    padding: 2rem;
+}
+
+[data-media-query="lg"] .content-responsive-padding,
+[data-media-query="xl"] .content-responsive-padding {
+    padding: 2.5rem;
+}
+
+[data-media-query="xl"] .content-responsive-padding {
+    padding: 3rem;
+}
+
+[data-media-query="sm"] .content-responsive-gap,
+[data-media-query="md"] .content-responsive-gap,
+[data-media-query="lg"] .content-responsive-gap,
+[data-media-query="xl"] .content-responsive-gap {
+    gap: 1.5rem;
+}
+
+[data-media-query="md"] .content-responsive-gap,
+[data-media-query="lg"] .content-responsive-gap,
+[data-media-query="xl"] .content-responsive-gap {
+    gap: 2rem;
+}
+
+[data-media-query="lg"] .content-responsive-gap,
+[data-media-query="xl"] .content-responsive-gap {
+    gap: 2.5rem;
+}
+
+[data-media-query="xl"] .content-responsive-gap {
+    gap: 3rem;
+}
+
+/* =============================================================================
+   VISIBILITY UTILITIES
+   ============================================================================= */
+
+/* Hide on specific content sizes */
+.hide-on-xs {
+    display: block;
+}
+
+[data-media-query="xs"] .hide-on-xs {
+    display: none;
+}
+
+.hide-on-sm {
+    display: block;
+}
+
+[data-media-query="sm"] .hide-on-sm {
+    display: none;
+}
+
+.hide-on-md {
+    display: block;
+}
+
+[data-media-query="md"] .hide-on-md {
+    display: none;
+}
+
+/* Show only on specific content sizes */
+.show-on-xs {
+    display: none;
+}
+
+[data-media-query="xs"] .show-on-xs {
+    display: block;
+}
+
+.show-on-sm {
+    display: none;
+}
+
+[data-media-query="sm"] .show-on-sm {
+    display: block;
+}
+
+.show-on-md {
+    display: none;
+}
+
+[data-media-query="md"] .show-on-md {
+    display: block;
+}
+
+/* Show on content size and above */
+.show-sm-up {
+    display: none;
+}
+
+[data-media-query="sm"] .show-sm-up,
+[data-media-query="md"] .show-sm-up,
+[data-media-query="lg"] .show-sm-up,
+[data-media-query="xl"] .show-sm-up {
+    display: block;
+}
+
+.show-md-up {
+    display: none;
+}
+
+[data-media-query="md"] .show-md-up,
+[data-media-query="lg"] .show-md-up,
+[data-media-query="xl"] .show-md-up {
+    display: block;
+}
+
+/* =============================================================================
+   COMPANION PANEL STATE UTILITIES
+   ============================================================================= */
+
+/* Show/hide based on panel state */
+.show-when-panel-open {
+    display: none;
+}
+
+[data-panel-open="true"] .show-when-panel-open {
+    display: block;
+}
+
+.hide-when-panel-open {
+    display: block;
+}
+
+[data-panel-open="true"] .hide-when-panel-open {
+    display: none;
+}
+
+/* Show only when panel is open AND content is compressed */
+.show-when-compressed {
+    display: none;
+}
+
+[data-panel-open="true"][data-media-query="xs"] .show-when-compressed,
+[data-panel-open="true"][data-media-query="sm"] .show-when-compressed {
+    display: block;
+}
+
+/* Hide when panel forces mobile-like layout */
+.hide-when-compressed {
+    display: block;
+}
+
+[data-panel-open="true"][data-media-query="xs"] .hide-when-compressed,
+[data-panel-open="true"][data-media-query="sm"] .hide-when-compressed {
+    display: none;
+}
+
+/* =============================================================================
+   DEBUGGING UTILITIES (Development Only)
+   ============================================================================= */
+
+/* .debug-content-size::before {
+    content: "Content: XS";
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: #ef4444;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-family: monospace;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+[data-media-query="sm"] .debug-content-size::before {
+    content: "Content: SM";
+    background: #f97316;
+}
+
+[data-media-query="md"] .debug-content-size::before {
+    content: "Content: MD";
+    background: #eab308;
+}
+
+[data-media-query="lg"] .debug-content-size::before {
+    content: "Content: LG";
+    background: #22c55e;
+}
+
+[data-media-query="xl"] .debug-content-size::before {
+    content: "Content: XL";
+    background: #3b82f6;
+}
+
+[data-panel-open="true"] .debug-content-size::after {
+    content: "Panel: OPEN";
+    position: fixed;
+    top: 35px;
+    right: 10px;
+    background: #8b5cf6;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-family: monospace;
+    z-index: 9999;
+    pointer-events: none;
+} */

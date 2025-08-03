@@ -1,0 +1,446 @@
+/**
+ * Cart Drawer Component Styles
+ * 
+ * All responsive styles for the cart drawer component in one file.
+ * Includes traditional media queries, content media queries, and component styles.
+ */
+
+/* =============================================================================
+   UNIFIED COMPANION PANEL & BACKDROP - Main Container Styles
+   Single component that handles both mobile overlay and desktop fixed positioning
+   ============================================================================= */
+
+/* Companion backdrop - Only visible on mobile as overlay */
+.companion-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(17, 24, 39, 0.5); /* gray-900 with opacity */
+  backdrop-filter: blur(12px);
+  z-index: 75;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 300ms ease-out, visibility 300ms ease-out;
+}
+
+.companion-backdrop--open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Hide backdrop on desktop/tablet */
+@media (min-width: 768px) {
+  .companion-backdrop {
+    display: none;
+  }
+}
+
+/* Companion panel - Unified container (mobile-first approach) */
+.companion-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 100vw;
+  max-width: 400px; /* Default for mobile */
+  background-color: white;
+  box-shadow: -10px 0 25px -3px rgba(0, 0, 0, 0.1), -4px 0 10px -2px rgba(0, 0, 0, 0.05);
+  z-index: 76;
+  transform: translateX(100%);
+  transition: transform 300ms ease-in-out;
+  pointer-events: none;
+}
+
+.companion-panel--open {
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.companion-panel__container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: white;
+  /* Mobile: Add rounded corners and margin for overlay effect */
+  border-radius: 1rem 0 0 1rem;
+  margin: 1rem 1rem 1rem 0;
+  height: calc(100vh - 2rem);
+}
+
+/* Desktop adjustments */
+@media (min-width: 768px) {
+  .companion-panel {
+    top: 4rem; /* Account for navigation */
+    height: calc(100vh - 4rem);
+    width: 384px; /* Default width */
+    max-width: none; /* Remove mobile constraint */
+    box-shadow: -1px 0 0 0 rgba(229, 231, 235, 1); /* border-l border-gray-200 */
+  }
+  
+  /* High specificity rule to ensure inline styles work */
+  .companion-panel.companion-panel--open[style] {
+    width: var(--panel-width, 384px) !important;
+  }
+
+  .companion-panel__container {
+    border-radius: 0;
+    margin: 0;
+    height: 100%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .companion-panel {
+    width: 400px; /* Default width */
+  }
+  
+  /* High specificity rule to ensure inline styles work */
+  .companion-panel.companion-panel--open[style] {
+    width: var(--panel-width, 400px) !important;
+  }
+}
+
+/* Content-area responsive adjustments */
+[data-media-query="md"] .companion-panel,
+[data-media-query="lg"] .companion-panel,
+[data-media-query="xl"] .companion-panel {
+  top: 4rem;
+  height: calc(100vh - 4rem);
+  width: 384px; /* Default width */
+  box-shadow: -1px 0 0 0 rgba(229, 231, 235, 1);
+}
+
+/* High specificity for content-area responsive */
+[data-media-query="md"] .companion-panel.companion-panel--open[style],
+[data-media-query="lg"] .companion-panel.companion-panel--open[style],
+[data-media-query="xl"] .companion-panel.companion-panel--open[style] {
+  width: var(--panel-width, 384px) !important;
+}
+
+[data-media-query="md"] .companion-panel__container,
+[data-media-query="lg"] .companion-panel__container,
+[data-media-query="xl"] .companion-panel__container {
+  border-radius: 0;
+  margin: 0;
+  height: 100%;
+}
+
+[data-media-query="lg"] .companion-panel,
+[data-media-query="xl"] .companion-panel {
+  width: 400px; /* Default width */
+}
+
+/* High specificity for large content-area responsive */
+[data-media-query="lg"] .companion-panel.companion-panel--open[style],
+[data-media-query="xl"] .companion-panel.companion-panel--open[style] {
+  width: var(--panel-width, 400px) !important;
+}
+
+/* Semantic size adjustments */
+[data-semantic-size="tablet"] .companion-panel,
+[data-semantic-size="desktop"] .companion-panel {
+  top: 4rem;
+  height: calc(100vh - 4rem);
+  width: 384px; /* Default width */
+  box-shadow: -1px 0 0 0 rgba(229, 231, 235, 1);
+}
+
+/* High specificity for semantic size responsive */
+[data-semantic-size="tablet"] .companion-panel.companion-panel--open[style],
+[data-semantic-size="desktop"] .companion-panel.companion-panel--open[style] {
+  width: var(--panel-width, 384px) !important;
+}
+
+[data-semantic-size="tablet"] .companion-panel__container,
+[data-semantic-size="desktop"] .companion-panel__container {
+  border-radius: 0;
+  margin: 0;
+  height: 100%;
+}
+
+[data-semantic-size="desktop"] .companion-panel {
+  width: 400px; /* Default width */
+}
+
+/* High specificity for desktop semantic size responsive */
+[data-semantic-size="desktop"] .companion-panel.companion-panel--open[style] {
+  width: var(--panel-width, 400px) !important;
+}
+
+/* =============================================================================
+   COMPONENT-SPECIFIC STYLES
+   ============================================================================= */
+
+.cart-drawer-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: white;
+}
+
+.cart-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.cart-drawer-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.cart-drawer-close {
+  padding: 0.5rem;
+  color: #6b7280;
+  transition: color 0.2s ease;
+}
+
+.cart-drawer-close:hover {
+  color: #374151;
+}
+
+.cart-drawer-items {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.cart-drawer-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.cart-drawer-item:last-child {
+  border-bottom: none;
+}
+
+.cart-item-image {
+  width: 4rem;
+  height: 4rem;
+  flex-shrink: 0;
+  border-radius: 0.375rem;
+  overflow: hidden;
+}
+
+.cart-item-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.cart-item-name {
+  font-weight: 500;
+  color: #111827;
+  margin-bottom: 0.25rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cart-item-price {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.cart-item-quantity {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.cart-drawer-footer {
+  padding: 1.5rem 1rem;
+  border-top: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.cart-drawer-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.cart-drawer-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* =============================================================================
+   TRADITIONAL MEDIA QUERIES
+   ============================================================================= */
+
+/* Small screens and up - Drawer gets more breathing room */
+@media (min-width: 640px) {
+  .cart-drawer-header,
+  .cart-drawer-items,
+  .cart-drawer-footer {
+    padding: 1.5rem;
+  }
+  
+  .cart-item-image {
+    width: 5rem;
+    height: 5rem;
+  }
+}
+
+/* Medium screens and up - More spacious layout */
+@media (min-width: 768px) {
+  .cart-drawer-actions {
+    flex-direction: row;
+    gap: 1rem;
+  }
+  
+  .cart-drawer-item {
+    padding: 1.5rem 0;
+    gap: 1.5rem;
+  }
+  
+  .cart-item-quantity {
+    margin-top: 0.75rem;
+  }
+}
+
+/* Large screens and up - Premium spacing */
+@media (min-width: 1024px) {
+  .cart-drawer-header,
+  .cart-drawer-items,
+  .cart-drawer-footer {
+    padding: 2rem;
+  }
+  
+  .cart-item-image {
+    width: 6rem;
+    height: 6rem;
+  }
+}
+
+/* =============================================================================
+   CONTENT MEDIA QUERIES (Custom System)
+   Based on actual content area width, not viewport
+   ============================================================================= */
+
+/* Small content areas (640px+) - Drawer gets more breathing room */
+[data-media-query="sm"] .cart-drawer-header,
+[data-media-query="md"] .cart-drawer-header,
+[data-media-query="lg"] .cart-drawer-header,
+[data-media-query="xl"] .cart-drawer-header {
+  padding: 1.5rem;
+}
+
+[data-media-query="sm"] .cart-drawer-items,
+[data-media-query="md"] .cart-drawer-items,
+[data-media-query="lg"] .cart-drawer-items,
+[data-media-query="xl"] .cart-drawer-items {
+  padding: 1.5rem;
+}
+
+[data-media-query="sm"] .cart-drawer-footer,
+[data-media-query="md"] .cart-drawer-footer,
+[data-media-query="lg"] .cart-drawer-footer,
+[data-media-query="xl"] .cart-drawer-footer {
+  padding: 1.5rem;
+}
+
+[data-media-query="sm"] .cart-item-image,
+[data-media-query="md"] .cart-item-image,
+[data-media-query="lg"] .cart-item-image,
+[data-media-query="xl"] .cart-item-image {
+  width: 5rem;
+  height: 5rem;
+}
+
+/* Medium content areas (768px+) - More spacious layout */
+[data-media-query="md"] .cart-drawer-actions,
+[data-media-query="lg"] .cart-drawer-actions,
+[data-media-query="xl"] .cart-drawer-actions {
+  flex-direction: row;
+  gap: 1rem;
+}
+
+[data-media-query="md"] .cart-drawer-item,
+[data-media-query="lg"] .cart-drawer-item,
+[data-media-query="xl"] .cart-drawer-item {
+  padding: 1.5rem 0;
+  gap: 1.5rem;
+}
+
+[data-media-query="md"] .cart-item-quantity,
+[data-media-query="lg"] .cart-item-quantity,
+[data-media-query="xl"] .cart-item-quantity {
+  margin-top: 0.75rem;
+}
+
+/* Large content areas (1024px+) - Premium spacing */
+[data-media-query="lg"] .cart-drawer-header,
+[data-media-query="xl"] .cart-drawer-header {
+  padding: 2rem;
+}
+
+[data-media-query="lg"] .cart-drawer-items,
+[data-media-query="xl"] .cart-drawer-items {
+  padding: 2rem;
+}
+
+[data-media-query="lg"] .cart-drawer-footer,
+[data-media-query="xl"] .cart-drawer-footer {
+  padding: 2rem;
+}
+
+[data-media-query="lg"] .cart-item-image,
+[data-media-query="xl"] .cart-item-image {
+  width: 6rem;
+  height: 6rem;
+}
+
+/* =============================================================================
+   COMPANION PANEL INTEGRATION
+   Styles that respond to panel state + content size
+   ============================================================================= */
+
+/* When main content is compressed, drawer adapts */
+[data-panel-open="true"][data-device-mobile="false"] .cart-drawer-content {
+  /* Drawer is active, optimize for smaller panel width */
+}
+
+/* Mobile-like behavior when content is very compressed */
+[data-panel-open="true"][data-media-query="xs"] .cart-drawer-actions {
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+[data-panel-open="true"][data-media-query="xs"] .cart-item-image {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+[data-panel-open="true"][data-media-query="xs"] .cart-drawer-header,
+[data-panel-open="true"][data-media-query="xs"] .cart-drawer-items,
+[data-panel-open="true"][data-media-query="xs"] .cart-drawer-footer {
+  padding: 1rem;
+}
+
+/* Slightly compressed but still usable */
+[data-panel-open="true"][data-media-query="sm"] .cart-drawer-actions {
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* =============================================================================
+   MOBILE OVERLAY SPECIFIC STYLES
+   These styles apply when cart drawer is shown as mobile overlay
+   ============================================================================= */
+
+[data-device-mobile="true"] .cart-drawer-content {
+  border-radius: 1rem 0 0 1rem;
+  margin: 1rem 1rem 1rem 0;
+  max-height: calc(100vh - 2rem);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}

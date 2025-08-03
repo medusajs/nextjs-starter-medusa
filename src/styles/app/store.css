@@ -1,0 +1,170 @@
+/**
+ * Store/Homepage Styles
+ * 
+ * All responsive styles for the main store page in one file.
+ * Includes traditional media queries, content media queries, and component styles.
+ */
+
+/* =============================================================================
+   COMPONENT-SPECIFIC STYLES
+   ============================================================================= */
+
+.store-hero {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.store-hero h1 {
+  font-size: 1.875rem; /* 30px */
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #1a202c;
+}
+
+.store-hero p {
+  font-size: 1.125rem;
+  color: #4a5568;
+  margin-bottom: 2rem;
+}
+
+.store-section {
+  padding: 3rem 1rem;
+}
+
+.store-section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* =============================================================================
+   TRADITIONAL MEDIA QUERIES
+   ============================================================================= */
+
+/* Small screens and up */
+@media (min-width: 640px) {
+  .store-hero {
+    padding: 3rem 2rem;
+  }
+  
+  .store-hero h1 {
+    font-size: 2.25rem; /* 36px */
+  }
+}
+
+/* Medium screens and up */
+@media (min-width: 768px) {
+  .store-hero {
+    padding: 4rem 2rem;
+    text-align: left;
+  }
+  
+  .store-section {
+    padding: 4rem 2rem;
+  }
+  
+  .store-section-title {
+    text-align: left;
+    font-size: 1.75rem;
+  }
+}
+
+/* Large screens and up */
+@media (min-width: 1024px) {
+  .store-hero {
+    padding: 6rem 3rem;
+  }
+  
+  .store-hero h1 {
+    font-size: 3rem; /* 48px */
+  }
+}
+
+/* Extra large screens */
+@media (min-width: 1280px) {
+  .store-hero {
+    padding: 8rem 4rem;
+  }
+  
+  .store-hero h1 {
+    font-size: 3.75rem; /* 60px */
+  }
+}
+
+/* =============================================================================
+   CONTENT MEDIA QUERIES (Custom System)
+   Based on actual content area width, not viewport
+   ============================================================================= */
+
+/* Small content areas (640px+) */
+[data-media-query="sm"] .store-hero,
+[data-media-query="md"] .store-hero,
+[data-media-query="lg"] .store-hero,
+[data-media-query="xl"] .store-hero {
+  padding: 3rem 2rem;
+}
+
+[data-media-query="sm"] .store-hero h1,
+[data-media-query="md"] .store-hero h1,
+[data-media-query="lg"] .store-hero h1,
+[data-media-query="xl"] .store-hero h1 {
+  font-size: 2.25rem; /* 36px */
+}
+
+/* Medium content areas (768px+) */
+[data-media-query="md"] .store-hero,
+[data-media-query="lg"] .store-hero,
+[data-media-query="xl"] .store-hero {
+  padding: 4rem 2rem;
+  text-align: left;
+}
+
+[data-media-query="md"] .store-section,
+[data-media-query="lg"] .store-section,
+[data-media-query="xl"] .store-section {
+  padding: 4rem 2rem;
+}
+
+[data-media-query="md"] .store-section-title,
+[data-media-query="lg"] .store-section-title,
+[data-media-query="xl"] .store-section-title {
+  text-align: left;
+  font-size: 1.75rem;
+}
+
+/* Large content areas (1024px+) */
+[data-media-query="lg"] .store-hero,
+[data-media-query="xl"] .store-hero {
+  padding: 6rem 3rem;
+}
+
+[data-media-query="lg"] .store-hero h1,
+[data-media-query="xl"] .store-hero h1 {
+  font-size: 3rem; /* 48px */
+}
+
+/* Extra large content areas (1280px+) */
+[data-media-query="xl"] .store-hero {
+  padding: 8rem 4rem;
+}
+
+[data-media-query="xl"] .store-hero h1 {
+  font-size: 3.75rem; /* 60px */
+}
+
+/* =============================================================================
+   COMPANION PANEL INTEGRATION
+   Styles that respond to panel state + content size
+   ============================================================================= */
+
+/* When panel compresses content to mobile-like widths */
+[data-panel-open="true"][data-media-query="xs"] .store-hero {
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+[data-panel-open="true"][data-media-query="sm"] .store-hero {
+  padding: 2.5rem 1.5rem;
+}
