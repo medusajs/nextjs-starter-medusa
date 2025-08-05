@@ -1,6 +1,7 @@
 "use client"
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react"
+import { getSyncManager } from "../sync/ticket-sync-manager"
 
 // Panel Types - Extensible for future features
 export type PanelType = 'cart' | 'ai-assistant' | 'help' | 'filter'
@@ -17,6 +18,14 @@ export interface ChatMessage {
     orderId?: string
     ticketId?: string
     contextRef?: string
+    tempId?: string // For temporary IDs during sync
+    syncError?: string // For sync errors
+    externalService?: string // For external service messages
+    externalAuthor?: {
+      type: 'customer' | 'agent'
+      id: string
+      name: string
+    }
   }
 }
 
@@ -36,6 +45,20 @@ export interface ChatTicket {
     intent: string
     entities: Record<string, any>
     confidence: number
+    inheritedContext?: Record<string, any> // For context inheritance
+  }
+  metadata?: {
+    tempId?: string // For temporary IDs during sync
+    syncError?: string // For sync errors
+    lastSyncAt?: Date // For tracking last sync time
+    externalAssignee?: {
+      service: string
+      assignee: {
+        type: 'customer' | 'agent'
+        id: string
+        name: string
+      }
+    }
   }
 }
 
@@ -273,6 +296,149 @@ export const CompanionPanelProvider: React.FC<CompanionPanelProviderProps> = ({ 
     }
   }, [])
 
+  // Real-time sync event handlers
+  useEffect(() => {
+    const handleTicketIdUpdated = (event: CustomEvent) => {
+      const { tempId, realId } = event.detail
+      
+      setChatSystem(prev => ({
+        ...prev,
+        tickets: {
+          ...prev.tickets,
+          active: prev.tickets.active.map(ticket =>
+            ticket.id === tempId || ticket.metadata?.tempId === tempId
+              ? { ...ticket, id: realId, metadata: { ...ticket.metadata, tempId: undefined } }
+              : ticket
+          )
+        }
+      }))
+    }
+
+    const handleMessageIdUpdated = (event: CustomEvent) => {
+      const { tempId, realId } = event.detail
+      
+      setChatSystem(prev => ({
+        ...prev,
+        tickets: {
+          ...prev.tickets,
+          active: prev.tickets.active.map(ticket => ({
+            ...ticket,
+            messages: ticket.messages.map(msg =>
+              msg.id === tempId || msg.metadata?.tempId === tempId
+                ? { ...msg, id: realId, metadata: { ...msg.metadata, tempId: undefined } }
+                : msg
+            )
+          }))
+        }
+      }))
+    }
+
+    const handleRealtimeUpdate = (event: CustomEvent) => {
+      const { ticketId, update } = event.detail
+      
+      setChatSystem(prev => ({
+        ...prev,
+        tickets: {
+          ...prev.tickets,
+          active: prev.tickets.active.map(ticket =>
+            ticket.id === ticketId
+              ? { ...ticket, ...update, metadata: { ...ticket.metadata, lastSyncAt: new Date() } }
+              : ticket
+          ),
+          resolved: prev.tickets.resolved.map(ticket =>
+            ticket.id === ticketId
+              ? { ...ticket, ...update, metadata: { ...ticket.metadata, lastSyncAt: new Date() } }
+              : ticket
+          )
+        }
+      }))
+    }
+
+    const handleExternalMessageReceived = (event: CustomEvent) => {
+      const { service, ticketId, message } = event.detail
+      
+      const externalMessage: ChatMessage = {
+        id: `ext-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        content: message.content,
+        sender: message.author.type === 'customer' ? 'user' : 'ai',
+        timestamp: message.timestamp,
+        type: 'text',
+        metadata: {
+          externalService: service,
+          externalAuthor: message.author
+        }
+      }
+
+      setChatSystem(prev => ({
+        ...prev,
+        tickets: {
+          ...prev.tickets,
+          active: prev.tickets.active.map(ticket =>
+            ticket.id === ticketId
+              ? { ...ticket, messages: [...ticket.messages, externalMessage] }
+              : ticket
+          )
+        }
+      }))
+    }
+
+    const handleExternalTicketAssigned = (event: CustomEvent) => {
+      const { service, ticketId, assignee } = event.detail
+      
+      setChatSystem(prev => ({
+        ...prev,
+        tickets: {
+          ...prev.tickets,
+          active: prev.tickets.active.map(ticket =>
+            ticket.id === ticketId
+              ? {
+                  ...ticket,
+                  metadata: {
+                    ...ticket.metadata,
+                    externalAssignee: {
+                      service,
+                      assignee
+                    }
+                  }
+                }
+              : ticket
+          )
+        }
+      }))
+    }
+
+    const handleConflictEvent = (event: CustomEvent) => {
+      const { localTicket, serverTicket, pendingUpdates } = event.detail
+      
+      // Emit notification for UI to handle conflict resolution
+      const conflictNotification = new CustomEvent('ticket-conflict-notification', {
+        detail: {
+          ticketId: localTicket.id,
+          message: 'Ticket has been updated externally. Please review changes.',
+          actions: ['accept-server', 'keep-local', 'merge']
+        }
+      })
+      window.dispatchEvent(conflictNotification)
+    }
+
+    // Add event listeners
+    window.addEventListener('ticket-id-updated', handleTicketIdUpdated as EventListener)
+    window.addEventListener('message-id-updated', handleMessageIdUpdated as EventListener)
+    window.addEventListener('ticket-realtime-update', handleRealtimeUpdate as EventListener)
+    window.addEventListener('external-message-received', handleExternalMessageReceived as EventListener)
+    window.addEventListener('external-ticket-assigned', handleExternalTicketAssigned as EventListener)
+    window.addEventListener('ticket-conflict', handleConflictEvent as EventListener)
+
+    return () => {
+      window.removeEventListener('ticket-id-updated', handleTicketIdUpdated as EventListener)
+      window.removeEventListener('message-id-updated', handleMessageIdUpdated as EventListener)
+      window.removeEventListener('ticket-realtime-update', handleRealtimeUpdate as EventListener)
+      window.removeEventListener('external-message-received', handleExternalMessageReceived as EventListener)
+      window.removeEventListener('external-ticket-assigned', handleExternalTicketAssigned as EventListener)
+      window.removeEventListener('ticket-conflict', handleConflictEvent as EventListener)
+    }
+  }, [])
+
   // Debug logging for development
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
@@ -422,6 +588,43 @@ export const CompanionPanelProvider: React.FC<CompanionPanelProviderProps> = ({ 
       }
     }))
 
+    // Queue for backend sync
+    try {
+      const syncManager = getSyncManager()
+      syncManager.queueTicketCreate(newTicket).then(tempId => {
+        if (tempId !== ticketId) {
+          // Update local ticket with temp ID for tracking
+          setChatSystem(prev => ({
+            ...prev,
+            tickets: {
+              ...prev.tickets,
+              active: prev.tickets.active.map(ticket =>
+                ticket.id === ticketId
+                  ? { ...ticket, id: tempId, metadata: { ...ticket.metadata, tempId: ticketId } }
+                  : ticket
+              )
+            }
+          }))
+        }
+      }).catch(error => {
+        console.error('Failed to queue ticket for sync:', error)
+        // Add visual indicator for sync failure
+        setChatSystem(prev => ({
+          ...prev,
+          tickets: {
+            ...prev.tickets,
+            active: prev.tickets.active.map(ticket =>
+              ticket.id === ticketId
+                ? { ...ticket, metadata: { ...ticket.metadata, syncError: error.message } }
+                : ticket
+            )
+          }
+        }))
+      })
+    } catch (error) {
+      console.error('Sync manager not available:', error)
+    }
+
     return ticketId
   }, [chatSystem.mainChat.sessionId])
 
@@ -448,6 +651,34 @@ export const CompanionPanelProvider: React.FC<CompanionPanelProviderProps> = ({ 
       }
     }))
 
+    // Queue message for backend sync
+    try {
+      const syncManager = getSyncManager()
+      const tempMessageId = await syncManager.queueMessageAdd(ticketId, userMessage)
+      
+      // Update message with temp ID for tracking
+      setChatSystem(prev => ({
+        ...prev,
+        tickets: {
+          ...prev.tickets,
+          active: prev.tickets.active.map(ticket =>
+            ticket.id === ticketId
+              ? {
+                  ...ticket,
+                  messages: ticket.messages.map(msg =>
+                    msg.id === userMessage.id
+                      ? { ...msg, metadata: { ...msg.metadata, tempId: tempMessageId } }
+                      : msg
+                  )
+                }
+              : ticket
+          )
+        }
+      }))
+    } catch (error) {
+      console.error('Failed to queue message for sync:', error)
+    }
+
     try {
       // Get AI response for ticket
       const aiResponse = await simulateAIResponse(content, { ticketId })
@@ -473,6 +704,14 @@ export const CompanionPanelProvider: React.FC<CompanionPanelProviderProps> = ({ 
           )
         }
       }))
+
+      // Queue AI message for sync
+      try {
+        const syncManager = getSyncManager()
+        await syncManager.queueMessageAdd(ticketId, aiMessage)
+      } catch (error) {
+        console.error('Failed to queue AI message for sync:', error)
+      }
     } catch (error) {
       console.error('Failed to get AI response for ticket:', error)
     }
@@ -488,6 +727,20 @@ export const CompanionPanelProvider: React.FC<CompanionPanelProviderProps> = ({ 
         status: 'resolved',
         resolvedAt: new Date(),
         summary
+      }
+
+      // Queue resolution for backend sync
+      try {
+        const syncManager = getSyncManager()
+        syncManager.queueTicketUpdate(ticketId, {
+          status: 'resolved',
+          resolvedAt: new Date(),
+          summary
+        }).catch(error => {
+          console.error('Failed to queue ticket resolution for sync:', error)
+        })
+      } catch (error) {
+        console.error('Sync manager not available:', error)
       }
 
       return {
@@ -517,6 +770,17 @@ export const CompanionPanelProvider: React.FC<CompanionPanelProviderProps> = ({ 
         status: 'archived'
       }
 
+      // Queue archival for backend sync
+      try {
+        const syncManager = getSyncManager()
+        syncManager.queueTicketUpdate(ticketId, { status: 'archived' })
+          .catch(error => {
+            console.error('Failed to queue ticket archival for sync:', error)
+          })
+      } catch (error) {
+        console.error('Sync manager not available:', error)
+      }
+
       return {
         ...prev,
         tickets: {
@@ -542,6 +806,17 @@ export const CompanionPanelProvider: React.FC<CompanionPanelProviderProps> = ({ 
         )
       }
     }))
+
+    // Queue status update for backend sync
+    try {
+      const syncManager = getSyncManager()
+      syncManager.queueTicketUpdate(ticketId, { status })
+        .catch(error => {
+          console.error('Failed to queue ticket status update for sync:', error)
+        })
+    } catch (error) {
+      console.error('Sync manager not available:', error)
+    }
   }, [])
 
   const updateTicketPriority = useCallback((ticketId: string, priority: ChatTicket['priority']) => {
@@ -554,6 +829,17 @@ export const CompanionPanelProvider: React.FC<CompanionPanelProviderProps> = ({ 
         )
       }
     }))
+
+    // Queue priority update for backend sync
+    try {
+      const syncManager = getSyncManager()
+      syncManager.queueTicketUpdate(ticketId, { priority })
+        .catch(error => {
+          console.error('Failed to queue ticket priority update for sync:', error)
+        })
+    } catch (error) {
+      console.error('Sync manager not available:', error)
+    }
   }, [])
 
   // UI Actions
