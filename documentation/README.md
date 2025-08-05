@@ -44,6 +44,7 @@ The **Companion Panel System** is a revolutionary e-commerce interface pattern t
 - [Trigger Buttons](./components/trigger-button.md) - Panel trigger components
 - [Panel Renderer](./components/panel-renderer.md) - Universal panel renderer
 - [Responsive Wrapper](./components/responsive-wrapper.md) - Layout wrapper component
+- [Filter System](./components/filter-system.md) - Dynamic product filtering components
 
 ### 🔧 [Integration](./integration/)
 **Getting started and implementation guides**
@@ -60,6 +61,7 @@ The **Companion Panel System** is a revolutionary e-commerce interface pattern t
 - [Testing Guide](./development/testing-guide.md) - Testing strategies and utilities
 - [Performance Monitoring](./development/performance-monitoring.md) - Performance optimization
 - [Contributing](./development/contributing.md) - How to extend the system
+- [Medusa Filter Plugin Plan](./development/medusa-filter-plugin-plan.md) - Backend plugin development roadmap
 
 ### 🔧 [Troubleshooting](./troubleshooting/)
 **Problem solving and common issues**
@@ -73,6 +75,7 @@ The **Companion Panel System** is a revolutionary e-commerce interface pattern t
 ### 📖 [Advanced Guides](./guides/)
 **Advanced tutorials and specialized topics**
 - [Guides Overview](./guides/index.md) - Advanced topics overview
+- [Dynamic Filters](./guides/dynamic-filters.md) - Intelligent product filtering system
 - [Building AI Workflows](./guides/building-ai-workflows.md) - Creating AI shopping journeys
 - [Custom Panels](./guides/custom-panels.md) - Building new panel types
 - [Advanced Animations](./guides/advanced-animations.md) - Custom transitions and effects

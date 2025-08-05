@@ -383,6 +383,198 @@ const recoverWorkflow = () => {
 }
 ```
 
+## 🎯 History-Aware Navigation
+
+### Smart Trigger Buttons
+
+All companion panel trigger buttons now respect the history stack, providing consistent and intuitive navigation:
+
+```typescript
+// All trigger buttons follow this pattern
+const handleTriggerClick = () => {
+  if (currentPanel?.type === targetPanelType) {
+    // Panel is currently active - respect history
+    if (panelHistory.length > 0) {
+      goBack() // Navigate to previous panel
+    } else {
+      closePanel() // No history, close entirely
+    }
+  } else {
+    // Open target panel
+    openPanel(targetPanelType, data, title)
+  }
+}
+```
+
+### Navigation Consistency
+
+**Before (Inconsistent):**
+- ❌ Filter button: Opens filter OR force-closes entire panel
+- ✅ Back button: Opens filter OR goes to previous panel
+
+**After (Consistent):**
+- ✅ All trigger buttons: History-aware navigation
+- ✅ All back buttons: History-aware navigation
+
+### Example Workflows
+
+#### **AI → Filter → Filter Button**
+```typescript
+// 1. AI assistant is open
+openPanel('ai-assistant')
+
+// 2. Open filters (AI goes to history)  
+openPanel('filter') // History: [ai-assistant], Current: filter
+
+// 3. Click filter button → Goes back to AI ✅
+handleFilterClick() // Current: ai-assistant, History: []
+```
+
+#### **Direct Filter → Filter Button**
+```typescript
+// 1. No panel open
+// 2. Open filters directly
+openPanel('filter') // History: [], Current: filter
+
+// 3. Click filter button → Closes entirely ✅
+handleFilterClick() // Current: null, History: []
+```
+
+### Dual Navigation Headers
+
+Filter panels provide both navigation options:
+
+```typescript
+// Filter panel header with both buttons
+<div className="panel-header">
+  {/* History-aware back button */}
+  <button onClick={handleBackClick} title={getBackButtonTitle()}>
+    <ArrowLeft />
+  </button>
+  
+  <h2>Filters {activeFilterCount > 0 && `(${activeFilterCount})`}</h2>
+  
+  {/* Always-close button */}
+  <button onClick={closePanel} title="Close filters">
+    <X />
+  </button>
+</div>
+
+const handleBackClick = () => {
+  if (panelHistory.length > 0) {
+    goBack() // Return to previous panel
+  } else {
+    closePanel() // No history, close entirely  
+  }
+}
+
+const getBackButtonTitle = () => {
+  return panelHistory.length > 0 ? 'Go back' : 'Close filters'
+}
+```
+
+## 🛒 State-Aware Cart Auto-Open
+
+### Previous State Restoration
+
+The cart auto-open feature now preserves user workflow context:
+
+```typescript
+// Save state before auto-opening cart
+const captureCurrentState = () => {
+  return {
+    wasOpen: isOpen,
+    panelType: currentPanel?.type || null,
+    panelData: currentPanel?.data || null,
+    panelTitle: currentPanel?.title || null
+  }
+}
+
+// Restore state after preview
+const restorePreviousState = (capturedState) => {
+  if (capturedState?.wasOpen && capturedState.panelType) {
+    // Restore previous panel
+    openPanel(
+      capturedState.panelType,
+      capturedState.panelData,
+      capturedState.panelTitle
+    )
+  } else {
+    // Nothing was open before, close entirely
+    closePanel()
+  }
+}
+```
+
+### Auto-Open Scenarios
+
+#### **AI Chat → Add Item → Auto-Cart → Restore AI** ✅
+```typescript
+// 1. AI assistant open
+openPanel('ai-assistant', { context: 'shopping' })
+
+// 2. User adds item → Cart auto-opens (saves AI state)
+// capturedState = { wasOpen: true, panelType: 'ai-assistant', ... }
+
+// 3. After 4 seconds → AI assistant restored
+restorePreviousState(capturedState) // Back to AI assistant! 🎉
+```
+
+#### **Empty Cart → Add Item → Auto-Cart → Keep Open** ✅
+```typescript
+// 1. Cart already open
+openPanel('cart')
+
+// 2. User adds item → Cart updates (saves cart state)
+// capturedState = { wasOpen: true, panelType: 'cart', ... }
+
+// 3. After 4 seconds → Cart stays open
+restorePreviousState(capturedState) // Cart remains open! ✅
+```
+
+#### **Nothing Open → Add Item → Auto-Cart → Close** ✅
+```typescript
+// 1. No panel open
+// 2. User adds item → Cart auto-opens (saves empty state)
+// capturedState = { wasOpen: false, panelType: null, ... }
+
+// 3. After 4 seconds → Closes entirely
+restorePreviousState(capturedState) // Closes completely! ✅
+```
+
+### Technical Implementation
+
+```typescript
+const CartAutoOpen = ({ autoOpenDuration = 4000 }) => {
+  const [previousPanelState, setPreviousPanelState] = useState(null)
+  const { openPanel, closePanel, isOpen, currentPanel } = useCompanionPanel()
+
+  const timedOpen = () => {
+    // Capture current state in closure (avoid React stale state)
+    const capturedState = {
+      wasOpen: isOpen,
+      panelType: currentPanel?.type || null,
+      panelData: currentPanel?.data || null,
+      panelTitle: currentPanel?.title || null
+    }
+    
+    // Save state and open cart
+    setPreviousPanelState(capturedState)
+    openPanel('cart', cartData, `Cart (${totalItems})`)
+    
+    // Restore after timeout
+    const timer = setTimeout(() => {
+      if (capturedState?.wasOpen && capturedState.panelType) {
+        openPanel(capturedState.panelType, capturedState.panelData, capturedState.panelTitle)
+      } else {
+        closePanel()
+      }
+      setPreviousPanelState(null)
+    }, autoOpenDuration)
+  }
+}
+```
+
 ## 🚀 Advanced Features
 
 ### Panel Preloading

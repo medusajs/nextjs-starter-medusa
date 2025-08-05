@@ -1,5 +1,46 @@
 # 📝 Companion Panel System Changelog
 
+## [1.1.0] - 2024-12-19 - UX Enhancement Release 🎯
+
+### ✨ **Major UX Improvements**
+
+#### 🔄 **History-Aware Navigation**
+- **Smart Trigger Buttons**: All panel trigger buttons now respect the history stack
+- **Consistent Back Behavior**: Filter, AI, Help, and Cart buttons behave consistently with back buttons
+- **Context Preservation**: Clicking active panel button goes back instead of force-closing
+- **Unified Navigation Pattern**: Same behavior across all companion panel entry points
+
+#### 🛒 **State-Aware Cart Auto-Open**
+- **Previous State Restoration**: Auto-open cart now remembers and restores previous panel state
+- **Contextual Auto-Close**: Returns to AI assistant, filters, or help panel after cart preview
+- **Smart State Detection**: Only closes entirely if no panel was open before
+- **Non-Disruptive UX**: Maintains user workflow context during cart interactions
+
+#### 🎨 **Enhanced Panel Headers**
+- **Dual Navigation Options**: Filter panels now have both back and close buttons
+- **Consistent Styling**: Icon-only buttons with uniform size and hover states
+- **Smart Back Logic**: Back button shows "Back" or "Close" based on history state
+- **Improved Accessibility**: Clear tooltips and keyboard navigation
+
+### 🛠️ **Technical Improvements**
+
+#### 🔧 **Layout Stability**
+- **Scrollbar Gutter**: Added `scrollbar-gutter: stable` to prevent layout shift
+- **Cross-Browser Fallback**: Calculated margin compensation for older browsers
+- **Modal Interaction Fix**: Sort dropdown no longer locks page scrolling
+
+#### 📱 **Account Page Cleanup**
+- **1-Column Login Layout**: Clean, centered login and registration forms
+- **Improved Spacing**: Consistent padding and typography across auth forms
+- **Better Mobile Experience**: Optimized layout for all screen sizes
+
+### 🐛 **Bug Fixes**
+- **Fixed React Closure Bug**: Cart auto-open state restoration now works correctly
+- **Radix UI Modal Behavior**: Sort dropdown uses `modal={false}` for better UX
+- **State Synchronization**: Proper cleanup of previous panel state on manual interactions
+
+---
+
 ## [1.0.0] - 2024-11-26 - Initial Release 🎉
 
 ### ✨ Major Features Added

@@ -299,6 +299,93 @@ Panel positioning strategies, z-index management, and layout coordination across
 ### [♿ Accessibility](./accessibility.md)
 Accessibility considerations, keyboard navigation, screen reader support, and inclusive design patterns.
 
+## 🎯 Layout Stability Improvements
+
+### Scrollbar Layout Shift Prevention
+
+Modern browsers handle scrollbar appearance/disappearance differently, often causing jarring layout shifts when modals or panels open. The Companion Panel System includes comprehensive scrollbar stability:
+
+#### CSS Scrollbar Gutter
+```css
+/* Modern solution - reserves space for scrollbar always */
+html {
+  scrollbar-gutter: stable;
+}
+
+/* Fallback for browsers that don't support scrollbar-gutter */
+@supports not (scrollbar-gutter: stable) {
+  html {
+    margin-right: calc(-1 * (100vw - 100%));
+  }
+}
+```
+
+#### Utility Classes
+```css
+/* Apply to specific containers when needed */
+.stable-scrollbar {
+  scrollbar-gutter: stable;
+}
+
+/* Force stable scrollbar gutter - useful for special containers */
+.stable-scrollbar-force {
+  scrollbar-gutter: stable both-edges;
+}
+```
+
+#### Benefits
+- **✅ No Layout Shift**: Content never shifts horizontally when scrollbars appear/disappear
+- **✅ Smooth Modals**: Panel transitions don't cause visual jumps
+- **✅ Cross-Browser**: Works in modern browsers with legacy fallback
+- **✅ Professional UX**: Eliminates amateur-looking layout instability
+
+### Modal Interaction Improvements
+
+Fixed Radix UI modal behavior for better dropdown UX:
+
+```typescript
+// Sort dropdown no longer locks page scrolling
+<DropdownMenu.Root modal={false}>
+  <DropdownMenu.Trigger asChild>
+    <button>Sort by</button>
+  </DropdownMenu.Trigger>
+  <DropdownMenu.Content>
+    {/* Dropdown content */}
+  </DropdownMenu.Content>
+</DropdownMenu.Root>
+```
+
+### Account Page Layout Cleanup
+
+Enhanced the account authentication experience with a clean, centered layout:
+
+#### Before: Left-aligned, cramped
+```typescript
+<div className="w-full flex justify-start px-8 py-8">
+  <div className="max-w-sm w-full flex flex-col items-center">
+    {/* Login form */}
+  </div>
+</div>
+```
+
+#### After: Centered, spacious
+```typescript
+<div className="w-full flex justify-center items-start min-h-[60vh] py-12">
+  <div className="w-full max-w-md px-6">
+    <div className="w-full flex flex-col items-center">
+      {/* Login form */}
+    </div>
+  </div>
+</div>
+```
+
+#### Improvements
+- **✅ Better Width**: `max-w-md` (448px) instead of `max-w-sm` (384px)
+- **✅ Centered Layout**: Perfect centering on all screen sizes
+- **✅ Proper Height**: `min-h-[60vh]` prevents cramped appearance
+- **✅ Consistent Spacing**: Unified padding and margins across auth forms
+- **✅ Mobile Optimized**: Great experience on phones and tablets
+
 ## 🚀 Advanced Layout Features
 
 ### Dynamic Panel Sizing

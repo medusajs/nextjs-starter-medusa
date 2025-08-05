@@ -9,16 +9,50 @@ The Companion Panel System is built from modular, reusable components that work 
 ```
 CompanionPanelProvider (Context)
 ├── CartTriggerButton (Trigger)
+├── FilterSortBar (Filter Controls)
 ├── CompanionPanel (Universal Renderer)
 │   ├── CartDrawerPanel (Cart Implementation)
+│   ├── FilterPanelContent (Filter Options)
 │   ├── AIAssistantPanel (AI Chat Interface)
 │   ├── HelpPanel (Support Interface)
 │   └── CustomPanels (Extensible)
+├── FilteredProductsContainer (Filter System)
+│   ├── FilteredProductsClient (Client Logic)
+│   └── PaginatedProducts (Results Display)
 ├── ResponsivePageWrapper (Layout Manager)
 └── PanelDemoButtons (Development Tool)
 ```
 
 ## 🎯 Core Components
+
+### [🎯 Filter System](./filter-system.md)
+**Purpose**: Dynamic product filtering with auto-discovery
+**Files**: `src/modules/store/components/filtered-products-container/`
+
+**Key Features**:
+- Auto-discovery of filter options from product data
+- Hybrid filtering (API + client-side)
+- Real-time filter state synchronization
+- Responsive filter panel integration
+- Smart type extraction from product handles
+- Size detection from variant options
+
+```typescript
+// Usage
+<FilteredProductsContainer
+  sortBy={sortBy}
+  page={page}
+  countryCode={countryCode}
+  searchParams={searchParams}
+/>
+
+// Features
+- Dynamic filter discovery
+- URL-based filter persistence
+- Hybrid filtering strategy
+- Performance optimized
+- Type-safe implementation
+```
 
 ### [🛒 Cart Drawer](./cart-drawer.md)
 **Purpose**: Complete shopping cart implementation
@@ -44,10 +78,12 @@ CompanionPanelProvider (Context)
 ```
 
 ### [🔘 Cart Trigger Button](./trigger-button.md)
-**Purpose**: Smart cart trigger with visual feedback
+**Purpose**: History-aware cart trigger with visual feedback
 **File**: `src/modules/layout/components/cart-trigger-button/index.tsx`
 
 **Key Features**:
+- **History-aware navigation**: Respects panel history stack
+- **Smart toggle behavior**: Goes back if history exists, closes if none
 - Dynamic item count display
 - Visual state feedback (shows when cart is open)
 - Accessibility attributes
@@ -55,11 +91,26 @@ CompanionPanelProvider (Context)
 
 ```typescript
 // Usage
-<CartTriggerButton cart={cartData} />
+<CartTriggerButton totalItems={cartItems} />
+
+// History-aware behavior
+const handleClick = () => {
+  if (isCartOpen) {
+    // Cart is currently open - respect history
+    if (panelHistory.length > 0) {
+      goBack() // Navigate to previous panel
+    } else {
+      closePanel() // No history, close entirely
+    }
+  } else {
+    // Open cart panel
+    openPanel('cart')
+  }
+}
 
 // Props
 interface CartTriggerButtonProps {
-  cart?: HttpTypes.StoreCart | null
+  totalItems: number
 }
 ```
 
@@ -158,6 +209,184 @@ function DevTools() {
 - State inspection
 - Workflow testing
 ```
+
+## 🎯 Companion Trigger Buttons
+
+### Universal History-Aware Pattern
+
+All companion panel trigger buttons now follow a consistent, history-aware navigation pattern:
+
+#### [🤖 AI Chat Trigger Button](./ai-chat-trigger.md)
+**Purpose**: History-aware AI assistant trigger
+**File**: `src/modules/layout/components/ai-chat-trigger-button/index.tsx`
+
+```typescript
+// Smart AI assistant toggle
+const handleClick = () => {
+  if (isAIOpen) {
+    // AI is currently open - respect history
+    if (panelHistory.length > 0) {
+      goBack() // Navigate to previous panel (e.g. back to cart)
+    } else {
+      closePanel() // No history, close entirely
+    }
+  } else {
+    // Open AI assistant panel
+    openPanel('ai-assistant')
+  }
+}
+```
+
+#### [❓ Help Trigger Button](./help-trigger.md)
+**Purpose**: History-aware help system trigger
+**File**: `src/modules/layout/components/help-trigger-button/index.tsx`
+
+```typescript
+// Smart help toggle
+const handleClick = () => {
+  if (isHelpOpen) {
+    // Help is currently open - respect history
+    if (panelHistory.length > 0) {
+      goBack() // Navigate to previous panel
+    } else {
+      closePanel() // No history, close entirely
+    }
+  } else {
+    // Open help panel
+    openPanel('help')
+  }
+}
+```
+
+#### [🔍 Filter Trigger Button](./filter-trigger.md)
+**Purpose**: History-aware filter system trigger
+**File**: `src/modules/store/components/filter-sort-bar/index.tsx`
+
+```typescript
+// Smart filter toggle (contextual - only appears on store/category pages)
+const handleFilterClick = () => {
+  if (currentPanel?.type === 'filter') {
+    // Filter is currently open - respect history
+    if (panelHistory.length > 0) {
+      goBack() // Navigate to previous panel (e.g. back to AI assistant)
+    } else {
+      closePanel() // No history, close entirely
+    }
+  } else {
+    // Open filter panel
+    openPanel('filter', {
+      filters: filterSections,
+      activeFilters,
+      onFilterChange: handleFilterChange
+    }, 'Filters')
+  }
+}
+```
+
+### Enhanced Panel Headers
+
+#### Dual Navigation Pattern
+Filter panels feature enhanced headers with both back and close options:
+
+```typescript
+// Filter panel header with dual navigation
+<div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-50">
+  {/* Left side - History-aware back button */}
+  <button
+    onClick={handleBackClick}
+    className="flex items-center justify-center w-8 h-8 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-md"
+    title={panelHistory.length > 0 ? 'Go back' : 'Close filters'}
+  >
+    <ArrowLeft className="w-5 h-5" />
+  </button>
+  
+  {/* Center - Title with active filter count */}
+  <div className="flex items-center gap-2">
+    <Filter className="w-5 h-5 text-gray-700" />
+    <h2 className="text-lg font-semibold text-gray-900">Filters</h2>
+    {activeFilterCount > 0 && (
+      <span className="inline-flex items-center justify-center w-6 h-6 text-sm font-bold text-white bg-blue-600 rounded-full">
+        {activeFilterCount}
+      </span>
+    )}
+  </div>
+  
+  {/* Right side - Always-close button */}
+  <button
+    onClick={closePanel}
+    className="flex items-center justify-center w-8 h-8 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-md"
+    title="Close filters"
+  >
+    <X className="w-5 h-5" />
+  </button>
+</div>
+```
+
+### Navigation Benefits
+
+#### **Consistent User Experience**
+- **✅ Predictable**: All trigger buttons behave the same way
+- **✅ Intuitive**: Clicking active panel button goes "back" naturally
+- **✅ Contextual**: Respects user's workflow history
+- **✅ Non-disruptive**: Maintains workflow context
+
+#### **Example Workflows**
+```typescript
+// Scenario: AI → Filter → Filter Button
+// 1. Open AI assistant
+openPanel('ai-assistant') // History: [], Current: ai-assistant
+
+// 2. Open filters (AI goes to history)
+openPanel('filter') // History: [ai-assistant], Current: filter
+
+// 3. Click filter button → Goes back to AI ✅
+handleFilterClick() // History: [], Current: ai-assistant
+```
+
+## 🛒 State-Aware Cart Auto-Open
+
+### Enhanced Cart Behavior
+
+The cart auto-open component now preserves user workflow context:
+
+```typescript
+// State-aware auto-open pattern
+const CartAutoOpen = ({ autoOpenDuration = 4000 }) => {
+  const [previousPanelState, setPreviousPanelState] = useState(null)
+  
+  const timedOpen = () => {
+    // Capture current state before auto-opening
+    const capturedState = {
+      wasOpen: isOpen,
+      panelType: currentPanel?.type || null,
+      panelData: currentPanel?.data || null,
+      panelTitle: currentPanel?.title || null
+    }
+    
+    // Save state and open cart
+    setPreviousPanelState(capturedState)
+    openPanel('cart', cartData, `Cart (${totalItems})`)
+    
+    // Restore previous state after timeout
+    setTimeout(() => {
+      if (capturedState?.wasOpen && capturedState.panelType) {
+        // Restore previous panel
+        openPanel(capturedState.panelType, capturedState.panelData, capturedState.panelTitle)
+      } else {
+        // Nothing was open before, close entirely
+        closePanel()
+      }
+      setPreviousPanelState(null)
+    }, autoOpenDuration)
+  }
+}
+```
+
+#### Auto-Open Scenarios
+- **AI Chat + Add Item**: Returns to AI chat after cart preview
+- **Filter + Add Item**: Returns to filters after cart preview  
+- **Empty State + Add Item**: Closes entirely after cart preview
+- **Cart Open + Add Item**: Keeps cart open after update
 
 ## 🧬 Component Relationships
 
