@@ -60,30 +60,21 @@ export const useContentMediaQuery = (): ContentMediaQuery => {
     return 'mobile'
   }, [])
 
-  // Measure content area and update breakpoints
-  const measureContentArea = useCallback(() => {
-    if (!containerRef.current) return
 
-    const rect = containerRef.current.getBoundingClientRect()
-    const width = rect.width
-    
-    setContentWidth(width)
-    
-    const newSize = calculateBreakpoint(width)
-    const newSemantic = calculateSemantic(width)
-    
-    if (newSize !== currentSize) {
-      setCurrentSize(newSize)
-    }
-    
-    if (newSemantic !== semanticSize) {
-      setSemanticSize(newSemantic)
-    }
-  }, [calculateBreakpoint, calculateSemantic, currentSize, semanticSize])
 
   // Set up ResizeObserver for content area measurement
   useEffect(() => {
-    measureContentArea()
+    // Force immediate measurement
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect()
+      const width = rect.width
+      
+      if (width > 0) {
+        setContentWidth(width)
+        setCurrentSize(calculateBreakpoint(width))
+        setSemanticSize(calculateSemantic(width))
+      }
+    }
 
     if (!containerRef.current) return
 
@@ -101,7 +92,7 @@ export const useContentMediaQuery = (): ContentMediaQuery => {
     return () => {
       resizeObserver.disconnect()
     }
-  }, [calculateBreakpoint, calculateSemantic, measureContentArea])
+  }, [calculateBreakpoint, calculateSemantic])
 
   // Utility functions
   const isSize = useCallback((size: BreakpointSize | 'xs') => {
