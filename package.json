@@ -18,6 +18,8 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
+    "@builder.io/react": "^8.2.6",
+    "@builder.io/sdk": "^6.1.2",
     "@headlessui/react": "^2.2.0",
     "@medusajs/js-sdk": "latest",
     "@medusajs/ui": "latest",
