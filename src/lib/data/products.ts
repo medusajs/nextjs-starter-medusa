@@ -188,6 +188,7 @@ export const getProductFilters = async ({
             tags: [],
             types: [],
             materials: [],
+            sizes: [],
             collections: [],
             categories: [],
             priceRange: { min: 0, max: 0 },
