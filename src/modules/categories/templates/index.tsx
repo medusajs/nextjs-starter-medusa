@@ -3,8 +3,8 @@ import { Suspense } from "react"
 
 import InteractiveLink from "@modules/common/components/interactive-link"
 import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-grid"
-import RefinementList from "@modules/store/components/refinement-list"
-import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
+import FilterSortBar from "@modules/store/components/filter-sort-bar"
+import { SortOptions } from "@modules/store/components/refinement-list/sort-products-dropdown"
 import PaginatedProducts from "@modules/store/templates/paginated-products"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { HttpTypes } from "@medusajs/types"
@@ -37,12 +37,12 @@ export default function CategoryTemplate({
   getParents(category)
 
   return (
-    <div
-      className="flex flex-col small:flex-row small:items-start py-6 content-container"
-      data-testid="category-container"
-    >
-      <RefinementList sortBy={sort} data-testid="sort-by-container" />
-      <div className="w-full">
+    <>
+      {/* Filter and Sort Bar - Sticky under header */}
+      <FilterSortBar sortBy={sort} data-testid="sort-by-container" />
+      
+      {/* Main Content */}
+      <div className="content-container py-6" data-testid="category-container">
         <div className="flex flex-row mb-8 text-2xl-semi gap-4">
           {parents &&
             parents.map((parent) => (
@@ -59,11 +59,13 @@ export default function CategoryTemplate({
             ))}
           <h1 data-testid="category-page-title">{category.name}</h1>
         </div>
+        
         {category.description && (
           <div className="mb-8 text-base-regular">
             <p>{category.description}</p>
           </div>
         )}
+        
         {category.category_children && (
           <div className="mb-8 text-base-large">
             <ul className="grid grid-cols-1 gap-2">
@@ -77,6 +79,7 @@ export default function CategoryTemplate({
             </ul>
           </div>
         )}
+        
         <Suspense
           fallback={
             <SkeletonProductGrid
@@ -92,6 +95,6 @@ export default function CategoryTemplate({
           />
         </Suspense>
       </div>
-    </div>
+    </>
   )
 }
