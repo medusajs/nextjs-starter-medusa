@@ -14,6 +14,20 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+@layer base {
+    /* Prevent layout shift from scrollbar appearance/disappearance */
+    html {
+        scrollbar-gutter: stable; /* Modern solution - reserves space for scrollbar */
+    }
+    
+    /* Fallback for browsers that don't support scrollbar-gutter */
+    @supports not (scrollbar-gutter: stable) {
+        html {
+            margin-right: calc(-1 * (100vw - 100%)); /* Compensate for scrollbar width */
+        }
+    }
+}
+
 @layer utilities {
     /* Chrome, Safari and Opera */
     .no-scrollbar::-webkit-scrollbar {
@@ -29,6 +43,16 @@
         /* IE and Edge */
         scrollbar-width: none;
         /* Firefox */
+    }
+
+    /* Utility class to prevent layout shift on any element */
+    .stable-scrollbar {
+        scrollbar-gutter: stable;
+    }
+
+    /* Force stable scrollbar gutter - useful for specific containers */
+    .stable-scrollbar-force {
+        scrollbar-gutter: stable both-edges;
     }
 
     input:focus~label,

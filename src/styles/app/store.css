@@ -168,3 +168,13 @@
 [data-panel-open="true"][data-media-query="sm"] .store-hero {
   padding: 2.5rem 1.5rem;
 }
+
+/* =============================================================================
+   FILTER SORT BAR STYLING
+   ============================================================================= */
+
+/* Filter sort bar styling */
+.filter-sort-bar {
+  backdrop-filter: blur(8px);
+  background-color: rgba(255, 255, 255, 0.95);
+}
