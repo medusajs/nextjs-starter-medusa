@@ -26,6 +26,12 @@ const CartAutoOpen: React.FC<CartAutoOpenProps> = ({
 }) => {
     const [activeTimer, setActiveTimer] = useState<NodeJS.Timer | undefined>(undefined)
     const [autoOpened, setAutoOpened] = useState<boolean>(false) // Track if we auto-opened
+    const [previousPanelState, setPreviousPanelState] = useState<{
+        wasOpen: boolean
+        panelType: string | null
+        panelData: any
+        panelTitle: string | null
+    } | null>(null) // Save previous state before auto-opening
     const { openPanel, closePanel, isMobile, isOpen, currentPanel } = useCompanionPanel()
     const pathname = usePathname()
 
@@ -64,13 +70,45 @@ const CartAutoOpen: React.FC<CartAutoOpenProps> = ({
         }
         
         console.log(`CartAutoOpen: Opening cart with ${totalItems} items for ${autoOpenDuration}ms`)
+        console.log('CartAutoOpen: Current state before save:', { isOpen, currentPanel: currentPanel?.type, title: currentPanel?.title })
+        
+        // Save current panel state before auto-opening cart
+        const stateToSave = {
+            wasOpen: isOpen,
+            panelType: currentPanel?.type || null,
+            panelData: currentPanel?.data || null,
+            panelTitle: currentPanel?.title || null
+        }
+        console.log('CartAutoOpen: Saving state:', stateToSave)
+        setPreviousPanelState(stateToSave)
+        
         openPanel('cart', cartState, `Cart (${totalItems})`)
         setAutoOpened(true) // Mark that we auto-opened
         
+        // Capture the state in the closure to avoid stale state issues
+        const capturedState = stateToSave
+        
         const timer = setTimeout(() => {
-            console.log('CartAutoOpen: Auto-closing cart after timer')
-            closePanel()
+            console.log('CartAutoOpen: Timer triggered - restoring previous panel state')
+            console.log('CartAutoOpen: capturedState at timer:', capturedState)
+            
+            if (capturedState?.wasOpen && capturedState.panelType) {
+                // Restore previous panel
+                console.log(`CartAutoOpen: Restoring ${capturedState.panelType} panel with data:`, capturedState.panelData)
+                openPanel(
+                    capturedState.panelType as any,
+                    capturedState.panelData,
+                    capturedState.panelTitle || undefined
+                )
+            } else {
+                // Nothing was open before, close entirely
+                console.log('CartAutoOpen: Nothing was open before, closing panel')
+                console.log('CartAutoOpen: Debug - wasOpen:', capturedState?.wasOpen, 'panelType:', capturedState?.panelType)
+                closePanel()
+            }
+            
             setAutoOpened(false) // Reset flag when we auto-close
+            setPreviousPanelState(null) // Clear saved state
         }, autoOpenDuration)
         setActiveTimer(timer)
     }
@@ -98,6 +136,8 @@ const CartAutoOpen: React.FC<CartAutoOpenProps> = ({
                 clearTimeout(activeTimer)
                 setActiveTimer(undefined)
             }
+            // Clear saved state on unmount
+            setPreviousPanelState(null)
         }
     }, [activeTimer])
 
@@ -110,12 +150,23 @@ const CartAutoOpen: React.FC<CartAutoOpenProps> = ({
             console.log('CartAutoOpen: User manually opened cart, clearing timer')
             clearTimeout(activeTimer)
             setActiveTimer(undefined)
+            setPreviousPanelState(null) // Clear saved state since user took manual action
+        }
+        
+        // If user switches to a different panel while auto-cart timer is running, clear saved state
+        if (isOpen && currentPanel?.type !== 'cart' && autoOpened && activeTimer) {
+            console.log('CartAutoOpen: User switched to different panel, clearing saved state')
+            clearTimeout(activeTimer)
+            setActiveTimer(undefined)
+            setAutoOpened(false)
+            setPreviousPanelState(null)
         }
         
         // Reset autoOpened flag when cart is closed
         if (!isOpen && autoOpened) {
             console.log('CartAutoOpen: Cart closed, resetting autoOpened flag')
             setAutoOpened(false)
+            setPreviousPanelState(null) // Clear saved state when panel closes
         }
     }, [isOpen, currentPanel?.type, autoOpened, activeTimer])
 

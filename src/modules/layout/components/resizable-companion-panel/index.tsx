@@ -7,14 +7,13 @@ import { HttpTypes } from "@medusajs/types"
 import CartPanelContent from "../cart-panel-content"
 import HelpPanelContent from "../help-panel-content"
 import AIAssistantPanelContent from "../ai-assistant-panel-content"
+import FilterPanelContent from "../filter-panel-content"
 
 const PanelComponents = {
   'cart': CartPanelContent,
   'ai-assistant': AIAssistantPanelContent,
   'help': HelpPanelContent,
-  'product-compare': () => <div className="p-4">Product Compare Panel (Coming Soon)</div>,
-  'wishlist': () => <div className="p-4">Wishlist Panel (Coming Soon)</div>,
-  'reviews': () => <div className="p-4">Reviews Panel (Coming Soon)</div>,
+  'filter': FilterPanelContent,
 }
 
 interface ResizableCompanionPanelProps {
@@ -28,7 +27,6 @@ const ResizableCompanionPanel: React.FC<ResizableCompanionPanelProps> = ({ cart 
     width,
     isResizing,
     handleMouseDown,
-    resetToDefault,
     resizerRef
   } = usePanelResize({
     minWidth: 350,
@@ -110,22 +108,6 @@ const ResizableCompanionPanel: React.FC<ResizableCompanionPanelProps> = ({ cart 
         )}
 
         <div className="companion-panel__container">
-          {/* Panel Header with Resize Controls */}
-          {!isMobile && (
-            <div className="flex items-center justify-between px-4 py-2 border-b border-gray-100 bg-gray-50">
-              <div className="text-xs text-gray-500">
-                Width: {width}px
-              </div>
-              <button
-                onClick={resetToDefault}
-                className="text-xs text-blue-600 hover:text-blue-800 underline"
-                title="Reset to default width"
-              >
-                Reset Size
-              </button>
-            </div>
-          )}
-
           <PanelComponent {...panelProps} />
         </div>
       </div>

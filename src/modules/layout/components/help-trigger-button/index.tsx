@@ -4,15 +4,22 @@ import { useCompanionPanel } from "@lib/context/companion-panel-context"
 import { HelpCircle } from "lucide-react"
 
 const HelpTriggerButton: React.FC = () => {
-  const { isOpen, openPanel, closePanel, currentPanel } = useCompanionPanel()
+  const { isOpen, openPanel, closePanel, goBack, currentPanel, panelHistory } = useCompanionPanel()
   
   // Check if help panel is currently open
   const isHelpOpen = isOpen && currentPanel?.type === 'help'
 
   const handleClick = () => {
+    // History-aware behavior: respect the panel history stack
     if (isHelpOpen) {
-      closePanel()
+      // Help is currently open - go back if there's history, otherwise close
+      if (panelHistory.length > 0) {
+        goBack() // Go back to previous panel
+      } else {
+        closePanel() // No history, close entirely
+      }
     } else {
+      // Help is not current - open help panel
       openPanel('help')
     }
   }

@@ -8,14 +8,29 @@ interface CartTriggerButtonProps {
 }
 
 const CartTriggerButton: React.FC<CartTriggerButtonProps> = ({ totalItems }) => {
-  const { isOpen, toggleCartPanel, currentPanel } = useCompanionPanel()
+  const { isOpen, openPanel, closePanel, goBack, currentPanel, panelHistory } = useCompanionPanel()
   
   // Check if cart panel is currently open
   const isCartOpen = isOpen && currentPanel?.type === 'cart'
 
+  const handleClick = () => {
+    // History-aware behavior: respect the panel history stack
+    if (isCartOpen) {
+      // Cart is currently open - go back if there's history, otherwise close
+      if (panelHistory.length > 0) {
+        goBack() // Go back to previous panel
+      } else {
+        closePanel() // No history, close entirely
+      }
+    } else {
+      // Cart is not current - open cart panel
+      openPanel('cart')
+    }
+  }
+
   return (
     <button
-      onClick={toggleCartPanel}
+      onClick={handleClick}
       className={`h-full transition-colors duration-200 ${
         isCartOpen ? 'text-blue-600' : 'hover:text-ui-fg-base'
       }`}
