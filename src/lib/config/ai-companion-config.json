@@ -1,0 +1,380 @@
+{
+  "aiCompanion": {
+    "version": "2.0.0",
+    "metadata": {
+      "name": "E-commerce AI Assistant",
+      "description": "Intelligent shopping companion with backend sync",
+      "author": "Your Store",
+      "created": "2024-01-15T10:00:00Z"
+    },
+    
+    "backend": {
+      "apiUrl": "${BACKEND_API_URL}",
+      "apiKey": "${AI_COMPANION_API_KEY}",
+      "enableSync": true,
+      "syncConfig": {
+        "maxRetries": 3,
+        "retryDelay": 1000,
+        "batchSize": 10,
+        "syncInterval": 30000,
+        "conflictResolution": "server_wins",
+        "enableRealTime": true
+      }
+    },
+
+    "externalServices": {
+      "intercom": {
+        "enabled": true,
+        "apiKey": "${INTERCOM_API_KEY}",
+        "webhookSecret": "${INTERCOM_WEBHOOK_SECRET}",
+        "autoSync": true,
+        "syncEvents": ["ticket_created", "ticket_updated", "message_added"]
+      },
+      "zendesk": {
+        "enabled": false,
+        "apiKey": "${ZENDESK_API_KEY}",
+        "subdomain": "${ZENDESK_SUBDOMAIN}",
+        "webhookSecret": "${ZENDESK_WEBHOOK_SECRET}",
+        "customFields": {
+          "ticketIdField": "360000000001",
+          "escalationField": "360000000002"
+        },
+        "autoSync": true
+      },
+      "freshdesk": {
+        "enabled": false,
+        "apiKey": "${FRESHDESK_API_KEY}",
+        "domain": "${FRESHDESK_DOMAIN}",
+        "autoSync": false
+      }
+    },
+
+    "userAccount": {
+      "enableTicketHistory": true,
+      "ticketRetentionDays": 365,
+      "exportFormats": ["json", "csv", "pdf"],
+      "notificationPreferences": {
+        "email": true,
+        "inApp": true,
+        "push": false
+      }
+    },
+
+    "adminDashboard": {
+      "enabled": true,
+      "features": {
+        "ticketManagement": true,
+        "analytics": true,
+        "agentAssignment": true,
+        "bulkOperations": true,
+        "reporting": true
+      },
+      "permissions": {
+        "viewAllTickets": ["admin", "supervisor"],
+        "assignTickets": ["admin", "supervisor", "agent"],
+        "deleteTickets": ["admin"],
+        "exportData": ["admin", "supervisor"]
+      }
+    },
+    
+    "communication": {
+      "primary": {
+        "protocol": "sse",
+        "endpoint": "/api/ai-companion/stream",
+        "reconnect": true,
+        "timeout": 30000
+      },
+      "advanced": {
+        "protocol": "websocket",
+        "endpoint": "/api/ai-companion/ws",
+        "features": ["voice", "collaboration", "live-agent"]
+      }
+    },
+    
+    "sessions": {
+      "strategy": "hybrid",
+      "maxSessions": 5,
+      "sessionTimeout": 3600000,
+      "contextInheritance": true,
+      "persistence": "localStorage",
+      "backendSync": true
+    },
+    
+    "ai": {
+      "primary": {
+        "provider": "openai",
+        "model": "gpt-4-turbo",
+        "temperature": 0.7,
+        "maxTokens": 2048,
+        "enableFunctionCalling": true
+      },
+      "fallback": {
+        "provider": "anthropic",
+        "model": "claude-3-sonnet"
+      },
+      "mcpServers": [
+        {
+          "name": "product-catalog",
+          "url": "mcp://internal/products",
+          "auth": {
+            "type": "oauth2",
+            "clientId": "${PRODUCT_CLIENT_ID}",
+            "scopes": ["read:products", "read:inventory"]
+          },
+          "enabled": true
+        },
+        {
+          "name": "order-management",
+          "url": "mcp://internal/orders",
+          "auth": {
+            "type": "api-key",
+            "key": "${ORDER_API_KEY}"
+          },
+          "enabled": true
+        },
+        {
+          "name": "customer-support",
+          "url": "mcp://zendesk.com/api",
+          "auth": {
+            "type": "api-key",
+            "key": "${ZENDESK_API_KEY}"
+          },
+          "enabled": true
+        }
+      ]
+    },
+
+    "tickets": {
+      "autoCreateFromChat": {
+        "enabled": true,
+        "triggers": ["order_issue", "product_complaint", "technical_problem"],
+        "defaultPriority": "medium",
+        "autoAssign": true
+      },
+      "sla": {
+        "responseTime": {
+          "low": 1440,
+          "medium": 480,
+          "high": 120,
+          "urgent": 30
+        },
+        "resolutionTime": {
+          "low": 4320,
+          "medium": 1440,
+          "high": 480,
+          "urgent": 120
+        }
+      },
+      "escalation": {
+        "enabled": true,
+        "rules": [
+          {
+            "condition": "sla_breach",
+            "action": "escalate_to_supervisor",
+            "delay": 60
+          },
+          {
+            "condition": "customer_vip",
+            "action": "escalate_to_manager",
+            "delay": 0
+          },
+          {
+            "condition": "repeated_contact",
+            "action": "escalate_to_specialist",
+            "delay": 30
+          }
+        ]
+      },
+      "autoTagging": {
+        "enabled": true,
+        "rules": [
+          {
+            "keywords": ["refund", "return", "money back"],
+            "tags": ["refund-request"]
+          },
+          {
+            "keywords": ["broken", "defective", "not working"],
+            "tags": ["product-issue", "quality-concern"]
+          },
+          {
+            "keywords": ["shipping", "delivery", "tracking"],
+            "tags": ["shipping-inquiry"]
+          }
+        ]
+      }
+    },
+    
+    "thirdPartyServices": {
+      "productRecommendations": {
+        "provider": "algolia",
+        "config": {
+          "appId": "${ALGOLIA_APP_ID}",
+          "apiKey": "${ALGOLIA_SEARCH_KEY}",
+          "indexName": "products"
+        }
+      },
+      "customerSupport": {
+        "provider": "laxi.ai",
+        "config": {
+          "apiKey": "${LAXI_API_KEY}",
+          "features": ["order-tracking", "returns", "product-qa"]
+        }
+      },
+      "analytics": {
+        "provider": "mixpanel",
+        "config": {
+          "token": "${MIXPANEL_TOKEN}",
+          "trackTickets": true,
+          "trackConversations": true,
+          "anonymizeData": true
+        }
+      }
+    },
+    
+    "ui": {
+      "theme": {
+        "primaryColor": "#007bff",
+        "secondaryColor": "#6c757d",
+        "successColor": "#28a745",
+        "warningColor": "#ffc107",
+        "errorColor": "#dc3545",
+        "fontFamily": "Inter, sans-serif",
+        "borderRadius": "8px"
+      },
+      "layout": {
+        "position": "bottom-right",
+        "width": 400,
+        "height": 600,
+        "minimized": {
+          "width": 80,
+          "height": 80
+        }
+      },
+      "features": {
+        "voice": true,
+        "fileUpload": true,
+        "productCards": true,
+        "orderTracking": true,
+        "ticketExport": true,
+        "searchHistory": true
+      },
+      "notifications": {
+        "position": "top-right",
+        "autoHide": true,
+        "hideDelay": 5000,
+        "showSyncStatus": true,
+        "showExternalUpdates": true
+      }
+    },
+    
+    "security": {
+      "authentication": {
+        "required": false,
+        "providers": ["auth0", "firebase", "custom"],
+        "sessionTimeout": 3600000
+      },
+      "privacy": {
+        "dataRetention": "30d",
+        "anonymizeAfter": "90d",
+        "gdprCompliant": true,
+        "encryptMessages": true
+      },
+      "rateLimiting": {
+        "messagesPerMinute": 10,
+        "messagesPerHour": 100,
+        "ticketsPerDay": 50
+      },
+      "webhooks": {
+        "validateSignatures": true,
+        "allowedOrigins": ["intercom.io", "zendesk.com", "freshdesk.com"],
+        "retryAttempts": 3
+      }
+    },
+    
+    "analytics": {
+      "provider": "mixpanel",
+      "events": [
+        "conversation_started",
+        "ticket_created",
+        "ticket_resolved",
+        "product_recommended",
+        "order_inquiry",
+        "human_handoff",
+        "external_sync_completed",
+        "conflict_resolved"
+      ],
+      "privacy": {
+        "trackUserData": false,
+        "anonymizeIp": true,
+        "respectDoNotTrack": true
+      },
+      "dashboards": {
+        "customer": {
+          "metrics": ["ticket_count", "response_time", "satisfaction"],
+          "charts": ["ticket_timeline", "resolution_rate"]
+        },
+        "admin": {
+          "metrics": ["total_tickets", "agent_performance", "sla_compliance"],
+          "charts": ["ticket_volume", "escalation_trends", "sync_status"]
+        }
+      }
+    },
+
+    "monitoring": {
+      "healthChecks": {
+        "backend": {
+          "endpoint": "/api/health",
+          "interval": 30000,
+          "timeout": 5000
+        },
+        "externalServices": {
+          "interval": 60000,
+          "timeout": 10000
+        }
+      },
+      "alerts": {
+        "syncFailures": {
+          "threshold": 5,
+          "window": 300000,
+          "channels": ["email", "slack"]
+        },
+        "highTicketVolume": {
+          "threshold": 100,
+          "window": 3600000,
+          "channels": ["email"]
+        }
+      },
+      "logging": {
+        "level": "info",
+        "includeUserData": false,
+        "destinations": ["console", "file", "remote"]
+      }
+    },
+
+    "features": {
+      "offlineSupport": {
+        "enabled": true,
+        "syncOnReconnect": true,
+        "maxOfflineActions": 100
+      },
+      "multiLanguage": {
+        "enabled": true,
+        "defaultLanguage": "en",
+        "supportedLanguages": ["en", "es", "fr", "de", "it"],
+        "autoDetect": true
+      },
+      "accessibility": {
+        "screenReader": true,
+        "keyboardNavigation": true,
+        "highContrast": true,
+        "fontSize": "adjustable"
+      },
+      "collaboration": {
+        "enabled": false,
+        "maxCollaborators": 3,
+        "shareTickets": true,
+        "realTimeUpdates": true
+      }
+    }
+  }
+}
