@@ -17,13 +17,13 @@ const Register = ({ setCurrentView }: Props) => {
 
   return (
     <div
-      className="max-w-sm flex flex-col items-center"
+      className="w-full flex flex-col items-center"
       data-testid="register-page"
     >
       <h1 className="text-large-semi uppercase mb-6">
         Become a Medusa Store Member
       </h1>
-      <p className="text-center text-base-regular text-ui-fg-base mb-4">
+      <p className="text-center text-base-regular text-ui-fg-base mb-8">
         Create your Medusa Store Member profile, and get access to an enhanced
         shopping experience.
       </p>
