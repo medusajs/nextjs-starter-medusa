@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react"
 
 // Panel Types - Extensible for future features
-export type PanelType = 'cart' | 'ai-assistant' | 'help' | 'product-compare' | 'wishlist' | 'reviews'
+export type PanelType = 'cart' | 'ai-assistant' | 'help' | 'filter'
 
 // Panel State Interface
 export interface PanelState {
