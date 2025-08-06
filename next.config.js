@@ -1,7 +1,7 @@
 const checkEnvVariables = require("./check-env-variables")
 
-// Skip environment check during testing
-if (process.env.NODE_ENV !== 'test') {
+// Skip environment check during testing and build process
+if (process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'production' && process.env.VERCEL !== '1') {
   checkEnvVariables()
 }
 
@@ -21,15 +21,14 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+
   experimental: {
     // Fix for React 19 with Next.js 15
     reactCompiler: false,
-    // Ensure proper client reference manifest generation
-    bundlePagesRouterDependencies: true,
     // Fix for client reference manifest issues
     serverComponentsHmrCache: false,
-    // Optimize for Vercel deployment
-    outputFileTracingRoot: process.cwd(),
+    // Optimize static generation
+    optimizePackageImports: ['@medusajs/ui', 'lucide-react'],
   },
   images: {
     remotePatterns: [
