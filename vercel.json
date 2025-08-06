@@ -1,8 +1,4 @@
 {
-  "buildCommand": "npm run build",
-  "devCommand": "npm run dev",
-  "installCommand": "npm ci",
-  "framework": "nextjs",
   "ignoreCommand": "git diff --quiet HEAD^ HEAD -- . ':(exclude)website' ':(exclude)documentation'",
   "functions": {
     "src/app/api/**/*.ts": {
