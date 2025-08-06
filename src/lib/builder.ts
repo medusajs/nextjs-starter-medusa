@@ -1,11 +1,13 @@
 import { builder } from '@builder.io/sdk'
 
 // Initialize Builder.io with your API key
-// Replace with your actual Builder.io API key
 const BUILDER_API_KEY = process.env.NEXT_PUBLIC_BUILDER_API_KEY || 'YOUR_BUILDER_API_KEY'
 
 if (!BUILDER_API_KEY || BUILDER_API_KEY === 'YOUR_BUILDER_API_KEY') {
   console.warn('Builder.io API key not found. Please set NEXT_PUBLIC_BUILDER_API_KEY in your environment variables.')
+  console.warn('Builder.io integration will fallback to default content.')
+} else {
+  console.log('Builder.io initialized with API key:', BUILDER_API_KEY.substring(0, 10) + '...')
 }
 
 builder.init(BUILDER_API_KEY)
@@ -34,6 +36,12 @@ export async function getBuilderContent(
     preview?: boolean
   } = {}
 ) {
+  // Skip Builder.io call if API key is not properly configured
+  if (!BUILDER_API_KEY || BUILDER_API_KEY === 'YOUR_BUILDER_API_KEY') {
+    console.log(`Skipping Builder.io call for model "${model}" - API key not configured`)
+    return null
+  }
+
   try {
     const content = await builder
       .get(model, {
@@ -45,9 +53,21 @@ export async function getBuilderContent(
       })
       .toPromise()
 
+    if (content) {
+      console.log(`Successfully fetched Builder content for model "${model}"`)
+    } else {
+      console.log(`No Builder content found for model "${model}"`)
+    }
+
     return content
-  } catch (error) {
-    console.error(`Failed to fetch Builder content for model "${model}":`, error)
+  } catch (error: any) {
+    if (error?.response?.status === 401) {
+      console.error(`Builder.io API key is invalid or expired for model "${model}". Please check your API key.`)
+    } else if (error?.response?.status === 404) {
+      console.error(`Builder.io model "${model}" not found. Please create this model in your Builder.io space.`)
+    } else {
+      console.error(`Failed to fetch Builder content for model "${model}":`, error?.message || error)
+    }
     return null
   }
 }
