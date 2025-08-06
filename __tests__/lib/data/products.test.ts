@@ -246,6 +246,7 @@ describe('getProductFilters', () => {
       materials: [],
       collections: [],
       categories: [],
+      sizes: [],
       priceRange: { min: 0, max: 0 },
     })
   })

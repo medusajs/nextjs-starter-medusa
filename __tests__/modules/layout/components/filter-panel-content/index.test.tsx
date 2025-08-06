@@ -5,7 +5,9 @@ import { useSearchParams } from 'next/navigation'
 import FilterPanelContent from '../../../../../src/modules/layout/components/filter-panel-content/index'
 
 // Mock the dependencies
-jest.mock('next/navigation')
+jest.mock('next/navigation', () => ({
+  useSearchParams: jest.fn(),
+}))
 jest.mock('@modules/store/components/filter-module', () => {
   return function MockFilterModule({ filters, activeFilters, onFilterChange }: any) {
     return (

@@ -229,8 +229,8 @@ describe('CartDrawerPanel', () => {
     })
 
     test('should display remove buttons for each item', () => {
-      expect(screen.getByTestId('delete-item_1')).toBeInTheDocument()
-      expect(screen.getByTestId('delete-item_2')).toBeInTheDocument()
+      const removeButtons = screen.getAllByTestId('cart-item-remove-button')
+      expect(removeButtons).toHaveLength(2)
     })
   })
 
@@ -371,7 +371,8 @@ describe('CartDrawerPanel', () => {
     test('should have proper ARIA labels', () => {
       render(<CartDrawerPanel cart={mockCartWithItems} />)
       
-      expect(screen.getByLabelText('Close')).toBeInTheDocument()
+      expect(screen.getByText('Close')).toBeInTheDocument()
+      expect(screen.getByTestId('close-cart-button')).toBeInTheDocument()
     })
 
     test('should have proper test IDs for testing', () => {

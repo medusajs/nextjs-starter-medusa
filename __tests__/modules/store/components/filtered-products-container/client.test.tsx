@@ -6,7 +6,11 @@ import FilteredProductsClient from '../../../../../src/modules/store/components/
 import { HttpTypes } from '@medusajs/types'
 
 // Mock the dependencies
-jest.mock('next/navigation')
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn(),
+  useSearchParams: jest.fn(),
+  usePathname: jest.fn(),
+}))
 jest.mock('@modules/store/components/filter-sort-bar', () => {
   return function MockFilterSortBar({ onFilterChange, activeFilters }: any) {
     return (
