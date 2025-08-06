@@ -1,164 +1,269 @@
 ---
 title: Guides Overview
-description: Comprehensive guides for getting the most out of your Medusa Next.js Starter
+description: Comprehensive guides for implementing and customizing the companion panel system
 sidebar_position: 1
 ---
 
-# Guides Overview
+# 📖 Guides Overview
 
-Welcome to the comprehensive guides section! Here you'll find step-by-step tutorials, best practices, and advanced techniques for maximizing your Medusa Next.js Starter experience.
+Welcome to the comprehensive guide collection for the Enhanced Medusa Next.js Starter with Companion Panel System. These guides will help you implement, customize, and optimize your e-commerce storefront.
 
 ## 🚀 Getting Started Guides
 
-Perfect for developers new to the project or those looking to implement specific features quickly.
+Perfect for developers new to the system or setting up their first implementation.
 
 ### [Quick Start Guide](./quick-start)
-Get your Medusa storefront up and running in under 10 minutes. Covers installation, basic configuration, and your first deployment.
+**⏱️ 15 minutes** | Get up and running with the basic setup
+- Project setup and installation
+- Basic configuration
+- First panel implementation
+- Testing your setup
 
-### [First Customization](./first-customization) 
-Make your first customizations to the storefront - from changing colors and typography to adding your first custom component.
+### [First Customization](./first-customization)
+**⏱️ 30 minutes** | Customize your first panel
+- Modifying panel content
+- Adding custom styling
+- Configuring panel behavior
+- Testing customizations
 
 ### [Deployment Guide](./deployment)
-Step-by-step instructions for deploying your storefront to popular platforms like Vercel, Netlify, and AWS.
+**⏱️ 20 minutes** | Deploy to production
+- Environment configuration
+- Build optimization
+- Deployment platforms
+- Performance monitoring
 
-## 🔧 Advanced Guides
+## 🔧 Advanced Implementation
 
-For developers ready to dive deeper into advanced features and customizations.
+For developers ready to implement complex features and customizations.
 
 ### [Custom Components](./custom-components)
-Learn how to build custom React components that integrate seamlessly with the companion panel system and Medusa backend.
+**⏱️ 45 minutes** | Build custom panel components
+- Component architecture
+- State management integration
+- TypeScript patterns
+- Testing strategies
 
-### [State Management](./state-management) 
-Advanced state management patterns, custom hooks, and performance optimization techniques.
+### [State Management](./state-management)
+**⏱️ 60 minutes** | Master the state management system
+- Context architecture deep dive
+- Custom hooks development
+- Performance optimization
+- Advanced patterns
 
 ### [Performance Optimization](./performance-optimization)
-Comprehensive performance tuning guide covering bundle optimization, caching strategies, and monitoring.
+**⏱️ 40 minutes** | Optimize for production
+- Bundle size optimization
+- Lazy loading strategies
+- Caching implementation
+- Monitoring and metrics
 
 ## 🔌 Integration Guides
 
-Connect your storefront with third-party services and extend functionality.
+Step-by-step integration with popular services and platforms.
 
 ### [Builder.io Integration](./builder-integration)
-Complete guide to integrating Builder.io for visual content editing and marketing page creation.
+**⏱️ 50 minutes** | Integrate dynamic content management
+- Builder.io setup and configuration
+- Custom component registration
+- Content targeting and personalization
+- Content management workflows
 
 ### [Payment Setup](./payment-setup)
-Configure multiple payment providers including Stripe, PayPal, and regional payment methods.
+**⏱️ 35 minutes** | Configure payment processing
+- Stripe integration
+- Payment panel customization
+- Checkout flow optimization
+- Error handling
 
 ### [Content Management](./content-management)
-Set up headless CMS integration for blogs, marketing content, and product documentation.
+**⏱️ 45 minutes** | Manage dynamic content
+- Content models and structures
+- Multi-language support
+- SEO optimization
+- Content delivery optimization
 
-## 🎯 Feature-Specific Guides
+## 🎯 Use Case Guides
 
-Deep dives into specific features and how to customize them.
+Real-world implementation examples and best practices.
 
-### Companion Panel System
-- **Architecture Deep Dive**: Understanding the panel system architecture
-- **Custom Panel Types**: Building your own panel components
-- **AI Integration**: Connecting AI services to the companion system
+### E-commerce Scenarios
 
-### E-commerce Features
-- **Product Catalog Optimization**: SEO, performance, and UX best practices
-- **Cart & Checkout Customization**: Custom cart logic and checkout flows
-- **User Account Features**: Profile management and order history
+#### **Fashion Retailer**
+- Size guide integration
+- Color/style filtering
+- Wishlist management
+- Style recommendations
 
-### Developer Experience
-- **TypeScript Best Practices**: Advanced TypeScript patterns for e-commerce
-- **Testing Strategies**: Unit, integration, and E2E testing approaches
-- **Debugging Techniques**: Tools and methods for troubleshooting
+#### **Electronics Store**
+- Product comparison
+- Technical specifications
+- Compatibility checking
+- Warranty information
 
-## 📚 Learning Paths
+#### **Marketplace Platform**
+- Multi-vendor support
+- Seller information panels
+- Review and rating systems
+- Advanced filtering
 
-Structured learning paths for different roles and experience levels.
+### Industry-Specific Features
 
-### For Frontend Developers
+#### **B2B E-commerce**
+- Bulk ordering panels
+- Quote request systems
+- Account management
+- Approval workflows
+
+#### **Subscription Commerce**
+- Subscription management
+- Billing panels
+- Plan comparison
+- Usage analytics
+
+## 🛠️ Development Workflows
+
+Best practices for development teams and project management.
+
+### **Team Collaboration**
+- Code review guidelines
+- Component documentation
+- Design system integration
+- Testing strategies
+
+### **Quality Assurance**
+- Testing methodologies
+- Accessibility compliance
+- Performance benchmarks
+- User experience validation
+
+### **Maintenance and Updates**
+- Version management
+- Migration strategies
+- Monitoring and alerting
+- Troubleshooting workflows
+
+## 📊 Analytics and Optimization
+
+Data-driven approaches to improving user experience and conversions.
+
+### **User Behavior Analytics**
+- Panel usage tracking
+- Conversion funnel analysis
+- A/B testing implementation
+- User journey mapping
+
+### **Performance Monitoring**
+- Core Web Vitals tracking
+- Error monitoring
+- Performance budgets
+- Optimization strategies
+
+## 🎨 Design and UX
+
+Guidelines for creating exceptional user experiences.
+
+### **Design Principles**
+- Mobile-first design
+- Accessibility guidelines
+- Brand consistency
+- User interface patterns
+
+### **User Experience Optimization**
+- Interaction design
+- Animation guidelines
+- Content strategy
+- Usability testing
+
+## 🔐 Security and Compliance
+
+Ensuring your implementation meets security and compliance requirements.
+
+### **Security Best Practices**
+- Data protection
+- Authentication security
+- API security
+- Content security policies
+
+### **Compliance Guidelines**
+- GDPR compliance
+- Accessibility standards
+- Industry regulations
+- Privacy policies
+
+## 🌍 Internationalization
+
+Building global e-commerce experiences.
+
+### **Multi-language Support**
+- Content localization
+- Currency handling
+- Regional customizations
+- Cultural considerations
+
+### **Global Deployment**
+- CDN optimization
+- Regional performance
+- Compliance variations
+- Support strategies
+
+## 📚 Learning Path Recommendations
+
+### **Beginner Path** (2-3 hours)
 1. [Quick Start Guide](./quick-start)
 2. [First Customization](./first-customization)
-3. [Custom Components](./custom-components)
-4. [State Management](./state-management)
-5. [Performance Optimization](./performance-optimization)
+3. [Deployment Guide](./deployment)
 
-### For E-commerce Managers
-1. [Quick Start Guide](./quick-start)
-2. [Content Management](./content-management)
-3. [Builder.io Integration](./builder-integration)
-4. [Deployment Guide](./deployment)
+### **Intermediate Path** (4-6 hours)
+1. [Builder.io Integration](./builder-integration)
+2. [Custom Components](./custom-components)
+3. [Payment Setup](./payment-setup)
 
-### For Full-Stack Developers
-1. [Quick Start Guide](./quick-start)
-2. [State Management](./state-management)
-3. [Custom Components](./custom-components)
-4. [Payment Setup](./payment-setup)
-5. [Performance Optimization](./performance-optimization)
+### **Advanced Path** (6-8 hours)
+1. [State Management](./state-management)
+2. [Performance Optimization](./performance-optimization)
+3. [Content Management](./content-management)
 
-## 🛠️ Tools and Resources
+## 🎯 Quick Reference
 
-Essential tools and resources for development and deployment.
+### **Common Tasks**
+- [Adding a new panel type](./custom-components#new-panel-types)
+- [Customizing panel animations](./first-customization#animations)
+- [Implementing A/B tests](./builder-integration#ab-testing)
+- [Optimizing for mobile](./performance-optimization#mobile)
 
-### Development Tools
-- **Local Development Setup**: Complete environment configuration
-- **VS Code Extensions**: Recommended extensions for optimal productivity
-- **Debugging Configuration**: Browser debugger and React DevTools setup
+### **Troubleshooting**
+- [Panel not opening](../troubleshooting/common-issues#panels-not-opening)
+- [Performance issues](../troubleshooting/common-issues#performance-issues)
+- [Integration problems](../troubleshooting/common-issues#integration-issues)
 
-### Production Tools  
-- **Monitoring Setup**: Error tracking, performance monitoring, and analytics
-- **CI/CD Pipelines**: Automated testing and deployment workflows
-- **Security Best Practices**: Security hardening and vulnerability management
+### **Best Practices**
+- [Code organization](./custom-components#organization)
+- [Testing strategies](./custom-components#testing)
+- [Performance monitoring](./performance-optimization#monitoring)
+- [Security considerations](../troubleshooting/common-issues#security)
 
-## 💡 Best Practices
+## 💡 Tips for Success
 
-Industry best practices and patterns for e-commerce development.
+1. **Start Small**: Begin with basic implementations and gradually add complexity
+2. **Follow Patterns**: Use established patterns and conventions
+3. **Test Early**: Implement testing from the beginning
+4. **Monitor Performance**: Keep track of performance metrics
+5. **User-First**: Always prioritize user experience
+6. **Document Everything**: Maintain clear documentation for your team
 
-### Code Organization
-- Project structure and file organization
-- Component naming conventions
-- Import/export patterns
-- TypeScript organization
+## 🤝 Community and Support
 
-### Performance
-- Bundle size optimization
-- Image optimization and lazy loading
-- Caching strategies
-- Core Web Vitals optimization
+- **GitHub Discussions**: Ask questions and share experiences
+- **Discord Community**: Real-time chat with other developers
+- **Stack Overflow**: Technical questions with the `medusa-companion-panels` tag
+- **Documentation Feedback**: Help improve these guides
 
-### SEO & Analytics
-- E-commerce SEO best practices
-- Structured data implementation
-- Analytics setup and tracking
-- Conversion optimization
+## Next Steps
 
-## 🤝 Contributing
+Ready to get started? Choose your path:
 
-Want to contribute to the guides or share your own?
-
-### Writing Guidelines
-- How to write clear, actionable guides
-- Code example standards
-- Documentation review process
-
-### Community Contributions
-- Submitting new guides
-- Improving existing content
-- Translation contributions
-
-## 🆘 Getting Help
-
-Stuck on something? Here's where to get help:
-
-- **Community Discord**: Real-time help from the community
-- **GitHub Discussions**: Longer-form discussions and feature requests  
-- **Issue Tracker**: Bug reports and technical issues
-- **Documentation**: Comprehensive API and feature documentation
-
-## 🔮 Coming Soon
-
-Guides we're working on for future releases:
-
-- **AI Shopping Assistant Integration**: Complete AI implementation guide
-- **Multi-language Stores**: Internationalization setup
-- **Subscription Commerce**: Recurring payment implementations
-- **Mobile App Integration**: React Native companion app
-- **Enterprise Scaling**: Large-scale deployment and optimization
-
----
-
-Ready to dive in? Start with the [Quick Start Guide](./quick-start) or jump directly to any guide that interests you!
+- **New to the system?** → [Quick Start Guide](./quick-start)
+- **Ready to customize?** → [First Customization](./first-customization)
+- **Want advanced features?** → [Custom Components](./custom-components)
+- **Need integration help?** → [Builder.io Integration](./builder-integration)

@@ -1,79 +1,79 @@
 ---
 title: Companion Panel System Overview
-description: Revolutionary e-commerce interface pattern that transforms modals into persistent, AI-driven workflow companions
+description: Revolutionary e-commerce interface pattern with AI-driven workflow companion
 sidebar_position: 1
 ---
 
-# Companion Panel System Overview
+# 🤖 Enhanced Companion Panel System
 
-The **Companion Panel System** is a revolutionary e-commerce interface pattern that transforms traditional modal interruptions into a persistent, AI-driven workflow companion. Instead of overlaying content, panels slide out as persistent secondary columns on desktop/tablet, creating an immersive and productive shopping experience.
+## Overview
 
-## 🚀 Key Features
+The **Companion Panel System** is a revolutionary approach to e-commerce interfaces that transforms traditional modals into a persistent, AI-driven workflow companion. Instead of interrupting the user experience, panels slide out as secondary columns, creating a more immersive and productive shopping experience.
 
-- **Context Preservation**: Main content stays visible and accessible
-- **Workflow Memory**: Navigate back through AI assistant → comparison → cart  
-- **Responsive Design**: Overlay on mobile, companion column on desktop
-- **AI-First Architecture**: Perfect foundation for intelligent shopping assistants
+## 🌟 Key Features
 
-## 🏗️ System Architecture
+### 📚 **Panel History & Navigation**
+- **History Stack**: Each opened panel is saved to history (max 10 items)
+- **Back Navigation**: Swipe right or press Alt+← to go back
+- **Keyboard Support**: ESC to close/back, Alt+← for history navigation
+- **Gesture Ready**: Perfect foundation for swipe gesture support
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    CompanionPanelProvider                    │
-│                     (Global State)                          │
-└─────────────────────────┬───────────────────────────────────┘
-                          │
-        ┌─────────────────┼─────────────────┐
-        │                 │                 │
-┌───────▼────────┐ ┌──────▼──────┐ ┌────────▼────────┐
-│ CartTrigger    │ │ Responsive  │ │ CompanionPanel  │
-│ Button         │ │ PageWrapper │ │ (Renderer)      │
-└────────────────┘ └─────────────┘ └─────────────────┘
-                                           │
-                   ┌───────────────────────┼───────────────────────┐
-                   │                       │                       │
-           ┌───────▼────────┐    ┌────────▼────────┐    ┌─────────▼──────┐
-           │ CartDrawer     │    │ AIAssistant     │    │ ProductCompare │
-           │ Panel          │    │ Panel           │    │ Panel          │
-           └────────────────┘    └─────────────────┘    └────────────────┘
+### 📱 **Responsive Design**
+- **Mobile**: Traditional overlay modals with slide animations
+- **Desktop/Tablet**: Split-view layout with content compression
+- **Adaptive**: Automatically switches based on screen size
+
+### 🔧 **Extensible Panel Types**
+```typescript
+type PanelType = 'cart' | 'filter' | 'aiCompanion' | 'helpCompanion' | 'productCompare' | 'wishlist' | 'reviews'
 ```
 
-## 📊 Performance Metrics
+**Core Panels** (always available):
+- `cart` - Shopping cart functionality
+- `filter` - Product filtering (contextual to store pages)
 
-- 🚀 **Panel Open**: < 16ms (60fps)
-- 🚀 **Content Compression**: < 300ms smooth transition
-- 🚀 **History Navigation**: < 8ms instant response
-- 🚀 **Memory Usage**: < 2MB additional footprint
+**Optional Panels** (configurable via `store.config.js`):
+- `aiCompanion` - AI-powered shopping assistant with chat and tickets
+- `helpCompanion` - Contextual help system with search
+- `productCompare` - Side-by-side product comparison
+- `wishlist` - User wishlist management
+- `reviews` - Product reviews and ratings
 
-## ♿ Accessibility Features
+### 🎯 **Smart Context Awareness**
+- **Page Detection**: Automatically shows relevant panels based on current page
+- **Product Context**: Panels adapt content based on current product/category
+- **User State**: Remembers panel preferences and history
+- **Feature Flags**: Granular control over panel availability
 
-- **Screen Reader Support**: Full ARIA compliance
-- **Keyboard Navigation**: Tab, ESC, Alt+Arrow keys
-- **Focus Management**: Automatic focus trapping
-- **High Contrast**: Respects system preferences
+## 🏗️ Architecture
 
-## 🔮 Roadmap
+The system is built with modern React patterns:
 
-### Phase 1: Foundation ✅
-- ✅ Multi-panel architecture
-- ✅ History navigation
-- ✅ Responsive design
-- ✅ Performance optimization
+- **Context API**: Centralized state management
+- **Custom Hooks**: `useCompanionPanel` for easy integration
+- **TypeScript**: Full type safety and IntelliSense
+- **Responsive**: Mobile-first design with desktop enhancements
+- **Accessible**: WCAG 2.1 AA compliant
 
-### Phase 2: AI Integration 🚧
-- 🚧 AI Assistant panel implementation
-- 🚧 Smart panel suggestions
-- 🚧 Contextual workflows
-- 🚧 Voice command support
+## 🚀 Quick Integration
 
-### Phase 3: Advanced Features 📋
-- 📋 Gesture navigation (swipe support)
-- 📋 Panel persistence across sessions
-- 📋 Advanced analytics integration
-- 📋 A/B testing framework
+```typescript
+import { useCompanionPanel } from '@/store/companion-panel'
+
+function ProductCard({ product }) {
+  const { openPanel } = useCompanionPanel()
+  
+  return (
+    <button onClick={() => openPanel('cart', { product })}>
+      Add to Cart
+    </button>
+  )
+}
+```
 
 ## Next Steps
 
 - [Architecture Details](./architecture)
-- [Feature Configuration](./config-overview)
+- [Configuration Guide](../configuration/overview)
 - [API Reference](./api-reference)
+- [Integration Examples](../integration/builder-io)

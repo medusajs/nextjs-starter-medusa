@@ -1,10 +1,10 @@
 ---
 title: Getting Started
-description: Get started with the Medusa Next.js Starter Template
+description: Get started with the Enhanced Medusa Next.js Starter with Companion Panel System
 sidebar_position: 1
 ---
 
-# Getting Started with Medusa Next.js Starter
+# 📚 Enhanced Medusa Next.js Starter
 
 <p align="center">
   <a href="https://www.medusajs.com">
@@ -16,9 +16,18 @@ sidebar_position: 1
   </a>
 </p>
 
-**Enhanced with AI-Powered Companion Panel System**
+## Overview
 
-Combine Medusa's modules for your commerce backend with the newest Next.js 15 features for a performant storefront. Includes an advanced companion panel system with AI shopping assistant, contextual help, and configurable features.
+The **Companion Panel System** is a revolutionary e-commerce interface pattern that transforms traditional modal interruptions into a persistent, AI-driven workflow companion. Instead of overlaying content, panels slide out as persistent secondary columns on desktop/tablet, creating an immersive and productive shopping experience.
+
+**Enhanced with AI-Powered Companion Panel System** - Combine Medusa's modules for your commerce backend with the newest Next.js 15 features for a performant storefront. Includes an advanced companion panel system with AI shopping assistant, contextual help, and configurable features.
+
+## 🚀 Quick Start
+
+**New to the system?** Start here:
+- 📖 [5-Minute Setup Guide](./integration/builder-io)
+- 🎯 [Companion Panel System](./companion-panel/overview)
+- 🏗️ [Configuration Guide](./configuration/overview)
 
 ## Prerequisites
 

@@ -1,89 +1,282 @@
 ---
 title: Configuration Overview
-description: Learn how to configure the Medusa Next.js Starter and Companion Panel System
+description: Complete guide to configuring the companion panel system
 sidebar_position: 1
 ---
 
-# Configuration Overview
+# ⚙️ Configuration Overview
 
-The Medusa Next.js Starter provides flexible configuration through the `store.config.js` file and environment variables.
+The Companion Panel System is highly configurable to meet your specific e-commerce needs. Configuration is managed through the `store.config.js` file and environment variables.
 
-## Store Configuration
+## Quick Configuration
 
-The companion panel system configuration is managed via `store.config.js` in the project root:
+### Basic Setup
 
 ```javascript
 // store.config.js
-const storeConfig = {
-  featureFlags: {
-    aiCompanion: true,      // AI Shopping Assistant
-    helpCompanion: true,    // Help & Support System
-    wishlist: false,        // Wishlist (coming soon)
-    productCompare: false,  // Product Compare (coming soon)
-    reviews: false,         // Reviews (coming soon)
-  },
+export const companionPanelConfig = {
+  // Core panels (always available)
+  enabledPanels: ['cart', 'filter'],
   
-  layoutOptions: {
-    maxVisibleButtons: 3,   // Max buttons in navigation
-    showLabels: false,      // Show text labels
-    showIcons: true,        // Show icons
-    defaultPanelWidth: 400, // Panel width (px)
-  },
+  // Optional panels
+  optionalPanels: ['aiCompanion', 'helpCompanion'],
+  
+  // Default panel to show
+  defaultPanel: 'cart',
+  
+  // Panel behavior
+  autoClose: false,
+  historyLimit: 10,
 }
+```
 
-module.exports = storeConfig
+### Environment Variables
+
+```bash
+# .env.local
+NEXT_PUBLIC_COMPANION_PANELS_ENABLED=true
+NEXT_PUBLIC_AI_COMPANION_ENABLED=true
+NEXT_PUBLIC_HELP_SYSTEM_ENABLED=true
+NEXT_PUBLIC_ANALYTICS_ENABLED=true
+```
+
+## Panel Configuration
+
+### Core Panels
+
+**Cart Panel** (always enabled)
+```javascript
+cart: {
+  enabled: true,
+  showMiniCart: true,
+  autoOpen: false,
+  persistCart: true,
+}
+```
+
+**Filter Panel** (contextual to store pages)
+```javascript
+filter: {
+  enabled: true,
+  showOnPages: ['/store', '/products', '/categories'],
+  defaultFilters: ['price', 'category', 'brand'],
+  rememberFilters: true,
+}
+```
+
+### Optional Panels
+
+**AI Companion**
+```javascript
+aiCompanion: {
+  enabled: process.env.NEXT_PUBLIC_AI_COMPANION_ENABLED === 'true',
+  provider: 'openai', // 'openai' | 'anthropic' | 'custom'
+  model: 'gpt-4',
+  features: ['chat', 'recommendations', 'support'],
+  contextAware: true,
+}
+```
+
+**Help Companion**
+```javascript
+helpCompanion: {
+  enabled: process.env.NEXT_PUBLIC_HELP_SYSTEM_ENABLED === 'true',
+  searchEnabled: true,
+  categoriesEnabled: true,
+  contactFormEnabled: true,
+  knowledgeBase: '/help',
+}
+```
+
+## Responsive Configuration
+
+### Breakpoints
+
+```javascript
+responsive: {
+  mobile: {
+    breakpoint: 768,
+    behavior: 'overlay',
+    animation: 'slideUp',
+    fullScreen: true,
+  },
+  tablet: {
+    breakpoint: 1024,
+    behavior: 'sidebar',
+    animation: 'slideIn',
+    width: '400px',
+  },
+  desktop: {
+    behavior: 'sidebar',
+    animation: 'slideIn',
+    width: '450px',
+    persistent: true,
+  }
+}
+```
+
+### Animation Settings
+
+```javascript
+animations: {
+  duration: 300,
+  easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+  reducedMotion: true, // Respects user preferences
+  
+  // Panel-specific animations
+  cart: { duration: 250 },
+  filter: { duration: 200 },
+  aiCompanion: { duration: 350 },
+}
 ```
 
 ## Feature Flags
 
-| Feature | Default | Description |
-|---------|---------|-------------|
-| `aiCompanion` | `true` | AI-powered shopping assistant with chat and ticket system |
-| `helpCompanion` | `true` | Contextual documentation and support resources |
-| `wishlist` | `false` | Save products for later (coming soon) |
-| `productCompare` | `false` | Side-by-side product comparison (coming soon) |
-| `reviews` | `false` | Product reviews and ratings (coming soon) |
+### Panel Features
 
-## Layout Options
-
-| Option | Default | Description |
-|--------|---------|-------------|
-| `maxVisibleButtons` | `3` | Maximum buttons shown in companion navigation |
-| `showLabels` | `false` | Display text labels on navigation buttons |
-| `showIcons` | `true` | Display icons on navigation buttons |
-| `defaultPanelWidth` | `400` | Default panel width in pixels |
-
-## Environment Variables
-
-Create a `.env.local` file with the following variables:
-
-```shell
-# Stripe Payment Integration
-NEXT_PUBLIC_STRIPE_KEY=<your-stripe-public-key>
-
-# Medusa Backend
-NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://localhost:9000
-
-# Other optional configurations...
+```javascript
+features: {
+  // Navigation
+  history: true,
+  backButton: true,
+  keyboardShortcuts: true,
+  gestureSupport: true,
+  
+  // UI Enhancements
+  searchInPanels: true,
+  panelTabs: true,
+  miniPanels: true,
+  
+  // Analytics
+  trackPanelUsage: true,
+  trackUserJourney: true,
+  heatmapIntegration: false,
+}
 ```
 
-## Usage in Components
+### Accessibility
 
-```typescript
-import { isFeatureEnabled, getEnabledFeatures } from '@lib/config/companion-config'
-
-// Check if feature is enabled
-if (isFeatureEnabled('aiCompanion')) {
-  // Render AI companion features
+```javascript
+accessibility: {
+  focusManagement: true,
+  screenReaderSupport: true,
+  highContrastMode: true,
+  keyboardNavigation: true,
+  announceChanges: true,
 }
+```
 
-// Get all enabled features
-const features = getEnabledFeatures()
-console.log(features) // ['aiCompanion', 'helpCompanion']
+## Integration Settings
+
+### Builder.io Integration
+
+```javascript
+builderIO: {
+  enabled: true,
+  publicKey: process.env.NEXT_PUBLIC_BUILDER_PUBLIC_KEY,
+  panelContent: {
+    cart: 'cart-panel-content',
+    filter: 'filter-panel-content',
+    help: 'help-panel-content',
+  },
+}
+```
+
+### Analytics Integration
+
+```javascript
+analytics: {
+  enabled: process.env.NEXT_PUBLIC_ANALYTICS_ENABLED === 'true',
+  providers: ['google', 'mixpanel'],
+  trackEvents: [
+    'panel_open',
+    'panel_close',
+    'panel_navigate',
+    'action_complete',
+  ],
+}
+```
+
+## Development Configuration
+
+### Debug Mode
+
+```javascript
+debug: {
+  enabled: process.env.NODE_ENV === 'development',
+  logLevel: 'info', // 'error' | 'warn' | 'info' | 'debug'
+  showPanelBoundaries: true,
+  performanceMetrics: true,
+}
+```
+
+### Testing Configuration
+
+```javascript
+testing: {
+  enableTestIds: process.env.NODE_ENV !== 'production',
+  mockAI: process.env.NODE_ENV === 'test',
+  disableAnimations: process.env.NODE_ENV === 'test',
+}
+```
+
+## Complete Configuration Example
+
+```javascript
+// store.config.js
+export const companionPanelConfig = {
+  // Core Configuration
+  enabledPanels: ['cart', 'filter', 'aiCompanion', 'helpCompanion'],
+  defaultPanel: 'cart',
+  autoClose: false,
+  historyLimit: 10,
+  
+  // Panel-Specific Settings
+  panels: {
+    cart: {
+      showMiniCart: true,
+      persistCart: true,
+      autoOpen: false,
+    },
+    filter: {
+      showOnPages: ['/store', '/products'],
+      defaultFilters: ['price', 'category'],
+      rememberFilters: true,
+    },
+    aiCompanion: {
+      enabled: process.env.NEXT_PUBLIC_AI_COMPANION_ENABLED === 'true',
+      provider: 'openai',
+      contextAware: true,
+    },
+  },
+  
+  // Responsive Behavior
+  responsive: {
+    mobileBreakpoint: 768,
+    tabletBreakpoint: 1024,
+    desktopWidth: '450px',
+  },
+  
+  // Features
+  features: {
+    history: true,
+    keyboardShortcuts: true,
+    gestureSupport: true,
+    analytics: true,
+  },
+  
+  // Accessibility
+  accessibility: {
+    focusManagement: true,
+    screenReaderSupport: true,
+    keyboardNavigation: true,
+  },
+}
 ```
 
 ## Next Steps
 
 - [Environment Setup](./environment-setup)
-- [Feature Flags](./feature-flags) 
-- [Configuration Examples](./examples)
+- [Feature Flags](./feature-flags)
+- [Examples](./examples)
+- [Troubleshooting](../troubleshooting/common-issues)
