@@ -19,6 +19,11 @@
 # production
 /build
 
+# Docusaurus
+/website/build
+/website/.docusaurus
+/website/node_modules
+
 # misc
 .DS_Store
 *.pem

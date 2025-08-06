@@ -15,7 +15,7 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://your-medusa-docs-site.example.com',
+  url: 'https://your-org.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
@@ -24,6 +24,8 @@ const config: Config = {
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'medusajs', // Usually your GitHub org/user name.
   projectName: 'nextjs-starter-medusa', // Usually your repo name.
+  deploymentBranch: 'gh-pages',
+  trailingSlash: false,
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -99,6 +101,11 @@ const config: Config = {
         },
         {to: '/blog', label: 'Changelog', position: 'left'},
         {
+          href: 'https://your-store.com',
+          label: 'Live Demo',
+          position: 'right',
+        },
+        {
           href: 'https://github.com/medusajs/nextjs-starter-medusa',
           label: 'GitHub',
           position: 'right',
@@ -145,6 +152,10 @@ const config: Config = {
         {
           title: 'More',
           items: [
+            {
+              label: 'Live Demo',
+              href: 'https://your-store.com',
+            },
             {
               label: 'Medusa Documentation',
               href: 'https://docs.medusajs.com/',

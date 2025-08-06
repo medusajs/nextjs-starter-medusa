@@ -75,6 +75,23 @@ Features include:
   - Streaming
   - Static Pre-Rendering
 
+## 📁 Repository Structure
+
+This is a **monorepo** containing two applications:
+
+```
+├── 🛍️  Next.js Storefront (Root)
+│   ├── src/                 # Storefront source code
+│   ├── public/              # Storefront assets
+│   ├── package.json         # Storefront dependencies
+│   └── next.config.js       # Next.js configuration
+└── 📚 Documentation (/website)
+    ├── docs/                # Documentation content
+    ├── blog/                # Changelog and updates
+    ├── package.json         # Docs dependencies
+    └── docusaurus.config.ts # Docusaurus configuration
+```
+
 # Quickstart
 
 ### Setting up the environment variables
@@ -90,23 +107,94 @@ The companion panel system configuration is managed via `store.config.js` (alrea
 
 ### Install dependencies
 
-Use Yarn to install all dependencies.
+Install dependencies for both applications:
 
 ```shell
-yarn
+# Install storefront dependencies
+yarn install
+
+# Install documentation dependencies  
+cd website && npm install
+
+# Or install both at once
+yarn install:all
 ```
 
 ### Start developing
 
-You are now ready to start up your project.
+You can run both applications simultaneously:
 
 ```shell
+# Start the storefront (runs on http://localhost:8000)
 yarn dev
+
+# In another terminal, start documentation (runs on http://localhost:3000)
+yarn docs:dev
+
+# Or run both from root directory
+yarn dev & yarn docs:dev
 ```
 
-### Open the code and start customizing
+### Open the applications
 
-Your site is now running at http://localhost:8000!
+- **Storefront**: http://localhost:8000
+- **Documentation**: http://localhost:3000
+
+## 🚀 Deployment
+
+This monorepo supports multiple deployment strategies:
+
+### Option 1: Separate Deployments (Recommended)
+
+Deploy each application independently:
+
+**Storefront** → Vercel/Netlify  
+**Documentation** → GitHub Pages/Vercel
+
+```shell
+# Deploy storefront
+yarn build
+# Deploy to your preferred platform
+
+# Deploy documentation  
+yarn docs:build
+yarn docs:deploy  # For GitHub Pages
+```
+
+### Option 2: Automated CI/CD
+
+The repository includes GitHub Actions workflows:
+
+- **`.github/workflows/deploy-storefront.yml`** - Deploys storefront on changes to main app
+- **`.github/workflows/deploy-docs.yml`** - Deploys docs on changes to website/ or documentation/
+
+### Option 3: Manual Deployment Commands
+
+```shell
+# Build both applications
+yarn build:all
+
+# Clean build artifacts
+yarn clean
+
+# Serve documentation locally
+yarn docs:serve
+```
+
+## 📚 Documentation
+
+The comprehensive documentation is available at:
+
+- **Local Development**: http://localhost:3000 (when running `yarn docs:dev`)
+- **Production**: Your deployed documentation URL
+
+### Documentation Sections:
+
+- **[Getting Started](./website/docs/getting-started.md)**: Quick setup and installation
+- **[Configuration](./website/docs/configuration/overview.md)**: Environment and feature configuration  
+- **[Companion Panel System](./website/docs/companion-panel/overview.md)**: AI-powered panel system
+- **[Guides](./website/docs/guides/overview.md)**: Step-by-step tutorials
+- **[Troubleshooting](./website/docs/troubleshooting/common-issues.md)**: Common issues and solutions
 
 # 🤖 Companion Panel System
 
@@ -164,13 +252,6 @@ import { isFeatureEnabled } from '@lib/config/companion-config'
 const enabledFeatures = getEnabledFeatures()
 // Returns: ['aiCompanion', 'helpCompanion']
 ```
-
-## 📚 Documentation
-
-- [Full Configuration Guide](./documentation/configuration/index.md)
-- [Companion Panel System Overview](./documentation/COMPANION-PANEL-SYSTEM.md)
-- [Quick Reference](./documentation/configuration/README.md)
-- [Usage Examples](./documentation/configuration/examples.md)
 
 # Payment integrations
 

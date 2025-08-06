@@ -15,7 +15,14 @@
     "analyze": "ANALYZE=true next build",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "docs:dev": "cd website && npm start",
+    "docs:build": "cd website && npm run build",
+    "docs:serve": "cd website && npm run serve",
+    "docs:deploy": "cd website && npm run deploy",
+    "install:all": "yarn install && cd website && npm install",
+    "build:all": "yarn build && cd website && npm run build",
+    "clean": "rm -rf .next out && cd website && rm -rf build .docusaurus"
   },
   "dependencies": {
     "@builder.io/react": "^8.2.6",
