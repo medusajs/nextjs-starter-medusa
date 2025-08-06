@@ -8,16 +8,66 @@
   text-align: center;
   position: relative;
   overflow: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
+.heroBanner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23ffffff" fill-opacity="0.1"><circle cx="30" cy="30" r="1.5"/></g></g></svg>') repeat;
+  opacity: 0.3;
+}
+
+.heroBanner .container {
+  position: relative;
+  z-index: 1;
 }
 
 .buttons {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.demoLinks {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 2rem 0;
+  }
+  
+  .buttons {
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 300px;
+    margin: 2rem auto 0;
+  }
+  
+  .buttons .button {
+    margin: 0;
+  }
+  
+  .demoLinks {
+    flex-direction: column;
+    max-width: 200px;
+    margin: 1.5rem auto 0;
+  }
+  
+  .demoLinks .button {
+    margin: 0;
+  }
 }

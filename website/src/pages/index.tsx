@@ -1,4 +1,3 @@
-import type {ReactNode} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -20,8 +19,25 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/intro">
-            Docusaurus Tutorial - 5min ⏱️
+            to="/docs/getting-started">
+            Get Started - 5min ⏱️
+          </Link>
+          <Link
+            className="button button--primary button--lg margin-left--md"
+            to="/docs/companion-panel/overview">
+            Explore Companion Panels 🤖
+          </Link>
+        </div>
+        <div className={styles.demoLinks}>
+          <Link
+            className="button button--outline button--secondary margin-top--md"
+            to="https://your-store.com">
+            🚀 Live Demo
+          </Link>
+          <Link
+            className="button button--outline button--secondary margin-left--sm margin-top--md"
+            to="https://github.com/medusajs/nextjs-starter-medusa">
+            ⭐ GitHub
           </Link>
         </div>
       </div>
@@ -29,12 +45,12 @@ function HomepageHeader() {
   );
 }
 
-export default function Home(): ReactNode {
+export default function Home(): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      title={`${siteConfig.title} - Revolutionary E-commerce with AI`}
+      description="Enhanced Medusa Next.js starter with revolutionary companion panel system, AI shopping assistant, and modern e-commerce patterns.">
       <HomepageHeader />
       <main>
         <HomepageFeatures />
