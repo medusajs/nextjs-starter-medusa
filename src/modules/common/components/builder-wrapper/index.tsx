@@ -1,8 +1,6 @@
-"use client"
-
-import React, { ErrorBoundary } from 'react'
-import { BuilderComponent, useIsPreviewing } from '@builder.io/react'
+import React from 'react'
 import type { BuilderContent } from '@lib/builder'
+import BuilderWrapperClient from './client'
 
 interface BuilderWrapperProps {
   model: string
@@ -13,38 +11,6 @@ interface BuilderWrapperProps {
   children?: React.ReactNode
 }
 
-interface ErrorBoundaryState {
-  hasError: boolean
-  error?: Error
-}
-
-class BuilderErrorBoundary extends React.Component<
-  { fallback: React.ComponentType<any>; fallbackProps?: any; children: React.ReactNode },
-  ErrorBoundaryState
-> {
-  constructor(props: any) {
-    super(props)
-    this.state = { hasError: false }
-  }
-
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    return { hasError: true, error }
-  }
-
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('Builder component error:', error, errorInfo)
-  }
-
-  render() {
-    if (this.state.hasError) {
-      const { fallback: Fallback, fallbackProps = {} } = this.props
-      return <Fallback {...fallbackProps} />
-    }
-
-    return this.props.children
-  }
-}
-
 export default function BuilderWrapper({
   model,
   content,
@@ -53,66 +19,30 @@ export default function BuilderWrapper({
   data = {},
   children
 }: BuilderWrapperProps) {
-  const isPreviewing = useIsPreviewing()
-
-  // If no Builder content and not in preview mode, use fallback
-  if (!content && !isPreviewing) {
-    if (Fallback) {
-      return <Fallback {...fallbackProps} />
-    }
-    
-    // If no fallback component provided, render children or nothing
-    return children ? <>{children}</> : null
+  // Server-side logic: if no content and no fallback, render children
+  if (!content && !Fallback && children) {
+    return <>{children}</>
   }
 
-  // If we have content or are in preview mode, render Builder component
+  // Server-side logic: if no content and we have a fallback, render fallback
+  if (!content && Fallback) {
+    return <Fallback {...fallbackProps} />
+  }
+
+  // Pass everything to client component for Builder.io handling
   return (
-    <BuilderErrorBoundary fallback={Fallback || (() => children || null)} fallbackProps={fallbackProps}>
-      <BuilderComponent 
-        model={model} 
-        content={content || undefined}
-        data={data}
-      />
-    </BuilderErrorBoundary>
+    <BuilderWrapperClient
+      model={model}
+      content={content}
+      fallbackComponent={Fallback}
+      fallbackProps={fallbackProps}
+      data={data}
+    >
+      {children}
+    </BuilderWrapperClient>
   )
 }
 
-// Hook for checking Builder preview state
-export function useBuilderPreview() {
-  const isPreviewing = useIsPreviewing()
-  return isPreviewing
-}
-
-// Higher-order component for wrapping existing components with Builder support
-export function withBuilderSupport<P extends Record<string, any>>(
-  WrappedComponent: React.ComponentType<P>,
-  builderConfig?: {
-    model?: string
-    dataMapper?: (props: P) => Record<string, any>
-  }
-) {
-  return function BuilderEnhancedComponent(props: P & { 
-    builderContent?: BuilderContent | null
-    builderMode?: boolean 
-  }) {
-    const { builderContent, builderMode = false, ...componentProps } = props
-    
-    // If Builder mode is enabled and we have content, use Builder
-    if (builderMode && builderContent && builderConfig?.model) {
-      const builderData = builderConfig.dataMapper ? builderConfig.dataMapper(componentProps as P) : componentProps
-      
-      return (
-        <BuilderWrapper
-          model={builderConfig.model}
-          content={builderContent}
-          fallbackComponent={WrappedComponent}
-          fallbackProps={componentProps}
-          data={builderData}
-        />
-      )
-    }
-    
-    // Otherwise, render the original component
-    return <WrappedComponent {...(componentProps as P)} />
-  }
-}
+// Export client-side hook and HOC from client component
+export { useBuilderPreview } from './client-utils'
+export { withBuilderSupport } from './client-utils'
