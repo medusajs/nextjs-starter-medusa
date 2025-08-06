@@ -21,6 +21,16 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  experimental: {
+    // Fix for React 19 with Next.js 15
+    reactCompiler: false,
+    // Ensure proper client reference manifest generation
+    bundlePagesRouterDependencies: true,
+    // Fix for client reference manifest issues
+    serverComponentsHmrCache: false,
+    // Optimize for Vercel deployment
+    outputFileTracingRoot: process.cwd(),
+  },
   images: {
     remotePatterns: [
       {

@@ -6,7 +6,8 @@
   "ignoreCommand": "git diff --quiet HEAD^ HEAD -- . ':(exclude)website' ':(exclude)documentation'",
   "functions": {
     "src/app/api/**/*.ts": {
-      "maxDuration": 30
+      "maxDuration": 30,
+      "runtime": "nodejs22.x"
     }
   },
   "headers": [
