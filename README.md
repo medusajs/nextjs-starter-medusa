@@ -170,7 +170,7 @@ const enabledFeatures = getEnabledFeatures()
 - [Full Configuration Guide](./documentation/configuration/index.md)
 - [Companion Panel System Overview](./documentation/COMPANION-PANEL-SYSTEM.md)
 - [Quick Reference](./documentation/configuration/README.md)
-- [Usage Examples](./examples/configuration-usage.tsx)
+- [Usage Examples](./documentation/configuration/examples.md)
 
 # Payment integrations
 

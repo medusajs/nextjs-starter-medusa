@@ -302,10 +302,11 @@ This will show:
 
 ## 📚 Related Documentation
 
+- [Usage Examples](./examples.md) - Practical code examples and patterns
+- [Quick Reference](./README.md) - Concise reference guide
 - [Companion Panel System Overview](../COMPANION-PANEL-SYSTEM.md)
 - [Component Architecture](../components/index.md)
 - [State Management](../state-management/index.md)
-- [Integration Guide](../integration/quick-start.md)
 
 ## 🔮 Future Enhancements
 
