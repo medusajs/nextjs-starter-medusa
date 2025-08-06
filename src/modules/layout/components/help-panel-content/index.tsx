@@ -1,10 +1,10 @@
 "use client"
 
 import { useCompanionPanel } from "@lib/context/companion-panel-context"
-import { HelpCircle, Book, MessageSquare, Mail, ExternalLink } from "lucide-react"
+import { HelpCircle, Book, MessageSquare, Mail, ExternalLink, ArrowLeft, X } from "lucide-react"
 
 const HelpPanelContent: React.FC = () => {
-  const { closePanel } = useCompanionPanel()
+  const { closePanel, goBack, panelHistory } = useCompanionPanel()
 
   const helpCategories = [
     {
@@ -29,9 +29,21 @@ const HelpPanelContent: React.FC = () => {
 
   return (
     <>
-      {/* Header */}
+      {/* Header with Back and Close Buttons */}
       <div className="flex items-center justify-between px-4 py-6 border-b border-gray-200">
-        <div className="flex items-center gap-3">
+        {/* Left side - Back button (only show if there's history) */}
+        {panelHistory.length > 0 && (
+          <button
+            onClick={() => panelHistory.length > 0 ? goBack() : closePanel()}
+            className="flex items-center justify-center w-8 h-8 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-md transition-colors mr-3"
+            title="Go back"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+        )}
+        
+        {/* Center - Title and icon */}
+        <div className="flex items-center gap-3 flex-1">
           <div className="p-2 bg-blue-100 rounded-lg">
             <HelpCircle className="w-6 h-6 text-blue-600" />
           </div>
@@ -39,16 +51,16 @@ const HelpPanelContent: React.FC = () => {
             Help Center
           </h2>
         </div>
+        
+        {/* Right side - Close button */}
         <button
           type="button"
-          className="text-gray-400 hover:text-gray-500"
+          className="flex items-center justify-center w-8 h-8 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-md transition-colors"
           onClick={closePanel}
           data-testid="close-help-button"
+          title="Close Help Center"
         >
-          <span className="sr-only">Close</span>
-          <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
+          <X className="w-5 h-5" />
         </button>
       </div>
 

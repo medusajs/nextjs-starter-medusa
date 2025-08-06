@@ -35,6 +35,11 @@ const CartTriggerButton: React.FC<CartTriggerButtonProps> = ({ totalItems }) => 
         isCartOpen ? 'text-blue-600' : 'hover:text-ui-fg-base'
       }`}
       data-testid="cart-button"
+      title={
+        isCartOpen 
+          ? (panelHistory.length > 0 ? 'Go back' : 'Close cart')
+          : 'Open cart'
+      }
     >
       <div className="flex flex-row items-center gap-x-2">
         <ShoppingBag className="w-6 h-6" /> {totalItems}

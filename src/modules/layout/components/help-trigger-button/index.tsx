@@ -7,7 +7,7 @@ const HelpTriggerButton: React.FC = () => {
   const { isOpen, openPanel, closePanel, goBack, currentPanel, panelHistory } = useCompanionPanel()
   
   // Check if help panel is currently open
-  const isHelpOpen = isOpen && currentPanel?.type === 'help'
+  const isHelpOpen = isOpen && currentPanel?.type === 'helpCompanion'
 
   const handleClick = () => {
     // History-aware behavior: respect the panel history stack
@@ -20,7 +20,7 @@ const HelpTriggerButton: React.FC = () => {
       }
     } else {
       // Help is not current - open help panel
-      openPanel('help')
+      openPanel('helpCompanion')
     }
   }
 
@@ -31,7 +31,11 @@ const HelpTriggerButton: React.FC = () => {
         isHelpOpen ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
       } rounded-md`}
       data-testid="help-button"
-      title={isHelpOpen ? "Close Help" : "Get Help"}
+      title={
+        isHelpOpen 
+          ? (panelHistory.length > 0 ? 'Go back' : 'Close Help')
+          : 'Get Help'
+      }
     >
       <HelpCircle className="w-6 h-6" />
     </button>

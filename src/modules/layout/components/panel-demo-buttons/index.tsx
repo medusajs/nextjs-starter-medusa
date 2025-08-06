@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import { useCompanionPanel, PANEL_CONFIG } from "@lib/context/companion-panel-context"
+import { useCompanionPanel, getPanelConfig } from "@lib/context/companion-panel-context"
 import { Button } from "@medusajs/ui"
 
 const PanelDemoButtons: React.FC = () => {

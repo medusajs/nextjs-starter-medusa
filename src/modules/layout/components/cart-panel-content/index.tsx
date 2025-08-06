@@ -9,13 +9,14 @@ import LineItemPrice from "@modules/common/components/line-item-price"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import Thumbnail from "@modules/products/components/thumbnail"
 import { useCompanionPanel } from "@lib/context/companion-panel-context"
+import { ArrowLeft, X } from "lucide-react"
 
 interface CartPanelContentProps {
   cart?: HttpTypes.StoreCart | null
 }
 
 const CartPanelContent: React.FC<CartPanelContentProps> = ({ cart: cartState }) => {
-  const { closePanel } = useCompanionPanel()
+  const { closePanel, goBack, panelHistory } = useCompanionPanel()
 
   const totalItems =
     cartState?.items?.reduce((acc, item) => {
@@ -24,23 +25,44 @@ const CartPanelContent: React.FC<CartPanelContentProps> = ({ cart: cartState }) 
 
   const subtotal = cartState?.subtotal ?? 0
 
+  // Handle back button click
+  const handleBackClick = () => {
+    if (panelHistory.length > 0) {
+      goBack()
+    } else {
+      closePanel()
+    }
+  }
+
   return (
     <>
-      {/* Header */}
+      {/* Header with Back and Close Buttons */}
       <div className="flex items-center justify-between px-4 py-6 border-b border-gray-200">
-        <h2 className="text-lg font-medium text-gray-900">
+        {/* Left side - Back button (only show if there's history) */}
+        {panelHistory.length > 0 && (
+          <button
+            onClick={handleBackClick}
+            className="flex items-center justify-center w-8 h-8 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-md transition-colors mr-2"
+            title="Go back"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+        )}
+        
+        {/* Center/Left - Title */}
+        <h2 className="text-lg font-medium text-gray-900 flex-1">
           Shopping Cart ({totalItems})
         </h2>
+        
+        {/* Right side - Close button */}
         <button
           type="button"
-          className="text-gray-400 hover:text-gray-500"
+          className="flex items-center justify-center w-8 h-8 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-md transition-colors"
           onClick={closePanel}
           data-testid="close-cart-button"
+          title="Close cart"
         >
-          <span className="sr-only">Close</span>
-          <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
+          <X className="w-5 h-5" />
         </button>
       </div>
 

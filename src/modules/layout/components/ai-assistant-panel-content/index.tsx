@@ -1,8 +1,8 @@
 "use client"
 
 import { useCompanionPanel } from "@lib/context/companion-panel-context"
-import { MessageCircle, Sparkles, Ticket, Clock, CheckCircle, Archive, Plus, ArrowLeft, MoreVertical } from "lucide-react"
-import { useState, useEffect } from "react"
+import { MessageCircle, Sparkles, Ticket, Clock, CheckCircle, Archive, Plus, ArrowLeft, MoreVertical, X } from "lucide-react"
+import { useState, useEffect, useCallback } from "react"
 
 // Types for the dual-layer chat system
 interface ChatMessage {
@@ -41,6 +41,8 @@ interface UserContext {
 const AIAssistantPanelContent: React.FC = () => {
   const { 
     closePanel, 
+    goBack,
+    panelHistory,
     chatSystem, 
     sendMainChatMessage, 
     sendTicketMessage, 
@@ -50,8 +52,17 @@ const AIAssistantPanelContent: React.FC = () => {
     createTicket
   } = useCompanionPanel()
   
-  // Local UI state
-  const [message, setMessage] = useState("")
+  // Local UI state with persistence
+  const [message, setMessage] = useState(() => {
+    // Load persisted draft message on mount
+    try {
+      const persistedDraft = localStorage.getItem('ai-companion-draft-message')
+      return persistedDraft || ""
+    } catch (error) {
+      console.warn('Failed to load persisted draft message:', error)
+      return ""
+    }
+  })
   
   const handleSendMessage = async (content: string, ticketId?: string) => {
     if (!content.trim()) return
@@ -62,8 +73,48 @@ const AIAssistantPanelContent: React.FC = () => {
       await sendMainChatMessage(content)
     }
 
+    // Clear both local state and persisted draft
     setMessage("")
+    try {
+      localStorage.removeItem('ai-companion-draft-message')
+    } catch (error) {
+      console.warn('Failed to clear persisted draft message:', error)
+    }
   }
+
+  // Persist draft message changes with debouncing
+  const persistDraftMessage = useCallback((draftMessage: string) => {
+    try {
+      if (draftMessage.trim()) {
+        localStorage.setItem('ai-companion-draft-message', draftMessage)
+      } else {
+        localStorage.removeItem('ai-companion-draft-message')
+      }
+    } catch (error) {
+      console.warn('Failed to persist draft message:', error)
+    }
+  }, [])
+
+  // Debounced persistence effect
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      persistDraftMessage(message)
+    }, 500) // 500ms debounce
+
+    return () => clearTimeout(timeoutId)
+  }, [message, persistDraftMessage])
+
+  // Optional: Clear draft when component unmounts (panel closes)
+  // Uncomment if you want to clear drafts when panel closes
+  // useEffect(() => {
+  //   return () => {
+  //     try {
+  //       localStorage.removeItem('ai-companion-draft-message')
+  //     } catch (error) {
+  //       console.warn('Failed to clear draft on unmount:', error)
+  //     }
+  //   }
+  // }, [])
 
   const handleCreateTicket = (type: ChatTicket['type'], title: string, initialMessage?: string) => {
     const ticketId = createTicket(type, title, initialMessage)
@@ -100,7 +151,19 @@ const AIAssistantPanelContent: React.FC = () => {
       {/* Header with Tabs */}
       <div className="border-b border-gray-200">
         <div className="flex items-center justify-between px-4 py-4">
-          <div className="flex items-center gap-3">
+          {/* Left side - Back button (only show if there's history) */}
+          {panelHistory.length > 0 && (
+            <button
+              onClick={() => panelHistory.length > 0 ? goBack() : closePanel()}
+              className="flex items-center justify-center w-8 h-8 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-md transition-colors mr-3"
+              title="Go back"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </button>
+          )}
+          
+          {/* Center - Title and subtitle */}
+          <div className="flex items-center gap-3 flex-1">
             <div className="p-2 bg-purple-100 rounded-lg">
               <MessageCircle className="w-6 h-6 text-purple-600" />
             </div>
@@ -111,16 +174,16 @@ const AIAssistantPanelContent: React.FC = () => {
               <p className="text-sm text-gray-500">Always here to help</p>
             </div>
           </div>
+          
+          {/* Right side - Close button */}
           <button
             type="button"
-            className="text-gray-400 hover:text-gray-500"
+            className="flex items-center justify-center w-8 h-8 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-md transition-colors"
             onClick={closePanel}
             data-testid="close-ai-button"
+            title="Close AI Assistant"
           >
-            <span className="sr-only">Close</span>
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
+            <X className="w-5 h-5" />
           </button>
         </div>
 
@@ -183,7 +246,7 @@ const AIAssistantPanelContent: React.FC = () => {
                     <p className={`text-xs mt-1 ${
                       msg.sender === 'user' ? 'text-purple-200' : 'text-gray-500'
                     }`}>
-                      {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </p>
                     
                     {/* Message Actions - only show for user messages */}
@@ -307,7 +370,7 @@ const AIAssistantPanelContent: React.FC = () => {
               </div>
               <h3 className="font-medium text-gray-900">{currentTicket!.title}</h3>
               <p className="text-sm text-gray-500 mt-1">
-                Created {currentTicket!.createdAt.toLocaleDateString()}
+                Created {new Date(currentTicket!.createdAt).toLocaleDateString()}
                 {currentTicket!.parentChatContext && (
                   <span className="ml-2 px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-xs">
                     Inherited context
@@ -362,7 +425,7 @@ const AIAssistantPanelContent: React.FC = () => {
                     <p className={`text-xs mt-1 ${
                       msg.sender === 'user' ? 'text-purple-200' : 'text-gray-500'
                     }`}>
-                      {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </p>
                   </div>
                 </div>
@@ -422,7 +485,7 @@ const AIAssistantPanelContent: React.FC = () => {
                       <p className="text-sm font-medium text-green-900">Ticket Resolved</p>
                       <p className="text-sm text-green-700 mt-1">{currentTicket!.summary}</p>
                       <p className="text-xs text-green-600 mt-2">
-                        Resolved on {currentTicket!.resolvedAt?.toLocaleDateString()}
+                        Resolved on {currentTicket!.resolvedAt ? new Date(currentTicket!.resolvedAt).toLocaleDateString() : 'Unknown'}
                       </p>
                     </div>
                   </div>
@@ -457,7 +520,7 @@ const AIAssistantPanelContent: React.FC = () => {
                         </span>
                       </div>
                       <p className="text-xs text-gray-500">
-                        {ticket.messages.length} messages • Created {ticket.createdAt.toLocaleDateString()}
+                        {ticket.messages.length} messages • Created {new Date(ticket.createdAt).toLocaleDateString()}
                       </p>
                       {ticket.tags.length > 0 && (
                         <div className="flex gap-1 mt-2">
@@ -495,7 +558,7 @@ const AIAssistantPanelContent: React.FC = () => {
                         </div>
                       </div>
                       <p className="text-xs text-gray-500">
-                        Resolved {ticket.resolvedAt?.toLocaleDateString()}
+                        Resolved {ticket.resolvedAt ? new Date(ticket.resolvedAt).toLocaleDateString() : 'Unknown'}
                         {ticket.summary && ` • ${ticket.summary}`}
                       </p>
                     </div>

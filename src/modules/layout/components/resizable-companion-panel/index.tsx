@@ -11,8 +11,8 @@ import FilterPanelContent from "../filter-panel-content"
 
 const PanelComponents = {
   'cart': CartPanelContent,
-  'ai-assistant': AIAssistantPanelContent,
-  'help': HelpPanelContent,
+  'aiCompanion': AIAssistantPanelContent,
+  'helpCompanion': HelpPanelContent,
   'filter': FilterPanelContent,
 }
 

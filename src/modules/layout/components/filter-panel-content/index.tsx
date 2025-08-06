@@ -265,17 +265,19 @@ const FilterPanelContent: React.FC<FilterPanelContentProps> = ({ data, dynamicFi
     <div className="flex flex-col h-full">
       {/* Header with Back and Close Buttons */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-50">
-        {/* Left side - Back button */}
-        <button
-          onClick={handleBackClick}
-          className="flex items-center justify-center w-8 h-8 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-md transition-colors"
-          title={panelHistory.length > 0 ? 'Go back' : 'Close filters'}
-        >
-          <ArrowLeft className="w-5 h-5" />
-        </button>
+        {/* Left side - Back button (only show if there's history) */}
+        {panelHistory.length > 0 && (
+          <button
+            onClick={handleBackClick}
+            className="flex items-center justify-center w-8 h-8 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-md transition-colors mr-2"
+            title="Go back"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+        )}
         
         {/* Center - Title */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-1">
           <Filter className="w-5 h-5 text-gray-700" />
           <h2 className="text-lg font-semibold text-gray-900">Filters</h2>
           {activeFilterCount > 0 && (
