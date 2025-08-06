@@ -2,9 +2,10 @@
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react"
 import { getSyncManager } from "../sync/ticket-sync-manager"
+import { isFeatureEnabled } from "../config/companion-config"
 
-// Panel Types - Extensible for future features
-export type PanelType = 'cart' | 'ai-assistant' | 'help' | 'filter'
+// Dynamic Panel Types based on enabled features
+export type PanelType = string // Will be constrained by configuration at runtime
 
 // Chat system types
 export interface ChatMessage {
@@ -180,14 +181,20 @@ interface CompanionPanelProviderProps {
   children: React.ReactNode
 }
 
-// Panel configuration
-const PANEL_CONFIG: Record<PanelType, { defaultTitle: string; icon?: string }> = {
-  'cart': { defaultTitle: 'Shopping Cart', icon: '🛒' },
-  'ai-assistant': { defaultTitle: 'AI Shopping Assistant', icon: '🤖' },
-  'help': { defaultTitle: 'Help & Support', icon: '❓' },
-  'product-compare': { defaultTitle: 'Compare Products', icon: '⚖️' },
-  'wishlist': { defaultTitle: 'Wishlist', icon: '❤️' },
-  'reviews': { defaultTitle: 'Reviews', icon: '⭐' },
+// Simple panel configuration
+const getPanelConfig = (): Record<string, { defaultTitle: string; icon?: string }> => {
+  return {
+    // Core features (always available)
+    'cart': { defaultTitle: 'Shopping Cart', icon: '🛒' },
+    'filter': { defaultTitle: 'Filters', icon: '🔍' },
+    
+    // Optional features
+    'aiCompanion': { defaultTitle: 'AI Shopping Assistant', icon: '🤖' },
+    'helpCompanion': { defaultTitle: 'Help & Support', icon: '❓' },
+    'wishlist': { defaultTitle: 'Wishlist', icon: '❤️' },
+    'productCompare': { defaultTitle: 'Compare Products', icon: '⚖️' },
+    'reviews': { defaultTitle: 'Reviews', icon: '⭐' },
+  }
 }
 
 export const CompanionPanelProvider: React.FC<CompanionPanelProviderProps> = ({ children }) => {
@@ -943,7 +950,17 @@ export const CompanionPanelProvider: React.FC<CompanionPanelProviderProps> = ({ 
 
   // Existing panel management code...
   const openPanel = useCallback((type: PanelType, data?: any, customTitle?: string) => {
-    const title = customTitle || PANEL_CONFIG[type]?.defaultTitle || type
+    // Core features (cart, filter) are always available
+    const coreFeatures = ['cart', 'filter']
+    
+    // Check if feature is enabled (skip check for core features)
+    if (!coreFeatures.includes(type) && !isFeatureEnabled(type as any)) {
+      console.warn(`Attempted to open disabled feature panel: ${type}`)
+      return
+    }
+    
+    const panelConfig = getPanelConfig()
+    const title = customTitle || panelConfig[type]?.defaultTitle || type
     
     const newPanel: PanelState = {
       type,
@@ -1097,4 +1114,4 @@ export const CompanionPanelProvider: React.FC<CompanionPanelProviderProps> = ({ 
 export const CartPanelProvider = CompanionPanelProvider
 
 // Export panel configuration for use in components
-export { PANEL_CONFIG }
+export { getPanelConfig }
