@@ -5,9 +5,9 @@ import dynamic from 'next/dynamic'
 
 // Dynamically import components to avoid SSR issues
 const ProductInfo = dynamic(() => import('../templates/product-info'), { ssr: true })
-const ProductTabs = dynamic(() => import('../product-tabs'), { ssr: true })
-const RelatedProducts = dynamic(() => import('../related-products'), { ssr: true })
-const DynamicProductInfo = dynamic(() => import('../dynamic-product-info'), { ssr: true })
+const ProductTabs = dynamic(() => import('./product-tabs'), { ssr: true })
+const RelatedProducts = dynamic(() => import('./related-products'), { ssr: true })
+const DynamicProductInfo = dynamic(() => import('./dynamic-product-info'), { ssr: true })
 
 // Register ProductInfo component
 Builder.registerComponent(ProductInfo, {
