@@ -225,5 +225,5 @@ If you encounter issues:
 
 **Last Updated**: December 2024  
 **Actions Version**: `amondnet/vercel-action@v25`  
-**Node Version**: 18  
+**Node Version**: 22 LTS  
 **Vercel CLI**: Latest
