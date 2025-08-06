@@ -19,8 +19,19 @@ The **Companion Panel System** is a revolutionary approach to e-commerce interfa
 
 ### 🔧 **Extensible Panel Types**
 ```typescript
-type PanelType = 'cart' | 'ai-assistant' | 'help' | 'product-compare' | 'wishlist' | 'reviews'
+type PanelType = 'cart' | 'filter' | 'aiCompanion' | 'helpCompanion' | 'productCompare' | 'wishlist' | 'reviews'
 ```
+
+**Core Panels** (always available):
+- `cart` - Shopping cart functionality
+- `filter` - Product filtering (contextual to store pages)
+
+**Optional Panels** (configurable via `store.config.js`):
+- `aiCompanion` - AI-powered shopping assistant with chat and tickets
+- `helpCompanion` - Help documentation and support resources
+- `productCompare` - Side-by-side product comparison (coming soon)
+- `wishlist` - Save for later functionality (coming soon)
+- `reviews` - Product reviews and ratings (coming soon)
 
 ## 🚀 Usage Examples
 
@@ -32,7 +43,7 @@ const { openPanel, closePanel, goBack } = useCompanionPanel()
 openPanel('cart', { items: cartItems })
 
 // Open AI assistant with context
-openPanel('ai-assistant', { 
+openPanel('aiCompanion', { 
   context: 'product-recommendation',
   productId: 'abc123'
 })
@@ -44,10 +55,10 @@ goBack()
 ### AI Shopping Workflow Example
 ```typescript
 // 1. User opens AI assistant
-openPanel('ai-assistant', { context: 'general' })
+openPanel('aiCompanion', { context: 'general' })
 
 // 2. AI suggests product comparison
-openPanel('product-compare', { 
+openPanel('productCompare', { 
   products: ['product1', 'product2'],
   reason: 'ai-recommendation'
 })
@@ -58,7 +69,7 @@ openPanel('cart', {
   source: 'ai-comparison'
 })
 
-// 4. User can navigate back: cart → compare → ai-assistant
+// 4. User can navigate back: cart → compare → aiCompanion
 ```
 
 ## 🏗️ Architecture
