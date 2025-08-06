@@ -121,10 +121,8 @@ Configure optional features by editing `store.config.js` in the project root:
 const storeConfig = {
   featureFlags: {
     aiCompanion: true,      // AI Shopping Assistant
-    helpCompanion: true,    // Help & Support System
-    wishlist: false,        // Wishlist (coming soon)
-    productCompare: false,  // Product Compare (coming soon)
-    reviews: false,         // Reviews (coming soon)
+    helpCompanion: false    // Help & Support System (disabled by default)
+    // Note: wishlist, productCompare, reviews not yet implemented
   },
   
   layoutOptions: {
@@ -132,6 +130,19 @@ const storeConfig = {
     showLabels: false,      // Show text labels
     showIcons: true,        // Show icons
     defaultPanelWidth: 400, // Panel width (px)
+    maxPanelHistory: 10,    // Maximum panel history items
+  },
+  
+  globalSettings: {
+    enableKeyboardShortcuts: true,
+    enableGestures: true,
+    enableAnalytics: true,
+  },
+  
+  development: {
+    enableDebugMode: false,
+    showPanelDemoButtons: false,
+    logStateChanges: false,
   },
 }
 
