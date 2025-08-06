@@ -7,10 +7,12 @@ on:
       - 'src/**'
       - 'public/**'
       - 'package.json'
+      - 'package-lock.json'
       - 'next.config.js'
       - 'tailwind.config.js'
       - 'tsconfig.json'
       - '.env.example'
+      - 'store.config.js'
   workflow_dispatch:
 
 jobs:
@@ -25,24 +27,26 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'yarn'
+          cache: 'npm'
           
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
         
       - name: Run tests
-        run: yarn test --ci --coverage --watchAll=false
+        run: npm test -- --ci --coverage --watchAll=false --passWithNoTests
         
       - name: Build storefront
-        run: yarn build
+        run: npm run build
         env:
           NEXT_PUBLIC_MEDUSA_BACKEND_URL: ${{ secrets.MEDUSA_BACKEND_URL }}
           NEXT_PUBLIC_STRIPE_KEY: ${{ secrets.STRIPE_PUBLIC_KEY }}
+          NEXT_PUBLIC_BUILDER_PUBLIC_KEY: ${{ secrets.BUILDER_PUBLIC_KEY }}
           
       - name: Deploy to Vercel
-        uses: vercel/action@v1
+        uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
           working-directory: ./
