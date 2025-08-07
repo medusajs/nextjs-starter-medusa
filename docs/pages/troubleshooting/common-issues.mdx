@@ -1,0 +1,429 @@
+# 🔧 Common Issues & Solutions
+
+This guide covers the most frequently encountered issues when working with the Enhanced Medusa Next.js Starter and Companion Panel System.
+
+## Installation & Setup Issues
+
+### Node.js Version Compatibility
+
+**Problem**: Build fails with Node.js version errors
+
+**Solution**:
+```bash
+# Check your Node.js version
+node --version
+
+# Should be 18.0 or higher
+# Install correct version using nvm
+nvm install 18
+nvm use 18
+```
+
+### Package Installation Failures
+
+**Problem**: `npm install` or `yarn install` fails
+
+**Solutions**:
+```bash
+# Clear package manager cache
+npm cache clean --force
+# or
+yarn cache clean
+
+# Delete node_modules and reinstall
+rm -rf node_modules package-lock.json
+npm install
+
+# Try with different package manager
+yarn install
+# or
+pnpm install
+```
+
+### Environment Variables Not Loading
+
+**Problem**: Environment variables are undefined in the application
+
+**Solutions**:
+1. **Check file naming**: Must be `.env.local` (not `.env`)
+2. **Verify variable names**: Must start with `NEXT_PUBLIC_` for client-side access
+3. **Restart development server** after changing environment variables
+
+```bash
+# Correct naming
+NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://localhost:9000
+
+# Incorrect naming (won't work on client-side)
+MEDUSA_BACKEND_URL=http://localhost:9000
+```
+
+## Companion Panel Issues
+
+### Panels Not Opening
+
+**Problem**: Clicking panel triggers doesn't open panels
+
+**Debugging Steps**:
+
+1. **Check Context Provider**:
+```typescript
+// Ensure your app is wrapped with the provider
+function MyApp({ Component, pageProps }) {
+  return (
+    <CompanionPanelProvider>
+      <Component {...pageProps} />
+    </CompanionPanelProvider>
+  )
+}
+```
+
+2. **Verify Panel Configuration**:
+```javascript
+// store.config.js
+export const companionPanelConfig = {
+  enabledPanels: ['cart', 'filter'], // Must include the panel you're trying to open
+  // ...
+}
+```
+
+3. **Check Environment Variables**:
+```bash
+NEXT_PUBLIC_COMPANION_PANELS_ENABLED=true
+```
+
+### Panel Content Not Loading
+
+**Problem**: Panels open but show no content or loading state
+
+**Solutions**:
+
+1. **Check Data Dependencies**:
+```typescript
+// Ensure required data is available
+const { cart } = useCart() // For cart panel
+const { products } = useProducts() // For filter panel
+```
+
+2. **Verify API Connections**:
+```bash
+# Test Medusa backend connection
+curl http://localhost:9000/store/products
+```
+
+3. **Check Browser Console** for JavaScript errors
+
+### Animation Issues
+
+**Problem**: Panels don't animate smoothly or appear instantly
+
+**Solutions**:
+
+1. **Check Reduced Motion Settings**:
+```typescript
+// Respect user preferences
+const prefersReducedMotion = useReducedMotion()
+```
+
+2. **Verify CSS Classes**:
+```css
+/* Ensure transition classes are applied */
+.panel-enter {
+  transform: translateX(100%);
+}
+.panel-enter-active {
+  transform: translateX(0);
+  transition: transform 300ms ease-in-out;
+}
+```
+
+3. **GPU Acceleration**:
+```css
+.companion-panel {
+  transform: translateZ(0); /* Force GPU acceleration */
+}
+```
+
+## Medusa Integration Issues
+
+### Backend Connection Failures
+
+**Problem**: Cannot connect to Medusa backend
+
+**Solutions**:
+
+1. **Verify Backend is Running**:
+```bash
+# Check if Medusa is running
+curl http://localhost:9000/health
+
+# Expected response: {"status":"ok"}
+```
+
+2. **Check CORS Configuration**:
+```javascript
+// medusa-config.js
+module.exports = {
+  projectConfig: {
+    store_cors: "http://localhost:3000", // Must match your frontend URL
+  }
+}
+```
+
+3. **Network Issues**:
+```bash
+# Check if port is accessible
+telnet localhost 9000
+```
+
+### Authentication Problems
+
+**Problem**: User authentication not working
+
+**Solutions**:
+
+1. **Cookie Configuration**:
+```javascript
+// Check cookie settings in Medusa config
+cookie_secret: process.env.COOKIE_SECRET,
+```
+
+2. **Session Storage**:
+```typescript
+// Clear browser storage
+localStorage.clear()
+sessionStorage.clear()
+```
+
+### Product Data Issues
+
+**Problem**: Products not displaying or outdated data
+
+**Solutions**:
+
+1. **Cache Invalidation**:
+```bash
+# Clear Redis cache (if using Redis)
+redis-cli FLUSHALL
+```
+
+2. **Database Sync**:
+```bash
+# Run Medusa migrations
+cd medusa-backend
+npm run build
+medusa migrations run
+```
+
+## Builder.io Integration Issues
+
+### Content Not Loading
+
+**Problem**: Builder.io content doesn't appear in panels
+
+**Solutions**:
+
+1. **API Key Verification**:
+```bash
+# Check if API key is valid
+curl "https://cdn.builder.io/api/v1/query/your-model?apiKey=YOUR_API_KEY"
+```
+
+2. **Model Configuration**:
+```javascript
+// Verify model names match
+const { content } = useBuilderContent('cart-panel-content') // Must match Builder.io model name
+```
+
+3. **Targeting Rules**:
+- Check URL targeting in Builder.io dashboard
+- Verify user attributes are being passed correctly
+
+### Custom Components Not Rendering
+
+**Problem**: Custom Builder.io components don't appear
+
+**Solutions**:
+
+1. **Component Registration**:
+```typescript
+// Ensure components are registered before use
+Builder.registerComponent(CustomComponent, {
+  name: 'CustomComponent',
+  inputs: [/* ... */]
+})
+```
+
+2. **Import Order**:
+```typescript
+// Register components before using BuilderComponent
+import './builder-components' // Register first
+import { BuilderComponent } from '@builder.io/react'
+```
+
+## Performance Issues
+
+### Slow Panel Opening
+
+**Problem**: Panels take too long to open
+
+**Solutions**:
+
+1. **Lazy Loading**:
+```typescript
+// Lazy load heavy components
+const HeavyComponent = lazy(() => import('./HeavyComponent'))
+```
+
+2. **Data Prefetching**:
+```typescript
+// Prefetch data on hover
+const handleHover = () => {
+  queryClient.prefetchQuery(['cart-data'])
+}
+```
+
+3. **Bundle Analysis**:
+```bash
+# Analyze bundle size
+npm run build
+npm run analyze
+```
+
+### Memory Leaks
+
+**Problem**: Application becomes slow over time
+
+**Solutions**:
+
+1. **Cleanup Effects**:
+```typescript
+useEffect(() => {
+  const subscription = subscribe()
+  
+  return () => {
+    subscription.unsubscribe() // Always cleanup
+  }
+}, [])
+```
+
+2. **Event Listeners**:
+```typescript
+useEffect(() => {
+  const handleResize = () => { /* ... */ }
+  window.addEventListener('resize', handleResize)
+  
+  return () => {
+    window.removeEventListener('resize', handleResize)
+  }
+}, [])
+```
+
+## Mobile-Specific Issues
+
+### Touch Gestures Not Working
+
+**Problem**: Swipe gestures don't work on mobile
+
+**Solutions**:
+
+1. **Touch Event Handling**:
+```typescript
+// Ensure touch events are properly handled
+const handleTouchStart = (e: TouchEvent) => {
+  e.preventDefault() // Prevent default browser behavior
+}
+```
+
+2. **CSS Touch Action**:
+```css
+.panel-container {
+  touch-action: pan-y; /* Allow vertical scrolling only */
+}
+```
+
+### Responsive Layout Issues
+
+**Problem**: Panels don't adapt properly to mobile screens
+
+**Solutions**:
+
+1. **Breakpoint Configuration**:
+```javascript
+// Adjust breakpoints in configuration
+responsive: {
+  mobileBreakpoint: 768, // Adjust as needed
+}
+```
+
+2. **Viewport Meta Tag**:
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+```
+
+## Development Tools
+
+### Debugging Panel State
+
+```typescript
+// Add to your component for debugging
+const panelState = useCompanionPanel()
+console.log('Panel State:', panelState)
+```
+
+### React DevTools
+
+1. Install React Developer Tools browser extension
+2. Look for "CompanionPanel" context in the tree
+3. Monitor state changes in real-time
+
+### Network Debugging
+
+```bash
+# Monitor network requests
+# Open browser DevTools > Network tab
+# Filter by XHR/Fetch to see API calls
+```
+
+## Getting Help
+
+If you're still experiencing issues:
+
+1. **Check the [FAQ](/faq)** for additional solutions
+2. **Search existing issues** on GitHub
+3. **Create a new issue** with:
+   - Detailed error description
+   - Steps to reproduce
+   - Environment details
+   - Console logs/screenshots
+
+### Issue Template
+
+```markdown
+**Describe the bug**
+A clear description of what the bug is.
+
+**To Reproduce**
+Steps to reproduce the behavior:
+1. Go to '...'
+2. Click on '....'
+3. See error
+
+**Expected behavior**
+What you expected to happen.
+
+**Environment:**
+- OS: [e.g. macOS]
+- Browser: [e.g. Chrome 120]
+- Node.js: [e.g. 18.17.0]
+- Package Manager: [e.g. npm 9.6.7]
+
+**Additional context**
+Add any other context about the problem here.
+```
+
+## Next Steps
+
+- [FAQ](/faq)
+- [Debugging Guide](/debugging)
+- [Development Setup](/development/setup)
+- [Configuration Guide](/configuration/overview)

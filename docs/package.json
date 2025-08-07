@@ -1,0 +1,25 @@
+{
+  "name": "msc-docs-nextra",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "MySupplyCo Documentation with Nextra",
+  "scripts": {
+    "dev": "next dev -p 3003",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "export": "next build && next export"
+  },
+  "dependencies": {
+    "next": "^14.2.0",
+    "nextra": "^3.0.0",
+    "nextra-theme-docs": "^3.0.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.0.0"
+  }
+}

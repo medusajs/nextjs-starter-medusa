@@ -1,0 +1,73 @@
+# 🤖 Enhanced Companion Panel System
+
+## Overview
+
+The **Companion Panel System** is a revolutionary approach to e-commerce interfaces that transforms traditional modals into a persistent, AI-driven workflow companion. Instead of interrupting the user experience, panels slide out as secondary columns, creating a more immersive and productive shopping experience.
+
+## 🌟 Key Features
+
+### 📚 **Panel History & Navigation**
+- **History Stack**: Each opened panel is saved to history (max 10 items)
+- **Back Navigation**: Swipe right or press Alt+← to go back
+- **Keyboard Support**: ESC to close/back, Alt+← for history navigation
+- **Gesture Ready**: Perfect foundation for swipe gesture support
+
+### 📱 **Responsive Design**
+- **Mobile**: Traditional overlay modals with slide animations
+- **Desktop/Tablet**: Split-view layout with content compression
+- **Adaptive**: Automatically switches based on screen size
+
+### 🔧 **Extensible Panel Types**
+```typescript
+type PanelType = 'cart' | 'filter' | 'aiCompanion' | 'helpCompanion' | 'productCompare' | 'wishlist' | 'reviews'
+```
+
+**Core Panels** (always available):
+- `cart` - Shopping cart functionality
+- `filter` - Product filtering (contextual to store pages)
+
+**Optional Panels** (configurable via `store.config.js`):
+- `aiCompanion` - AI-powered shopping assistant with chat and tickets
+- `helpCompanion` - Contextual help system with search
+- `productCompare` - Side-by-side product comparison
+- `wishlist` - User wishlist management
+- `reviews` - Product reviews and ratings
+
+### 🎯 **Smart Context Awareness**
+- **Page Detection**: Automatically shows relevant panels based on current page
+- **Product Context**: Panels adapt content based on current product/category
+- **User State**: Remembers panel preferences and history
+- **Feature Flags**: Granular control over panel availability
+
+## 🏗️ Architecture
+
+The system is built with modern React patterns:
+
+- **Context API**: Centralized state management
+- **Custom Hooks**: `useCompanionPanel` for easy integration
+- **TypeScript**: Full type safety and IntelliSense
+- **Responsive**: Mobile-first design with desktop enhancements
+- **Accessible**: WCAG 2.1 AA compliant
+
+## 🚀 Quick Integration
+
+```typescript
+import { useCompanionPanel } from '@/store/companion-panel'
+
+function ProductCard({ product }) {
+  const { openPanel } = useCompanionPanel()
+  
+  return (
+    <button onClick={() => openPanel('cart', { product })}>
+      Add to Cart
+    </button>
+  )
+}
+```
+
+## Next Steps
+
+- [Architecture Details](/architecture)
+- [Configuration Guide](/configuration/overview)
+- [API Reference](/api-reference)
+- [Integration Examples](/integration/builder-io)
