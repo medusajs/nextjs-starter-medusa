@@ -2,7 +2,7 @@ import { Suspense } from "react"
 
 import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-grid"
 import FilteredProductsContainer from "@modules/store/components/filtered-products-container"
-import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
+import { SortOptions } from "@modules/store/components/refinement-list/sort-products-dropdown"
 import { HttpTypes } from "@medusajs/types"
 
 export default function CollectionTemplate({

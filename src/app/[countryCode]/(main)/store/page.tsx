@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 
-import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
+import { SortOptions } from "@modules/store/components/refinement-list/sort-products-dropdown"
 import StoreTemplate from "@modules/store/templates"
 
 export const metadata: Metadata = {

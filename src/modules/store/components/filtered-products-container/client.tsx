@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect } from "react"
 import { useRouter, useSearchParams, usePathname } from "next/navigation"
 import FilterSortBar from "@modules/store/components/filter-sort-bar"
-import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
+import { SortOptions } from "@modules/store/components/refinement-list/sort-products-dropdown"
 import { HttpTypes } from "@medusajs/types"
 import PaginatedProducts from "@modules/store/templates/paginated-products"
 

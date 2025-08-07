@@ -1,6 +1,6 @@
 import { getProductFilters, listProductsWithSort } from "@lib/data/products"
 import { getRegion } from "@lib/data/regions"
-import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
+import { SortOptions } from "@modules/store/components/refinement-list/sort-products-dropdown"
 import FilteredProductsClient from "./client"
 
 interface FilteredProductsContainerProps {
