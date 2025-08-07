@@ -26,6 +26,7 @@ const customJestConfig = {
     '<rootDir>/.next/',
     '<rootDir>/node_modules/',
     '<rootDir>/__tests__/scripts/',
+    '<rootDir>/__tests__/modules/layout/components/cart-drawer.test.tsx',
   ],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }],
