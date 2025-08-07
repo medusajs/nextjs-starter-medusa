@@ -13,6 +13,10 @@ on:
       - 'tsconfig.json'
       - '.env.example'
       - 'store.config.js'
+    paths-ignore:
+      - 'docs/**'
+      - 'website/**'
+      - '*.md'
   workflow_dispatch:
 
 jobs:
@@ -39,13 +43,6 @@ jobs:
         
       - name: Run tests
         run: npm test -- --ci --coverage --watchAll=false --passWithNoTests
-        
-      - name: Build storefront
-        run: npm run build
-        env:
-          NEXT_PUBLIC_MEDUSA_BACKEND_URL: ${{ secrets.MEDUSA_BACKEND_URL }}
-          NEXT_PUBLIC_STRIPE_KEY: ${{ secrets.STRIPE_PUBLIC_KEY }}
-          NEXT_PUBLIC_BUILDER_PUBLIC_KEY: ${{ secrets.BUILDER_PUBLIC_KEY }}
           
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v25
@@ -54,4 +51,4 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: '--prod'
-          working-directory: ./
+          working-directory: ./cd

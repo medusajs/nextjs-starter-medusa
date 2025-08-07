@@ -1,39 +1,294 @@
-name: Deploy Documentation
+name: Deploy Docs
 
 on:
   push:
     branches: [main]
-    paths:
-      - 'website/**'
-      - 'documentation/**'
-  workflow_dispatch:
+    paths: ['docs/**']
+  workflow_dispatch: # Allow manual trigger
+
+env:
+  DOCS_REPO: 'your-org/msc-docs'
+  DOCS_BRANCH_PREFIX: 'sync-from-monorepo'
 
 jobs:
-  deploy-docs:
+  sync-docs:
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout
+      - name: Checkout monorepo
         uses: actions/checkout@v4
-        
+        with:
+          fetch-depth: 0
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: 'npm'
-          cache-dependency-path: 'website/package-lock.json'
+          node-version: '18'
+
+      - name: Get commit info
+        id: commit-info
+        run: |
+          echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          echo "commit_message=$(git log -1 --pretty=%B | head -1)" >> $GITHUB_OUTPUT
+          echo "author=$(git log -1 --pretty=%an)" >> $GITHUB_OUTPUT
+          echo "timestamp=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_OUTPUT
+
+      - name: Extract and prepare docs
+        run: |
+          echo "📚 Extracting docs from monorepo..."
           
-      - name: Install dependencies
-        working-directory: ./website
-        run: npm ci
-        
-      - name: Build documentation
-        working-directory: ./website
-        run: npm run build
-        
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./website/build
-          cname: docs.your-domain.com  # Optional: your custom domain
+          # Create temporary directory for extracted docs
+          mkdir -p /tmp/extracted-docs
+          
+          # Copy docs directory
+          cp -r docs/* /tmp/extracted-docs/
+          
+          # Clean up development files
+          cd /tmp/extracted-docs
+          rm -rf node_modules .next .vercel package-lock.json yarn.lock
+          
+          # Create production package.json
+          cat > package.json << 'EOF'
+          {
+            "name": "mysupplyco-docs",
+            "version": "1.0.0",
+            "description": "Official documentation for MySupplyCo Enhanced Medusa Next.js Starter",
+            "type": "module",
+            "scripts": {
+              "dev": "next dev",
+              "build": "next build",
+              "start": "next start",
+              "export": "next build && next export",
+              "postbuild": "next-sitemap"
+            },
+            "dependencies": {
+              "next": "^14.2.0",
+              "nextra": "^3.0.0",
+              "nextra-theme-docs": "^3.0.0",
+              "react": "^18.3.0",
+              "react-dom": "^18.3.0"
+            },
+            "devDependencies": {
+              "@types/node": "^20.0.0",
+              "@types/react": "^19.0.0",
+              "@types/react-dom": "^19.0.0",
+              "typescript": "^5.0.0",
+              "next-sitemap": "^4.2.3"
+            },
+            "keywords": [
+              "medusa",
+              "nextjs",
+              "ecommerce",
+              "documentation",
+              "nextra",
+              "mysupplyco"
+            ],
+            "repository": {
+              "type": "git",
+              "url": "https://github.com/${{ env.DOCS_REPO }}.git"
+            },
+            "homepage": "https://docs.mysupplyco.com",
+            "license": "MIT"
+          }
+          EOF
+          
+          # Create production README
+          cat > README.md << 'EOF'
+          # 📚 MySupplyCo Documentation
+          
+          > **Official documentation for the MySupplyCo Enhanced Medusa Next.js Starter**
+          
+          🌐 **Live Site**: [docs.mysupplyco.com](https://docs.mysupplyco.com)
+          
+          ## 🚀 Quick Start
+          
+          ```bash
+          npm install
+          npm run dev
+          ```
+          
+          ## 📖 About
+          
+          This documentation is automatically synchronized from the main development repository.
+          
+          - **Source**: [MySupplyCo Monorepo](https://github.com/your-org/msc-nextjs)
+          - **Framework**: [Nextra](https://nextra.site/)
+          - **Deployment**: [Vercel](https://vercel.com/)
+          
+          ## 🔄 Updates
+          
+          Documentation is automatically updated when changes are made to the docs folder in the main repository.
+          
+          ## 🤝 Contributing
+          
+          To contribute to the documentation:
+          
+          1. Make changes in the [main repository](https://github.com/your-org/msc-nextjs/tree/main/docs)
+          2. Changes will automatically sync to this repository via PR
+          3. Review and merge the auto-generated PR
+          4. Documentation will automatically deploy
+          
+          ---
+          
+          **Built with ❤️ for the MySupplyCo community**
+          EOF
+          
+          # Create Vercel configuration
+          cat > vercel.json << 'EOF'
+          {
+            "name": "mysupplyco-docs",
+            "framework": "nextjs",
+            "buildCommand": "npm run build",
+            "outputDirectory": ".next",
+            "installCommand": "npm install",
+            "regions": ["iad1"],
+            "env": {
+              "SITE_URL": "https://docs.mysupplyco.com"
+            },
+            "headers": [
+              {
+                "source": "/(.*)",
+                "headers": [
+                  {
+                    "key": "X-Frame-Options",
+                    "value": "DENY"
+                  },
+                  {
+                    "key": "X-Content-Type-Options",
+                    "value": "nosniff"
+                  },
+                  {
+                    "key": "Referrer-Policy",
+                    "value": "strict-origin-when-cross-origin"
+                  }
+                ]
+              }
+            ]
+          }
+          EOF
+          
+          # Create sitemap configuration
+          cat > next-sitemap.config.js << 'EOF'
+          /** @type {import('next-sitemap').IConfig} */
+          module.exports = {
+            siteUrl: process.env.SITE_URL || 'https://docs.mysupplyco.com',
+            generateRobotsTxt: true,
+            sitemapSize: 7000,
+            changefreq: 'weekly',
+            priority: 0.7,
+            exclude: ['/404'],
+            robotsTxtOptions: {
+              policies: [
+                {
+                  userAgent: '*',
+                  allow: '/',
+                },
+              ],
+            },
+          }
+          EOF
+
+      - name: Clone docs repository
+        run: |
+          echo "📥 Cloning docs repository..."
+          git clone https://x-access-token:${{ secrets.DOCS_REPO_TOKEN }}@github.com/${{ env.DOCS_REPO }}.git /tmp/docs-repo
+          cd /tmp/docs-repo
+          git config user.name "docs-sync-bot"
+          git config user.email "docs-sync-bot@mysupplyco.com"
+
+      - name: Create sync branch
+        id: create-branch
+        run: |
+          cd /tmp/docs-repo
+          
+          # Create unique branch name
+          BRANCH_NAME="${{ env.DOCS_BRANCH_PREFIX }}-${{ steps.commit-info.outputs.timestamp }}"
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+          
+          # Create and switch to new branch
+          git checkout -b $BRANCH_NAME
+          
+          # Remove all existing content except .git
+          find . -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
+          
+          # Copy extracted docs
+          cp -r /tmp/extracted-docs/* .
+          
+          # Add all changes
+          git add .
+
+      - name: Check for changes
+        id: check-changes
+        run: |
+          cd /tmp/docs-repo
+          if git diff --cached --quiet; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "ℹ️ No changes detected in docs"
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "✅ Changes detected in docs"
+          fi
+
+      - name: Commit and push changes
+        if: steps.check-changes.outputs.has_changes == 'true'
+        run: |
+          cd /tmp/docs-repo
+          
+          # Create commit message
+          COMMIT_MSG="docs: sync from monorepo (${{ steps.commit-info.outputs.sha_short }})
+
+          Source commit: ${{ steps.commit-info.outputs.commit_message }}
+          Author: ${{ steps.commit-info.outputs.author }}
+          Monorepo SHA: ${{ github.sha }}
+          
+          Auto-generated by docs sync workflow"
+          
+          git commit -m "$COMMIT_MSG"
+          git push origin ${{ steps.create-branch.outputs.branch_name }}
+
+      - name: Create Pull Request
+        if: steps.check-changes.outputs.has_changes == 'true'
+        run: |
+          cd /tmp/docs-repo
+          
+          # Create PR using GitHub CLI
+          PR_BODY="## 🔄 Automated Documentation Sync
+
+          This PR contains documentation updates synchronized from the main development repository.
+
+          ### 📋 Source Information
+          - **Monorepo Commit**: [\`${{ steps.commit-info.outputs.sha_short }}\`](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+          - **Author**: ${{ steps.commit-info.outputs.author }}
+          - **Message**: ${{ steps.commit-info.outputs.commit_message }}
+          - **Timestamp**: ${{ steps.commit-info.outputs.timestamp }}
+
+          ### 🧪 Testing
+          This PR will generate a preview deployment for review.
+
+          ### ✅ Auto-merge Criteria
+          - [ ] Preview deployment successful
+          - [ ] No breaking changes detected
+          - [ ] Documentation builds without errors
+
+          ---
+
+          🤖 *This PR was automatically created by the docs sync workflow*"
+
+          # Create the pull request
+          gh pr create \
+            --title "📚 Sync docs from monorepo (${{ steps.commit-info.outputs.sha_short }})" \
+            --body "$PR_BODY" \
+            --label "documentation,automated-sync,needs-review" \
+            --head "${{ steps.create-branch.outputs.branch_name }}" \
+            --base main
+        env:
+          GH_TOKEN: ${{ secrets.DOCS_REPO_TOKEN }}
+
+      - name: Summary
+        run: |
+          if [[ "${{ steps.check-changes.outputs.has_changes }}" == "true" ]]; then
+            echo "✅ Documentation sync completed successfully!"
+            echo "📝 Created PR: ${{ steps.create-branch.outputs.branch_name }}"
+            echo "🔗 Check the docs repository for the new pull request"
+          else
+            echo "ℹ️ No documentation changes detected - skipping sync"
+          fi
