@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-Combine Medusa's modules for your commerce backend with the newest Next.js 15 features for a performant storefront. Includes an advanced companion panel system with AI shopping assistant, contextual help, and configurable features.</p>
+Combine Medusa's modules for your commerce backend with the newest Next.js 15 features for a performant storefront. Features an advanced companion panel system with AI shopping assistant, contextual help, and configurable features - ready for headless CMS integration.</p>
 
 <p align="center">
   <a href="https://github.com/medusajs/medusa/blob/master/CONTRIBUTING.md">
