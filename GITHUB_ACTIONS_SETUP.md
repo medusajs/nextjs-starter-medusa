@@ -48,11 +48,7 @@ You need to add these secrets to your GitHub repository:
 # Example: pk_live_...
 ```
 
-#### `BUILDER_PUBLIC_KEY`
-```bash
-# Your Builder.io public API key
-# Example: bpk-...
-```
+
 
 ## 📋 How to Get Vercel Credentials
 

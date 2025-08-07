@@ -53,7 +53,6 @@ Add these to GitHub repository secrets:
 ### Environment Variables
 - `MEDUSA_BACKEND_URL` - Your Medusa backend URL
 - `STRIPE_PUBLIC_KEY` - Stripe publishable key
-- `BUILDER_PUBLIC_KEY` - Builder.io public API key
 
 ## 🧪 Testing Deployment
 
