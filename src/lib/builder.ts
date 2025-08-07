@@ -2,18 +2,20 @@ import { builder } from '@builder.io/sdk'
 
 // Initialize Builder.io with your API key
 const BUILDER_API_KEY = process.env.NEXT_PUBLIC_BUILDER_API_KEY || 'YOUR_BUILDER_API_KEY'
+let builderInitialized = false
 
-if (!BUILDER_API_KEY || BUILDER_API_KEY === 'YOUR_BUILDER_API_KEY') {
-  console.warn('Builder.io API key not found. Please set NEXT_PUBLIC_BUILDER_API_KEY in your environment variables.')
-  console.warn('Builder.io integration will fallback to default content.')
-} else {
-  console.log('Builder.io initialized with API key:', BUILDER_API_KEY.substring(0, 10) + '...')
+function initializeBuilderIfNeeded() {
+  if (!builderInitialized && BUILDER_API_KEY && BUILDER_API_KEY !== 'YOUR_BUILDER_API_KEY') {
+    try {
+      builder.init(BUILDER_API_KEY)
+      builder.canTrack = false // Disable analytics tracking in development
+      builderInitialized = true
+      console.log('Builder.io initialized with API key:', BUILDER_API_KEY.substring(0, 10) + '...')
+    } catch (error) {
+      console.warn('Builder.io initialization failed:', error)
+    }
+  }
 }
-
-builder.init(BUILDER_API_KEY)
-
-// Configure Builder.io settings
-builder.canTrack = false // Disable analytics tracking in development
 
 export { builder }
 
@@ -39,6 +41,14 @@ export async function getBuilderContent(
   // Skip Builder.io call if API key is not properly configured
   if (!BUILDER_API_KEY || BUILDER_API_KEY === 'YOUR_BUILDER_API_KEY') {
     console.log(`Skipping Builder.io call for model "${model}" - API key not configured`)
+    return null
+  }
+
+  // Initialize Builder only when we actually need it
+  initializeBuilderIfNeeded()
+
+  if (!builderInitialized) {
+    console.log(`Builder.io not initialized for model "${model}"`)
     return null
   }
 
