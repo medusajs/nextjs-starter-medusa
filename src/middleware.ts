@@ -5,15 +5,7 @@ const BACKEND_URL = process.env.MEDUSA_BACKEND_URL
 const PUBLISHABLE_API_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
 const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "us"
 
-// Helper function to check if request is in Builder.io preview mode
-function isBuilderPreview(request: NextRequest): boolean {
-  const { searchParams } = request.nextUrl
-  return (
-    searchParams.has('builder.preview') ||
-    searchParams.has('__builder_editing__') ||
-    searchParams.has('builder.frameEditing')
-  )
-}
+
 
 const regionMapCache = {
   regionMap: new Map<string, HttpTypes.StoreRegion>(),
@@ -114,10 +106,6 @@ async function getCountryCode(
  * Middleware to handle region selection and onboarding status.
  */
 export async function middleware(request: NextRequest) {
-  // Skip all redirect logic when in Builder.io preview mode
-  if (isBuilderPreview(request)) {
-    return NextResponse.next()
-  }
 
   let redirectUrl = request.nextUrl.href
 

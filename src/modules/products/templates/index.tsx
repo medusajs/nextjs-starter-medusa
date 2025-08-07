@@ -7,14 +7,9 @@ import ProductTabs from "@modules/products/components/product-tabs"
 import RelatedProducts from "@modules/products/components/related-products"
 import ProductInfo from "@modules/products/templates/product-info"
 import SkeletonRelatedProducts from "@modules/skeletons/templates/skeleton-related-products"
-import BuilderWrapper from "@modules/common/components/builder-wrapper"
 import { notFound } from "next/navigation"
 import ProductActionsWrapper from "./product-actions-wrapper"
 import { HttpTypes } from "@medusajs/types"
-import { getBuilderContent } from "@lib/builder"
-
-// Import Builder component registry
-import "@modules/products/components/builder-registry"
 
 type ProductTemplateProps = {
     product: HttpTypes.StoreProduct
@@ -33,27 +28,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
         return notFound()
     }
 
-    // Check if we're in preview mode
-    const isPreview = 
-        searchParams['builder.preview'] === 'true' ||
-        searchParams['__builder_editing__'] === 'true'
 
-    // Fetch Builder content for product content sections
-    const builderContent = await getBuilderContent('product-content', {
-        userAttributes: { 
-            productHandle: product.handle,
-            productId: product.id,
-            countryCode 
-        },
-        preview: isPreview
-    })
-
-    // Prepare data for Builder components
-    const builderData = {
-        product,
-        region,
-        countryCode,
-    }
 
     return (
         <>
@@ -97,22 +72,15 @@ const ProductTemplate: React.FC<ProductTemplateProps> = async ({
                 </div>
             </div>
             
-            {/* Builder-customizable content sections */}
-            <BuilderWrapper
-                model="product-content"
-                content={builderContent}
-                data={builderData}
+            {/* Related Products Section */}
+            <div
+                className="content-container my-8 md:my-12"
+                data-testid="related-products-container"
             >
-                {/* Fallback content when no Builder content is available */}
-                <div
-                    className="content-container my-8 md:my-12"
-                    data-testid="related-products-container"
-                >
-                    <Suspense fallback={<SkeletonRelatedProducts />}>
-                        <RelatedProducts product={product} countryCode={countryCode} />
-                    </Suspense>
-                </div>
-            </BuilderWrapper>
+                <Suspense fallback={<SkeletonRelatedProducts />}>
+                    <RelatedProducts product={product} countryCode={countryCode} />
+                </Suspense>
+            </div>
         </>
     )
 }

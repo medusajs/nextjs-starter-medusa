@@ -44,7 +44,6 @@ export default async function StorePage(props: Params) {
       page={page}
       countryCode={params.countryCode}
       searchParams={filterParams}
-      builderSearchParams={searchParams}
     />
   )
 }

@@ -4,14 +4,18 @@ import AccountLayout from "@modules/account/templates/account-layout"
 
 export default async function AccountPageLayout({
   children,
+  dashboard,
+  login,
 }: {
   children: React.ReactNode
+  dashboard: React.ReactNode
+  login: React.ReactNode
 }) {
   const customer = await retrieveCustomer().catch(() => null)
 
   return (
     <AccountLayout customer={customer}>
-      {children}
+      {customer ? dashboard : login}
       <Toaster />
     </AccountLayout>
   )
