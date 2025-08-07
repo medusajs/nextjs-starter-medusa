@@ -3,6 +3,8 @@ name: Deploy Storefront
 on:
   push:
     branches: [main]
+    tags:
+      - 'v*'
     paths:
       - 'src/**'
       - 'public/**'
@@ -13,11 +15,9 @@ on:
       - 'tsconfig.json'
       - '.env.example'
       - 'store.config.js'
-    paths-ignore:
-      - 'docs/**'
-      - 'website/**'
-      - '*.md'
   workflow_dispatch:
+  release:
+    types: [published]
 
 jobs:
   deploy-storefront:
@@ -51,4 +51,4 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: '--prod'
-          working-directory: ./cd
+          working-directory: ./
