@@ -55,7 +55,7 @@ const commands = {
 
 function showHelp() {
   console.log('🧪 Filter System Test Runner\n')
-  console.log('Usage: node scripts/test-filters.js [command]\n')
+  console.log('Usage: npm run test:filters [command]\n')
   console.log('Available commands:')
   
   Object.entries(commands).forEach(([name, config]) => {
@@ -63,10 +63,10 @@ function showHelp() {
   })
   
   console.log('\nExamples:')
-  console.log('  node scripts/test-filters.js all        # Run all filter tests')
-  console.log('  node scripts/test-filters.js unit       # Run only unit tests')
-  console.log('  node scripts/test-filters.js coverage   # Run with coverage report')
-  console.log('  node scripts/test-filters.js watch      # Run in watch mode')
+  console.log('  npm run test:filters all        # Run all filter tests')
+  console.log('  npm run test:filters unit       # Run only unit tests')
+  console.log('  npm run test:filters coverage   # Run with coverage report')
+  console.log('  npm run test:filters watch      # Run in watch mode')
   console.log('')
   console.log('📁 Test Structure:')
   console.log('  __tests__/')
