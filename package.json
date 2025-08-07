@@ -1,6 +1,6 @@
 {
   "name": "medusa-next",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": true,
   "author": "Kasper Fabricius Kristensen <kasper@medusajs.com> & Victor Gerbrands <victor@medusajs.com> (https://www.medusajs.com)",
   "description": "Next.js Starter to be used with Medusa V2",
@@ -26,8 +26,6 @@
     "prebuild": "npm run clean"
   },
   "dependencies": {
-    "@builder.io/react": "^8.2.6",
-    "@builder.io/sdk": "^6.1.2",
     "@docusaurus/types": "^3.8.1",
     "@headlessui/react": "^2.2.0",
     "@medusajs/js-sdk": "latest",
