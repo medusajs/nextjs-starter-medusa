@@ -7,5 +7,6 @@ export default {
   components: 'Components',
   guides: 'Guides',
   development: 'Development',
-  troubleshooting: 'Troubleshooting'
+  troubleshooting: 'Troubleshooting',
+  'project-archive': '🗄️ Project Archive'
 }

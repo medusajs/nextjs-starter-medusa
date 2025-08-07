@@ -1,0 +1,94 @@
+# 📦 Project Audit — v0.1
+
+> Scope: Component/layout/page structure, nomenclature consistency, and application logic/patterns. This represents the current state prepared for public release v0.1.
+
+## Component, Layout, and Page Structure
+
+- **App Router structure**
+  - `src/app/layout.tsx`: Root HTML/body wrapper with global CSS and `metadataBase`.
+  - Country segmentation via `[countryCode]` with route groups: `(main)`, `(checkout)`.
+  - **Account area** uses parallel routes: `@dashboard` and `@login`, switching by authenticated customer in `src/app/[countryCode]/(main)/account/layout.tsx`.
+  - Page-level `export const metadata` is present across major routes for SEO.
+
+- **Feature modules**
+  - Organized under `src/modules/<feature>/{components,templates}` with `index.tsx` entrypoints.
+  - Clear split between **server templates** (e.g., `@modules/store/templates/index.tsx`) and **client components** consumed within them.
+  - Skeletons and loading states centralized in `@modules/skeletons` and used via `React.Suspense` where appropriate.
+
+- **Store page**
+  - Route: `src/app/[countryCode]/(main)/store/page.tsx` → delegates to `@modules/store/templates` (server) → renders `FilteredProductsContainer` (client) in `Suspense` for crisp UX.
+  - Columnar layout fixed by removing unnecessary wrapper and rendering `FilteredProductsContainer` directly.
+
+- **Account layout**
+  - `retrieveCustomer()` on the server, conditional slot rendering (`dashboard` vs `login`) within `AccountLayout`. `Toaster` UI correctly added.
+
+## Nomenclature Consistency
+
+- **Directories**: kebab-case; **components** and **templates** directories are consistently named.
+- **Files**: component files export via `index.tsx` within folders, using PascalCase component symbols.
+- **Path aliases**: `@modules/...`, `@lib/...` used consistently.
+- **Sort types**: Minor inconsistency observed:
+  - `StoreTemplate` imports `SortOptions` from `@modules/store/components/refinement-list/sort-products-dropdown`.
+  - `store/page.tsx` imports `SortOptions` from `@modules/store/components/refinement-list/sort-products`.
+  - Action: unify both to a single source (recommend `sort-products-dropdown`) and re-export from `refinement-list/index.tsx` if needed.
+- **Client markers**: All interactive/Hook-using components correctly include `"use client"` (spot-check verified on `AccountInfo`, filtering, cart, checkout components).
+
+## Application Logic and Patterns
+
+- **Rendering model**
+  - Default to Server Components for templates/pages; move interactivity to granular Client Components with `"use client"`.
+  - `Suspense` with skeletons used for progressive rendering on product grids.
+  - Parallel routes employed in account area for authenticated vs unauthenticated experiences.
+
+- **Data flow**
+  - Server-side retrieval (e.g., `retrieveCustomer`) in layouts; client components receive finalized props for UI-only logic.
+  - `searchParams` pattern in `store/page.tsx` uses `Promise`-wrapped props and explicit await; consistent with recent Next.js guidance and keeps server boundary clear.
+
+- **State management**
+  - Local component state via hooks; no global state libraries detected. Context used for companion panel UI (client side) is appropriately client-marked.
+
+- **Error handling and UX**
+  - `not-found.tsx` present in key segments; skeleton templates exist for critical flows.
+  - `AccountInfo` handles success/error panels with `Disclosure` and `Badge`, driven by `useFormStatus()`.
+
+- **Removed integrations**
+  - Builder.io completely removed: registries, middleware hooks, API routes, env keys, and imports eliminated.
+
+## Coding Standards
+
+- **Types**: Strong TypeScript usage with explicit prop types for templates and pages.
+- **Naming**: PascalCase for components, camelCase for variables/functions, kebab-case for directories.
+- **Formatting**: Consistent styling; short, readable functions; early returns preferred.
+
+## CI/CD and Documentation
+
+- **CI/CD**
+  - Storefront: `deploy-storefront.yml` only triggers on app changes; ignores `docs/**`, `website/**`, and `*.md`.
+  - Docs: `deploy-docs.yml` creates PRs to production docs repo with secure token; quality gates before deploy.
+
+- **Documentation**
+  - Dev docs live under `docs/` (Nextra). Historical artifacts moved to `project-archive/` with an overview.
+  - Public release users won’t receive embedded docs; production docs sync via polyrepo.
+
+## Quick Wins (Action Items)
+
+- **Unify sort option import**
+  - Choose a single source for `SortOptions` (recommend `refinement-list/sort-products-dropdown`).
+  - Optionally re-export from `refinement-list/index.tsx` for a stable import path.
+
+- **Add a short ARCHITECTURE.md (dev)**
+  - One-page overview in `docs/pages/development/architecture.mdx`: App Router map, server vs client boundaries, data flow conventions.
+
+- **Add lint rule for client markers (optional)**
+  - Consider an ESLint custom rule or checklist to ensure `"use client"` on any file importing React client hooks.
+
+## Release Readiness — v0.1
+
+- ✅ Clean separation of server and client components
+- ✅ Parallel routes correctly implemented for account
+- ✅ Store template renders columnar view with proper skeleton states
+- ✅ Consistent directory and file naming
+- ✅ CI/CD isolated and secure; docs PR flow enabled
+- ✅ Legacy integrations removed; docs migrated to Nextra dev-only
+
+Overall: **Ready for public v0.1**. Follow-up improvements are minor and non-blocking.

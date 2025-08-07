@@ -1,0 +1,78 @@
+# 🏛️ Architecture Overview
+
+This document summarizes the architecture used in the MySupplyCo Enhanced Medusa Next.js Starter.
+
+## App Router Topology
+
+```
+src/app
+├── layout.tsx                      # Root layout (HTML/body), metadataBase
+├── [countryCode]/
+│   ├── (main)/
+│   │   ├── layout.tsx              # Main site segment layout
+│   │   ├── page.tsx                # Home
+│   │   ├── store/page.tsx          # Store index → modules/store/templates
+│   │   └── account/
+│   │       ├── layout.tsx          # Parallel routes orchestrator
+│   │       ├── @dashboard/...      # Authenticated
+│   │       └── @login/...          # Unauthenticated
+│   └── (checkout)/
+│       ├── layout.tsx
+│       └── checkout/page.tsx
+└── not-found.tsx
+```
+
+## Server vs Client Boundaries
+
+- Default to Server Components for pages/templates/layouts
+- Client Components only where interactivity or browser APIs are required
+- Explicit `"use client"` on any file using React client hooks or contexts
+
+### Common patterns
+- Server templates (e.g., `@modules/store/templates/index.tsx`) assemble data and render small client components
+- Client components live under `src/modules/**/components/**` and are imported into server templates
+- Use `React.Suspense` with skeletons for progressive rendering of product grids and other async UI
+
+## Data Flow
+
+- Server-side data fetching in layouts/pages (e.g., `retrieveCustomer()` in account layout)
+- `searchParams` in pages are awaited (Next.js 14.2+ pattern) and normalized before passing to templates/components
+- Client components receive final, serializable props; avoid passing server functions
+
+## Routing Features
+
+- Country segmentation via `[countryCode]` param
+- Route groups `(main)` and `(checkout)` for clear separation of concerns
+- Parallel routes in account area (`@dashboard` and `@login`) chosen at layout level based on auth state
+
+## UI Composition
+
+- `@modules` directory groups features: `store`, `products`, `layout`, `account`, etc.
+- Each feature uses `components/` (client) and `templates/` (usually server) with `index.tsx` entrypoints
+- Skeletons centralized under `@modules/skeletons` and reused across pages
+
+## Error and Empty States
+
+- `not-found.tsx` at segment boundaries
+- Skeleton templates for loading (e.g., `SkeletonProductGrid`)
+- In-form status via `useFormStatus()` and UI feedback components (`Badge`, `Disclosure`)
+
+## CI/CD and Docs
+
+- Storefront CI ignores docs; deploys on application changes only
+- Docs CI performs PR-based sync to a separate documentation repo (polyrepo)
+- Dev docs live in `docs/` (Nextra); historical context in `project-archive/`
+
+## Conventions Checklist
+
+- PascalCase for components; kebab-case for directories; camelCase for vars
+- Use path aliases `@modules/...`, `@lib/...`
+- Keep client code minimal and explicit; prefer server rendering
+- Add `Suspense` + skeletons for noticeable async UI
+- Keep feature boundaries inside `src/modules/<feature>`
+
+## Suggested Next Steps
+
+- Unify `SortOptions` import to a single module and optionally re-export from `refinement-list/index.tsx`
+- Consider an ESLint rule/checklist for missing `"use client"` where required
+- Add per-feature README docs under each `src/modules/<feature>` when complexity grows
