@@ -6,6 +6,8 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import CartButton from "@modules/layout/components/cart-button"
 import SideMenu from "@modules/layout/components/side-menu"
 import ConfigurableCompanionTriggers from "@modules/layout/components/configurable-companion-triggers"
+import LeftCompanionPanel from "@modules/layout/components/left-companion-panel"
+import { LeftPanelSectionMenu } from "@modules/layout/components/left-companion-panel/sections"
 
 export default async function Nav() {
   const regions = await listRegions().then((regions: StoreRegion[]) => regions)
@@ -17,6 +19,9 @@ export default async function Nav() {
           <div className="flex-1 basis-0 h-full flex items-center">
             <div className="h-full">
               <SideMenu regions={regions} />
+              <LeftCompanionPanel>
+                <LeftPanelSectionMenu regions={regions} />
+              </LeftCompanionPanel>
             </div>
           </div>
 
