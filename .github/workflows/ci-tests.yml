@@ -1,0 +1,33 @@
+name: CI Tests
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  tests:
+    name: Run unit and component tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          if ! npm ci; then
+            echo "npm ci failed, trying npm install instead"
+            rm -rf node_modules package-lock.json
+            npm install
+          fi
+
+      - name: Run tests
+        run: npm test -- --ci --coverage --watchAll=false --passWithNoTests
+
+
