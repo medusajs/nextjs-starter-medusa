@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { panelSlidePreset, backdropFadePreset } from "@lib/motion"
 import { useCompanionPanel } from "@lib/context/companion-panel-context"
 import { usePanelResize } from "@lib/hooks/use-panel-resize"
+import ResizeHandle from "@modules/common/components/resize-handle"
 import { HttpTypes } from "@medusajs/types"
 import CartPanelContent from "../cart-panel-content"
 import HelpPanelContent from "../help-panel-content"
@@ -123,18 +124,7 @@ const ResizableCompanionPanel: React.FC<ResizableCompanionPanelProps> = ({ cart 
           >
             {/* Resize Handle - Only on desktop */}
             {!isMobile && (
-              <div
-                ref={resizerRef}
-                className={`
-                  absolute left-0 top-0 bottom-0 w-1 cursor-col-resize 
-                  hover:bg-blue-400 active:bg-blue-500 transition-colors
-                  ${isResizing ? 'bg-blue-500' : 'bg-transparent hover:bg-blue-200'}
-                `}
-                onMouseDown={handleMouseDown}
-                title="Drag to resize panel"
-              >
-                <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-1 h-8 bg-gray-300 rounded-r opacity-50 hover:opacity-100 transition-opacity" />
-              </div>
+              <ResizeHandle side="left" isResizing={isResizing} ref={resizerRef as React.RefObject<HTMLDivElement>} onMouseDown={handleMouseDown} />
             )}
 
             <div className="companion-panel__container">
