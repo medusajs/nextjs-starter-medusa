@@ -9,6 +9,7 @@ import Footer from "@modules/layout/templates/footer"
 import Nav from "@modules/layout/templates/nav"
 import FreeShippingPriceNudge from "@modules/shipping/components/free-shipping-price-nudge"
 import { CompanionPanelProvider } from "@lib/context/companion-panel-context"
+import { LeftPanelProvider } from "@lib/context/left-panel-context"
 import UnifiedLayoutWrapper from "@modules/layout/components/unified-layout-wrapper"
 import ResizableCompanionPanel from "@modules/layout/components/resizable-companion-panel"
 
@@ -28,28 +29,30 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
   }
 
   return (
-    <CompanionPanelProvider>
-      <Nav />
-      {customer && cart && (
-        <CartMismatchBanner customer={customer} cart={cart} />
-      )}
+    <LeftPanelProvider>
+      <CompanionPanelProvider>
+        <Nav />
+        {customer && cart && (
+          <CartMismatchBanner customer={customer} cart={cart} />
+        )}
 
-      {cart && (
-        <FreeShippingPriceNudge
-          variant="popup"
-          cart={cart}
-          shippingOptions={shippingOptions}
-        />
-      )}
-      
-      <UnifiedLayoutWrapper 
-        footer={<Footer />}
-        className="debug-content-size"
-      >
-        {props.children}
-      </UnifiedLayoutWrapper>
-      
-      <ResizableCompanionPanel cart={cart} />
-    </CompanionPanelProvider>
+        {cart && (
+          <FreeShippingPriceNudge
+            variant="popup"
+            cart={cart}
+            shippingOptions={shippingOptions}
+          />
+        )}
+        
+        <UnifiedLayoutWrapper 
+          footer={<Footer />}
+          className="debug-content-size"
+        >
+          {props.children}
+        </UnifiedLayoutWrapper>
+        
+        <ResizableCompanionPanel cart={cart} />
+      </CompanionPanelProvider>
+    </LeftPanelProvider>
   )
 }
