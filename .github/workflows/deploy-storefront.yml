@@ -43,17 +43,3 @@ jobs:
         
       - name: Run tests
         run: npm test -- --ci --coverage --watchAll=false --passWithNoTests
-          
-      - name: Skip Vercel deploy (secrets missing)
-        if: ${{ !(secrets.VERCEL_TOKEN != '' && secrets.VERCEL_ORG_ID != '' && secrets.VERCEL_PROJECT_ID != '') }}
-        run: echo "Skipping Vercel deploy: VERCEL_* secrets not configured. Deployment likely handled by Vercel GitHub App."
-
-      - name: Deploy to Vercel
-        if: ${{ secrets.VERCEL_TOKEN != '' && secrets.VERCEL_ORG_ID != '' && secrets.VERCEL_PROJECT_ID != '' }}
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod'
-          working-directory: ./
