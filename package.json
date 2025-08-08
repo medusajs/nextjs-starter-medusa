@@ -37,6 +37,7 @@
     "@stripe/stripe-js": "^1.29.0",
     "lodash": "^4.17.21",
     "lucide-react": "^0.536.0",
+    "framer-motion": "^11",
     "next": "^15.4.5",
     "pg": "^8.11.3",
     "qs": "^6.12.1",
