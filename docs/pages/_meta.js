@@ -8,5 +8,5 @@ export default {
   guides: 'Guides',
   development: 'Development',
   troubleshooting: 'Troubleshooting',
-  'project-archive': '🗄️ Project Archive'
+  'project-archive': 'Project Archive'
 }

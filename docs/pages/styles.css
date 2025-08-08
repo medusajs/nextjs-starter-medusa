@@ -1,0 +1,49 @@
+/* Typography tweaks */
+:root {
+  --heading-font-weight: 650;
+}
+
+main :where(h1, h2, h3) {
+  letter-spacing: -0.01em;
+}
+
+/* Code blocks */
+pre code {
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+pre {
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+.dark pre {
+  border-color: rgba(255,255,255,0.08);
+}
+
+/* Inline code */
+:where(p, li) code:not(pre code) {
+  background: rgba(127, 127, 127, 0.08);
+  padding: 0.15rem 0.35rem;
+  border-radius: 6px;
+}
+.dark :where(p, li) code:not(pre code) {
+  background: rgba(255,255,255,0.08);
+}
+
+/* Table of contents as floating rail */
+.nx-toc {
+  position: sticky;
+  top: 5.5rem;
+}
+
+/* Tighten content width for readability */
+.nextra-content {
+  max-width: 860px;
+}
+
+/* Navbar theme switch positioning is by theme; ensure spacing */
+.nextra-nav-container [data-theme-switch] {
+  margin-left: 0.5rem;
+}
