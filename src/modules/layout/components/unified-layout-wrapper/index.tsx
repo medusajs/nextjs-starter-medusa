@@ -3,6 +3,7 @@
 import React from 'react'
 import { MotionDurations, MotionEasings } from '@lib/motion'
 import { useCompanionPanel } from "@lib/context/companion-panel-context"
+import { useLeftPanel } from "@lib/context/left-panel-context"
 import { useContentMediaQuery } from '@lib/hooks/use-content-media-query'
 
 interface UnifiedLayoutWrapperProps {
@@ -21,6 +22,7 @@ const UnifiedLayoutWrapper: React.FC<UnifiedLayoutWrapperProps> = ({
   className = '' 
 }) => {
   const { isOpen, isMobile, panelWidth } = useCompanionPanel()
+  const left = useLeftPanel()
   const { 
     currentSize, 
     semanticSize, 
@@ -88,10 +90,15 @@ const UnifiedLayoutWrapper: React.FC<UnifiedLayoutWrapperProps> = ({
         '--content-width': `${contentWidth}px`,
         '--panel-width': `${panelWidth}px`,
         marginRight: isOpen ? `${panelWidth}px` : '0px',
+        marginLeft: left.isOpen && !left.isMobile ? `${left.width}px` : '0px',
         transition: `margin-right ${
           (isOpen ? MotionDurations.enter.base : MotionDurations.exit.fast) * 1000
         }ms ${
           isOpen ? `cubic-bezier(${MotionEasings.enter.standard.join(',')})` : `cubic-bezier(${MotionEasings.exit.standard.join(',')})`
+        }, margin-left ${
+          ((left.isOpen && !left.isMobile) ? MotionDurations.enter.base : MotionDurations.exit.fast) * 1000
+        }ms ${
+          left.isOpen && !left.isMobile ? `cubic-bezier(${MotionEasings.enter.standard.join(',')})` : `cubic-bezier(${MotionEasings.exit.standard.join(',')})`
         }`
       } as React.CSSProperties}
     >
