@@ -1,6 +1,7 @@
 "use client"
 
 import React from 'react'
+import { MotionDurations, MotionEasings } from '@lib/motion'
 import { useCompanionPanel } from "@lib/context/companion-panel-context"
 import { useContentMediaQuery } from '@lib/hooks/use-content-media-query'
 
@@ -78,7 +79,7 @@ const UnifiedLayoutWrapper: React.FC<UnifiedLayoutWrapperProps> = ({
   return (
     <div
       ref={containerRef as React.RefObject<HTMLDivElement>}
-      className={`min-h-screen flex flex-col transition-all duration-300 ease-in-out ${className}`}
+      className={`min-h-screen flex flex-col ${className}`}
       data-media-query={currentSize}
       data-semantic-size={semanticSize}
       data-panel-open={isOpen}
@@ -86,7 +87,12 @@ const UnifiedLayoutWrapper: React.FC<UnifiedLayoutWrapperProps> = ({
       style={{
         '--content-width': `${contentWidth}px`,
         '--panel-width': `${panelWidth}px`,
-        marginRight: isOpen ? `${panelWidth}px` : '0px'
+        marginRight: isOpen ? `${panelWidth}px` : '0px',
+        transition: `margin-right ${
+          (isOpen ? MotionDurations.enter.base : MotionDurations.exit.fast) * 1000
+        }ms ${
+          isOpen ? `cubic-bezier(${MotionEasings.enter.standard.join(',')})` : `cubic-bezier(${MotionEasings.exit.standard.join(',')})`
+        }`
       } as React.CSSProperties}
     >
       {/* Main content area */}

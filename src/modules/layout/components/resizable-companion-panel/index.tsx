@@ -1,6 +1,8 @@
 "use client"
 
 import React from "react"
+import { AnimatePresence, motion } from "framer-motion"
+import { panelSlidePreset, backdropFadePreset } from "@lib/motion"
 import { useCompanionPanel } from "@lib/context/companion-panel-context"
 import { usePanelResize } from "@lib/hooks/use-panel-resize"
 import { HttpTypes } from "@medusajs/types"
@@ -16,12 +18,57 @@ const PanelComponents = {
   'filter': FilterPanelContent,
 }
 
+// Framer Motion handles enter/exit presence; no deferred class needed
+
 interface ResizableCompanionPanelProps {
   cart?: HttpTypes.StoreCart | null
 }
 
 const ResizableCompanionPanel: React.FC<ResizableCompanionPanelProps> = ({ cart }) => {
   const { isOpen, currentPanel, closePanel, isMobile, setPanelWidth } = useCompanionPanel()
+  // Anim state machine
+  const EXIT_DURATION_MS = 200
+  const ENTER_DURATION_MS = 300
+  type PanelAnimState = 'closed' | 'opening' | 'open' | 'closing'
+  const [animState, setAnimState] = React.useState<PanelAnimState>('closed')
+  const timerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Keep the last non-null panel so we can render during exit
+  const lastPanelRef = React.useRef<typeof currentPanel>(null)
+  React.useEffect(() => {
+    if (currentPanel) {
+      lastPanelRef.current = currentPanel
+    }
+  }, [currentPanel])
+
+  // Drive local animation state machine based on provider's isOpen
+  React.useEffect(() => {
+    if (isOpen) {
+      if (animState === 'closed' || animState === 'closing') {
+        setAnimState('opening')
+        if (timerRef.current) clearTimeout(timerRef.current)
+        timerRef.current = setTimeout(() => {
+          setAnimState('open')
+          timerRef.current = null
+        }, ENTER_DURATION_MS)
+      }
+    } else {
+      if (animState === 'opening' || animState === 'open') {
+        setAnimState('closing')
+        if (timerRef.current) clearTimeout(timerRef.current)
+        timerRef.current = setTimeout(() => {
+          setAnimState('closed')
+          timerRef.current = null
+        }, EXIT_DURATION_MS)
+      }
+    }
+  }, [isOpen, animState])
+
+  React.useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current)
+    }
+  }, [])
   
   const {
     width,
@@ -44,74 +91,59 @@ const ResizableCompanionPanel: React.FC<ResizableCompanionPanelProps> = ({ cart 
     }
   }, [width, isMobile, isOpen, setPanelWidth])
 
-  if (!isOpen || !currentPanel) {
-    return null
-  }
+  // Ref for panel node (for potential future needs)
+  const panelNodeRef = React.useRef<HTMLDivElement | null>(null)
 
-  const PanelComponent = PanelComponents[currentPanel.type]
-  
-  if (!PanelComponent) {
-    return (
-      <div 
-        className="companion-panel companion-panel--open"
-        style={{ width: isMobile ? undefined : width }}
-      >
-        <div className="companion-panel__container">
-          <div className="p-4 text-center text-gray-500">
-            Panel type "{currentPanel.type}" not implemented
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  const panelProps = {
-    data: currentPanel.data,
-    ...(currentPanel.type === 'cart' && { cart }),
-  }
+  // Render while not fully closed
+  const PanelComponent = currentPanel ? PanelComponents[currentPanel.type] : undefined
+  const panelProps = currentPanel?.type === 'cart'
+    ? { data: currentPanel?.data, cart }
+    : { data: currentPanel?.data }
 
   return (
-    <>
-      {/* Mobile Backdrop */}
-      <div 
-        className="companion-backdrop companion-backdrop--open"
-        onClick={closePanel}
-      />
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            className="companion-backdrop"
+            {...backdropFadePreset()}
+            onClick={closePanel}
+          />
 
-      {/* Resizable Companion Panel */}
-      <div 
-        className={`
-          companion-panel companion-panel--open
-          ${isResizing ? 'select-none' : ''}
-        `}
-        style={{ 
-          '--panel-width': isMobile ? undefined : `${width}px`,
-          width: isMobile ? undefined : `${width}px`,
-          transition: isResizing ? 'none' : 'transform 300ms ease-in-out'
-        } as React.CSSProperties}
-      >
-        {/* Resize Handle - Only on desktop */}
-        {!isMobile && (
-          <div
-            ref={resizerRef}
-            className={`
-              absolute left-0 top-0 bottom-0 w-1 cursor-col-resize 
-              hover:bg-blue-400 active:bg-blue-500 transition-colors
-              ${isResizing ? 'bg-blue-500' : 'bg-transparent hover:bg-blue-200'}
-            `}
-            onMouseDown={handleMouseDown}
-            title="Drag to resize panel"
+          {/* Panel */}
+          <motion.aside
+            className={`companion-panel companion-panel--open ${isResizing ? 'select-none' : ''}`}
+            style={{
+              '--panel-width': isMobile ? undefined : `${width}px`,
+              width: isMobile ? undefined : `${width}px`,
+            } as React.CSSProperties}
+            {...panelSlidePreset('right')}
+            ref={panelNodeRef as React.RefObject<HTMLDivElement>}
           >
-            {/* Visual indicator */}
-            <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-1 h-8 bg-gray-300 rounded-r opacity-50 hover:opacity-100 transition-opacity" />
-          </div>
-        )}
+            {/* Resize Handle - Only on desktop */}
+            {!isMobile && (
+              <div
+                ref={resizerRef}
+                className={`
+                  absolute left-0 top-0 bottom-0 w-1 cursor-col-resize 
+                  hover:bg-blue-400 active:bg-blue-500 transition-colors
+                  ${isResizing ? 'bg-blue-500' : 'bg-transparent hover:bg-blue-200'}
+                `}
+                onMouseDown={handleMouseDown}
+                title="Drag to resize panel"
+              >
+                <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-1 h-8 bg-gray-300 rounded-r opacity-50 hover:opacity-100 transition-opacity" />
+              </div>
+            )}
 
-        <div className="companion-panel__container">
-          <PanelComponent {...panelProps} />
-        </div>
-      </div>
-    </>
+            <div className="companion-panel__container">
+              {PanelComponent && <PanelComponent {...panelProps} />}
+            </div>
+          </motion.aside>
+        </>
+      )}
+    </AnimatePresence>
   )
 }
 
