@@ -13,10 +13,13 @@
 /* Companion backdrop - Only visible on mobile as overlay */
 .companion-backdrop {
   position: fixed;
-  inset: 0;
-  background-color: rgba(17, 24, 39, 0.5); /* gray-900 with opacity */
+  top: var(--header-height, 4rem); /* do not cover sticky header */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(17, 24, 39, 0.05); /* gray-900 with opacity */
   backdrop-filter: blur(12px);
-  z-index: 75;
+  z-index: 40; /* Keep below header (z-50) so header stays above backdrop on mobile */
   opacity: 0;
   visibility: hidden;
   transition: opacity 220ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear; /* enter */
@@ -37,14 +40,15 @@
 /* Companion panel - Unified container (mobile-first approach) */
 .companion-panel {
   position: fixed;
-  top: 0;
+  top: var(--header-height, 4rem); /* offset below sticky header (h-16) */
   right: 0;
-  height: 100vh;
+  height: calc(100vh - var(--header-height, 4rem));
   width: 100vw;
   max-width: 400px; /* Default for mobile */
   background-color: white;
-  box-shadow: -10px 0 25px -3px rgba(0, 0, 0, 0.1), -4px 0 10px -2px rgba(0, 0, 0, 0.05);
-  z-index: 76;
+  box-shadow: none; /* no shadows on panels */
+  border-left: 1px solid #e5e7eb; /* ensure visible left edge on all viewports */
+  z-index: 60; /* Above header (z-50) so panel appears over header */
   transform: translateX(100%);
   transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1); /* enter */
   pointer-events: none;
@@ -78,11 +82,12 @@
 /* Desktop adjustments */
 @media (min-width: 768px) {
   .companion-panel {
-    top: 4rem; /* Account for navigation */
-    height: calc(100vh - 4rem);
+    top: var(--header-height, 4rem); /* Account for navigation */
+    height: calc(100vh - var(--header-height, 4rem));
     width: 384px; /* Default width */
     max-width: none; /* Remove mobile constraint */
-    box-shadow: -1px 0 0 0 rgba(229, 231, 235, 1); /* border-l border-gray-200 */
+    /* Use solid border instead of shadow to avoid alpha stacking */
+    border-left: 1px solid #e5e7eb !important; /* gray-200 */
   }
   
   /* High specificity rule to ensure inline styles work */
@@ -120,10 +125,10 @@
 [data-media-query="md"] .companion-panel,
 [data-media-query="lg"] .companion-panel,
 [data-media-query="xl"] .companion-panel {
-  top: 4rem;
-  height: calc(100vh - 4rem);
+  top: var(--header-height, 4rem);
+  height: calc(100vh - var(--header-height, 4rem));
   width: 384px; /* Default width */
-  box-shadow: -1px 0 0 0 rgba(229, 231, 235, 1);
+  border-left: 1px solid #e5e7eb !important; /* solid border instead of shadow */
 }
 
 /* High specificity for content-area responsive */
@@ -155,10 +160,10 @@
 /* Semantic size adjustments */
 [data-semantic-size="tablet"] .companion-panel,
 [data-semantic-size="desktop"] .companion-panel {
-  top: 4rem;
-  height: calc(100vh - 4rem);
+  top: var(--header-height, 4rem);
+  height: calc(100vh - var(--header-height, 4rem));
   width: 384px; /* Default width */
-  box-shadow: -1px 0 0 0 rgba(229, 231, 235, 1);
+  border-left: 1px solid #e5e7eb !important; /* solid border instead of shadow */
 }
 
 /* High specificity for semantic size responsive */
@@ -459,5 +464,10 @@
   border-radius: 1rem 0 0 1rem;
   margin: 1rem 1rem 1rem 0;
   max-height: calc(100vh - 2rem);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  box-shadow: none; /* no shadows on panels */
+}
+
+/* Hard override: ensure no box-shadows inside panels */
+.companion-panel, .companion-panel * {
+  box-shadow: none !important;
 }

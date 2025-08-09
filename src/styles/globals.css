@@ -15,6 +15,9 @@
 @import "tailwindcss/utilities";
 
 @layer base {
+    :root {
+        --header-height: 4rem; /* keep panels/backdrops aligned with sticky header */
+    }
     /* Prevent layout shift from scrollbar appearance/disappearance */
     html {
         scrollbar-gutter: stable; /* Modern solution - reserves space for scrollbar */
