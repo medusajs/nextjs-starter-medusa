@@ -1,6 +1,7 @@
 "use client"
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react"
+import { useLeftPanel } from "./left-panel-context"
 import { getSyncManager } from "../sync/ticket-sync-manager"
 import { isFeatureEnabled } from "../config/companion-config"
 
@@ -203,6 +204,7 @@ export const CompanionPanelProvider: React.FC<CompanionPanelProviderProps> = ({ 
   const [panelHistory, setPanelHistory] = useState<PanelState[]>([])
   const [isMobile, setIsMobile] = useState(false)
   const [panelWidth, setPanelWidth] = useState(400) // Default panel width
+  const leftPanel = useLeftPanel()
 
   // Chat System State
   const [chatSystem, setChatSystem] = useState<ChatSystemState>(() => {
@@ -969,24 +971,40 @@ export const CompanionPanelProvider: React.FC<CompanionPanelProviderProps> = ({ 
       title,
     }
 
-    // If opening the same panel type, just update data but don't add to history
+    // If opening the same panel type, update data and do not push to history
     if (currentPanel?.type === type) {
       setCurrentPanel(newPanel)
       return
     }
 
+    // Compression algorithm:
+    // Given prev history [A, B, C, D] and opening type = C,
+    // filter out existing C then push currentPanel → [A, B, D, C]
     setPanelHistory(prev => {
-      // If there's a current panel, add it to history (max 10 items)
-      if (currentPanel) {
-        const newHistory = [...prev, currentPanel]
-        return newHistory.slice(-10) // Keep last 10 items
-      }
-      return prev
+      if (!currentPanel) return prev
+      const filtered = prev.filter(h => h.type !== type)
+      const next = [...filtered, currentPanel]
+      return next.slice(-10)
     })
+
+    // Enforce single-overlay model on mobile: close left panel if open
+    // Enforce single-overlay model on mobile: close left panel if open
+    if (isMobile && leftPanel?.isOpen) {
+      leftPanel.close()
+    }
+
+    // If another right panel is already open on mobile, replace it without stacking
+    // We already handle "same type" above; here we just ensure we don't accumulate history unnecessarily
+    if (isMobile && isOpen && currentPanel && currentPanel.type !== type) {
+      // Replace current without pushing to history to avoid multi-overlay feel
+      setCurrentPanel(newPanel)
+      setIsOpen(true)
+      return
+    }
 
     setCurrentPanel(newPanel)
     setIsOpen(true)
-  }, [currentPanel])
+  }, [currentPanel, isMobile, leftPanel, isOpen])
 
   // Close panel completely
   const closePanel = useCallback(() => {
@@ -1001,12 +1019,9 @@ export const CompanionPanelProvider: React.FC<CompanionPanelProviderProps> = ({ 
       closePanel()
       return
     }
-
     const previousPanel = panelHistory[panelHistory.length - 1]
-    const newHistory = panelHistory.slice(0, -1)
-
     setCurrentPanel(previousPanel)
-    setPanelHistory(newHistory)
+    setPanelHistory(panelHistory.slice(0, -1))
   }, [panelHistory, closePanel])
 
   // Clear history but keep current panel
