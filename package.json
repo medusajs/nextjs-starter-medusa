@@ -25,7 +25,6 @@
     "prebuild": "npm run clean"
   },
   "dependencies": {
-    "@docusaurus/types": "^3.8.1",
     "@headlessui/react": "^2.2.0",
     "@medusajs/js-sdk": "latest",
     "@medusajs/ui": "latest",
