@@ -46,7 +46,7 @@ function ExampleModal({ open, onClose }) {
           <motion.div className="fixed inset-0" {...backdropFadePreset()} onClick={onClose} />
           <div className="fixed inset-0 flex items-center justify-center p-4">
             <motion.div {...modalScaleFadePreset()}>
-              <div className="bg-white rounded-lg shadow-xl p-6 max-w-xl w-full">
+            <div className="bg-white rounded-lg p-6 max-w-xl w-full">
                 ...
               </div>
             </motion.div>
@@ -70,7 +70,7 @@ function ExamplePopover() {
       <button onClick={() => setOpen((s) => !s)}>Toggle</button>
       <AnimatePresence>
         {open && (
-          <motion.div className="absolute left-0 mt-2 w-56 rounded-md border bg-white shadow-lg" {...popoverSlidePreset('down')}>
+        <motion.div className="absolute left-0 mt-2 w-56 rounded-md border bg-white" {...popoverSlidePreset('down')}>
             ...
           </motion.div>
         )}
@@ -112,7 +112,7 @@ function ExamplePopover() {
               />
               {/* Panel */}
               <motion.aside
-                className="fixed top-16 right-0 h-[calc(100vh-4rem)] w-[380px] bg-white shadow-xl border-l border-gray-200 z-[81] rounded-l-2xl"
+              className="fixed top-16 right-0 h-[calc(100vh-4rem)] w-[380px] bg-white border-l border-gray-200 z-[81] rounded-l-2xl"
                 {...panelSlidePreset('right')}
               >
                 <div className="p-4 flex items-center justify-between border-b border-gray-200">
@@ -154,7 +154,7 @@ function ExamplePopover() {
               />
               <div className="fixed inset-0 z-[81] flex items-center justify-center p-4">
                 <motion.div {...modalScaleFadePreset()}>
-                  <div className="bg-white rounded-lg shadow-xl border max-w-xl w-full p-6">
+                <div className="bg-white rounded-lg border max-w-xl w-full p-6">
                     <div className="flex items-center justify-between mb-3">
                       <h3 className="text-base font-medium">Demo Modal</h3>
                       <button className="text-gray-500 hover:text-gray-800" onClick={() => setShowModal(false)}>Close</button>
@@ -186,7 +186,7 @@ function ExamplePopover() {
           <AnimatePresence>
             {showPopover && (
               <motion.div
-                className="absolute left-0 mt-2 z-[82] w-56 rounded-md border bg-white shadow-lg"
+              className="absolute left-0 mt-2 z-[82] w-56 rounded-md border bg-white"
                 {...popoverSlidePreset('down')}
               >
                 <div className="p-3 text-sm text-gray-700">
