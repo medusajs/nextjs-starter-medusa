@@ -57,7 +57,7 @@ const SortProductsDropdown = ({
 
         <DropdownMenu.Portal>
           <DropdownMenu.Content
-            className="w-[200px] bg-white rounded-md shadow-lg border border-gray-200 py-1 z-50"
+            className="w-[200px] bg-white rounded-md border border-gray-200 py-1 z-50"
             sideOffset={4}
             align="start"
           >

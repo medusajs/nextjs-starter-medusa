@@ -8,7 +8,7 @@ const PanelDemoButtons: React.FC = () => {
   const { openPanel, currentPanel, canGoBack, goBack, historyCount, closePanel } = useCompanionPanel()
 
   return (
-    <div className="fixed bottom-4 left-4 bg-white p-4 rounded-lg shadow-lg border border-gray-200 z-50">
+  <div className="fixed bottom-4 left-4 bg-white p-4 rounded-lg border border-gray-200 z-50">
       <h3 className="text-sm font-medium mb-3">🤖 AI Commerce Demo</h3>
       
       {/* Panel Buttons */}

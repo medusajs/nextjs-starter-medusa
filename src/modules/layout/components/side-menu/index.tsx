@@ -11,6 +11,7 @@ import CountrySelect from "../country-select"
 import { HttpTypes } from "@medusajs/types"
 import { backdropFadePreset, panelSlidePreset, MotionDurations } from "@lib/motion"
 import { useLeftPanel } from "@lib/context/left-panel-context"
+import { useCompanionPanel } from "@lib/context/companion-panel-context"
 
 const SideMenuItems = {
   Home: "/",
@@ -24,6 +25,7 @@ const SideMenuItems = {
 const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
   const toggleState = useToggleState()
   const { isOpen, toggle } = useLeftPanel()
+  const { isOpen: rightOpen, closePanel, isMobile } = useCompanionPanel()
 
   const rootItems: Array<{ label: string; href?: string; action?: () => void }> = [
     { label: 'Home', href: '/' },
@@ -49,7 +51,16 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
         <button
           data-testid="nav-menu-button"
           className="relative h-full flex items-center transition-all ease-out duration-200 focus:outline-none hover:text-ui-fg-base"
-          onClick={toggle}
+          onClick={() => {
+            // Symmetric single-overlay model on mobile: close right if open, then toggle left
+            if (isMobile && rightOpen) {
+              closePanel()
+              // allow the close animation to begin before toggling left
+              setTimeout(() => toggle(), 0)
+            } else {
+              toggle()
+            }
+          }}
           aria-expanded={isOpen}
           aria-controls="left-companion-panel"
         >

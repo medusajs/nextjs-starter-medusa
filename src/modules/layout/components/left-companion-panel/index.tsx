@@ -37,17 +37,19 @@ export default function LeftCompanionPanel({ children }: { children: React.React
     setIsResizing(true)
   }, [onMouseMove, onMouseUp, width])
 
+  // Body scroll locking handled centrally in UnifiedLayoutWrapper
+
   return (
     <AnimatePresence>
       {isOpen && (
         <>
           {/* Backdrop on mobile only */}
           {isMobile && (
-            <motion.div className="fixed inset-0 z-[65]" {...backdropFadePreset()} onClick={close} />
+            <motion.div className="fixed left-0 right-0 bottom-0 top-16 z-[40] companion-backdrop companion-backdrop--open" {...backdropFadePreset()} onClick={close} />
           )}
           <motion.aside
             id="left-companion-panel"
-            className="fixed top-16 left-0 h-[calc(100vh-4rem)] bg-white border-r border-gray-200 z-[66] overflow-hidden"
+            className={`fixed top-[var(--header-height,4rem)] left-0 h-[calc(100vh-var(--header-height,4rem))] bg-white z-[80] overflow-hidden left-panel ${isMobile ? 'left-panel--mobile' : 'border-r border-gray-200'}`}
             style={{ width: isMobile ? '85vw' : width }}
             initial={{ x: '-100%' }}
             animate={{ x: 0, transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] } }}
@@ -58,7 +60,7 @@ export default function LeftCompanionPanel({ children }: { children: React.React
             {!isMobile && (
               <ResizeHandle side="right" isResizing={isResizing} onMouseDown={onMouseDown} />
             )}
-            <div className="h-full flex flex-col">
+            <div className="h-full flex flex-col border-r border-gray-200">
               {children}
             </div>
           </motion.aside>

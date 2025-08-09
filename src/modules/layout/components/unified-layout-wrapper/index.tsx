@@ -51,6 +51,18 @@ const UnifiedLayoutWrapper: React.FC<UnifiedLayoutWrapperProps> = ({
   }, [currentSize, semanticSize, isOpen, isMobile, contentWidth, isAtLeast, panelWidth])
 
   // On mobile, render normally (panels show as overlay)
+  // Also lock body scroll when any panel is open
+  React.useEffect(() => {
+    if (!isMobile) return
+    const anyPanelOpen = isOpen || left.isOpen
+    if (anyPanelOpen) {
+      const original = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
+      return () => {
+        document.body.style.overflow = original
+      }
+    }
+  }, [isMobile, isOpen, left.isOpen])
   if (isMobile) {
     return (
       <div 
@@ -65,7 +77,7 @@ const UnifiedLayoutWrapper: React.FC<UnifiedLayoutWrapperProps> = ({
         } as React.CSSProperties}
       >
         {/* Main content area */}
-        <main className="flex-1">
+        <main className="flex-1 pt-16">
           {children}
         </main>
         

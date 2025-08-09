@@ -257,7 +257,7 @@ const CartDrawerPanel = ({
                                     leaveTo="translate-x-full"
                                 >
                                     <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-                                        <div className="flex h-full flex-col bg-white shadow-xl rounded-l-2xl ml-4 mt-4 mb-4 mr-4">
+                                        <div className="flex h-full flex-col bg-white rounded-l-2xl ml-4 mt-4 mb-4 mr-4">
                                             <CartContent />
                                         </div>
                                     </Dialog.Panel>
@@ -272,7 +272,7 @@ const CartDrawerPanel = ({
 
     // Desktop: Render fixed positioned panel
     return (
-        <div className="fixed top-16 right-0 h-[calc(100vh-4rem)] w-96 lg:w-[400px] bg-white shadow-xl border-l border-gray-200 z-40 transition-transform duration-300 ease-in-out">
+        <div className="fixed top-16 right-0 h-[calc(100vh-4rem)] w-96 lg:w-[400px] bg-white border-l border-gray-200 z-40 transition-transform duration-300 ease-in-out">
             <div className="flex h-full flex-col bg-white">
                 <CartContent />
             </div>

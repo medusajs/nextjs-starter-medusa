@@ -94,6 +94,9 @@ const ResizableCompanionPanel: React.FC<ResizableCompanionPanelProps> = ({ cart 
 
   // Ref for panel node (for potential future needs)
   const panelNodeRef = React.useRef<HTMLDivElement | null>(null)
+  const focusRef = React.useRef<HTMLDivElement | null>(null)
+
+  // Body scroll locking is handled centrally in UnifiedLayoutWrapper
 
   // Render while not fully closed
   const PanelComponent = currentPanel ? PanelComponents[currentPanel.type] : undefined
@@ -107,7 +110,7 @@ const ResizableCompanionPanel: React.FC<ResizableCompanionPanelProps> = ({ cart 
         <>
           {/* Backdrop */}
           <motion.div
-            className="companion-backdrop"
+            className="companion-backdrop companion-backdrop--open"
             {...backdropFadePreset()}
             onClick={closePanel}
           />
@@ -121,13 +124,17 @@ const ResizableCompanionPanel: React.FC<ResizableCompanionPanelProps> = ({ cart 
             } as React.CSSProperties}
             {...panelSlidePreset('right')}
             ref={panelNodeRef as React.RefObject<HTMLDivElement>}
+            role={isMobile ? 'dialog' : undefined}
+            aria-modal={isMobile ? true : undefined}
+            aria-label={currentPanel?.title || currentPanel?.type || 'Panel'}
+            tabIndex={-1}
           >
             {/* Resize Handle - Only on desktop */}
             {!isMobile && (
               <ResizeHandle side="left" isResizing={isResizing} ref={resizerRef as React.RefObject<HTMLDivElement>} onMouseDown={handleMouseDown} />
             )}
 
-            <div className="companion-panel__container">
+            <div className="companion-panel__container" ref={focusRef as React.RefObject<HTMLDivElement>}>
               {PanelComponent && <PanelComponent {...panelProps} />}
             </div>
           </motion.aside>

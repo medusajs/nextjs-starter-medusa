@@ -260,7 +260,7 @@ const AIAssistantPanelContent: React.FC = () => {
                               msg.content
                             )
                           }}
-                          className="p-1 bg-white border border-gray-200 rounded-full shadow-sm hover:bg-gray-50 transition-colors"
+                          className="p-1 bg-white border border-gray-200 rounded-full hover:bg-gray-50 transition-colors"
                           title="Create ticket from this message"
                         >
                           <Plus className="w-3 h-3 text-gray-600" />

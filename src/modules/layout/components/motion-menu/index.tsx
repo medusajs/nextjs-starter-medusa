@@ -46,7 +46,7 @@ export default function MotionMenuRoot({ items }: MotionMenuRootProps) {
                 <motion.aside
                   id={`panel-menu`}
                   role="menu"
-                  className="fixed top-16 right-0 h-[calc(100vh-4rem)] w-[480px] bg-white shadow-xl border-l border-gray-200 z-[71] rounded-l-2xl"
+                 className="fixed top-16 right-0 h-[calc(100vh-4rem)] w-[480px] bg-white border-l border-gray-200 z-[60] rounded-l-2xl"
                   {...panelSlidePreset('right')}
                 >
                   <div className="p-5 border-b border-gray-200 flex items-center justify-between">
@@ -110,7 +110,7 @@ export default function MotionMenuRoot({ items }: MotionMenuRootProps) {
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                       {motionDemoItems.map((c) => (
-                        <motion.div key={c.href} variants={itemVariants} initial="initial" animate="animate" exit="exit" className="border rounded-lg p-4 hover:shadow-sm">
+                       <motion.div key={c.href} variants={itemVariants} initial="initial" animate="animate" exit="exit" className="border rounded-lg p-4">
                           <LocalizedClientLink href={c.href} className="block">
                             <div className="text-sm font-medium mb-1">{c.title}</div>
                             {c.description && <div className="text-xs text-gray-500">{c.description}</div>}
