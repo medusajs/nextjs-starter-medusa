@@ -1,11 +1,10 @@
 "use client"
 
-import { Badge, Heading, Input, Label, Text, Tooltip } from "@medusajs/ui"
-import React, { useActionState } from "react";
+import { Badge, Heading, Input, Label, Text } from "@medusajs/ui"
+import React from "react";
 
-import { applyPromotions, submitPromotionForm } from "@lib/data/cart"
+import { applyPromotions } from "@lib/data/cart"
 import { convertToLocale } from "@lib/util/money"
-import { InformationCircleSolid } from "@medusajs/icons"
 import { HttpTypes } from "@medusajs/types"
 import Trash from "@modules/common/icons/trash"
 import ErrorMessage from "../error-message"
@@ -19,8 +18,9 @@ type DiscountCodeProps = {
 
 const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
   const [isOpen, setIsOpen] = React.useState(false)
+  const [errorMessage, setErrorMessage] = React.useState("")
 
-  const { items = [], promotions = [] } = cart
+  const { promotions = [] } = cart
   const removePromotionCode = async (code: string) => {
     const validPromotions = promotions.filter(
       (promotion) => promotion.code !== code
@@ -32,6 +32,8 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
   }
 
   const addPromotionCode = async (formData: FormData) => {
+    setErrorMessage("")
+
     const code = formData.get("code")
     if (!code) {
       return
@@ -42,14 +44,16 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
       .map((p) => p.code!)
     codes.push(code.toString())
 
-    await applyPromotions(codes)
+    try {
+      await applyPromotions(codes)
+    } catch (e: any) {
+      setErrorMessage(e.message)
+    }
 
     if (input) {
       input.value = ""
     }
   }
-
-  const [message, formAction] = useActionState(submitPromotionForm, null)
 
   return (
     <div className="w-full bg-white flex flex-col">
@@ -90,7 +94,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
               </div>
 
               <ErrorMessage
-                error={message}
+                error={errorMessage}
                 data-testid="discount-error-message"
               />
             </>
