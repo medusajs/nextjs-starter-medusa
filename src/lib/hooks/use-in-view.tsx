@@ -1,7 +1,7 @@
 import { RefObject, useEffect, useState } from "react"
 
 export const useIntersection = (
-  element: RefObject<HTMLDivElement>,
+  element: RefObject<HTMLDivElement | null>,
   rootMargin: string
 ) => {
   const [isVisible, setState] = useState(false)

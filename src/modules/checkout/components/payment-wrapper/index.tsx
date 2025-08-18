@@ -1,63 +1,41 @@
 "use client"
 
-import { Cart, PaymentSession } from "@medusajs/medusa"
 import { loadStripe } from "@stripe/stripe-js"
 import React from "react"
 import StripeWrapper from "./stripe-wrapper"
-import { PayPalScriptProvider } from "@paypal/react-paypal-js"
-import { createContext } from "react"
+import { HttpTypes } from "@medusajs/types"
+import { isStripe } from "@lib/constants"
 
-type WrapperProps = {
-  cart: Omit<Cart, "refundable_amount" | "refunded_total">
+type PaymentWrapperProps = {
+  cart: HttpTypes.StoreCart
   children: React.ReactNode
 }
-
-export const StripeContext = createContext(false)
 
 const stripeKey = process.env.NEXT_PUBLIC_STRIPE_KEY
 const stripePromise = stripeKey ? loadStripe(stripeKey) : null
 
-const paypalClientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID
-
-const Wrapper: React.FC<WrapperProps> = ({ cart, children }) => {
-  const paymentSession = cart.payment_session as PaymentSession
-
-  const isStripe = paymentSession?.provider_id?.includes("stripe")
-
-  if (isStripe && paymentSession && stripePromise) {
-    return (
-      <StripeContext.Provider value={true}>
-        <StripeWrapper
-          paymentSession={paymentSession}
-          stripeKey={stripeKey}
-          stripePromise={stripePromise}
-        >
-          {children}
-        </StripeWrapper>
-      </StripeContext.Provider>
-    )
-  }
+const PaymentWrapper: React.FC<PaymentWrapperProps> = ({ cart, children }) => {
+  const paymentSession = cart.payment_collection?.payment_sessions?.find(
+    (s) => s.status === "pending"
+  )
 
   if (
-    paymentSession?.provider_id === "paypal" &&
-    paypalClientId !== undefined &&
-    cart
+    isStripe(paymentSession?.provider_id) &&
+    paymentSession &&
+    stripePromise
   ) {
     return (
-      <PayPalScriptProvider
-        options={{
-          "client-id": "test",
-          currency: cart?.region.currency_code.toUpperCase(),
-          intent: "authorize",
-          components: "buttons",
-        }}
+      <StripeWrapper
+        paymentSession={paymentSession}
+        stripeKey={stripeKey}
+        stripePromise={stripePromise}
       >
         {children}
-      </PayPalScriptProvider>
+      </StripeWrapper>
     )
   }
 
   return <div>{children}</div>
 }
 
-export default Wrapper
+export default PaymentWrapper

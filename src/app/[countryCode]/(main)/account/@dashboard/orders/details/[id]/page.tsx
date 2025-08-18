@@ -1,14 +1,14 @@
+import { retrieveOrder } from "@lib/data/orders"
+import OrderDetailsTemplate from "@modules/order/templates/order-details-template"
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
-import { retrieveOrder } from "@lib/data"
-import OrderDetailsTemplate from "@modules/order/templates/order-details-template"
-
 type Props = {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params
   const order = await retrieveOrder(params.id).catch(() => null)
 
   if (!order) {
@@ -21,7 +21,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function OrderDetailPage({ params }: Props) {
+export default async function OrderDetailPage(props: Props) {
+  const params = await props.params
   const order = await retrieveOrder(params.id).catch(() => null)
 
   if (!order) {

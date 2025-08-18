@@ -1,5 +1,3 @@
-import { Region } from "@medusajs/medusa"
-import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 import React, { Suspense } from "react"
 
 import ImageGallery from "@modules/products/components/image-gallery"
@@ -11,10 +9,11 @@ import ProductInfo from "@modules/products/templates/product-info"
 import SkeletonRelatedProducts from "@modules/skeletons/templates/skeleton-related-products"
 import { notFound } from "next/navigation"
 import ProductActionsWrapper from "./product-actions-wrapper"
+import { HttpTypes } from "@medusajs/types"
 
 type ProductTemplateProps = {
-  product: PricedProduct
-  region: Region
+  product: HttpTypes.StoreProduct
+  region: HttpTypes.StoreRegion
   countryCode: string
 }
 
@@ -29,7 +28,10 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
 
   return (
     <>
-      <div className="content-container flex flex-col small:flex-row small:items-start py-6 relative">
+      <div
+        className="content-container flex flex-col small:flex-row small:items-start py-6 relative"
+        data-testid="product-container"
+      >
         <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-6">
           <ProductInfo product={product} />
           <ProductTabs product={product} />
@@ -40,13 +42,22 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
         <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-12">
           <ProductOnboardingCta />
           <Suspense
-            fallback={<ProductActions product={product} region={region} />}
+            fallback={
+              <ProductActions
+                disabled={true}
+                product={product}
+                region={region}
+              />
+            }
           >
             <ProductActionsWrapper id={product.id} region={region} />
           </Suspense>
         </div>
       </div>
-      <div className="content-container my-16 small:my-32">
+      <div
+        className="content-container my-16 small:my-32"
+        data-testid="related-products-container"
+      >
         <Suspense fallback={<SkeletonRelatedProducts />}>
           <RelatedProducts product={product} countryCode={countryCode} />
         </Suspense>

@@ -11,6 +11,7 @@ type ModalProps = {
   size?: "small" | "medium" | "large"
   search?: boolean
   children: React.ReactNode
+  'data-testid'?: string
 }
 
 const Modal = ({
@@ -19,6 +20,7 @@ const Modal = ({
   size = "medium",
   search = false,
   children,
+  'data-testid': dataTestId
 }: ModalProps) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -55,6 +57,7 @@ const Modal = ({
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel
+                data-testid={dataTestId}
                 className={clx(
                   "flex flex-col justify-start w-full transform p-5 text-left align-middle transition-all max-h-[75vh] h-fit",
                   {
@@ -83,7 +86,7 @@ const Title: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     <Dialog.Title className="flex items-center justify-between">
       <div className="text-large-semi">{children}</div>
       <div>
-        <button onClick={close}>
+        <button onClick={close} data-testid="close-modal-button">
           <X size={20} />
         </button>
       </div>

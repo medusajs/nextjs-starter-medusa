@@ -3,19 +3,20 @@ import { notFound } from "next/navigation"
 
 import AddressBook from "@modules/account/components/address-book"
 
-import { getCustomer, getRegion } from "@lib/data"
-
-import { headers } from "next/headers"
+import { getRegion } from "@lib/data/regions"
+import { retrieveCustomer } from "@lib/data/customer"
 
 export const metadata: Metadata = {
   title: "Addresses",
   description: "View your addresses",
 }
 
-export default async function Addresses() {
-  const nextHeaders = headers()
-  const countryCode = nextHeaders.get("next-url")?.split("/")[1] || ""
-  const customer = await getCustomer()
+export default async function Addresses(props: {
+  params: Promise<{ countryCode: string }>
+}) {
+  const params = await props.params
+  const { countryCode } = params
+  const customer = await retrieveCustomer()
   const region = await getRegion(countryCode)
 
   if (!customer || !region) {
@@ -23,7 +24,7 @@ export default async function Addresses() {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full" data-testid="addresses-page-wrapper">
       <div className="mb-8 flex flex-col gap-y-4">
         <h1 className="text-2xl-semi">Shipping Addresses</h1>
         <p className="text-base-regular">

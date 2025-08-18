@@ -1,8 +1,8 @@
-import { Order } from "@medusajs/medusa"
-import { formatAmount } from "@lib/util/prices"
+import { convertToLocale } from "@lib/util/money"
+import { HttpTypes } from "@medusajs/types"
 
 type OrderSummaryProps = {
-  order: Order
+  order: HttpTypes.StoreOrder
 }
 
 const OrderSummary = ({ order }: OrderSummaryProps) => {
@@ -11,7 +11,10 @@ const OrderSummary = ({ order }: OrderSummaryProps) => {
       return
     }
 
-    return formatAmount({ amount, region: order.region, includeTaxes: false })
+    return convertToLocale({
+      amount,
+      currency_code: order.currency_code,
+    })
   }
 
   return (

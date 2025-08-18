@@ -1,68 +1,38 @@
+import { listCartShippingMethods } from "@lib/data/fulfillment"
+import { listCartPaymentMethods } from "@lib/data/payment"
+import { HttpTypes } from "@medusajs/types"
 import Addresses from "@modules/checkout/components/addresses"
-import Shipping from "@modules/checkout/components/shipping"
 import Payment from "@modules/checkout/components/payment"
 import Review from "@modules/checkout/components/review"
-import {
-  createPaymentSessions,
-  getCustomer,
-  listShippingMethods,
-} from "@lib/data"
-import { cookies } from "next/headers"
-import { CartWithCheckoutStep } from "types/global"
-import { getCheckoutStep } from "@lib/util/get-checkout-step"
+import Shipping from "@modules/checkout/components/shipping"
 
-export default async function CheckoutForm() {
-  const cartId = cookies().get("_medusa_cart_id")?.value
-
-  if (!cartId) {
-    return null
-  }
-
-  // create payment sessions and get cart
-  const cart = (await createPaymentSessions(cartId).then(
-    (cart) => cart
-  )) as CartWithCheckoutStep
-
+export default async function CheckoutForm({
+  cart,
+  customer,
+}: {
+  cart: HttpTypes.StoreCart | null
+  customer: HttpTypes.StoreCustomer | null
+}) {
   if (!cart) {
     return null
   }
 
-  cart.checkout_step = cart && getCheckoutStep(cart)
+  const shippingMethods = await listCartShippingMethods(cart.id)
+  const paymentMethods = await listCartPaymentMethods(cart.region?.id ?? "")
 
-  // get available shipping methods
-  const availableShippingMethods = await listShippingMethods(
-    cart.region_id
-  ).then((methods) => methods?.filter((m) => !m.is_return))
-
-  if (!availableShippingMethods) {
+  if (!shippingMethods || !paymentMethods) {
     return null
   }
 
-  // get customer if logged in
-  const customer = await getCustomer()
-
   return (
-    <div>
-      <div className="w-full grid grid-cols-1 gap-y-8">
-        <div>
-          <Addresses cart={cart} customer={customer} />
-        </div>
+    <div className="w-full grid grid-cols-1 gap-y-8">
+      <Addresses cart={cart} customer={customer} />
 
-        <div>
-          <Shipping
-            cart={cart}
-            availableShippingMethods={availableShippingMethods}
-          />
-        </div>
+      <Shipping cart={cart} availableShippingMethods={shippingMethods} />
 
-        <div>
-          <Payment cart={cart} />
-        </div>
+      <Payment cart={cart} availablePaymentMethods={paymentMethods} />
 
-        <div>
-          <Review cart={cart} />
-        </div>
-      </div>
+      <Review cart={cart} />
     </div>
   )
 }
