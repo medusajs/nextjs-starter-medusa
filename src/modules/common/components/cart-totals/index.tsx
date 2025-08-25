@@ -25,7 +25,6 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
   const {
     currency_code,
     total,
-    subtotal,
     tax_total,
     gift_card_total,
     item_subtotal,
@@ -38,8 +37,6 @@ const CartTotals: React.FC<CartTotalsProps> = ({ totals }) => {
 
   const totalItemDiscount = items?.flatMap(i => i.adjustments).reduce((acc, curr) => (curr?.amount || 0) + acc, 0)
   const totalShippingDiscount = shipping_methods?.flatMap(sm => sm.adjustments).reduce((acc, curr) => (curr?.amount || 0) + acc, 0)
-
-  console.log(totals)
 
   return (
     <div>
