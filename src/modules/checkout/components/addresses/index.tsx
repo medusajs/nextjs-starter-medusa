@@ -144,7 +144,7 @@ const Addresses = ({
 
                     {sameAsBilling ? (
                       <Text className="txt-medium text-ui-fg-subtle">
-                        Billing- and delivery address are the same.
+                        Billing and delivery address are the same.
                       </Text>
                     ) : (
                       <>
