@@ -68,35 +68,36 @@ export const usePanelResize = ({
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     if (!enabled) return
-
     e.preventDefault()
     setIsResizing(true)
     initialMouseX.current = e.clientX
     initialWidth.current = width
+  }, [enabled, width])
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const deltaX = initialMouseX.current - e.clientX // Negative because we're resizing from the left
+  // Attach global listeners only while resizing to avoid stale closures and depth issues
+  useEffect(() => {
+    if (!isResizing) return
+
+    const onMove = (e: MouseEvent) => {
+      const deltaX = initialMouseX.current - e.clientX
       const newWidth = initialWidth.current + deltaX
       const maxWidth = getMaxWidth()
-
-      // Apply constraints
-      const constrainedWidth = Math.max(
-        minWidth,
-        Math.min(newWidth, maxWidth)
-      )
-
+      const constrainedWidth = Math.max(minWidth, Math.min(newWidth, maxWidth))
       setWidth(constrainedWidth)
     }
 
-    const handleMouseUp = () => {
+    const onUp = () => {
       setIsResizing(false)
-      document.removeEventListener('mousemove', handleMouseMove)
-      document.removeEventListener('mouseup', handleMouseUp)
     }
 
-    document.addEventListener('mousemove', handleMouseMove)
-    document.addEventListener('mouseup', handleMouseUp)
-  }, [enabled, width, minWidth, getMaxWidth])
+    document.addEventListener('mousemove', onMove)
+    document.addEventListener('mouseup', onUp)
+    return () => {
+      document.removeEventListener('mousemove', onMove)
+      document.removeEventListener('mouseup', onUp)
+    }
+    // getMaxWidth and minWidth are stable enough; include them to avoid stale values
+  }, [isResizing, getMaxWidth, minWidth])
 
   const resetToDefault = useCallback(() => {
     if (!enabled) return

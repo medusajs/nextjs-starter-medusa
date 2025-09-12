@@ -3,6 +3,7 @@ import { Suspense } from "react"
 import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-grid"
 import FilteredProductsContainer from "@modules/store/components/filtered-products-container"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products-dropdown"
+import SetFromContext from "@modules/common/components/set-from-context"
 
 const StoreTemplate = async ({
     sortBy,
@@ -27,6 +28,7 @@ const StoreTemplate = async ({
 
     return (
         <Suspense fallback={<SkeletonProductGrid />}>
+            <SetFromContext href="/store" label="Store" />
             <FilteredProductsContainer
                 sortBy={sort}
                 page={pageNumber}

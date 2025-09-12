@@ -4,6 +4,7 @@ import SkeletonProductGrid from "@modules/skeletons/templates/skeleton-product-g
 import FilteredProductsContainer from "@modules/store/components/filtered-products-container"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products-dropdown"
 import { HttpTypes } from "@medusajs/types"
+import SetFromContext from "@modules/common/components/set-from-context"
 
 export default function CollectionTemplate({
   sortBy,
@@ -36,6 +37,7 @@ export default function CollectionTemplate({
         />
       }
     >
+      <SetFromContext href={`/collections/${collection.handle}`} label={collection.title} />
       <FilteredProductsContainer
         sortBy={sort}
         page={pageNumber}

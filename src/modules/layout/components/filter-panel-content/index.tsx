@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import { Filter, ArrowLeft, X } from "lucide-react"
+import { ArrowLeft, X } from "lucide-react"
 import { useCompanionPanel } from "@lib/context/companion-panel-context"
 import { useSearchParams } from "next/navigation"
 import FilterModule from "@modules/store/components/filter-module"
@@ -263,8 +263,8 @@ const FilterPanelContent: React.FC<FilterPanelContentProps> = ({ data, dynamicFi
 
   return (
     <div className="flex flex-col h-full">
-      {/* Header with Back and Close Buttons */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-50">
+      {/* Header (compact, no decorative icons) */}
+      <div className="flex items-center justify-between px-3 py-2 border-b border-gray-200 bg-gray-50">
         {/* Left side - Back button (only show if there's history) */}
         {panelHistory.length > 0 && (
           <button
@@ -278,8 +278,7 @@ const FilterPanelContent: React.FC<FilterPanelContentProps> = ({ data, dynamicFi
         
         {/* Center - Title */}
         <div className="flex items-center gap-2 flex-1">
-          <Filter className="w-5 h-5 text-gray-700" />
-          <h2 className="text-lg font-semibold text-gray-900">Filters</h2>
+          <h2 className="ty-title text-gray-900">Filters</h2>
           {activeFilterCount > 0 && (
             <span className="inline-flex items-center justify-center w-6 h-6 text-sm font-bold text-white bg-blue-600 rounded-full">
               {activeFilterCount}
@@ -298,7 +297,7 @@ const FilterPanelContent: React.FC<FilterPanelContentProps> = ({ data, dynamicFi
       </div>
 
       {/* Filter Content */}
-      <div className="flex-1 overflow-y-auto p-4 bg-white">
+      <div className="flex-1 overflow-y-auto px-3 py-2 bg-white">
         <FilterModule
           filters={filters}
           activeFilters={activeFilters}
@@ -307,7 +306,7 @@ const FilterPanelContent: React.FC<FilterPanelContentProps> = ({ data, dynamicFi
       </div>
 
       {/* Footer Actions */}
-      <div className="border-t border-gray-200 p-4 bg-gray-50 space-y-3">
+      <div className="border-t border-gray-200 px-3 py-2 bg-gray-50 space-y-2">
         {/* Active filters summary */}
         {activeFilterCount > 0 && (
           <div className="text-sm text-gray-600 text-center">

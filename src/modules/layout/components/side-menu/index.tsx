@@ -64,7 +64,9 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
           aria-expanded={isOpen}
           aria-controls="left-companion-panel"
         >
-          <PanelLeft className="w-5 h-5 mr-2" />
+          <span className="inline-flex items-center justify-center w-8 h-8 mr-2">
+            <PanelLeft className="w-6 h-6" />
+          </span>
           Menu
         </button>
 

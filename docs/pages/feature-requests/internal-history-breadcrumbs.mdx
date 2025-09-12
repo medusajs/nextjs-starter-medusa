@@ -1,0 +1,105 @@
+### Feature Request: Route-Aware Internal History powering Dynamic Breadcrumbs
+
+#### Summary
+Add a fully encapsulated breadcrumb system that automatically reflects the user's navigational context (e.g., Home / Store / Product, Home / Category / Product), without requiring per-page wiring. This is achieved via a lightweight internal history, route-aware enrichment, and optional page metadata bridge.
+
+#### Problem
+- Breadcrumbs like “Home / Product” are not helpful when the user arrives from a listing page (e.g., `/store`, `/categories/...`, `/collections/...`, search).
+- Today we need to explicitly set "from" on each page to get contextual trails.
+- We want breadcrumbs to be self-sufficient and correct by default, with minimal or no page-level changes.
+
+#### Goals
+- **Encapsulated**: `<Breadcrumbs />` should infer context automatically.
+- **Contextual**: Prefer the most recent "listing-like" page the user came from.
+- **Resilient**: Fall back to taxonomy (category path) for direct landings.
+- **Performant**: Avoid redundant network work; cache where possible.
+
+#### Proposed Architecture (Hybrid)
+- **Internal History (client)**
+  - Provider: `InternalHistoryProvider` in `src/lib/context/internal-history-context.tsx`
+  - Stores recent navigational waypoints `{ href, label, pageType, timestamp }` with sessionStorage persistence.
+- **Route-Aware Recorder (client)**
+  - Component: `RouteAwareHistory` in `src/modules/common/components/route-aware-history`
+  - Subscribes to `usePathname()` and `useSearchParams()`; pushes/updates a best-effort entry with `pageType` (store/category/collection/search/pdp/other).
+- **Breadcrumbs Consumer (client)**
+  - Component: `src/modules/common/components/breadcrumbs`
+  - For PDP:
+    - Prefer `from/fromLabel` query params (explicit links like from cart).
+    - Else use last listing-like entry from internal history.
+    - Else fall back to taxonomy (first category path).
+  - For Category/Collection pages, render standard hierarchical trail.
+- **Auto Label Enrichment (client, optional)**
+  - When on category/collection routes, auto-fetch labels (name/title) client-side if not already known; cache in sessionStorage to avoid repeat fetches.
+  - Ensures history has accurate labels without page templates needing to set them.
+- **Optional Page Metadata Bridge (tiny, opt-in)**
+  - A 1-liner component `<PageMeta label="Women’s Sneakers" href="/categories/women/shoes/sneakers" pageType="category" />` for pages with custom titles.
+  - Overrides route heuristics and avoids any client fetch on those pages.
+
+#### Scope
+- Pages benefitting from internal history:
+  - `/store` (All products)
+  - `/categories/[...category]` (PLP)
+  - `/collections/[handle]` (PLP)
+  - `/search` (search results)
+  - `/products/[handle]` (PDP)
+  - `/cart` (explicitly sets `from` in links to PDPs)
+
+#### Implementation Plan
+1. **Internal history**
+   - Keep `InternalHistoryProvider` and `RouteAwareHistory` mounted in `src/app/[countryCode]/(main)/layout.tsx`.
+   - Persist to `sessionStorage` with a small bounded history (e.g., 20 entries).
+2. **Auto enrichment**
+   - Implement a small client util: `getEntityLabelCached(kind, key)` that:
+     - Builds a cache key (e.g., `category:handle`, `collection:handle`).
+     - Checks `sessionStorage`; if missing, fetches from our store API (read-only, cached) and stores `{ label, href }`.
+   - Hook this into `RouteAwareHistory` when `pageType` is `category` or `collection`.
+3. **Breadcrumb consumer upgrades**
+   - In `Breadcrumbs`, when on PDP and no `from` params exist, prefer the latest enriched history entry (store/category/collection/search) before falling back to taxonomy.
+4. **Optional PageMeta bridge**
+   - Add `PageMetaContext` with a `<PageMeta />` component for pages with bespoke labels.
+   - `RouteAwareHistory` prefers `PageMeta` values if present.
+5. **Remove per-page wiring**
+   - Gradually remove `SetFromContext` usages from store/category/collection templates once enrichment is in place and validated.
+
+#### Example Usage
+No page wiring needed:
+```tsx
+// In layout (already mounted)
+<InternalHistoryProvider>
+  <RouteAwareHistory />
+  {children}
+</InternalHistoryProvider>
+
+// Anywhere on PDP
+<Breadcrumbs product={product} />
+```
+
+Optional custom label on a marketing hub page:
+```tsx
+<PageMeta label="Holiday Sale" href="/sale/holiday" pageType="other" />
+```
+
+#### Considerations
+- **SSR vs CSR**: Internal history and enrichment run on the client. Breadcrumbs still render fine on SSR with taxonomy fallback; enrichment refines trail after hydration.
+- **Caching**: Use `sessionStorage` for label lookups; keep payload tiny to avoid bloat.
+- **Privacy**: Internal history is session-scoped and confined to navigational labels/URLs only.
+- **Heuristic accuracy**: The bridge allows precise overrides where heuristics are insufficient.
+
+#### Acceptance Criteria
+- PDP breadcrumbs show the accurate previous listing (Store/Category/Collection/Search) without modifying page templates.
+- Direct landings still show a reasonable trail.
+- No infinite render loops; context setters are stable.
+- Minimal redundant network requests thanks to session caching.
+
+#### Related Code
+- `src/lib/context/internal-history-context.tsx`
+- `src/modules/common/components/route-aware-history`
+- `src/modules/common/components/breadcrumbs`
+
+#### Open Questions
+- Should we include account pages in internal history/breadcrumbs?
+- Do we prefer a max depth for trails on mobile (collapse middle items)?
+- Should enrichment also cover brands if/when brand routes are added?
+
+
+

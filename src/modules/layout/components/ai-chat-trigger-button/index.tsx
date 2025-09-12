@@ -27,9 +27,8 @@ const AIChatTriggerButton: React.FC = () => {
   return (
     <button
       onClick={handleClick}
-      className={`h-full p-2 transition-colors duration-200 ${
-        isAIOpen ? 'text-purple-600 bg-purple-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-      } rounded-md`}
+      className={`nav-icon-btn`}
+      aria-current={isAIOpen ? 'true' : undefined}
       data-testid="ai-chat-button"
       title={
         isAIOpen 
@@ -37,7 +36,7 @@ const AIChatTriggerButton: React.FC = () => {
           : 'Open AI Assistant'
       }
     >
-      <MessageCircle className="w-6 h-6" />
+      <MessageCircle className="nav-icon" strokeWidth={1.75} aria-hidden />
     </button>
   )
 }

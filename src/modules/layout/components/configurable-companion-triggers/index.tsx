@@ -12,7 +12,7 @@ interface ConfigurableCompanionTriggersProps {
 }
 
 const ConfigurableCompanionTriggers: React.FC<ConfigurableCompanionTriggersProps> = ({ 
-  className = "flex items-center gap-x-2 h-full" 
+  className = "contents" 
 }) => {
   const enabledFeatures = getEnabledFeatures()
   const layoutConfig = getLayoutConfig()
@@ -32,26 +32,23 @@ const ConfigurableCompanionTriggers: React.FC<ConfigurableCompanionTriggersProps
   }
 
   return (
-    <div className={className}>
+    <>
       {visibleFeatures.map((feature) => {
         const Component = componentMap[feature.key]
-        
         if (!Component) {
-          // Fallback for features without components yet
           return (
-            <div 
+            <button
               key={feature.key}
-              className="text-xs text-gray-500 p-2"
+              className="nav-icon-btn"
               title={`${feature.displayName} (not implemented)`}
             >
               {feature.icon}
-            </div>
+            </button>
           )
         }
-        
         return <Component key={feature.key} />
       })}
-    </div>
+    </>
   )
 }
 

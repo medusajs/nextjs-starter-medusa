@@ -148,9 +148,9 @@ const AIAssistantPanelContent: React.FC = () => {
 
   return (
     <>
-      {/* Header with Tabs */}
-      <div className="border-b border-gray-200">
-        <div className="flex items-center justify-between px-4 py-4">
+      {/* Header (compact, normalized) */}
+      <div className="border-b border-gray-200 bg-gray-50">
+        <div className="flex items-center justify-between px-3 py-2 border-b border-gray-200">
           {/* Left side - Back button (only show if there's history) */}
           {panelHistory.length > 0 && (
             <button
@@ -162,17 +162,9 @@ const AIAssistantPanelContent: React.FC = () => {
             </button>
           )}
           
-          {/* Center - Title and subtitle */}
-          <div className="flex items-center gap-3 flex-1">
-            <div className="p-2 bg-purple-100 rounded-lg">
-              <MessageCircle className="w-6 h-6 text-purple-600" />
-            </div>
-            <div>
-              <h2 className="text-lg font-medium text-gray-900">
-                AI Assistant
-              </h2>
-              <p className="text-sm text-gray-500">Always here to help</p>
-            </div>
+          {/* Center - Title only */}
+          <div className="flex items-center gap-2 flex-1">
+            <h2 className="ty-title text-gray-900">AI Assistant</h2>
           </div>
           
           {/* Right side - Close button */}
@@ -187,11 +179,11 @@ const AIAssistantPanelContent: React.FC = () => {
           </button>
         </div>
 
-        {/* Tab Navigation */}
-        <div className="flex border-b border-gray-200">
+      {/* Tab Navigation */}
+        <div className="flex bg-white">
           <button
             onClick={() => switchChatView('chat')}
-            className={`flex-1 px-4 py-3 text-sm font-medium text-center border-b-2 transition-colors ${
+            className={`flex-1 px-3 py-2 text-sm font-medium text-center border-b-2 transition-colors ${
               chatSystem.ui.activeView === 'chat'
                 ? 'border-purple-500 text-purple-600 bg-purple-50'
                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
@@ -204,7 +196,7 @@ const AIAssistantPanelContent: React.FC = () => {
           </button>
           <button
             onClick={() => switchChatView('tickets')}
-            className={`flex-1 px-4 py-3 text-sm font-medium text-center border-b-2 transition-colors relative ${
+            className={`flex-1 px-3 py-2 text-sm font-medium text-center border-b-2 transition-colors relative ${
               chatSystem.ui.activeView === 'tickets'
                 ? 'border-purple-500 text-purple-600 bg-purple-50'
                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
@@ -214,7 +206,7 @@ const AIAssistantPanelContent: React.FC = () => {
               <Ticket className="w-4 h-4" />
               Tickets
               {activeTickets.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center ml-4">
                   {activeTickets.length}
                 </span>
               )}

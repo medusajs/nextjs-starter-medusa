@@ -36,8 +36,8 @@ const CartPanelContent: React.FC<CartPanelContentProps> = ({ cart: cartState }) 
 
   return (
     <>
-      {/* Header with Back and Close Buttons */}
-      <div className="flex items-center justify-between px-4 py-6 border-b border-gray-200">
+      {/* Header (compact, no decorative icons) */}
+      <div className="flex items-center justify-between px-3 py-2 border-b border-gray-200 bg-gray-50">
         {/* Left side - Back button (only show if there's history) */}
         {panelHistory.length > 0 && (
           <button
@@ -50,7 +50,7 @@ const CartPanelContent: React.FC<CartPanelContentProps> = ({ cart: cartState }) 
         )}
         
         {/* Center/Left - Title */}
-        <h2 className="text-lg font-medium text-gray-900 flex-1">
+        <h2 className="ty-title text-gray-900 flex-1">
           Shopping Cart ({totalItems})
         </h2>
         
@@ -84,7 +84,7 @@ const CartPanelContent: React.FC<CartPanelContentProps> = ({ cart: cartState }) 
                     data-testid="cart-item"
                   >
                     <LocalizedClientLink
-                      href={`/products/${item.product_handle}`}
+                      href={`/products/${item.product_handle}?from=/cart&fromLabel=Cart`}
                       className="w-24"
                     >
                       <Thumbnail
@@ -98,8 +98,8 @@ const CartPanelContent: React.FC<CartPanelContentProps> = ({ cart: cartState }) 
                         <div className="flex items-start justify-between">
                           <div className="flex flex-col overflow-ellipsis whitespace-nowrap mr-4 w-[180px]">
                             <h3 className="text-base-regular overflow-hidden text-ellipsis">
-                              <LocalizedClientLink
-                                href={`/products/${item.product_handle}`}
+                            <LocalizedClientLink
+                              href={`/products/${item.product_handle}?from=/cart&fromLabel=Cart`}
                                 data-testid="product-link"
                               >
                                 {item.title}

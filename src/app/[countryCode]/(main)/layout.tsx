@@ -12,6 +12,9 @@ import { CompanionPanelProvider } from "@lib/context/companion-panel-context"
 import { LeftPanelProvider } from "@lib/context/left-panel-context"
 import UnifiedLayoutWrapper from "@modules/layout/components/unified-layout-wrapper"
 import ResizableCompanionPanel from "@modules/layout/components/resizable-companion-panel"
+import { FromProvider } from "@lib/context/from-context"
+import { InternalHistoryProvider } from "@lib/context/internal-history-context"
+import RouteAwareHistory from "@modules/common/components/route-aware-history"
 
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseURL()),
@@ -44,12 +47,17 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
           />
         )}
         
-        <UnifiedLayoutWrapper 
-          footer={<Footer />}
-          className="debug-content-size"
-        >
-          {props.children}
-        </UnifiedLayoutWrapper>
+        <InternalHistoryProvider>
+          <FromProvider>
+            <RouteAwareHistory />
+            <UnifiedLayoutWrapper 
+              footer={<Footer />}
+              className="debug-content-size"
+            >
+              {props.children}
+            </UnifiedLayoutWrapper>
+          </FromProvider>
+        </InternalHistoryProvider>
         
         <ResizableCompanionPanel cart={cart} />
       </CompanionPanelProvider>

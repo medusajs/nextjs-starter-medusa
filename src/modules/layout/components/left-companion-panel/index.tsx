@@ -1,6 +1,7 @@
 "use client"
 
 import React from 'react'
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLeftPanel } from '@lib/context/left-panel-context'
 import { backdropFadePreset } from '@lib/motion'
@@ -10,6 +11,7 @@ const resizeHandleWidth = 8
 
 export default function LeftCompanionPanel({ children }: { children: React.ReactNode }) {
   const { isOpen, width, setWidth, isMobile, close } = useLeftPanel()
+  const pathname = usePathname()
   const panelRef = React.useRef<HTMLDivElement | null>(null)
   const startXRef = React.useRef(0)
   const startWidthRef = React.useRef(width)
@@ -39,6 +41,14 @@ export default function LeftCompanionPanel({ children }: { children: React.React
 
   // Body scroll locking handled centrally in UnifiedLayoutWrapper
 
+  // Auto-close the menu on route changes when on mobile
+  React.useEffect(() => {
+    if (isMobile && isOpen) {
+      close()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname])
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -49,7 +59,7 @@ export default function LeftCompanionPanel({ children }: { children: React.React
           )}
           <motion.aside
             id="left-companion-panel"
-            className={`fixed top-[var(--header-height,4rem)] left-0 h-[calc(100vh-var(--header-height,4rem))] bg-white z-[80] overflow-hidden left-panel ${isMobile ? 'left-panel--mobile' : 'border-r border-gray-200'}`}
+            className={`fixed top-[var(--header-height,4rem)] left-0 h-[calc(100vh-var(--header-height,4rem))] bg-white z-[80] overflow-hidden left-panel border-r border-gray-200`}
             style={{ width: isMobile ? '85vw' : width }}
             initial={{ x: '-100%' }}
             animate={{ x: 0, transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] } }}
@@ -60,7 +70,7 @@ export default function LeftCompanionPanel({ children }: { children: React.React
             {!isMobile && (
               <ResizeHandle side="right" isResizing={isResizing} onMouseDown={onMouseDown} />
             )}
-            <div className="h-full flex flex-col border-r border-gray-200">
+            <div className="h-full flex flex-col">
               {children}
             </div>
           </motion.aside>

@@ -40,36 +40,32 @@ const SortProductsDropdown = ({
 
   return (
     <div className="relative">
-      <div className="text-sm font-medium mb-2 text-gray-900">
-        Sort by
-      </div>
-      
       <DropdownMenu.Root modal={false}>
         <DropdownMenu.Trigger asChild>
           <button
-            className="inline-flex items-center justify-between w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 min-w-[200px]"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             data-testid={dataTestId}
           >
             <span>{currentOption?.label || "Select sort order"}</span>
-            <ChevronDown className="w-4 h-4 ml-2" />
+            <ChevronDown className="w-3.5 h-3.5 ml-1.5" />
           </button>
         </DropdownMenu.Trigger>
 
         <DropdownMenu.Portal>
           <DropdownMenu.Content
-            className="w-[200px] bg-white rounded-md border border-gray-200 py-1 z-50"
+            className="min-w-[12rem] bg-white rounded-md border border-gray-200 py-1 z-50"
             sideOffset={4}
             align="start"
           >
             {sortOptions.map((option) => (
               <DropdownMenu.Item
                 key={option.value}
-                className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none cursor-pointer"
+                className="flex items-center justify-between px-3 py-1.5 text-xs text-gray-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none cursor-pointer"
                 onSelect={() => handleSelect(option.value)}
               >
                 <span>{option.label}</span>
                 {sortBy === option.value && (
-                  <Check className="w-4 h-4 text-blue-600" />
+                  <Check className="w-3.5 h-3.5 text-blue-600" />
                 )}
               </DropdownMenu.Item>
             ))}

@@ -27,9 +27,8 @@ const HelpTriggerButton: React.FC = () => {
   return (
     <button
       onClick={handleClick}
-      className={`h-full p-2 transition-colors duration-200 ${
-        isHelpOpen ? 'text-blue-600 bg-blue-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-      } rounded-md`}
+      className={`nav-icon-btn`}
+      aria-current={isHelpOpen ? 'true' : undefined}
       data-testid="help-button"
       title={
         isHelpOpen 
@@ -37,7 +36,7 @@ const HelpTriggerButton: React.FC = () => {
           : 'Get Help'
       }
     >
-      <HelpCircle className="w-6 h-6" />
+      <HelpCircle className="nav-icon" strokeWidth={1.75} aria-hidden />
     </button>
   )
 }

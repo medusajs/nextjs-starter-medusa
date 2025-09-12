@@ -8,6 +8,8 @@ import { SortOptions } from "@modules/store/components/refinement-list/sort-prod
 import PaginatedProducts from "@modules/store/templates/paginated-products"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { HttpTypes } from "@medusajs/types"
+import Breadcrumbs, { BreadcrumbItem } from "@modules/common/components/breadcrumbs"
+import SetFromContext from "@modules/common/components/set-from-context"
 
 export default function CategoryTemplate({
   category,
@@ -38,25 +40,18 @@ export default function CategoryTemplate({
 
   return (
     <>
+      <SetFromContext href={`/categories/${category.handle}`} label={category.name} />
+      {/* Breadcrumbs */}
+      <div className="content-container pt-6">
+        <Breadcrumbs category={category} className="mb-4" />
+      </div>
+
       {/* Filter and Sort Bar - Sticky under header */}
       <FilterSortBar sortBy={sort} data-testid="sort-by-container" />
       
       {/* Main Content */}
       <div className="content-container py-6" data-testid="category-container">
         <div className="flex flex-row mb-8 text-2xl-semi gap-4">
-          {parents &&
-            parents.map((parent) => (
-              <span key={parent.id} className="text-ui-fg-subtle">
-                <LocalizedClientLink
-                  className="mr-4 hover:text-black"
-                  href={`/categories/${parent.handle}`}
-                  data-testid="sort-by-link"
-                >
-                  {parent.name}
-                </LocalizedClientLink>
-                /
-              </span>
-            ))}
           <h1 data-testid="category-page-title">{category.name}</h1>
         </div>
         

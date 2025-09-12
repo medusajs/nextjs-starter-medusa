@@ -42,16 +42,25 @@
   position: fixed;
   top: var(--header-height, 4rem); /* offset below sticky header (h-16) */
   right: 0;
+  /* Fallback for browsers without dvh */
   height: calc(100vh - var(--header-height, 4rem));
   width: 100vw;
   max-width: 400px; /* Default for mobile */
   background-color: white;
   box-shadow: none; /* no shadows on panels */
-  border-left: 1px solid #e5e7eb; /* ensure visible left edge on all viewports */
+  /* Ensure visible left edge on ALL viewports (including mobile overlays) */
+  border-left: 1px solid #e5e7eb !important;
   z-index: 60; /* Above header (z-50) so panel appears over header */
   transform: translateX(100%);
   transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1); /* enter */
   pointer-events: none;
+}
+
+/* Prefer dynamic viewport height when supported (accounts for mobile browser chrome) */
+@supports (height: 100dvh) {
+  .companion-panel {
+    height: calc(100dvh - var(--header-height, 4rem));
+  }
 }
 
 .companion-panel--open {
@@ -73,10 +82,12 @@
   flex-direction: column;
   height: 100%;
   background-color: white;
-  /* Mobile: Add rounded corners and margin for overlay effect */
-  border-radius: 1rem 0 0 1rem;
-  margin: 1rem 1rem 1rem 0;
-  height: calc(100vh - 2rem);
+  /* Flush container to panel edges for maximum usable space */
+  border-radius: 0;
+  margin: 0;
+  /* Size relative to parent to avoid double-counting header offsets */
+  height: 100%;
+  padding-bottom: env(safe-area-inset-bottom, 0);
 }
 
 /* Desktop adjustments */
@@ -463,8 +474,21 @@
 [data-device-mobile="true"] .cart-drawer-content {
   border-radius: 1rem 0 0 1rem;
   margin: 1rem 1rem 1rem 0;
-  max-height: calc(100vh - 2rem);
+  /* Prefer parent-relative height and safe-area padding for stability */
+  max-height: calc(100% - 0rem);
+  padding-bottom: env(safe-area-inset-bottom, 0);
   box-shadow: none; /* no shadows on panels */
+}
+
+/* Ensure left menu uses dvh where supported */
+#left-companion-panel {
+  /* Fallback */
+  height: calc(100vh - var(--header-height, 4rem));
+}
+@supports (height: 100dvh) {
+  #left-companion-panel {
+    height: calc(100dvh - var(--header-height, 4rem));
+  }
 }
 
 /* Hard override: ensure no box-shadows inside panels */

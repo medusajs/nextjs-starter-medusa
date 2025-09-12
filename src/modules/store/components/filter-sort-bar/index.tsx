@@ -7,6 +7,7 @@ import { Filter } from "lucide-react"
 
 import SortProductsDropdown, { SortOptions } from "../refinement-list/sort-products-dropdown"
 import { useCompanionPanel } from "@lib/context/companion-panel-context"
+import { useSmartStickyBar } from "@lib/hooks/use-smart-sticky"
 
 interface FilterSortBarProps {
   sortBy: SortOptions
@@ -35,6 +36,11 @@ const FilterSortBar: React.FC<FilterSortBarProps> = ({
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const { openPanel, closePanel, goBack, currentPanel, panelHistory } = useCompanionPanel()
+  const { hidden, condensed } = useSmartStickyBar({
+    hideThreshold: 240,
+    showThreshold: 24,
+    freeze: currentPanel?.type === 'filter',
+  })
   
   // Use external filter state if provided, otherwise use internal state
   const [internalActiveFilters, setInternalActiveFilters] = useState<Record<string, any>>({})
@@ -207,23 +213,23 @@ const FilterSortBar: React.FC<FilterSortBarProps> = ({
   }
 
   return (
-    <div className="border-b border-gray-200 bg-white sticky top-16 z-40">
+    <div className={`border-b border-gray-200 bg-white sticky top-16 z-40 transition-transform duration-200 ${hidden ? '-translate-y-full' : 'translate-y-0'}`}>
       <div className="content-container">
-        <div className="flex items-center justify-between py-4 gap-4">
+        <div className={`flex items-center justify-between gap-2 ${condensed ? 'py-1.5' : 'py-3'}`}>
           {/* Left side - Filter button */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             <button 
               onClick={handleFilterClick}
-              className={`flex items-center gap-2 px-4 py-2 text-sm font-medium border rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium border rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
                 currentPanel?.type === 'filter'
                   ? 'text-blue-700 bg-blue-50 border-blue-300 hover:bg-blue-100'
                   : 'text-gray-700 bg-white border-gray-300 hover:bg-gray-50'
               }`}
             >
-              <Filter className="w-4 h-4" />
-              <span>Filters</span>
+              <Filter className="w-3.5 h-3.5" />
+              <span className={`${condensed ? 'hidden xsmall:inline' : ''}`}>Filters</span>
               {activeFilterCount > 0 && (
-                <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-blue-600 rounded-full">
+                <span className="inline-flex items-center justify-center w-4.5 h-4.5 text-[10px] font-bold text-white bg-blue-600 rounded-full">
                   {activeFilterCount}
                 </span>
               )}
@@ -231,7 +237,7 @@ const FilterSortBar: React.FC<FilterSortBarProps> = ({
           </div>
           
           {/* Right side - Sort dropdown */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             <SortProductsDropdown 
               sortBy={sortBy} 
               setQueryParams={setQueryParams} 

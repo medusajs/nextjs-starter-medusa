@@ -17,6 +17,12 @@
 @layer base {
     :root {
         --header-height: 4rem; /* keep panels/backdrops aligned with sticky header */
+        /* Nav icon tokens */
+        --nav-icon: theme(colors.gray.600);
+        --nav-icon-hover: theme(colors.gray.900);
+        --nav-icon-active: theme(colors.blue.600);
+        --badge-bg: theme(colors.blue.600);
+        --badge-fg: #fff;
     }
     /* Prevent layout shift from scrollbar appearance/disappearance */
     html {
@@ -91,6 +97,15 @@
 }
 
 @layer components {
+    /* Unified Typography */
+    .ty-h1 { @apply text-3xl font-semibold tracking-tight; }
+    .ty-h2 { @apply text-2xl font-semibold tracking-tight; }
+    .ty-h3 { @apply text-xl font-semibold; }
+    .ty-title { @apply text-lg font-medium; }
+    .ty-body { @apply text-base leading-6; }
+    .ty-subtle { @apply text-sm text-gray-600; }
+    .ty-caption { @apply text-xs text-gray-500; }
+
     .content-container {
         @apply max-w-[1440px] w-full mx-auto px-6;
     }
@@ -149,5 +164,19 @@
 
     .text-3xl-semi {
         @apply text-[32px] leading-[44px] font-semibold;
+    }
+
+    /* Nav icon buttons */
+    .nav-icon-btn {
+        @apply w-8 h-8 grid place-items-center rounded-md transition-colors duration-200;
+        color: var(--nav-icon);
+    }
+    .nav-icon-btn:hover { color: var(--nav-icon-hover); }
+    .nav-icon-btn[aria-current="true"] { color: var(--nav-icon-active); }
+    .nav-icon { @apply w-6 h-6; }
+    .nav-badge {
+        @apply absolute -top-1.5 -right-1.5 min-w-[16px] h-4 px-1 rounded-full text-[10px] leading-4 text-center font-medium;
+        background: var(--badge-bg);
+        color: var(--badge-fg);
     }
 }

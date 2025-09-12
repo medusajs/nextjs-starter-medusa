@@ -31,9 +31,8 @@ const CartTriggerButton: React.FC<CartTriggerButtonProps> = ({ totalItems }) => 
   return (
     <button
       onClick={handleClick}
-      className={`h-full transition-colors duration-200 ${
-        isCartOpen ? 'text-blue-600' : 'hover:text-ui-fg-base'
-      }`}
+      className={`nav-icon-btn`}
+      aria-current={isCartOpen ? 'true' : undefined}
       data-testid="cart-button"
       title={
         isCartOpen 
@@ -41,8 +40,11 @@ const CartTriggerButton: React.FC<CartTriggerButtonProps> = ({ totalItems }) => 
           : 'Open cart'
       }
     >
-      <div className="flex flex-row items-center gap-x-2">
-        <ShoppingBag className="w-6 h-6" /> {totalItems}
+      <div className="relative w-8 h-8 grid place-items-center">
+        <ShoppingBag className="nav-icon" strokeWidth={1.75} aria-hidden />
+        {totalItems > 0 && (
+          <span className="nav-badge" aria-label={`${totalItems} items in cart`}>{totalItems}</span>
+        )}
       </div>
     </button>
   )

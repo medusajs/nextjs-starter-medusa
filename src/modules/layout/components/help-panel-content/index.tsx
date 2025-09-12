@@ -1,7 +1,7 @@
 "use client"
 
 import { useCompanionPanel } from "@lib/context/companion-panel-context"
-import { HelpCircle, Book, MessageSquare, Mail, ExternalLink, ArrowLeft, X } from "lucide-react"
+import { Book, MessageSquare, Mail, ExternalLink, ArrowLeft, X } from "lucide-react"
 
 const HelpPanelContent: React.FC = () => {
   const { closePanel, goBack, panelHistory } = useCompanionPanel()
@@ -29,8 +29,8 @@ const HelpPanelContent: React.FC = () => {
 
   return (
     <>
-      {/* Header with Back and Close Buttons */}
-      <div className="flex items-center justify-between px-4 py-6 border-b border-gray-200">
+      {/* Header (compact, no decorative icons) */}
+      <div className="flex items-center justify-between px-3 py-2 border-b border-gray-200 bg-gray-50">
         {/* Left side - Back button (only show if there's history) */}
         {panelHistory.length > 0 && (
           <button
@@ -42,14 +42,9 @@ const HelpPanelContent: React.FC = () => {
           </button>
         )}
         
-        {/* Center - Title and icon */}
-        <div className="flex items-center gap-3 flex-1">
-          <div className="p-2 bg-blue-100 rounded-lg">
-            <HelpCircle className="w-6 h-6 text-blue-600" />
-          </div>
-          <h2 className="text-lg font-medium text-gray-900">
-            Help Center
-          </h2>
+        {/* Center - Title */}
+        <div className="flex items-center gap-2 flex-1">
+          <h2 className="ty-title text-gray-900">Help Center</h2>
         </div>
         
         {/* Right side - Close button */}

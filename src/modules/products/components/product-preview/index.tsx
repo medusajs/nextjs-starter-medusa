@@ -1,7 +1,7 @@
 import { Text } from "@medusajs/ui"
 import { getProductPrice } from "@lib/util/get-product-price"
 import { HttpTypes } from "@medusajs/types"
-import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import ProductLink from "@modules/common/components/product-link"
 import Thumbnail from "../thumbnail"
 import PreviewPrice from "./price"
 
@@ -21,7 +21,7 @@ export default function ProductPreview({
   })
 
   return (
-    <LocalizedClientLink href={`/products/${product.handle}`} className="group">
+    <ProductLink productHandle={product.handle} className="group">
       <div data-testid="product-wrapper">
         <Thumbnail
           thumbnail={product.thumbnail}
@@ -38,6 +38,6 @@ export default function ProductPreview({
           </div>
         </div>
       </div>
-    </LocalizedClientLink>
+    </ProductLink>
   )
 }

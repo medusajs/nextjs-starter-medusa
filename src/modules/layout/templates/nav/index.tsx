@@ -1,4 +1,5 @@
 import { Suspense } from "react"
+import { User } from "lucide-react"
 
 import { listRegions } from "@lib/data/regions"
 import { StoreRegion } from "@medusajs/types"
@@ -35,16 +36,7 @@ export default async function Nav() {
             </LocalizedClientLink>
           </div>
 
-          <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
-            <div className="hidden small:flex items-center gap-x-6 h-full">
-              <LocalizedClientLink
-                className="hover:text-ui-fg-base"
-                href="/account"
-                data-testid="nav-account-link"
-              >
-                Account
-              </LocalizedClientLink>
-            </div>
+          <div className="flex items-center gap-x-3 h-full flex-1 basis-0 justify-end">
             
             {/* Configurable Companion Panel Triggers */}
             <ConfigurableCompanionTriggers />
@@ -53,11 +45,14 @@ export default async function Nav() {
             <Suspense
               fallback={
                 <LocalizedClientLink
-                  className="hover:text-ui-fg-base flex gap-2"
+                  className="hover:text-ui-fg-base flex items-center justify-center w-6 h-6"
                   href="/cart"
                   data-testid="nav-cart-link"
                 >
-                  Cart (0)
+                  <span className="relative w-6 h-6 flex items-center justify-center">
+                    <span className="w-5 h-5 inline-block border border-gray-300 rounded"></span>
+                    <span className="absolute inset-0 flex items-center justify-center text-[10px] font-semibold">0</span>
+                  </span>
                 </LocalizedClientLink>
               }
             >
