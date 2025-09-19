@@ -1,12 +1,12 @@
 "use client"
 
-import { RadioGroup, Radio } from "@headlessui/react"
+import { Radio, RadioGroup } from "@headlessui/react"
 import { setShippingMethod } from "@lib/data/cart"
 import { calculatePriceForShippingOption } from "@lib/data/fulfillment"
 import { convertToLocale } from "@lib/util/money"
 import { CheckCircleSolid, Loader } from "@medusajs/icons"
 import { HttpTypes } from "@medusajs/types"
-import { Button, Heading, Text, clx } from "@medusajs/ui"
+import { Button, clx, Heading, Text } from "@medusajs/ui"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import Divider from "@modules/common/components/divider"
 import MedusaRadio from "@modules/common/components/radio"
@@ -21,7 +21,7 @@ type ShippingProps = {
   availableShippingMethods: HttpTypes.StoreCartShippingOption[] | null
 }
 
-function formatAddress(address) {
+function formatAddress(address: HttpTypes.StoreCartAddress) {
   if (!address) {
     return ""
   }
@@ -234,7 +234,11 @@ const Shipping: React.FC<ShippingProps> = ({
                 )}
                 <RadioGroup
                   value={shippingMethodId}
-                  onChange={(v) => handleSetShippingMethod(v, "shipping")}
+                  onChange={(v) => {
+                    if (v) {
+                      return handleSetShippingMethod(v, "shipping")
+                    }
+                  }}
                 >
                   {_shippingMethods?.map((option) => {
                     const isDisabled =
@@ -305,7 +309,11 @@ const Shipping: React.FC<ShippingProps> = ({
                 <div className="pb-8 md:pt-0 pt-2">
                   <RadioGroup
                     value={shippingMethodId}
-                    onChange={(v) => handleSetShippingMethod(v, "pickup")}
+                    onChange={(v) => {
+                      if (v) {
+                        return handleSetShippingMethod(v, "pickup")
+                      }
+                    }}
                   >
                     {_pickupMethods?.map((option) => {
                       return (
@@ -381,9 +389,9 @@ const Shipping: React.FC<ShippingProps> = ({
                   Method
                 </Text>
                 <Text className="txt-medium text-ui-fg-subtle">
-                  {cart.shipping_methods?.at(-1)?.name}{" "}
+                  {cart.shipping_methods!.at(-1)!.name}{" "}
                   {convertToLocale({
-                    amount: cart.shipping_methods.at(-1)?.amount!,
+                    amount: cart.shipping_methods!.at(-1)!.amount!,
                     currency_code: cart?.currency_code,
                   })}
                 </Text>
