@@ -147,6 +147,12 @@ export async function middleware(request: NextRequest) {
   if (!urlHasCountryCode && countryCode) {
     redirectUrl = `${request.nextUrl.origin}/${countryCode}${redirectPath}${queryString}`
     response = NextResponse.redirect(`${redirectUrl}`, 307)
+  } else if (!urlHasCountryCode && !countryCode) {
+    // Handle case where no valid country code exists (empty regions)
+    return new NextResponse(
+      "No valid regions configured. Please set up regions with countries in your Medusa Admin.",
+      { status: 500 }
+    )
   }
 
   return response
