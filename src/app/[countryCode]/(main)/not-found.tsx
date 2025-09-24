@@ -1,20 +1,29 @@
-import { Metadata } from "next"
+import Link from "next/link"
+import { getTranslations } from "next-intl/server"
 
-import InteractiveLink from "@modules/common/components/interactive-link"
+import { generateMeta } from "@/utils/meta/generate-meta"
 
-export const metadata: Metadata = {
-  title: "404",
-  description: "Something went wrong",
+import { Button } from "@/components/ui/primitives/button"
+
+export async function generateMetadata() {
+  const t = await getTranslations("pages.not_found.meta")
+  return generateMeta({
+    meta: {
+      title: t("title"),
+      description: t("message"),
+    },
+  })
 }
 
-export default function NotFound() {
+export default async function NotFound() {
+  const t = await getTranslations("pages.not_found.content")
   return (
     <div className="flex flex-col gap-4 items-center justify-center min-h-[calc(100vh-64px)]">
-      <h1 className="text-2xl-semi text-ui-fg-base">Page not found</h1>
-      <p className="text-small-regular text-ui-fg-base">
-        The page you tried to access does not exist.
-      </p>
-      <InteractiveLink href="/">Go to frontpage</InteractiveLink>
+      <h1 className="text-3xl font-medium text-foreground">{t("title")}</h1>
+      <p className="text-sm text-foreground">{t("message")}</p>
+      <Link href="/">
+        <Button size="lg">{t("button")}</Button>
+      </Link>
     </div>
   )
 }

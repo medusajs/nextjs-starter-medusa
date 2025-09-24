@@ -1,0 +1,660 @@
+{
+  "layout": {
+    "cart": {
+      "cart_sidebar": {
+        "sign_in_prompt": {
+          "title": "Giriş yapın",
+          "description": "Sipariş geçmişinizi görüntülemek ve daha hızlı ödeme yapmak için giriş yapın.",
+          "button": "Giriş Yap"
+        },
+        "label": {
+          "summary": "Sepet Özeti",
+          "subtotal": "Ara toplam",
+          "quantity": "Adet"
+        },
+        "button": {
+          "checkout": "Ödeme Yap",
+          "cart": "Sepete git ({item_count} ürün)"
+        }
+      },
+      "cart_mismatch_alert": {
+        "title": "Aktarım Uyarısı",
+        "description": "Sepetinizi aktarmaya çalışırken bir sorun oluştu",
+        "transfer_button": "Transferi tekrar çalıştırın",
+        "transferring_button": "Transfer ediliyor..."
+      }
+    },
+    "account": {
+      "sidebar": {
+        "label": {
+          "welcome": "Merhaba {name}",
+          "account": "Hesap"
+        },
+        "item": {
+          "overview": "Hesap",
+          "profile": "Profil",
+          "addresses": "Adresler",
+          "orders": "Siparişler",
+          "logout": "Çıkış Yap",
+          "region": "Ülke/Bölge ve Dil"
+        },
+        "dialog": {
+          "logout": {
+            "title": "Emin misin?",
+            "description": "Çıkış yaptıktan sonra hesabına tekrar giriş yapman gerekecek. Kaydedilmemiş veriler varsa kaybolabilir.",
+            "action_button": "Eminim",
+            "cancel_button": "Vazgeç"
+          }
+        }
+      }
+    },
+    "checkout": {
+      "desktop_back_button": "Sepete Geri Dön",
+      "mobile_back_button": "Geri Dön",
+      "safety": "SSH Korumalı"
+    }
+  },
+  "common": {
+    "view_all": "Tümünü Gör",
+    "footer": {
+      "copyright": "© {year} Medusa Store. Tüm hakları saklıdır.",
+      "categories": "Kategoriler",
+      "collections": "Koleksiyonlar"
+    }
+  },
+  "pages": {
+    "not_found": {
+      "meta": {
+        "title": "Sayfa Bulunamadı",
+        "description": "Aradığınız sayfa mevcut değil. Lütfen ana sayfaya dönün."
+      },
+      "content": {
+        "title": "Sayfa Bulunamadı",
+        "message": "Aradığınız sayfa mevcut değil. Lütfen ana sayfaya dönün.",
+        "button": "Ana sayfaya dön"
+      }
+    },
+    "home": {
+      "meta": {
+        "title": "Ana Sayfa",
+        "description": "En popüler ürünleri keşfedin, fırsatları kaçırmayın! Güvenli alışveriş ve hızlı teslimat ile aradığınız her şey burada."
+      },
+      "product_rail": {
+        "view_all_button": "Tümünü Gör"
+      }
+    },
+    "order": {
+      "detail": {
+        "title": "{id} siparişi için transfer talebi",
+        "description": "Siparişinizin ({id}) mülkiyetinin devri için bir talep aldınız. Bu talebi kabul ediyorsanız, aşağıdaki butona tıklayarak devri onaylayabilirsiniz.",
+        "message_1": "Kabul etmeniz halinde, yeni sahip bu siparişle ilgili tüm sorumlulukları ve izinleri devralacaktır.",
+        "message_2": "Bu talebi kabul etmiyorsanız veya mülkiyeti elinizde tutmak istiyorsanız, başka bir işlem yapmanıza gerek yoktur."
+      },
+      "transfer": {
+        "accept": {
+          "success": {
+            "title": "Siparişiniz iletildi!",
+            "description": "{id} siparişi başarıyla yeni sahibine devredildi."
+          },
+          "error": {
+            "description": "Transfer kabul edilirken bir hata oluştu. Lütfen tekrar deneyin.",
+            "message": "Hata mesajı: {error}"
+          }
+        },
+        "decline": {
+          "success": {
+            "title": "Sipariş transferi reddedildi!",
+            "description": "{id} siparişinin transferi başarıyla reddedildi."
+          },
+          "error": {
+            "description": "Transfer reddedilirken bir hata oluştu. Lütfen tekrar deneyin.",
+            "message": "Hata mesajı: {error}"
+          }
+        }
+      },
+      "confirmed": {
+        "meta": {
+          "title": "Sipariş onaylandı",
+          "description": "Satın alma işleminiz başarılı oldu"
+        },
+        "content": {
+          "title": "Teşekkürler!",
+          "description": "Siparişiniz başarıyla alındı.",
+          "email_send_message": "Sipariş onay bilgilerinizi {email} adresine gönderdik.",
+          "created_message": "Siparişiniz {date} tarihinde başarıyla oluşturuldu"
+        },
+        "label": {
+          "order_date": "Sipariş Tarihi",
+          "summary": "Özet",
+          "delivery": "Nakliye",
+          "payment": "Ödeme",
+          "shipping_address": "Teslimat Adresi",
+          "contact": "İletişim Bilgileri",
+          "method": "Yöntem",
+          "payment_method": "Ödeme Yöntemi",
+          "payment_details": "Ödeme Detayları"
+        }
+      }
+    },
+    "auth": {
+      "login": {
+        "meta": {
+          "title": "Giriş Yap",
+          "description": "Hesabınıza giriş yaparak siparişlerinizi görüntüleyebilir, adres bilgilerinizi yönetebilir ve alışveriş deneyiminizi kişiselleştirebilirsiniz."
+        }
+      }
+    },
+    "checkout": {
+      "meta": {
+        "title": "Ödeme",
+        "description": "Satın alma işleminizi güvenli ödeme adımlarıyla tamamlayın. Kredi kartı, banka kartı veya diğer ödeme yöntemleri arasından seçim yaparak siparişinizi kolayca ödeyin."
+      },
+      "label": {
+        "summary": "Sepetin"
+      }
+    },
+    "account": {
+      "addresses": {
+        "meta": {
+          "title": "Teslimat Adresleri",
+          "description": "Teslimat adreslerinizi görüntüleyin ve güncelleyin, istediğiniz kadar adres ekleyebilirsiniz. Adreslerinizi kaydettiğinizde, ödeme sırasında kullanılabilir hale gelirler."
+        },
+        "add_button": "Yeni Adres Oluştur",
+        "not_found": {
+          "title": "Kayıtlı adres bulunamadı",
+          "description": "Henüz bir teslimat adresi eklemediniz. Siparişlerinizi kolayca tamamlamak için yeni bir adres ekleyin."
+        }
+      },
+      "region": {
+        "meta": {
+          "title": "Ülke/Bölge ve Dil",
+          "description": "Hesabınızın ülke/bölge ve dil ayarlarını yönetin."
+        },
+        "label": {
+          "currency": "Para Birimi",
+          "language": "Dil",
+          "country": "Ülke/Bölge"
+        }
+      },
+      "overview": {
+        "meta": {
+          "title": "Hesap",
+          "description": "Hesap bilgileriniz, kayıtlı adresleriniz ve son siparişlerinizi bu sayfadan görüntüleyebilirsiniz."
+        },
+        "label": {
+          "profile": "Profil",
+          "profile_completing": "Profilin Tamamlanmasına",
+          "address_count": "Kaydedilen Adres Sayısı",
+          "recent_orders": "Son Siparişler"
+        },
+        "item": {
+          "order": {
+            "date": "Sipariş Tarihi",
+            "number": "Sipariş Numarası",
+            "total_amount": "Toplam Tutar"
+          }
+        },
+        "message": {
+          "no_recent_order": "Geçmiş sipariş bulanamadı"
+        }
+      },
+      "profile": {
+        "meta": {
+          "title": "Profil",
+          "description": "Adınız, e-posta adresiniz ve telefon numaranız dahil olmak üzere profil bilgilerinizi görüntüleyin ve güncelleyin. Ayrıca fatura adresinizi güncelleyebilir veya şifrenizi değiştirebilirsiniz."
+        },
+        "label": {
+          "name": "İSİM",
+          "email": "E-POSTA",
+          "phone": "TELEFON NUMARASI",
+          "password": "ŞİFRE"
+        },
+        "description": {
+          "password": "Güvenlik nedeniyle şifre gösterilmemektedir"
+        }
+      },
+      "orders": {
+        "meta": {
+          "title": "Siparişler",
+          "description": "Geçmiş ve güncel siparişlerinizi görüntüleyin, kargo durumunu takip edin ve sipariş detaylarına kolayca erişin."
+        }
+      },
+      "order_detail": {
+        "meta": {
+          "title": "Sipariş #{number}",
+          "description": "Sipariş #{number} detaylarını görüntüleyin, ürün bilgilerini inceleyin ve kargo teslimat durumunu kolayca takip edin."
+        },
+        "label": {
+          "information_sent": "Sipariş onay bilgilerinizi {email} adresine gönderdik.",
+          "date": "Sipariş Tarihi",
+          "number": "Sipariş Numarası",
+          "order_status": "Sipariş Durumu",
+          "payment_status": "Ödeme Durumu"
+        },
+        "table": {
+          "product_info": "Ürün Bilgisi",
+          "price": "Fiyat",
+          "message": "Sipariş İçerikleri"
+        },
+        "progress_label": {
+          "not_fulfilled": "Onay Bekliyor",
+          "captured": "Onaylandı",
+          "fulfilled": "Kargoya Verildi",
+          "delivered": "Teslim Edildi"
+        },
+        "shipping_details": {
+          "shipping_address": "Teslimat Adresi",
+          "contact": "İletişim Bilgileri",
+          "method": "Teslimat Metodu"
+        },
+        "fulfilled_status": {
+          "not_fulfilled": "Onay Bekliyor",
+          "partially_fulfilled": "Onay Bekleyen Ürünler Var",
+          "fulfilled": "Onaylandı",
+          "partially_shipped": "Kargoya Verilmeyi Bekleyen Ürünler Var",
+          "shipped": "Kargoya Verildi",
+          "partially_delivered": "Teslim Edilmeyi Bekleyen Ürünler Var",
+          "canceled": "İptal Edildi",
+          "delivered": "Teslim Edildi"
+        },
+        "payment_status": {
+          "authorized": "Ödeme Bekleniyor",
+          "captured": "Ödeme Alındı",
+          "partially_refunded": "Bazı Ürünler İade Edildi",
+          "refunded": "İade Edildi",
+          "canceled": "İptal Edildi",
+          "requires_action": "Eylem Gerekiyor",
+          "awaiting": "Ödeme Bekleniyor",
+          "not_paid": "Ödenmedi"
+        },
+        "summary": {
+          "total": "Toplam Tutar",
+          "taxes": "Vergiler",
+          "shipping": "Nakliye",
+          "subtotal": "Ara Toplam",
+          "discount": "Toplam İndirim",
+          "gift_card": "Hediye Kartı"
+        },
+        "back_button": "Siparişlerim Sayfasına Dön"
+      }
+    },
+    "cart": {
+      "meta": {
+        "title": "Sepetim",
+        "description": "Sepetinizdeki ürünleri görüntüleyin, adetlerini güncelleyin ve güvenli bir şekilde ödeme adımına geçin."
+      },
+      "not_found": {
+        "title": "Sepet Bulunamadı",
+        "message": "Sepetinizde ürün bulunamadı. Lütfen sepetinize ürün ekleyip alışverişe devam edin.",
+        "button": "Yeni ürünleri keşfedin"
+      },
+      "sign_in_prompt": {
+        "title": "Giriş yapın",
+        "description": "Sipariş geçmişinizi görüntülemek ve daha hızlı ödeme yapmak için giriş yapın.",
+        "button": "Giriş Yap"
+      },
+      "label": {
+        "summary": "Özet"
+      },
+      "table": {
+        "product_info": "Ürün Bilgisi",
+        "quantity": "Adet",
+        "price": "Fiyat",
+        "total": "Toplam Tutar",
+        "message": "Sepet İçeriği"
+      },
+      "checkout_button": "Ödeme Yap"
+    }
+  },
+  "features": {
+    "product_detail": {
+      "product_actions": {
+        "button": {
+          "select_variant": "Varyasyon Seç",
+          "out_of_stock": "Stokta Yok",
+          "add_cart": "Sepete Ekle"
+        },
+        "smart_bar": {
+          "button": {
+            "select_variant": "Varyasyon Seç",
+            "out_of_stock": "Stokta Yok",
+            "add_cart": "Sepete Ekle"
+          }
+        },
+        "option_select": {
+          "label": "{title} Seç"
+        }
+      },
+      "product_price": {
+        "label": {
+          "original": "Orjinal",
+          "from": "Sadece"
+        }
+      },
+      "product_tabs": {
+        "label": {
+          "product_info": "Ürün Bilgisi",
+          "shipping_returns": "Kargolama ve İade"
+        },
+        "content": {
+          "product_info_tab": {
+            "material": "Materyal",
+            "country": "Menşei ülke",
+            "type": "Tip",
+            "weight": "Ağırlık",
+            "dimensions": "Boyutlar"
+          },
+          "shipping_info_tab": {
+            "fast_delivery": {
+              "title": "Hızlı teslimat",
+              "description": "Paketiniz 3-5 iş günü içerisinde teslim alma noktanıza veya evinizin rahatlığına ulaşacaktır."
+            },
+            "simple_exchanges": {
+              "title": "Basit değişimler",
+              "description": "Bedeniniz tam oturmadı mı? Endişelenmeyin, ürününüzü yenisiyle değiştireceğiz."
+            },
+            "easy_returns": {
+              "title": "Kolay iade",
+              "description": "Ürününüzü iade edin, paranızı iade edelim. Hiçbir soru sorulmaz; iadenizin sorunsuz bir şekilde gerçekleşmesi için elimizden geleni yapacağız."
+            }
+          }
+        }
+      }
+    },
+    "order": {
+      "transfer_actions": {
+        "message": {
+          "accept": "Sipariş başarıyla iletildi!",
+          "decline": "Sipariş transferi başarıyla reddedildi!"
+        },
+        "button": {
+          "accept": "Transferi kabul et",
+          "decline": "Transferi reddet"
+        }
+      }
+    },
+    "cart": {
+      "cart_totals": {
+        "subtotal": "Ara Toplam",
+        "shipping": "Nakliye",
+        "taxes": "Vergiler",
+        "total": "Toplam Tutar"
+      }
+    },
+    "checkout": {
+      "review": {
+        "summary": {
+          "title": "Gözden Geçir",
+          "description": "Sipariş Ver butonuna tıklayarak Kullanım Koşullarımızı, Satış Koşullarımızı ve İade Politikamızı okuduğunuzu, anladığınızı ve kabul ettiğinizi onaylıyor ve Medusa Store'un Gizlilik Politikasını okuduğunuzu beyan ediyorsunuz."
+        }
+      },
+      "payment": {
+        "summary": {
+          "title": "Ödeme"
+        },
+        "label": {
+          "payment_method": "Ödeme Metodu",
+          "gift_card": "Hediye Kartı",
+          "payment_details": "Ödeme Detayları"
+        },
+        "button": {
+          "edit": "Ödeme Bilgisini Güncelle",
+          "continue": "Kontrol edin",
+          "enter_card_details": "Kart bilgilerini girin"
+        }
+      },
+      "shipping": {
+        "summary": {
+          "title": "Gönderim"
+        },
+        "label": {
+          "method": "Yöntem",
+          "store": "Mağaza",
+          "sub_store": "Siparişinizin nasıl teslim edilmesini istersiniz?",
+          "shipping_method": "Gönderim Metodu",
+          "sub_shipping_method": "Siparişinizin nasıl teslim edilmesini istersiniz?",
+          "pick_up": "Siparişinizi alın"
+        },
+        "button": {
+          "edit": "Nakliye Bilgisini Güncelle",
+          "continue": "Ödemeye devam edin"
+        }
+      },
+      "addresses": {
+        "summary": {
+          "title": "Teslimat Adresi",
+          "shipping_address": "Teslimat Adresi",
+          "contact": "İletişim Bilgileri",
+          "billing_address": "Fatura Adresi",
+          "same_billing_address": "Fatura ve teslimat adresi aynıdır."
+        },
+        "label": {
+          "select_address": "Merhaba {name}, kayıtlı adreslerinizden birini kullanmak ister misiniz?",
+          "same_as_billing": "Fatura adresi teslimat adresiyle aynı",
+          "billing_address": "Fatura Adresi",
+          "first_name": "Ad",
+          "last_name": "Soyad",
+          "company": "Şirket İsmi",
+          "address_1": "Adres",
+          "postal_code": "Posta Kodu",
+          "city": "Şehir / İlçe",
+          "province": "İl",
+          "email": "E-posta",
+          "phone": "Telefon Numarası"
+        },
+        "button": {
+          "edit": "Teslimat Adresini Güncelle",
+          "continue": "Gönderime devam edin"
+        }
+      }
+    },
+    "auth": {
+      "forms": {
+        "login_form": {
+          "email": "E-posta",
+          "success_message": "Başarıyla giriş yaptınız.",
+          "error_message": "Giriş sırasında bir hata oluştu.",
+          "password": "Parola",
+          "submit": "Giriş Yap"
+        },
+        "register_form": {
+          "first_name": "Ad",
+          "last_name": "Soyad",
+          "email": "E-posta",
+          "password": "Parola",
+          "confirm_password": "Parolayı Onayla",
+          "phone": "Telefon Numarası",
+          "submit": "Kaydol",
+          "terms_of_use": "Kullanım Şartları",
+          "success_message": "Hesabınız başarıyla oluşturuldu.",
+          "error_message": "Hesabınız oluşturulurken bir hata oluştu."
+        }
+      },
+      "views": {
+        "login_view": {
+          "title": "Giriş Yap",
+          "description": "Geliştirilmiş bir alışveriş deneyimi için giriş yapın.",
+          "no_account": "Hesabınız yok mu?",
+          "register": "Kaydol"
+        },
+        "register_view": {
+          "title": "Kaydol",
+          "description": "Alışveriş deneyiminizi geliştirmek için kaydolun.",
+          "have_account": "Zaten hesabınız var mı?",
+          "login": "Giriş Yap",
+          "privacy_policy": "Gizlilik Politikası",
+          "agreement": "Bir hesap oluşturarak Medusa Store'un <privacy_policy>Gizlilik sözleşmesi</privacy_policy> ve <terms_of_use>Kullanım Şartları</terms_of_use> şartlarını kabul etmiş olursunuz."
+        }
+      }
+    },
+    "account": {
+      "selects": {
+        "country_select": {
+          "dialog": {
+            "title": "{country}'da alışveriş yapmak ister misiniz? Değiştirdikten sonra tekrar kaydolmanız veya oturum açmanız gerekecek.",
+            "description": "Ürün bulunabilirliği, fiyatlar, kargo bedelleri ve vergiler değişebilir (sepetinizdeki ürünler dahil).",
+            "switch_button": "{country}'ya geç",
+            "cancel_button": "Vazgeç"
+          }
+        }
+      },
+      "dialogs": {
+        "add_address_dialog": {
+          "title": "Adres Ekle",
+          "description": "Lütfen teslimat için kullanılacak adres bilgilerinizi eksiksiz doldurun."
+        },
+        "update_address_dialog": {
+          "title": "Adresi Düzenle",
+          "description": "Mevcut adres bilgilerinizi güncelleyin veya değişiklikleri kaydedin."
+        }
+      },
+      "forms": {
+        "add_address_form": {
+          "label": {
+            "first_name": "Ad",
+            "last_name": "Soyad",
+            "company": "Şirket İsmi",
+            "address_1": "Adres",
+            "address_2": "Apartman, Blok, Kat",
+            "postal_code": "Posta Kodu",
+            "city": "Şehir / İlçe",
+            "province": "İl",
+            "phone": "Telefon Numarası"
+          },
+          "message": {
+            "success": "Adresiniz başarıyla eklendi.",
+            "error": "Adres eklenirken bir hata oluştu. Lütfen tekrar deneyin."
+          },
+          "cancel_button": "Vazgeç",
+          "submit": "Adresi Ekle"
+        },
+        "update_address_form": {
+          "label": {
+            "first_name": "Ad",
+            "last_name": "Soyad",
+            "company": "Şirket İsmi",
+            "address_1": "Adres",
+            "address_2": "Apartman, Blok, Kat",
+            "postal_code": "Posta Kodu",
+            "city": "Şehir / İlçe",
+            "province": "İl",
+            "phone": "Telefon Numarası"
+          },
+          "message": {
+            "success": "Adresiniz başarıyla düzenlendi.",
+            "error": "Adres düzenlerken bir hata oluştu. Lütfen tekrar deneyin."
+          },
+          "cancel_button": "Vazgeç",
+          "submit": "Adresi Düzenle"
+        },
+        "transfer_request_form": {
+          "title": "Sipariş Transfer Talep Formu",
+          "description": "Aradığınız siparişi bulamıyor musunuz? Hesabınıza bir sipariş bağlayın.",
+          "label": "Sipariş Kimliği",
+          "submit": "Transfer Talep Et",
+          "message": {
+            "success": "Transfer başarıyla gerçekleşti",
+            "error": "Transfer gerçekleşirken bir sorunla karşılaşıldı"
+          }
+        },
+        "update_password_form": {
+          "label": {
+            "old_password": "Eski Şifre",
+            "new_password": "Yeni Şifre",
+            "confirm_password": "Yeni Şifreyi Onayla"
+          },
+          "message": {
+            "success": "Şifre başarıyla değiştirildi",
+            "error": "Şifre değiştirilirken sorun oluştu"
+          },
+          "submit": "Değişiklikleri Kaydet"
+        },
+        "update_phone_form": {
+          "label": "Telefon Numarası",
+          "message": {
+            "success": "Telefon numarası başarıyla değiştirildi",
+            "error": "Telefon numarası değiştirilirken bir sorunla karşılaşıldı"
+          },
+          "submit": "Yeni Telefon Numarasını Kaydet"
+        },
+        "update_email_form": {
+          "label": "E-posta",
+          "message": {
+            "success": "E-posta başarıyla değiştirildi",
+            "error": "E-posta değiştirilirken bir sorun oluştu"
+          },
+          "submit": "Değişiklikleri Kaydet"
+        },
+        "update_name_form": {
+          "label": {
+            "first_name": "Ad",
+            "last_name": "Soyad"
+          },
+          "message": {
+            "success": "Değişiklikler başarıyla kaydedildi",
+            "error": "Değişiklikler kaydedilirkene bir sorun oluştu"
+          },
+          "submit": "Güncelle"
+        }
+      },
+      "cards": {
+        "order_card": {
+          "item_count": "{count, plural, one {# Öğe} other {# Öğeler}}",
+          "detail_button": "Detayları Görüntüler",
+          "fulfilled_status": {
+            "not_fulfilled": "Onay Bekliyor",
+            "partially_fulfilled": "Onay Bekleyen Ürünler Var",
+            "partially_delivered": "Teslim Edilmeyi Bekleyen Ürünler Var",
+            "fulfilled": "Onaylandı",
+            "partially_shipped": "Kargoya Verilmeyi Bekleyen Ürünler Var",
+            "shipped": "Kargoya Verildi",
+            "canceled": "İptal Edildi",
+            "delivered": "Teslim Edildi"
+          },
+          "payment_status": {
+            "authorized": "Ödeme Bekleniyor",
+            "captured": "Ödeme Alındı",
+            "partially_refunded": "Bazı Ürünler İade Edildi",
+            "refunded": "İade Edildi",
+            "canceled": "İptal Edildi",
+            "requires_action": "Eylem Gerekiyor",
+            "awaiting": "Ödeme Bekleniyor",
+            "not_paid": "Ödenmedi"
+          }
+        }
+      }
+    }
+  },
+  "modules": {
+    "cart": {
+      "delete_button": {
+        "title": "Ürünü Sil",
+        "description": "Bu ürünü sepetinizden silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+        "cancel_button": "İptal Et",
+        "confirm_button": "Onayla"
+      },
+      "discount_code": {
+        "add": "İndirim Kodu Ekle",
+        "applied_promotions": "Uygulanan İndirimler",
+        "remove": "İndirim Kodunu Kaldır",
+        "apply": "Uygula",
+        "error": "Bir hata oluştu"
+      },
+      "line_item_options": {
+        "label": "Varyasyon"
+      },
+      "line_item_unit_price": {
+        "label": "Orjinal"
+      }
+    },
+    "product": {
+      "preview": {
+        "detail_button": "Ürün Detayı"
+      },
+      "related_products": {
+        "title": "Bağlantılı Ürünler",
+        "description": "Bu ürünlere de göz atmak isteyebilirsiniz."
+      }
+    }
+  }
+}

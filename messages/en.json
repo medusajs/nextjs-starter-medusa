@@ -1,0 +1,661 @@
+{
+  "layout": {
+    "cart": {
+      "cart_sidebar": {
+        "sign_in_prompt": {
+          "title": "Sign in",
+          "description": "Sign in to view your order history and checkout faster.",
+          "button": "Sign In"
+        },
+        "label": {
+          "summary": "Cart Summary",
+          "subtotal": "Subtotal",
+          "quantity": "Quantity"
+        },
+        "button": {
+          "checkout": "Checkout",
+          "cart": "Go to cart ({item_count} items)"
+        }
+      },
+      "cart_mismatch_alert": {
+        "title": "Transfer Warning",
+        "description": "An error occurred while trying to transfer your cart",
+        "transfer_button": "Retry Transfer",
+        "transferring_button": "Transferring..."
+      }
+    },
+    "account": {
+      "sidebar": {
+        "label": {
+          "welcome": "Hello {name}",
+          "account": "Account"
+        },
+        "item": {
+          "overview": "Account",
+          "profile": "Profile",
+          "addresses": "Addresses",
+          "orders": "Orders",
+          "logout": "Log Out",
+          "region": "Country/Region & Language"
+        },
+        "dialog": {
+          "logout": {
+            "title": "Are you sure?",
+            "description": "After logging out, you will need to log in again to access your account. Any unsaved data may be lost.",
+            "action_button": "I’m Sure",
+            "cancel_button": "Cancel"
+          }
+        }
+      }
+    },
+    "checkout": {
+      "desktop_back_button": "Back to Cart",
+      "mobile_back_button": "Back",
+      "safety": "SSH Protected"
+    }
+  },
+  "common": {
+    "view_all": "View All",
+    "footer": {
+      "copyright": "© {year} Medusa Store. All rights reserved.",
+      "categories": "Categories",
+      "collections": "Collections"
+    }
+  },
+  "pages": {
+    "not_found": {
+      "meta": {
+        "title": "Page Not Found",
+        "description": "The page you are looking for does not exist. Please return to the homepage."
+      },
+      "content": {
+        "title": "Page Not Found",
+        "message": "The page you are looking for does not exist. Please return to the homepage.",
+        "button": "Go to Homepage"
+      }
+    },
+    "home": {
+      "meta": {
+        "title": "Home",
+        "description": "Discover the most popular products and don’t miss the deals! Everything you need is here with secure shopping and fast delivery."
+      },
+      "product_rail": {
+        "view_all_button": "View All"
+      }
+    },
+    "order": {
+      "detail": {
+        "title": "Transfer request for order {id}",
+        "description": "You have received a request to transfer the ownership of order ({id}). If you agree, you can approve the transfer by clicking the button below.",
+        "message_1": "If you accept, the new owner will assume all responsibilities and permissions related to this order.",
+        "message_2": "If you do not accept or wish to keep ownership, no further action is required."
+      },
+      "transfer": {
+        "accept": {
+          "success": {
+            "title": "Your order has been transferred!",
+            "description": "Order {id} was successfully transferred to the new owner."
+          },
+          "error": {
+            "description": "An error occurred while accepting the transfer. Please try again.",
+            "message": "Error message: {error}"
+          }
+        },
+        "decline": {
+          "success": {
+            "title": "Order transfer declined!",
+            "description": "The transfer of order {id} was successfully declined."
+          },
+          "error": {
+            "description": "An error occurred while declining the transfer. Please try again.",
+            "message": "Error message: {error}"
+          }
+        }
+      },
+      "confirmed": {
+        "meta": {
+          "title": "Order Confirmed",
+          "description": "Your purchase was successful"
+        },
+        "content": {
+          "title": "Thank you!",
+          "description": "Your order has been placed successfully.",
+          "email_send_message": "We sent your order confirmation details to {email}.",
+          "created_message": "Your order was successfully created on {date}"
+        },
+        "label": {
+          "order_date": "Order Date",
+          "summary": "Summary",
+          "delivery": "Shipping",
+          "payment": "Payment",
+          "shipping_address": "Shipping Address",
+          "contact": "Contact Information",
+          "method": "Method",
+          "payment_method": "Payment Method",
+          "payment_details": "Payment Details"
+        }
+      }
+    },
+    "auth": {
+      "login": {
+        "meta": {
+          "title": "Sign In",
+          "description": "Sign in to your account to view your orders, manage addresses, and personalize your shopping experience."
+        }
+      }
+    },
+    "checkout": {
+      "meta": {
+        "title": "Checkout",
+        "description": "Complete your purchase with secure checkout steps. Choose from credit card, debit card, or other payment methods to easily pay for your order."
+      },
+      "label": {
+        "summary": "Your Cart"
+      }
+    },
+    "account": {
+      "addresses": {
+        "meta": {
+          "title": "Shipping Addresses",
+          "description": "View and update your shipping addresses, add as many as you want. Once saved, addresses will be available during checkout."
+        },
+        "add_button": "Add New Address",
+        "not_found": {
+          "title": "No saved addresses found",
+          "description": "You haven’t added a shipping address yet. Add one to complete your orders easily.",
+          "button": "Add Address"
+        }
+      },
+      "region": {
+        "meta": {
+          "title": "Country/Region & Language",
+          "description": "Manage your country/region and language settings."
+        },
+        "label": {
+          "currency": "Currency",
+          "language": "Language",
+          "country": "Country/Region"
+        }
+      },
+      "overview": {
+        "meta": {
+          "title": "Account",
+          "description": "View your account details, saved addresses, and recent orders on this page."
+        },
+        "label": {
+          "profile": "Profile",
+          "profile_completing": "Profile Completion",
+          "address_count": "Number of Saved Addresses",
+          "recent_orders": "Recent Orders"
+        },
+        "item": {
+          "order": {
+            "date": "Order Date",
+            "number": "Order Number",
+            "total_amount": "Total Amount"
+          }
+        },
+        "message": {
+          "no_recent_order": "No past orders found"
+        }
+      },
+      "profile": {
+        "meta": {
+          "title": "Profile",
+          "description": "View and update your profile details including name, email, and phone number. You can also update your billing address or change your password."
+        },
+        "label": {
+          "name": "NAME",
+          "email": "EMAIL",
+          "phone": "PHONE NUMBER",
+          "password": "PASSWORD"
+        },
+        "description": {
+          "password": "For security reasons, the password is not displayed"
+        }
+      },
+      "orders": {
+        "meta": {
+          "title": "Orders",
+          "description": "View your past and current orders, track shipping status, and access order details easily."
+        }
+      },
+      "order_detail": {
+        "meta": {
+          "title": "Order #{number}",
+          "description": "View order #{number} details, check product information, and easily track shipping status."
+        },
+        "label": {
+          "information_sent": "We sent your order confirmation details to {email}.",
+          "date": "Order Date",
+          "number": "Order Number",
+          "order_status": "Order Status",
+          "payment_status": "Payment Status"
+        },
+        "table": {
+          "product_info": "Product Information",
+          "price": "Price",
+          "message": "Order Items"
+        },
+        "progress_label": {
+          "not_fulfilled": "Awaiting Confirmation",
+          "captured": "Confirmed",
+          "fulfilled": "Shipped",
+          "delivered": "Delivered"
+        },
+        "shipping_details": {
+          "shipping_address": "Shipping Address",
+          "contact": "Contact Information",
+          "method": "Shipping Method"
+        },
+        "fulfilled_status": {
+          "not_fulfilled": "Awaiting Confirmation",
+          "partially_fulfilled": "Items Awaiting Confirmation",
+          "fulfilled": "Confirmed",
+          "partially_shipped": "Items Awaiting Shipment",
+          "shipped": "Shipped",
+          "partially_delivered": "Items Awaiting Delivery",
+          "canceled": "Canceled",
+          "delivered": "Delivered"
+        },
+        "payment_status": {
+          "authorized": "Awaiting Payment",
+          "captured": "Payment Received",
+          "partially_refunded": "Some Items Refunded",
+          "refunded": "Refunded",
+          "canceled": "Canceled",
+          "requires_action": "Action Required",
+          "awaiting": "Awaiting Payment",
+          "not_paid": "Not Paid"
+        },
+        "summary": {
+          "total": "Total Amount",
+          "taxes": "Taxes",
+          "shipping": "Shipping",
+          "subtotal": "Subtotal",
+          "discount": "Total Discount",
+          "gift_card": "Gift Card"
+        },
+        "back_button": "Back to My Orders"
+      }
+    },
+    "cart": {
+      "meta": {
+        "title": "My Cart",
+        "description": "View items in your cart, update quantities, and proceed securely to checkout."
+      },
+      "not_found": {
+        "title": "Cart Not Found",
+        "message": "Your cart is empty. Please add items to continue shopping.",
+        "button": "Discover New Products"
+      },
+      "sign_in_prompt": {
+        "title": "Sign in",
+        "description": "Sign in to view your order history and checkout faster.",
+        "button": "Sign In"
+      },
+      "label": {
+        "summary": "Summary"
+      },
+      "table": {
+        "product_info": "Product Information",
+        "quantity": "Quantity",
+        "price": "Price",
+        "total": "Total Amount",
+        "message": "Cart Items"
+      },
+      "checkout_button": "Checkout"
+    }
+  },
+  "features": {
+    "product_detail": {
+      "product_actions": {
+        "button": {
+          "select_variant": "Select Variant",
+          "out_of_stock": "Out Of Stock",
+          "add_cart": "Add To Cart"
+        },
+        "smart_bar": {
+          "button": {
+            "select_variant": "Select Variant",
+            "out_of_stock": "Out Of Stock",
+            "add_cart": "Add To Cart"
+          }
+        },
+        "option_select": {
+          "label": "Select {title}"
+        }
+      },
+      "product_price": {
+        "label": {
+          "original": "Original",
+          "from": "From"
+        }
+      },
+      "product_tabs": {
+        "label": {
+          "product_info": "Product Information",
+          "shipping_returns": "Shipping & Returns"
+        },
+        "content": {
+          "product_info_tab": {
+            "material": "Material",
+            "country": "Country of Origin",
+            "type": "Type",
+            "weight": "Weight",
+            "dimensions": "Dimensions"
+          },
+          "shipping_info_tab": {
+            "fast_delivery": {
+              "title": "Fast Delivery",
+              "description": "Your package will arrive at your pickup point or home within 3-5 business days."
+            },
+            "simple_exchanges": {
+              "title": "Simple Exchanges",
+              "description": "Didn’t get the right fit? Don’t worry, we’ll replace your product with the right one."
+            },
+            "easy_returns": {
+              "title": "Easy Returns",
+              "description": "Return your product and get your money back. No questions asked; we’ll make sure your return is handled smoothly."
+            }
+          }
+        }
+      }
+    },
+    "order": {
+      "transfer_actions": {
+        "message": {
+          "accept": "Order transferred successfully!",
+          "decline": "Order transfer declined successfully!"
+        },
+        "button": {
+          "accept": "Accept Transfer",
+          "decline": "Decline Transfer"
+        }
+      }
+    },
+    "cart": {
+      "cart_totals": {
+        "subtotal": "Subtotal",
+        "shipping": "Shipping",
+        "taxes": "Taxes",
+        "total": "Total Amount"
+      }
+    },
+    "checkout": {
+      "review": {
+        "summary": {
+          "title": "Review",
+          "description": "By clicking Place Order, you confirm that you have read, understood, and accepted our Terms of Use, Sales Conditions, and Return Policy, and that you have read Medusa Store’s Privacy Policy."
+        }
+      },
+      "payment": {
+        "summary": {
+          "title": "Payment"
+        },
+        "label": {
+          "payment_method": "Payment Method",
+          "gift_card": "Gift Card",
+          "payment_details": "Payment Details"
+        },
+        "button": {
+          "edit": "Update Payment Info",
+          "continue": "Review",
+          "enter_card_details": "Enter Card Details"
+        }
+      },
+      "shipping": {
+        "summary": {
+          "title": "Shipping"
+        },
+        "label": {
+          "method": "Method",
+          "store": "Store",
+          "sub_store": "How would you like your order delivered?",
+          "shipping_method": "Shipping Method",
+          "sub_shipping_method": "How would you like your order delivered?",
+          "pick_up": "Pick up your order"
+        },
+        "button": {
+          "edit": "Update Shipping Info",
+          "continue": "Continue to Payment"
+        }
+      },
+      "addresses": {
+        "summary": {
+          "title": "Shipping Address",
+          "shipping_address": "Shipping Address",
+          "contact": "Contact Information",
+          "billing_address": "Billing Address",
+          "same_billing_address": "Billing and shipping addresses are the same."
+        },
+        "label": {
+          "select_address": "Hello {name}, would you like to use one of your saved addresses?",
+          "same_as_billing": "Billing address is the same as shipping",
+          "billing_address": "Billing Address",
+          "first_name": "First Name",
+          "last_name": "Last Name",
+          "company": "Company Name",
+          "address_1": "Address",
+          "postal_code": "Postal Code",
+          "city": "City",
+          "province": "State/Province",
+          "email": "Email",
+          "phone": "Phone Number"
+        },
+        "button": {
+          "edit": "Update Shipping Address",
+          "continue": "Continue to Shipping"
+        }
+      }
+    },
+    "auth": {
+      "forms": {
+        "login_form": {
+          "email": "Email",
+          "success_message": "You have successfully logged in.",
+          "error_message": "An error occurred while logging in.",
+          "password": "Password",
+          "submit": "Sign In"
+        },
+        "register_form": {
+          "first_name": "First Name",
+          "last_name": "Last Name",
+          "email": "Email",
+          "password": "Password",
+          "confirm_password": "Confirm Password",
+          "phone": "Phone Number",
+          "submit": "Sign Up",
+          "terms_of_use": "Terms of Use",
+          "success_message": "Your account has been created successfully.",
+          "error_message": "An error occurred while creating your account."
+        }
+      },
+      "views": {
+        "login_view": {
+          "title": "Sign In",
+          "description": "Sign in for an enhanced shopping experience.",
+          "no_account": "Don’t have an account?",
+          "register": "Sign Up"
+        },
+        "register_view": {
+          "title": "Sign Up",
+          "description": "Sign up to enhance your shopping experience.",
+          "have_account": "Already have an account?",
+          "login": "Sign In",
+          "privacy_policy": "Privacy Policy",
+          "agreement": "By creating an account, you agree to Medusa Store’s <privacy_policy>Privacy Policy</privacy_policy> and <terms_of_use>Terms of Use</terms_of_use>."
+        }
+      }
+    },
+    "account": {
+      "selects": {
+        "country_select": {
+          "dialog": {
+            "title": "Would you like to shop in {country}? After changing, you may need to sign up or log in again.",
+            "description": "Product availability, prices, shipping fees, and taxes may change (including items in your cart).",
+            "switch_button": "Switch to {country}",
+            "cancel_button": "Cancel"
+          }
+        }
+      },
+      "dialogs": {
+        "add_address_dialog": {
+          "title": "Add Address",
+          "description": "Please fill in your shipping address details completely."
+        },
+        "update_address_dialog": {
+          "title": "Edit Address",
+          "description": "Update your current address details or save changes."
+        }
+      },
+      "forms": {
+        "add_address_form": {
+          "label": {
+            "first_name": "First Name",
+            "last_name": "Last Name",
+            "company": "Company Name",
+            "address_1": "Address",
+            "address_2": "Apartment, Block, Floor",
+            "postal_code": "Postal Code",
+            "city": "City",
+            "province": "State/Province",
+            "phone": "Phone Number"
+          },
+          "message": {
+            "success": "Your address has been added successfully.",
+            "error": "An error occurred while adding the address. Please try again."
+          },
+          "cancel_button": "Cancel",
+          "submit": "Add Address"
+        },
+        "update_address_form": {
+          "label": {
+            "first_name": "First Name",
+            "last_name": "Last Name",
+            "company": "Company Name",
+            "address_1": "Address",
+            "address_2": "Apartment, Block, Floor",
+            "postal_code": "Postal Code",
+            "city": "City",
+            "province": "State/Province",
+            "phone": "Phone Number"
+          },
+          "message": {
+            "success": "Your address has been updated successfully.",
+            "error": "An error occurred while updating the address. Please try again."
+          },
+          "cancel_button": "Cancel",
+          "submit": "Update Address"
+        },
+        "transfer_request_form": {
+          "title": "Order Transfer Request Form",
+          "description": "Can’t find the order you’re looking for? Link an order to your account.",
+          "label": "Order ID",
+          "submit": "Request Transfer",
+          "message": {
+            "success": "Transfer completed successfully",
+            "error": "An error occurred during the transfer"
+          }
+        },
+        "update_password_form": {
+          "label": {
+            "old_password": "Old Password",
+            "new_password": "New Password",
+            "confirm_password": "Confirm New Password"
+          },
+          "message": {
+            "success": "Password changed successfully",
+            "error": "An error occurred while changing the password"
+          },
+          "submit": "Save Changes"
+        },
+        "update_phone_form": {
+          "label": "Phone Number",
+          "message": {
+            "success": "Phone number updated successfully",
+            "error": "An error occurred while updating the phone number"
+          },
+          "submit": "Save New Phone Number"
+        },
+        "update_email_form": {
+          "label": "Email",
+          "message": {
+            "success": "Email updated successfully",
+            "error": "An error occurred while updating the email"
+          },
+          "submit": "Save Changes"
+        },
+        "update_name_form": {
+          "label": {
+            "first_name": "First Name",
+            "last_name": "Last Name"
+          },
+          "message": {
+            "success": "Changes saved successfully",
+            "error": "An error occurred while saving changes"
+          },
+          "submit": "Update"
+        }
+      },
+      "cards": {
+        "order_card": {
+          "item_count": "{count, plural, one {# Item} other {# Items}}",
+          "detail_button": "View Details",
+          "fulfilled_status": {
+            "not_fulfilled": "Awaiting Confirmation",
+            "partially_fulfilled": "Items Awaiting Confirmation",
+            "partially_delivered": "Items Awaiting Delivery",
+            "fulfilled": "Confirmed",
+            "partially_shipped": "Items Awaiting Shipment",
+            "shipped": "Shipped",
+            "canceled": "Canceled",
+            "delivered": "Delivered"
+          },
+          "payment_status": {
+            "authorized": "Awaiting Payment",
+            "captured": "Payment Received",
+            "partially_refunded": "Some Items Refunded",
+            "refunded": "Refunded",
+            "canceled": "Canceled",
+            "requires_action": "Action Required",
+            "awaiting": "Awaiting Payment",
+            "not_paid": "Not Paid"
+          }
+        }
+      }
+    }
+  },
+  "modules": {
+    "cart": {
+      "delete_button": {
+        "title": "Remove Item",
+        "description": "Are you sure you want to remove this item from your cart? This action cannot be undone.",
+        "cancel_button": "Cancel",
+        "confirm_button": "Confirm"
+      },
+      "discount_code": {
+        "add": "Add Discount Code",
+        "applied_promotions": "Applied Discounts",
+        "remove": "Remove Discount Code",
+        "apply": "Apply",
+        "error": "An error occurred"
+      },
+      "line_item_options": {
+        "label": "Variation"
+      },
+      "line_item_unit_price": {
+        "label": "Original"
+      }
+    },
+    "product": {
+      "preview": {
+        "detail_button": "Product Details"
+      },
+      "related_products": {
+        "title": "Related Products",
+        "description": "You might also be interested in these products."
+      }
+    }
+  }
+}

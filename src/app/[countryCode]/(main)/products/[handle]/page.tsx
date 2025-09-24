@@ -1,8 +1,12 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { listProducts } from "@lib/data/products"
-import { getRegion, listRegions } from "@lib/data/regions"
-import ProductTemplate from "@modules/products/templates"
+
+import { listProducts } from "@/utils/data/products"
+import { getRegion, listRegions } from "@/utils/data/regions"
+
+import { generateMeta } from "@/utils/meta/generate-meta"
+
+import { ProductTemplate } from "@/components/features/product-detail/product-template"
 
 type Props = {
   params: Promise<{ countryCode: string; handle: string }>
@@ -50,17 +54,17 @@ export async function generateStaticParams() {
   }
 }
 
-export async function generateMetadata(props: Props): Promise<Metadata> {
-  const params = await props.params
-  const { handle } = params
-  const region = await getRegion(params.countryCode)
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { handle = "", countryCode } = await params
+  const region = await getRegion(countryCode)
 
   if (!region) {
     notFound()
   }
 
   const product = await listProducts({
-    countryCode: params.countryCode,
+    countryCode,
+    // @ts-ignore - handle is a required parameter
     queryParams: { handle },
   }).then(({ response }) => response.products[0])
 
@@ -68,28 +72,28 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     notFound()
   }
 
-  return {
-    title: `${product.title} | Medusa Store`,
-    description: `${product.title}`,
-    openGraph: {
-      title: `${product.title} | Medusa Store`,
-      description: `${product.title}`,
+  return generateMeta({
+    meta: {
+      title: product.title,
+      description: product.description || "",
       images: product.thumbnail ? [product.thumbnail] : [],
     },
-  }
+    slug: [countryCode, "products", handle],
+  })
 }
 
-export default async function ProductPage(props: Props) {
-  const params = await props.params
-  const region = await getRegion(params.countryCode)
+export default async function ProductPage({ params }: Props) {
+  const { handle = "", countryCode } = await params
+  const region = await getRegion(countryCode)
 
   if (!region) {
     notFound()
   }
 
   const pricedProduct = await listProducts({
-    countryCode: params.countryCode,
-    queryParams: { handle: params.handle },
+    countryCode,
+    // @ts-ignore - handle is a required parameter
+    queryParams: { handle },
   }).then(({ response }) => response.products[0])
 
   if (!pricedProduct) {
@@ -100,7 +104,7 @@ export default async function ProductPage(props: Props) {
     <ProductTemplate
       product={pricedProduct}
       region={region}
-      countryCode={params.countryCode}
+      countryCode={countryCode}
     />
   )
 }

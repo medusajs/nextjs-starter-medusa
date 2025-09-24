@@ -1,13 +1,17 @@
-import { acceptTransferRequest } from "@lib/data/orders"
-import { Heading, Text } from "@medusajs/ui"
-import TransferImage from "@modules/order/components/transfer-image"
+import { Fragment } from "react"
+import { getTranslations } from "next-intl/server"
+
+import { acceptTransferRequest } from "@/utils/data/orders"
+
+import { TransferImage } from "@/components/ui/icons/transfer-image"
 
 export default async function TransferPage({
   params,
 }: {
-  params: { id: string; token: string }
+  params: Promise<{ id: string; token: string }>
 }) {
-  const { id, token } = params
+  const t = await getTranslations("pages.order.transfer.accept")
+  const { id, token } = await params
 
   const { success, error } = await acceptTransferRequest(id, token)
 
@@ -16,24 +20,22 @@ export default async function TransferPage({
       <TransferImage />
       <div className="flex flex-col gap-y-6">
         {success && (
-          <>
-            <Heading level="h1" className="text-xl text-zinc-900">
-              Order transfered!
-            </Heading>
-            <Text className="text-zinc-600">
-              Order {id} has been successfully transfered to the new owner.
-            </Text>
-          </>
+          <Fragment>
+            <h1 className="text-xl">{t("success.title")}</h1>
+            <p className="text-muted-foreground">
+              {t("success.description", { id })}
+            </p>
+          </Fragment>
         )}
         {!success && (
-          <>
-            <Text className="text-zinc-600">
-              There was an error accepting the transfer. Please try again.
-            </Text>
+          <Fragment>
+            <p className="text-muted-foreground">{t("error.description")}</p>
             {error && (
-              <Text className="text-red-500">Error message: {error}</Text>
+              <p className="text-destructive">
+                {t("error.message", { error })}
+              </p>
             )}
-          </>
+          </Fragment>
         )}
       </div>
     </div>

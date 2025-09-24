@@ -1,18 +1,34 @@
-import { Metadata } from "next"
-
-import OrderOverview from "@modules/account/components/order-overview"
 import { notFound } from "next/navigation"
-import { listOrders } from "@lib/data/orders"
-import Divider from "@modules/common/components/divider"
-import TransferRequestForm from "@modules/account/components/transfer-request-form"
+import { getTranslations } from "next-intl/server"
 
-export const metadata: Metadata = {
-  title: "Orders",
-  description: "Overview of your previous orders.",
+import { listOrders } from "@/utils/data/orders"
+import { generateMeta } from "@/utils/meta/generate-meta"
+
+import { Separator } from "@/components/ui/primitives/separator"
+import { TransferRequestForm } from "@/components/features/account/forms/transfer-request-form"
+import { OrderCard } from "@/components/features/account/cards/order-card"
+
+type Props = {
+  params: Promise<{
+    countryCode: string
+  }>
 }
 
-export default async function Orders() {
-  const orders = await listOrders()
+export async function generateMetadata({ params }: Props) {
+  const { countryCode } = await params
+  const t = await getTranslations("pages.account.orders.meta")
+
+  return generateMeta({
+    meta: {
+      title: t("title"),
+      description: t("description"),
+    },
+    slug: [countryCode, "account", "orders"],
+  })
+}
+
+export default async function OrdersPage() {
+  const orders = await listOrders().catch(() => null)
 
   if (!orders) {
     notFound()
@@ -20,18 +36,13 @@ export default async function Orders() {
 
   return (
     <div className="w-full" data-testid="orders-page-wrapper">
-      <div className="mb-8 flex flex-col gap-y-4">
-        <h1 className="text-2xl-semi">Orders</h1>
-        <p className="text-base-regular">
-          View your previous orders and their status. You can also create
-          returns or exchanges for your orders if needed.
-        </p>
+      <div className="flex flex-col gap-y-8 w-full">
+        {orders.map((o) => (
+          <OrderCard key={o.id} order={o} />
+        ))}
       </div>
-      <div>
-        <OrderOverview orders={orders} />
-        <Divider className="my-16" />
-        <TransferRequestForm />
-      </div>
+      <Separator className="my-10" />
+      <TransferRequestForm />
     </div>
   )
 }

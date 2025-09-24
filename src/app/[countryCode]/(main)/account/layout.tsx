@@ -1,20 +1,20 @@
-import { retrieveCustomer } from "@lib/data/customer"
-import { Toaster } from "@medusajs/ui"
-import AccountLayout from "@modules/account/templates/account-layout"
+import { retrieveCustomer } from "@/utils/data/customer"
+import { AccountLayout } from "@/components/layout/account/account-layout"
 
 export default async function AccountPageLayout({
   dashboard,
-  login,
+  auth,
+  params,
 }: {
   dashboard?: React.ReactNode
-  login?: React.ReactNode
+  auth?: React.ReactNode
+  params: Promise<{ countryCode: string }>
 }) {
+  const { countryCode } = await params
   const customer = await retrieveCustomer().catch(() => null)
-
   return (
-    <AccountLayout customer={customer}>
-      {customer ? dashboard : login}
-      <Toaster />
+    <AccountLayout customer={customer} countryCode={countryCode}>
+      {customer ? dashboard : auth}
     </AccountLayout>
   )
 }
