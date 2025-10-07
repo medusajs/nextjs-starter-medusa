@@ -10,5 +10,5 @@ if (process.env.MEDUSA_BACKEND_URL) {
 export const sdk = new Medusa({
   baseUrl: MEDUSA_BACKEND_URL,
   debug: process.env.NODE_ENV === "development",
-  publishableKey: "pk_937f7a595bd4b039bb6bbb95476dd036dd79187f31ef61cf7093f2b81a1f863b",
+  publishableKey: "pk_f696c9fcea8036abecccd3739c3256ebb2151fa7cbed0ff2738c6070c4d374ef",
 })
