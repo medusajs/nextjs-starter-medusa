@@ -39,7 +39,7 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "s3.eu-central-1.amazonaws.com",
-        pathname: "medusajs.cloud-data-prod-euc1-20241127132538579500000002/**"
+        pathname: "/medusajs.cloud-data-prod-euc1-20241127132538579500000002/**"
       }
     ],
   },
