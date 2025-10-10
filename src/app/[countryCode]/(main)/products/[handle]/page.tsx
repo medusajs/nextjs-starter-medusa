@@ -7,7 +7,7 @@ import { retrieveVariant } from "@lib/data/variants"
 
 type Props = {
   params: Promise<{ countryCode: string; handle: string }>
-  searchParams: { v_id?: string }
+  searchParams: Promise<{ v_id?: string }>
 }
 
 export async function generateStaticParams() {
@@ -84,7 +84,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 export default async function ProductPage(props: Props) {
   const params = await props.params
   const region = await getRegion(params.countryCode)
-  const selectedVariantId = props.searchParams.v_id
+  const searchParams = await props.searchParams
 
   let variant
 
@@ -97,8 +97,8 @@ export default async function ProductPage(props: Props) {
     queryParams: { handle: params.handle },
   }).then(({ response }) => response.products[0])
 
-  if (selectedVariantId) {
-    variant = await retrieveVariant(pricedProduct.id, selectedVariantId)
+  if (searchParams.v_id) {
+    variant = await retrieveVariant(pricedProduct.id, searchParams.v_id)
   }
 
   if (!pricedProduct) {

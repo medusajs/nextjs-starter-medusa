@@ -22,7 +22,7 @@ export const retrieveVariant = async (
 
   return await sdk.client
     .fetch<{ variant: HttpTypes.StoreProductVariant }>(
-      `/store/products/${product_id}/variants/${variant_id}`,
+      `/store/product-variants/${variant_id}`,
       {
         method: "GET",
         query: {
@@ -34,5 +34,5 @@ export const retrieveVariant = async (
       }
     )
     .then(({ variant }) => variant)
-  // .catch(() => null)
+    .catch(() => null)
 }
