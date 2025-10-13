@@ -11,7 +11,6 @@ import { notFound } from "next/navigation"
 import { HttpTypes } from "@medusajs/types"
 
 import ProductActionsWrapper from "./product-actions-wrapper"
-import { VariantContext } from "../context/variant-context"
 
 type ProductTemplateProps = {
   product: HttpTypes.StoreProduct
@@ -26,17 +25,12 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
   countryCode,
   images,
 }) => {
-  // const [variant, setVariant] = useState<HttpTypes.StoreProductVariant | null>(
-  //   null
-  // )
-
   if (!product || !product.id) {
     return notFound()
   }
 
   return (
     <>
-      {/* <VariantContext.Provider value={{ variant, setVariant }}> */}
       <div
         className="content-container  flex flex-col small:flex-row small:items-start py-6 relative"
         data-testid="product-container"
@@ -71,7 +65,6 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
           <RelatedProducts product={product} countryCode={countryCode} />
         </Suspense>
       </div>
-      // {/* </VariantContext.Provider> */}
     </>
   )
 }
