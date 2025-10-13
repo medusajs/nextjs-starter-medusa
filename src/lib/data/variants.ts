@@ -2,10 +2,10 @@
 
 import { sdk } from "@lib/config"
 import { HttpTypes } from "@medusajs/types"
+
 import { getAuthHeaders, getCacheOptions } from "./cookies"
 
 export const retrieveVariant = async (
-  product_id: string,
   variant_id: string
 ): Promise<HttpTypes.StoreProductVariant | null> => {
   const authHeaders = await getAuthHeaders()
