@@ -59,9 +59,9 @@ const getLoginRedirectUrl = async (): Promise<string> => {
       currentPage = searchParams ? `${pathname}?${searchParams}` : pathname;
     }
 
-    return `/auth/login?ext=${encodeURIComponent(currentPage)}`;
+    return `/login?next=${encodeURIComponent(currentPage)}`;
   } catch {
-    return '/auth/login';
+    return '/login';
   }
 };
 
