@@ -1,22 +1,69 @@
 import "server-only"
-import { cookies as nextCookies } from "next/headers"
 
-export const getAuthHeaders = async (): Promise<
-  { authorization: string } | {}
-> => {
+import { headers, cookies as nextCookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { validateAndRefreshToken } from './auth';
+
+
+/**
+ * Get auth headers from cookie for server-side requests
+ * Automatically validates and refreshes expired tokens
+ */
+export const getAuthHeaders = async (): Promise<{authorization: string; } | undefined> => {
   try {
-    const cookies = await nextCookies()
-    const token = cookies.get("_medusa_jwt")?.value
+    const cookies = await nextCookies();
+    const token = cookies.get('_medusa_jwt')?.value;
 
+    // If there's no valid token available, we want to destroy the supabase cookies and force reauthentication
     if (!token) {
-      return {}
+      const redirectUrl = await getLoginRedirectUrl();
+      redirect(redirectUrl);
     }
 
-    return { authorization: `Bearer ${token}` }
+    // Validate and refresh token if needed
+    const validToken = await validateAndRefreshToken(token);
+
+    // If token validation/refreshing failed, clear
+    if (!validToken) {
+      await removeAuthToken();
+      const redirectUrl = await getLoginRedirectUrl();
+      redirect(redirectUrl);
+    }
+
+    return { authorization: `Bearer ${validToken}` };
   } catch {
-    return {}
+    await removeAuthToken();
+    const redirectUrl = await getLoginRedirectUrl();
+    redirect(redirectUrl);
   }
-}
+};
+
+/**
+ * Helper to build login redirect URL with current page as ext parameter
+ */
+const getLoginRedirectUrl = async (): Promise<string> => {
+  try {
+    const headersList = await headers();
+    // Try to get the current page from various headers
+    const referer = headersList.get('referer');
+    const pathname = headersList.get('x-pathname') || headersList.get('x-invoke-path');
+
+    let currentPage = '/';
+
+    if (referer) {
+      // Extract pathname and search params from referer URL
+      const url = new URL(referer);
+      currentPage = url.pathname + url.search;
+    } else if (pathname) {
+      const searchParams = headersList.get('x-search-params') || '';
+      currentPage = searchParams ? `${pathname}?${searchParams}` : pathname;
+    }
+
+    return `/auth/login?ext=${encodeURIComponent(currentPage)}`;
+  } catch {
+    return '/auth/login';
+  }
+};
 
 export const getCacheTag = async (tag: string): Promise<string> => {
   try {
