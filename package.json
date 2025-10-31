@@ -19,8 +19,8 @@
     "@medusajs/js-sdk": "latest",
     "@medusajs/ui": "latest",
     "@radix-ui/react-accordion": "^1.2.1",
-    "@stripe/react-stripe-js": "^1.7.2",
-    "@stripe/stripe-js": "^1.29.0",
+    "@stripe/react-stripe-js": "^5.3.0",
+    "@stripe/stripe-js": "^8.2.0",
     "lodash": "^4.17.21",
     "next": "^15.3.1",
     "pg": "^8.11.3",
@@ -52,7 +52,7 @@
     "tailwindcss": "^3.0.23",
     "typescript": "^5.3.2"
   },
-  "packageManager": "yarn@3.2.3",
+  "packageManager": "yarn@4.6.0",
   "resolutions": {
     "@types/react": "npm:types-react@19.0.0-rc.1",
     "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"

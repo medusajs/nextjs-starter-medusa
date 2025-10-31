@@ -1,7 +1,7 @@
 "use client"
 
 import { RadioGroup } from "@headlessui/react"
-import { isStripe as isStripeFunc, paymentInfoMap } from "@lib/constants"
+import { isStripeLike, paymentInfoMap } from "@lib/constants"
 import { initiatePaymentSession } from "@lib/data/cart"
 import { CheckCircleSolid, CreditCard } from "@medusajs/icons"
 import { Button, Container, Heading, Text, clx } from "@medusajs/ui"
@@ -38,12 +38,10 @@ const Payment = ({
 
   const isOpen = searchParams.get("step") === "payment"
 
-  const isStripe = isStripeFunc(selectedPaymentMethod)
-
   const setPaymentMethod = async (method: string) => {
     setError(null)
     setSelectedPaymentMethod(method)
-    if (isStripeFunc(method)) {
+    if (isStripeLike(method)) {
       await initiatePaymentSession(cart, {
         provider_id: method,
       })
@@ -76,7 +74,7 @@ const Payment = ({
     setIsLoading(true)
     try {
       const shouldInputCard =
-        isStripeFunc(selectedPaymentMethod) && !activeSession
+        isStripeLike(selectedPaymentMethod) && !activeSession
 
       const checkActiveSession =
         activeSession?.provider_id === selectedPaymentMethod
@@ -144,7 +142,7 @@ const Payment = ({
               >
                 {availablePaymentMethods.map((paymentMethod) => (
                   <div key={paymentMethod.id}>
-                    {isStripeFunc(paymentMethod.id) ? (
+                    {isStripeLike(paymentMethod.id) ? (
                       <StripeCardContainer
                         paymentProviderId={paymentMethod.id}
                         selectedPaymentOptionId={selectedPaymentMethod}
@@ -191,12 +189,12 @@ const Payment = ({
             onClick={handleSubmit}
             isLoading={isLoading}
             disabled={
-              (isStripe && !cardComplete) ||
+              (isStripeLike(selectedPaymentMethod) && !cardComplete) ||
               (!selectedPaymentMethod && !paidByGiftcard)
             }
             data-testid="submit-payment-button"
           >
-            {!activeSession && isStripeFunc(selectedPaymentMethod)
+            {!activeSession && isStripeLike(selectedPaymentMethod)
               ? " Enter card details"
               : "Continue to review"}
           </Button>
@@ -231,7 +229,7 @@ const Payment = ({
                     )}
                   </Container>
                   <Text>
-                    {isStripeFunc(selectedPaymentMethod) && cardBrand
+                    {isStripeLike(selectedPaymentMethod) && cardBrand
                       ? cardBrand
                       : "Another step will appear"}
                   </Text>
