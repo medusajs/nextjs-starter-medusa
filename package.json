@@ -22,12 +22,12 @@
     "@stripe/react-stripe-js": "^5.3.0",
     "@stripe/stripe-js": "^8.2.0",
     "lodash": "^4.17.21",
-    "next": "^15.3.1",
+    "next": "14.2.5",
     "pg": "^8.11.3",
     "qs": "^6.12.1",
-    "react": "19.0.0-rc-66855b96-20241106",
+    "react": "18.3.1",
     "react-country-flag": "^3.1.0",
-    "react-dom": "19.0.0-rc-66855b96-20241106",
+    "react-dom": "18.3.1",
     "server-only": "^0.0.1",
     "tailwindcss-radix": "^2.8.0",
     "webpack": "^5"
@@ -46,19 +46,10 @@
     "autoprefixer": "^10.4.2",
     "babel-loader": "^8.2.3",
     "eslint": "8.10.0",
-    "eslint-config-next": "15.0.3",
+    "eslint-config-next": "14.2.5",
     "postcss": "^8.4.8",
     "prettier": "^2.8.8",
     "tailwindcss": "^3.0.23",
     "typescript": "^5.3.2"
-  },
-  "packageManager": "yarn@4.6.0",
-  "resolutions": {
-    "@types/react": "npm:types-react@19.0.0-rc.1",
-    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
-  },
-  "overrides": {
-    "react": "19.0.0-rc-66855b96-20241106",
-    "react-dom": "19.0.0-rc-66855b96-20241106"
   }
 }
