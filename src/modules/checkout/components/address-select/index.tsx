@@ -1,11 +1,11 @@
 import { Listbox, Transition } from "@headlessui/react"
 import { ChevronUpDown } from "@medusajs/icons"
-import { clx } from "@medusajs/ui"
+import { clx } from "@modules/common/components/ui"
 import { Fragment, useMemo } from "react"
 
-import Radio from "@modules/common/components/radio"
 import compareAddresses from "@lib/util/compare-addresses"
 import { HttpTypes } from "@medusajs/types"
+import Radio from "@modules/common/components/radio"
 
 type AddressSelectProps = {
   addresses: HttpTypes.StoreCustomerAddress[]

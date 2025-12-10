@@ -1,4 +1,4 @@
-import { Checkbox, Label } from "@medusajs/ui"
+import { Checkbox, Label } from "@modules/common/components/ui"
 import React from "react"
 
 type CheckboxProps = {

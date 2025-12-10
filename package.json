@@ -12,15 +12,21 @@
     "build": "next build",
     "start": "next start -p 8000",
     "lint": "next lint",
-    "analyze": "ANALYZE=true next build"
+    "analyze": "ANALYZE=true next build",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
+    "preview": "opennextjs-cloudflare build && wrangler dev --port 8000 --remote",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv ./cloudflare-env.d.ts"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
+    "@medusajs/icons": "^2.12.1",
     "@medusajs/js-sdk": "latest",
-    "@medusajs/ui": "latest",
-    "@radix-ui/react-accordion": "^1.2.1",
+    "@opennextjs/cloudflare": "^1.14.2",
+    "@radix-ui/react-accordion": "^1.2.3",
     "@stripe/react-stripe-js": "^5.3.0",
     "@stripe/stripe-js": "^8.2.0",
+    "clsx": "^2.1.1",
     "lodash": "^4.17.21",
     "next": "15.3.6",
     "pg": "^8.11.3",
@@ -29,18 +35,16 @@
     "react-country-flag": "^3.1.0",
     "react-dom": "19.0.1",
     "server-only": "^0.0.1",
-    "tailwindcss-radix": "^2.8.0",
-    "webpack": "^5"
+    "tailwindcss-radix": "^2.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",
     "@medusajs/types": "latest",
-    "@medusajs/ui-preset": "latest",
     "@types/lodash": "^4.14.195",
     "@types/node": "17.0.21",
     "@types/pg": "^8.11.0",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
     "@types/react-instantsearch-dom": "^6.12.3",
     "ansi-colors": "^4.1.3",
     "autoprefixer": "^10.4.2",
@@ -50,15 +54,8 @@
     "postcss": "^8.4.8",
     "prettier": "^2.8.8",
     "tailwindcss": "^3.0.23",
-    "typescript": "^5.3.2"
+    "typescript": "^5.3.2",
+    "wrangler": "^4.53.0"
   },
-  "packageManager": "yarn@4.6.0",
-  "resolutions": {
-    "@types/react": "npm:types-react@19.0.0-rc.1",
-    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
-  },
-  "overrides": {
-    "react": "19.0.1",
-    "react-dom": "19.0.1"
-  }
+  "packageManager": "yarn@4.6.0"
 }

@@ -1,4 +1,4 @@
-import { Container } from "@medusajs/ui"
+import { Container } from "@modules/common/components/ui"
 
 import ChevronDown from "@modules/common/icons/chevron-down"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"

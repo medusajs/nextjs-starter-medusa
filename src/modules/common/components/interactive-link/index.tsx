@@ -1,7 +1,6 @@
 import { ArrowUpRightMini } from "@medusajs/icons"
-import { Text } from "@medusajs/ui"
+import { Text } from "@modules/common/components/ui"
 import LocalizedClientLink from "../localized-client-link"
-
 type InteractiveLinkProps = {
   href: string
   children?: React.ReactNode

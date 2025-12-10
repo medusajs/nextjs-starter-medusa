@@ -1,4 +1,4 @@
-import { Label } from "@medusajs/ui"
+import { Label } from "@modules/common/components/ui"
 import React, { useEffect, useImperativeHandle, useState } from "react"
 
 import Eye from "@modules/common/icons/eye"

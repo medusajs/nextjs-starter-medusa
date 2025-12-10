@@ -1,4 +1,4 @@
-import { Button, Container, Text } from "@medusajs/ui"
+import { Button, Container, Text } from "@modules/common/components/ui"
 import { cookies as nextCookies } from "next/headers"
 
 async function ProductOnboardingCta() {

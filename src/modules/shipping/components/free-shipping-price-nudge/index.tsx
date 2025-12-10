@@ -8,8 +8,8 @@ import {
   StoreCartShippingOption,
   StorePrice,
 } from "@medusajs/types"
-import { Button, clx } from "@medusajs/ui"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import { Button, clx } from "@modules/common/components/ui"
 import { useState } from "react"
 import { StoreFreeShippingPrice } from "types/global"
 
@@ -148,6 +148,7 @@ function FreeShippingInline({
           <div>
             {price.target_reached ? (
               <div className="flex items-center gap-1.5">
+                {" "}
                 <CheckCircleSolid className="text-green-500 inline-block" />{" "}
                 Free Shipping unlocked!
               </div>

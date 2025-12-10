@@ -1,10 +1,10 @@
 "use client"
-
-import { useActionState } from "react"
 import { createTransferRequest } from "@lib/data/orders"
-import { Text, Heading, Input, Button, IconButton, Toaster } from "@medusajs/ui"
-import { SubmitButton } from "@modules/checkout/components/submit-button"
 import { CheckCircleMiniSolid, XCircleSolid } from "@medusajs/icons"
+import { Heading, IconButton, Input, Text } from "@modules/common/components/ui"
+import { useActionState } from "react"
+// TODO: Re-add Toaster component when needed
+import { SubmitButton } from "@modules/checkout/components/submit-button"
 import { useEffect, useState } from "react"
 
 export default function TransferRequestForm() {

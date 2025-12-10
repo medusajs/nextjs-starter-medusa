@@ -1,6 +1,5 @@
 import { Github } from "@medusajs/icons"
-import { Button, Heading } from "@medusajs/ui"
-
+import { Button, Heading } from "@modules/common/components/ui"
 const Hero = () => {
   return (
     <div className="h-[75vh] w-full border-b border-ui-border-base relative bg-ui-bg-subtle">

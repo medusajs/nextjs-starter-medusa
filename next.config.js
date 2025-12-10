@@ -25,6 +25,9 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
+    // Disable image optimization for Cloudflare Workers
+    // Images will be served directly from their source URLs
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "http",
@@ -41,6 +44,14 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "medusa-server-testing.s3.us-east-1.amazonaws.com",
+      },
+      {
+        protocol: "https",
+        hostname: "*.s3.*.amazonaws.com",
+      },
+      {
+        protocol: "https",
+        hostname: "*.s3.amazonaws.com",
       },
       ...(S3_HOSTNAME && S3_PATHNAME
         ? [
