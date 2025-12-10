@@ -1,9 +1,9 @@
 import { HttpTypes } from "@medusajs/types"
 import { NextRequest, NextResponse } from "next/server"
 
-const BACKEND_URL = process.env.MEDUSA_BACKEND_URL
+const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
 const PUBLISHABLE_API_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
-const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "us"
+const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "dk"
 
 const regionMapCache = {
   regionMap: new Map<string, HttpTypes.StoreRegion>(),
@@ -15,7 +15,7 @@ async function getRegionMap(cacheId: string) {
 
   if (!BACKEND_URL) {
     throw new Error(
-      "Middleware.ts: Error fetching regions. Did you set up regions in your Medusa Admin and define a MEDUSA_BACKEND_URL environment variable? Note that the variable is no longer named NEXT_PUBLIC_MEDUSA_BACKEND_URL."
+      "Middleware.ts: Error fetching regions. Did you set up regions in your Medusa Admin and define a NEXT_PUBLIC_MEDUSA_BACKEND_URL environment variable."
     )
   }
 
@@ -24,29 +24,86 @@ async function getRegionMap(cacheId: string) {
     regionMapUpdated < Date.now() - 3600 * 1000
   ) {
     // Fetch regions from Medusa. We can't use the JS client here because middleware is running on Edge and the client needs a Node environment.
-    const { regions } = await fetch(`${BACKEND_URL}/store/regions`, {
-      headers: {
-        "x-publishable-api-key": PUBLISHABLE_API_KEY!,
-      },
-      next: {
-        revalidate: 3600,
-        tags: [`regions-${cacheId}`],
-      },
-      cache: "force-cache",
-    }).then(async (response) => {
-      const json = await response.json()
+    let response
+    try {
+      // Use AbortController for timeout in case of network issues
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
 
-      if (!response.ok) {
-        throw new Error(json.message)
+      try {
+        response = await fetch(`${BACKEND_URL}/store/regions`, {
+          method: "GET",
+          headers: {
+            "x-publishable-api-key": PUBLISHABLE_API_KEY!,
+            "User-Agent": "Mozilla/5.0 (compatible; Medusa-Storefront/1.0)",
+            Accept: "application/json",
+            "Accept-Language": "en-US,en;q=0.9",
+            "Cache-Control": "no-cache",
+            Referer: `${BACKEND_URL}/`,
+          },
+          // Cloudflare Workers doesn't support Next.js-specific fetch options
+          // Use standard fetch with cache headers instead
+          cache: "no-store", // Don't cache to avoid stale data
+          signal: controller.signal,
+        })
+        clearTimeout(timeoutId)
+      } catch (fetchErr) {
+        clearTimeout(timeoutId)
+        if (fetchErr instanceof Error && fetchErr.name === "AbortError") {
+          throw new Error(
+            "Request timeout: Backend did not respond within 10 seconds"
+          )
+        }
+        throw fetchErr
+      }
+    } catch (fetchError) {
+      console.error("Failed to fetch regions:", fetchError)
+      throw new Error(
+        `Failed to fetch regions from backend: ${
+          fetchError instanceof Error ? fetchError.message : "Unknown error"
+        }`
+      )
+    }
+
+    if (!response.ok) {
+      const text = await response.text()
+      console.error(`Backend returned ${response.status}:`, text)
+
+      // If it's a Cloudflare error 1003, this is a security block
+      // Return empty map to allow fallback behavior
+      if (response.status === 403 && text.includes("1003")) {
+        console.warn(
+          "Cloudflare security block (1003) - backend request blocked. Using fallback."
+        )
+        return new Map<string, HttpTypes.StoreRegion>()
       }
 
-      return json
-    })
+      throw new Error(
+        `Backend returned ${response.status}: ${text.substring(0, 100)}`
+      )
+    }
+
+    let json
+    try {
+      json = await response.json()
+    } catch (parseError) {
+      const text = await response.text()
+      console.error("Failed to parse response:", text)
+      throw new Error(
+        `Failed to parse backend response: ${
+          parseError instanceof Error ? parseError.message : "Unknown error"
+        }`
+      )
+    }
+
+    const { regions } = json
 
     if (!regions?.length) {
-      throw new Error(
-        "No regions found. Please set up regions in your Medusa Admin."
+      console.warn(
+        "No regions found in backend response. Backend may not have regions configured."
       )
+      // Don't throw - return empty map instead to allow graceful handling
+      return new Map<string, HttpTypes.StoreRegion>()
     }
 
     // Create a map of country codes to regions.
@@ -94,7 +151,7 @@ async function getCountryCode(
   } catch (error) {
     if (process.env.NODE_ENV === "development") {
       console.error(
-        "Middleware.ts: Error getting the country code. Did you set up regions in your Medusa Admin and define a MEDUSA_BACKEND_URL environment variable? Note that the variable is no longer named NEXT_PUBLIC_MEDUSA_BACKEND_URL."
+        "Middleware.ts: Error getting the country code. Did you set up regions in your Medusa Admin and define a NEXT_PUBLIC_MEDUSA_BACKEND_URL environment variable."
       )
     }
   }
@@ -104,58 +161,123 @@ async function getCountryCode(
  * Middleware to handle region selection and onboarding status.
  */
 export async function middleware(request: NextRequest) {
-  let redirectUrl = request.nextUrl.href
+  try {
+    let redirectUrl = request.nextUrl.href
 
-  let response = NextResponse.redirect(redirectUrl, 307)
+    let response = NextResponse.redirect(redirectUrl, 307)
 
-  let cacheIdCookie = request.cookies.get("_medusa_cache_id")
+    let cacheIdCookie = request.cookies.get("_medusa_cache_id")
 
-  let cacheId = cacheIdCookie?.value || crypto.randomUUID()
+    let cacheId = cacheIdCookie?.value || crypto.randomUUID()
 
-  const regionMap = await getRegionMap(cacheId)
+    const regionMap = await getRegionMap(cacheId)
+    const isRegionMapEmpty = !regionMap || regionMap.size === 0
 
-  const countryCode = regionMap && (await getCountryCode(request, regionMap))
+    // If region map is empty (backend fetch failed), use fallback logic
+    if (isRegionMapEmpty) {
+      const pathSegments = request.nextUrl.pathname.split("/").filter(Boolean)
+      const firstSegment = pathSegments[0]?.toLowerCase()
 
-  const urlHasCountryCode =
-    countryCode && request.nextUrl.pathname.split("/")[1].includes(countryCode)
+      // If URL already has a 2-letter country code, accept it and continue
+      if (firstSegment && firstSegment.length === 2) {
+        const response = NextResponse.next()
+        response.cookies.set("_medusa_cache_id", cacheId, {
+          maxAge: 60 * 60 * 24,
+        })
+        return response
+      }
 
-  // if one of the country codes is in the url and the cache id is set, return next
-  if (urlHasCountryCode && cacheIdCookie) {
-    return NextResponse.next()
-  }
+      // Otherwise, redirect to default country code
+      const fallbackCountry = DEFAULT_REGION || "dk"
+      const redirectPath =
+        request.nextUrl.pathname === "/" ? "" : request.nextUrl.pathname
+      const queryString = request.nextUrl.search ? request.nextUrl.search : ""
+      redirectUrl = `${request.nextUrl.origin}/${fallbackCountry}${redirectPath}${queryString}`
+      response = NextResponse.redirect(`${redirectUrl}`, 307)
+      response.cookies.set("_medusa_cache_id", cacheId, {
+        maxAge: 60 * 60 * 24,
+      })
+      return response
+    }
 
-  // if one of the country codes is in the url and the cache id is not set, set the cache id and redirect
-  if (urlHasCountryCode && !cacheIdCookie) {
-    response.cookies.set("_medusa_cache_id", cacheId, {
-      maxAge: 60 * 60 * 24,
-    })
+    // Normal flow when regions are available
+    const countryCode = regionMap && (await getCountryCode(request, regionMap))
+
+    const urlHasCountryCode =
+      countryCode &&
+      request.nextUrl.pathname.split("/")[1]?.toLowerCase() ===
+        countryCode.toLowerCase()
+
+    // if one of the country codes is in the url and the cache id is set, return next
+    if (urlHasCountryCode && cacheIdCookie) {
+      return NextResponse.next()
+    }
+
+    // if one of the country codes is in the url and the cache id is not set, set the cache id and redirect
+    if (urlHasCountryCode && !cacheIdCookie) {
+      response.cookies.set("_medusa_cache_id", cacheId, {
+        maxAge: 60 * 60 * 24,
+      })
+
+      return response
+    }
+
+    // check if the url is a static asset
+    if (request.nextUrl.pathname.includes(".")) {
+      return NextResponse.next()
+    }
+
+    const redirectPath =
+      request.nextUrl.pathname === "/" ? "" : request.nextUrl.pathname
+
+    const queryString = request.nextUrl.search ? request.nextUrl.search : ""
+
+    // If no country code is set, we redirect to the relevant region.
+    if (!urlHasCountryCode && countryCode) {
+      redirectUrl = `${request.nextUrl.origin}/${countryCode}${redirectPath}${queryString}`
+      response = NextResponse.redirect(`${redirectUrl}`, 307)
+    } else if (!urlHasCountryCode && !countryCode) {
+      // Handle case where no valid country code exists (empty regions)
+      // Fallback to default country code if regions fetch failed
+      const fallbackCountry = DEFAULT_REGION || "dk"
+      redirectUrl = `${request.nextUrl.origin}/${fallbackCountry}${redirectPath}${queryString}`
+      response = NextResponse.redirect(`${redirectUrl}`, 307)
+      response.cookies.set("_medusa_cache_id", cacheId, {
+        maxAge: 60 * 60 * 24,
+      })
+    }
 
     return response
-  }
+  } catch (error) {
+    // Log error for debugging
+    console.error("Middleware error:", error)
 
-  // check if the url is a static asset
-  if (request.nextUrl.pathname.includes(".")) {
-    return NextResponse.next()
-  }
+    // If it's a regions error, return a helpful message
+    if (error instanceof Error && error.message.includes("regions")) {
+      return new NextResponse(
+        JSON.stringify({
+          error: error.message,
+          hint: "Please ensure regions are configured in your Medusa Admin and the backend is accessible.",
+        }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+    }
 
-  const redirectPath =
-    request.nextUrl.pathname === "/" ? "" : request.nextUrl.pathname
-
-  const queryString = request.nextUrl.search ? request.nextUrl.search : ""
-
-  // If no country code is set, we redirect to the relevant region.
-  if (!urlHasCountryCode && countryCode) {
-    redirectUrl = `${request.nextUrl.origin}/${countryCode}${redirectPath}${queryString}`
-    response = NextResponse.redirect(`${redirectUrl}`, 307)
-  } else if (!urlHasCountryCode && !countryCode) {
-    // Handle case where no valid country code exists (empty regions)
+    // For other errors, return generic error
     return new NextResponse(
-      "No valid regions configured. Please set up regions with countries in your Medusa Admin.",
-      { status: 500 }
+      JSON.stringify({
+        error: "Internal server error",
+        message: error instanceof Error ? error.message : "Unknown error",
+      }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
     )
   }
-
-  return response
 }
 
 export const config = {
