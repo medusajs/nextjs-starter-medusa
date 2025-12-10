@@ -1,14 +1,20 @@
 "use client"
-
 import { RadioGroup } from "@headlessui/react"
 import { isStripeLike, paymentInfoMap } from "@lib/constants"
 import { initiatePaymentSession } from "@lib/data/cart"
-import { Button, Container, Heading, Text, clx } from "@modules/common/components/ui"
+import { CheckCircleSolid } from "@medusajs/icons"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import PaymentContainer, {
   StripeCardContainer,
 } from "@modules/checkout/components/payment-container"
 import Divider from "@modules/common/components/divider"
+import {
+  Button,
+  Container,
+  Heading,
+  Text,
+  clx,
+} from "@modules/common/components/ui"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
 
@@ -117,7 +123,7 @@ const Payment = ({
           )}
         >
           Payment
-          {!isOpen && paymentReady && <span className="text-green-500">✓</span>}
+          {!isOpen && paymentReady && <CheckCircleSolid />}
         </Heading>
         {!isOpen && paymentReady && (
           <Text>
@@ -224,7 +230,7 @@ const Payment = ({
                 >
                   <Container className="flex items-center h-7 w-fit p-2 bg-ui-button-neutral-hover">
                     {paymentInfoMap[selectedPaymentMethod]?.icon || (
-                      <span>💳</span>
+                      <CreditCard />
                     )}
                   </Container>
                   <Text>

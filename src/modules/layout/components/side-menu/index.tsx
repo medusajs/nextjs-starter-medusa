@@ -1,14 +1,13 @@
 "use client"
 
 import { Popover, PopoverPanel, Transition } from "@headlessui/react"
-import X from "@modules/common/icons/x"
-import { Text, clx } from "@modules/common/components/ui"
 import useToggleState from "@lib/hooks/use-toggle-state"
-import { Fragment } from "react"
-
-import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import CountrySelect from "../country-select"
+import { ArrowRightMini, XMark } from "@medusajs/icons"
 import { HttpTypes } from "@medusajs/types"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import { Text, clx } from "@modules/common/components/ui"
+import { Fragment } from "react"
+import CountrySelect from "../country-select"
 
 const SideMenuItems = {
   Home: "/",
@@ -60,7 +59,7 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                   >
                     <div className="flex justify-end" id="xmark">
                       <button data-testid="close-menu-button" onClick={close}>
-                        <X />
+                        <XMark />
                       </button>
                     </div>
                     <ul className="flex flex-col gap-6 items-start justify-start">
@@ -91,14 +90,12 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                             regions={regions}
                           />
                         )}
-                        <span
+                        <ArrowRightMini
                           className={clx(
                             "transition-transform duration-150",
                             toggleState.state ? "-rotate-90" : ""
                           )}
-                        >
-                          →
-                        </span>
+                        />
                       </div>
                       <Text className="flex justify-between txt-compact-small">
                         © {new Date().getFullYear()} Medusa Store. All rights

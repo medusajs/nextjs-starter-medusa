@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
+    "@medusajs/icons": "^2.12.1",
     "@medusajs/js-sdk": "latest",
     "@opennextjs/cloudflare": "^1.14.2",
     "@radix-ui/react-accordion": "^1.2.3",

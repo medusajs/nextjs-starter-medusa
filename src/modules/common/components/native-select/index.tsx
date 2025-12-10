@@ -1,5 +1,5 @@
+import { ChevronUpDown } from "@medusajs/icons"
 import { clx } from "@modules/common/components/ui"
-import ChevronUpDown from "@modules/common/icons/chevron-up-down"
 import {
   SelectHTMLAttributes,
   forwardRef,

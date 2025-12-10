@@ -1,3 +1,4 @@
+import { ArrowUpRightMini } from "@medusajs/icons"
 import { Text } from "@modules/common/components/ui"
 import { Metadata } from "next"
 import Link from "next/link"
@@ -14,14 +15,12 @@ export default function NotFound() {
       <p className="text-small-regular text-ui-fg-base">
         The page you tried to access does not exist.
       </p>
-      <Link
-        className="flex gap-x-1 items-center group"
-        href="/"
-      >
+      <Link className="flex gap-x-1 items-center group" href="/">
         <Text className="text-ui-fg-interactive">Go to frontpage</Text>
-        <span className="group-hover:rotate-45 ease-in-out duration-150 text-ui-fg-interactive">
-          →
-        </span>
+        <ArrowUpRightMini
+          className="group-hover:rotate-45 ease-in-out duration-150"
+          color="var(--fg-interactive)"
+        />
       </Link>
     </div>
   )
