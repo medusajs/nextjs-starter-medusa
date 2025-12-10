@@ -1,4 +1,4 @@
-import { Heading, Text } from "@medusajs/ui"
+import { Heading, Text } from "@modules/common/components/ui"
 import TransferActions from "@modules/order/components/transfer-actions"
 import TransferImage from "@modules/order/components/transfer-image"
 

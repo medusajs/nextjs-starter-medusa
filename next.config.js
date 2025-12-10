@@ -67,8 +67,3 @@ const nextConfig = {
 }
 
 module.exports = nextConfig
-
-// Enable calling `getCloudflareContext()` in `next dev`.
-// See https://opennext.js.org/cloudflare/bindings#local-access-to-bindings.
-const { initOpenNextCloudflareForDev } = require("@opennextjs/cloudflare")
-initOpenNextCloudflareForDev()

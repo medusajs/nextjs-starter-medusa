@@ -1,5 +1,4 @@
-import { EllipseMiniSolid } from "@medusajs/icons"
-import { Label, RadioGroup, Text, clx } from "@medusajs/ui"
+import { Label, RadioGroup, Text, clx } from "@modules/common/components/ui"
 
 type FilterRadioGroupProps = {
   title: string
@@ -30,7 +29,7 @@ const FilterRadioGroup = ({
               "ml-[-23px]": i.value === value,
             })}
           >
-            {i.value === value && <EllipseMiniSolid />}
+            {i.value === value && <span className="w-2 h-2 rounded-full bg-current" />}
             <RadioGroup.Item
               checked={i.value === value}
               className="hidden peer"

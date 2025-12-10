@@ -1,7 +1,6 @@
 "use client"
 
-import { clx } from "@medusajs/ui"
-import { ArrowRightOnRectangle } from "@medusajs/icons"
+import { clx } from "@modules/common/components/ui"
 import { useParams, usePathname } from "next/navigation"
 
 import ChevronDown from "@modules/common/icons/chevron-down"
@@ -96,7 +95,7 @@ const AccountNav = ({
                     data-testid="logout-button"
                   >
                     <div className="flex items-center gap-x-2">
-                      <ArrowRightOnRectangle />
+                      <span>→</span>
                       <span>Log out</span>
                     </div>
                     <ChevronDown className="transform -rotate-90" />

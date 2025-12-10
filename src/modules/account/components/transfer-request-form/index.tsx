@@ -2,9 +2,9 @@
 
 import { useActionState } from "react"
 import { createTransferRequest } from "@lib/data/orders"
-import { Text, Heading, Input, Button, IconButton, Toaster } from "@medusajs/ui"
+import { Text, Heading, Input, Button, IconButton } from "@modules/common/components/ui"
+// TODO: Re-add Toaster component when needed
 import { SubmitButton } from "@modules/checkout/components/submit-button"
-import { CheckCircleMiniSolid, XCircleSolid } from "@medusajs/icons"
 import { useEffect, useState } from "react"
 
 export default function TransferRequestForm() {
@@ -57,7 +57,7 @@ export default function TransferRequestForm() {
       {showSuccess && (
         <div className="flex justify-between p-4 bg-neutral-50 shadow-borders-base w-full self-stretch items-center">
           <div className="flex gap-x-2 items-center">
-            <CheckCircleMiniSolid className="w-4 h-4 text-emerald-500" />
+            <span className="w-4 h-4 text-emerald-500">✓</span>
             <div className="flex flex-col gap-y-1">
               <Text className="text-medim-pl text-neutral-950">
                 Transfer for order {state.order?.id} requested
@@ -72,7 +72,7 @@ export default function TransferRequestForm() {
             className="h-fit"
             onClick={() => setShowSuccess(false)}
           >
-            <XCircleSolid className="w-4 h-4 text-neutral-500" />
+            <span className="w-4 h-4 text-neutral-500">✕</span>
           </IconButton>
         </div>
       )}

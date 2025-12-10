@@ -1,8 +1,8 @@
 "use client"
 
 import React, { useEffect, useState, useActionState } from "react"
-import { PencilSquare as Edit, Trash } from "@medusajs/icons"
-import { Button, Heading, Text, clx } from "@medusajs/ui"
+import { Button, Heading, Text, clx } from "@modules/common/components/ui"
+import Trash from "@modules/common/icons/trash"
 
 import useToggleState from "@lib/hooks/use-toggle-state"
 import CountrySelect from "@modules/checkout/components/country-select"
@@ -107,7 +107,7 @@ const EditAddress: React.FC<EditAddressProps> = ({
             onClick={open}
             data-testid="address-edit-button"
           >
-            <Edit />
+            <span>✏️</span>
             Edit
           </button>
           <button

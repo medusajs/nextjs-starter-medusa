@@ -1,4 +1,4 @@
-import { Text } from "@medusajs/ui"
+import { Text } from "@modules/common/components/ui"
 
 import Medusa from "../../../common/icons/medusa"
 import NextJs from "../../../common/icons/nextjs"

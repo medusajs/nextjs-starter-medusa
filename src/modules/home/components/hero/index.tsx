@@ -1,5 +1,4 @@
-import { Github } from "@medusajs/icons"
-import { Button, Heading } from "@medusajs/ui"
+import { Button, Heading } from "@modules/common/components/ui"
 
 const Hero = () => {
   return (
@@ -25,7 +24,6 @@ const Hero = () => {
         >
           <Button variant="secondary">
             View on GitHub
-            <Github />
           </Button>
         </a>
       </div>

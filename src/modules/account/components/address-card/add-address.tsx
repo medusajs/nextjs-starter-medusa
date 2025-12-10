@@ -1,7 +1,6 @@
 "use client"
 
-import { Plus } from "@medusajs/icons"
-import { Button, Heading } from "@medusajs/ui"
+import { Button, Heading } from "@modules/common/components/ui"
 import { useEffect, useState, useActionState } from "react"
 
 import useToggleState from "@lib/hooks/use-toggle-state"
@@ -54,7 +53,7 @@ const AddAddress = ({
         data-testid="add-address-button"
       >
         <span className="text-base-semi">New address</span>
-        <Plus />
+        <span>+</span>
       </button>
 
       <Modal isOpen={state} close={close} data-testid="add-address-modal">

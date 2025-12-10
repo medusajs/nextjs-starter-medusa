@@ -1,6 +1,6 @@
 import { Listbox, Transition } from "@headlessui/react"
-import { ChevronUpDown } from "@medusajs/icons"
-import { clx } from "@medusajs/ui"
+import { clx } from "@modules/common/components/ui"
+import ChevronUpDown from "@modules/common/icons/chevron-up-down"
 import { Fragment, useMemo } from "react"
 
 import Radio from "@modules/common/components/radio"

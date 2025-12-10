@@ -1,8 +1,9 @@
 "use client"
 
 import { Popover, PopoverPanel, Transition } from "@headlessui/react"
-import { ArrowRightMini, XMark } from "@medusajs/icons"
-import { Text, clx, useToggleState } from "@medusajs/ui"
+import X from "@modules/common/icons/x"
+import { Text, clx } from "@modules/common/components/ui"
+import useToggleState from "@lib/hooks/use-toggle-state"
 import { Fragment } from "react"
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
@@ -59,7 +60,7 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                   >
                     <div className="flex justify-end" id="xmark">
                       <button data-testid="close-menu-button" onClick={close}>
-                        <XMark />
+                        <X />
                       </button>
                     </div>
                     <ul className="flex flex-col gap-6 items-start justify-start">
@@ -90,12 +91,14 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                             regions={regions}
                           />
                         )}
-                        <ArrowRightMini
+                        <span
                           className={clx(
                             "transition-transform duration-150",
                             toggleState.state ? "-rotate-90" : ""
                           )}
-                        />
+                        >
+                          →
+                        </span>
                       </div>
                       <Text className="flex justify-between txt-compact-small">
                         © {new Date().getFullYear()} Medusa Store. All rights
