@@ -29,6 +29,11 @@ async function getRegionMap(cacheId: string) {
       headers: {
         "x-publishable-api-key": PUBLISHABLE_API_KEY!,
       },
+      next: {
+        revalidate: 3600,
+        tags: [`regions-${cacheId}`],
+      },
+      cache: "force-cache",
     })
 
     if (!response.ok) {
@@ -67,14 +72,21 @@ async function getCountryCode(
 ) {
   let countryCode
 
+  const urlCountryCode = request.nextUrl.pathname.split("/")[1]?.toLowerCase()
+
+  // Cloudflare Workers provides country via request.cf.country
+  // @ts-ignore - cf property exists on Cloudflare Workers but not in NextRequest types
+  const cloudflareCountryCode = (request as any).cf?.country?.toLowerCase()
+
+  // Vercel provides x-vercel-ip-country header
   const vercelCountryCode = request.headers
     .get("x-vercel-ip-country")
     ?.toLowerCase()
 
-  const urlCountryCode = request.nextUrl.pathname.split("/")[1]?.toLowerCase()
-
   if (urlCountryCode && regionMap.has(urlCountryCode)) {
     countryCode = urlCountryCode
+  } else if (cloudflareCountryCode && regionMap.has(cloudflareCountryCode)) {
+    countryCode = cloudflareCountryCode
   } else if (vercelCountryCode && regionMap.has(vercelCountryCode)) {
     countryCode = vercelCountryCode
   } else if (regionMap.has(DEFAULT_REGION)) {
