@@ -87,3 +87,22 @@ export const removeCartId = async () => {
     maxAge: -1,
   })
 }
+
+export const getLocale = async () => {
+  const cookies = await nextCookies()
+  return cookies.get("_medusa_locale")?.value
+}
+
+export const setLocale = async (locale: string) => {
+  const cookies = await nextCookies()
+  cookies.set("_medusa_locale", locale, {
+    maxAge: 60 * 60 * 24 * 7,
+  })
+}
+
+export const getLocaleHeaders = async () => {
+  const locale = await getLocale()
+  return {
+    "content-language": locale || "",
+  }
+}
