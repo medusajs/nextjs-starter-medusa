@@ -7,7 +7,9 @@ import { Fragment } from "react"
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import CountrySelect from "../country-select"
+import LanguageSelect from "../language-select"
 import { HttpTypes } from "@medusajs/types"
+import { Locale } from "@lib/data/locales"
 
 const SideMenuItems = {
   Home: "/",
@@ -16,8 +18,15 @@ const SideMenuItems = {
   Cart: "/cart",
 }
 
-const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
-  const toggleState = useToggleState()
+type SideMenuProps = {
+  regions: HttpTypes.StoreRegion[] | null
+  locales: Locale[] | null
+  currentLocale: string | null
+}
+
+const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
+  const countryToggleState = useToggleState()
+  const languageToggleState = useToggleState()
 
   return (
     <div className="h-full">
@@ -79,21 +88,40 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                       })}
                     </ul>
                     <div className="flex flex-col gap-y-6">
+                      {!!locales?.length && (
+                        <div
+                          className="flex justify-between"
+                          onMouseEnter={languageToggleState.open}
+                          onMouseLeave={languageToggleState.close}
+                        >
+                          <LanguageSelect
+                            toggleState={languageToggleState}
+                            locales={locales}
+                            currentLocale={currentLocale}
+                          />
+                          <ArrowRightMini
+                            className={clx(
+                              "transition-transform duration-150",
+                              languageToggleState.state ? "-rotate-90" : ""
+                            )}
+                          />
+                        </div>
+                      )}
                       <div
                         className="flex justify-between"
-                        onMouseEnter={toggleState.open}
-                        onMouseLeave={toggleState.close}
+                        onMouseEnter={countryToggleState.open}
+                        onMouseLeave={countryToggleState.close}
                       >
                         {regions && (
                           <CountrySelect
-                            toggleState={toggleState}
+                            toggleState={countryToggleState}
                             regions={regions}
                           />
                         )}
                         <ArrowRightMini
                           className={clx(
                             "transition-transform duration-150",
-                            toggleState.state ? "-rotate-90" : ""
+                            countryToggleState.state ? "-rotate-90" : ""
                           )}
                         />
                       </div>
