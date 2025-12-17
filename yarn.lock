@@ -940,12 +940,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@medusajs/icons@npm:2.12.2":
-  version: 2.12.2
-  resolution: "@medusajs/icons@npm:2.12.2"
+"@medusajs/icons@npm:2.12.3":
+  version: 2.12.3
+  resolution: "@medusajs/icons@npm:2.12.3"
   peerDependencies:
     react: ^18.3.1
-  checksum: 10/106df893b38602101ad2dc7b042654939292e1902c9dd91321fc8e496856ca1aa8d4828ff2fe074f5248b7abd933dec0077fad3246d636eac26912162634aa64
+  checksum: 10/baef7a86c6c4aac8dbe5584c59ab496eeea3722715352a88f086ceaea52200f9e3752087bb7b1b437694ec3e47a9ec5397d946873d76b3faa9af9dbc5fd7f5e2
   languageName: node
   linkType: hard
 
@@ -977,25 +977,25 @@ __metadata:
   linkType: hard
 
 "@medusajs/ui-preset@npm:latest":
-  version: 2.12.2
-  resolution: "@medusajs/ui-preset@npm:2.12.2"
+  version: 2.12.3
+  resolution: "@medusajs/ui-preset@npm:2.12.3"
   dependencies:
     "@tailwindcss/forms": "npm:^0.5.3"
     tailwindcss-animate: "npm:^1.0.6"
   peerDependencies:
     tailwindcss: ^3.4.3
-  checksum: 10/306f906a0c584150b6d28bd98931f4899fd84a5ddf3e3b585a4d372dabd24e8058608b6c32ffd9d608c240a4957b9eb362b542d4025b0ba86a89daf1cb8eaf10
+  checksum: 10/2c59b7c4e72fd2c0ac649b9dbc51a8a6629bfa991f72ec6921721b1d8d970e0b8d3cb9634f126c08f8221f753e9edceb34b5303d604b433d5dd0edcbd9a855a9
   languageName: node
   linkType: hard
 
 "@medusajs/ui@npm:latest":
-  version: 4.0.30
-  resolution: "@medusajs/ui@npm:4.0.30"
+  version: 4.0.31
+  resolution: "@medusajs/ui@npm:4.0.31"
   dependencies:
     "@dnd-kit/core": "npm:^6.1.0"
     "@dnd-kit/sortable": "npm:^8.0.0"
     "@dnd-kit/utilities": "npm:^3.2.2"
-    "@medusajs/icons": "npm:2.12.2"
+    "@medusajs/icons": "npm:2.12.3"
     "@radix-ui/react-dialog": "npm:1.1.4"
     "@radix-ui/react-dismissable-layer": "npm:1.1.4"
     "@tanstack/react-table": "npm:8.20.5"
@@ -1013,7 +1013,7 @@ __metadata:
   peerDependencies:
     react: ^18.3.1
     react-dom: ^18.3.1
-  checksum: 10/49e0231d5c8318d6a379c48b528f3c8b3741f38b3489738c02890bae9737c70b520965a0d733ad02c3c538f8a5e839a827a208677bc2a7b80a1abaa1b3f24786
+  checksum: 10/be3f3476cca23f6dcd402493676e352ca3b7e9afe5aa5fb102a1fa911c696a0737046ed84d6bd80fdc352ec75d4e0645fb1c7a65a8602091ec603fbc54b3a729
   languageName: node
   linkType: hard
 
