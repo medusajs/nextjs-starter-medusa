@@ -81,12 +81,7 @@ export async function getOrSetCart(countryCode: string) {
   }
 
   if (cart && cart?.region_id !== region.id) {
-    await sdk.store.cart.update(
-      cart.id,
-      { region_id: region.id, locale: locale as string },
-      {},
-      headers
-    )
+    await sdk.store.cart.update(cart.id, { region_id: region.id }, {}, headers)
     const cartCacheTag = await getCacheTag("carts")
     revalidateTag(cartCacheTag)
   }
