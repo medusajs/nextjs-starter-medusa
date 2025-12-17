@@ -61,6 +61,13 @@ const getLocalizedLanguageName = (
   }
 }
 
+const DEFAULT_OPTION: LanguageOption = {
+  code: "",
+  name: "Default",
+  localizedName: "Default",
+  countryCode: "",
+}
+
 const LanguageSelect = ({
   toggleState,
   locales,
@@ -73,7 +80,7 @@ const LanguageSelect = ({
   const { state, close } = toggleState
 
   const options = useMemo(() => {
-    return locales.map((locale) => ({
+    const localeOptions = locales.map((locale) => ({
       code: locale.code,
       name: locale.name,
       localizedName: getLocalizedLanguageName(
@@ -83,24 +90,17 @@ const LanguageSelect = ({
       ),
       countryCode: getCountryCodeFromLocale(locale.code),
     }))
+    return [DEFAULT_OPTION, ...localeOptions]
   }, [locales, currentLocale])
-
-  const findEnglishLocale = (opts: LanguageOption[]) => {
-    return (
-      opts.find((o) => o.code.toLowerCase() === "en-us") ??
-      opts.find((o) => o.code.toLowerCase().startsWith("en"))
-    )
-  }
 
   useEffect(() => {
     if (currentLocale) {
       const option = options.find(
         (o) => o.code.toLowerCase() === currentLocale.toLowerCase()
       )
-      setCurrent(option ?? findEnglishLocale(options) ?? options[0])
-    } else if (options.length > 0) {
-      const defaultOption = findEnglishLocale(options) ?? options[0]
-      setCurrent(defaultOption)
+      setCurrent(option ?? DEFAULT_OPTION)
+    } else {
+      setCurrent(DEFAULT_OPTION)
     }
   }, [options, currentLocale])
 
@@ -121,10 +121,8 @@ const LanguageSelect = ({
           currentLocale
             ? options.find(
                 (o) => o.code.toLowerCase() === currentLocale.toLowerCase()
-              ) ??
-              findEnglishLocale(options) ??
-              options[0]
-            : findEnglishLocale(options) ?? options[0]
+              ) ?? DEFAULT_OPTION
+            : DEFAULT_OPTION
         }
         disabled={isPending}
       >
@@ -133,15 +131,17 @@ const LanguageSelect = ({
             <span>Language:</span>
             {current && (
               <span className="txt-compact-small flex items-center gap-x-2">
-                {/* @ts-ignore */}
-                <ReactCountryFlag
-                  svg
-                  style={{
-                    width: "16px",
-                    height: "16px",
-                  }}
-                  countryCode={current.countryCode}
-                />
+                {current.countryCode && (
+                  /* @ts-ignore */
+                  <ReactCountryFlag
+                    svg
+                    style={{
+                      width: "16px",
+                      height: "16px",
+                    }}
+                    countryCode={current.countryCode}
+                  />
+                )}
                 {isPending ? "..." : current.localizedName}
               </span>
             )}
@@ -161,19 +161,23 @@ const LanguageSelect = ({
             >
               {options.map((o) => (
                 <ListboxOption
-                  key={o.code}
+                  key={o.code || "default"}
                   value={o}
                   className="py-2 hover:bg-gray-200 px-3 cursor-pointer flex items-center gap-x-2"
                 >
-                  {/* @ts-ignore */}
-                  <ReactCountryFlag
-                    svg
-                    style={{
-                      width: "16px",
-                      height: "16px",
-                    }}
-                    countryCode={o.countryCode}
-                  />{" "}
+                  {o.countryCode ? (
+                    /* @ts-ignore */
+                    <ReactCountryFlag
+                      svg
+                      style={{
+                        width: "16px",
+                        height: "16px",
+                      }}
+                      countryCode={o.countryCode}
+                    />
+                  ) : (
+                    <span style={{ width: "16px", height: "16px" }} />
+                  )}
                   {o.localizedName}
                 </ListboxOption>
               ))}
