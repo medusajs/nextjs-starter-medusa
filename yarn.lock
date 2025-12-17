@@ -949,19 +949,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@medusajs/js-sdk@npm:3.0.0-snapshot-20251216122339":
-  version: 3.0.0-snapshot-20251216122339
-  resolution: "@medusajs/js-sdk@npm:3.0.0-snapshot-20251216122339"
+"@medusajs/js-sdk@npm:latest":
+  version: 2.12.3
+  resolution: "@medusajs/js-sdk@npm:2.12.3"
   dependencies:
     fetch-event-stream: "npm:^0.1.5"
     qs: "npm:^6.12.1"
-  checksum: 10/f38e2c5a1c6e19a4cf93dbad7a92bb44fb6c938fd615847cc1b8db5b5965063075efe51b499fdc49b45867cfabde8f1192026a35f194963cebf6a833de0a358d
+  checksum: 10/91a9263a047bae459c6ec6d8f830bc5a29994c696bbcacc8f4815c4b26cb6ba08ad5fef907e6988320e3568e018e85fd52cef9730d064f24777d6b1571b5c1cb
   languageName: node
   linkType: hard
 
-"@medusajs/types@npm:3.0.0-snapshot-20251216122339":
-  version: 3.0.0-snapshot-20251216122339
-  resolution: "@medusajs/types@npm:3.0.0-snapshot-20251216122339"
+"@medusajs/types@npm:latest":
+  version: 2.12.3
+  resolution: "@medusajs/types@npm:2.12.3"
   dependencies:
     bignumber.js: "npm:^9.1.2"
   peerDependencies:
@@ -972,7 +972,7 @@ __metadata:
       optional: true
     vite:
       optional: true
-  checksum: 10/389e92310523d26e37e44418a02bfdb09fe50e67db565b3a62c654ba33840222a898319317f9112d589027bb33c0550185c26bdc1cd138821a9eaba450157ffc
+  checksum: 10/7a619ff984508b64611487c9160c5e15f5ab99cf75deaf3c5f91afd9cb395e1ff50cd8a22e7943098a4b50039cb0fa97d908d923f68b53308a6c95209e7f8748
   languageName: node
   linkType: hard
 
@@ -7403,8 +7403,8 @@ __metadata:
   dependencies:
     "@babel/core": "npm:^7.17.5"
     "@headlessui/react": "npm:^2.2.0"
-    "@medusajs/js-sdk": "npm:3.0.0-snapshot-20251216122339"
-    "@medusajs/types": "npm:3.0.0-snapshot-20251216122339"
+    "@medusajs/js-sdk": "npm:latest"
+    "@medusajs/types": "npm:latest"
     "@medusajs/ui": "npm:latest"
     "@medusajs/ui-preset": "npm:latest"
     "@radix-ui/react-accordion": "npm:^1.2.1"
