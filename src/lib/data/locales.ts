@@ -24,12 +24,5 @@ export const listLocales = async (): Promise<Locale[] | null> => {
       cache: "force-cache",
     })
     .then(({ locales }) => locales)
-    .catch((error) => {
-      // Return null on 404 to hide selector
-      if (error?.response?.status === 404) {
-        return null
-      }
-      console.error("Failed to fetch locales:", error)
-      return null
-    })
+    .catch(() => null)
 }
