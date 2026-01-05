@@ -940,7 +940,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@medusajs/icons@npm:2.12.3":
+"@medusajs/icons@npm:2.12.3, @medusajs/icons@npm:latest":
   version: 2.12.3
   resolution: "@medusajs/icons@npm:2.12.3"
   peerDependencies:
@@ -7403,6 +7403,7 @@ __metadata:
   dependencies:
     "@babel/core": "npm:^7.17.5"
     "@headlessui/react": "npm:^2.2.0"
+    "@medusajs/icons": "npm:latest"
     "@medusajs/js-sdk": "npm:latest"
     "@medusajs/types": "npm:latest"
     "@medusajs/ui": "npm:latest"
