@@ -189,7 +189,7 @@ const Shipping: React.FC<ShippingProps> = ({
                 Shipping method
               </span>
               <span className="mb-4 text-ui-fg-muted txt-medium">
-                How would you like you order delivered
+                How would you like your order delivered
               </span>
             </div>
             <div data-testid="delivery-options-container">
