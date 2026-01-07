@@ -1,6 +1,7 @@
 "use client"
 
-import React, { useEffect, useMemo, useActionState } from "react"
+import React, { useEffect, useMemo } from "react"
+import { useActionState } from "@lib/react-use-action-state-shim"
 
 import Input from "@modules/common/components/input"
 import NativeSelect from "@modules/common/components/native-select"
