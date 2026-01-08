@@ -1,5 +1,7 @@
 const path = require("path")
 
+const medusaUiPath = path.dirname(require.resolve("@medusajs/ui"))
+
 module.exports = {
   darkMode: "class",
   presets: [require("@medusajs/ui-preset")],
@@ -8,7 +10,7 @@ module.exports = {
     "./src/pages/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",
     "./src/modules/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/@medusajs/ui/dist/**/*.{js,jsx,ts,tsx}",
+    `${medusaUiPath}/**/*.{js,jsx,ts,tsx}`,
   ],
   theme: {
     extend: {
