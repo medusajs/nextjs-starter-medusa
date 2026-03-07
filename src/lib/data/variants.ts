@@ -16,9 +16,12 @@ export const retrieveVariant = async (
     ...authHeaders,
   }
 
-  const next = {
-    ...(await getCacheOptions("variants")),
-  }
+  const disableCache = process.env.NODE_ENV !== "production"
+  const next = disableCache
+    ? undefined
+    : {
+        ...(await getCacheOptions("variants")),
+      }
 
   return await sdk.client
     .fetch<{ variant: HttpTypes.StoreProductVariant }>(
@@ -30,7 +33,7 @@ export const retrieveVariant = async (
         },
         headers,
         next,
-        cache: "force-cache",
+        cache: disableCache ? "no-store" : "force-cache",
       }
     )
     .then(({ variant }) => variant)
