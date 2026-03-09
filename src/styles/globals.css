@@ -2,6 +2,100 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+:root {
+  /* Brand */
+  --color-primary: #b6895b;
+  --color-primary-hover: #9c734c;
+
+  /* Background */
+  --color-bg-base: #ffffff;
+  --color-bg-subtle: #f9fafb;
+  --color-bg-elevated: #ffffff;
+  --color-overlay: rgba(0, 0, 0, 0.7);
+
+  /* Text */
+  --color-text-primary: #111827;
+  --color-text-secondary: #6b7280;
+  --color-text-on-primary: #ffffff;
+
+  /* Borders */
+  --color-border-base: #e5e7eb;
+  --color-border-strong: #d1d5db;
+
+  /* Radius */
+  --radius-base: 8px;
+  --radius-lg: 16px;
+
+  /* Animation */
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+
+  /* @medusajs/ui-preset overrides */
+  --bg-base: var(--color-bg-base);
+  --bg-base-hover: var(--color-bg-subtle);
+  --bg-base-pressed: var(--color-bg-subtle);
+  --bg-subtle: var(--color-bg-subtle);
+  --bg-subtle-hover: var(--color-bg-base);
+  --bg-component: var(--color-bg-elevated);
+  --bg-component-hover: var(--color-bg-subtle);
+  --bg-interactive: var(--color-primary);
+  --bg-overlay: var(--color-overlay);
+
+  --fg-base: var(--color-text-primary);
+  --fg-subtle: var(--color-text-secondary);
+  --fg-interactive: var(--color-primary);
+  --fg-interactive-hover: var(--color-primary-hover);
+  --fg-on-color: var(--color-text-on-primary);
+  --fg-on-inverted: var(--color-text-on-primary);
+  --contrast-fg-primary: var(--color-text-on-primary);
+  --contrast-fg-secondary: var(--color-text-on-primary);
+
+  --border-base: var(--color-border-base);
+  --border-strong: var(--color-border-strong);
+  --border-interactive: var(--color-primary);
+
+  --button-neutral: var(--color-primary);
+  --button-neutral-hover: var(--color-primary-hover);
+  --button-neutral-pressed: var(--color-primary-hover);
+
+  --button-inverted: var(--color-primary);
+  --button-inverted-hover: var(--color-primary-hover);
+  --button-inverted-pressed: var(--color-primary-hover);
+
+  --buttons-neutral: var(--color-primary);
+  --buttons-neutral-focus: var(--color-primary-hover);
+  --buttons-inverted: var(--color-primary);
+  --buttons-inverted-focus: var(--color-primary-hover);
+  --buttons-danger: #dc2626;
+  --buttons-danger-focus: #b91c1c;
+}
+
+@layer base {
+  body {
+    @apply font-sans;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Marcellus", serif;
+    font-weight: 400;
+    font-style: normal;
+    color: var(--color-text-primary);
+  }
+
+  .h1-core,
+  .h2-core,
+  .h3-core {
+    font-family: "Marcellus", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+}
+
 @layer utilities {
   /* Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
@@ -35,9 +129,9 @@
   select:-webkit-autofill,
   select:-webkit-autofill:hover,
   select:-webkit-autofill:focus {
-    border: 1px solid #212121;
-    -webkit-text-fill-color: #212121;
-    -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+    border: 1px solid var(--color-border-strong);
+    -webkit-text-fill-color: var(--color-text-primary);
+    -webkit-box-shadow: 0 0 0px 1000px var(--color-bg-base) inset;
     transition: background-color 5000s ease-in-out 0s;
   }
 
@@ -55,7 +149,7 @@
   }
 
   .contrast-btn {
-    @apply px-4 py-2 border border-black rounded-full hover:bg-black hover:text-white transition-colors duration-200 ease-in;
+    @apply px-4 py-2 border border-border rounded-full hover:bg-primary hover:text-on-primary transition-colors duration-200 ease-in;
   }
 
   .text-xsmall-regular {
@@ -108,5 +202,58 @@
 
   .text-3xl-semi {
     @apply text-[32px] leading-[44px] font-semibold;
+  }
+
+  /* Rich HTML content (CMS/editor output) */
+
+
+  .prose p {
+    @apply mb-4;
+  }
+
+  .prose h1 {
+    @apply text-2xl leading-tight mb-4 sm:text-3xl md:text-4xl;
+  }
+
+  .prose h2 {
+    @apply text-xl  mt-4 mb-6 sm:text-2xl md:text-3xl;
+  }
+
+  .prose h3 {
+    @apply text-lg  mt-6 mb-4 sm:text-xl md:text-2xl;
+  }
+
+  .prose h4 {
+    @apply text-base mt-5 mb-4 sm:text-lg;
+  }
+
+  .prose ul {
+    @apply list-disc pl-6 mb-4;
+  }
+
+  .prose ol {
+    @apply list-decimal pl-6 mb-4;
+  }
+
+  .prose li {
+    @apply mb-2;
+  }
+
+  .prose blockquote {
+    @apply border-l-2 border-ui-border-base pl-4 italic text-ui-fg-subtle my-6;
+  }
+
+  .prose a {
+    @apply underline underline-offset-4;
+  }
+
+  .prose img {
+    @apply my-6 rounded-md;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .prose hr {
+    @apply my-8 border-ui-border-base;
   }
 }

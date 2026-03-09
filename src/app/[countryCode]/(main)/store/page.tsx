@@ -1,6 +1,5 @@
 import { Metadata } from "next"
 
-import { retrievePageBySlug } from "@lib/data/pages"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import StoreTemplate from "@modules/store/templates"
 
@@ -23,14 +22,11 @@ export default async function StorePage(props: Params) {
   const params = await props.params
   const searchParams = await props.searchParams
   const { sortBy, page } = searchParams
-  const homePage = await retrievePageBySlug("home")
-
   return (
     <StoreTemplate
       sortBy={sortBy}
       page={page}
       countryCode={params.countryCode}
-      homePage={homePage}
     />
   )
 }

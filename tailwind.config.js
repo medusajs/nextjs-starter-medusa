@@ -34,13 +34,23 @@ module.exports = {
           80: "#1F2937",
           90: "#111827",
         },
+        primary: "var(--color-primary)",
+        "primary-hover": "var(--color-primary-hover)",
+        bg: "var(--color-bg-base)",
+        "bg-subtle": "var(--color-bg-subtle)",
+        text: "var(--color-text-primary)",
+        "text-secondary": "var(--color-text-secondary)",
+        border: "var(--color-border-base)",
+        "border-strong": "var(--color-border-strong)",
+        overlay: "var(--color-overlay)",
+        "on-primary": "var(--color-text-on-primary)",
       },
       borderRadius: {
         none: "0px",
         soft: "2px",
-        base: "4px",
-        rounded: "8px",
-        large: "16px",
+        base: "var(--radius-base)",
+        rounded: "var(--radius-base)",
+        large: "var(--radius-lg)",
         circle: "9999px",
       },
       maxWidth: {
@@ -60,7 +70,7 @@ module.exports = {
       },
       fontFamily: {
         sans: [
-          "Inter",
+          "Poppins",
           "-apple-system",
           "BlinkMacSystemFont",
           "Segoe UI",
@@ -69,6 +79,8 @@ module.exports = {
           "Ubuntu",
           "sans-serif",
         ],
+        serif: ["Marcellus", "serif"],
+        display: ["Marcellus", "serif"],
       },
       keyframes: {
         ring: {
