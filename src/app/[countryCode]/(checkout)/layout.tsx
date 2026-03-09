@@ -1,11 +1,15 @@
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import ChevronDown from "@modules/common/icons/chevron-down"
+import { retrieveStore } from "@lib/data/store"
 
-export default function CheckoutLayout({
+export default async function CheckoutLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const store = await retrieveStore()
+  const storeName = store?.name || "Luxe Linen"
+
   return (
     <div className="w-full bg-white relative small:min-h-screen">
       <div className="h-16 bg-white border-b ">
@@ -28,7 +32,7 @@ export default function CheckoutLayout({
             className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase"
             data-testid="store-link"
           >
-            Luxe Linen
+            {storeName}
           </LocalizedClientLink>
           <div className="flex-1 basis-0" />
         </nav>

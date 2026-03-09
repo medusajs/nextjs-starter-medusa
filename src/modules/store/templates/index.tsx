@@ -10,10 +10,17 @@ const StoreTemplate = ({
   sortBy,
   page,
   countryCode,
+  homePage,
 }: {
   sortBy?: SortOptions
   page?: string
   countryCode: string
+  homePage?: {
+    title: string
+    excerpt?: string | null
+    featured_image?: string | null
+    content?: string | null
+  } | null
 }) => {
   const pageNumber = page ? parseInt(page) : 1
   const sort = sortBy || "created_at"
@@ -25,6 +32,33 @@ const StoreTemplate = ({
     >
       <RefinementList sortBy={sort} />
       <div className="w-full">
+        {homePage && (
+          <div className="mb-8">
+            <div className="flex flex-col gap-y-2">
+              <h1 className="text-2xl font-semibold text-ui-fg-base">
+                {homePage.title}
+              </h1>
+              {homePage.excerpt && (
+                <p className="text-ui-fg-subtle">{homePage.excerpt}</p>
+              )}
+            </div>
+            {homePage.featured_image && (
+              <div className="mt-4 overflow-hidden rounded-md border border-ui-border-base">
+                <img
+                  src={homePage.featured_image}
+                  alt={homePage.title}
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+            )}
+            {homePage.content && (
+              <div
+                className="prose max-w-none mt-4"
+                dangerouslySetInnerHTML={{ __html: homePage.content }}
+              />
+            )}
+          </div>
+        )}
         <div className="mb-8 text-2xl-semi">
           <h1 data-testid="store-page-title">All products</h1>
         </div>
