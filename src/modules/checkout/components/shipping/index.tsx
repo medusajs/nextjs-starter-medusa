@@ -18,10 +18,18 @@ const PICKUP_OPTION_OFF = "__PICKUP_OFF"
 
 type ShippingProps = {
   cart: HttpTypes.StoreCart
-  availableShippingMethods: HttpTypes.StoreCartShippingOption[] | null
+  availableShippingMethods: HttpTypes.StoreCartShippingOptionWithServiceZone[] | null
 }
 
-function formatAddress(address: HttpTypes.StoreCartAddress) {
+type AddressLike = {
+  address_1?: string | null
+  address_2?: string | null
+  postal_code?: string | null
+  city?: string | null
+  country_code?: string | null
+}
+
+function formatAddress(address: AddressLike | null | undefined) {
   if (!address) {
     return ""
   }
@@ -37,7 +45,11 @@ function formatAddress(address: HttpTypes.StoreCartAddress) {
   }
 
   if (address.postal_code) {
-    ret += `, ${address.postal_code} ${address.city}`
+    if (address.city) {
+      ret += `, ${address.postal_code} ${address.city}`
+    } else {
+      ret += `, ${address.postal_code}`
+    }
   }
 
   if (address.country_code) {

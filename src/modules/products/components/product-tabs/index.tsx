@@ -43,30 +43,40 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
 
 const ProductInfoTab = ({ product }: ProductTabsProps) => {
   return (
-    <div className="text-small-regular py-8">
+    <div className="py-8 text-small-regular text-qw-charcoal">
       <div className="grid grid-cols-2 gap-x-8">
         <div className="flex flex-col gap-y-4">
           <div>
-            <span className="font-semibold">Material</span>
-            <p>{product.material ? product.material : "-"}</p>
+            <span className="font-serif font-light uppercase tracking-wider text-qw-medium-grey text-[12px] leading-4">
+              Material
+            </span>
+            <p className="text-qw-charcoal">{product.material ?? "-"}</p>
           </div>
           <div>
-            <span className="font-semibold">Country of origin</span>
-            <p>{product.origin_country ? product.origin_country : "-"}</p>
+            <span className="font-serif font-light uppercase tracking-wider text-qw-medium-grey text-[12px] leading-4">
+              Country of origin
+            </span>
+            <p className="text-qw-charcoal">{product.origin_country ?? "-"}</p>
           </div>
           <div>
-            <span className="font-semibold">Type</span>
-            <p>{product.type ? product.type.value : "-"}</p>
+            <span className="font-serif font-light uppercase tracking-wider text-qw-medium-grey text-[12px] leading-4">
+              Type
+            </span>
+            <p className="text-qw-charcoal">{product.type?.value ?? "-"}</p>
           </div>
         </div>
         <div className="flex flex-col gap-y-4">
           <div>
-            <span className="font-semibold">Weight</span>
-            <p>{product.weight ? `${product.weight} g` : "-"}</p>
+            <span className="font-serif font-light uppercase tracking-wider text-qw-medium-grey text-[12px] leading-4">
+              Weight
+            </span>
+            <p className="text-qw-charcoal">{product.weight ? `${product.weight} g` : "-"}</p>
           </div>
           <div>
-            <span className="font-semibold">Dimensions</span>
-            <p>
+            <span className="font-serif font-light uppercase tracking-wider text-qw-medium-grey text-[12px] leading-4">
+              Dimensions
+            </span>
+            <p className="text-qw-charcoal">
               {product.length && product.width && product.height
                 ? `${product.length}L x ${product.width}W x ${product.height}H`
                 : "-"}
@@ -80,12 +90,14 @@ const ProductInfoTab = ({ product }: ProductTabsProps) => {
 
 const ShippingInfoTab = () => {
   return (
-    <div className="text-small-regular py-8">
+    <div className="text-small-regular py-8 text-qw-charcoal">
       <div className="grid grid-cols-1 gap-y-8">
         <div className="flex items-start gap-x-2">
           <FastDelivery />
           <div>
-            <span className="font-semibold">Fast delivery</span>
+            <span className="font-serif font-light uppercase tracking-wider text-qw-medium-grey text-[12px] leading-4">
+              Fast delivery
+            </span>
             <p className="max-w-sm">
               Your package will arrive in 3-5 business days at your pick up
               location or in the comfort of your home.
@@ -95,7 +107,9 @@ const ShippingInfoTab = () => {
         <div className="flex items-start gap-x-2">
           <Refresh />
           <div>
-            <span className="font-semibold">Simple exchanges</span>
+            <span className="font-serif font-light uppercase tracking-wider text-qw-medium-grey text-[12px] leading-4">
+              Simple exchanges
+            </span>
             <p className="max-w-sm">
               Is the fit not quite right? No worries - we&apos;ll exchange your
               product for a new one.
@@ -105,7 +119,9 @@ const ShippingInfoTab = () => {
         <div className="flex items-start gap-x-2">
           <Back />
           <div>
-            <span className="font-semibold">Easy returns</span>
+            <span className="font-serif font-light uppercase tracking-wider text-qw-medium-grey text-[12px] leading-4">
+              Easy returns
+            </span>
             <p className="max-w-sm">
               Just return your product and we&apos;ll refund your money. No
               questions asked – we&apos;ll do our best to make sure your return

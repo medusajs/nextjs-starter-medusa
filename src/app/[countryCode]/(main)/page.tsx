@@ -1,6 +1,7 @@
 import { Metadata } from "next"
 
 import FeaturedProducts from "@modules/home/components/featured-products"
+import CategoryGrid from "@modules/home/components/category-grid"
 import Hero from "@modules/home/components/hero"
 import { listCollections } from "@lib/data/collections"
 import { getRegion } from "@lib/data/regions"
@@ -31,8 +32,9 @@ export default async function Home(props: {
   return (
     <>
       <Hero />
+      <CategoryGrid />
       <div className="py-12">
-        <ul className="flex flex-col gap-x-6">
+        <ul className="flex flex-col gap-y-24">
           <FeaturedProducts collections={collections} region={region} />
         </ul>
       </div>

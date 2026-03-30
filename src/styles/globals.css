@@ -2,6 +2,35 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+@layer base {
+  html,
+  body {
+    height: 100%;
+    overflow-x: clip; /* prevent 375px horizontal scroll */
+  }
+
+  body {
+    @apply bg-qw-white text-qw-charcoal antialiased font-sans;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-serif font-light text-qw-black;
+  }
+
+  a {
+    @apply text-inherit no-underline;
+  }
+
+  ::selection {
+    @apply bg-qw-black text-qw-white;
+  }
+}
+
 @layer utilities {
   /* Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
@@ -54,8 +83,21 @@
     @apply max-w-[1440px] w-full mx-auto px-6;
   }
 
+  .qw-btn-primary {
+    @apply inline-flex items-center justify-center
+      bg-qw-black text-qw-white text-micro uppercase tracking-[0.2em]
+      px-6 py-3 transition-opacity duration-300 hover:opacity-85;
+  }
+
+  .qw-btn-secondary {
+    @apply inline-flex items-center justify-center
+      border border-qw-black text-qw-black text-micro uppercase tracking-[0.2em]
+      bg-transparent px-6 py-3 transition-colors duration-300
+      hover:bg-qw-black hover:text-qw-white;
+  }
+
   .contrast-btn {
-    @apply px-4 py-2 border border-black rounded-full hover:bg-black hover:text-white transition-colors duration-200 ease-in;
+    @apply px-4 py-2 border border-black rounded-full hover:bg-black hover:text-white transition-colors duration-300 ease-in;
   }
 
   .text-xsmall-regular {

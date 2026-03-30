@@ -90,24 +90,24 @@ const CartDropdown = ({
         <Transition
           show={cartDropdownOpen}
           as={Fragment}
-          enter="transition ease-out duration-200"
-          enterFrom="opacity-0 translate-y-1"
-          enterTo="opacity-100 translate-y-0"
-          leave="transition ease-in duration-150"
-          leaveFrom="opacity-100 translate-y-0"
-          leaveTo="opacity-0 translate-y-1"
+          enter="transition ease-out duration-300"
+          enterFrom="opacity-0 translate-x-full"
+          enterTo="opacity-100 translate-x-0"
+          leave="transition ease-in duration-200"
+          leaveFrom="opacity-100 translate-x-0"
+          leaveTo="opacity-0 translate-x-full"
         >
           <PopoverPanel
             static
-            className="hidden small:block absolute top-[calc(100%+1px)] right-0 bg-white border-x border-b border-gray-200 w-[420px] text-ui-fg-base"
+            className="hidden small:block fixed top-16 right-0 h-[calc(100dvh-4rem)] w-[420px] bg-white border-l border-ui-border-base text-ui-fg-base flex flex-col"
             data-testid="nav-cart-dropdown"
           >
-            <div className="p-4 flex items-center justify-center">
+            <div className="p-4 flex items-center justify-center border-b border-ui-border-base">
               <h3 className="text-large-semi">Cart</h3>
             </div>
             {cartState && cartState.items?.length ? (
               <>
-                <div className="overflow-y-scroll max-h-[402px] px-4 grid grid-cols-1 gap-y-8 no-scrollbar p-px">
+                <div className="flex-1 overflow-y-scroll px-4 grid grid-cols-1 gap-y-8 no-scrollbar p-px">
                   {cartState.items
                     .sort((a, b) => {
                       return (a.created_at ?? "") > (b.created_at ?? "")
@@ -204,7 +204,7 @@ const CartDropdown = ({
               </>
             ) : (
               <div>
-                <div className="flex py-16 flex-col gap-y-4 items-center justify-center">
+                <div className="flex-1 flex py-16 flex-col gap-y-4 items-center justify-center">
                   <div className="bg-gray-900 text-small-regular flex items-center justify-center w-6 h-6 rounded-full text-white">
                     <span>0</span>
                   </div>

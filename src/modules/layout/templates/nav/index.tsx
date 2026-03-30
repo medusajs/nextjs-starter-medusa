@@ -3,6 +3,7 @@ import { Suspense } from "react"
 import { listRegions } from "@lib/data/regions"
 import { listLocales } from "@lib/data/locales"
 import { getLocale } from "@lib/data/locale-actions"
+import { listCategories } from "@lib/data/categories"
 import { StoreRegion } from "@medusajs/types"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import CartButton from "@modules/layout/components/cart-button"
@@ -15,51 +16,101 @@ export default async function Nav() {
     getLocale(),
   ])
 
+  const categories = await listCategories({ limit: 100 })
+  const topLevelCategories = (categories ?? []).filter((c) => !c.parent_category)
+
   return (
     <div className="sticky top-0 inset-x-0 z-50 group">
-      <header className="relative h-16 mx-auto border-b duration-200 bg-white border-ui-border-base">
-        <nav className="content-container txt-xsmall-plus text-ui-fg-subtle flex items-center justify-between w-full h-full text-small-regular">
-          <div className="flex-1 basis-0 h-full flex items-center">
-            <div className="h-full">
-              <SideMenu regions={regions} locales={locales} currentLocale={currentLocale} />
+      <header className="relative mx-auto bg-white border-ui-border-base">
+        {/* Top bar */}
+        <div className="h-16 border-b duration-300 border-ui-border-base">
+          <nav className="content-container txt-xsmall-plus text-ui-fg-subtle flex items-center justify-between w-full h-full text-small-regular">
+            <div className="flex-1 basis-0 h-full flex items-center">
+              <div className="h-full small:hidden">
+                <SideMenu
+                  regions={regions}
+                  locales={locales}
+                  currentLocale={currentLocale}
+                  topLevelCategories={topLevelCategories}
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="flex items-center h-full">
-            <LocalizedClientLink
-              href="/"
-              className="txt-compact-xlarge-plus hover:text-ui-fg-base uppercase"
-              data-testid="nav-store-link"
-            >
-              Medusa Store
-            </LocalizedClientLink>
-          </div>
-
-          <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
-            <div className="hidden small:flex items-center gap-x-6 h-full">
+            <div className="flex items-center h-full">
               <LocalizedClientLink
-                className="hover:text-ui-fg-base"
-                href="/account"
-                data-testid="nav-account-link"
+                href="/"
+                className="txt-compact-xlarge-plus hover:text-ui-fg-base uppercase transition-opacity duration-300 hover:opacity-85 hover:-translate-y-0.5"
+                data-testid="nav-store-link"
               >
-                Account
+                Medusa Store
               </LocalizedClientLink>
             </div>
-            <Suspense
-              fallback={
+
+            <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
+              <div className="hidden small:flex items-center gap-x-6 h-full">
                 <LocalizedClientLink
-                  className="hover:text-ui-fg-base flex gap-2"
-                  href="/cart"
-                  data-testid="nav-cart-link"
+                  className="hover:text-ui-fg-base transition-opacity duration-300 hover:opacity-85 hover:-translate-y-0.5"
+                  href="/account"
+                  data-testid="nav-account-link"
                 >
-                  Cart (0)
+                  Account
                 </LocalizedClientLink>
-              }
-            >
-              <CartButton />
-            </Suspense>
-          </div>
-        </nav>
+              </div>
+              <Suspense
+                fallback={
+                  <LocalizedClientLink
+                    className="hover:text-ui-fg-base flex gap-2 transition-opacity duration-300 hover:opacity-85 hover:-translate-y-0.5"
+                    href="/cart"
+                    data-testid="nav-cart-link"
+                  >
+                    Cart (0)
+                  </LocalizedClientLink>
+                }
+              >
+                <CartButton />
+              </Suspense>
+            </div>
+          </nav>
+        </div>
+
+        {/* Desktop second layer (category mega menu) */}
+        <div className="hidden small:block border-b border-ui-border-base">
+          <nav className="content-container h-14 flex items-center gap-x-10">
+            {topLevelCategories.map((cat) => (
+              <div
+                key={cat.id}
+                className="relative group h-full flex items-center"
+              >
+                <LocalizedClientLink
+                  href={`/categories/${cat.handle}`}
+                  className="hover:text-ui-fg-base uppercase tracking-wider transition-opacity duration-300 hover:opacity-85 hover:-translate-y-0.5"
+                  data-testid="nav-mega-category-link"
+                >
+                  {cat.name}
+                </LocalizedClientLink>
+
+                <div
+                  className="absolute left-0 top-full mt-4 w-[520px] bg-white border border-ui-border-base p-6
+                  opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto
+                  transition-opacity duration-300"
+                >
+                  <div className="grid grid-cols-2 gap-x-10 gap-y-6">
+                    {(cat.category_children ?? []).slice(0, 10).map((child) => (
+                      <LocalizedClientLink
+                        key={child.id}
+                        href={`/categories/${child.handle}`}
+                        className="hover:text-ui-fg-base text-ui-fg-subtle uppercase text-small-regular transition-opacity duration-300 hover:opacity-85 hover:-translate-y-0.5"
+                        data-testid="nav-mega-subcategory-link"
+                      >
+                        {child.name}
+                      </LocalizedClientLink>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </nav>
+        </div>
       </header>
     </div>
   )

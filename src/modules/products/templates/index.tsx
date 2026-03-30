@@ -32,29 +32,32 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
   return (
     <>
       <div
-        className="content-container  flex flex-col small:flex-row small:items-start py-6 relative"
+        className="content-container flex flex-col small:flex-row small:items-start py-6 relative"
         data-testid="product-container"
       >
-        <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-6">
-          <ProductInfo product={product} />
-          <ProductTabs product={product} />
-        </div>
-        <div className="block w-full relative">
+        {/* Mobile order (A): Image -> Actions/CTA -> Info/Tabs */}
+        <div className="order-1 block w-full relative">
           <ImageGallery images={images} />
         </div>
-        <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-12">
-          <ProductOnboardingCta />
-          <Suspense
-            fallback={
-              <ProductActions
-                disabled={true}
-                product={product}
-                region={region}
-              />
-            }
-          >
-            <ProductActionsWrapper id={product.id} region={region} />
-          </Suspense>
+
+        <div className="order-2 flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[520px] w-full py-8 gap-y-12">
+          {/* Purchase / actions block */}
+          <div className="order-1 small:order-2 flex flex-col gap-y-12">
+            <ProductOnboardingCta />
+            <Suspense
+              fallback={
+                <ProductActions disabled={true} product={product} region={region} />
+              }
+            >
+              <ProductActionsWrapper id={product.id} region={region} />
+            </Suspense>
+          </div>
+
+          {/* Product info + tabs */}
+          <div className="order-2 small:order-1 flex flex-col gap-y-6">
+            <ProductInfo product={product} />
+            <ProductTabs product={product} />
+          </div>
         </div>
       </div>
       <div

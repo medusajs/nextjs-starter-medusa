@@ -171,8 +171,8 @@ export default function ProductActions({
             isAdding ||
             !isValidVariant
           }
-          variant="primary"
-          className="w-full h-10"
+          variant="secondary"
+          className="w-full h-10 !bg-qw-black !text-qw-white !border-none !rounded-none hover:!opacity-85 transition-opacity duration-300"
           isLoading={isAdding}
           data-testid="add-product-button"
         >
