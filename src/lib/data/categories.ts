@@ -7,7 +7,7 @@ export const listCategories = async (query?: Record<string, any>) => {
     ...(await getCacheOptions("categories")),
   }
 
-  const limit = query?.limit || 100
+  const limit = query?.limit ?? 1000
 
   return sdk.client
     .fetch<{ product_categories: HttpTypes.StoreProductCategory[] }>(

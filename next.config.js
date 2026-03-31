@@ -25,6 +25,14 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
+    /**
+     * In dev, Next.js fetches remote URLs through the image optimizer; slow or
+     * blocked S3 often causes "upstream image response timed out". Set
+     * NEXT_IMAGE_OPTIMIZE=1 to force optimization in development.
+     */
+    unoptimized:
+      process.env.NODE_ENV === "development" &&
+      process.env.NEXT_IMAGE_OPTIMIZE !== "1",
     remotePatterns: [
       {
         protocol: "http",

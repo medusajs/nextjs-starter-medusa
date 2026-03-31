@@ -53,7 +53,7 @@ const Addresses = ({
           <Text>
             <button
               onClick={handleEdit}
-              className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
+              className="text-qw-charcoal underline underline-offset-4 transition-colors duration-300 hover:text-qw-black"
               data-testid="edit-address-button"
             >
               Edit
@@ -99,22 +99,22 @@ const Addresses = ({
                     className="flex flex-col w-1/3"
                     data-testid="shipping-address-summary"
                   >
-                    <Text className="txt-medium-plus text-ui-fg-base mb-1">
+                    <Text className="txt-medium-plus mb-1 text-qw-charcoal">
                       Shipping Address
                     </Text>
-                    <Text className="txt-medium text-ui-fg-subtle">
+                    <Text className="txt-medium text-qw-medium-grey">
                       {cart.shipping_address.first_name}{" "}
                       {cart.shipping_address.last_name}
                     </Text>
-                    <Text className="txt-medium text-ui-fg-subtle">
+                    <Text className="txt-medium text-qw-medium-grey">
                       {cart.shipping_address.address_1}{" "}
                       {cart.shipping_address.address_2}
                     </Text>
-                    <Text className="txt-medium text-ui-fg-subtle">
+                    <Text className="txt-medium text-qw-medium-grey">
                       {cart.shipping_address.postal_code},{" "}
                       {cart.shipping_address.city}
                     </Text>
-                    <Text className="txt-medium text-ui-fg-subtle">
+                    <Text className="txt-medium text-qw-medium-grey">
                       {cart.shipping_address.country_code?.toUpperCase()}
                     </Text>
                   </div>
@@ -123,13 +123,13 @@ const Addresses = ({
                     className="flex flex-col w-1/3 "
                     data-testid="shipping-contact-summary"
                   >
-                    <Text className="txt-medium-plus text-ui-fg-base mb-1">
+                    <Text className="txt-medium-plus mb-1 text-qw-charcoal">
                       Contact
                     </Text>
-                    <Text className="txt-medium text-ui-fg-subtle">
+                    <Text className="txt-medium text-qw-medium-grey">
                       {cart.shipping_address.phone}
                     </Text>
-                    <Text className="txt-medium text-ui-fg-subtle">
+                    <Text className="txt-medium text-qw-medium-grey">
                       {cart.email}
                     </Text>
                   </div>
@@ -138,29 +138,29 @@ const Addresses = ({
                     className="flex flex-col w-1/3"
                     data-testid="billing-address-summary"
                   >
-                    <Text className="txt-medium-plus text-ui-fg-base mb-1">
+                    <Text className="txt-medium-plus mb-1 text-qw-charcoal">
                       Billing Address
                     </Text>
 
                     {sameAsBilling ? (
-                      <Text className="txt-medium text-ui-fg-subtle">
+                      <Text className="txt-medium text-qw-medium-grey">
                         Billing and delivery address are the same.
                       </Text>
                     ) : (
                       <>
-                        <Text className="txt-medium text-ui-fg-subtle">
+                        <Text className="txt-medium text-qw-medium-grey">
                           {cart.billing_address?.first_name}{" "}
                           {cart.billing_address?.last_name}
                         </Text>
-                        <Text className="txt-medium text-ui-fg-subtle">
+                        <Text className="txt-medium text-qw-medium-grey">
                           {cart.billing_address?.address_1}{" "}
                           {cart.billing_address?.address_2}
                         </Text>
-                        <Text className="txt-medium text-ui-fg-subtle">
+                        <Text className="txt-medium text-qw-medium-grey">
                           {cart.billing_address?.postal_code},{" "}
                           {cart.billing_address?.city}
                         </Text>
-                        <Text className="txt-medium text-ui-fg-subtle">
+                        <Text className="txt-medium text-qw-medium-grey">
                           {cart.billing_address?.country_code?.toUpperCase()}
                         </Text>
                       </>

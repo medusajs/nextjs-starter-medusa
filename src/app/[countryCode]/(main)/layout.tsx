@@ -25,7 +25,7 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
   }
 
   return (
-    <>
+    <div suppressHydrationWarning>
       <Nav />
       {customer && cart && (
         <CartMismatchBanner customer={customer} cart={cart} />
@@ -40,6 +40,6 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
       )}
       {props.children}
       <Footer />
-    </>
+    </div>
   )
 }

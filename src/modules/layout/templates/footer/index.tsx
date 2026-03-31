@@ -12,14 +12,14 @@ export default async function Footer() {
   const productCategories = await listCategories()
 
   return (
-    <footer className="border-t border-ui-border-base w-full">
+    <footer className="w-full border-t border-qw-pale-grey bg-qw-white">
       <div className="content-container flex flex-col w-full">
-        <div className="flex flex-col gap-y-6 py-40">
+        <div className="flex flex-col gap-y-6 py-24 small:py-28">
           {/* Brand */}
           <div>
             <LocalizedClientLink
               href="/"
-              className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase"
+              className="font-serif text-card-title font-light uppercase tracking-[0.08em] text-qw-charcoal transition-colors duration-300 hover:text-qw-black"
             >
               Medusa Store
             </LocalizedClientLink>
@@ -28,10 +28,10 @@ export default async function Footer() {
           {/* Desktop: 4 columns */}
           <div className="hidden small:grid small:grid-cols-4 gap-x-16 gap-y-10">
             <div className="flex flex-col gap-y-2">
-              <span className="txt-small-plus txt-ui-fg-base uppercase">
+              <span className="text-micro uppercase tracking-[0.16em] text-qw-charcoal">
                 Categories
               </span>
-              <ul className="grid grid-cols-1 gap-2 text-ui-fg-subtle txt-small">
+              <ul className="grid grid-cols-1 gap-2 text-caption text-qw-medium-grey">
                 {productCategories
                   ?.filter((c) => !c.parent_category)
                   .slice(0, 8)
@@ -41,7 +41,7 @@ export default async function Footer() {
                       className="flex flex-col gap-2 text-ui-fg-subtle"
                     >
                       <LocalizedClientLink
-                        className="hover:text-ui-fg-base txt-small-plus"
+                        className="transition-colors duration-300 hover:text-qw-black"
                         href={`/categories/${c.handle}`}
                       >
                         {c.name}
@@ -52,25 +52,25 @@ export default async function Footer() {
             </div>
 
             <div className="flex flex-col gap-y-2">
-              <span className="txt-small-plus txt-ui-fg-base uppercase">Services</span>
-              <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
+              <span className="text-micro uppercase tracking-[0.16em] text-qw-charcoal">Services</span>
+              <ul className="grid grid-cols-1 gap-y-2 text-caption text-qw-medium-grey">
                 <li>
-                  <a className="hover:text-ui-fg-base" href="#">
+                  <a className="transition-colors duration-300 hover:text-qw-black" href="#">
                     Design Services
                   </a>
                 </li>
                 <li>
-                  <a className="hover:text-ui-fg-base" href="#">
+                  <a className="transition-colors duration-300 hover:text-qw-black" href="#">
                     Trade Programs
                   </a>
                 </li>
                 <li>
-                  <a className="hover:text-ui-fg-base" href="#">
+                  <a className="transition-colors duration-300 hover:text-qw-black" href="#">
                     White-Glove Delivery
                   </a>
                 </li>
                 <li>
-                  <a className="hover:text-ui-fg-base" href="#">
+                  <a className="transition-colors duration-300 hover:text-qw-black" href="#">
                     Returns & Exchanges
                   </a>
                 </li>
@@ -78,23 +78,23 @@ export default async function Footer() {
             </div>
 
             <div className="flex flex-col gap-y-2">
-              <span className="txt-small-plus txt-ui-fg-base uppercase">Company</span>
-              <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
+              <span className="text-micro uppercase tracking-[0.16em] text-qw-charcoal">Company</span>
+              <ul className="grid grid-cols-1 gap-y-2 text-caption text-qw-medium-grey">
                 <li>
                   <LocalizedClientLink
-                    className="hover:text-ui-fg-base"
+                    className="transition-colors duration-300 hover:text-qw-black"
                     href="/about"
                   >
                     About
                   </LocalizedClientLink>
                 </li>
                 <li>
-                  <a className="hover:text-ui-fg-base" href="#">
+                  <a className="transition-colors duration-300 hover:text-qw-black" href="#">
                     Contact
                   </a>
                 </li>
                 <li>
-                  <a className="hover:text-ui-fg-base" href="#">
+                  <a className="transition-colors duration-300 hover:text-qw-black" href="#">
                     Careers
                   </a>
                 </li>
@@ -102,20 +102,20 @@ export default async function Footer() {
             </div>
 
             <div className="flex flex-col gap-y-2">
-              <span className="txt-small-plus txt-ui-fg-base uppercase">Legal</span>
-              <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
+              <span className="text-micro uppercase tracking-[0.16em] text-qw-charcoal">Legal</span>
+              <ul className="grid grid-cols-1 gap-y-2 text-caption text-qw-medium-grey">
                 <li>
-                  <a className="hover:text-ui-fg-base" href="#">
+                  <a className="transition-colors duration-300 hover:text-qw-black" href="#">
                     Privacy Policy
                   </a>
                 </li>
                 <li>
-                  <a className="hover:text-ui-fg-base" href="#">
+                  <a className="transition-colors duration-300 hover:text-qw-black" href="#">
                     Terms & Conditions
                   </a>
                 </li>
                 <li>
-                  <a className="hover:text-ui-fg-base" href="#">
+                  <a className="transition-colors duration-300 hover:text-qw-black" href="#">
                     Accessibility
                   </a>
                 </li>
@@ -129,14 +129,14 @@ export default async function Footer() {
               {
                 title: "Categories",
                 body: (
-                  <ul className="grid grid-cols-1 gap-2 text-ui-fg-subtle txt-small">
+                  <ul className="grid grid-cols-1 gap-2 text-caption text-qw-medium-grey">
                     {productCategories
                       ?.filter((c) => !c.parent_category)
                       .slice(0, 8)
                       .map((c) => (
                         <li key={c.id}>
                           <LocalizedClientLink
-                            className="hover:text-ui-fg-base"
+                            className="transition-colors duration-300 hover:text-qw-black"
                             href={`/categories/${c.handle}`}
                           >
                             {c.name}
@@ -149,24 +149,24 @@ export default async function Footer() {
               {
                 title: "Services",
                 body: (
-                  <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
+                  <ul className="grid grid-cols-1 gap-y-2 text-caption text-qw-medium-grey">
                     <li>
-                      <a className="hover:text-ui-fg-base" href="#">
+                      <a className="transition-colors duration-300 hover:text-qw-black" href="#">
                         Design Services
                       </a>
                     </li>
                     <li>
-                      <a className="hover:text-ui-fg-base" href="#">
+                      <a className="transition-colors duration-300 hover:text-qw-black" href="#">
                         Trade Programs
                       </a>
                     </li>
                     <li>
-                      <a className="hover:text-ui-fg-base" href="#">
+                      <a className="transition-colors duration-300 hover:text-qw-black" href="#">
                         White-Glove Delivery
                       </a>
                     </li>
                     <li>
-                      <a className="hover:text-ui-fg-base" href="#">
+                      <a className="transition-colors duration-300 hover:text-qw-black" href="#">
                         Returns & Exchanges
                       </a>
                     </li>
@@ -176,22 +176,22 @@ export default async function Footer() {
               {
                 title: "Company",
                 body: (
-                  <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
+                  <ul className="grid grid-cols-1 gap-y-2 text-caption text-qw-medium-grey">
                     <li>
                       <LocalizedClientLink
-                        className="hover:text-ui-fg-base"
+                        className="transition-colors duration-300 hover:text-qw-black"
                         href="/about"
                       >
                         About
                       </LocalizedClientLink>
                     </li>
                     <li>
-                      <a className="hover:text-ui-fg-base" href="#">
+                      <a className="transition-colors duration-300 hover:text-qw-black" href="#">
                         Contact
                       </a>
                     </li>
                     <li>
-                      <a className="hover:text-ui-fg-base" href="#">
+                      <a className="transition-colors duration-300 hover:text-qw-black" href="#">
                         Careers
                       </a>
                     </li>
@@ -201,19 +201,19 @@ export default async function Footer() {
               {
                 title: "Legal",
                 body: (
-                  <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
+                  <ul className="grid grid-cols-1 gap-y-2 text-caption text-qw-medium-grey">
                     <li>
-                      <a className="hover:text-ui-fg-base" href="#">
+                      <a className="transition-colors duration-300 hover:text-qw-black" href="#">
                         Privacy Policy
                       </a>
                     </li>
                     <li>
-                      <a className="hover:text-ui-fg-base" href="#">
+                      <a className="transition-colors duration-300 hover:text-qw-black" href="#">
                         Terms & Conditions
                       </a>
                     </li>
                     <li>
-                      <a className="hover:text-ui-fg-base" href="#">
+                      <a className="transition-colors duration-300 hover:text-qw-black" href="#">
                         Accessibility
                       </a>
                     </li>
@@ -223,9 +223,9 @@ export default async function Footer() {
             ].map((col) => (
               <details
                 key={col.title}
-                className="border border-ui-border-base rounded-rounded px-4 py-3"
+                className="border border-qw-pale-grey px-4 py-3"
               >
-                <summary className="cursor-pointer font-semibold txt-small-plus txt-ui-fg-base uppercase">
+                <summary className="cursor-pointer text-micro uppercase tracking-[0.16em] text-qw-charcoal">
                   {col.title}
                 </summary>
                 <div className="pt-3">{col.body}</div>
@@ -234,15 +234,15 @@ export default async function Footer() {
           </div>
 
           {/* Newsletter placeholder */}
-          <div className="flex flex-col small:flex-row gap-y-3 small:items-center small:justify-between pt-6 border-t border-ui-border-base">
-            <div className="txt-small-regular text-ui-fg-subtle">
+          <div className="flex flex-col gap-y-3 border-t border-qw-pale-grey pt-6 small:flex-row small:items-center small:justify-between">
+            <div className="text-caption text-qw-medium-grey">
               Stay in the loop with product updates and editorial stories.
             </div>
             <div className="flex gap-x-3 w-full small:w-auto">
               <input
                 type="email"
                 placeholder="Email address"
-                className="w-full small:w-[260px] px-4 py-2 border border-ui-border-base rounded-soft focus:outline-none"
+                className="w-full border border-qw-pale-grey px-4 py-2 text-caption text-qw-charcoal placeholder:text-qw-grey focus:outline-none small:w-[260px]"
               />
               <button
                 type="button"
@@ -253,8 +253,8 @@ export default async function Footer() {
             </div>
           </div>
 
-          <div className="flex w-full justify-between text-ui-fg-muted mt-10">
-            <Text className="txt-compact-small">
+          <div className="mt-10 flex w-full justify-between text-qw-medium-grey">
+            <Text className="text-caption">
               © {new Date().getFullYear()} Medusa Store. All rights reserved.
             </Text>
             <MedusaCTA />

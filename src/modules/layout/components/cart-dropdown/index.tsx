@@ -80,11 +80,12 @@ const CartDropdown = ({
       onMouseLeave={close}
     >
       <Popover className="relative h-full">
-        <PopoverButton className="h-full">
+        <PopoverButton className="h-full" suppressHydrationWarning>
           <LocalizedClientLink
-            className="hover:text-ui-fg-base"
+            className="text-qw-medium-grey transition-colors duration-300 hover:text-qw-charcoal"
             href="/cart"
             data-testid="nav-cart-link"
+            suppressHydrationWarning
           >{`Cart (${totalItems})`}</LocalizedClientLink>
         </PopoverButton>
         <Transition
@@ -99,11 +100,11 @@ const CartDropdown = ({
         >
           <PopoverPanel
             static
-            className="hidden small:block fixed top-16 right-0 h-[calc(100dvh-4rem)] w-[420px] bg-white border-l border-ui-border-base text-ui-fg-base flex flex-col"
+            className="fixed right-0 top-16 hidden h-[calc(100dvh-4rem)] w-[420px] flex-col border-l border-qw-pale-grey bg-qw-white text-qw-charcoal small:block"
             data-testid="nav-cart-dropdown"
           >
-            <div className="p-4 flex items-center justify-center border-b border-ui-border-base">
-              <h3 className="text-large-semi">Cart</h3>
+            <div className="flex items-center justify-center border-b border-qw-pale-grey p-4">
+              <h3 className="font-serif text-card-title font-light uppercase tracking-[0.08em]">Cart</h3>
             </div>
             {cartState && cartState.items?.length ? (
               <>
@@ -176,9 +177,9 @@ const CartDropdown = ({
                 </div>
                 <div className="p-4 flex flex-col gap-y-4 text-small-regular">
                   <div className="flex items-center justify-between">
-                    <span className="text-ui-fg-base font-semibold">
+                    <span className="font-semibold text-qw-charcoal">
                       Subtotal{" "}
-                      <span className="font-normal">(excl. taxes)</span>
+                      <span className="font-normal text-qw-medium-grey">(excl. taxes)</span>
                     </span>
                     <span
                       className="text-large-semi"
@@ -205,7 +206,7 @@ const CartDropdown = ({
             ) : (
               <div>
                 <div className="flex-1 flex py-16 flex-col gap-y-4 items-center justify-center">
-                  <div className="bg-gray-900 text-small-regular flex items-center justify-center w-6 h-6 rounded-full text-white">
+                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-qw-black text-small-regular text-qw-white">
                     <span>0</span>
                   </div>
                   <span>Your shopping bag is empty.</span>
