@@ -16,9 +16,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-mode="light" className={cormorantGaramond.variable}>
-      <body className="font-sans">
-        <main className="relative">{props.children}</main>
+    <html
+      lang="en"
+      data-mode="light"
+      className={cormorantGaramond.variable}
+      suppressHydrationWarning
+    >
+      <body
+        className="font-sans text-qw-charcoal bg-qw-white overflow-x-hidden"
+        suppressHydrationWarning
+      >
+        <main className="relative overflow-x-hidden">{props.children}</main>
       </body>
     </html>
   )

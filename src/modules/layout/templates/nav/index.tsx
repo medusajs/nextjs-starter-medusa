@@ -20,11 +20,11 @@ export default async function Nav() {
   const topLevelCategories = (categories ?? []).filter((c) => !c.parent_category)
 
   return (
-    <div className="sticky top-0 inset-x-0 z-50 group">
-      <header className="relative mx-auto bg-white border-ui-border-base">
+    <div className="sticky top-0 inset-x-0 z-50 group overflow-x-hidden">
+      <header className="relative mx-auto bg-qw-white border-qw-pale-grey">
         {/* Top bar */}
-        <div className="h-16 border-b duration-300 border-ui-border-base">
-          <nav className="content-container txt-xsmall-plus text-ui-fg-subtle flex items-center justify-between w-full h-full text-small-regular">
+        <div className="h-16 border-b duration-300 border-qw-pale-grey">
+          <nav className="content-container text-caption uppercase tracking-[0.12em] text-qw-medium-grey flex items-center justify-between w-full h-full">
             <div className="flex-1 basis-0 h-full flex items-center">
               <div className="h-full small:hidden">
                 <SideMenu
@@ -39,7 +39,7 @@ export default async function Nav() {
             <div className="flex items-center h-full">
               <LocalizedClientLink
                 href="/"
-                className="txt-compact-xlarge-plus hover:text-ui-fg-base uppercase transition-opacity duration-300 hover:opacity-85 hover:-translate-y-0.5"
+                className="font-serif text-card-title font-light uppercase tracking-[0.08em] text-qw-charcoal transition duration-300 hover:-translate-y-0.5 hover:opacity-85"
                 data-testid="nav-store-link"
               >
                 Medusa Store
@@ -49,7 +49,7 @@ export default async function Nav() {
             <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
               <div className="hidden small:flex items-center gap-x-6 h-full">
                 <LocalizedClientLink
-                  className="hover:text-ui-fg-base transition-opacity duration-300 hover:opacity-85 hover:-translate-y-0.5"
+                  className="transition duration-300 hover:-translate-y-0.5 hover:text-qw-charcoal hover:opacity-85"
                   href="/account"
                   data-testid="nav-account-link"
                 >
@@ -59,7 +59,7 @@ export default async function Nav() {
               <Suspense
                 fallback={
                   <LocalizedClientLink
-                    className="hover:text-ui-fg-base flex gap-2 transition-opacity duration-300 hover:opacity-85 hover:-translate-y-0.5"
+                    className="flex gap-2 transition duration-300 hover:-translate-y-0.5 hover:text-qw-charcoal hover:opacity-85"
                     href="/cart"
                     data-testid="nav-cart-link"
                   >
@@ -74,7 +74,7 @@ export default async function Nav() {
         </div>
 
         {/* Desktop second layer (category mega menu) */}
-        <div className="hidden small:block border-b border-ui-border-base">
+        <div className="hidden small:block border-b border-qw-pale-grey">
           <nav className="content-container h-14 flex items-center gap-x-10">
             {topLevelCategories.map((cat) => (
               <div
@@ -83,14 +83,14 @@ export default async function Nav() {
               >
                 <LocalizedClientLink
                   href={`/categories/${cat.handle}`}
-                  className="hover:text-ui-fg-base uppercase tracking-wider transition-opacity duration-300 hover:opacity-85 hover:-translate-y-0.5"
+                  className="uppercase tracking-[0.14em] text-qw-medium-grey transition duration-300 hover:-translate-y-0.5 hover:text-qw-charcoal hover:opacity-85"
                   data-testid="nav-mega-category-link"
                 >
                   {cat.name}
                 </LocalizedClientLink>
 
                 <div
-                  className="absolute left-0 top-full mt-4 w-[520px] bg-white border border-ui-border-base p-6
+                  className="absolute left-0 top-full mt-4 w-[520px] bg-qw-white border border-qw-pale-grey p-6
                   opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto
                   transition-opacity duration-300"
                 >
@@ -99,7 +99,7 @@ export default async function Nav() {
                       <LocalizedClientLink
                         key={child.id}
                         href={`/categories/${child.handle}`}
-                        className="hover:text-ui-fg-base text-ui-fg-subtle uppercase text-small-regular transition-opacity duration-300 hover:opacity-85 hover:-translate-y-0.5"
+                        className="text-caption uppercase tracking-[0.1em] text-qw-medium-grey transition duration-300 hover:-translate-y-0.5 hover:text-qw-charcoal hover:opacity-85"
                         data-testid="nav-mega-subcategory-link"
                       >
                         {child.name}
