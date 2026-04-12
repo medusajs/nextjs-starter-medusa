@@ -6,12 +6,17 @@ import { listRegions } from "@lib/data/regions"
 import { StoreRegion } from "@medusajs/types"
 import CategoryTemplate from "@modules/categories/templates"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
+import {
+  parsePlpViewMode,
+  resolveCategoryPlpViewConfig,
+} from "@modules/store/lib/plp-view-config"
 
 type Props = {
   params: Promise<{ category: string[]; countryCode: string }>
   searchParams: Promise<{
     sortBy?: SortOptions
     page?: string
+    view?: string
   }>
 }
 
@@ -66,7 +71,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 export default async function CategoryPage(props: Props) {
   const searchParams = await props.searchParams
   const params = await props.params
-  const { sortBy, page } = searchParams
+  const { sortBy, page, view } = searchParams
 
   const productCategory = await getCategoryByHandle(params.category)
 
@@ -74,11 +79,16 @@ export default async function CategoryPage(props: Props) {
     notFound()
   }
 
+  const viewConfig = resolveCategoryPlpViewConfig(productCategory.handle)
+  const viewMode = parsePlpViewMode(view, viewConfig)
+
   return (
     <CategoryTemplate
       category={productCategory}
       sortBy={sortBy}
       page={page}
+      viewMode={viewMode}
+      viewConfig={viewConfig}
       countryCode={params.countryCode}
     />
   )

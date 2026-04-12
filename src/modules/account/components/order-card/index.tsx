@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@medusajs/ui"
 import { useMemo } from "react"
 

@@ -1,4 +1,4 @@
-import { Container, clx } from "@medusajs/ui"
+import { clx } from "@medusajs/ui"
 import Image from "next/image"
 import React from "react"
 
@@ -26,15 +26,17 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
   const initialImage = thumbnail || images?.[0]?.url
 
   return (
-    <Container
+    <div
       className={clx(
-        "relative w-full overflow-hidden p-4 bg-qw-off-white border border-qw-pale-grey shadow-none rounded-none",
-        "group-hover:scale-[1.03] transition-transform duration-[800ms] ease-[cubic-bezier(0.25,0.1,0.25,1)]",
+        "relative w-full overflow-hidden rounded-none shadow-none",
         className,
         {
-          "aspect-[3/4]": isFeatured,
-          "aspect-[9/16]": !isFeatured && size !== "square",
-          "aspect-[1/1]": size === "square",
+          // RH PLP card image well: 3:4 portrait ratio, contain + bottom-aligned, warm background.
+          "bg-[#f9f7f4] p-0 border-0 aspect-[3/4]": isFeatured,
+          "aspect-[9/16] p-4 bg-qw-off-white border border-qw-pale-grey":
+            !isFeatured && size !== "square",
+          "aspect-[1/1] p-4 bg-qw-off-white border border-qw-pale-grey":
+            !isFeatured && size === "square",
           "w-full":
             size === "small" || size === "medium" || size === "large" || size === "full",
         }
@@ -42,7 +44,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
       data-testid={dataTestid}
     >
       <ImageOrPlaceholder image={initialImage} size={size} />
-    </Container>
+    </div>
   )
 }
 
@@ -54,7 +56,10 @@ const ImageOrPlaceholder = ({
     <Image
       src={image}
       alt="Product thumbnail"
-      className="absolute inset-0 object-cover object-center"
+      className={clx("absolute inset-0 transition-transform duration-[800ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:scale-[1.03]", {
+        "mx-auto h-full w-full object-contain object-bottom": size === "full",
+        "object-cover object-center": size !== "full",
+      })}
       draggable={false}
       quality={50}
       sizes="(max-width: 576px) 280px, (max-width: 768px) 360px, (max-width: 992px) 480px, 800px"

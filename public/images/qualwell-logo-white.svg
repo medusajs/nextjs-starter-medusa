@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="QUALWELL logo white">
+  <title>QUALWELL Logo White</title>
+  <rect width="512" height="512" fill="none"/>
+  <text
+    x="256"
+    y="256"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    font-family="RHC, sans-serif"
+    font-size="45"
+    font-weight="400"
+    letter-spacing="0"
+    fill="#FFFFFF"
+  >
+    QUALWELL
+  </text>
+</svg>

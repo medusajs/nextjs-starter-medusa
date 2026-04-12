@@ -1,21 +1,21 @@
 import { HttpTypes } from "@medusajs/types"
 import { Heading, Text } from "@medusajs/ui"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import { getProductPrice } from "@lib/util/get-product-price"
+import { Suspense } from "react"
+
+import ProductPriceRow from "./product-price-row"
 
 type ProductInfoProps = {
   product: HttpTypes.StoreProduct
 }
 
 const ProductInfo = ({ product }: ProductInfoProps) => {
-  const { cheapestPrice } = getProductPrice({ product })
-
   return (
     <div id="product-info">
-      <div className="flex flex-col gap-y-4 lg:max-w-[500px] mx-auto">
+      <div className="mx-auto flex w-full max-w-none flex-col gap-y-2 small:mx-0 lg:max-w-[500px]">
         <nav
           aria-label="Breadcrumb"
-          className="flex items-center gap-x-2 text-[12px] leading-4 uppercase tracking-wider font-sans text-qw-medium-grey"
+          className="flex flex-wrap items-center gap-x-2 font-sans text-[10px] uppercase tracking-[0.14em] text-qw-medium-grey"
         >
           <LocalizedClientLink
             href="/store"
@@ -38,38 +38,31 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
           <span className="text-qw-charcoal">{product.title}</span>
         </nav>
 
-        {product.collection && (
-          <LocalizedClientLink
-            href={`/collections/${product.collection.handle}`}
-            className="font-serif font-light text-qw-charcoal uppercase tracking-[0.12em] text-[14px] leading-5 hover:text-qw-charcoal"
-          >
-            {product.collection.title}
-          </LocalizedClientLink>
-        )}
         <Heading
-          level="h2"
-          className="font-serif font-light text-[clamp(2rem,4vw,2.8rem)] leading-tight text-qw-black tracking-[0.12em] uppercase"
+          level="h1"
+          className="font-sans font-light text-[clamp(1.5rem,2.2vw,1.9rem)] leading-[1.08] tracking-[0.165px] text-qw-black uppercase"
           data-testid="product-title"
         >
           {product.title}
         </Heading>
 
-        <Text
-          className="font-sans text-[14px] leading-relaxed text-qw-medium-grey whitespace-pre-line"
-          data-testid="product-description"
+        <Suspense
+          fallback={
+            <div className="box-border flex w-full flex-col items-start justify-center pr-2.5 pt-0.5">
+              <div className="h-5 w-32 animate-pulse bg-qw-pale-grey" />
+            </div>
+          }
         >
-          {product.description}
-        </Text>
+          <ProductPriceRow product={product} />
+        </Suspense>
 
-        {cheapestPrice?.calculated_price ? (
-          <div className="flex items-center gap-x-3 pt-2">
-            <span className="font-sans uppercase tracking-[0.2em] text-qw-medium-grey text-[12px] leading-4">
-              From
-            </span>
-            <span className="font-serif font-light text-qw-black text-[20px] leading-7">
-              {cheapestPrice.calculated_price}
-            </span>
-          </div>
+        {product.description ? (
+          <Text
+            className="normal-case mt-5 whitespace-pre-line font-sans text-[13px] leading-[1.66rem] text-qw-charcoal [&_a]:text-[13px] [&_a]:font-normal [&_a]:uppercase [&_a]:leading-[1.66rem] [&_a]:tracking-[0.025em] [&_a]:text-qw-black [&_a]:no-underline [&_a]:hover:text-qw-black [&_b]:text-[13px] [&_b]:font-normal [&_b]:uppercase [&_b]:leading-[1.66rem] [&_b]:tracking-[0.025em] [&_b]:text-qw-black"
+            data-testid="product-description"
+          >
+            {product.description}
+          </Text>
         ) : null}
       </div>
     </div>

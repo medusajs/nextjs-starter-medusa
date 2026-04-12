@@ -6,12 +6,17 @@ import { listRegions } from "@lib/data/regions"
 import { StoreCollection, StoreRegion } from "@medusajs/types"
 import CollectionTemplate from "@modules/collections/templates"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
+import {
+  parsePlpViewMode,
+  resolveCollectionPlpViewConfig,
+} from "@modules/store/lib/plp-view-config"
 
 type Props = {
   params: Promise<{ handle: string; countryCode: string }>
   searchParams: Promise<{
     page?: string
     sortBy?: SortOptions
+    view?: string
   }>
 }
 
@@ -69,7 +74,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 export default async function CollectionPage(props: Props) {
   const searchParams = await props.searchParams
   const params = await props.params
-  const { sortBy, page } = searchParams
+  const { sortBy, page, view } = searchParams
 
   const collection = await getCollectionByHandle(params.handle).then(
     (collection: StoreCollection) => collection
@@ -79,11 +84,16 @@ export default async function CollectionPage(props: Props) {
     notFound()
   }
 
+  const viewConfig = resolveCollectionPlpViewConfig(collection.handle)
+  const viewMode = parsePlpViewMode(view, viewConfig)
+
   return (
     <CollectionTemplate
       collection={collection}
       page={page}
       sortBy={sortBy}
+      viewMode={viewMode}
+      viewConfig={viewConfig}
       countryCode={params.countryCode}
     />
   )

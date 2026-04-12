@@ -1,10 +1,6 @@
 import { Metadata } from "next"
 
-import FeaturedProducts from "@modules/home/components/featured-products"
-import CategoryGrid from "@modules/home/components/category-grid"
-import Hero from "@modules/home/components/hero"
-import { listCollections } from "@lib/data/collections"
-import { getRegion } from "@lib/data/regions"
+import HomeHeroStack from "@modules/home/components/hero/home-hero-stack"
 
 export const metadata: Metadata = {
   title: "Medusa Next.js Starter Template",
@@ -15,29 +11,7 @@ export const metadata: Metadata = {
 export default async function Home(props: {
   params: Promise<{ countryCode: string }>
 }) {
-  const params = await props.params
+  await props.params
 
-  const { countryCode } = params
-
-  const region = await getRegion(countryCode)
-
-  const { collections } = await listCollections({
-    fields: "id, handle, title",
-  })
-
-  if (!collections || !region) {
-    return null
-  }
-
-  return (
-    <>
-      <Hero />
-      <CategoryGrid />
-      <div className="py-12">
-        <ul className="flex flex-col gap-y-24">
-          <FeaturedProducts collections={collections} region={region} />
-        </ul>
-      </div>
-    </>
-  )
+  return <HomeHeroStack />
 }

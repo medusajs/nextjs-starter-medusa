@@ -9,7 +9,6 @@ import OptionSelect from "@modules/products/components/product-actions/option-se
 import { isEqual } from "lodash"
 import { useParams, usePathname, useSearchParams } from "next/navigation"
 import { useEffect, useMemo, useRef, useState } from "react"
-import ProductPrice from "../product-price"
 import MobileActions from "./mobile-actions"
 import { useRouter } from "next/navigation"
 
@@ -137,10 +136,17 @@ export default function ProductActions({
 
   return (
     <>
-      <div className="flex flex-col gap-y-2" ref={actionsRef}>
-        <div>
+      <div
+        className={`flex flex-col gap-y-2 ${
+          (product.variants?.length ?? 0) > 1 ? "" : "mt-6"
+        }`}
+        ref={actionsRef}
+      >
+        <div
+          className={(product.variants?.length ?? 0) > 1 ? "my-5" : ""}
+        >
           {(product.variants?.length ?? 0) > 1 && (
-            <div className="flex flex-col gap-y-4">
+            <div className="flex flex-col gap-y-6">
               {(product.options || []).map((option) => {
                 return (
                   <div key={option.id}>
@@ -159,8 +165,6 @@ export default function ProductActions({
             </div>
           )}
         </div>
-
-        <ProductPrice product={product} variant={selectedVariant} />
 
         <Button
           onClick={handleAddToCart}

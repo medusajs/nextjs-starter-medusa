@@ -47,34 +47,34 @@ const Item: React.FC<AccordionItemProps> = ({
     <AccordionPrimitive.Item
       {...props}
       className={clx(
-        "border-qw-pale-grey group border-t last:mb-0 last:border-b",
-        "py-3",
+        "group/item border-t-[0.5px] border-solid border-[#D4D2CF] last:mb-0 last:border-b-[0.5px] last:border-solid last:border-[#D4D2CF]",
         className
       )}
     >
-      <AccordionPrimitive.Header className="px-1">
-        <div className="flex flex-col">
-          <div className="flex w-full items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Text className="font-serif font-light uppercase tracking-wider text-qw-medium-grey text-sm">
-                {title}
-              </Text>
-            </div>
-            <AccordionPrimitive.Trigger>
-              {customTrigger || <MorphingTrigger />}
-            </AccordionPrimitive.Trigger>
-          </div>
-          {subtitle && (
-            <Text as="span" size="small" className="mt-1">
-              {subtitle}
-            </Text>
+      <AccordionPrimitive.Header className="flex flex-col px-0">
+        <AccordionPrimitive.Trigger
+          className={clx(
+            "group flex min-h-[48px] w-full cursor-pointer items-center justify-between gap-4 border-0 bg-transparent px-0 py-5 text-left outline-none",
+            /* RH PDP accordion row: body-scale caps, light gray label */
+            "font-sans text-[13px] font-normal uppercase leading-[1.15] tracking-[0.08em] text-[#898886]",
+            "transition-colors duration-300 hover:text-qw-charcoal",
+            "data-[state=open]:text-qw-charcoal",
+            "focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-qw-charcoal"
           )}
-        </div>
+        >
+          <span className="flex-1 pr-2">{title}</span>
+          {customTrigger || <MorphingTrigger />}
+        </AccordionPrimitive.Trigger>
+        {subtitle ? (
+          <Text as="span" size="small" className="mt-1 pb-2">
+            {subtitle}
+          </Text>
+        ) : null}
       </AccordionPrimitive.Header>
       <AccordionPrimitive.Content
         forceMount={forceMountContent}
         className={clx(
-          "radix-state-closed:animate-accordion-close radix-state-open:animate-accordion-open radix-state-closed:pointer-events-none px-1"
+          "radix-state-closed:animate-accordion-close radix-state-open:animate-accordion-open radix-state-closed:pointer-events-none px-0"
         )}
       >
         <div className="inter-base-regular group-radix-state-closed:animate-accordion-close">
@@ -90,12 +90,41 @@ Accordion.Item = Item
 
 const MorphingTrigger = () => {
   return (
-    <div className="text-qw-medium-grey hover:bg-qw-off-white active:bg-qw-off-white disabled:text-qw-grey bg-transparent disabled:bg-transparent rounded-none group relative p-[6px]">
-      <div className="h-5 w-5">
-        <span className="bg-qw-charcoal/30 rounded-circle group-radix-state-open:rotate-90 absolute inset-y-[31.75%] left-[48%] right-1/2 w-[1.5px] duration-300" />
-        <span className="bg-qw-charcoal/30 rounded-circle group-radix-state-open:rotate-90 group-radix-state-open:left-1/2 group-radix-state-open:right-1/2 absolute inset-x-[31.75%] top-[48%] bottom-1/2 h-[1.5px] duration-300" />
-      </div>
-    </div>
+    <span className="relative flex h-4 w-[13px] shrink-0 items-center justify-center text-inherit">
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        className="absolute block w-[13px] group-data-[state=open]:hidden"
+        aria-hidden
+      >
+        <path
+          d="M2 8.67969H14"
+          stroke="currentColor"
+          strokeWidth="0.7"
+        />
+        <path
+          d="M8 2.67969L8 14.6797"
+          stroke="currentColor"
+          strokeWidth="0.7"
+        />
+      </svg>
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        className="absolute hidden w-[13px] group-data-[state=open]:block"
+        aria-hidden
+      >
+        <path
+          d="M2 8.67969H14"
+          stroke="currentColor"
+          strokeWidth="0.7"
+        />
+      </svg>
+    </span>
   )
 }
 

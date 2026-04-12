@@ -15,6 +15,7 @@
     "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
+    "@fontsource-variable/inter": "^5.2.8",
     "@headlessui/react": "^2.2.0",
     "@hookform/resolvers": "^5.2.2",
     "@medusajs/icons": "latest",
@@ -57,6 +58,7 @@
     "eslint-config-next": "15.0.8",
     "postcss": "^8.4.8",
     "prettier": "^2.8.8",
+    "sharp": "^0.34.5",
     "tailwindcss": "^3.0.23",
     "typescript": "^5.3.2"
   },

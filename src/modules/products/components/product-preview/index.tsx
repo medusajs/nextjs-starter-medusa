@@ -33,29 +33,29 @@ export default async function ProductPreview({
 
   return (
     <LocalizedClientLink href={`/products/${product.handle}`} className="group">
-      <div data-testid="product-wrapper">
+      <div className="flex h-full w-full flex-col" data-testid="product-wrapper">
         <Thumbnail
           thumbnail={product.thumbnail}
           images={product.images}
           size="full"
           isFeatured={isFeatured}
         />
-        <div className="flex flex-col mt-4 gap-y-2 min-w-0">
+        <div className="mt-[15px] flex min-w-0 flex-col sm:mt-[9px] md:mt-[1px]">
           {seriesName ? (
-            <span className="font-sans text-[12px] leading-4 text-qw-medium-grey uppercase tracking-[0.2em] truncate">
+            <span className="font-sans text-[12px] font-light uppercase leading-[18px] tracking-[0.18px] text-qw-medium-grey">
               {seriesName}
             </span>
           ) : null}
-          <div className="flex justify-between gap-x-2">
-          <Text
-            className="font-serif font-light text-qw-charcoal uppercase tracking-[0.08em] min-w-0 truncate"
-            data-testid="product-title"
-          >
-            {product.title}
-          </Text>
-          <div className="flex items-center gap-x-2">
-            {cheapestPrice && <PreviewPrice price={cheapestPrice} />}
+          <div className="mt-[3px] flex min-h-[20px] items-center justify-center">
+            <Text
+              className="text-center font-sans text-[12px] font-light leading-[18px] tracking-[0.18px] text-qw-charcoal"
+              data-testid="product-title"
+            >
+              {product.title}
+            </Text>
           </div>
+          <div className="mt-3 flex w-full items-baseline justify-center gap-x-2">
+            {cheapestPrice && <PreviewPrice price={cheapestPrice} />}
           </div>
         </div>
       </div>

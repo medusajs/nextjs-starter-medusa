@@ -1,3 +1,5 @@
+"use client"
+
 import { ChevronUpDown } from "@medusajs/icons"
 import { clx } from "@medusajs/ui"
 import {

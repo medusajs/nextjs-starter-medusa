@@ -23,9 +23,9 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
 
   return (
     <div className="flex flex-col gap-y-3">
-      <span className="font-serif font-light text-[12px] leading-4 uppercase tracking-[0.2em] text-qw-medium-grey">
-        Select {title}
-      </span>
+      <p className="mb-1 font-sans text-[13px] font-normal normal-case leading-normal text-qw-black">
+        {title} Options
+      </p>
       <div
         className="flex flex-wrap justify-between gap-2"
         data-testid={dataTestId}

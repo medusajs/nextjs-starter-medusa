@@ -83,6 +83,8 @@ module.exports = {
       },
       maxWidth: {
         "8xl": "100rem",
+        /** RH body shell cap */
+        body: "2560px",
       },
       screens: {
         small: "768px",
@@ -104,7 +106,7 @@ module.exports = {
         "3xl": "2rem",
       },
       fontFamily: {
-        sans: ["Helvetica Neue", "Arial", "sans-serif"],
+        sans: ["var(--font-sans)", "Inter", "Helvetica Neue", "Arial", "sans-serif"],
         serif: ["var(--font-serif)", "ui-serif", "Georgia", "serif"],
       },
       keyframes: {

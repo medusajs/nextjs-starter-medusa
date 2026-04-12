@@ -3,14 +3,17 @@
 @import "tailwindcss/utilities";
 
 @layer base {
-  html,
-  body {
+  html {
     height: 100%;
-    overflow-x: clip; /* prevent 375px horizontal scroll */
+    min-width: 0;
+    overflow-x: clip; /* avoid 100vw + scrollbar horizontal scroll on narrow viewports */
   }
 
   body {
-    @apply bg-qw-white text-qw-charcoal antialiased font-sans;
+    height: 100%;
+    min-width: 0;
+    overflow-x: clip;
+    @apply bg-qw-white text-qw-charcoal font-sans;
   }
 
   h1,
@@ -80,7 +83,12 @@
 
 @layer components {
   .content-container {
-    @apply max-w-[1440px] w-full mx-auto px-6;
+    width: 100%;
+    max-width: 2560px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 
   .qw-btn-primary {
@@ -152,3 +160,4 @@
     @apply text-[32px] leading-[44px] font-semibold;
   }
 }
+

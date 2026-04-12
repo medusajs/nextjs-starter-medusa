@@ -3,7 +3,6 @@
 import {
   Popover,
   PopoverButton,
-  PopoverPanel,
   Transition,
 } from "@headlessui/react"
 import { convertToLocale } from "@lib/util/money"
@@ -16,6 +15,7 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import Thumbnail from "@modules/products/components/thumbnail"
 import { usePathname } from "next/navigation"
 import { Fragment, useEffect, useRef, useState } from "react"
+import { createPortal } from "react-dom"
 
 const CartDropdown = ({
   cart: cartState,
@@ -37,6 +37,28 @@ const CartDropdown = ({
 
   const subtotal = cartState?.subtotal ?? 0
   const itemRef = useRef<number>(totalItems || 0)
+  const triggerRef = useRef<HTMLDivElement>(null)
+  const hoverCloseTimerRef = useRef<NodeJS.Timeout | null>(null)
+  const [mounted, setMounted] = useState(false)
+  const [panelTop, setPanelTop] = useState(0)
+
+  const cancelScheduledClose = () => {
+    if (hoverCloseTimerRef.current) {
+      clearTimeout(hoverCloseTimerRef.current)
+      hoverCloseTimerRef.current = null
+    }
+  }
+
+  const scheduleClose = () => {
+    cancelScheduledClose()
+    hoverCloseTimerRef.current = setTimeout(() => close(), 120)
+  }
+
+  const updatePanelPosition = () => {
+    const rect = triggerRef.current?.getBoundingClientRect()
+    if (!rect) return
+    setPanelTop(rect.bottom + 5)
+  }
 
   const timedOpen = () => {
     open()
@@ -47,14 +69,23 @@ const CartDropdown = ({
   }
 
   const openAndCancel = () => {
+    cancelScheduledClose()
+
     if (activeTimer) {
       clearTimeout(activeTimer)
     }
+
+    updatePanelPosition()
 
     open()
   }
 
   // Clean up the timer when the component unmounts
+  useEffect(() => {
+    setMounted(true)
+    return () => cancelScheduledClose()
+  }, [])
+
   useEffect(() => {
     return () => {
       if (activeTimer) {
@@ -73,41 +104,79 @@ const CartDropdown = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [totalItems, itemRef.current])
 
+  useEffect(() => {
+    if (!cartDropdownOpen) return
+
+    updatePanelPosition()
+    window.addEventListener("resize", updatePanelPosition)
+    window.addEventListener("scroll", updatePanelPosition, { passive: true })
+
+    return () => {
+      window.removeEventListener("resize", updatePanelPosition)
+      window.removeEventListener("scroll", updatePanelPosition)
+    }
+  }, [cartDropdownOpen])
+
   return (
     <div
+      ref={triggerRef}
       className="h-full z-50"
       onMouseEnter={openAndCancel}
-      onMouseLeave={close}
+      onMouseLeave={scheduleClose}
     >
       <Popover className="relative h-full">
         <PopoverButton className="h-full">
           <LocalizedClientLink
-            className="hover:text-ui-fg-base"
+            className="inline-flex h-full items-center justify-center gap-1 text-black group-data-[tone=overlay]/nav:text-qw-white"
             href="/cart"
             data-testid="nav-cart-link"
-          >{`Cart (${totalItems})`}</LocalizedClientLink>
-        </PopoverButton>
-        <Transition
-          show={cartDropdownOpen}
-          as={Fragment}
-          enter="transition ease-out duration-300"
-          enterFrom="opacity-0 translate-x-full"
-          enterTo="opacity-100 translate-x-0"
-          leave="transition ease-in duration-200"
-          leaveFrom="opacity-100 translate-x-0"
-          leaveTo="opacity-0 translate-x-full"
-        >
-          <PopoverPanel
-            static
-            className="hidden small:block fixed top-16 right-0 h-[calc(100dvh-4rem)] w-[420px] bg-white border-l border-ui-border-base text-ui-fg-base flex flex-col"
-            data-testid="nav-cart-dropdown"
+            aria-label={`Cart (${totalItems})`}
           >
-            <div className="p-4 flex items-center justify-center border-b border-ui-border-base">
-              <h3 className="text-large-semi">Cart</h3>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M4.51758 7.75806H18.7976V17.342C18.7976 18.8089 17.6084 19.9981 16.1415 19.9981H7.17363C5.70673 19.9981 4.51758 18.8089 4.51758 17.342V7.75806Z"
+                stroke="currentColor"
+                strokeWidth="0.75"
+              />
+              <path
+                d="M15.0225 6.73622C15.0225 8.59465 13.516 10.1012 11.6575 10.1012C9.7991 10.1012 8.29254 8.59465 8.29254 6.73622C8.29254 4.87778 9.7991 3.37122 11.6575 3.37122C13.516 3.37122 15.0225 4.87778 15.0225 6.73622Z"
+                stroke="currentColor"
+                strokeWidth="0.75"
+              />
+            </svg>
+            {totalItems > 0 ? (
+              <span className="text-caption text-current">({totalItems})</span>
+            ) : null}
+          </LocalizedClientLink>
+        </PopoverButton>
+        {mounted
+          ? createPortal(
+              <Transition
+                show={cartDropdownOpen}
+                as={Fragment}
+                enter="transition ease-out duration-300"
+                enterFrom="opacity-0 translate-x-full"
+                enterTo="opacity-100 translate-x-0"
+                leave="transition ease-in duration-200"
+                leaveFrom="opacity-100 translate-x-0"
+                leaveTo="opacity-0 translate-x-full"
+              >
+                <div
+                  className="hidden small:flex fixed z-[9999] right-0 top-0 h-full w-full max-w-[420px] bg-[#f9f7f4] border-l border-qw-pale-grey text-qw-charcoal font-sans flex-col overflow-hidden"
+                  style={{
+                    top: panelTop,
+                    maxHeight: `calc(100dvh - ${panelTop}px)`,
+                  }}
+                  onMouseEnter={cancelScheduledClose}
+                  onMouseLeave={scheduleClose}
+                  data-testid="nav-cart-dropdown"
+                >
+            <div className="p-4 flex items-center justify-center border-b border-qw-pale-grey">
+              <h3 className="text-[13px] tracking-[0.06em] text-qw-charcoal">Cart</h3>
             </div>
             {cartState && cartState.items?.length ? (
               <>
-                <div className="flex-1 overflow-y-scroll px-4 grid grid-cols-1 gap-y-8 no-scrollbar p-px">
+                <div className="max-h-[56vh] overflow-y-auto px-4 grid grid-cols-1 gap-y-8 no-scrollbar p-px">
                   {cartState.items
                     .sort((a, b) => {
                       return (a.created_at ?? "") > (b.created_at ?? "")
@@ -134,7 +203,7 @@ const CartDropdown = ({
                           <div className="flex flex-col flex-1">
                             <div className="flex items-start justify-between">
                               <div className="flex flex-col overflow-ellipsis whitespace-nowrap mr-4 w-[180px]">
-                                <h3 className="text-base-regular overflow-hidden text-ellipsis">
+                                <h3 className="text-[13px] tracking-[0.06em] overflow-hidden text-ellipsis text-qw-charcoal">
                                   <LocalizedClientLink
                                     href={`/products/${item.product_handle}`}
                                     data-testid="product-link"
@@ -148,6 +217,7 @@ const CartDropdown = ({
                                   data-value={item.variant}
                                 />
                                 <span
+                                  className="text-[13px] leading-5 tracking-[0.06em] text-qw-medium-grey"
                                   data-testid="cart-item-quantity"
                                   data-value={item.quantity}
                                 >
@@ -165,7 +235,7 @@ const CartDropdown = ({
                           </div>
                           <DeleteButton
                             id={item.id}
-                            className="mt-1"
+                            className="mt-1 text-[12px] tracking-[0.04em] text-qw-medium-grey hover:text-qw-charcoal"
                             data-testid="cart-item-remove-button"
                           >
                             Remove
@@ -174,14 +244,14 @@ const CartDropdown = ({
                       </div>
                     ))}
                 </div>
-                <div className="p-4 flex flex-col gap-y-4 text-small-regular">
+                <div className="p-4 flex flex-col gap-y-4 text-[13px] tracking-[0.06em] text-qw-charcoal">
                   <div className="flex items-center justify-between">
-                    <span className="text-ui-fg-base font-semibold">
+                    <span className="text-qw-charcoal font-semibold">
                       Subtotal{" "}
                       <span className="font-normal">(excl. taxes)</span>
                     </span>
                     <span
-                      className="text-large-semi"
+                      className="text-[20px] leading-7 font-semibold text-qw-charcoal"
                       data-testid="cart-subtotal"
                       data-value={subtotal}
                     >
@@ -193,7 +263,7 @@ const CartDropdown = ({
                   </div>
                   <LocalizedClientLink href="/cart" passHref>
                     <Button
-                      className="w-full"
+                      className="w-full bg-qw-charcoal text-qw-white border-0 h-10 text-[12px] uppercase tracking-[0.08em] hover:opacity-90"
                       size="large"
                       data-testid="go-to-cart-button"
                     >
@@ -220,8 +290,11 @@ const CartDropdown = ({
                 </div>
               </div>
             )}
-          </PopoverPanel>
-        </Transition>
+                </div>
+              </Transition>,
+              document.body
+            )
+          : null}
       </Popover>
     </div>
   )
