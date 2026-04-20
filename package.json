@@ -1,74 +1,27 @@
 {
-  "name": "medusa-next",
-  "version": "1.0.3",
+  "name": "idstudio-rh-workspace",
   "private": true,
-  "author": "Kasper Fabricius Kristensen <kasper@medusajs.com> & Victor Gerbrands <victor@medusajs.com> (https://www.medusajs.com)",
-  "description": "Next.js Starter to be used with Medusa V2",
-  "keywords": [
-    "medusa-storefront"
-  ],
-  "scripts": {
-    "dev": "next dev --turbopack -p 8000",
-    "build": "next build",
-    "start": "next start -p 8000",
-    "lint": "next lint",
-    "analyze": "ANALYZE=true next build"
+  "version": "0.0.0",
+  "packageManager": "pnpm@9.12.0",
+  "engines": {
+    "node": ">=20.11",
+    "pnpm": ">=9"
   },
-  "dependencies": {
-    "@fontsource-variable/inter": "^5.2.8",
-    "@headlessui/react": "^2.2.0",
-    "@hookform/resolvers": "^5.2.2",
-    "@medusajs/icons": "latest",
-    "@medusajs/js-sdk": "latest",
-    "@medusajs/ui": "latest",
-    "@radix-ui/react-accordion": "^1.2.1",
-    "@stripe/react-stripe-js": "^5.3.0",
-    "@stripe/stripe-js": "^8.2.0",
-    "clsx": "^2.1.1",
-    "framer-motion": "^12.38.0",
-    "lodash": "^4.17.21",
-    "lucide-react": "^1.7.0",
-    "next": "15.3.9",
-    "pg": "^8.11.3",
-    "qs": "^6.12.1",
-    "react": "19.0.4",
-    "react-country-flag": "^3.1.0",
-    "react-dom": "19.0.4",
-    "react-hook-form": "^7.72.0",
-    "server-only": "^0.0.1",
-    "tailwind-merge": "^3.5.0",
-    "tailwindcss-radix": "^2.8.0",
-    "webpack": "^5",
-    "zod": "^4.3.6"
+  "scripts": {
+    "dev": "pnpm -r --parallel --filter=\"./packages/*\" dev",
+    "dev:rh": "pnpm --filter rh-storefront dev",
+    "dev:ids": "pnpm --filter id-studio dev",
+    "dev:cms": "pnpm --filter strapi-cms develop",
+    "build": "pnpm -r --filter=\"./packages/*\" build",
+    "lint": "pnpm -r --filter=\"./packages/*\" lint",
+    "typecheck": "pnpm -r --filter=\"./packages/*\" exec tsc --noEmit",
+    "typegen:cms": "pnpm --filter strapi-cms exec strapi ts:generate-types",
+    "seed": "pnpm --filter @workspace/seed start",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.5",
-    "@medusajs/types": "latest",
-    "@medusajs/ui-preset": "latest",
-    "@types/lodash": "^4.14.195",
-    "@types/node": "17.0.21",
-    "@types/pg": "^8.11.0",
-    "@types/react": "19.0.3",
-    "@types/react-dom": "19.0.3",
-    "@types/react-instantsearch-dom": "^6.12.3",
-    "ansi-colors": "^4.1.3",
-    "autoprefixer": "^10.4.2",
-    "babel-loader": "^8.2.3",
-    "eslint": "8.10.0",
-    "eslint-config-next": "15.0.8",
-    "postcss": "^8.4.8",
-    "prettier": "^2.8.8",
-    "sharp": "^0.34.5",
-    "tailwindcss": "^3.0.23",
-    "typescript": "^5.3.2"
-  },
-  "resolutions": {
-    "@types/react": "19.0.4",
-    "@types/react-dom": "19.0.4"
-  },
-  "overrides": {
-    "react": "19.0.4",
-    "react-dom": "19.0.4"
-  },
-  "packageManager": "pnpm@9.12.0"
+    "typescript": "^5.5.4"
+  }
 }
