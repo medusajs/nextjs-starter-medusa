@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "pnpm -r --parallel --filter=\"./packages/*\" dev",
-    "dev:rh": "pnpm --filter rh-storefront dev",
+    "dev:rh": "pnpm --filter \"./packages/rh-storefront\" dev",
     "dev:ids": "pnpm --filter id-studio dev",
     "dev:cms": "pnpm --filter strapi-cms develop",
     "build": "pnpm -r --filter=\"./packages/*\" build",
