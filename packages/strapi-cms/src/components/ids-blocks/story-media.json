@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_ids_blocks_story_medias",
+  "info": {
+    "displayName": "story-media"
+  },
+  "options": {},
+  "attributes": {
+    "caption": {
+      "type": "string"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}
