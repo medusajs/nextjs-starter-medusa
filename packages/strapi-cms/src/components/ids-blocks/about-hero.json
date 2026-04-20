@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_ids_blocks_about_heroes",
+  "info": {
+    "displayName": "about-hero"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "subtitle": {
+      "type": "text"
+    },
+    "background_image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}

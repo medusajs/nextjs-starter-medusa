@@ -56,3 +56,27 @@ dump.rdb
 /blob-report/
 /playwright/.cache/
 /playwright/.auth
+
+# Monorepo
+node_modules/
+packages/*/node_modules/
+packages/*/.next/
+packages/*/.turbo/
+packages/*/dist/
+packages/*/build/
+packages/*/.cache/
+
+# Envs
+.env.local
+.env.*.local
+packages/*/.env
+packages/*/.env.local
+
+# Strapi
+packages/strapi-cms/.tmp/
+packages/strapi-cms/build/
+packages/strapi-cms/public/uploads/
+
+# Misc
+.DS_Store
+.migration-snapshot.txt

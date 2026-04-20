@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  postgres-medusa:
+    image: postgres:16-alpine
+    container_name: pg-medusa
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: medusa
+      POSTGRES_PASSWORD: medusa_dev
+      POSTGRES_DB: medusa_store
+    ports: ["5432:5432"]
+    volumes: ["pgdata-medusa:/var/lib/postgresql/data"]
+
+  postgres-strapi:
+    image: postgres:16-alpine
+    container_name: pg-strapi
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: strapi
+      POSTGRES_PASSWORD: strapi_dev
+      POSTGRES_DB: strapi_cms
+    ports: ["5433:5432"]
+    volumes: ["pgdata-strapi:/var/lib/postgresql/data"]
+
+volumes:
+  pgdata-medusa:
+  pgdata-strapi:

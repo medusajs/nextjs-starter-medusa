@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ids_submissions",
+  "info": {
+    "singularName": "ids-submission",
+    "pluralName": "ids-submissions",
+    "displayName": "IDS Submission"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "phone": {
+      "type": "string"
+    },
+    "subject": {
+      "type": "string"
+    },
+    "message": {
+      "type": "text",
+      "required": true
+    },
+    "recaptcha_score": {
+      "type": "decimal"
+    }
+  }
+}

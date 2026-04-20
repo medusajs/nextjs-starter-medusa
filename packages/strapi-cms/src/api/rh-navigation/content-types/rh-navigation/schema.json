@@ -1,0 +1,20 @@
+{
+  "kind": "singleType",
+  "collectionName": "rh_navigations",
+  "info": {
+    "singularName": "rh-navigation",
+    "pluralName": "rh-navigations",
+    "displayName": "RH Navigation"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared-nav.nav-item"
+    }
+  }
+}

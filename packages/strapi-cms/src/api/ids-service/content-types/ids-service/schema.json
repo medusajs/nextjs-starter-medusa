@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ids_services",
+  "info": {
+    "singularName": "ids-service",
+    "pluralName": "ids-services",
+    "displayName": "IDS Service"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "icon": {
+      "type": "string"
+    },
+    "order": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}

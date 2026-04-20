@@ -229,10 +229,12 @@
 ### Phase 4：商品详情页（PDP）
 **目标**：PDP 完整呈现 RH 风格。
 
+**约定**：RH 线上 PDP 主标题为 `tailwind-typography-h1` 风格（无衬线、轻字重、大写）；克隆版在 PDP 上与之对齐，其它品牌向页面（About / Hero 等）仍可用 §2.2 衬线。面包屑、短描述、价格行（13px、`tracking-[0.165px]`、促销色 `#CA2022`）、选项区「{Option} Options」等与 RH 一致；数据与加购仍走 Medusa 原生。
+
 | 序号 | 任务 | 改动文件 | 验收标准 |
 |------|------|----------|----------|
 | 4.1 | 改造图片画廊：桌面左缩略图+右主图；移动端顶部大图+底部横滚缩略图 + Lightbox | `image-gallery/index.tsx` | 桌面/移动端画廊正确 |
-| 4.2 | 改造产品信息区：面包屑 + 系列名 + 商品名 + 价格 + 变体选择 + 加购 | `product-actions/` + `product-price/` | 信息区样式对标 |
+| 4.2 | 改造产品信息区：面包屑 + 商品名 + 价格 + 描述 + 变体选择 + 加购 | `product-info/`（含 `product-price-row`）+ `product-actions/` | 顺序与 RH 一致；价格在标题下、与 `v_id` 同步；`product-price` 组件仍可用于卡片等 |
 | 4.3 | 改造产品 Tab/折叠面板 | `product-tabs/index.tsx` | 折叠面板可展开/收起 |
 | 4.4 | 相关商品推荐区 | `related-products/index.tsx` | 底部推荐商品显示 |
 | 4.5 | PDP 布局：桌面左右分栏，移动端上下堆叠 | `products/templates/index.tsx` | 响应式布局正确 |

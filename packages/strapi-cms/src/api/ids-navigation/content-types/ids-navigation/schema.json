@@ -1,0 +1,20 @@
+{
+  "kind": "singleType",
+  "collectionName": "ids_navigations",
+  "info": {
+    "singularName": "ids-navigation",
+    "pluralName": "ids-navigations",
+    "displayName": "IDS Navigation"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared-nav.nav-item"
+    }
+  }
+}

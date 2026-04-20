@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_ids_blocks_story_texts",
+  "info": {
+    "displayName": "story-text"
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "string"
+    },
+    "body": {
+      "type": "blocks"
+    }
+  }
+}

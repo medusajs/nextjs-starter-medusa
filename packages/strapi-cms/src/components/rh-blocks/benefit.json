@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_rh_blocks_benefits",
+  "info": {
+    "displayName": "benefit"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "icon": {
+      "type": "string"
+    }
+  }
+}

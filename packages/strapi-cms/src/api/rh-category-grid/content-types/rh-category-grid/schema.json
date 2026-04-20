@@ -1,0 +1,20 @@
+{
+  "kind": "singleType",
+  "collectionName": "rh_category_grids",
+  "info": {
+    "singularName": "rh-category-grid",
+    "pluralName": "rh-category-grids",
+    "displayName": "RH Category Grid"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "rh-blocks.category-item"
+    }
+  }
+}

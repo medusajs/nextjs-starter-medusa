@@ -1,0 +1,29 @@
+{
+  "kind": "singleType",
+  "collectionName": "rh_memberships",
+  "info": {
+    "singularName": "rh-membership",
+    "pluralName": "rh-memberships",
+    "displayName": "RH Membership"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "hero_title": {
+      "type": "string",
+      "required": true
+    },
+    "benefits": {
+      "type": "component",
+      "repeatable": true,
+      "component": "rh-blocks.benefit"
+    },
+    "cta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared-seo.cta"
+    }
+  }
+}

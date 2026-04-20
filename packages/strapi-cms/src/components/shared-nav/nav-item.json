@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_shared_nav_nav_items",
+  "info": {
+    "displayName": "nav-item",
+    "description": "Navigation item with optional nested children"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "href": {
+      "type": "string",
+      "required": true
+    },
+    "children": {
+      "type": "json"
+    }
+  }
+}
