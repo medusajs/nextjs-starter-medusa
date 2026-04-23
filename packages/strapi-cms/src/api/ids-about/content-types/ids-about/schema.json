@@ -1,0 +1,34 @@
+{
+  "kind": "singleType",
+  "collectionName": "ids_abouts",
+  "info": {
+    "singularName": "ids-about",
+    "pluralName": "ids-abouts",
+    "displayName": "IDS About"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "hero": {
+      "type": "component",
+      "repeatable": false,
+      "component": "ids-blocks.about-hero"
+    },
+    "story": {
+      "type": "dynamiczone",
+      "components": ["ids-blocks.story-text", "ids-blocks.story-media"]
+    },
+    "stats": {
+      "type": "component",
+      "repeatable": true,
+      "component": "ids-blocks.stat-item"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared-seo.page-seo"
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ids_projects",
+  "info": {
+    "singularName": "ids-project",
+    "pluralName": "ids-projects",
+    "displayName": "IDS Project"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": ["Hospitality", "Retail", "Office", "Residential", "Other"],
+      "default": "Other"
+    },
+    "client": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "year": {
+      "type": "integer"
+    },
+    "cover_image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "gallery": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": ["images"]
+    },
+    "description": {
+      "type": "blocks"
+    },
+    "related": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::ids-project.ids-project"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared-seo.page-seo"
+    }
+  }
+}

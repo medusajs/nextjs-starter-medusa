@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_rh_blocks_category_items",
+  "info": {
+    "displayName": "category-item"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "href": {
+      "type": "string",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}

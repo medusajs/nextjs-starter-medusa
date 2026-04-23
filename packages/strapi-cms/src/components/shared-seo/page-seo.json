@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_shared_seo_page_seos",
+  "info": {
+    "displayName": "page-seo",
+    "description": "Reusable SEO fields"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "og_image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "canonical_url": {
+      "type": "string"
+    }
+  }
+}

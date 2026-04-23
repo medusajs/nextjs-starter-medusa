@@ -1,0 +1,38 @@
+{
+  "kind": "singleType",
+  "collectionName": "rh_heroes",
+  "info": {
+    "singularName": "rh-hero",
+    "pluralName": "rh-heroes",
+    "displayName": "RH Hero"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "subtitle": {
+      "type": "text"
+    },
+    "cta_label": {
+      "type": "string"
+    },
+    "cta_href": {
+      "type": "string"
+    },
+    "background_image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared-seo.page-seo"
+    }
+  }
+}

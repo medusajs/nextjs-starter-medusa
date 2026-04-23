@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ids_news_articles",
+  "info": {
+    "singularName": "ids-news",
+    "pluralName": "ids-news-articles",
+    "displayName": "IDS News"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "cover_image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "excerpt": {
+      "type": "text"
+    },
+    "body": {
+      "type": "blocks"
+    },
+    "tags": {
+      "type": "json"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared-seo.page-seo"
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "rh_editorial_blocks",
+  "info": {
+    "singularName": "rh-editorial-block",
+    "pluralName": "rh-editorial-blocks",
+    "displayName": "RH Editorial Block"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "required": true
+    },
+    "body": {
+      "type": "blocks"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "layout": {
+      "type": "enumeration",
+      "enum": ["left", "right", "full"],
+      "default": "left",
+      "required": true
+    },
+    "order": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}

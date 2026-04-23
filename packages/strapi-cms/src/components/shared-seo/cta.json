@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_shared_seo_ctas",
+  "info": {
+    "displayName": "cta",
+    "description": "Reusable CTA"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "href": {
+      "type": "string",
+      "required": true
+    },
+    "variant": {
+      "type": "enumeration",
+      "enum": ["primary", "secondary", "text"],
+      "default": "primary"
+    }
+  }
+}

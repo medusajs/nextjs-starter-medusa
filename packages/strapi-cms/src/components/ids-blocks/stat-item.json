@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_ids_blocks_stat_items",
+  "info": {
+    "displayName": "stat-item"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "value": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
