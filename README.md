@@ -1,3 +1,5 @@
+> ⚠️ This repository is now deprecated. Use the [dtc-starter](https://github.com/medusajs/dtc-starter) instead.
+
 <p align="center">
   <a href="https://www.medusajs.com">
   <picture>
